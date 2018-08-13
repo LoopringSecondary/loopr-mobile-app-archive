@@ -3,6 +3,7 @@ package com.tomcat360.lyqb.activity;
 import android.os.Bundle;
 
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.LyqbLogger;
 
 import butterknife.ButterKnife;
 
@@ -16,6 +17,7 @@ public class MainActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        LyqbLogger.log("2222");
     }
 
     @Override
