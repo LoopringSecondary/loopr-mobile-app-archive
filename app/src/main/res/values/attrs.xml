@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TasksCompletedView">
+        <attr name="radius" format="dimension"/>
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="circleColor" format="color"/>
+        <attr name="ocircleColor" format="color"/>
+        <attr name="ringColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="textColor" format="color"/>
+        <attr name="sringColor" format="color"/>
+        <attr name="dimenCircle" format="dimension"/>
+        <attr name="textValue" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="SpecialEditText">
+        <attr name="matchRule" format="string"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="ArcProgressView">
+        <attr name="astrokeWidth" format="dimension"/>
+        <attr name="arcColor" format="color"/>
+        <attr name="bgArcColor" format="color"/>
+        <attr name="diameter" format="dimension"/>
+    </declare-styleable>
+
+    <!-- SwipeBackLayout的xml -->
+    <declare-styleable name="SwipeBackLayout">
+        <attr name="edge_size" format="dimension"/>
+        <attr name="edge_flag">
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
+            <enum name="bottom" value="2"/>
+            <enum name="all" value="3"/>
+        </attr>
+        <attr name="shadow_left" format="reference"/>
+        <attr name="shadow_right" format="reference"/>
+        <attr name="shadow_bottom" format="reference"/>
+    </declare-styleable>
+
+    <attr name="SwipeBackLayoutStyle" format="reference"/>
+
+    <declare-styleable name="EdgeEffectView">
+        <attr name="edgeeffect_color" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="LockPatternView">
+
+        <attr name="aspect">
+            <enum name="square" value="0"/>
+            <enum name="lockWidth" value="1"/>
+            <enum name="lockHeight" value="2"/>
+        </attr>
+        <attr name="line" format="color"/>
+        <attr name="btnNormal" format="reference"/>
+        <attr name="btnTouched" format="reference"/>
+        <attr name="circleNormal" format="reference"/>
+        <attr name="circleGreen" format="reference"/>
+        <attr name="circleRed" format="reference"/>
+        <attr name="arrowGreenUp" format="reference"/>
+        <attr name="arrowRedUp" format="reference"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="RectangleLinearLayout">
+        <attr name="cloumns" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="indicatorColor" format="color"/>
+        <attr name="underlineColor" format="color"/>
+        <attr name="dividerColor" format="color"/>
+        <attr name="indicatorHeight" format="dimension"/>
+        <attr name="underlineHeight" format="dimension"/>
+        <attr name="dividerpding" format="dimension"/>
+        <attr name="tabPaddingLeftRight" format="dimension"/>
+        <attr name="scrollOffset" format="dimension"/>
+        <attr name="tabbg" format="reference"/>
+        <attr name="shouldExpand" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension"/>
+        <attr name="civ_border_color" format="color"/>
+        <attr name="civ_border_overlay" format="boolean"/>
+        <attr name="civ_fill_color" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ViewPagerIndicator">
+        <attr name="item_count" format="integer"/>
+        <attr name="item_text_color_selected" format="color"/>
+        <attr name="item_text_color_normal" format="color"/>
+        <attr name="item_text_size" format="dimension"/>
+        <attr name="item_bottom_type">
+            <enum name="line" value="0"/>
+            <enum name="triangle" value="1"/>
+        </attr>
+        <attr name="item_line_color" format="color"/>
+        <attr name="item_line_height" format="dimension"/>
+        <attr name="item_text1_selected_size" format="dimension"/>
+        <attr name="item_text1_normal_size" format="dimension"/>
+        <attr name="item_text2_selected_size" format="dimension"/>
+        <attr name="item_text2_normal_size" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="SelfProgressView">
+        <attr name="sProgressColor" format="color"/>
+        <attr name="sCircleColor" format="color"/>
+        <attr name="sTextColor" format="color"/>
+        <attr name="mProgress" format="dimension"/>
+        <attr name="mRadius" format="dimension"/>
+        <attr name="mTextSize" format="dimension"/>
+        <attr name="mProgressWidth" format="dimension"/>
+        <attr name="mProgressColor" format="color"/>
+        <attr name="mCircleStatus" format="boolean"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="SegmentedGroup">
+        <attr name="sc_corner_radius" format="dimension"/>
+        <attr name="sc_border_width" format="dimension"/>
+        <attr name="sc_tint_color" format="color"/>
+        <attr name="sc_checked_text_color" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="Ruler">
+        <attr name="min_unit_size" format="dimension"/>
+        <attr name="max_unit_count" format="integer"/>
+        <attr name="per_unit_count" format="integer"/>
+        <attr name="unit_bmp_height" format="dimension"/>
+        <attr name="ruler_mode" format="enum">
+            <enum name="ruler" value="0"/>
+            <enum name="timeline" value="1"/>
+        </attr>
+        <attr name="unit_visible" format="enum">
+            <enum name="max" value="0x1"/>
+            <enum name="mid" value="0x2"/>
+            <enum name="min" value="0x4"/>
+        </attr>
+        <!-- 刻度的颜色 -->
+        <attr name="unit_color" format="color"/>
+        <!-- 标记的颜色 -->
+        <attr name="mark_color" format="color"/>
+    </declare-styleable>
+
+    <attr name="ruler_style" format="reference"/>
+
+
+    <!-- style for MaterialRefreshLayout  -->
+    <declare-styleable name="MaterialRefreshLayout">
+        <attr name="overlay" format="boolean"/>
+        <!-- style for MaterialWaveView  -->
+        <attr name="wave_height_type" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="higher" value="1"/>
+        </attr>
+        <attr name="wave_color" format="color"/>
+        <attr name="wave_show" format="boolean"/>
+        <!-- style for CircleProgressBar  -->
+        <attr name="progress_colors" format="reference"/>
+        <attr name="progress_stoke_width" format="dimension"/>
+        <attr name="progress_backgroud_color" format="color"/>
+        <attr name="progress_show_arrow" format="boolean"/>
+        <attr name="progress_arrow_width" format="dimension"/>
+        <attr name="progress_arrow_height" format="dimension"/>
+        <attr name="progress_show_circle_backgroud" format="boolean"/>
+        <attr name="progress_value" format="integer"/>
+        <attr name="progress_max_value" format="integer"/>
+        <attr name="progress_text_size" format="dimension"/>
+        <attr name="progress_text_color" format="color"/>
+        <attr name="progress_text_visibility" format="enum">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+        </attr>
+        <attr name="progress_size_type" format="enum">
+            <enum name="normal" value="0"></enum>
+            <enum name="big" value="1"></enum>
+        </attr>
+        <attr name="isLoadMore" format="boolean"></attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="gridPasswordView">
+
+        <attr name="gpvTextColor" format="color|reference"/>
+        <attr name="gpvTextSize" format="dimension"/>
+
+        <attr name="gpvLineColor" format="color"/>
+        <attr name="gpvGridColor" format="color"/>
+        <attr name="gpvLineWidth" format="dimension"/>
+
+        <attr name="gpvPasswordLength" format="integer"/>
+        <attr name="gpvPasswordTransformation" format="string"/>
+
+        <attr name="gpvPasswordType" format="enum">
+            <enum name="numberPassword" value="0"/>
+            <enum name="textPassword" value="1"/>
+            <enum name="textVisiblePassword" value="2"/>
+            <enum name="textWebPassword" value="3"/>
+        </attr>
+
+
+    </declare-styleable>
+
+
+    <declare-styleable name="MarqueeViewStyle">
+        <attr name="mvInterval" format="integer|reference"/>
+        <attr name="mvAnimDuration" format="integer|reference"/>
+        <attr name="mvTextSize" format="dimension|reference"/>
+        <attr name="mvTextColor" format="color|reference"/>
+        <attr name="mvSingleLine" format="boolean"/>
+        <attr name="mvGravity">
+            <enum name="left" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <attr name="SpinKitViewStyle" format="reference"/>
+
+    <declare-styleable name="SpinKitView">
+        <attr name="SpinKit_Style">
+            <enum name="RotatingPlane" value="0"/>
+            <enum name="DoubleBounce" value="1"/>
+            <enum name="Wave" value="2"/>
+            <enum name="WanderingCubes" value="3"/>
+            <enum name="Pulse" value="4"/>
+            <enum name="ChasingDots" value="5"/>
+            <enum name="ThreeBounce" value="6"/>
+            <enum name="Circle" value="7"/>
+            <enum name="CubeGrid" value="8"/>
+            <enum name="FadingCircle" value="9"/>
+            <enum name="FoldingCube" value="10"/>
+            <enum name="RotatingCircle" value="11"/>
+            <enum name="MultiplePulse" value="12"/>
+            <enum name="PulseRing" value="13"/>
+            <enum name="MultiplePulseRing" value="14"/>
+        </attr>
+        <attr name="SpinKit_Color" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="BannerLayoutStyle">
+        <attr name="selectedIndicatorColor" format="color|reference"/>
+        <attr name="unSelectedIndicatorColor" format="color|reference"/>
+        <attr name="indicatorShape" format="enum">
+            <enum name="rect" value="0"/>
+            <enum name="oval" value="1"/>
+        </attr>
+
+        <attr name="selectedIndicatorHeight" format="dimension|reference"/>
+        <attr name="selectedIndicatorWidth" format="dimension|reference"/>
+
+        <attr name="unSelectedIndicatorHeight" format="dimension|reference"/>
+        <attr name="unSelectedIndicatorWidth" format="dimension|reference"/>
+
+        <attr name="indicatorPosition" format="enum">
+            <enum name="centerBottom" value="0"/>
+            <enum name="rightBottom" value="1"/>
+            <enum name="leftBottom" value="2"/>
+            <enum name="centerTop" value="3"/>
+            <enum name="rightTop" value="4"/>
+            <enum name="leftTop" value="5"/>
+        </attr>
+
+        <attr name="indicatorSpace" format="dimension|reference"/>
+        <attr name="indicatorMargin" format="dimension|reference"/>
+        <attr name="autoPlayDuration" format="integer|reference"/>
+        <attr name="scrollDuration" format="integer|reference"/>
+        <attr name="isAutoPlay" format="boolean|reference"/>
+    </declare-styleable>
+
+
+    <!-- ******************** 参数解释 ******************** -->
+
+    <!--最大值-->
+    <!--最小值-->
+    <!--两个按钮的最小间距-->
+    <!--cells 等于0为普通模式，大于1时切换为刻度模式-->
+    <!--是否关闭进度提示-->
+    <!--拖动后的Seekbar颜色-->
+    <!--默认的Seekbar颜色-->
+    <!--进度为最小值或最大值时按钮的颜色，默认此属性不调用-->
+    <!--进度不为最小值或最大值时按钮的颜色，默认此属性不调用-->
+    <!--刻度文字，不设置的时候默认隐藏-->
+    <!--按钮的背景资源，不设置的时候默认为圆形按钮-->
+    <!--进度提示背景资源，必须使用 9 path文件-->
+    <!--刻度文字与进度条之间的距离-->
+    <!--刻度文字和进度提示文字的大小-->
+    <!--进度提示背景的高度，不设置时根据文字尺寸自适应-->
+    <!--进度提示背景的宽度，不设置时根据文字尺寸自适应-->
+    <!--进度提示背景和进度条之间的距离-->
+    <!--进度条的高度-->
+    <!--按钮的尺寸-->
+    <!--刻度模式
+    number 根据刻度的实际所占比例分配位置（markTextArray中必须都为数字）
+    other 平分当前布局（markTextArray可以是任何字符）
+    -->
+    <!--单向、双向模式 single 单向模式，只有一个按钮 range 双向模式，有两个按钮 -->
+
+    <!-- ******************** 参数解释 ******************** -->
+
+    <!-- ******************** Parameter Explanation ******************** -->
+
+    <!--The maximum-->
+    <!--The minimum-->
+    <!--The minimum distance between two buttons-->
+    <!--Cells equal to 0 for the normal mode, greater than 1 to switch to scale mode-->
+    <!--Whether to close the progress prompt-->
+    <!--The Seekbar color after dragging-->
+    <!--The default Seekbar color-->
+    <!--The color of the thumb when the progress is minimum or maximum, by default this property is not called-->
+    <!--The color of the thumb moving, this property is not called-->
+    <!--Scale text, do not set the default when hidden-->
+    <!--Button background resources, do not set the default when the circular button-->
+    <!--Progress prompt background resources, you must use the 9 path file-->
+    <!--The distance between the scale text and the progress bar-->
+    <!--Scale text, and the size of the progress prompt text-->
+    <!--The height of the progress prompt background, not set according to the text size adaptive-->
+    <!--The with of the progress prompt background, not set according to the text size adaptive-->
+    <!--The progress indicates the distance between the background and the progress bar-->
+    <!--The height of the progress bar-->
+    <!--The size of the button-->
+    <!--Scale mode
+    Number according to the scale of the actual proportion of the distribution of the location (markTextArray must be a number)
+    Other bisects the current layout (markTextArray can be any character)
+    -->
+    <!--One-way, two-way mode single one-way mode, there is only one button range bidirectional mode, two buttons -->
+
+    <!-- ******************** Parameter Explanation ******************** -->
+
+
+    <declare-styleable name="RangeSeekBar">
+        <attr name="max" format="float"/>
+        <attr name="min" format="float"/>
+        <attr name="reserve" format="float"/>
+        <attr name="cells" format="integer"/>
+        <attr name="hideProgressHint" format="boolean"/>
+        <attr name="lineColorSelected" format="color"/>
+        <attr name="lineColorEdge" format="color"/>
+        <attr name="thumbPrimaryColor" format="color"/>
+        <attr name="thumbSecondaryColor" format="color"/>
+        <attr name="markTextArray" format="reference"/>
+        <attr name="seekBarResId" format="reference"/>
+        <!-- must use 9 path ！！！-->
+        <attr name="progressHintResId" format="reference"/>
+        <attr name="textPadding" format="dimension"/>
+        <attr name="RtextSize" format="dimension"/>
+        <attr name="hintBGHeight" format="dimension"/>
+        <attr name="hintBGWith" format="dimension"/>
+        <attr name="hintBGPadding" format="dimension"/>
+        <attr name="seekBarHeight" format="dimension"/>
+        <attr name="thumbSize" format="dimension"/>
+        <attr name="cellMode" format="enum">
+            <enum name="number" value="0"/>
+            <enum name="other" value="1"/>
+        </attr>
+        <attr name="seekBarMode" format="enum">
+            <enum name="single" value="1"/>
+            <enum name="range" value="2"/>
+        </attr>
+
+    </declare-styleable>
+
+
+
+    <declare-styleable name="StepView">
+        <attr name="leftMargin" format="dimension" />
+        <attr name="rightMargin" format="dimension" />
+        <attr name="lineWidth" format="dimension" />
+        <attr name="stepRadius" format="dimension" />
+        <attr name="lineColor" format="color" />
+        <attr name="defaultDotColor" format="color" />
+        <attr name="highDotColor" format="color" />
+        <attr name="dotPosition" format="enum">
+            <enum name="top" value="0" />
+            <enum name="center" value="1" />
+        </attr>
+        <attr name="defaultDotDrawable" format="reference" />
+        <attr name="highDotDrawable" format="reference" />
+    </declare-styleable>
+</resources>
