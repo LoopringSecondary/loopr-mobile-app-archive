@@ -24,11 +24,6 @@ import rx.functions.Func1;
 
 /**
  * Title:RxService
- * Description:
- * Author: wwh@tomcat360.com
- * Date: 16/8/28
- * Version: V1.0.0
- * 版本号修改日期修改人修改内容
  */
 
 public class RxService {

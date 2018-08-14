@@ -5,12 +5,6 @@ import com.tomcat360.lyqb.view.IBaseFragmentView;
 
 /**
  * Title:BaseActivityPresenter
- * Package:com.xuyuanshu.presenter.presenter_impl
- * Description:TODO
- * Author: wwh@tomcat360.com
- * Date: 16/8/28
- * Version: V1.0.0
- * 版本号修改日期修改人修改内容
  */
 
 public class BaseFragmentPresenter<T extends IBaseFragmentView> implements FPresenter<T> {

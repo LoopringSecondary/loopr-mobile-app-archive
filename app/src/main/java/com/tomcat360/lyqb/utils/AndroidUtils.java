@@ -14,12 +14,6 @@ import java.util.List;
 
 /**
  * Title:AndroidUtils
- * Package:util
- * Description:
- * Author: wwh@tomcat360.com
- * Date: 16/4/11
- * Version: V1.0.0
- * 版本号修改日期修改人修改内容
  */
 public class AndroidUtils {
 //	/**

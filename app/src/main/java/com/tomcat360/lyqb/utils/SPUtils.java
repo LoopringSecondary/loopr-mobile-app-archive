@@ -10,7 +10,6 @@ import java.util.Map;
 
 /**
  * SharedPreferences工具类
- * Created by asus on 2016/1/22.
  */
 
 public class SPUtils {
