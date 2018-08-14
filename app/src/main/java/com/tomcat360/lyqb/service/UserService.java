@@ -19,12 +19,6 @@ import rx.Observable;
 
 /**
  * Title:UserService
- * Package:com.tomcat360.Service
- * Description:用户相关service
- * Author: wwh@tomcat360.com
- * Date: 16/10/20
- * Version: V1.0.0
- * 版本号修改日期修改人修改内容
  */
 
 public interface UserService {

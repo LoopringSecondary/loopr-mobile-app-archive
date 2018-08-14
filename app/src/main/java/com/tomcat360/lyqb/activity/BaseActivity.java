@@ -122,30 +122,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
 		return (APP) super.getApplicationContext();
 	}
 
-//	@Override
-//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//		if (requestCode == REQ_CODE_LOGIN) {
-//			if (resultCode == RET_CODE_LOGIN_SUCCESS) {
-//				this.startActivity(this.afterLoginIntent);
-//			}
-//		} else {
-//			super.onActivityResult(requestCode, resultCode, data);
-//		}
-//	}
-
-//	public void startActivityAfterLogin(Intent intent) {
-//		this.afterLoginIntent = intent;
-//		if (this.getApplicationContext().hasLogin()) {
-//			this.startActivity(this.afterLoginIntent);
-//			overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
-//		} else {
-//			Intent loginIntent = new Intent();
-//			loginIntent.setClass(this, LoginActivity.class);
-//			loginIntent.putExtra("setFnum", REQ_TOLOGIN);
-//			this.startActivityForResult(loginIntent, REQ_CODE_LOGIN);
-//			overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
-//		}
-//	}
 
 	/**
 	 * 获取共通操作机能
