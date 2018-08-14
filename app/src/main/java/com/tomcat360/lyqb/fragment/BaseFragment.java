@@ -1,19 +1,37 @@
 package com.tomcat360.lyqb.fragment;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.tomcat360.lyqb.view.Operation;
-import com.umeng.analytics.MobclickAgent;
 
-public class BaseFragment extends LazyFragment {
+public abstract class BaseFragment extends LazyFragment {
     private Operation mBaseOperation = null;
+    // Fragment的View
+    protected View layout;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//		setTranslucentStatus();
         mBaseOperation = new Operation(getActivity());
+        initPresenter();
+        initView();
+        initData();
     }
+
+    /**
+     * 初始化P层
+     */
+    protected abstract void initPresenter();
+    /**
+     * 初始化视图
+     */
+    protected abstract  void initView();
+    /**
+     * 初始化数据
+     */
+    protected abstract void initData();
 
     @Override
     public void onResume() {
@@ -25,29 +43,19 @@ public class BaseFragment extends LazyFragment {
         super.onPause();
     }
 
-//	/**
-//	 * 设置状态栏背景状态
-//	 */
-//	@SuppressLint("InlinedApi")
-//	private void setTranslucentStatus() {
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//			Window win = getActivity().getWindow();
-//			WindowManager.LayoutParams winParams = win.getAttributes();
-//			final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-//			winParams.flags |= bits;
-//			win.setAttributes(winParams);
-//		}
-//		SystemStatusManager tintManager = new SystemStatusManager(
-//				this.getActivity());
-//		tintManager.setStatusBarTintEnabled(true);
-//		tintManager.setStatusBarTintResource(0);// 状态栏无背景
-//	}
-
     /**
      * 获取共通操作机能
      */
     public Operation getOperation() {
         return this.mBaseOperation;
+    }
+
+    /**
+     * 吐司
+     * @param msg 消息
+     */
+    public void showToast(String msg){
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

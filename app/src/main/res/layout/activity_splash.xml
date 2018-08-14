@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    >
+    
+    <ImageView
+        android:layout_marginTop="162dp"
+        android:layout_width="68dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/icon_wallet_active"
+        android:layout_gravity="center_horizontal"
+        />
+    <TextView
+        style="@style/WrapWrap"
+        android:text="Loopring Wallet"
+        android:textColor="@color/colorWhite"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:textSize="@dimen/normalText"
+        />
+
+    <Button
+        android:id="@+id/btn_import"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:text="Import Wallet"
+        style="@style/SubmitBtnStyle"
+        />
+
+    <TextView
+        android:drawableLeft=""
+        android:id="@+id/btn_generate"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="Generate Wallet"
+        style="@style/SubmitBtnStyle"
+        />
+</LinearLayout>

@@ -46,6 +46,8 @@ public abstract class BaseActivity extends SwipeBackActivity {
 		MobclickAgent.setCatchUncaughtExceptions(false);
 		initTitle();
 		initView();
+		initData();
+
 	}
 
 	protected WeakReference<Activity> getWContext(){
@@ -54,15 +56,12 @@ public abstract class BaseActivity extends SwipeBackActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		MobclickAgent.onPageStart("SplashScreen"); // 友盟流量统计
-		MobclickAgent.onResume(this);
-		initData();
+
 	}
 	@Override
 	protected void onPause() {
 		super.onPause();
-		MobclickAgent.onPageEnd("SplashScreen");
-		MobclickAgent.onPause(this);
+
 	}
 
 	@Override
@@ -85,20 +84,23 @@ public abstract class BaseActivity extends SwipeBackActivity {
 		}
 	}
 
-	/**0
-	 * 初始化数据
+
+	/**
+	 * 初始化标题
 	 */
-	public abstract void initData();
+	public abstract void initTitle();
 
 	/**
 	 * 初始化视图
 	 */
 	public abstract  void initView();
 
-	/**
-	 * 初始化标题
+	/**0
+	 * 初始化数据
 	 */
-	public abstract void initTitle();
+	public abstract void initData();
+
+
 
 	/**
 	 * 设置状态栏背景状态
