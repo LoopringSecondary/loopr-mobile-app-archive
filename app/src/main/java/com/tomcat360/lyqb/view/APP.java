@@ -6,9 +6,12 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.DisplayMetrics;
 
 import com.tomcat360.lyqb.utils.AndroidUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
+
+import java.util.Locale;
 
 public class APP extends Application {
 	private static APP mInstance;
@@ -18,9 +21,18 @@ public class APP extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
 		appVersion = AndroidUtils.getVersionName(this);
 		AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 		mInstance = this;
+
+		/**
+		* 默认英文
+		* */
+		Configuration configuration = getResources().getConfiguration();
+		DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+		configuration.locale = Locale.ENGLISH;
+		getResources().updateConfiguration(configuration, displayMetrics);
 
 	}
 

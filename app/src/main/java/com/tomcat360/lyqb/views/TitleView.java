@@ -62,6 +62,8 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
         mOnLeftButtonClickListener = listener;
     }
 
+
+
     /**
      * @param context
      */
@@ -94,6 +96,12 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
     }
 
 
+    public void setRightImageButton(int srcId, OnRightButtonClickListener listener) {
+        mRightText.setVisibility(View.GONE);
+        mRightbtn.setVisibility(View.VISIBLE);
+        mRightbtn.setImageResource(srcId);
+        mOnRightButtonClickListener = listener;
+    }
 
     public TitleView(Context context) {
         this(context, null);

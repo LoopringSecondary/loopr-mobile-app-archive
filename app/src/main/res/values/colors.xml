@@ -8,7 +8,12 @@
     <color name="colorSixText">#666666</color>
     <color name="colorNineText">#999999</color>
     <color name="colorWhite">#ffffff</color>
-    <color name="colorTitleBac">#3F51B5</color>  <!-- 标题背景色 -->
+    <color name="colorTitleBac">#222222</color>  <!-- 标题背景色 -->
     <color name="colorTitleTv">#ffffff</color>  <!-- 标题字体色 -->
     <color name="colorLine">#222222</color>  <!-- 横线颜色 -->
+    <color name="colorStart">#CE4CE6</color>  <!-- 渐变启始色 -->
+    <color name="colorCenter">#DE4DCB</color>  <!-- 渐变中间色 -->
+    <color name="colorEnd">#FA4A6F</color>  <!-- 渐变底部色 -->
+    <color name="colorGreen">#FF01B97F</color>  <!-- 全局green色 -->
+    <color name="colorBg">#383838</color>  <!-- 部分控件背景色 -->
 </resources>

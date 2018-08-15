@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Loopring Wallet</string>
+    <string name="wallet_name">Wallet Name</string>
+    <string name="import_wallet">Import Wallet</string>
+    <string name="generate_wallet">Generate Wallet</string>
+    <string name="next">Next</string>
+    <string name="good">Good</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="password_match_toast" tools:ignore="StringEscaping">Password doesn't match</string>
+    <string name="backup_mnemonic">Backup Mnemonic</string>
+    <string name="mnemonic_hint">Revealing your mnemonic phrases on web sites is highly dangerous. If the site is compromised or you accidentally visit a phishing website, your assets in all associated addresses can be stolen.</string>
+    <string name="confirm">Confirm</string>
+    <string name="skip">skip</string>
+    <string name="confirm_mnemonic_word">Confirm Mnemonic Word</string>
+
+
+
+</resources>

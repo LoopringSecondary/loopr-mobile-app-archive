@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">lyqb</string>
+    <string name="app_name">路印钱包</string>
+    <string name="wallet_name">钱包名称</string>
+    <string name="import_wallet">导入钱包</string>
+    <string name="generate_wallet">生成钱包</string>
+    <string name="next">下一步</string>
+    <string name="good">有益</string>
+    <string name="password">密码</string>
+    <string name="repeat_password">请再次输入密码</string>
+    <string name="password_match_toast">输入密码不匹配</string>
+    <string name="backup_mnemonic">备份助记词</string>
+    <string name="mnemonic_hint">Revealing your mnemonic phrases on web sites is highly dangerous. If the site is compromised or you accidentally visit a phishing website, your assets in all associated addresses can be stolen.</string>
+    <string name="confirm">确认</string>
+    <string name="skip">跳过</string>
+    <string name="confirm_mnemonic_word">确认助记词</string>
+
+
+    <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>
 </resources>

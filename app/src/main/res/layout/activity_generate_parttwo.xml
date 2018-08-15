@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/generate_parttwo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_mnemonic"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="22dp"
+        android:background="@mipmap/mnemonic_one"
+       >
+
+
+        <TextView
+            android:id="@+id/backup_mnemonic"
+            style="@style/WrapWrap"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:text="@string/backup_mnemonic"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/normalText" />
+
+        <TextView
+            android:id="@+id/mnemonic_hint"
+            style="@style/WrapWrap"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="19dp"
+            android:layout_marginRight="19dp"
+            android:layout_marginTop="65dp"
+            android:lineSpacingExtra="3dp"
+            android:text="@string/mnemonic_hint"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/normal14Text" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_word"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:background="@mipmap/mnemonic_two"
+        >
+
+        <LinearLayout
+            style="@style/MatchMatch.Vertical"
+            android:layout_marginBottom="39dp"
+            android:layout_marginTop="30dp">
+
+            <LinearLayout style="@style/MatchAuto.Horizontal">
+
+                <TextView
+                    android:id="@+id/word_one"
+                    style="@style/mnemonicTextStyle"
+                    android:text="1.negative" />
+
+                <TextView
+                    android:id="@+id/word_five"
+                    style="@style/mnemonicTextStyle"
+                    android:text="5.original" />
+
+                <TextView
+                    android:id="@+id/word_nine"
+                    style="@style/mnemonicTextStyle"
+                    android:text="9.hold" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/MatchAuto.Horizontal">
+
+                <TextView
+                    style="@style/mnemonicTextStyle"
+                    android:text="2.splin" />
+
+                <TextView
+                    style="@style/mnemonicTextStyle"
+                    android:text="6.chair" />
+
+                <TextView
+                    style="@style/mnemonicTextStyle"
+                    android:text="10.suprme" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/MatchAuto.Horizontal">
+
+                <TextView
+                    style="@style/mnemonicTextStyle"
+                    android:text="3.good" />
+
+                <TextView
+                    style="@style/mnemonicTextStyle"
+                    android:text="7.text" />
+
+                <TextView
+                    style="@style/mnemonicTextStyle"
+                    android:text="11.style" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/MatchAuto.Horizontal">
+
+                <TextView
+                    style="@style/mnemonicTextStyle"
+                    android:text="4.men" />
+
+                <TextView
+                    style="@style/mnemonicTextStyle"
+                    android:text="8.android" />
+
+                <TextView
+                    style="@style/mnemonicTextStyle"
+                    android:text="12.linear" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <include layout="@layout/activity_generate_partthree"/>
+
+    <LinearLayout style="@style/MatchMatch.Horizontal">
+
+        <Button
+            android:id="@+id/btn_confirm"
+            style="@style/SubmitBtnStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:text="@string/confirm"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/btn_skip"
+            style="@style/SubmitBtnStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:text="@string/skip"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+</LinearLayout>

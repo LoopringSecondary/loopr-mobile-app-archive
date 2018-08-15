@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/generate_partthree"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/confirm_mnemonic_word"
+        style="@style/WrapWrap"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:text="@string/confirm_mnemonic_word"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/normalText" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/radius_bg">
+        <TextView
+            android:id="@+id/confirm_mnemonic_word_info"
+            style="@style/WrapWrap"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="negative      spin      title      hat    original     chair "
+            android:textColor="@color/colorWhite"
+            android:lineSpacingExtra="9dp"
+            android:textSize="@dimen/normalText" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="20dp"
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    android:id="@+id/generate_partone"
+    >
+    <RelativeLayout
+        android:layout_width="345dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/wallet_name"
+            style="@style/WrapWrap"
+            android:layout_centerInParent="true"
+            android:text="@string/wallet_name"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+             />
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_password"
+            style="@style/MatchWrap.Horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="10dp"
+                android:background="@color/colorGreen" />
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="3dp"
+                android:background="@color/colorGreen" />
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="3dp"
+                android:background="@color/colorGreen" />
+
+            <TextView
+                android:id="@+id/good"
+                style="@style/WrapWrap"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:text="@string/good"
+                android:textColor="@color/colorGreen"
+                android:textSize="@dimen/normal14Text" />
+
+        </LinearLayout>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:visibility="gone"
+            android:id="@+id/password"
+            style="@style/editTextStyle"
+            android:layout_centerInParent="true"
+            android:digits="@string/pwd_dig"
+            android:focusableInTouchMode="true"
+            android:hint="@string/password"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:maxLines="1"
+            android:textColorHint="@color/colorWhite"
+            android:textSize="@dimen/normalText"
+            app:met_baseColor="@color/colorWhite"
+            app:met_checkCharactersCountAtBeginning="false"
+            app:met_floatingLabel="normal"
+            app:met_hideUnderline="true"
+            app:met_helperTextColor="@color/colorWhite"
+            app:met_primaryColor="@color/colorWhite" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:visibility="gone"
+            android:id="@+id/repeat_password"
+            style="@style/editTextStyle"
+            android:layout_centerInParent="true"
+            android:digits="@string/pwd_dig"
+            android:focusableInTouchMode="true"
+            android:hint="@string/repeat_password"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:maxLines="1"
+            android:textColorHint="@color/colorWhite"
+            android:textSize="@dimen/normalText"
+            app:met_baseColor="@color/colorWhite"
+            app:met_checkCharactersCountAtBeginning="false"
+            app:met_floatingLabel="normal"
+            app:met_hideUnderline="true"
+            app:met_helperTextColor="@color/colorWhite"
+            app:met_primaryColor="@color/colorWhite" />
+
+
+
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btn_next"
+        style="@style/SubmitBtnStyle"
+        android:layout_width="280dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/next"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite" />
+
+    <TextView
+        android:id="@+id/password_match"
+        style="@style/WrapWrap"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:text="@string/password_match_toast"
+        android:textColor="@color/colorEnd"
+        android:textSize="@dimen/normal14Text" />
+
+</LinearLayout>

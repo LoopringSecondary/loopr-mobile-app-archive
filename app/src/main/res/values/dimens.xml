@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 字体大小 -->
+    <dimen name="font_3">3sp</dimen>
+    <dimen name="font_4">4sp</dimen>
+    <dimen name="font_5">5sp</dimen>
+    <dimen name="font_6">6sp</dimen>
+    <dimen name="font_7">7sp</dimen>
     <dimen name="font_8">8sp</dimen>
     <dimen name="font_10">10sp</dimen>
     <dimen name="font_12">12sp</dimen>
@@ -24,6 +28,7 @@
     <dimen name="margSide">12dp</dimen>  <!-- 边距12dp -->
     <dimen name="mainTabIcon">20dp</dimen>  <!-- 首页tab——imageview尺寸大小 -->
     <dimen name="mainTabText">12dp</dimen>  <!-- 首页tab——textview尺寸大小 -->
-    <dimen name="normalText">14dp</dimen>  <!--  app正常字体大小 -->
+    <dimen name="normalText">16dp</dimen>  <!--  app正常字体大小 -->
+    <dimen name="normal14Text">16dp</dimen>  <!--  app正常字体大小 -->
 
 </resources>
