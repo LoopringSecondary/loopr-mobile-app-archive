@@ -41,13 +41,7 @@ public class LyqbLogger {
     }
 
     private static void initLogger(String name) {
-//        Logger.init(name)                       // default PRETTYLOGGER or use just init()
-//                .methodCount(3)                 // default 2
-//                .hideThreadInfo()               // default shown
-//                .logLevel(LogLevel.FULL)        // default LogLevel.FULL
-//                .methodOffset(2)                // default 0
-//                .logTool(new AndroidLogTool());// custom log tool, optional
-        if(formatStrategy == null) {
+        if (formatStrategy == null) {
             formatStrategy = PrettyFormatStrategy.newBuilder()
                     .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
                     .methodCount(1)         // (Optional) How many method line to show. Default 2
@@ -60,11 +54,19 @@ public class LyqbLogger {
         }
     }
 
-    public static void log(String info){
+    public static void log(String info) {
         startLog("i", "DENG_QIANG", info);
     }
 
-    public static void log2Json(String info){
+    public static void debug(String info) {
+        try {
+            startLog("d", "DENG_QIANG", info);
+        } catch (Exception e) {
+            // swallow exception.
+        }
+    }
+
+    public static void log2Json(String info) {
         startLog("json", "DENG_QIANG", info);
     }
 

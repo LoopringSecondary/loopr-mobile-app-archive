@@ -33,7 +33,6 @@
         />
 
     <TextView
-        android:drawableLeft=""
         android:id="@+id/btn_generate"
         android:layout_width="240dp"
         android:layout_height="50dp"

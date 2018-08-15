@@ -1,14 +1,12 @@
 package com.tomcat360.lyqb.net;
 
-import android.content.Context;
-
-
-
 public final class G {
 
 	private G() {
 	}
 
+	// 是否为开发环境，生产包设置为false
+	public static final boolean IS_DEV = true;
 
 
 
