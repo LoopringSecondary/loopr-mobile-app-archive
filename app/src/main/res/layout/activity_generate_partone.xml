@@ -75,8 +75,8 @@
             android:textSize="@dimen/normalText"
             app:met_baseColor="@color/colorWhite"
             app:met_checkCharactersCountAtBeginning="false"
-            app:met_floatingLabel="none"
             app:met_hideUnderline="true"
+            app:met_floatingLabel="none"
             app:met_helperTextColor="@color/colorWhite"
             app:met_primaryColor="@color/colorWhite" />
 
