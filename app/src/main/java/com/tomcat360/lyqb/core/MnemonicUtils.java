@@ -161,25 +161,6 @@ public class MnemonicUtils {
         return (byte) (bytes[0] & mask);
     }
 
-//    private static List<String> populateWordList() {
-//        try {
-//            InputStream inputStream = APP.getInstance().getAssets().open("en-mnemonic-word-list.txt");
-//            InputStreamReader reader = new InputStreamReader(inputStream);
-//            BufferedReader br = new BufferedReader(reader);
-//            List<String> data = new ArrayList<String>();
-//            for (String line; (line = br.readLine()) != null; ) {
-//                data.add(line);
-//            }
-//            br.close();
-//            reader.close();
-//            inputStream.close();
-//            return data;
-//
-//        } catch (IOException e) {
-//            return Collections.emptyList();
-//        }
-//    }
-
     private static List<String> populateWordList() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream("en-mnemonic-word-list.txt");

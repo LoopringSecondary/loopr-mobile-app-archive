@@ -64,7 +64,6 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.5.0'
 
     // web3j
-//    implementation 'com.github.esoxjem.web3j:abi:v3.3.3-android'
     implementation 'org.web3j:core:3.3.1-android'
 //    implementation 'org.web3j:core:3.5.0'
     // bitcoinj
