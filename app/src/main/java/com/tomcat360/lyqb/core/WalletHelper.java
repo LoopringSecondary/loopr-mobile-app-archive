@@ -12,7 +12,6 @@ import org.web3j.crypto.Bip39Wallet;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
-import org.web3j.crypto.MnemonicUtils;
 import org.web3j.crypto.WalletUtils;
 
 import java.io.File;
@@ -53,7 +52,6 @@ public class WalletHelper {
         Credentials credentials = WalletUtils.loadCredentials(password, keystore);
         LyqbLogger.debug("wallet unlocked!");
     }
-
 
     private static Bip39Wallet generateEthWallet(String mnemonic, String dpath, String password, File dest) throws CipherException, IOException {
         byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
