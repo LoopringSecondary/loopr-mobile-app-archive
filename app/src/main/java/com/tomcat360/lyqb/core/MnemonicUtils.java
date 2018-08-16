@@ -1,7 +1,5 @@
 package com.tomcat360.lyqb.core;
 
-import com.tomcat360.lyqb.view.APP;
-
 import org.spongycastle.crypto.digests.SHA512Digest;
 import org.spongycastle.crypto.generators.PKCS5S2ParametersGenerator;
 import org.spongycastle.crypto.params.KeyParameter;
@@ -163,23 +161,42 @@ public class MnemonicUtils {
         return (byte) (bytes[0] & mask);
     }
 
-    private static List<String> populateWordList() {
-        try {
-            InputStream inputStream = APP.getInstance().getResources().getAssets().open("en-mnemonic-word-list.txt");
-            InputStreamReader reader = new InputStreamReader(inputStream);
-            BufferedReader br = new BufferedReader(reader);
-            List<String> data = new ArrayList<String>();
-            for (String line; (line = br.readLine()) != null; ) {
-                data.add(line);
-            }
-            br.close();
-            reader.close();
-            inputStream.close();
-            return data;
+//    private static List<String> populateWordList() {
+//        try {
+//            InputStream inputStream = APP.getInstance().getAssets().open("en-mnemonic-word-list.txt");
+//            InputStreamReader reader = new InputStreamReader(inputStream);
+//            BufferedReader br = new BufferedReader(reader);
+//            List<String> data = new ArrayList<String>();
+//            for (String line; (line = br.readLine()) != null; ) {
+//                data.add(line);
+//            }
+//            br.close();
+//            reader.close();
+//            inputStream.close();
+//            return data;
+//
+//        } catch (IOException e) {
+//            return Collections.emptyList();
+//        }
+//    }
 
-        } catch (IOException e) {
+    private static List<String> populateWordList() {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("en-mnemonic-word-list.txt");
+        try {
+            return readAllLines(inputStream);
+        } catch (Exception e) {
             return Collections.emptyList();
         }
+    }
+
+    public static List<String> readAllLines(InputStream inputStream) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+        List<String> data = new ArrayList<>();
+        for (String line; (line = br.readLine()) != null; ) {
+            data.add(line);
+        }
+        return data;
     }
 }
 
