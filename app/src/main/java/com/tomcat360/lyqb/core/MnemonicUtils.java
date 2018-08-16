@@ -23,7 +23,7 @@ import static org.web3j.crypto.Hash.sha256;
  * @see <a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">Mnemonic code
  * for generating deterministic keys</a>
  */
-public class MnemonicUtils {
+final class MnemonicUtils {
 
     private static final int SEED_ITERATIONS = 2048;
     private static final int SEED_KEY_SIZE = 512;

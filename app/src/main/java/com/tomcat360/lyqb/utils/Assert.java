@@ -22,4 +22,11 @@ public class Assert {
             throw new RuntimeException(file.getPath() + " is not a directory");
         }
     }
+
+    public static void validateMnemonic(String mnemonic) {
+        hasText(mnemonic, "mnemonic can not be null");
+        if (mnemonic.split(" ").length % 12 != 0) {
+            throw new RuntimeException("illegal mnemonic");
+        }
+    }
 }

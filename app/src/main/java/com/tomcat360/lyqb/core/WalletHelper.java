@@ -25,35 +25,24 @@ public class WalletHelper {
 
     private static final String DEFAULT_DPATH = "m/44'/60'/0'/0";
 
-    public static Bip39Wallet create(String password, File dest) throws Exception {
-        // validate inputs.
-        Assert.hasText(password, "password can not be null");
-        Assert.checkDirectory(dest);
+
+    public static String generateMnemonic() {
         // generate mnemonic words.
         byte[] initialEntropy = new byte[16];
         secureRandom.nextBytes(initialEntropy);
-        String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
-        return generateEthWallet(mnemonic, DEFAULT_DPATH, password, dest);
+        return MnemonicUtils.generateMnemonic(initialEntropy);
     }
 
-    public static Bip39Wallet importFromMnemonic(String mnemonic, String dpath, String password, File dest) throws Exception {
+    public static Bip39Wallet createWallet(String mnemonic, String dpath, String password, File dest) throws CipherException, IOException {
         // validate inputs.
-        Assert.hasText(mnemonic, "illegal mnemonic");
-        Assert.hasText(dpath, "dpath can not be null");
+        Assert.validateMnemonic(mnemonic);
         Assert.hasText(password, "password can not be null");
         Assert.checkDirectory(dest);
-        return generateEthWallet(mnemonic, dpath, password, dest);
-    }
 
-    public static void unlock(String password, File keystore) throws Exception {
-        if (password == null || "".equals(password.trim())){
-            throw new Exception("password can not be null");
+        if (dpath == null) {
+            dpath = DEFAULT_DPATH;
         }
-        Credentials credentials = WalletUtils.loadCredentials(password, keystore);
-        LyqbLogger.debug("wallet unlocked!");
-    }
 
-    private static Bip39Wallet generateEthWallet(String mnemonic, String dpath, String password, File dest) throws CipherException, IOException {
         byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
         List<ChildNumber> childNumberList = HDUtils.parsePath(dpath.replaceAll("\'", "H").toUpperCase());
         DeterministicKey rootKey = HDKeyDerivation.createMasterPrivateKey(seed);
@@ -66,5 +55,35 @@ public class WalletHelper {
         Bip39Wallet bip39Wallet = new Bip39Wallet(walletFileName, mnemonic);
         LyqbLogger.debug("wallet created! " + bip39Wallet.toString());
         return bip39Wallet;
+    }
+
+    public static Bip39Wallet importFromMnemonic(String mnemonic, String dpath, String password, File dest) throws Exception {
+        // validate inputs.
+        Assert.hasText(mnemonic, "illegal mnemonic");
+        Assert.hasText(dpath, "dpath can not be null");
+        Assert.hasText(password, "password can not be null");
+        Assert.checkDirectory(dest);
+        return createWallet(mnemonic, dpath, password, dest);
+    }
+
+    public static void importFromKeystore() {
+
+    }
+
+    public static void importFromPrivateKey() {
+
+    }
+
+    public static void unlock(String password, File keystore) throws Exception {
+        if (password == null || "".equals(password.trim())){
+            throw new Exception("password can not be null");
+        }
+        Credentials credentials = WalletUtils.loadCredentials(password, keystore);
+        LyqbLogger.debug("wallet unlocked!");
+    }
+
+
+    public static void generateBtcWallet() {
+
     }
 }
