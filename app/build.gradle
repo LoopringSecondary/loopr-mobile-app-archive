@@ -13,6 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -61,10 +62,13 @@ dependencies {
     implementation 'com.airbnb.android:lottie:1.0.1'
     //适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.41'
+    //md对话框
+    implementation 'com.afollestad.material-dialogs:core:0.9.5.0'
 
     // web3j
-//    implementation 'org.web3j:core:3.3.1-android'
-    implementation 'org.web3j:core:3.5.0'
+    implementation 'org.web3j:core:3.3.1-android'
+//    implementation 'org.web3j:core:3.5.0'
     // bitcoinj
     implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
+    implementation 'com.android.support:design:26.1.0'
 }

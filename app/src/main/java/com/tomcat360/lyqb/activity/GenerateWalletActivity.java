@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
+import com.tomcat360.lyqb.adapter.MnemonicWordHintAdapter;
+import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.views.SpacesItemDecoration;
 import com.tomcat360.lyqb.views.TitleView;
 
@@ -51,18 +53,14 @@ public class GenerateWalletActivity extends BaseActivity {
     TextView mnemonicHint;
     @BindView(R.id.rl_mnemonic)
     RelativeLayout rlMnemonic;
-    @BindView(R.id.word_one)
-    TextView wordOne;
-    @BindView(R.id.word_five)
-    TextView wordFive;
-    @BindView(R.id.word_nine)
-    TextView wordNine;
     @BindView(R.id.rl_word)
     RelativeLayout rlWord;
     @BindView(R.id.confirm_mnemonic_word)
     TextView confirmMnemonicWord;
     @BindView(R.id.confirm_mnemonic_word_info)
     TextView confirmMnemonicWordInfo;
+    @BindView(R.id.recycler_mnemonic_hint)
+    RecyclerView recyclerMnemonicHint;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.generate_partthree)
@@ -74,6 +72,7 @@ public class GenerateWalletActivity extends BaseActivity {
 
 
     private MnemonicWordAdapter mAdapter;
+    private MnemonicWordHintAdapter mHintAdapter;
 
 
     @Override
@@ -98,7 +97,20 @@ public class GenerateWalletActivity extends BaseActivity {
     @Override
     public void initData() {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
-        recyclerView.setLayoutManager(layoutManager);
+        GridLayoutManager layoutManagerHint = new GridLayoutManager(this, 3);
+
+
+        recyclerMnemonicHint.setLayoutManager(layoutManagerHint);  //助记词提示列表
+        List<String> listHint = new ArrayList<>();
+        for (int i = 1;i<13;i++){
+            listHint.add("mnemonic"+i);
+        }
+        mHintAdapter = new MnemonicWordHintAdapter(R.layout.adapter_mnemonic_word_hint, listHint);
+        recyclerMnemonicHint.addItemDecoration(new SpacesItemDecoration(8));
+        recyclerMnemonicHint.setAdapter(mHintAdapter);
+
+
+        recyclerView.setLayoutManager(layoutManager);   //助记词选择列表
         List<String> list = new ArrayList<>();
         for (int i = 1;i<13;i++){
             list.add("mnemonic"+i);
@@ -109,6 +121,7 @@ public class GenerateWalletActivity extends BaseActivity {
     }
 
     private int i = 0;
+    private int j = 0;
 
     @OnClick({R.id.wallet_name, R.id.btn_next,R.id.btn_confirm, R.id.btn_skip})
     public void onViewClicked(View view) {
@@ -133,9 +146,21 @@ public class GenerateWalletActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_confirm:
-                rlMnemonic.setVisibility(View.GONE);
-                rlWord.setVisibility(View.GONE);
-                generatePartthree.setVisibility(View.VISIBLE);
+                ++j;
+                if (j == 1) {
+                    rlMnemonic.setVisibility(View.GONE);
+                    rlWord.setVisibility(View.GONE);
+                    generatePartthree.setVisibility(View.VISIBLE);
+                }else {
+                    DialogUtil.showWalletCreateResultDialog(this, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            DialogUtil.dialog.dismiss();
+                            finish();
+                            getOperation().forward(MainActivity.class);
+                        }
+                    });
+                }
                 break;
             case R.id.btn_skip:
                 break;

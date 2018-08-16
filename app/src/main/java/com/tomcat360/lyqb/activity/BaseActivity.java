@@ -24,7 +24,7 @@ import java.lang.ref.WeakReference;
 
 public abstract class BaseActivity extends SwipeBackActivity {
 
-	private SwipeBackLayout mSwipeBackLayout;
+	public SwipeBackLayout mSwipeBackLayout;
 
 
 	/**当前Activity的弱引用，防止内存泄露**/

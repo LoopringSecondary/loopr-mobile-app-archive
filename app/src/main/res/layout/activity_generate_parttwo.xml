@@ -50,82 +50,14 @@
         android:layout_marginRight="@dimen/margSide"
         android:background="@mipmap/mnemonic_two"
         >
-
-        <LinearLayout
-            style="@style/MatchMatch.Vertical"
-            android:layout_marginBottom="39dp"
-            android:layout_marginTop="30dp">
-
-            <LinearLayout style="@style/MatchAuto.Horizontal">
-
-                <TextView
-                    android:id="@+id/word_one"
-                    style="@style/mnemonicTextStyle"
-                    android:text="1.negative" />
-
-                <TextView
-                    android:id="@+id/word_five"
-                    style="@style/mnemonicTextStyle"
-                    android:text="5.original" />
-
-                <TextView
-                    android:id="@+id/word_nine"
-                    style="@style/mnemonicTextStyle"
-                    android:text="9.hold" />
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/MatchAuto.Horizontal">
-
-                <TextView
-                    style="@style/mnemonicTextStyle"
-                    android:text="2.splin" />
-
-                <TextView
-                    style="@style/mnemonicTextStyle"
-                    android:text="6.chair" />
-
-                <TextView
-                    style="@style/mnemonicTextStyle"
-                    android:text="10.suprme" />
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/MatchAuto.Horizontal">
-
-                <TextView
-                    style="@style/mnemonicTextStyle"
-                    android:text="3.good" />
-
-                <TextView
-                    style="@style/mnemonicTextStyle"
-                    android:text="7.text" />
-
-                <TextView
-                    style="@style/mnemonicTextStyle"
-                    android:text="11.style" />
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/MatchAuto.Horizontal">
-
-                <TextView
-                    style="@style/mnemonicTextStyle"
-                    android:text="4.men" />
-
-                <TextView
-                    style="@style/mnemonicTextStyle"
-                    android:text="8.android" />
-
-                <TextView
-                    style="@style/mnemonicTextStyle"
-                    android:text="12.linear" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginLeft="@dimen/margSide"
+            android:layout_marginRight="@dimen/margSide"
+            android:id="@+id/recycler_mnemonic_hint"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </RelativeLayout>
-
 
     <include layout="@layout/activity_generate_partthree"/>
 

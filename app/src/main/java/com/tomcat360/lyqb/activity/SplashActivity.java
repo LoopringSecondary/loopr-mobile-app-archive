@@ -1,11 +1,9 @@
 package com.tomcat360.lyqb.activity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.views.TitleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -13,15 +11,8 @@ import butterknife.OnClick;
 
 public class SplashActivity extends BaseActivity {
 
-
-    @BindView(R.id.tv_import)
-    TextView tvImport;
-    @BindView(R.id.rl_import)
-    RelativeLayout rlImport;
-    @BindView(R.id.tv_generate)
-    TextView tvGenerate;
-    @BindView(R.id.rl_generate)
-    RelativeLayout rlGenerate;
+    @BindView(R.id.title)
+    TitleView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,23 +33,10 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void initData() {
 
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+    @OnClick(R.id.imageview)
+    public void onViewClicked() {
 
-    @OnClick({R.id.rl_import, R.id.rl_generate})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.rl_import:
-                getOperation().forward(ImportWalletActivity.class);
-                break;
-            case R.id.rl_generate:
-                getOperation().forward(GenerateWalletActivity.class);
-                break;
-        }
     }
 }
