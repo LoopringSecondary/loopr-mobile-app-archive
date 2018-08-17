@@ -1,4 +1,6 @@
-package com.tomcat360.lyqb.utils;
+package com.tomcat360.lyqb.core;
+
+import com.google.common.base.Strings;
 
 import java.io.File;
 
@@ -9,7 +11,7 @@ public class Assert {
     }
 
     public static void hasText(String str, String errMsg) {
-        if (str == null || 0 == str.trim().length()) {
+        if (Strings.isNullOrEmpty(str)) {
             throw new RuntimeException(errMsg);
         }
     }

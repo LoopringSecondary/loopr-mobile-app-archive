@@ -1,6 +1,7 @@
 package com.tomcat360.lyqb.core;
 
-import com.tomcat360.lyqb.utils.Assert;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 
 import org.bitcoinj.crypto.ChildNumber;
@@ -12,6 +13,8 @@ import org.web3j.crypto.Bip39Wallet;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Wallet;
+import org.web3j.crypto.WalletFile;
 import org.web3j.crypto.WalletUtils;
 
 import java.io.File;
@@ -25,6 +28,7 @@ public class WalletHelper {
 
     private static final String DEFAULT_DPATH = "m/44'/60'/0'/0";
 
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static String generateMnemonic() {
         // generate mnemonic words.
@@ -60,30 +64,77 @@ public class WalletHelper {
     public static Bip39Wallet importFromMnemonic(String mnemonic, String dpath, String password, File dest) throws Exception {
         // validate inputs.
         Assert.hasText(mnemonic, "illegal mnemonic");
-        Assert.hasText(dpath, "dpath can not be null");
         Assert.hasText(password, "password can not be null");
         Assert.checkDirectory(dest);
+
+        if (dpath != null && dpath.trim().length() == 0) {
+            dpath = null;
+        }
         return createWallet(mnemonic, dpath, password, dest);
     }
 
-    public static void importFromKeystore() {
+    public static String importFromKeystore(String keystoreJson, String oldPassword, String newPassword, File dest) {
+        Assert.hasText(keystoreJson, "empty keystore");
 
+
+        WalletFile walletFile;
+        try {
+            walletFile = mapper.readValue(keystoreJson, WalletFile.class);
+        } catch (IOException e) {
+            throw new RuntimeException("invalid keystore");
+        }
+
+        ECKeyPair ecKeyPair;
+        try {
+            ecKeyPair = Wallet.decrypt(oldPassword, walletFile);
+        } catch (CipherException e) {
+            e.printStackTrace();
+            throw new RuntimeException("wrong password");
+        }
+
+        String walletFileName = "";
+        try {
+            if (Strings.isNullOrEmpty(newPassword)) {
+                walletFileName = WalletUtils.generateWalletFile(oldPassword, ecKeyPair, dest, false);
+            } else {
+                walletFileName = WalletUtils.generateWalletFile(newPassword, ecKeyPair, dest, false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LyqbLogger.log("wallet create failure!");
+        }
+
+        return walletFileName;
     }
 
-    public static void importFromPrivateKey() {
+    public static String importFromPrivateKey(String privateKey, String newPassword, File dest) {
 
+        Assert.hasText(privateKey, "private key can not be null");
+        if (!WalletUtils.isValidPrivateKey(privateKey)) {
+            throw new RuntimeException("illegal private key");
+        }
+        if (Strings.isNullOrEmpty(newPassword)) {
+            newPassword = "";
+        }
+
+        Credentials credentials = Credentials.create(privateKey);
+
+        String walletFileName = "";
+        try {
+            walletFileName = WalletUtils.generateWalletFile(newPassword, credentials.getEcKeyPair(), dest, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LyqbLogger.log("wallet create failure!");
+        }
+        return walletFileName;
     }
 
-    public static void unlock(String password, File keystore) throws Exception {
-        if (password == null || "".equals(password.trim())){
+    public static Credentials unlock(String password, File keystore) throws Exception {
+        if (password == null || "".equals(password.trim())) {
             throw new Exception("password can not be null");
         }
         Credentials credentials = WalletUtils.loadCredentials(password, keystore);
-        LyqbLogger.debug("wallet unlocked!");
-    }
-
-
-    public static void generateBtcWallet() {
-
+        LyqbLogger.debug("wallet unlocked! " + credentials.toString());
+        return credentials;
     }
 }
