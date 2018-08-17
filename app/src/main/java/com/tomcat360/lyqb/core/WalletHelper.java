@@ -85,33 +85,6 @@ public class WalletHelper {
         return bip39Wallet;
     }
 
-//    public static String importFromKeystore(String keystoreJson, String oldPassword, String newPassword, File dest) {
-//        Assert.hasText(keystoreJson, "empty keystore!");
-//        Assert.checkDirectory(dest);
-//
-//        ECKeyPair ecKeyPair;
-//        try {
-//            Credentials credentials = unlock(oldPassword, keystoreJson);
-//            ecKeyPair = credentials.getEcKeyPair();
-//        } catch (Exception e) {
-//            throw new RuntimeException("unlock wallet failure!", e);
-//        }
-//
-//        String walletFileName = "";
-//        try {
-//            if (Strings.isNullOrEmpty(newPassword)) {
-//                walletFileName = WalletUtils.generateWalletFile(oldPassword, ecKeyPair, dest, false);
-//            } else {
-//                walletFileName = WalletUtils.generateWalletFile(newPassword, ecKeyPair, dest, false);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            LyqbLogger.log("wallet create failure!");
-//        }
-//
-//        return walletFileName;
-//    }
-
     public static String importFromKeystore(String keystoreJson, String password, File dest) {
         Assert.hasText(keystoreJson, "empty keystore!");
         Assert.checkDirectory(dest);
@@ -160,13 +133,17 @@ public class WalletHelper {
         return walletFileName;
     }
 
-    public static Credentials unlock(String password, File keystore) throws IOException, CipherException {
+    public static WalletDetails unlock(String password, File keystore) throws IOException, CipherException {
         Assert.hasText(password, "password can not be null");
-        return WalletUtils.loadCredentials(password, keystore);
+
+        WalletFile walletFile = objectMapper.readValue(keystore, WalletFile.class);
+        Credentials credentials = Credentials.create(Wallet.decrypt(password, walletFile));
+        return new WalletDetails(walletFile, credentials);
     }
 
     public static WalletDetails unlock(String password, String keystoreJson) throws InvalidKeystoreException, CipherException {
         Assert.hasText(password, "password can not be null");
+
         WalletFile walletFile;
         try {
             walletFile = objectMapper.readValue(keystoreJson, WalletFile.class);

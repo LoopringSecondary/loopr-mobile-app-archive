@@ -25,6 +25,18 @@ public class Assert {
         }
     }
 
+    public static void checkKeystoreFile(File file) {
+        if (file == null) {
+            throw new RuntimeException("parameter can not be null");
+        }
+        if (!file.exists()) {
+            throw new RuntimeException("file does not exist.");
+        }
+        if (!file.isFile()) {
+            throw new RuntimeException("not a file!");
+        }
+    }
+
     public static void validateMnemonic(String mnemonic) {
         hasText(mnemonic, "mnemonic can not be null");
         if (mnemonic.split(" ").length % 12 != 0) {
