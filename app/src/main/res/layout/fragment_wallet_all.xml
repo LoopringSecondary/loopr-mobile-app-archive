@@ -4,19 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorPrimary"
+    android:orientation="vertical"
     >
-
-    <TextView
-        android:id="@+id/tv"
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="10dp"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="setting!"
-        android:textColor="@color/colorWhite"
+        android:layout_height="wrap_content"/>
 
-        />
 
 
 </LinearLayout>

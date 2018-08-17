@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:background="@color/colorPrimary"
+    >
+    <com.tomcat360.lyqb.views.TitleView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/radius_bg"
+        android:layout_weight="5"
+        android:layout_height="0dp">
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_marginTop="-25dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/icon_wallet_active" />
+
+        <TextView
+            style="@style/WrapWrap"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/app_name"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/normalText" />
+        <TextView
+            style="@style/WrapWrap"
+            android:id="@+id/coin_name"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:text="Receive LRC"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/normalText" />
+
+        <RelativeLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="14dp"
+            android:layout_width="200dp"
+            android:background="@android:color/white"
+            android:layout_height="200dp">
+            <ImageView
+                android:id="@+id/iv_code"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/icon_wallet_active" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/coin_address"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="sakdjskdjaljdwqwoiqfjehfieohfiewhfeiwhff"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/normalText" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:paddingBottom="32dp"
+        >
+
+        <Button
+            android:id="@+id/btn_copy"
+            style="@style/SubmitBtnStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:text="@string/copy"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/btn_save"
+            style="@style/CancelBtnStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+</LinearLayout>

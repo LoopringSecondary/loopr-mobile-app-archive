@@ -11,15 +11,15 @@ import java.util.List;
 /**
  *
  */
-public class MnemonicWordAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class MainWalletAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
-    public MnemonicWordAdapter(int layoutResId, @Nullable List<String> data) {
+    public MainWalletAdapter(int layoutResId, @Nullable List<String> data) {
         super(layoutResId, data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-        helper.setText(R.id.mnemonic_word, item);
+//        helper.setText(R.id.mnemonic_word, Integer.valueOf(helper.getPosition())+1+"."+item);
 
     }
 }

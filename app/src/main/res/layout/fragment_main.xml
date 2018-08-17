@@ -1,20 +1,304 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorPrimary"
-    >
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv"
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="44dp">
+
+        <TextView
+            android:id="@+id/title_text"
+            style="@style/Text.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textColor="@color/colorTitleTv"
+            android:textSize="18sp" />
+
+
+        <ImageView
+            android:id="@+id/right_btn"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/icon_plus" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Hello World!"
-         />
+        android:layout_marginTop="94dp"
+        android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
 
-</LinearLayout>
+            android:background="@mipmap/wallet_bg">
+
+            <TextView
+                android:id="@+id/wallet_count"
+                style="@style/WrapWrap"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp"
+                android:text="$37,013.79"
+                android:textColor="@color/colorWhite"
+                android:textSize="32sp" />
+
+            <LinearLayout
+                style="@style/MatchWrap.Horizontal"
+                android:layout_below="@+id/wallet_count"
+                android:layout_marginTop="11dp"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/wallet_address"
+                    style="@style/WrapWrap"
+                    android:text="shadhwufh...sbadhasuhd"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/normal14Text" />
+
+                <ImageView
+                    android:id="@+id/wallet_qrcode"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="3dp"
+                    android:src="@mipmap/icon_wallet_qrcode" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginLeft="@dimen/margSide"
+            android:layout_marginRight="@dimen/margSide"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_scan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg_pressed"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@mipmap/icon_scan" />
+
+                <TextView
+                    android:id="@+id/wallet_scan_tv"
+                    style="@style/WrapWrap"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/scan"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/normal14Text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_receive"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg_pressed"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@mipmap/icon_received" />
+
+                <TextView
+                    android:id="@+id/wallet_receive_tv"
+                    style="@style/WrapWrap"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/receive"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/normal14Text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_send"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg_pressed"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@mipmap/icon_send" />
+
+                <TextView
+                    android:id="@+id/wallet_send_tv"
+                    style="@style/WrapWrap"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/send"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/normal14Text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_trade"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg_pressed"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@mipmap/icon_trades" />
+
+                <TextView
+                    android:id="@+id/wallet_trades_tv"
+                    style="@style/WrapWrap"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/trade"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/normal14Text" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margSide"
+            android:layout_marginRight="@dimen/margSide"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_menu"
+        android:visibility="gone"
+        android:layout_width="160dp"
+        android:layout_height="200dp"
+        android:layout_gravity="end"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="94dp"
+        android:background="@color/colorBg2"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/menu_scan"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/icon_scan" />
+
+            <TextView
+                style="@style/WrapWrap"
+                android:layout_marginLeft="10dp"
+                android:text="@string/scan"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_add_assets"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/icon_plus" />
+
+            <TextView
+                style="@style/WrapWrap"
+                android:layout_marginLeft="10dp"
+                android:text="@string/add_assets"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/icon_wallet_unactive" />
+
+            <TextView
+                style="@style/WrapWrap"
+                android:layout_marginLeft="10dp"
+                android:text="@string/wallet"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_transaction"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/icon_trades" />
+
+            <TextView
+                style="@style/WrapWrap"
+                android:layout_marginLeft="10dp"
+                android:text="@string/transaction"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

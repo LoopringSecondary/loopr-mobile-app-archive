@@ -4,14 +4,15 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.ViewPageAdapter;
 import com.tomcat360.lyqb.fragment.ImportKeystoreFragment;
 import com.tomcat360.lyqb.fragment.ImportMnemonicFragment;
 import com.tomcat360.lyqb.fragment.ImportPrivateKeyFragment;
-import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.fragment.WalletAllFragment;
 import com.tomcat360.lyqb.views.TitleView;
 
 import java.util.ArrayList;
@@ -20,21 +21,28 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ImportWalletActivity extends BaseActivity {
+public class WalletDetailActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
+    @BindView(R.id.wallet_money)
+    TextView walletMoney;
+    @BindView(R.id.wallet_dollar)
+    TextView walletDollar;
+    @BindView(R.id.wallet_qrcode)
+    ImageView walletQrcode;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
     private List<Fragment> mFragments;
-    private String[] mTitles = {"Mnemonic","Keystore","Private Key"};
+    private String[] mTitles = {"All","Receive","Send","Fail"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_import_wallet);
+        setContentView(R.layout.activity_wallet_detail);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
@@ -42,14 +50,8 @@ public class ImportWalletActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-        title.setBTitle("Import Wallet");
+        title.setBTitle("LRC");
         title.clickLeftGoBack(getWContext());
-        title.setRightImageButton(R.mipmap.icon_trade_active, new TitleView.OnRightButtonClickListener() {
-            @Override
-            public void onClick(View button) {
-                ToastUtils.toast("扫一扫");
-            }
-        });
     }
 
     @Override
@@ -59,11 +61,11 @@ public class ImportWalletActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
         mFragments = new ArrayList<>();
-        mFragments.add(new ImportMnemonicFragment());
-        mFragments.add(new ImportKeystoreFragment());
-        mFragments.add(new ImportPrivateKeyFragment());
+        mFragments.add(new WalletAllFragment());
+        mFragments.add(new WalletAllFragment());
+        mFragments.add(new WalletAllFragment());
+        mFragments.add(new WalletAllFragment());
 
         viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), mFragments, mTitles));
 

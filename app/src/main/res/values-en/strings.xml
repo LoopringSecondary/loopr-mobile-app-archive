@@ -26,7 +26,15 @@
     <string name="private_key_hint">Please input your private key</string>
     <string name="unlock">Unlock</string>
     <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>
-
+    <string name="scan">Scan</string>
+    <string name="receive">Receive</string>
+    <string name="send">Send</string>
+    <string name="trade">Trade</string>
+    <string name="copy">Copy Address</string>
+    <string name="save">Save to Album</string>
+    <string name="add_assets">Add Assets</string>
+    <string name="wallet">Wallet</string>
+    <string name="transaction">Transaction</string>
 
 
 

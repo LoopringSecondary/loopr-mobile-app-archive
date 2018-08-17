@@ -158,13 +158,13 @@ public class GenerateWalletActivity extends BaseActivity {
 
 
         recyclerMnemonicHint.setLayoutManager(layoutManagerHint);  //助记词提示列表
-        mHintAdapter = new MnemonicWordHintAdapter(R.layout.adapter_mnemonic_word_hint, null);
+        mHintAdapter = new MnemonicWordHintAdapter(R.layout.adapter_item_mnemonic_word_hint, null);
         recyclerMnemonicHint.addItemDecoration(new SpacesItemDecoration(8));
         recyclerMnemonicHint.setAdapter(mHintAdapter);
 
 
         recyclerView.setLayoutManager(layoutManager);   //助记词选择列表
-        mAdapter = new MnemonicWordAdapter(R.layout.adapter_mnemonic_word, null);
+        mAdapter = new MnemonicWordAdapter(R.layout.adapter_item_mnemonic_word, null);
         recyclerView.addItemDecoration(new SpacesItemDecoration(8));
         recyclerView.setAdapter(mAdapter);
         final Joiner joiner = Joiner.on(" ");

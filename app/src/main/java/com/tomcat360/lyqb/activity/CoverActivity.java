@@ -50,7 +50,7 @@ public class CoverActivity extends BaseActivity {
         super.onResume();
     }
 
-    @OnClick({R.id.rl_import, R.id.rl_generate})
+    @OnClick({R.id.rl_import, R.id.rl_generate, R.id.icon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_import:
@@ -58,6 +58,9 @@ public class CoverActivity extends BaseActivity {
                 break;
             case R.id.rl_generate:
                 getOperation().forward(GenerateWalletActivity.class);
+                break;
+            case R.id.icon:
+                getOperation().forward(MainActivity.class);
                 break;
         }
     }
