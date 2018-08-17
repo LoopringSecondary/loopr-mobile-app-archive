@@ -2,6 +2,7 @@ package com.tomcat360.lyqb.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+import com.tomcat360.lyqb.core.exception.InvalidKeystoreException;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 
 import org.bitcoinj.crypto.ChildNumber;
@@ -40,19 +41,18 @@ public class WalletHelper {
     public static Bip39Wallet createWallet(String mnemonic, String dpath, String password, File dest) throws CipherException, IOException {
         // validate inputs.
         Assert.validateMnemonic(mnemonic);
-        Assert.hasText(password, "password can not be null");
+//        Assert.hasText(password, "password can not be null");
         Assert.checkDirectory(dest);
 
         if (dpath == null) {
             dpath = DEFAULT_DPATH;
         }
 
-        byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
+        byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
         List<ChildNumber> childNumberList = HDUtils.parsePath(dpath.replaceAll("\'", "H").toUpperCase());
         DeterministicKey rootKey = HDKeyDerivation.createMasterPrivateKey(seed);
         DeterministicHierarchy hdKey = new DeterministicHierarchy(rootKey);
-        DeterministicKey destKey = hdKey.deriveChild(childNumberList, true, true, new ChildNumber(1));
-
+        DeterministicKey destKey = hdKey.deriveChild(childNumberList, true, true, new ChildNumber(0));
         ECKeyPair ecKeyPair = ECKeyPair.create(destKey.getPrivKey());
 
         String walletFileName = WalletUtils.generateWalletFile(password, ecKeyPair, dest, false);
@@ -61,35 +61,38 @@ public class WalletHelper {
         return bip39Wallet;
     }
 
-    public static Bip39Wallet importFromMnemonic(String mnemonic, String dpath, String password, File dest) throws Exception {
+    public static Bip39Wallet importFromMnemonic(String mnemonic, String dpath, String password, File dest, int childNumber) throws CipherException, IOException {
         // validate inputs.
         Assert.hasText(mnemonic, "illegal mnemonic");
         Assert.hasText(password, "password can not be null");
         Assert.checkDirectory(dest);
 
-        if (dpath != null && dpath.trim().length() == 0) {
-            dpath = null;
+        if (dpath == null) {
+            dpath = DEFAULT_DPATH;
         }
-        return createWallet(mnemonic, dpath, password, dest);
+
+        byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
+        List<ChildNumber> childNumberList = HDUtils.parsePath(dpath.replaceAll("\'", "H").toUpperCase());
+        DeterministicKey rootKey = HDKeyDerivation.createMasterPrivateKey(seed);
+        DeterministicHierarchy hdKey = new DeterministicHierarchy(rootKey);
+        DeterministicKey destKey = hdKey.deriveChild(childNumberList, true, true, new ChildNumber(childNumber));
+        ECKeyPair ecKeyPair = ECKeyPair.create(destKey.getPrivKey());
+        String walletFileName = WalletUtils.generateWalletFile(password, ecKeyPair, dest, false);
+        Bip39Wallet bip39Wallet = new Bip39Wallet(walletFileName, mnemonic);
+        LyqbLogger.debug("wallet created! " + bip39Wallet.toString());
+        return bip39Wallet;
     }
 
     public static String importFromKeystore(String keystoreJson, String oldPassword, String newPassword, File dest) {
-        Assert.hasText(keystoreJson, "empty keystore");
-
-
-        WalletFile walletFile;
-        try {
-            walletFile = mapper.readValue(keystoreJson, WalletFile.class);
-        } catch (IOException e) {
-            throw new RuntimeException("invalid keystore");
-        }
+        Assert.hasText(keystoreJson, "empty keystore!");
+        Assert.checkDirectory(dest);
 
         ECKeyPair ecKeyPair;
         try {
-            ecKeyPair = Wallet.decrypt(oldPassword, walletFile);
-        } catch (CipherException e) {
-            e.printStackTrace();
-            throw new RuntimeException("wrong password");
+            Credentials credentials = unlock(oldPassword, keystoreJson);
+            ecKeyPair = credentials.getEcKeyPair();
+        } catch (Exception e) {
+            throw new RuntimeException("unlock wallet failure!", e);
         }
 
         String walletFileName = "";
@@ -110,6 +113,8 @@ public class WalletHelper {
     public static String importFromPrivateKey(String privateKey, String newPassword, File dest) {
 
         Assert.hasText(privateKey, "private key can not be null");
+        Assert.checkDirectory(dest);
+
         if (!WalletUtils.isValidPrivateKey(privateKey)) {
             throw new RuntimeException("illegal private key");
         }
@@ -129,12 +134,20 @@ public class WalletHelper {
         return walletFileName;
     }
 
-    public static Credentials unlock(String password, File keystore) throws Exception {
-        if (password == null || "".equals(password.trim())) {
-            throw new Exception("password can not be null");
+    public static Credentials unlock(String password, File keystore) throws IOException, CipherException {
+        Assert.hasText(password, "password can not be null");
+        return WalletUtils.loadCredentials(password, keystore);
+    }
+
+    public static Credentials unlock(String password, String keystoreJson) throws InvalidKeystoreException, CipherException {
+        Assert.hasText(password, "password can not be null");
+        WalletFile walletFile;
+        try {
+            walletFile = mapper.readValue(keystoreJson, WalletFile.class);
+        } catch (IOException e) {
+            throw new InvalidKeystoreException();
         }
-        Credentials credentials = WalletUtils.loadCredentials(password, keystore);
-        LyqbLogger.debug("wallet unlocked! " + credentials.toString());
-        return credentials;
+        ECKeyPair ecKeyPair = Wallet.decrypt(password, walletFile);
+        return Credentials.create(ecKeyPair);
     }
 }

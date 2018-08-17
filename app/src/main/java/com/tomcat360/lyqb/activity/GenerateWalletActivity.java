@@ -94,12 +94,11 @@ public class GenerateWalletActivity extends BaseActivity {
     private MnemonicWordAdapter mAdapter;  //助记词选择adapter
     List<String> mneCheckedList = new LinkedList<>();//选中的助记词
 
-    private String mnemonic ;  //助记词
+    private String mnemonic;  //助记词
     List<String> listMnemonic = new ArrayList<>();  //正确顺序的助记词列表
     List<String> listRandomMnemonic = new ArrayList<>();  //打乱顺序的助记词列表
     private String nextStatus = "start"; //点击next时根据不同状态显示不同页面
     private String confirmStatus = "one";//点击confirm时根据不同状态显示不同页面
-
 
 
     public final static int MNEMONIC_SUCCESS = 1;
@@ -168,6 +167,7 @@ public class GenerateWalletActivity extends BaseActivity {
         mAdapter = new MnemonicWordAdapter(R.layout.adapter_mnemonic_word, null);
         recyclerView.addItemDecoration(new SpacesItemDecoration(8));
         recyclerView.setAdapter(mAdapter);
+        final Joiner joiner = Joiner.on(" ");
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -176,11 +176,11 @@ public class GenerateWalletActivity extends BaseActivity {
                 if (checkBox.isChecked()) {
                     checkBox.setChecked(false);
                     mneCheckedList.remove(listRandomMnemonic.get(position));
-                    confirmMnemonicWordInfo.setText(Joiner.on(" ").join(mneCheckedList));
+                    confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
                 } else {
                     checkBox.setChecked(true);
                     mneCheckedList.add(listRandomMnemonic.get(position));
-                    confirmMnemonicWordInfo.setText(Joiner.on(" ").join(mneCheckedList));
+                    confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
                 }
             }
         });
@@ -262,29 +262,27 @@ public class GenerateWalletActivity extends BaseActivity {
                     startThread();
                 }
                 break;
-
-
         }
     }
 
     /**
      * 生成钱包
      */
-    private void startThread(){
-            showProgress("加载中...");
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Bip39Wallet mnemonic = createWallet();//生成助记词
-                    Message msg = new Message();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("filename", mnemonic.getFilename());
-                    bundle.putString("mnemonic", mnemonic.getMnemonic());
-                    msg.setData(bundle);
-                    msg.what = MNEMONIC_SUCCESS;
-                    handlerCreate.sendMessage(msg);
-                }
-            }).start();
+    private void startThread() {
+        showProgress("加载中...");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Bip39Wallet mnemonic = createWallet();//生成助记词
+                Message msg = new Message();
+                Bundle bundle = new Bundle();
+                bundle.putString("filename", mnemonic.getFilename());
+                bundle.putString("mnemonic", mnemonic.getMnemonic());
+                msg.setData(bundle);
+                msg.what = MNEMONIC_SUCCESS;
+                handlerCreate.sendMessage(msg);
+            }
+        }).start();
     }
 
     /**
@@ -292,7 +290,7 @@ public class GenerateWalletActivity extends BaseActivity {
      */
     private void matchMnemonic() {
         String str = Joiner.on(" ").join(mneCheckedList);
-        if(str.trim().equals(mnemonic)){
+        if (str.trim().equals(mnemonic)) {
             startThread();
         } else {
             ToastUtils.toast("助记词不匹配");
@@ -302,7 +300,7 @@ public class GenerateWalletActivity extends BaseActivity {
     /**
      * 判断两个集合是否相等
      */
-    public   boolean compare(List<String> a, List<String> b) {
+    public boolean compare(List<String> a, List<String> b) {
         if (a.size() != b.size())
             return false;
         Collections.sort(a);
@@ -314,14 +312,14 @@ public class GenerateWalletActivity extends BaseActivity {
         return true;
     }
 
-        /**
-         * 创建钱包
-         * */
+    /**
+     * 创建钱包
+     */
     private Bip39Wallet createWallet() {
         Bip39Wallet bip39Wallet = null;
         try {
             String pas = repeatPassword.getText().toString();
-            bip39Wallet = WalletHelper.createWallet(mnemonic,null,pas, FileUtils.getKeyStoreLocation());
+            bip39Wallet = WalletHelper.createWallet(mnemonic, null, pas, FileUtils.getKeyStoreLocation());
         } catch (Exception e) {
             e.printStackTrace();
         }
