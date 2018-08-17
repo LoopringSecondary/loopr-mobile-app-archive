@@ -69,4 +69,8 @@ dependencies {
     // bitcoinj
     implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
     implementation 'com.android.support:design:26.1.0'
+
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    compile group: 'com.google.guava', name: 'guava', version: '26.0-android'
+
 }
