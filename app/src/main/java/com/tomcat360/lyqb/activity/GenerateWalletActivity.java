@@ -1,37 +1,43 @@
 package com.tomcat360.lyqb.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.common.base.Joiner;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
 import com.tomcat360.lyqb.adapter.MnemonicWordHintAdapter;
 import com.tomcat360.lyqb.core.WalletHelper;
+import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
+import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.utils.MyViewUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.SpacesItemDecoration;
 import com.tomcat360.lyqb.views.TitleView;
 
 import org.web3j.crypto.Bip39Wallet;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -84,8 +90,47 @@ public class GenerateWalletActivity extends BaseActivity {
     Button btnSkip;
 
 
-    private MnemonicWordAdapter mAdapter;
-    private MnemonicWordHintAdapter mHintAdapter;
+    private MnemonicWordHintAdapter mHintAdapter; //助记词提示adapter
+    private MnemonicWordAdapter mAdapter;  //助记词选择adapter
+    List<String> mneCheckedList = new LinkedList<>();//选中的助记词
+
+    private String mnemonic ;  //助记词
+    List<String> listMnemonic = new ArrayList<>();  //正确顺序的助记词列表
+    List<String> listRandomMnemonic = new ArrayList<>();  //打乱顺序的助记词列表
+    private String nextStatus = "start"; //点击next时根据不同状态显示不同页面
+    private String confirmStatus = "one";//点击confirm时根据不同状态显示不同页面
+
+
+
+    public final static int MNEMONIC_SUCCESS = 1;
+    @SuppressLint("HandlerLeak")
+    Handler handlerCreate = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MNEMONIC_SUCCESS:
+                    hideProgress();
+                    Bundle bundle = msg.getData();
+                    String filename = (String) bundle.get("filename");
+                    String mnemonic = (String) bundle.get("mnemonic");
+                    DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            DialogUtil.dialog.dismiss();
+                            finish();
+                            getOperation().forward(MainActivity.class);
+                        }
+                    });
+                    break;
+                case 2:
+                    break;
+                default:
+
+                    break;
+            }
+        }
+    };
 
 
     @Override
@@ -94,8 +139,6 @@ public class GenerateWalletActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         initPermissions();
-        getFile();
-
     }
 
     @Override
@@ -116,27 +159,34 @@ public class GenerateWalletActivity extends BaseActivity {
 
 
         recyclerMnemonicHint.setLayoutManager(layoutManagerHint);  //助记词提示列表
-        List<String> listHint = new ArrayList<>();
-        for (int i = 1; i < 13; i++) {
-            listHint.add("mnemonic" + i);
-        }
-        mHintAdapter = new MnemonicWordHintAdapter(R.layout.adapter_mnemonic_word_hint, listHint);
+        mHintAdapter = new MnemonicWordHintAdapter(R.layout.adapter_mnemonic_word_hint, null);
         recyclerMnemonicHint.addItemDecoration(new SpacesItemDecoration(8));
         recyclerMnemonicHint.setAdapter(mHintAdapter);
 
 
         recyclerView.setLayoutManager(layoutManager);   //助记词选择列表
-        List<String> list = new ArrayList<>();
-        for (int i = 1; i < 13; i++) {
-            list.add("mnemonic" + i);
-        }
-        mAdapter = new MnemonicWordAdapter(R.layout.adapter_mnemonic_word, list);
+        mAdapter = new MnemonicWordAdapter(R.layout.adapter_mnemonic_word, null);
         recyclerView.addItemDecoration(new SpacesItemDecoration(8));
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                //选择助记词，进行验证
+                CheckBox checkBox = view.findViewById(R.id.mnemonic_word);
+                if (checkBox.isChecked()) {
+                    checkBox.setChecked(false);
+                    mneCheckedList.remove(listRandomMnemonic.get(position));
+                    confirmMnemonicWordInfo.setText(Joiner.on(" ").join(mneCheckedList));
+                } else {
+                    checkBox.setChecked(true);
+                    mneCheckedList.add(listRandomMnemonic.get(position));
+                    confirmMnemonicWordInfo.setText(Joiner.on(" ").join(mneCheckedList));
+                }
+            }
+        });
+
     }
 
-    private String nextStatus = "start";
-    private int j = 0;
 
     @OnClick({R.id.wallet_name, R.id.btn_next, R.id.btn_confirm, R.id.btn_skip})
     public void onViewClicked(View view) {
@@ -148,11 +198,11 @@ public class GenerateWalletActivity extends BaseActivity {
             case R.id.btn_next:
 
                 if (nextStatus.equals("start")) {
-                    nextStatus = "pasworrd";
+                    nextStatus = "password";
                     walletName.setVisibility(View.GONE);
                     llPassword.setVisibility(View.VISIBLE);
                     password.setVisibility(View.VISIBLE);
-                } else if (nextStatus.equals("pasworrd")) {
+                } else if (nextStatus.equals("password")) {
                     if (password.length() < 6) {
                         ToastUtils.toast("请输入6位以上密码");
                     } else {
@@ -163,72 +213,119 @@ public class GenerateWalletActivity extends BaseActivity {
                     }
                 } else if (nextStatus.equals("match")) {
                     if (repeatPassword.getText().toString().equals(password.getText().toString())) {
-//                            generatePartone.setVisibility(View.GONE);
-//                            generateParttwo.setVisibility(View.VISIBLE);
-                        ToastUtils.toast("成功");
-                        createWallet();
+
+                        if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
+                            mnemonic = WalletHelper.generateMnemonic();
+                            String[] arrayMne = mnemonic.split(" ");
+
+                            listMnemonic.clear();
+                            for (int i = 0; i < arrayMne.length; i++) {
+                                listMnemonic.add(arrayMne[i]);
+                                listRandomMnemonic.add(arrayMne[i]);
+                            }
+                            mHintAdapter.setNewData(listMnemonic);
+                            mHintAdapter.notifyDataSetChanged();
+
+                            generatePartone.setVisibility(View.GONE);
+                            generateParttwo.setVisibility(View.VISIBLE);
+                            passwordMatch.setVisibility(View.VISIBLE);
+                            MyViewUtils.hideSoftInput(this, repeatPassword);
+                        }
                     } else {
                         ToastUtils.toast("两次输入密码不一样");
+                        passwordMatch.setVisibility(View.VISIBLE);
+                        MyViewUtils.hideSoftInput(this, repeatPassword);
                     }
                 }
                 break;
             case R.id.btn_confirm:
-                ++j;
-                if (j == 1) {
-                    rlMnemonic.setVisibility(View.GONE);
-                    rlWord.setVisibility(View.GONE);
-                    generatePartthree.setVisibility(View.VISIBLE);
-                } else {
-                    DialogUtil.showWalletCreateResultDialog(this, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            DialogUtil.dialog.dismiss();
-                            finish();
-                            getOperation().forward(MainActivity.class);
-                        }
-                    });
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
+
+                    if (confirmStatus.equals("one")) {
+                        confirmStatus = "two";
+                        rlMnemonic.setVisibility(View.GONE);
+                        rlWord.setVisibility(View.GONE);
+                        generatePartthree.setVisibility(View.VISIBLE);
+                        LyqbLogger.log(listMnemonic.toString());
+
+                        Collections.shuffle(listRandomMnemonic); //打乱助记词
+                        mAdapter.setNewData(listRandomMnemonic);
+                        mAdapter.notifyDataSetChanged();
+                    } else {
+                        matchMnemonic();
+
+                    }
                 }
                 break;
             case R.id.btn_skip:
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
+                    startThread();
+                }
                 break;
 
 
         }
     }
 
-    private void createWallet() {
-        try {
-            String pas = repeatPassword.getText().toString();
-            LyqbLogger.log(pas+"     ");
-            Bip39Wallet bip39Wallet = WalletHelper.create(pas, getFile());
-            LyqbLogger.log(pas+"     "+bip39Wallet.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
+    /**
+     * 生成钱包
+     */
+    private void startThread(){
+            showProgress("加载中...");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Bip39Wallet mnemonic = createWallet();//生成助记词
+                    Message msg = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("filename", mnemonic.getFilename());
+                    bundle.putString("mnemonic", mnemonic.getMnemonic());
+                    msg.setData(bundle);
+                    msg.what = MNEMONIC_SUCCESS;
+                    handlerCreate.sendMessage(msg);
+                }
+            }).start();
+    }
+
+    /**
+     * 助记词匹配
+     */
+    private void matchMnemonic() {
+        String str = Joiner.on(" ").join(mneCheckedList);
+        if(str.trim().equals(mnemonic)){
+            startThread();
+        } else {
+            ToastUtils.toast("助记词不匹配");
         }
     }
 
+    /**
+     * 判断两个集合是否相等
+     */
+    public   boolean compare(List<String> a, List<String> b) {
+        if (a.size() != b.size())
+            return false;
+        Collections.sort(a);
+        Collections.sort(b);
+        for (int i = 0; i < a.size(); i++) {
+            if (!a.get(i).equals(b.get(i)))
+                return false;
+        }
+        return true;
+    }
 
-    private File getFile() {
-//在SD卡下建目录
-        String dir = Environment.getExternalStorageDirectory().getPath() + "/mnoe";
-        LyqbLogger.log(dir);
-        File mFile = new File(dir);
-        LyqbLogger.log(String.valueOf(mFile.exists()));
-        LyqbLogger.log(String.valueOf(mFile.isDirectory()));
-
-        if (!mFile.exists())
-            mFile.mkdirs();
-//        File mFile = new File("/mnt/sdcard/work/mywork");
-////判断文件夹是否存在，如果不存在就创建，否则不创建
-//        if (!mFile.exists()) {
-//            //通过file的mkdirs()方法创建目录中包含却不存在的文件夹
-//            mFile.mkdirs();
-////        }
-
-
-        LyqbLogger.log(String.valueOf(mFile.exists()));
-        LyqbLogger.log(String.valueOf(mFile.isDirectory()));
-        return mFile;
+        /**
+         * 创建钱包
+         * */
+    private Bip39Wallet createWallet() {
+        Bip39Wallet bip39Wallet = null;
+        try {
+            String pas = repeatPassword.getText().toString();
+            bip39Wallet = WalletHelper.createWallet(mnemonic,null,pas, FileUtils.getKeyStoreLocation());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bip39Wallet;
     }
 
 
@@ -271,5 +368,6 @@ public class GenerateWalletActivity extends BaseActivity {
 
 
     }
+
 
 }

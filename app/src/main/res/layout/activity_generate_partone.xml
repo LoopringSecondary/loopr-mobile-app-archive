@@ -120,6 +120,7 @@
         android:textColor="@color/colorWhite" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/password_match"
         style="@style/WrapWrap"
         android:layout_gravity="center_horizontal"

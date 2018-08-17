@@ -25,6 +25,7 @@
     <string name="keystore_hint">Please imput keystore</string>
     <string name="private_key_hint">Please input your private key</string>
     <string name="unlock">Unlock</string>
+    <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>
 
 
 

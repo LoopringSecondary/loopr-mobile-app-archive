@@ -6,6 +6,7 @@
     android:background="@drawable/radius_bg"
     >
     <CheckBox
+        android:clickable="false"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/mnemonic_word"

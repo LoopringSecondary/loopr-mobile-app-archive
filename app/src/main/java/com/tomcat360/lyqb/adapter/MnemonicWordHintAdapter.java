@@ -19,7 +19,7 @@ public class MnemonicWordHintAdapter extends BaseQuickAdapter<String, BaseViewHo
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-        helper.setText(R.id.mnemonic_word, item);
+        helper.setText(R.id.mnemonic_word, Integer.valueOf(helper.getPosition())+1+"."+item);
 
     }
 }

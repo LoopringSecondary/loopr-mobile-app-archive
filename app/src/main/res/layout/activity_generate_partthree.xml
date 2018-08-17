@@ -30,7 +30,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="negative      spin      title      hat    original     chair "
+            android:text=""
             android:textColor="@color/colorWhite"
             android:lineSpacingExtra="9dp"
             android:textSize="@dimen/normalText" />

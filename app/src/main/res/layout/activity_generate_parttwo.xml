@@ -78,7 +78,7 @@
 
         <Button
             android:id="@+id/btn_skip"
-            style="@style/SubmitBtnStyle"
+            style="@style/CancelBtnStyle"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_gravity="bottom"

@@ -2,6 +2,7 @@ package com.tomcat360.lyqb.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -145,7 +146,8 @@ public abstract class BaseActivity extends SwipeBackActivity {
 		}
 	}
 
-	private AlertDialog progressDialog;
+//	private AlertDialog progressDialog;
+	private ProgressDialog progressDialog;
 	public void showProgress(int messageResId) {
 		showProgress(getString(messageResId));
 	}
@@ -155,16 +157,16 @@ public abstract class BaseActivity extends SwipeBackActivity {
 	public void showProgress(String message, boolean cancelable) {
 		try {
 			if (progressDialog == null) {
-//				progressDialog = new ProgressDialog(this);
-//				progressDialog.setMessage(message);
-//				progressDialog.setCancelable(cancelable);
-//				progressDialog.show();
-				final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this,R.style.MyDialog);
-				View view= LayoutInflater.from(this).inflate(R.layout.progress_lottle,null);
-				builder.setView(view);
-				builder.setCancelable(false);
-				progressDialog = builder.create();
+				progressDialog = new ProgressDialog(this);
+				progressDialog.setMessage(message);
+				progressDialog.setCancelable(cancelable);
 				progressDialog.show();
+//				final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this,R.style.MyDialog);
+//				View view= LayoutInflater.from(this).inflate(R.layout.progress_lottle,null);
+//				builder.setView(view);
+//				builder.setCancelable(false);
+//				progressDialog = builder.create();
+//				progressDialog.show();
 			}
 			else {
 //				progressDialog.setMessage(message);
