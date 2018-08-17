@@ -21,6 +21,8 @@ import org.web3j.crypto.WalletUtils;
 import java.io.File;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class WalletHelper {
@@ -29,7 +31,7 @@ public class WalletHelper {
 
     private static final String DEFAULT_DPATH = "m/44'/60'/0'/0";
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static String generateMnemonic() {
         // generate mnemonic words.
@@ -83,31 +85,55 @@ public class WalletHelper {
         return bip39Wallet;
     }
 
-    public static String importFromKeystore(String keystoreJson, String oldPassword, String newPassword, File dest) {
+//    public static String importFromKeystore(String keystoreJson, String oldPassword, String newPassword, File dest) {
+//        Assert.hasText(keystoreJson, "empty keystore!");
+//        Assert.checkDirectory(dest);
+//
+//        ECKeyPair ecKeyPair;
+//        try {
+//            Credentials credentials = unlock(oldPassword, keystoreJson);
+//            ecKeyPair = credentials.getEcKeyPair();
+//        } catch (Exception e) {
+//            throw new RuntimeException("unlock wallet failure!", e);
+//        }
+//
+//        String walletFileName = "";
+//        try {
+//            if (Strings.isNullOrEmpty(newPassword)) {
+//                walletFileName = WalletUtils.generateWalletFile(oldPassword, ecKeyPair, dest, false);
+//            } else {
+//                walletFileName = WalletUtils.generateWalletFile(newPassword, ecKeyPair, dest, false);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            LyqbLogger.log("wallet create failure!");
+//        }
+//
+//        return walletFileName;
+//    }
+
+    public static String importFromKeystore(String keystoreJson, String password, File dest) {
         Assert.hasText(keystoreJson, "empty keystore!");
         Assert.checkDirectory(dest);
 
-        ECKeyPair ecKeyPair;
+        WalletDetails walletDetails;
         try {
-            Credentials credentials = unlock(oldPassword, keystoreJson);
-            ecKeyPair = credentials.getEcKeyPair();
+            walletDetails = unlock(password, keystoreJson);
         } catch (Exception e) {
             throw new RuntimeException("unlock wallet failure!", e);
         }
 
-        String walletFileName = "";
-        try {
-            if (Strings.isNullOrEmpty(newPassword)) {
-                walletFileName = WalletUtils.generateWalletFile(oldPassword, ecKeyPair, dest, false);
-            } else {
-                walletFileName = WalletUtils.generateWalletFile(newPassword, ecKeyPair, dest, false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            LyqbLogger.log("wallet create failure!");
-        }
+        WalletFile walletFile = walletDetails.getWalletFile();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("'UTC--'yyyy-MM-dd'T'HH-mm-ss.SSS'--'");
+        String fileName = dateFormat.format(new Date()) + walletFile.getAddress() + ".json";
 
-        return walletFileName;
+        File destination = new File(dest, fileName);
+        try {
+            objectMapper.writeValue(destination, walletFile);
+        } catch (IOException e) {
+            throw new RuntimeException("save keystore file failure!", e);
+        }
+        return fileName;
     }
 
     public static String importFromPrivateKey(String privateKey, String newPassword, File dest) {
@@ -139,15 +165,16 @@ public class WalletHelper {
         return WalletUtils.loadCredentials(password, keystore);
     }
 
-    public static Credentials unlock(String password, String keystoreJson) throws InvalidKeystoreException, CipherException {
+    public static WalletDetails unlock(String password, String keystoreJson) throws InvalidKeystoreException, CipherException {
         Assert.hasText(password, "password can not be null");
         WalletFile walletFile;
         try {
-            walletFile = mapper.readValue(keystoreJson, WalletFile.class);
+            walletFile = objectMapper.readValue(keystoreJson, WalletFile.class);
         } catch (IOException e) {
             throw new InvalidKeystoreException();
         }
         ECKeyPair ecKeyPair = Wallet.decrypt(password, walletFile);
-        return Credentials.create(ecKeyPair);
+
+        return new WalletDetails(walletFile, Credentials.create(ecKeyPair));
     }
 }
