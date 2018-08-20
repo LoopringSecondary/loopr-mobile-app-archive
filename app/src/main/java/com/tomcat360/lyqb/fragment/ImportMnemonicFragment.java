@@ -19,6 +19,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.core.WalletHelper;
+import com.tomcat360.lyqb.core.exception.KeystoreSaveException;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
@@ -186,9 +187,8 @@ public class ImportMnemonicFragment extends BaseFragment {
                     msg.setData(bundle);
                     msg.what = MNEMONIC_SUCCESS;
                     handlerCreate.sendMessage(msg);
-                } catch (CipherException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                }  catch (KeystoreSaveException e) {
+                    ToastUtils.toast("钱包创建失败");
                     e.printStackTrace();
                 }
 

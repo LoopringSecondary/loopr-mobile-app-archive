@@ -17,6 +17,9 @@ import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.GenerateWalletActivity;
 import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.core.WalletHelper;
+import com.tomcat360.lyqb.core.exception.IllegalCredentialException;
+import com.tomcat360.lyqb.core.exception.InvalidKeystoreException;
+import com.tomcat360.lyqb.core.exception.KeystoreSaveException;
 import com.tomcat360.lyqb.utils.AppManager;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
@@ -137,14 +140,27 @@ public class ImportKeystoreFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String fileName = WalletHelper.importFromKeystore(etKeystore.getText().toString(),etPassword.getText().toString(), FileUtils.getKeyStoreLocation());
-                Message msg = new Message();
-                Bundle bundle = new Bundle();
-                bundle.putString("filename", fileName);
-                LyqbLogger.log(fileName);
-                msg.setData(bundle);
-                msg.what = MNEMONIC_SUCCESS;
-                handlerCreate.sendMessage(msg);
+                String fileName = null;
+                try {
+                    fileName = WalletHelper.importFromKeystore(etKeystore.getText().toString(),etPassword.getText().toString(), FileUtils.getKeyStoreLocation());
+                    Message msg = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("filename", fileName);
+                    LyqbLogger.log(fileName);
+                    msg.setData(bundle);
+                    msg.what = MNEMONIC_SUCCESS;
+                    handlerCreate.sendMessage(msg);
+                } catch (KeystoreSaveException e) {
+                    ToastUtils.toast("钱包创建失败");
+                    e.printStackTrace();
+                } catch (InvalidKeystoreException e) {
+                    ToastUtils.toast("私钥错误");
+                    e.printStackTrace();
+                } catch (IllegalCredentialException e) {
+                    ToastUtils.toast("身份验证失败");
+                    e.printStackTrace();
+                }
+
             }
         }).start();
     }

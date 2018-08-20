@@ -16,6 +16,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.core.WalletHelper;
+import com.tomcat360.lyqb.core.exception.InvalidPrivateKeyException;
+import com.tomcat360.lyqb.core.exception.KeystoreSaveException;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
@@ -147,14 +149,24 @@ public class ImportPrivateKeyFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String fileName = WalletHelper.importFromPrivateKey(etPrivateKey.getText().toString(),etPassword.getText().toString(), FileUtils.getKeyStoreLocation());
-                Message msg = new Message();
-                Bundle bundle = new Bundle();
-                bundle.putString("filename", fileName);
-                LyqbLogger.log(fileName);
-                msg.setData(bundle);
-                msg.what = MNEMONIC_SUCCESS;
-                handlerCreate.sendMessage(msg);
+                String fileName = null;
+                try {
+                    fileName = WalletHelper.importFromPrivateKey(etPrivateKey.getText().toString(),etPassword.getText().toString(), FileUtils.getKeyStoreLocation());
+                    Message msg = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("filename", fileName);
+                    LyqbLogger.log(fileName);
+                    msg.setData(bundle);
+                    msg.what = MNEMONIC_SUCCESS;
+                    handlerCreate.sendMessage(msg);
+                } catch (InvalidPrivateKeyException e) {
+                    ToastUtils.toast("私钥错误");
+                    e.printStackTrace();
+                } catch (KeystoreSaveException e) {
+                    ToastUtils.toast("钱包创建失败");
+                    e.printStackTrace();
+                }
+
             }
         }).start();
     }
