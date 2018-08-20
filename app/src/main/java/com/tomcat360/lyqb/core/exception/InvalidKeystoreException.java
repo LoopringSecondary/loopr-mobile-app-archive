@@ -1,8 +1,8 @@
 package com.tomcat360.lyqb.core.exception;
 
-public class InvalidKeystoreException extends Exception {
+public class InvalidKeystoreException extends RuntimeException {
 
     public InvalidKeystoreException() {
-        super("invalid keystore, check input keystore json string!");
+        super("invalid keystore, check the json format!");
     }
 }

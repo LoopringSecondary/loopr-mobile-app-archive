@@ -1,8 +1,9 @@
 package com.tomcat360.lyqb.core;
 
+import android.annotation.SuppressLint;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-import com.tomcat360.lyqb.core.exception.InvalidKeystoreException;
+import com.tomcat360.lyqb.core.exception.InvalidPrivateKeyException;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 
 import org.bitcoinj.crypto.ChildNumber;
@@ -85,18 +86,24 @@ public class WalletHelper {
         return bip39Wallet;
     }
 
+    @SuppressLint("SimpleDateFormat")
     public static String importFromKeystore(String keystoreJson, String password, File dest) {
         Assert.hasText(keystoreJson, "empty keystore!");
         Assert.checkDirectory(dest);
 
-        WalletDetails walletDetails;
+        WalletFile walletFile;
         try {
-            walletDetails = unlock(password, keystoreJson);
-        } catch (Exception e) {
-            throw new RuntimeException("unlock wallet failure!", e);
+            walletFile = objectMapper.readValue(keystoreJson, WalletFile.class);
+        } catch (IOException e) {
+            throw new RuntimeException("invalid keystore, check input keystore json string!");
         }
 
-        WalletFile walletFile = walletDetails.getWalletFile();
+        try {
+            Credentials credentials = unlock(password, walletFile);
+        } catch (CipherException e) {
+            throw new RuntimeException("unable to unlock wallet!");
+        }
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("'UTC--'yyyy-MM-dd'T'HH-mm-ss.SSS'--'");
         String fileName = dateFormat.format(new Date()) + walletFile.getAddress() + ".json";
 
@@ -104,7 +111,7 @@ public class WalletHelper {
         try {
             objectMapper.writeValue(destination, walletFile);
         } catch (IOException e) {
-            throw new RuntimeException("save keystore file failure!", e);
+            throw new RuntimeException("unable to save keystore file!", e);
         }
         return fileName;
     }
@@ -112,17 +119,14 @@ public class WalletHelper {
     public static String importFromPrivateKey(String privateKey, String newPassword, File dest) {
 
         Assert.hasText(privateKey, "private key can not be null");
+        Assert.hasText(newPassword, "new password can not be null");
         Assert.checkDirectory(dest);
 
         if (!WalletUtils.isValidPrivateKey(privateKey)) {
-            throw new RuntimeException("illegal private key");
-        }
-        if (Strings.isNullOrEmpty(newPassword)) {
-            newPassword = "";
+            throw new InvalidPrivateKeyException();
         }
 
         Credentials credentials = Credentials.create(privateKey);
-
         String walletFileName = "";
         try {
             walletFileName = WalletUtils.generateWalletFile(newPassword, credentials.getEcKeyPair(), dest, false);
@@ -133,25 +137,11 @@ public class WalletHelper {
         return walletFileName;
     }
 
-    public static WalletDetails unlock(String password, File keystore) throws IOException, CipherException {
+    public static Credentials unlock(String password, WalletFile walletFile) throws CipherException {
         Assert.hasText(password, "password can not be null");
+        Assert.notNull(walletFile, "walletFile can not be null");
 
-        WalletFile walletFile = objectMapper.readValue(keystore, WalletFile.class);
-        Credentials credentials = Credentials.create(Wallet.decrypt(password, walletFile));
-        return new WalletDetails(walletFile, credentials);
-    }
-
-    public static WalletDetails unlock(String password, String keystoreJson) throws InvalidKeystoreException, CipherException {
-        Assert.hasText(password, "password can not be null");
-
-        WalletFile walletFile;
-        try {
-            walletFile = objectMapper.readValue(keystoreJson, WalletFile.class);
-        } catch (IOException e) {
-            throw new InvalidKeystoreException();
-        }
         ECKeyPair ecKeyPair = Wallet.decrypt(password, walletFile);
-
-        return new WalletDetails(walletFile, Credentials.create(ecKeyPair));
+        return Credentials.create(ecKeyPair);
     }
 }

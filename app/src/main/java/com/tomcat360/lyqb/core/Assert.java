@@ -12,35 +12,41 @@ public class Assert {
 
     public static void hasText(String str, String errMsg) {
         if (Strings.isNullOrEmpty(str)) {
-            throw new RuntimeException(errMsg);
+            throw new IllegalArgumentException(errMsg);
+        }
+    }
+
+    public static void notNull(Object object, String message) {
+        if (object == null) {
+            throw new IllegalArgumentException(message);
         }
     }
 
     public static void checkDirectory(File file) {
         if (file == null) {
-            throw new RuntimeException("file path can not be null");
+            throw new IllegalArgumentException("file path can not be null");
         }
         if (!file.isDirectory()) {
-            throw new RuntimeException(file.getPath() + " is not a directory");
+            throw new IllegalArgumentException(file.getPath() + " is not a directory");
         }
     }
 
     public static void checkKeystoreFile(File file) {
         if (file == null) {
-            throw new RuntimeException("parameter can not be null");
+            throw new IllegalArgumentException("parameter can not be null");
         }
         if (!file.exists()) {
-            throw new RuntimeException("file does not exist.");
+            throw new IllegalArgumentException("file does not exist.");
         }
         if (!file.isFile()) {
-            throw new RuntimeException("not a file!");
+            throw new IllegalArgumentException("not a file!");
         }
     }
 
     public static void validateMnemonic(String mnemonic) {
         hasText(mnemonic, "mnemonic can not be null");
         if (mnemonic.split(" ").length % 12 != 0) {
-            throw new RuntimeException("illegal mnemonic");
+            throw new IllegalArgumentException("illegal mnemonic");
         }
     }
 }
