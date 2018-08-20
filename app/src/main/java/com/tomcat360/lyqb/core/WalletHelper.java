@@ -3,8 +3,10 @@ package com.tomcat360.lyqb.core;
 import android.annotation.SuppressLint;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tomcat360.lyqb.core.exception.IllegalCredentialException;
+import com.tomcat360.lyqb.core.exception.InvalidKeystoreException;
 import com.tomcat360.lyqb.core.exception.InvalidPrivateKeyException;
-import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.core.exception.KeystoreSaveException;
 
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicHierarchy;
@@ -41,7 +43,7 @@ public class WalletHelper {
         return MnemonicUtils.generateMnemonic(initialEntropy);
     }
 
-    public static Bip39Wallet createWallet(String mnemonic, String dpath, String password, File dest) throws CipherException, IOException {
+    public static Bip39Wallet createWallet(String mnemonic, String dpath, String password, File dest) throws KeystoreSaveException {
         // validate inputs.
         Assert.validateMnemonic(mnemonic);
 //        Assert.hasText(password, "password can not be null");
@@ -58,13 +60,16 @@ public class WalletHelper {
         DeterministicKey destKey = hdKey.deriveChild(childNumberList, true, true, new ChildNumber(0));
         ECKeyPair ecKeyPair = ECKeyPair.create(destKey.getPrivKey());
 
-        String walletFileName = WalletUtils.generateWalletFile(password, ecKeyPair, dest, false);
-        Bip39Wallet bip39Wallet = new Bip39Wallet(walletFileName, mnemonic);
-        LyqbLogger.debug("wallet created! " + bip39Wallet.toString());
-        return bip39Wallet;
+        String walletFileName = null;
+        try {
+            walletFileName = WalletUtils.generateWalletFile(password, ecKeyPair, dest, false);
+        } catch (Exception e) {
+            throw new KeystoreSaveException(e);
+        }
+        return new Bip39Wallet(walletFileName, mnemonic);
     }
 
-    public static Bip39Wallet importFromMnemonic(String mnemonic, String dpath, String password, File dest, int childNumber) throws CipherException, IOException {
+    public static Bip39Wallet importFromMnemonic(String mnemonic, String dpath, String password, File dest, int childNumber) throws KeystoreSaveException {
         // validate inputs.
         Assert.hasText(mnemonic, "illegal mnemonic");
         Assert.hasText(password, "password can not be null");
@@ -80,14 +85,17 @@ public class WalletHelper {
         DeterministicHierarchy hdKey = new DeterministicHierarchy(rootKey);
         DeterministicKey destKey = hdKey.deriveChild(childNumberList, true, true, new ChildNumber(childNumber));
         ECKeyPair ecKeyPair = ECKeyPair.create(destKey.getPrivKey());
-        String walletFileName = WalletUtils.generateWalletFile(password, ecKeyPair, dest, false);
-        Bip39Wallet bip39Wallet = new Bip39Wallet(walletFileName, mnemonic);
-        LyqbLogger.debug("wallet created! " + bip39Wallet.toString());
-        return bip39Wallet;
+        String walletFileName = null;
+        try {
+            walletFileName = WalletUtils.generateWalletFile(password, ecKeyPair, dest, false);
+        } catch (Exception e) {
+            throw new KeystoreSaveException(e);
+        }
+        return new Bip39Wallet(walletFileName, mnemonic);
     }
 
     @SuppressLint("SimpleDateFormat")
-    public static String importFromKeystore(String keystoreJson, String password, File dest) {
+    public static String importFromKeystore(String keystoreJson, String password, File dest) throws KeystoreSaveException, InvalidKeystoreException, IllegalCredentialException {
         Assert.hasText(keystoreJson, "empty keystore!");
         Assert.checkDirectory(dest);
 
@@ -95,14 +103,10 @@ public class WalletHelper {
         try {
             walletFile = objectMapper.readValue(keystoreJson, WalletFile.class);
         } catch (IOException e) {
-            throw new RuntimeException("invalid keystore, check input keystore json string!");
+            throw new InvalidKeystoreException();
         }
 
-        try {
-            Credentials credentials = unlock(password, walletFile);
-        } catch (CipherException e) {
-            throw new RuntimeException("unable to unlock wallet!");
-        }
+        Credentials credentials = unlock(password, walletFile);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("'UTC--'yyyy-MM-dd'T'HH-mm-ss.SSS'--'");
         String fileName = dateFormat.format(new Date()) + walletFile.getAddress() + ".json";
@@ -111,12 +115,12 @@ public class WalletHelper {
         try {
             objectMapper.writeValue(destination, walletFile);
         } catch (IOException e) {
-            throw new RuntimeException("unable to save keystore file!", e);
+            throw new KeystoreSaveException();
         }
         return fileName;
     }
 
-    public static String importFromPrivateKey(String privateKey, String newPassword, File dest) {
+    public static String importFromPrivateKey(String privateKey, String newPassword, File dest) throws InvalidPrivateKeyException, KeystoreSaveException {
 
         Assert.hasText(privateKey, "private key can not be null");
         Assert.hasText(newPassword, "new password can not be null");
@@ -131,17 +135,21 @@ public class WalletHelper {
         try {
             walletFileName = WalletUtils.generateWalletFile(newPassword, credentials.getEcKeyPair(), dest, false);
         } catch (Exception e) {
-            e.printStackTrace();
-            LyqbLogger.log("wallet create failure!");
+            throw new KeystoreSaveException(e);
         }
         return walletFileName;
     }
 
-    public static Credentials unlock(String password, WalletFile walletFile) throws CipherException {
+    public static Credentials unlock(String password, WalletFile walletFile) throws IllegalCredentialException {
         Assert.hasText(password, "password can not be null");
         Assert.notNull(walletFile, "walletFile can not be null");
 
-        ECKeyPair ecKeyPair = Wallet.decrypt(password, walletFile);
+        ECKeyPair ecKeyPair = null;
+        try {
+            ecKeyPair = Wallet.decrypt(password, walletFile);
+        } catch (CipherException e) {
+            throw new IllegalCredentialException(e);
+        }
         return Credentials.create(ecKeyPair);
     }
 }
