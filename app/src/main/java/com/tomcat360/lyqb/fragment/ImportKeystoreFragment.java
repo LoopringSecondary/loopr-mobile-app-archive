@@ -152,12 +152,15 @@ public class ImportKeystoreFragment extends BaseFragment {
                     handlerCreate.sendMessage(msg);
                 } catch (KeystoreSaveException e) {
                     ToastUtils.toast("钱包创建失败");
+                    hideProgress();
                     e.printStackTrace();
                 } catch (InvalidKeystoreException e) {
                     ToastUtils.toast("私钥错误");
+                    hideProgress();
                     e.printStackTrace();
                 } catch (IllegalCredentialException e) {
                     ToastUtils.toast("身份验证失败");
+                    hideProgress();
                     e.printStackTrace();
                 }
 

@@ -161,9 +161,11 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     handlerCreate.sendMessage(msg);
                 } catch (InvalidPrivateKeyException e) {
                     ToastUtils.toast("私钥错误");
+                    hideProgress();
                     e.printStackTrace();
                 } catch (KeystoreSaveException e) {
                     ToastUtils.toast("钱包创建失败");
+                    hideProgress();
                     e.printStackTrace();
                 }
 

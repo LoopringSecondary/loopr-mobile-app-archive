@@ -1,10 +1,16 @@
 package com.tomcat360.lyqb.activity;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,6 +20,9 @@ import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.fragment.MainFragment;
 import com.tomcat360.lyqb.fragment.SettingFragment;
 import com.tomcat360.lyqb.fragment.TradeFragment;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,7 +67,37 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
 
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        setBottomBar(R.color.colorPrimary);
+
+//        hideBottomUIMenu(this);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
     }
+
+    /**
+     * 设置底部导航栏颜色
+     *
+     * @param color
+     */
+    private void setBottomBar(int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, color));
+        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//
+//
+//        } else if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+//
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+//
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+
+}
 
 
     @Override

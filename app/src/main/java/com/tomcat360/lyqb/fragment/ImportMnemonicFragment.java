@@ -189,6 +189,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                     handlerCreate.sendMessage(msg);
                 }  catch (KeystoreSaveException e) {
                     ToastUtils.toast("钱包创建失败");
+                    hideProgress();
                     e.printStackTrace();
                 }
 
