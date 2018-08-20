@@ -17,7 +17,7 @@
         android:background="@drawable/radius_bg">
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/et_mnemonic"
+            android:id="@+id/et_private_key"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -25,10 +25,9 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:background="@null"
-            android:digits="@string/pwd_dig"
             android:hint="@string/private_key_hint"
             android:imeOptions="actionNext"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:textCursorDrawable="@drawable/color_cursor"
             android:lineSpacingExtra="3dp"
             android:textColorHint="@color/colorWhite"
@@ -63,7 +62,45 @@
             android:digits="@string/pwd_dig"
             android:focusableInTouchMode="true"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:hint="@string/keystore_password"
+            android:hint="@string/password"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:lineSpacingExtra="9dp"
+            android:maxLength="18"
+            android:singleLine="true"
+            android:textColorHint="@color/colorWhite"
+            android:textSize="@dimen/normalText"
+            app:met_baseColor="@color/colorWhite"
+            app:met_checkCharactersCountAtBeginning="false"
+            app:met_floatingLabel="none"
+            app:met_helperTextColor="@color/colorWhite"
+            app:met_hideUnderline="true"
+            app:met_primaryColor="@color/colorWhite" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/radius_bg">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_repeat_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:digits="@string/pwd_dig"
+            android:focusableInTouchMode="true"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:hint="@string/repeat_password"
             android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:lineSpacingExtra="9dp"

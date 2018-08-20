@@ -20,8 +20,8 @@
     <string name="city_user">我是城市合伙人</string>
     <string name="city_code">城市合伙人激活码</string>
     <string name="et_mnemonic">Please use space to seperate the mnemonic words</string>
-    <string name="mnemonic_password">Mnemonic Password ( optional )</string>
-    <string name="keystore_password">Keystore Password</string>
+    <string name="mnemonic_password">助记词密码(可选)</string>
+    <string name="keystore_password">Keystore密码</string>
     <string name="keystore_hint">请输入keystore</string>
     <string name="private_key_hint">请输入私钥</string>
     <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>
@@ -35,6 +35,8 @@
     <string name="add_assets">添加</string>
     <string name="wallet">钱包</string>
     <string name="transaction">交易</string>
+    <string name="search">搜索</string>
+    <string name="wallet_type">请选择钱包类型</string>
 
 
 </resources>

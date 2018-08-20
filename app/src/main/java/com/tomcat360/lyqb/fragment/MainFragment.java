@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.ReceiveActivity;
+import com.tomcat360.lyqb.activity.TokenListActivity;
 import com.tomcat360.lyqb.activity.WalletDetailActivity;
 import com.tomcat360.lyqb.adapter.MainWalletAdapter;
 
@@ -134,7 +135,7 @@ public class MainFragment extends BaseFragment {
     @OnClick({R.id.ll_scan, R.id.ll_receive, R.id.ll_send, R.id.ll_trade,R.id.menu_scan, R.id.menu_add_assets, R.id.menu_wallet, R.id.menu_transaction, R.id.right_btn, R.id.ll_main})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.ll_scan:
+            case R.id.ll_scan:  //scan 按钮
                 if (showMenu){
                     llMenu.setVisibility(View.GONE);
                     showMenu = false;
@@ -142,7 +143,7 @@ public class MainFragment extends BaseFragment {
 
                 }
                 break;
-            case R.id.ll_receive:
+            case R.id.ll_receive://receive 按钮
                 if (showMenu){
                     llMenu.setVisibility(View.GONE);
                     showMenu = false;
@@ -151,21 +152,22 @@ public class MainFragment extends BaseFragment {
 
                 }
                 break;
-            case R.id.ll_send:
+            case R.id.ll_send://send 按钮
                 break;
-            case R.id.ll_trade:
+            case R.id.ll_trade://trade 按钮
                 break;
-            case R.id.right_btn:
+            case R.id.right_btn:  //右上角添加按钮
                 llMenu.setVisibility(View.VISIBLE);
                 showMenu = true;
                 break;
-            case R.id.ll_main:
+            case R.id.ll_main://主布局页面，主要实现点击关闭menu页面
                 llMenu.setVisibility(View.GONE);
                 showMenu = false;
                 break;
             case R.id.menu_scan:
                 break;
             case R.id.menu_add_assets:
+                getOperation().forward(TokenListActivity.class);
                 break;
             case R.id.menu_wallet:
                 break;

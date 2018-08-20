@@ -11,6 +11,7 @@ import com.tomcat360.lyqb.adapter.ViewPageAdapter;
 import com.tomcat360.lyqb.fragment.ImportKeystoreFragment;
 import com.tomcat360.lyqb.fragment.ImportMnemonicFragment;
 import com.tomcat360.lyqb.fragment.ImportPrivateKeyFragment;
+import com.tomcat360.lyqb.utils.AppManager;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.TitleView;
 
@@ -36,6 +37,7 @@ public class ImportWalletActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_import_wallet);
         ButterKnife.bind(this);
+        AppManager.getAppManager().addActivity(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
     }

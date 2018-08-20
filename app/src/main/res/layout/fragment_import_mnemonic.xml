@@ -25,10 +25,9 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:background="@null"
-            android:digits="@string/pwd_dig"
             android:hint="@string/et_mnemonic"
             android:imeOptions="actionNext"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:textCursorDrawable="@drawable/color_cursor"
             android:lineSpacingExtra="3dp"
             android:textColorHint="@color/colorWhite"
@@ -43,6 +42,79 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/wallet_list"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/radius_bg">
+
+        <TextView
+            android:id="@+id/wallet_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:gravity="left"
+            android:hint="@string/wallet_type"
+            android:textColorHint="@color/colorWhite"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/normalText" />
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/icon_next" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_dpath"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/radius_bg">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_dpath"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:digits="@string/pwd_dig"
+            android:focusableInTouchMode="true"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:hint="请输入dpath"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:lineSpacingExtra="9dp"
+            android:maxLength="18"
+            android:singleLine="true"
+            android:textColorHint="@color/colorWhite"
+            android:textSize="@dimen/normalText"
+            app:met_baseColor="@color/colorWhite"
+            app:met_checkCharactersCountAtBeginning="false"
+            app:met_floatingLabel="none"
+            app:met_helperTextColor="@color/colorWhite"
+            app:met_hideUnderline="true"
+            app:met_primaryColor="@color/colorWhite" />
+
+
+    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -80,6 +152,8 @@
 
 
     </RelativeLayout>
+
+
 
     <Button
         android:id="@+id/btn_unlock"

@@ -122,8 +122,6 @@ public class GenerateWalletActivity extends BaseActivity {
                         }
                     });
                     break;
-                case 2:
-                    break;
                 default:
 
                     break;
@@ -137,7 +135,6 @@ public class GenerateWalletActivity extends BaseActivity {
         setContentView(R.layout.activity_generate_wallet);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
-        initPermissions();
     }
 
     @Override
@@ -232,7 +229,7 @@ public class GenerateWalletActivity extends BaseActivity {
                             MyViewUtils.hideSoftInput(this, repeatPassword);
                         }
                     } else {
-                        ToastUtils.toast("两次输入密码不一样");
+                        ToastUtils.toast("两次输入密码不一致");
                         passwordMatch.setVisibility(View.VISIBLE);
                         MyViewUtils.hideSoftInput(this, repeatPassword);
                     }
@@ -273,11 +270,12 @@ public class GenerateWalletActivity extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Bip39Wallet mnemonic = createWallet();//生成助记词
+                Bip39Wallet bip39Wallet = createWallet();//生成助记词
                 Message msg = new Message();
                 Bundle bundle = new Bundle();
-                bundle.putString("filename", mnemonic.getFilename());
-                bundle.putString("mnemonic", mnemonic.getMnemonic());
+                bundle.putString("filename", bip39Wallet.getFilename());
+                bundle.putString("mnemonic", bip39Wallet.getMnemonic());
+                LyqbLogger.log(bip39Wallet.getMnemonic() + "   " + bip39Wallet.getFilename());
                 msg.setData(bundle);
                 msg.what = MNEMONIC_SUCCESS;
                 handlerCreate.sendMessage(msg);
@@ -324,47 +322,6 @@ public class GenerateWalletActivity extends BaseActivity {
             e.printStackTrace();
         }
         return bip39Wallet;
-    }
-
-
-    private void initPermissions() {
-        /**
-         //		 * 6.0系统 获取权限
-         //		 */
-        List<String> list = new ArrayList<>();
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            list.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)) {
-            list.add(Manifest.permission.CAMERA);
-        }
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)) {
-            list.add(Manifest.permission.READ_CONTACTS);
-        }
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)) {
-            list.add(Manifest.permission.CALL_PHONE);
-        }
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.READ_LOGS)) {
-            list.add(Manifest.permission.READ_LOGS);
-        }
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)) {
-            list.add(Manifest.permission.READ_PHONE_STATE);
-        }
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.SET_DEBUG_APP)) {
-            list.add(Manifest.permission.SET_DEBUG_APP);
-        }
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.SYSTEM_ALERT_WINDOW)) {
-            list.add(Manifest.permission.SYSTEM_ALERT_WINDOW);
-        }
-        if (list.size() > 0) {
-            String[] mPermissionList = list.toArray(new String[]{});
-            ActivityCompat.requestPermissions(this, mPermissionList, 100);
-        }
-
-
     }
 
 

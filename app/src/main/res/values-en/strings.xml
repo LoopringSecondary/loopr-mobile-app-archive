@@ -35,6 +35,10 @@
     <string name="add_assets">Add Assets</string>
     <string name="wallet">Wallet</string>
     <string name="transaction">Transaction</string>
+    <string name="search">search</string>
+    <string name="wallet_type">Please choose wallet type</string>
+
+
 
 
 
