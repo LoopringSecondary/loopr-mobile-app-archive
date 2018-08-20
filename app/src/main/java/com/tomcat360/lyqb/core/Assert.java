@@ -31,12 +31,12 @@ public class Assert {
         }
     }
 
-    public static void checkKeystoreFile(File file) {
+    public static void checkFile(File file) {
         if (file == null) {
             throw new IllegalArgumentException("parameter can not be null");
         }
         if (!file.exists()) {
-            throw new IllegalArgumentException("file does not exist.");
+            throw new IllegalArgumentException("file does not exists.");
         }
         if (!file.isFile()) {
             throw new IllegalArgumentException("not a file!");

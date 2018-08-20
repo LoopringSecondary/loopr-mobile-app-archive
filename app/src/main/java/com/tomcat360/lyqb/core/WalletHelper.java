@@ -60,7 +60,7 @@ public class WalletHelper {
         DeterministicKey destKey = hdKey.deriveChild(childNumberList, true, true, new ChildNumber(0));
         ECKeyPair ecKeyPair = ECKeyPair.create(destKey.getPrivKey());
 
-        String walletFileName = null;
+        String walletFileName;
         try {
             walletFileName = WalletUtils.generateWalletFile(password, ecKeyPair, dest, false);
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class WalletHelper {
         DeterministicHierarchy hdKey = new DeterministicHierarchy(rootKey);
         DeterministicKey destKey = hdKey.deriveChild(childNumberList, true, true, new ChildNumber(childNumber));
         ECKeyPair ecKeyPair = ECKeyPair.create(destKey.getPrivKey());
-        String walletFileName = null;
+        String walletFileName;
         try {
             walletFileName = WalletUtils.generateWalletFile(password, ecKeyPair, dest, false);
         } catch (Exception e) {
@@ -99,14 +99,12 @@ public class WalletHelper {
         Assert.hasText(keystoreJson, "empty keystore!");
         Assert.checkDirectory(dest);
 
-        WalletFile walletFile;
-        try {
-            walletFile = objectMapper.readValue(keystoreJson, WalletFile.class);
-        } catch (IOException e) {
-            throw new InvalidKeystoreException();
-        }
+        WalletFile walletFile = KeystoreHelper.loadFromJsonString(keystoreJson);
 
         Credentials credentials = unlock(password, walletFile);
+        if (credentials == null) {
+            throw new IllegalCredentialException();
+        }
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("'UTC--'yyyy-MM-dd'T'HH-mm-ss.SSS'--'");
         String fileName = dateFormat.format(new Date()) + walletFile.getAddress() + ".json";
@@ -131,7 +129,7 @@ public class WalletHelper {
         }
 
         Credentials credentials = Credentials.create(privateKey);
-        String walletFileName = "";
+        String walletFileName;
         try {
             walletFileName = WalletUtils.generateWalletFile(newPassword, credentials.getEcKeyPair(), dest, false);
         } catch (Exception e) {
@@ -140,15 +138,15 @@ public class WalletHelper {
         return walletFileName;
     }
 
-    public static Credentials unlock(String password, WalletFile walletFile) throws IllegalCredentialException {
+    public static Credentials unlock(String password, WalletFile walletFile) {
         Assert.hasText(password, "password can not be null");
         Assert.notNull(walletFile, "walletFile can not be null");
 
-        ECKeyPair ecKeyPair = null;
+        ECKeyPair ecKeyPair;
         try {
             ecKeyPair = Wallet.decrypt(password, walletFile);
         } catch (CipherException e) {
-            throw new IllegalCredentialException(e);
+            return null;
         }
         return Credentials.create(ecKeyPair);
     }
