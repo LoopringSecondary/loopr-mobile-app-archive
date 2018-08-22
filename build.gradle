@@ -20,6 +20,10 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
+        maven { url 'https://dl.google.com/dl/android/maven2/' }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        //阿里的maven仓国内镜像，如果gradle下载很慢，建议使用该仓库
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     }
 }
 

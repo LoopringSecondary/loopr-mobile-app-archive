@@ -32,11 +32,29 @@
     <string name="trade">交易</string>
     <string name="copy">复制地址</string>
     <string name="save">保存地址</string>
-    <string name="add_assets">添加</string>
+    <string name="add_assets">添加代币</string>
     <string name="wallet">钱包</string>
     <string name="transaction">交易</string>
     <string name="search">搜索</string>
     <string name="wallet_type">请选择钱包类型</string>
+    <string name="setting">设置</string>
+
+    <string name="set_share">分享APP,获得撮合费20%收益</string>
+    <string name="set_manage_wallet">管理钱包</string>
+    <string name="set_money_type">货币</string>
+    <string name="set_language">语言</string>
+    <string name="set_itouch">触控ID</string>
+    <string name="set_contract_version">合约版本</string>
+    <string name="set_lrc_proportion">LRC费用比例</string>
+    <string name="set_margin_split">差价分成</string>
+    <string name="set_app_version">应用版本</string>
+
+    <string name="cny">人民币</string>
+    <string name="usd">美元</string>
+    <string name="english">English</string>
+    <string name="chinese">简体中文</string>
+    <string name="slow">慢</string>
+    <string name="quick">快</string>
 
 
 </resources>

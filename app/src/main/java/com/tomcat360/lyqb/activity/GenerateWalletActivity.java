@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -29,6 +30,7 @@ import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.MyViewUtils;
+import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.SpacesItemDecoration;
 import com.tomcat360.lyqb.views.TitleView;
@@ -49,7 +51,7 @@ public class GenerateWalletActivity extends BaseActivity {
     @BindView(R.id.title)
     TitleView title;
     @BindView(R.id.wallet_name)
-    TextView walletName;
+    MaterialEditText walletName;
     @BindView(R.id.good)
     TextView good;
     @BindView(R.id.password)
@@ -135,6 +137,7 @@ public class GenerateWalletActivity extends BaseActivity {
         setContentView(R.layout.activity_generate_wallet);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
+        MyViewUtils.hideSoftInput(this, walletName);
     }
 
     @Override
@@ -193,9 +196,13 @@ public class GenerateWalletActivity extends BaseActivity {
 
                 break;
             case R.id.btn_next:
-
+                if (TextUtils.isEmpty(walletName.getText().toString())){
+                    ToastUtils.toast("请输入钱包名称");
+                    return;
+                }
                 if (nextStatus.equals("start")) {
                     nextStatus = "password";
+                    SPUtils.put(this,"walletname",walletName.getText().toString());
                     walletName.setVisibility(View.GONE);
                     llPassword.setVisibility(View.VISIBLE);
                     password.setVisibility(View.VISIBLE);

@@ -21,10 +21,10 @@
             android:id="@+id/left_btn"
             style="@style/Text.Title_Button"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:minWidth="60dip"
-            android:src="@mipmap/title_back" />
+            android:minWidth="60dp"
+            android:src="@mipmap/back" />
 
 
         <TextView

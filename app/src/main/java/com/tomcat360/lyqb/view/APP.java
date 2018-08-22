@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 
 import com.tomcat360.lyqb.utils.AndroidUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
+import com.vondear.rxtool.RxTool;
 
 import java.util.Locale;
 
@@ -21,7 +22,7 @@ public class APP extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
+		RxTool.init(this);
 		appVersion = AndroidUtils.getVersionName(this);
 		AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 		mInstance = this;

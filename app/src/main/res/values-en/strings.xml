@@ -37,6 +37,22 @@
     <string name="transaction">Transaction</string>
     <string name="search">search</string>
     <string name="wallet_type">Please choose wallet type</string>
+    <string name="setting">Settings</string>
+
+    <string name="set_share">Share APP,harvest 20% of trading fee</string>
+    <string name="set_manage_wallet">Manage Wallet</string>
+    <string name="set_money_type">Currency</string>
+    <string name="set_language">Language</string>
+    <string name="set_itouch">Touch ID</string>
+    <string name="set_contract_version">Contract Version</string>
+    <string name="set_lrc_proportion">LRC Fee Ratio</string>
+    <string name="set_margin_split">Margin Split</string>
+    <string name="set_app_version">App Version</string>
+
+    <string name="cny">CNY</string>
+    <string name="usd">USD</string>
+    <string name="slow">slow</string>
+    <string name="quick">quick</string>
 
 
 

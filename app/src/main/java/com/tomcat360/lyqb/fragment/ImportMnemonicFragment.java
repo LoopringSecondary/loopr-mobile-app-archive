@@ -20,6 +20,7 @@ import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.core.WalletHelper;
 import com.tomcat360.lyqb.core.exception.KeystoreSaveException;
+import com.tomcat360.lyqb.model.eventbusData.MnemonicData;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
@@ -27,10 +28,10 @@ import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.wheelPicker.picker.OptionPicker;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.web3j.crypto.Bip39Wallet;
-import org.web3j.crypto.CipherException;
-
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -106,6 +107,26 @@ public class ImportMnemonicFragment extends BaseFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MnemonicData event) {
+        /**
+         * 将扫描的结果存到输入框中
+         */
+        etMnemonic.setText(event.getMnemonic());
+    }
+
+    @Override
     protected void initPresenter() {
 
     }
@@ -119,7 +140,6 @@ public class ImportMnemonicFragment extends BaseFragment {
     protected void initData() {
 
     }
-
 
     @Override
     public void onDestroyView() {
@@ -187,7 +207,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                     msg.setData(bundle);
                     msg.what = MNEMONIC_SUCCESS;
                     handlerCreate.sendMessage(msg);
-                }  catch (KeystoreSaveException e) {
+                } catch (KeystoreSaveException e) {
                     ToastUtils.toast("钱包创建失败");
                     hideProgress();
                     e.printStackTrace();
@@ -242,4 +262,6 @@ public class ImportMnemonicFragment extends BaseFragment {
         });
         picker.show();
     }
+
+
 }
