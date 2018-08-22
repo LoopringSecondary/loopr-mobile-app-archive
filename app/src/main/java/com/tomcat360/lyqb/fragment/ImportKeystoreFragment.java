@@ -14,20 +14,21 @@ import android.widget.Button;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.activity.GenerateWalletActivity;
 import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.core.WalletHelper;
 import com.tomcat360.lyqb.core.exception.IllegalCredentialException;
 import com.tomcat360.lyqb.core.exception.InvalidKeystoreException;
 import com.tomcat360.lyqb.core.exception.KeystoreSaveException;
-import com.tomcat360.lyqb.utils.AppManager;
+import com.tomcat360.lyqb.model.eventbusData.KeystoreData;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.ToastUtils;
 
-import org.web3j.crypto.Bip39Wallet;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -106,6 +107,25 @@ public class ImportKeystoreFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(KeystoreData event) {
+        /**
+         * 将扫描的结果存到输入框中
+         */
+        etKeystore.setText(event.getKeystory());
+    }
 
     @Override
     public void onDestroyView() {
@@ -155,7 +175,7 @@ public class ImportKeystoreFragment extends BaseFragment {
                     hideProgress();
                     e.printStackTrace();
                 } catch (InvalidKeystoreException e) {
-                    ToastUtils.toast("私钥错误");
+                    ToastUtils.toast("Keystore错误");
                     hideProgress();
                     e.printStackTrace();
                 } catch (IllegalCredentialException e) {

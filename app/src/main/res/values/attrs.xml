@@ -331,8 +331,8 @@
 
 
     <declare-styleable name="RangeSeekBar">
-        <attr name="max" format="float"/>
-        <attr name="min" format="float"/>
+        <attr name="maxValue" format="float"/>
+        <attr name="minValue" format="float"/>
         <attr name="reserve" format="float"/>
         <attr name="cells" format="integer"/>
         <attr name="hideProgressHint" format="boolean"/>

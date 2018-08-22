@@ -11,14 +11,14 @@
         android:id="@+id/confirm_mnemonic_word"
         style="@style/WrapWrap"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="@string/confirm_mnemonic_word"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/normalText" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="120dp"
         android:layout_marginLeft="@dimen/margSide"
         android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="21dp"

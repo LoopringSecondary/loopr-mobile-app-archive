@@ -5,11 +5,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     defaultConfig {
         applicationId "com.tomcat360.lyqb"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -27,14 +27,14 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
 //    implementation 'com.alibaba:fastjson:1.2.16'
     implementation 'com.trello:rxlifecycle:0.3.0'
@@ -48,9 +48,8 @@ dependencies {
     implementation 'com.allenliu.badgeview:library:1.1.1'
     implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
     implementation 'com.github.bumptech.glide:glide:4.2.0'
-    //    compile 'com.android.support.constraint:constraint-layout:1.0.1'
-    implementation 'com.android.support:support-v4:26.1.0'
-    implementation 'com.android.support:percent:26.1.0'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:percent:27.1.1'
     implementation 'com.google.code.gson:gson:2.8.2'
     //友盟统计
     implementation 'com.umeng.analytics:analytics:latest.integration'
@@ -68,9 +67,20 @@ dependencies {
 //    implementation 'org.web3j:core:3.5.0'
     // bitcoinj
     implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
-    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:design:27.1.1'
 
     // https://mvnrepository.com/artifact/com.google.guava/guava
     compile group: 'com.google.guava', name: 'guava', version: '26.0-android'
+
+
+    //RxTool工具类库
+    //基础工具库
+    implementation "com.github.vondear.RxTool:RxKit:v2.0.4"
+//    //UI库
+    implementation "com.github.vondear.RxTool:RxUI:v2.0.4"
+    //功能库（Zxing扫描与生成二维码条形码 支付宝 微信）
+    implementation "com.github.vondear.RxTool:RxFeature:v2.0.4"
+    //ArcGis For Android工具库（API：100.1以上版本）
+    implementation "com.github.vondear.RxTool:RxArcGisKit:v2.0.4"
 
 }

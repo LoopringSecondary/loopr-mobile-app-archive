@@ -18,11 +18,16 @@ import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.core.WalletHelper;
 import com.tomcat360.lyqb.core.exception.InvalidPrivateKeyException;
 import com.tomcat360.lyqb.core.exception.KeystoreSaveException;
+import com.tomcat360.lyqb.model.eventbusData.PrivateKeyData;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -105,6 +110,25 @@ public class ImportPrivateKeyFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(PrivateKeyData event) {
+        /**
+         * 将扫描的结果存到输入框中
+         */
+        etPrivateKey.setText(event.getPrivateKey());
+    }
 
     @Override
     public void onDestroyView() {

@@ -17,5 +17,6 @@
     <color name="colorGreen">#FF01B97F</color>  <!-- 全局green色 -->
     <color name="colorBg">#383838</color>  <!-- 部分控件背景色 -->
     <color name="colorBg2">#292929</color>  <!-- 部分控件背景色 -->
+    <color name="lineBac">#383838</color>  <!-- 间隔线颜色 -->
     <color name="colorCursor">#ffffff</color>  <!-- 输入框游标背景色 -->
 </resources>
