@@ -18,7 +18,7 @@ import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.view.Operation;
 import com.tomcat360.lyqb.views.swipeback.SwipeBackActivity;
 import com.tomcat360.lyqb.views.swipeback.SwipeBackLayout;
-import com.umeng.analytics.MobclickAgent;
+//import com.umeng.analytics.MobclickAgent;
 
 import java.lang.ref.WeakReference;
 
@@ -44,7 +44,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
 		//将当前Activity压入栈
 		context = new WeakReference<Activity>(this);
 		mBaseOperation = new Operation(this);
-		MobclickAgent.setCatchUncaughtExceptions(false);
+//		MobclickAgent.setCatchUncaughtExceptions(false);
 		initTitle();
 		initView();
 		initData();

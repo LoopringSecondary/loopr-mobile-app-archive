@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.views.TitleView;
 
 import butterknife.BindView;
@@ -40,7 +41,13 @@ public class CoinActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        if ((int)SPUtils.get(this,"coin",1) == 1){
+            ivCnyCheck.setVisibility(View.VISIBLE);
+            ivUsdCheck.setVisibility(View.GONE);
+        }else {
+            ivCnyCheck.setVisibility(View.GONE);
+            ivUsdCheck.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -52,10 +59,12 @@ public class CoinActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_cny:
+                SPUtils.put(this, "coin", 1);  //保存货币显示，1为人命币，2为美元
                 ivCnyCheck.setVisibility(View.VISIBLE);
                 ivUsdCheck.setVisibility(View.GONE);
                 break;
             case R.id.ll_usd:
+                SPUtils.put(this, "coin", 2);
                 ivCnyCheck.setVisibility(View.GONE);
                 ivUsdCheck.setVisibility(View.VISIBLE);
                 break;

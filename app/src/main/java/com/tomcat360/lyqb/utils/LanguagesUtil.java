@@ -29,4 +29,17 @@ public class LanguagesUtil {
         }
         context.getResources().updateConfiguration(configuration, displayMetrics);
     }
+
+    /**
+     * 获得当前系统的版本
+     * */
+    public static int getLanguage(Context context){
+        Locale locale = context.getResources().getConfiguration().locale;
+        String language = locale.getLanguage();
+        if (language.contains("en")){
+            return 1;
+        }else {
+            return 2;
+        }
+    }
 }

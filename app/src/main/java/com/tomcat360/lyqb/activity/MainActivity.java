@@ -1,16 +1,10 @@
 package com.tomcat360.lyqb.activity;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,9 +14,13 @@ import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.fragment.MainFragment;
 import com.tomcat360.lyqb.fragment.SettingFragment;
 import com.tomcat360.lyqb.fragment.TradeFragment;
+import com.tomcat360.lyqb.model.eventbusData.RefreshData;
+import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.utils.SPUtils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,43 +65,19 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
 
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        setBottomBar(R.color.colorPrimary);
-
-//        hideBottomUIMenu(this);
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
     }
-
-    /**
-     * 设置底部导航栏颜色
-     *
-     * @param color
-     */
-    private void setBottomBar(int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, color));
-        }
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//
-//
-//        } else if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-//
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-//
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
-
-}
 
 
     @Override
     public void initView() {
-        changeFragment();
-        setTabSelect(0);
+            LyqbLogger.log("initView");
+            changeFragment();
+            setTabSelect(0);
+            if ((Boolean) SPUtils.get(this,"isRecreate",false)){//判断是否是更改语言设置后，执行了系统的recreate()方法,
+                LyqbLogger.log("isrecreate");
+                ChangeMainFragment(2);
+                SPUtils.put(this,"isRecreate",false);
+            }
     }
 
     @Override
@@ -115,6 +89,8 @@ public class MainActivity extends BaseActivity {
     public void initTitle() {
 
     }
+
+
 
     private Fragment Fragment1, Fragment2, Fragment3;
 
@@ -218,5 +194,14 @@ public class MainActivity extends BaseActivity {
         textviews[currentTabIndex].setTextColor(0xFF333333);
         textviews[index].setTextColor(0xFFFF2741);
         currentTabIndex = index;
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if ((Boolean) SPUtils.get(this,"isRecreate",false)){//判断是否是更改语言设置后，执行了系统的recreate()方法,
+            recreate();//判断是否是更改语言设置后，执行了系统的recreate()方法,
+        }
     }
 }

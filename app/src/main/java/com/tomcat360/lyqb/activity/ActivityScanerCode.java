@@ -368,7 +368,7 @@ public class ActivityScanerCode extends ActivityBase {
         setResult(RESULT_OK, intent);
         finish();
 //        RxToast.error(result.getText());
-        LyqbLogger.log(result.getText());
+//        LyqbLogger.log(result.getText());
 
     }
     //========================================打开本地图片识别二维码 end=================================

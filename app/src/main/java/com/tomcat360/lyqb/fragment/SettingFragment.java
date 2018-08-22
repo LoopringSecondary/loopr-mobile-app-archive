@@ -1,6 +1,8 @@
 package com.tomcat360.lyqb.fragment;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import com.tomcat360.lyqb.activity.CoinActivity;
 import com.tomcat360.lyqb.activity.ContractVersionActivity;
 import com.tomcat360.lyqb.activity.LRCFeeRatioActivity;
 import com.tomcat360.lyqb.activity.LanguageActivity;
+import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.activity.ManageWalletActivity;
 import com.tomcat360.lyqb.activity.MarginSplitActivity;
 import com.tomcat360.lyqb.activity.ShareActivity;
@@ -57,6 +60,8 @@ public class SettingFragment extends BaseFragment {
     @BindView(R.id.toggle_button)
     ToggleButton toggleButton;
 
+    private MainActivity mainActivity ;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +69,12 @@ public class SettingFragment extends BaseFragment {
         layout = inflater.inflate(R.layout.fragment_setting, container, false);
         unbinder = ButterKnife.bind(this, layout);
         return layout;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mainActivity = (MainActivity) activity;
     }
 
     @Override
@@ -113,6 +124,7 @@ public class SettingFragment extends BaseFragment {
                 getOperation().forward(CoinActivity.class);
                 break;
             case R.id.ll_language://语言
+                startActivity(new Intent(mainActivity,LanguageActivity.class));
                 getOperation().forward(LanguageActivity.class);
                 break;
             case R.id.ll_id_touch://触控id

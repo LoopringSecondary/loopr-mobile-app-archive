@@ -55,8 +55,10 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:percent:27.1.1'
     implementation 'com.google.code.gson:gson:2.8.2'
-    //友盟统计
-    implementation 'com.umeng.analytics:analytics:latest.integration'
+    //友盟分享
+    implementation 'com.umeng.sdk:common:1.5.3'
+    implementation 'com.umeng.sdk:analytics:7.5.3'
+
     implementation 'com.orhanobut:logger:2.1.1'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'org.greenrobot:eventbus:3.1.1'
@@ -87,5 +89,8 @@ dependencies {
     implementation "com.github.vondear.RxTool:RxFeature:v2.0.4"
     //ArcGis For Android工具库（API：100.1以上版本）
     implementation "com.github.vondear.RxTool:RxArcGisKit:v2.0.4"
+
+    implementation('com.github.hotchemi:permissionsdispatcher:3.0.1')
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
 
 }
