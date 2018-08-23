@@ -44,7 +44,6 @@ public class ShareActivity extends BaseActivity {
         title.setRightImageButton(R.mipmap.icon_share, new TitleView.OnRightButtonClickListener() {
             @Override
             public void onClick(View button) {
-                LyqbLogger.log("1111111");
                 ShareActivityPermissionsDispatcher.showWriteWithPermissionCheck(ShareActivity.this);
             }
         });

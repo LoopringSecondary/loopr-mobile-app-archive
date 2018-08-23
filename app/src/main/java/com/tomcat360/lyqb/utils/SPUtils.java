@@ -3,9 +3,14 @@ package com.tomcat360.lyqb.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -188,6 +193,49 @@ public class SPUtils {
 
 			editor.commit();
 		}
+	}
+
+	/**
+	 * 保存List
+	 * @param tag
+	 * @param datalist
+	 */
+	public static <T> void setDataList(Context context,String tag, List<T> datalist) {
+		SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME,
+				Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sp.edit();
+
+		if (null == datalist || datalist.size() <= 0)
+			return;
+
+		Gson gson = new Gson();
+		//转换成json数据，再保存
+		String strJson = gson.toJson(datalist);
+		editor.clear();
+		editor.putString(tag, strJson);
+		editor.commit();
+		SharedPreferencesCompat.commit(editor);
+
+	}
+
+	/**
+	 * 获取List
+	 * @param tag
+	 * @return
+	 */
+	public static <T> List<T> getDataList(Context context,String tag) {
+		SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME,
+				Context.MODE_PRIVATE);
+		List<T> datalist=new ArrayList<T>();
+		String strJson = sp.getString(tag, null);
+		if (null == strJson) {
+			return datalist;
+		}
+		Gson gson = new Gson();
+		datalist = gson.fromJson(strJson, new TypeToken<List<T>>() {
+		}.getType());
+		return datalist;
+
 	}
 
 }

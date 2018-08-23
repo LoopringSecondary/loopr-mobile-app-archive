@@ -175,7 +175,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
             public void run() {
                 String fileName = null;
                 try {
-                    fileName = WalletHelper.importFromPrivateKey(etPrivateKey.getText().toString(),etPassword.getText().toString(), FileUtils.getKeyStoreLocation());
+                    fileName = WalletHelper.importFromPrivateKey(etPrivateKey.getText().toString().startsWith("0x") ? etPrivateKey.getText().toString().substring(2) :etPrivateKey.getText().toString() ,etPassword.getText().toString(), FileUtils.getKeyStoreLocation());
                     Message msg = new Message();
                     Bundle bundle = new Bundle();
                     bundle.putString("filename", fileName);

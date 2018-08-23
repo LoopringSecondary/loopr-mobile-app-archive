@@ -2,14 +2,14 @@
     <string name="app_name">路印钱包</string>
     <string name="wallet_name">钱包名称</string>
     <string name="import_wallet">导入钱包</string>
-    <string name="generate_wallet">生成钱包</string>
+    <string name="generate_wallet">创建钱包</string>
     <string name="next">下一步</string>
     <string name="good">有益</string>
-    <string name="password">密码</string>
+    <string name="password">请输入密码</string>
     <string name="repeat_password">请再次输入密码</string>
     <string name="password_match_toast">输入密码不匹配</string>
     <string name="backup_mnemonic">备份助记词</string>
-    <string name="mnemonic_hint">Revealing your mnemonic phrases on web sites is highly dangerous. If the site is compromised or you accidentally visit a phishing website, your assets in all associated addresses can be stolen.</string>
+    <string name="mnemonic_hint">在网站上上传助记词非常危险，如果网站被黑客攻击或您不小心访问了钓鱼网站，您钱包内的资产将面临巨大的安全风险</string>
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
     <string name="skip">跳过</string>
@@ -30,8 +30,9 @@
     <string name="receive">收款</string>
     <string name="send">发送</string>
     <string name="trade">交易</string>
-    <string name="copy">复制地址</string>
-    <string name="save">保存地址</string>
+    <string name="copy_address">复制地址</string>
+    <string name="save_address">保存地址</string>
+    <string name="save">保存</string>
     <string name="add_assets">添加代币</string>
     <string name="wallet">钱包</string>
     <string name="transaction">交易</string>
@@ -54,6 +55,17 @@
 
     <string name="slow">慢</string>
     <string name="quick">快</string>
+
+    <string name="export_private_key">导出私钥</string>
+    <string name="export_keystore">导出keystore文件</string>
+    <string name="clear_records">删除钱包并清除钱包数据</string>
+    <string name="switch_wallet">使用该钱包</string>
+    <string name="copy_private_key">复制私钥</string>
+    <string name="copy_keystore">复制Keystore</string>
+    <string name="mnemonic">助记词</string>
+    <string name="keystore">Keystore</string>
+    <string name="private_key">私钥</string>
+    <string name="qr_code">二维码</string>
 
 
 </resources>

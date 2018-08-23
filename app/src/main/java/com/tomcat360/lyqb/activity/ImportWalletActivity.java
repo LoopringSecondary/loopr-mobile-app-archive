@@ -41,7 +41,7 @@ public class ImportWalletActivity extends BaseActivity {
     ViewPager viewPager;
 
     private List<Fragment> mFragments;
-    private String[] mTitles = {"Mnemonic","Keystore","Private Key"};
+    private String[] mTitles = new String[3];
     private static int REQUEST_CODE = 1;  //二维码扫一扫code
 
 
@@ -76,6 +76,9 @@ public class ImportWalletActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        mTitles[0] = getResources().getString(R.string.mnemonic);
+        mTitles[1] = getResources().getString(R.string.keystore);
+        mTitles[2] = getResources().getString(R.string.private_key);
         mFragments = new ArrayList<>();
         mFragments.add(new ImportMnemonicFragment());
         mFragments.add(new ImportKeystoreFragment());

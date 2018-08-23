@@ -26,7 +26,7 @@ public class ContractVersionActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-        title.setBTitle("合约版本");
+        title.setBTitle(getResources().getString(R.string.set_contract_version));
         title.clickLeftGoBack(getWContext());
     }
 

@@ -87,7 +87,7 @@
             android:layout_gravity="bottom"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
-            android:text="@string/copy"
+            android:text="@string/copy_address"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite" />
 
@@ -99,7 +99,7 @@
             android:layout_gravity="bottom"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
-            android:text="@string/save"
+            android:text="@string/save_address"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite" />
 

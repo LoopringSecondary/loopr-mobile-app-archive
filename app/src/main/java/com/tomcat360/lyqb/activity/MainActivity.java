@@ -70,11 +70,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
-            LyqbLogger.log("initView");
             changeFragment();
             setTabSelect(0);
             if ((Boolean) SPUtils.get(this,"isRecreate",false)){//判断是否是更改语言设置后，执行了系统的recreate()方法,
-                LyqbLogger.log("isrecreate");
                 ChangeMainFragment(2);
                 SPUtils.put(this,"isRecreate",false);
             }

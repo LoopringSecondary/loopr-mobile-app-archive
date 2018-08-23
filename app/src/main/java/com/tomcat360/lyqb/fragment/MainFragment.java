@@ -1,6 +1,7 @@
 package com.tomcat360.lyqb.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,10 +15,13 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.activity.ActivityScanerCode;
+import com.tomcat360.lyqb.activity.ImportWalletActivity;
 import com.tomcat360.lyqb.activity.ReceiveActivity;
 import com.tomcat360.lyqb.activity.TokenListActivity;
 import com.tomcat360.lyqb.activity.WalletDetailActivity;
 import com.tomcat360.lyqb.adapter.MainWalletAdapter;
+import com.tomcat360.lyqb.utils.LyqbLogger;
 
 import java.util.ArrayList;
 
@@ -74,6 +78,8 @@ public class MainFragment extends BaseFragment {
     private MainWalletAdapter mAdapter;
 
     private boolean showMenu = false;  //判断menu是否显示
+    private static int REQUEST_CODE = 1;  //二维码扫一扫code
+
 
     @Nullable
     @Override
@@ -140,7 +146,7 @@ public class MainFragment extends BaseFragment {
                     llMenu.setVisibility(View.GONE);
                     showMenu = false;
                 }else {
-
+                    startActivityForResult( new Intent(getContext(),ActivityScanerCode.class),REQUEST_CODE);
                 }
                 break;
             case R.id.ll_receive://receive 按钮
@@ -165,6 +171,7 @@ public class MainFragment extends BaseFragment {
                 showMenu = false;
                 break;
             case R.id.menu_scan:
+                startActivityForResult( new Intent(getContext(),ActivityScanerCode.class),REQUEST_CODE);
                 break;
             case R.id.menu_add_assets:
                 getOperation().forward(TokenListActivity.class);
@@ -177,4 +184,23 @@ public class MainFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /**
+         * 处理二维码扫描结果
+         */
+        if (requestCode == REQUEST_CODE) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                String result = bundle.getString("result");
+                LyqbLogger.log(result);
+            }
+        }
+    }
 }

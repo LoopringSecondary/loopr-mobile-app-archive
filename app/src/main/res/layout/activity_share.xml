@@ -9,4 +9,48 @@
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="@dimen/margSide"
+            style="@style/AutoMatch.Vertical">
+            <ImageView
+                android:src="@mipmap/mnemonic_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="@dimen/margSide"
+            android:layout_marginRight="@dimen/margSide"
+            style="@style/AutoMatch.Vertical">
+            <TextView
+                android:id="@+id/share_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="分享AP，获得推广的新用户未来所有订单撮合手续费20%收益，多推广多获利"
+                android:textColor="@color/colorGreen"
+                android:textSize="@dimen/normalText" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="您的分润收款地址为："
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normalText" />
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="hskafhdskhfkdshfdshfkwehfwehifhwh"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normalText" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

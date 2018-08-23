@@ -228,6 +228,7 @@ public class GenerateWalletActivity extends BaseActivity {
                                 listRandomMnemonic.add(arrayMne[i]);
                             }
                             mHintAdapter.setNewData(listMnemonic);
+                            SPUtils.setDataList(this,"mnemonic",listMnemonic);
                             mHintAdapter.notifyDataSetChanged();
 
                             generatePartone.setVisibility(View.GONE);

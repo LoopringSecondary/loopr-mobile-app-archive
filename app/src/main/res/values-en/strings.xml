@@ -30,8 +30,9 @@
     <string name="receive">Receive</string>
     <string name="send">Send</string>
     <string name="trade">Trade</string>
-    <string name="copy">Copy Address</string>
-    <string name="save">Save to Album</string>
+    <string name="copy_address">Copy Address</string>
+    <string name="save_address">Save to Album</string>
+    <string name="save">Save</string>
     <string name="add_assets">Add Assets</string>
     <string name="wallet">Wallet</string>
     <string name="transaction">Transaction</string>
@@ -53,6 +54,20 @@
     <string name="usd">USD</string>
     <string name="slow">slow</string>
     <string name="quick">quick</string>
+    <string name="export_private_key">Export Private Key</string>
+    <string name="export_keystore">Export Keystore</string>
+    <string name="clear_records">Clear Records of this Wallet</string>
+    <string name="switch_wallet">Switch to this Wallet</string>
+    <string name="copy_private_key">Copy Private Key</string>
+    <string name="copy_keystore">Copy Keystore</string>
+    <string name="mnemonic">Mnemonic</string>
+    <string name="keystore">Keystore</string>
+    <string name="private_key">Private Key</string>
+    <string name="qr_code">QR Code</string>
+
+
+
+
 
 
 

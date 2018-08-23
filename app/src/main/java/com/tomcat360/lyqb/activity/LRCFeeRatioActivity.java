@@ -35,7 +35,7 @@ public class LRCFeeRatioActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle("LRC费用比例");
         title.clickLeftGoBack(getWContext());
-        title.setRightButton("保存", new TitleView.OnRightButtonClickListener() {
+        title.setRightButton(getResources().getString(R.string.save), new TitleView.OnRightButtonClickListener() {
             @Override
             public void onClick(View button) {
                 SPUtils.put(LRCFeeRatioActivity.this, "ratio", value);
