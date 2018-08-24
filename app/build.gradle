@@ -70,7 +70,6 @@ dependencies {
 
     // web3j
     implementation 'org.web3j:core:3.3.1-android'
-//    implementation 'org.web3j:core:3.5.0'
     // bitcoinj
     implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
     implementation 'com.android.support:design:27.1.1'
@@ -78,7 +77,10 @@ dependencies {
     implementation group: 'com.google.guava', name: 'guava', version: '26.0-android'
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
-
+    implementation ('io.socket:socket.io-client:1.0.0') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
 
     //RxTool工具类库
     //基础工具库

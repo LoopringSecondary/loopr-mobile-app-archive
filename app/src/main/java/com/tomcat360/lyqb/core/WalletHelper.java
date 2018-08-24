@@ -7,6 +7,7 @@ import com.tomcat360.lyqb.core.exception.IllegalCredentialException;
 import com.tomcat360.lyqb.core.exception.InvalidKeystoreException;
 import com.tomcat360.lyqb.core.exception.InvalidPrivateKeyException;
 import com.tomcat360.lyqb.core.exception.KeystoreSaveException;
+import com.tomcat360.lyqb.core.singleton.ObjectMapperInstance;
 
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicHierarchy;
@@ -34,7 +35,7 @@ public class WalletHelper {
 
     private static final String DEFAULT_DPATH = "m/44'/60'/0'/0";
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = ObjectMapperInstance.getMapper();
 
     public static String generateMnemonic() {
         // generate mnemonic words.
@@ -59,6 +60,7 @@ public class WalletHelper {
         DeterministicHierarchy hdKey = new DeterministicHierarchy(rootKey);
         DeterministicKey destKey = hdKey.deriveChild(childNumberList, true, true, new ChildNumber(0));
         ECKeyPair ecKeyPair = ECKeyPair.create(destKey.getPrivKey());
+        Credentials credentials = Credentials.create(ecKeyPair);
 
         String walletFileName;
         try {
@@ -66,6 +68,9 @@ public class WalletHelper {
         } catch (Exception e) {
             throw new KeystoreSaveException(e);
         }
+        // register to loopring node.
+//        Loopring.unlockWallet(credentials.getAddress());
+
         return new Bip39Wallet(walletFileName, mnemonic);
     }
 
@@ -91,6 +96,9 @@ public class WalletHelper {
         } catch (Exception e) {
             throw new KeystoreSaveException(e);
         }
+        // register to loopring node.
+
+
         return new Bip39Wallet(walletFileName, mnemonic);
     }
 
@@ -115,6 +123,9 @@ public class WalletHelper {
         } catch (IOException e) {
             throw new KeystoreSaveException();
         }
+        // register to loopring node.
+
+
         return fileName;
     }
 
@@ -135,6 +146,8 @@ public class WalletHelper {
         } catch (Exception e) {
             throw new KeystoreSaveException(e);
         }
+        // register to loopring node.
+
         return walletFileName;
     }
 
