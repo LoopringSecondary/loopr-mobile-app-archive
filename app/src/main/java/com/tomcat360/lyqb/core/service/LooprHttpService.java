@@ -6,12 +6,13 @@ import com.tomcat360.lyqb.core.model.loopr.request.param.GetBalance;
 import com.tomcat360.lyqb.core.model.loopr.request.param.GetNonce;
 import com.tomcat360.lyqb.core.model.loopr.request.param.UnlockWallet;
 import com.tomcat360.lyqb.core.model.loopr.response.BalanceResult;
-import com.tomcat360.lyqb.core.model.loopr.response.EstimateGasPriceResult;
-import com.tomcat360.lyqb.core.model.loopr.response.NonceResult;
-import com.tomcat360.lyqb.core.model.loopr.response.UnlockWalletResult;
+import com.tomcat360.lyqb.core.model.loopr.rsp.Response;
+import com.tomcat360.lyqb.core.model.loopr.rsp.SupportedToken;
 import com.tomcat360.lyqb.core.rpc.LooprRpc;
 import com.tomcat360.lyqb.core.singleton.ObjectMapperInstance;
 import com.tomcat360.lyqb.core.singleton.OkHttpInstance;
+
+import java.util.List;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -32,33 +33,40 @@ public class LooprHttpService {
         looprRpc = retrofit.create(LooprRpc.class);
     }
 
-    public Observable<NonceResult> getNonce(String owner) {
+    public Observable<String> getNonce(String owner) {
         GetNonce getNonceParam = GetNonce.builder()
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getNonce", getNonceParam);
-        return looprRpc.getNonce(request);
+        return looprRpc.getNonce(request).map(Response::getResult);
     }
 
-    public Observable<EstimateGasPriceResult> getEstimateGasPrice() {
+    public Observable<String> getEstimateGasPrice() {
         RequestWrapper request = new RequestWrapper("loopring_getEstimateGasPrice", Maps.newHashMap());
-        return looprRpc.estimateGasPrice(request);
+        return looprRpc.estimateGasPrice(request).map(Response::getResult);
     }
 
-    public Observable<UnlockWalletResult> unlockWallet(String owner) {
+    public Observable<String> unlockWallet(String owner) {
         UnlockWallet unlockWallet = UnlockWallet.builder()
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_unlockWallet", unlockWallet);
-        return looprRpc.unlockWallet(request);
+        Observable<Response<String>> observable = looprRpc.unlockWallet(request);
+        return observable.map(Response::getResult);
     }
 
     public Observable<BalanceResult> getBalance() {
-        GetBalance param =  GetBalance.builder()
+        GetBalance param = GetBalance.builder()
                 .delegateAddress("")
                 .owner("")
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getBalance", param);
         return looprRpc.getBalance(request);
+    }
+
+    public Observable<List<SupportedToken>> getSupportedToken() {
+        RequestWrapper request = new RequestWrapper("loopring_getSupportedTokens", Maps.newHashMap());
+        Observable<Response<List<SupportedToken>>> observable = looprRpc.getSupportedTokens(request);
+        return observable.map(Response::getResult);
     }
 }

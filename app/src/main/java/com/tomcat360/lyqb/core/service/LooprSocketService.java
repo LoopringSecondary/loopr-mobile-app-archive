@@ -25,6 +25,8 @@ public class LooprSocketService {
 
     public LooprSocketService(String serviceUrl) {
         IO.Options opt = new IO.Options();
+        opt.reconnection = true;
+        opt.reconnectionAttempts = 10;
         opt.transports = new String[]{"websocket"};
         opt.callFactory = OkHttpInstance.getClient();
         opt.webSocketFactory = OkHttpInstance.getClient();

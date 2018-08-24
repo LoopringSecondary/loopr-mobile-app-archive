@@ -14,6 +14,7 @@ public abstract class AbstractListener<T> {
 
     public AbstractListener(Socket socket) {
         this.socket = socket;
+        registerEventHandler();
     }
 
     protected abstract void registerEventHandler();

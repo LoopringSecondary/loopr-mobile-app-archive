@@ -18,7 +18,6 @@ public class BalanceListener extends AbstractListener<BalanceResult> {
 
     public BalanceListener(Socket socket) {
         super(socket);
-        registerEventHandler();
     }
 
     @Override
