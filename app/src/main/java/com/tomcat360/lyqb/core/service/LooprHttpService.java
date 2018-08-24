@@ -6,8 +6,8 @@ import com.tomcat360.lyqb.core.model.loopr.request.param.GetBalance;
 import com.tomcat360.lyqb.core.model.loopr.request.param.GetNonce;
 import com.tomcat360.lyqb.core.model.loopr.request.param.UnlockWallet;
 import com.tomcat360.lyqb.core.model.loopr.response.BalanceResult;
-import com.tomcat360.lyqb.core.model.loopr.rsp.Response;
-import com.tomcat360.lyqb.core.model.loopr.rsp.SupportedToken;
+import com.tomcat360.lyqb.core.model.loopr.response.Response;
+import com.tomcat360.lyqb.core.model.loopr.response.SupportedToken;
 import com.tomcat360.lyqb.core.rpc.LooprRpc;
 import com.tomcat360.lyqb.core.singleton.ObjectMapperInstance;
 import com.tomcat360.lyqb.core.singleton.OkHttpInstance;
@@ -55,13 +55,13 @@ public class LooprHttpService {
         return observable.map(Response::getResult);
     }
 
-    public Observable<BalanceResult> getBalance() {
+    public Observable<BalanceResult> getBalance(String owner) {
         GetBalance param = GetBalance.builder()
-                .delegateAddress("")
-                .owner("")
+                .delegateAddress("0x17233e07c67d086464fD408148c3ABB56245FA64")
+                .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getBalance", param);
-        return looprRpc.getBalance(request);
+        return looprRpc.getBalance(request).map(Response::getResult);
     }
 
     public Observable<List<SupportedToken>> getSupportedToken() {

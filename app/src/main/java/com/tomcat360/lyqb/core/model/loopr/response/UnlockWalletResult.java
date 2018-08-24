@@ -1,4 +1,4 @@
-package com.tomcat360.lyqb.core.model.loopr.rsp;
+package com.tomcat360.lyqb.core.model.loopr.response;
 
 import lombok.Data;
 

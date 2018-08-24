@@ -19,8 +19,7 @@ public class HttpServiceTest {
 
     @Test
     public void getNonceTest() {
-        httpService.getNonce("0x71c079107b5af8619d54537a93dbf16e5aab4900")
-                .subscribe(new DebugSubscriber<>());
+        httpService.getNonce("0x71c079107b5af8619d54537a93dbf16e5aab4900").subscribe(new DebugSubscriber<>());
     }
 
     @Test
@@ -30,7 +29,11 @@ public class HttpServiceTest {
 
     @Test
     public void unlockWalletTest() {
-        httpService.unlockWallet("0xb94065482ad64d4c2b9252358d746b39e820a585")
-                .subscribe(new DebugSubscriber<>());
+        httpService.unlockWallet("0xb94065482ad64d4c2b9252358d746b39e820a585").subscribe(new DebugSubscriber<>());
+    }
+
+    @Test
+    public void getBalanceTest() {
+        httpService.getBalance("0xb94065482ad64d4c2b9252358d746b39e820a585").subscribe(new DebugSubscriber<>());
     }
 }

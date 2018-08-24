@@ -20,8 +20,8 @@ public class DebugSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onNext(T t) {
-        String className = t.getClass().getName();
-        System.out.println(className);
+        Class<?> tClass = t.getClass();
+        System.out.println(tClass.getName());
         try {
             String json = mapper.writeValueAsString(t);
             System.out.println(t.toString());
