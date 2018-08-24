@@ -12,13 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.lyqb.walletsdk.WalletHelper;
+import com.lyqb.walletsdk.exception.IllegalCredentialException;
+import com.lyqb.walletsdk.exception.InvalidKeystoreException;
+import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.MainActivity;
-import com.tomcat360.lyqb.core.WalletHelper;
-import com.tomcat360.lyqb.core.exception.IllegalCredentialException;
-import com.tomcat360.lyqb.core.exception.InvalidKeystoreException;
-import com.tomcat360.lyqb.core.exception.KeystoreSaveException;
 import com.tomcat360.lyqb.model.eventbusData.KeystoreData;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;

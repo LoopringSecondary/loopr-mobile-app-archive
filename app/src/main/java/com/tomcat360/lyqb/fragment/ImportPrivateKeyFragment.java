@@ -12,12 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.lyqb.walletsdk.WalletHelper;
+import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
+import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.MainActivity;
-import com.tomcat360.lyqb.core.WalletHelper;
-import com.tomcat360.lyqb.core.exception.InvalidPrivateKeyException;
-import com.tomcat360.lyqb.core.exception.KeystoreSaveException;
 import com.tomcat360.lyqb.model.eventbusData.PrivateKeyData;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;

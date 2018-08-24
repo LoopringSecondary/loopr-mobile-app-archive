@@ -15,11 +15,11 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.lyqb.walletsdk.WalletHelper;
+import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.MainActivity;
-import com.tomcat360.lyqb.core.WalletHelper;
-import com.tomcat360.lyqb.core.exception.KeystoreSaveException;
 import com.tomcat360.lyqb.model.eventbusData.MnemonicData;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;

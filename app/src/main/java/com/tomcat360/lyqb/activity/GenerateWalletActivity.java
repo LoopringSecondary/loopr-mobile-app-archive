@@ -1,13 +1,9 @@
 package com.tomcat360.lyqb.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -20,11 +16,11 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.common.base.Joiner;
+import com.lyqb.walletsdk.WalletHelper;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
 import com.tomcat360.lyqb.adapter.MnemonicWordHintAdapter;
-import com.tomcat360.lyqb.core.WalletHelper;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;

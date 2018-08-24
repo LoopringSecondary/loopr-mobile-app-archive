@@ -30,6 +30,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -44,7 +45,6 @@ dependencies {
     implementation 'com.trello:rxlifecycle-components:0.3.0'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-jackson:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
     implementation 'io.reactivex:rxjava:1.2.4'
     implementation 'io.reactivex:rxandroid:1.2.1'
@@ -55,44 +55,35 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:percent:27.1.1'
     implementation 'com.google.code.gson:gson:2.8.2'
+
     //友盟分享
     implementation 'com.umeng.sdk:common:1.5.3'
     implementation 'com.umeng.sdk:analytics:7.5.3'
-
     implementation 'com.orhanobut:logger:2.1.1'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.airbnb.android:lottie:1.0.1'
+
     //适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.41'
+
     //md对话框
     implementation 'com.afollestad.material-dialogs:core:0.9.5.0'
-
-    // web3j
-    implementation 'org.web3j:core:3.3.1-android'
-    // bitcoinj
-    implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
     implementation 'com.android.support:design:27.1.1'
-
-    implementation group: 'com.google.guava', name: 'guava', version: '26.0-android'
-    compileOnly 'org.projectlombok:lombok:1.18.2'
-    annotationProcessor 'org.projectlombok:lombok:1.18.2'
-    implementation ('io.socket:socket.io-client:1.0.0') {
-        // excluding org.json which is provided by Android
-        exclude group: 'org.json', module: 'json'
-    }
-
     //RxTool工具类库
+
     //基础工具库
-    implementation "com.github.vondear.RxTool:RxKit:v2.0.4"
-//    //UI库
-    implementation "com.github.vondear.RxTool:RxUI:v2.0.4"
+    implementation 'com.github.vondear.RxTool:RxKit:v2.0.4'
+
+    //UI库
+    implementation 'com.github.vondear.RxTool:RxUI:v2.0.4'
+
     //功能库（Zxing扫描与生成二维码条形码 支付宝 微信）
-    implementation "com.github.vondear.RxTool:RxFeature:v2.0.4"
+    implementation 'com.github.vondear.RxTool:RxFeature:v2.0.4'
+
     //ArcGis For Android工具库（API：100.1以上版本）
-    implementation "com.github.vondear.RxTool:RxArcGisKit:v2.0.4"
-
-    implementation('com.github.hotchemi:permissionsdispatcher:3.0.1')
+    implementation 'com.github.vondear.RxTool:RxArcGisKit:v2.0.4'
+    implementation 'com.github.hotchemi:permissionsdispatcher:3.0.1'
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
-
+    implementation project(':walletsdk')
 }
