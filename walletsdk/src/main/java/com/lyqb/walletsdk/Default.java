@@ -7,7 +7,7 @@ public final class Default {
 
     public static final String RELAY_RPC_URL = "rpc/v2";
 
-    public static final String ETH_RPC_URL = "https://relay1.loopring.io/eth";
+    public static final String ETH_RPC_URL = "https://relay1.loopring.io/eth/";
 
     public static final BigInteger GAS_LIMIT = new BigInteger("120000000000");
 

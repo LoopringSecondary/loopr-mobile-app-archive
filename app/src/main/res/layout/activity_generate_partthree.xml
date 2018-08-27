@@ -22,7 +22,7 @@
         android:layout_marginLeft="@dimen/margSide"
         android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="21dp"
-        android:background="@drawable/radius_bg">
+        android:background="@drawable/radius_bg_38">
         <TextView
             android:id="@+id/confirm_mnemonic_word_info"
             style="@style/WrapWrap"

@@ -14,7 +14,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:layout_marginTop="21dp"
-        android:background="@drawable/radius_bg">
+        android:background="@drawable/radius_bg_38">
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_private_key"
@@ -48,7 +48,7 @@
         android:layout_marginLeft="@dimen/margSide"
         android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="21dp"
-        android:background="@drawable/radius_bg">
+        android:background="@drawable/radius_bg_38">
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_password"
@@ -86,7 +86,7 @@
         android:layout_marginLeft="@dimen/margSide"
         android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="21dp"
-        android:background="@drawable/radius_bg">
+        android:background="@drawable/radius_bg_38">
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_repeat_password"

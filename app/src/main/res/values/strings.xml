@@ -28,7 +28,7 @@
     <string name="unlock">Unlock</string>
     <string name="scan">扫一扫</string>
     <string name="receive">收款</string>
-    <string name="send">发送</string>
+    <string name="send">转出</string>
     <string name="trade">交易</string>
     <string name="copy_address">复制地址</string>
     <string name="save_address">保存地址</string>
@@ -66,6 +66,13 @@
     <string name="keystore">Keystore</string>
     <string name="private_key">私钥</string>
     <string name="qr_code">二维码</string>
-
-
+    <string name="address_confirm">在发送前，请确认地址无误。</string>
+    <string name="enter_the_address">请输入地址</string>
+    <string name="enter_the_amount">请输入额度</string>
+    <string name="imput_valid_amount">请输入有效的数据</string>
+    <string name="transacition_fee">交易费</string>
+    <string name="dialog_fee_title">设置邮费</string>
+    <string name="dialog_fee_recom">推荐油价</string>
+    <string name="gas_limit">Gas Limit</string>
+    <string name="gas_pricae">Gas Price</string>
 </resources>

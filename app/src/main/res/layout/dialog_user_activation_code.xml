@@ -10,7 +10,7 @@
                   android:layout_centerInParent="true"
                   android:layout_marginLeft="30dp"
                   android:layout_marginRight="30dp"
-                  android:background="@drawable/radius_bg"
+                  android:background="@drawable/radius_bg_38"
                   android:orientation="vertical">
 
 

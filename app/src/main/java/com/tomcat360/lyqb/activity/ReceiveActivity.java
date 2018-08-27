@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.TitleView;
 import com.umeng.socialize.ShareAction;
@@ -73,12 +74,12 @@ public class ReceiveActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        coinAddress.setText((String) SPUtils.get(this,"address",""));
     }
 
     @Override
     public void initData() {
-        String str = "收款地址";
+        String str = (String) SPUtils.get(this,"address","");
         coinAddress.setText(str);
 
         //二维码生成方式一  推荐此方法

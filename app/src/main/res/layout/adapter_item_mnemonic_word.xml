@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:orientation="vertical"
-    android:background="@drawable/radius_bg"
+    android:background="@drawable/radius_bg_38"
     >
     <CheckBox
         android:clickable="false"

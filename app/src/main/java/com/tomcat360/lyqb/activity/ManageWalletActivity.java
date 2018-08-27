@@ -39,7 +39,7 @@ public class ManageWalletActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-        title.setBTitle("管理钱包");
+        title.setBTitle(getResources().getString(R.string.set_manage_wallet));
         title.clickLeftGoBack(getWContext());
     }
 

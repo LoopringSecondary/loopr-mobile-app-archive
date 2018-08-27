@@ -6,8 +6,9 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.DisplayMetrics;
 
+import com.lyqb.walletsdk.service.LooprSocketService;
+import com.tomcat360.lyqb.net.G;
 import com.tomcat360.lyqb.utils.AndroidUtils;
 import com.tomcat360.lyqb.utils.LanguagesUtil;
 import com.tomcat360.lyqb.utils.SPUtils;
@@ -16,11 +17,10 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.vondear.rxtool.RxTool;
 
-import java.util.Locale;
-
 public class APP extends Application {
     private static APP mInstance;
     String appVersion;
+    public static LooprSocketService looprSocketService; // 创建全局的socket服务
 
 
     @Override
@@ -29,6 +29,7 @@ public class APP extends Application {
         RxTool.init(this);
         appVersion = AndroidUtils.getVersionName(this);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        looprSocketService = new LooprSocketService(G.RELAY_URL);
         mInstance = this;
 
         /**
@@ -60,6 +61,10 @@ public class APP extends Application {
 
     public static APP getInstance() {
         return mInstance;
+    }
+
+    public static LooprSocketService getLooprSocket() {
+        return looprSocketService;
     }
 
     @Override

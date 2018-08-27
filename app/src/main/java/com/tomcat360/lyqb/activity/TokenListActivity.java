@@ -7,15 +7,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.TokenListAdapter;
-import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.utils.SPUtils;
+import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.TitleView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class TokenListActivity extends BaseActivity {
 
@@ -56,12 +62,7 @@ public class TokenListActivity extends BaseActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         ArrayList<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, list);
+        mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, null);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -70,5 +71,30 @@ public class TokenListActivity extends BaseActivity {
             }
         });
 
+
+        getToken();
+    }
+
+    private void getToken() {
+        String address = (String) SPUtils.get(this, "address", "");
+//        Observable<BalanceResult> balance =APP.getLooprSocket().getBalance(address);
+//        balance.observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<BalanceResult>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(BalanceResult balanceResult) {
+//                        LyqbLogger.log(balanceResult.toString());
+//                        mAdapter.setNewData(balanceResult.getTokens());
+//                    }
+//                });
     }
 }

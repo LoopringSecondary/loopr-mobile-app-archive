@@ -1,8 +1,11 @@
 package com.tomcat360.lyqb.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,14 +17,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
+import com.lyqb.walletsdk.service.LooprSocketService;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.ActivityScanerCode;
-import com.tomcat360.lyqb.activity.ImportWalletActivity;
 import com.tomcat360.lyqb.activity.ReceiveActivity;
+import com.tomcat360.lyqb.activity.SendActivity;
 import com.tomcat360.lyqb.activity.TokenListActivity;
 import com.tomcat360.lyqb.activity.WalletDetailActivity;
 import com.tomcat360.lyqb.adapter.MainWalletAdapter;
+import com.tomcat360.lyqb.net.G;
+import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.utils.SPUtils;
+import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.view.APP;
 
 import java.util.ArrayList;
 
@@ -29,6 +39,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 /**
@@ -75,11 +88,50 @@ public class MainFragment extends BaseFragment {
     LinearLayout menuTransaction;
     @BindView(R.id.ll_menu)
     LinearLayout llMenu;
+
     private MainWalletAdapter mAdapter;
 
     private boolean showMenu = false;  //判断menu是否显示
     private static int REQUEST_CODE = 1;  //二维码扫一扫code
 
+    private LooprSocketService looprSocketService;
+    private String address;
+    private int count = 1;
+
+    public final static int BALANCE_SUCCESS = 1;
+    @SuppressLint("HandlerLeak")
+    Handler handlerBalance = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case BALANCE_SUCCESS:
+//                    Observable<BalanceResult> balance = APP.getLooprSocket().getBalance(address);
+//                    balance.observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(new Subscriber<BalanceResult>() {
+//                                @Override
+//                                public void onCompleted() {
+//
+//                                }
+//
+//                                @Override
+//                                public void onError(Throwable e) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onNext(BalanceResult balanceResult) {
+//                                    LyqbLogger.log(balanceResult.toString());
+//                                    mAdapter.setNewData(balanceResult.getTokens());
+//                                }
+//                            });
+
+                default:
+
+                    break;
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -99,11 +151,33 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void initPresenter() {
 
+
+        address = (String) SPUtils.get(getContext(), "address", "");
+        looprSocketService = new LooprSocketService(G.RELAY_URL);
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                if (looprSocketService.connected) {
+                    handlerBalance.sendEmptyMessage(BALANCE_SUCCESS);
+                } else {
+                    count++;
+                    if (count <= 50) {
+                        handlerBalance.postDelayed(this, 100);
+                    }else {
+                        ToastUtils.toast("连接超时");
+                    }
+                }
+            }
+        };
+        handlerBalance.postDelayed(r, 100);
+
     }
 
     @Override
     protected void initView() {
 
+        walletAddress.setText(address);
     }
 
     @Override
@@ -111,18 +185,16 @@ public class MainFragment extends BaseFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         ArrayList<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        mAdapter = new MainWalletAdapter(R.layout.adapter_item_wallet, list);
+
+        mAdapter = new MainWalletAdapter(R.layout.adapter_item_wallet, null);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (showMenu){
+                if (showMenu) {
                     llMenu.setVisibility(View.GONE);
                     showMenu = false;
-                }else {
+                } else {
                     getOperation().forward(WalletDetailActivity.class);
                 }
             }
@@ -134,31 +206,41 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        APP.getLooprSocket().close();
         unbinder.unbind();
     }
 
 
-    @OnClick({R.id.ll_scan, R.id.ll_receive, R.id.ll_send, R.id.ll_trade,R.id.menu_scan, R.id.menu_add_assets, R.id.menu_wallet, R.id.menu_transaction, R.id.right_btn, R.id.ll_main})
+    @OnClick({R.id.ll_scan, R.id.ll_receive, R.id.ll_send, R.id.ll_trade, R.id.menu_scan, R.id.menu_add_assets, R.id.menu_wallet, R.id.menu_transaction, R.id.right_btn, R.id.ll_main})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_scan:  //scan 按钮
-                if (showMenu){
+                if (showMenu) {
                     llMenu.setVisibility(View.GONE);
                     showMenu = false;
-                }else {
-                    startActivityForResult( new Intent(getContext(),ActivityScanerCode.class),REQUEST_CODE);
+                } else {
+                    if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
+                        startActivityForResult(new Intent(getContext(), ActivityScanerCode.class), REQUEST_CODE);
+                    }
                 }
                 break;
             case R.id.ll_receive://receive 按钮
-                if (showMenu){
+                if (showMenu) {
                     llMenu.setVisibility(View.GONE);
                     showMenu = false;
-                }else {
+                } else {
                     getOperation().forward(ReceiveActivity.class);
 
                 }
                 break;
-            case R.id.ll_send://send 按钮
+            case R.id.ll_send://send转出 按钮
+                if (showMenu) {
+                    llMenu.setVisibility(View.GONE);
+                    showMenu = false;
+                } else {
+                    getOperation().forward(SendActivity.class);
+
+                }
                 break;
             case R.id.ll_trade://trade 按钮
                 break;
@@ -171,7 +253,9 @@ public class MainFragment extends BaseFragment {
                 showMenu = false;
                 break;
             case R.id.menu_scan:
-                startActivityForResult( new Intent(getContext(),ActivityScanerCode.class),REQUEST_CODE);
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
+                    startActivityForResult(new Intent(getContext(), ActivityScanerCode.class), REQUEST_CODE);
+                }
                 break;
             case R.id.menu_add_assets:
                 getOperation().forward(TokenListActivity.class);
@@ -183,6 +267,7 @@ public class MainFragment extends BaseFragment {
 
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

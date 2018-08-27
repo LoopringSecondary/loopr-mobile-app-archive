@@ -11,9 +11,11 @@ public final class G {
 
 
 
-	public static final String URL_PREFIX = "http://183.129.157.218:2000/Api-App";//新测试环境
-	public static final String BASE_URL = URL_PREFIX + "/";//新测试环境
+	public static final String RELAY_URL = "https://relay1.loopr.io";
 
+	public static final String URL_PREFIX = "http://183.129.157.218:2000/Api-App";//新测试环境
+
+	public static final String BASE_URL = URL_PREFIX + "/";//新测试环境
 	public static final String TRUE = "true";
 
 	/**

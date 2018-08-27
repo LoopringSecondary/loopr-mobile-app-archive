@@ -64,8 +64,15 @@
     <string name="keystore">Keystore</string>
     <string name="private_key">Private Key</string>
     <string name="qr_code">QR Code</string>
-
-
+    <string name="address_confirm">Please confirm the address before sending</string>
+    <string name="enter_the_address">Enter The Address</string>
+    <string name="enter_the_amount">Enter The Amount</string>
+    <string name="imput_valid_amount">Please imput a valid amount</string>
+    <string name="transacition_fee">Transacition Fee</string>
+    <string name="dialog_fee_title">Set Gas</string>
+    <string name="dialog_fee_recom">Recommend Price</string>
+    <string name="gas_limit">Gas Limit</string>
+    <string name="gas_pricae">Gas Price</string>
 
 
 

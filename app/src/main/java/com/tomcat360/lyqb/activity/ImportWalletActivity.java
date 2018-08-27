@@ -59,7 +59,7 @@ public class ImportWalletActivity extends BaseActivity {
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.SYSTEM_ALERT_WINDOW)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 100);
             }
-        title.setBTitle("Import Wallet");
+        title.setBTitle(getResources().getString(R.string.import_wallet));
         title.clickLeftGoBack(getWContext());
         title.setRightImageButton(R.mipmap.icon_scan, new TitleView.OnRightButtonClickListener() {
             @Override

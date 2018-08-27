@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.SPUtils;
 import com.vondear.rxfeature.tool.RxQRCode;
 
 import butterknife.BindView;
@@ -52,7 +53,7 @@ public class QRCodeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        String str = "收款地址";
+        String str = (String) SPUtils.get(getContext(),"address","");
 
         //二维码生成方式一  推荐此方法
         RxQRCode.builder(str).

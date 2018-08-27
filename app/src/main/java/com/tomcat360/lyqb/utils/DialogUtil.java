@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.tomcat360.lyqb.R;
 
 
@@ -94,6 +93,7 @@ public class DialogUtil {
     public static interface OnConfirmClickListener{
         void onconfirmClick(View view,String info);
     }
+
 
 
 

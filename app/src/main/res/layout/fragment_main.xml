@@ -48,7 +48,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="10dp"
-
             android:background="@mipmap/wallet_bg">
 
             <TextView
@@ -64,21 +63,24 @@
                 style="@style/MatchWrap.Horizontal"
                 android:layout_below="@+id/wallet_count"
                 android:layout_marginTop="11dp"
-                android:gravity="center_horizontal">
+                android:paddingLeft="50dp"
+                android:paddingRight="30dp"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/wallet_address"
-                    style="@style/WrapWrap"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
                     android:text="shadhwufh...sbadhasuhd"
                     android:textColor="@color/colorWhite"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
                     android:textSize="@dimen/normal14Text" />
 
                 <ImageView
                     android:id="@+id/wallet_qrcode"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
                     android:layout_marginLeft="3dp"
                     android:src="@mipmap/icon_wallet_qrcode" />
             </LinearLayout>
@@ -206,7 +208,7 @@
         android:id="@+id/ll_menu"
         android:visibility="gone"
         android:layout_width="160dp"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_gravity="end"
         android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="94dp"
