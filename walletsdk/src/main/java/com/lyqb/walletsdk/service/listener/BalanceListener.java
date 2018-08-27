@@ -1,10 +1,8 @@
 package com.lyqb.walletsdk.service.listener;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
-import com.lyqb.walletsdk.singleton.ObjectMapperInstance;
-
-import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -25,9 +23,10 @@ public class BalanceListener extends AbstractListener<BalanceResult> {
         socket.on("balance_res", objects -> {
             BalanceResult balanceResult;
             try {
-                JSONObject jsonObject = new JSONObject(((String) objects[0]));
-                String data = jsonObject.getString("data");
-                balanceResult = ObjectMapperInstance.getMapper().readValue(data, BalanceResult.class);
+                JsonObject object = gson.fromJson(((String) objects[0]), JsonObject.class);
+                JsonElement element = object.get("data");
+                balanceResult = gson.fromJson(element, BalanceResult.class);
+
             } catch (Exception e) {
                 e.printStackTrace();
                 balanceResult = new BalanceResult();
@@ -43,13 +42,8 @@ public class BalanceListener extends AbstractListener<BalanceResult> {
 
     @Override
     public Observable<BalanceResult> start(Object param) {
-        String s = "";
-        try {
-            s = ObjectMapperInstance.getMapper().writeValueAsString(param);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        System.out.println(s);
+        String s = gson.toJson(param);
+//        System.out.println(s);
         socket.emit("balance_req", s);
         return subject;
     }

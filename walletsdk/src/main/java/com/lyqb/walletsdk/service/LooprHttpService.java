@@ -8,14 +8,13 @@ import com.lyqb.walletsdk.model.loopr.request.param.UnlockWallet;
 import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
 import com.lyqb.walletsdk.model.loopr.response.ResponseWrapper;
 import com.lyqb.walletsdk.model.loopr.response.SupportedToken;
-import com.lyqb.walletsdk.singleton.ObjectMapperInstance;
 import com.lyqb.walletsdk.singleton.OkHttpInstance;
 
 import java.util.List;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.jackson.JacksonConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
 public class LooprHttpService {
@@ -25,7 +24,7 @@ public class LooprHttpService {
     public LooprHttpService(String url) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
-                .addConverterFactory(JacksonConverterFactory.create(ObjectMapperInstance.getMapper()))
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(OkHttpInstance.getClient())
                 .build();

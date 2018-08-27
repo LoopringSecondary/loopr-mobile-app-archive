@@ -1,8 +1,7 @@
 package com.lyqb.walletsdk.service.listener;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lyqb.walletsdk.singleton.ObjectMapperInstance;
+import com.google.gson.Gson;
 
 import io.socket.client.Socket;
 import rx.Observable;
@@ -10,7 +9,7 @@ import rx.Observable;
 public abstract class AbstractListener<T> {
 
     Socket socket;
-    ObjectMapper objectMapper = ObjectMapperInstance.getMapper();
+    Gson gson = new Gson();
 
     public AbstractListener(Socket socket) {
         this.socket = socket;

@@ -1,34 +1,26 @@
 package com.lyqb.walletsdk;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lyqb.walletsdk.exception.InvalidKeystoreException;
-import com.lyqb.walletsdk.singleton.ObjectMapperInstance;
+import com.google.gson.Gson;
 
 import org.web3j.crypto.WalletFile;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 public class KeystoreHelper {
-    private static ObjectMapper objectMapper = ObjectMapperInstance.getMapper();
 
-    public static WalletFile loadFromFile(File keystoreFile) throws InvalidKeystoreException {
-        WalletFile walletFile;
-        try {
-            walletFile = objectMapper.readValue(keystoreFile, WalletFile.class);
-        } catch (IOException e) {
-            throw new InvalidKeystoreException(e);
-        }
+    private static Gson gson= new Gson();
+
+    public static WalletFile loadFromFile(File keystoreFile) throws FileNotFoundException {
+        FileReader reader = new FileReader(keystoreFile);
+        WalletFile walletFile = gson.fromJson(reader, WalletFile.class);
         return walletFile;
     }
 
-    public static WalletFile loadFromJsonString(String json) throws InvalidKeystoreException {
-        WalletFile walletFile;
-        try {
-            walletFile = objectMapper.readValue(json, WalletFile.class);
-        } catch (IOException e) {
-            throw new InvalidKeystoreException(e);
-        }
+
+    public static WalletFile loadFromJsonString(String json) {
+        WalletFile walletFile = gson.fromJson(json, WalletFile.class);
         return walletFile;
     }
 }

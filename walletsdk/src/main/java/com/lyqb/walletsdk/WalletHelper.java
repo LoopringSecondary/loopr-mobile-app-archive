@@ -1,11 +1,9 @@
 package com.lyqb.walletsdk;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.lyqb.walletsdk.exception.IllegalCredentialException;
-import com.lyqb.walletsdk.exception.InvalidKeystoreException;
 import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
-import com.lyqb.walletsdk.singleton.ObjectMapperInstance;
 import com.lyqb.walletsdk.util.Assert;
 
 import org.bitcoinj.crypto.ChildNumber;
@@ -22,6 +20,7 @@ import org.web3j.crypto.WalletFile;
 import org.web3j.crypto.WalletUtils;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
@@ -35,7 +34,9 @@ public class WalletHelper {
 
     private static final String DEFAULT_DPATH = "m/44'/60'/0'/0";
 
-    private static final ObjectMapper objectMapper = ObjectMapperInstance.getMapper();
+//    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    private static final Gson gson = new Gson();
 
     public static String generateMnemonic() {
         // generate mnemonic words.
@@ -98,7 +99,7 @@ public class WalletHelper {
         return new Bip39Wallet(walletFileName, mnemonic);
     }
 
-    public static String importFromKeystore(String keystoreJson, String password, File dest) throws KeystoreSaveException, InvalidKeystoreException, IllegalCredentialException {
+    public static String importFromKeystore(String keystoreJson, String password, File dest) throws KeystoreSaveException, IllegalCredentialException {
         Assert.hasText(keystoreJson, "empty keystore!");
         Assert.checkDirectory(dest);
 
@@ -113,10 +114,16 @@ public class WalletHelper {
         String fileName = dateFormat.format(new Date()) + walletFile.getAddress() + ".json";
 
         File destination = new File(dest, fileName);
+//        try {
+//            objectMapper.writeValue(destination, walletFile);
+//        } catch (IOException e) {
+//            throw new KeystoreSaveException();
+//        }
         try {
-            objectMapper.writeValue(destination, walletFile);
+            FileWriter fileWriter = new FileWriter(destination);
+            gson.toJson(walletFile, WalletFile.class, fileWriter);
         } catch (IOException e) {
-            throw new KeystoreSaveException();
+            throw new KeystoreSaveException(e);
         }
 
         return fileName;
