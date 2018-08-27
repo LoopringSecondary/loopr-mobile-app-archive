@@ -1,26 +1,33 @@
 package com.lyqb.walletsdk;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.web3j.crypto.WalletFile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.IOException;
 
 public class KeystoreHelper {
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
-    private static Gson gson= new Gson();
-
-    public static WalletFile loadFromFile(File keystoreFile) throws FileNotFoundException {
-        FileReader reader = new FileReader(keystoreFile);
-        WalletFile walletFile = gson.fromJson(reader, WalletFile.class);
+    public static WalletFile loadFromFile(File keystoreFile) {
+        WalletFile walletFile;
+        try {
+            walletFile = objectMapper.readValue(keystoreFile, WalletFile.class);
+        } catch (IOException e) {
+            return null;
+        }
         return walletFile;
     }
 
-
     public static WalletFile loadFromJsonString(String json) {
-        WalletFile walletFile = gson.fromJson(json, WalletFile.class);
+        WalletFile walletFile;
+        try {
+            walletFile = objectMapper.readValue(json, WalletFile.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
         return walletFile;
     }
 }
