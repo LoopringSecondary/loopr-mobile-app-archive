@@ -34,8 +34,6 @@ public class WalletHelper {
 
     private static final String DEFAULT_DPATH = "m/44'/60'/0'/0";
 
-//    private static final ObjectMapper objectMapper = new ObjectMapper();
-
     private static final Gson gson = new Gson();
 
     public static String generateMnemonic() {

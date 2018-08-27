@@ -19,8 +19,8 @@ public class SocketServiceTest {
             Thread.sleep(1000);
         }
 
-        service.getBalance("0xb94065482ad64d4c2b9252358d746b39e820a585")
-                .subscribe(new DebugSubscriber<>());
+//        service.getBalance("0xb94065482ad64d4c2b9252358d746b39e820a585")
+//                .subscribe(new DebugSubscriber<>());
 
 
         Thread.sleep(100000);

@@ -17,7 +17,7 @@ import java.math.BigInteger;
 public class TransactionHelper {
     private static final Web3j web3j = Web3jInstance.getInstance();
 
-    private static final LooprHttpService httpService = new LooprHttpService("");
+    private static final LooprHttpService httpService = new LooprHttpService(Default.ETH_RPC_URL);
 
     public static String createEthTrasnferTransaction(String to, Credentials credentials, BigInteger value) {
 
@@ -31,12 +31,11 @@ public class TransactionHelper {
         RawTransaction rawTransaction = RawTransaction.createTransaction(
                 nonce,
                 bigInteger,
-                new BigInteger("120000000000"),
+                new BigInteger("21000"),
                 to,
                 value,
                 null
         );
-
         byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
         return Numeric.toHexString(signedMessage);
     }

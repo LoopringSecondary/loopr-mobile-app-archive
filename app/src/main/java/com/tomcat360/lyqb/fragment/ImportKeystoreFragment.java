@@ -14,7 +14,6 @@ import android.widget.Button;
 
 import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.IllegalCredentialException;
-import com.lyqb.walletsdk.exception.InvalidKeystoreException;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
@@ -172,10 +171,6 @@ public class ImportKeystoreFragment extends BaseFragment {
                     handlerCreate.sendMessage(msg);
                 } catch (KeystoreSaveException e) {
                     ToastUtils.toast("钱包创建失败");
-                    hideProgress();
-                    e.printStackTrace();
-                } catch (InvalidKeystoreException e) {
-                    ToastUtils.toast("Keystore错误");
                     hideProgress();
                     e.printStackTrace();
                 } catch (IllegalCredentialException e) {

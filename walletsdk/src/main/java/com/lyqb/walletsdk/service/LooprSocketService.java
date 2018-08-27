@@ -1,19 +1,17 @@
 package com.lyqb.walletsdk.service;
 
 
+import com.lyqb.walletsdk.Default;
 import com.lyqb.walletsdk.model.loopr.request.param.GetBalance;
 import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
-import com.lyqb.walletsdk.service.listener.AbstractListener;
 import com.lyqb.walletsdk.service.listener.BalanceListener;
-import com.lyqb.walletsdk.singleton.OkHttpInstance;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import okhttp3.OkHttpClient;
 import rx.Observable;
 
 public class LooprSocketService {
@@ -21,15 +19,17 @@ public class LooprSocketService {
     private Socket socket;
     public boolean connected = false;
 
-    private List<AbstractListener> listeners = new LinkedList<>();
+    private BalanceListener balanceListener;
+
 
     public LooprSocketService(String serviceUrl) {
+        OkHttpClient okHttpClient = new OkHttpClient();
         IO.Options opt = new IO.Options();
         opt.reconnection = true;
         opt.reconnectionAttempts = 10;
         opt.transports = new String[]{"websocket"};
-        opt.callFactory = OkHttpInstance.getClient();
-        opt.webSocketFactory = OkHttpInstance.getClient();
+        opt.callFactory = okHttpClient;
+        opt.webSocketFactory = okHttpClient;
         try {
             socket = IO.socket(serviceUrl, opt);
         } catch (URISyntaxException e) {
@@ -40,22 +40,25 @@ public class LooprSocketService {
             this.connected = true;
         });
         socket.connect();
+
+        balanceListener = new BalanceListener(socket);
     }
 
     public void close() {
-        for (AbstractListener listener : listeners) {
-            listener.stop();
-        }
+        balanceListener.stop();
+
         socket.close();
     }
 
-    public Observable<BalanceResult> getBalance(String owner) {
-        BalanceListener balanceListener = new BalanceListener(socket);
-        listeners.add(balanceListener);
+    public Observable<BalanceResult> getBalanceDataStream() {
+        return balanceListener.start();
+    }
+
+    public void requestBalance(String owner) {
         GetBalance getBalance = GetBalance.builder()
                 .owner(owner)
-                .delegateAddress("0x17233e07c67d086464fD408148c3ABB56245FA64")
+                .delegateAddress(Default.DELEGATE_ADDRESS)
                 .build();
-        return balanceListener.start(getBalance);
+        balanceListener.send(getBalance);
     }
 }
