@@ -2,7 +2,6 @@ package com.tomcat360.lyqb.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,7 +22,6 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
 import com.tomcat360.lyqb.adapter.MnemonicWordHintAdapter;
-import com.tomcat360.lyqb.net.G;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
@@ -34,17 +32,10 @@ import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.SpacesItemDecoration;
 import com.tomcat360.lyqb.views.TitleView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.web3j.crypto.Bip39Wallet;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -196,7 +187,7 @@ public class GenerateWalletActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        looprHttpService = new LooprHttpService(G.RELAY_URL);
+//        looprHttpService = new LooprHttpService(G.RELAY_URL);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         GridLayoutManager layoutManagerHint = new GridLayoutManager(this, 3);

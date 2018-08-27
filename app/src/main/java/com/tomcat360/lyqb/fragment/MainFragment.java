@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lyqb.walletsdk.Loopring;
 import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
 import com.lyqb.walletsdk.service.LooprSocketService;
 import com.tomcat360.lyqb.R;
@@ -26,12 +27,9 @@ import com.tomcat360.lyqb.activity.SendActivity;
 import com.tomcat360.lyqb.activity.TokenListActivity;
 import com.tomcat360.lyqb.activity.WalletDetailActivity;
 import com.tomcat360.lyqb.adapter.MainWalletAdapter;
-import com.tomcat360.lyqb.net.G;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.utils.ToastUtils;
-import com.tomcat360.lyqb.view.APP;
 
 import java.util.ArrayList;
 
@@ -41,7 +39,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import rx.Observable;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 
 
 /**
@@ -106,6 +103,27 @@ public class MainFragment extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case BALANCE_SUCCESS:
+
+                    Observable<BalanceResult> balanceDataStream = looprSocketService.getBalanceDataStream();
+                    balanceDataStream.subscribe(new Subscriber<BalanceResult>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(BalanceResult balanceResult) {
+                            LyqbLogger.log(balanceResult.toString());
+                            mAdapter.setNewData(balanceResult.getTokens());
+                        }
+                    });
+
+
 //                    Observable<BalanceResult> balance = APP.getLooprSocket().getBalance(address);
 //                    balance.observeOn(AndroidSchedulers.mainThread())
 //                            .subscribe(new Subscriber<BalanceResult>() {
@@ -153,24 +171,26 @@ public class MainFragment extends BaseFragment {
 
 
         address = (String) SPUtils.get(getContext(), "address", "");
-        looprSocketService = new LooprSocketService(G.RELAY_URL);
+//        looprSocketService = new LooprSocketService(G.RELAY_URL);
+        looprSocketService = Loopring.getSocketService();
 
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                if (looprSocketService.connected) {
-                    handlerBalance.sendEmptyMessage(BALANCE_SUCCESS);
-                } else {
-                    count++;
-                    if (count <= 50) {
-                        handlerBalance.postDelayed(this, 100);
-                    }else {
-                        ToastUtils.toast("连接超时");
-                    }
-                }
-            }
-        };
-        handlerBalance.postDelayed(r, 100);
+
+//        Runnable r = new Runnable() {
+//            @Override
+//            public void run() {
+//                if (looprSocketService.connected) {
+//                    handlerBalance.sendEmptyMessage(BALANCE_SUCCESS);
+//                } else {
+//                    count++;
+//                    if (count <= 50) {
+//                        handlerBalance.postDelayed(this, 100);
+//                    }else {
+//                        ToastUtils.toast("连接超时");
+//                    }
+//                }
+//            }
+//        };
+//        handlerBalance.postDelayed(r, 100);
 
     }
 
@@ -206,7 +226,8 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        APP.getLooprSocket().close();
+//        APP.getLooprSocket().close();
+
         unbinder.unbind();
     }
 

@@ -3,44 +3,25 @@ package com.tomcat360.lyqb.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lyqb.walletsdk.KeystoreHelper;
-import com.lyqb.walletsdk.TransactionHelper;
-import com.lyqb.walletsdk.WalletHelper;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.model.eventbusData.KeystoreData;
-import com.tomcat360.lyqb.model.eventbusData.MnemonicData;
-import com.tomcat360.lyqb.model.eventbusData.PrivateKeyData;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
-import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.RangeSeekBar;
 import com.tomcat360.lyqb.views.TitleView;
-import com.vondear.rxtool.RxTool;
-
-import org.greenrobot.eventbus.EventBus;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletFile;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.math.BigInteger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -153,22 +134,22 @@ public class SendActivity extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                WalletFile walletFile = null;
-                try {
-                    File file = new File(Environment.getExternalStorageDirectory().getPath() + "/keystore/" + (String) SPUtils.get(SendActivity.this, "filename", ""));
-                    walletFile = KeystoreHelper.loadFromFile(file);
-                    Credentials credentials = WalletHelper.unlock("qqqqqq", walletFile);
-                    String ethTrasnferTransaction = TransactionHelper.createEthTrasnferTransaction("0x75a6543F96e4177128f8CaA35db739e5088489B0", credentials, BigInteger.valueOf(0));
-                    String s = TransactionHelper.sendTransaction(ethTrasnferTransaction);
-                    LyqbLogger.log(s);
-                    hideProgress();
-                } catch (FileNotFoundException e) {
-                    ToastUtils.toast("本地文件读取失败，请重试");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    ToastUtils.toast("本地文件读取失败，请重试");
-                    e.printStackTrace();
-                }
+//                WalletFile walletFile = null;
+//                try {
+//                    File file = new File(Environment.getExternalStorageDirectory().getPath() + "/keystore/" + (String) SPUtils.get(SendActivity.this, "filename", ""));
+//                    walletFile = KeystoreHelper.loadFromFile(file);
+//                    Credentials credentials = WalletHelper.unlock("qqqqqq", walletFile);
+//                    String ethTrasnferTransaction = TransactionHelper.createEthTransferTransaction("0x75a6543F96e4177128f8CaA35db739e5088489B0", credentials, BigInteger.valueOf(0));
+//                    String s = TransactionHelper.sendTransaction(ethTrasnferTransaction);
+//                    LyqbLogger.log(s);
+//                    hideProgress();
+//                } catch (FileNotFoundException e) {
+//                    ToastUtils.toast("本地文件读取失败，请重试");
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    ToastUtils.toast("本地文件读取失败，请重试");
+//                    e.printStackTrace();
+//                }
             }
         }).start();
 

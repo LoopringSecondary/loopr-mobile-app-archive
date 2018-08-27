@@ -13,7 +13,7 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 import rx.Observable;
 
-public interface LooprRpcDelegate {
+public interface RpcDelegate {
 
     @POST(Default.RELAY_RPC_URL)
     Observable<Map> send(@Body RequestWrapper request);
@@ -34,4 +34,6 @@ public interface LooprRpcDelegate {
     @POST(Default.RELAY_RPC_URL)
     Observable<ResponseWrapper<List<SupportedToken>>> getSupportedTokens(@Body RequestWrapper request);
 
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<String>> notifyTransactionSubmitted(@Body RequestWrapper request);
 }

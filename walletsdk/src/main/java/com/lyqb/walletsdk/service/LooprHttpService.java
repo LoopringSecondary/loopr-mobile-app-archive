@@ -4,31 +4,32 @@ import com.google.common.collect.Maps;
 import com.lyqb.walletsdk.model.loopr.request.RequestWrapper;
 import com.lyqb.walletsdk.model.loopr.request.param.GetBalance;
 import com.lyqb.walletsdk.model.loopr.request.param.GetNonce;
+import com.lyqb.walletsdk.model.loopr.request.param.NotifyTransactionSubmitParam;
 import com.lyqb.walletsdk.model.loopr.request.param.UnlockWallet;
 import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
 import com.lyqb.walletsdk.model.loopr.response.ResponseWrapper;
 import com.lyqb.walletsdk.model.loopr.response.SupportedToken;
-import com.lyqb.walletsdk.singleton.OkHttpInstance;
 
 import java.util.List;
 
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
 public class LooprHttpService {
 
-    private LooprRpcDelegate looprRpcDelegate;
+    private RpcDelegate rpcDelegate;
 
-    public LooprHttpService(String url) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(OkHttpInstance.getClient())
-                .build();
-        looprRpcDelegate = retrofit.create(LooprRpcDelegate.class);
+//    public LooprHttpService(String url) {
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(url)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                .client(OkHttpInstance.getClient())
+//                .build();
+//        rpcDelegate = retrofit.create(RpcDelegate.class);
+//    }
+    public LooprHttpService(Retrofit retrofit) {
+        rpcDelegate = retrofit.create(RpcDelegate.class);
     }
 
     public Observable<String> getNonce(String owner) {
@@ -36,12 +37,12 @@ public class LooprHttpService {
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getNonce", getNonceParam);
-        return looprRpcDelegate.getNonce(request).map(ResponseWrapper::getResult);
+        return rpcDelegate.getNonce(request).map(ResponseWrapper::getResult);
     }
 
     public Observable<String> getEstimateGasPrice() {
         RequestWrapper request = new RequestWrapper("loopring_getEstimateGasPrice", Maps.newHashMap());
-        return looprRpcDelegate.estimateGasPrice(request).map(ResponseWrapper::getResult);
+        return rpcDelegate.estimateGasPrice(request).map(ResponseWrapper::getResult);
     }
 
     public Observable<String> unlockWallet(String owner) {
@@ -49,7 +50,7 @@ public class LooprHttpService {
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_unlockWallet", unlockWallet);
-        Observable<ResponseWrapper<String>> observable = looprRpcDelegate.unlockWallet(request);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.unlockWallet(request);
         return observable.map(ResponseWrapper::getResult);
     }
 
@@ -59,12 +60,28 @@ public class LooprHttpService {
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getBalance", param);
-        return looprRpcDelegate.getBalance(request).map(ResponseWrapper::getResult);
+        return rpcDelegate.getBalance(request).map(ResponseWrapper::getResult);
     }
 
     public Observable<List<SupportedToken>> getSupportedToken() {
         RequestWrapper request = new RequestWrapper("loopring_getSupportedTokens", Maps.newHashMap());
-        Observable<ResponseWrapper<List<SupportedToken>>> observable = looprRpcDelegate.getSupportedTokens(request);
+        Observable<ResponseWrapper<List<SupportedToken>>> observable = rpcDelegate.getSupportedTokens(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<String> notifyTransactionSubmitted(String hash, String nonce, String to,String valueInHex, String gasPriceInHex, String gasLimitInHex, String dataInHex, String from) {
+        NotifyTransactionSubmitParam notifyTransactionSubmitParam = NotifyTransactionSubmitParam.builder()
+                .hash(hash)
+                .nonce(nonce)
+                .to(to)
+                .value(valueInHex)
+                .gasPrice(gasPriceInHex)
+                .gas(gasLimitInHex)
+                .input(dataInHex)
+                .from(from)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", notifyTransactionSubmitParam);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyTransactionSubmitted(request);
         return observable.map(ResponseWrapper::getResult);
     }
 }

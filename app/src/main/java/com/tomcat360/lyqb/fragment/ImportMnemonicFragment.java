@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.lyqb.walletsdk.Loopring;
 import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.lyqb.walletsdk.service.LooprHttpService;
@@ -22,7 +23,6 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.model.eventbusData.MnemonicData;
-import com.tomcat360.lyqb.net.G;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
@@ -204,7 +204,8 @@ public class ImportMnemonicFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        looprHttpService = new LooprHttpService(G.RELAY_URL);
+//        looprHttpService = new LooprHttpService(G.RELAY_URL);
+        looprHttpService = Loopring.getHttpService();
     }
 
     @Override
