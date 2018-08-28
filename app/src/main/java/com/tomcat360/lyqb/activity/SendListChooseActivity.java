@@ -8,13 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
+import com.lyqb.walletsdk.model.response.BalanceResult;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.TokenChooseAdapter;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.views.TitleView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

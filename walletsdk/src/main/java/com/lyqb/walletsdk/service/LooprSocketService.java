@@ -2,10 +2,10 @@ package com.lyqb.walletsdk.service;
 
 
 import com.lyqb.walletsdk.Default;
-import com.lyqb.walletsdk.model.loopr.request.param.GetBalance;
-import com.lyqb.walletsdk.model.loopr.request.param.GetTransaction;
-import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
-import com.lyqb.walletsdk.model.loopr.response.TransactionPageWrapper;
+import com.lyqb.walletsdk.model.request.param.GetBalance;
+import com.lyqb.walletsdk.model.request.param.GetTransaction;
+import com.lyqb.walletsdk.model.response.BalanceResult;
+import com.lyqb.walletsdk.model.response.TransactionPageWrapper;
 import com.lyqb.walletsdk.service.listener.BalanceListener;
 import com.lyqb.walletsdk.service.listener.TransactionListener;
 

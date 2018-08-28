@@ -2,7 +2,6 @@ package com.tomcat360.lyqb.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,15 +16,13 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.common.base.Joiner;
-import com.lyqb.walletsdk.Loopring;
-import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.model.WalletDetail;
 import com.lyqb.walletsdk.service.LooprHttpService;
+import com.lyqb.walletsdk.util.MnemonicUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
 import com.tomcat360.lyqb.adapter.MnemonicWordHintAdapter;
-import com.tomcat360.lyqb.net.G;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
@@ -37,17 +34,9 @@ import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.SpacesItemDecoration;
 import com.tomcat360.lyqb.views.TitleView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.web3j.crypto.Bip39Wallet;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -276,7 +265,7 @@ public class GenerateWalletActivity extends BaseActivity {
                     if (repeatPassword.getText().toString().equals(password.getText().toString())) {
 
                         if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-                            mnemonic = WalletHelper.generateMnemonic();
+                            mnemonic = MnemonicUtils.randomMneminic();
                             String[] arrayMne = mnemonic.split(" ");
 
                             listMnemonic.clear();

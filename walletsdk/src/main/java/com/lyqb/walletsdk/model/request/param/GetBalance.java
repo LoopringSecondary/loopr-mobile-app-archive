@@ -1,4 +1,4 @@
-package com.lyqb.walletsdk.model.loopr.request.param;
+package com.lyqb.walletsdk.model.request.param;
 
 import lombok.Builder;
 import lombok.Data;

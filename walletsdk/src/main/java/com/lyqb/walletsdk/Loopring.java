@@ -3,6 +3,7 @@ package com.lyqb.walletsdk;
 import com.lyqb.walletsdk.exception.InitializeFailureException;
 import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
+import com.lyqb.walletsdk.exception.TransactionFailureException;
 import com.lyqb.walletsdk.model.WalletDetail;
 import com.lyqb.walletsdk.service.EthHttpService;
 import com.lyqb.walletsdk.service.LooprHttpService;
@@ -228,7 +229,7 @@ public final class Loopring {
         return Credentials.create(ecKeyPair);
     }
 
-    public String sendTransaction(String to, BigInteger value, Credentials credentials) {
+    public String sendTransaction(String to, BigInteger value, Credentials credentials) throws TransactionFailureException {
         String nonceStr = httpService.getNonce(credentials.getAddress()).toBlocking().first();
         BigInteger nonce = Numeric.toBigInt(Numeric.cleanHexPrefix(nonceStr));
 
@@ -251,8 +252,7 @@ public final class Loopring {
 
         if (ethSendTransaction.hasError()) {
             String message = ethSendTransaction.getError().getMessage();
-            System.out.println(message);
-            return "";
+            throw new TransactionFailureException(message);
         }else {
             //notify relay.
             String tx = ethSendTransaction.getTransactionHash();
@@ -274,7 +274,8 @@ public final class Loopring {
 
 
     public void destroy() {
-
+        socketService.close();
+        socketClient.close();
     }
 
     public LooprHttpService getHttpService() {

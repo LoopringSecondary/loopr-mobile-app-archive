@@ -1,10 +1,10 @@
 package com.lyqb.walletsdk.service;
 
 import com.lyqb.walletsdk.Default;
-import com.lyqb.walletsdk.model.loopr.request.RequestWrapper;
-import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
-import com.lyqb.walletsdk.model.loopr.response.ResponseWrapper;
-import com.lyqb.walletsdk.model.loopr.response.SupportedToken;
+import com.lyqb.walletsdk.model.request.RequestWrapper;
+import com.lyqb.walletsdk.model.response.BalanceResult;
+import com.lyqb.walletsdk.model.response.ResponseWrapper;
+import com.lyqb.walletsdk.model.response.SupportedToken;
 
 import java.util.List;
 import java.util.Map;

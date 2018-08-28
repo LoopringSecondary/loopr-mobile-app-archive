@@ -2,8 +2,8 @@ package com.lyqb.walletsdk.service.listener;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.lyqb.walletsdk.model.loopr.request.param.GetTransaction;
-import com.lyqb.walletsdk.model.loopr.response.TransactionPageWrapper;
+import com.lyqb.walletsdk.model.request.param.GetTransaction;
+import com.lyqb.walletsdk.model.response.TransactionPageWrapper;
 
 import io.socket.client.Socket;
 import rx.Observable;

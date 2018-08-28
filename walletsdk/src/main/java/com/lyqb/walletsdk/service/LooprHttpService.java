@@ -1,14 +1,14 @@
 package com.lyqb.walletsdk.service;
 
 import com.google.common.collect.Maps;
-import com.lyqb.walletsdk.model.loopr.request.RequestWrapper;
-import com.lyqb.walletsdk.model.loopr.request.param.GetBalance;
-import com.lyqb.walletsdk.model.loopr.request.param.GetNonce;
-import com.lyqb.walletsdk.model.loopr.request.param.NotifyTransactionSubmitParam;
-import com.lyqb.walletsdk.model.loopr.request.param.UnlockWallet;
-import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
-import com.lyqb.walletsdk.model.loopr.response.ResponseWrapper;
-import com.lyqb.walletsdk.model.loopr.response.SupportedToken;
+import com.lyqb.walletsdk.model.request.RequestWrapper;
+import com.lyqb.walletsdk.model.request.param.GetBalance;
+import com.lyqb.walletsdk.model.request.param.GetNonce;
+import com.lyqb.walletsdk.model.request.param.NotifyTransactionSubmitParam;
+import com.lyqb.walletsdk.model.request.param.UnlockWallet;
+import com.lyqb.walletsdk.model.response.BalanceResult;
+import com.lyqb.walletsdk.model.response.ResponseWrapper;
+import com.lyqb.walletsdk.model.response.SupportedToken;
 
 import java.util.List;
 

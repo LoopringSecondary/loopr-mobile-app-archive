@@ -2,8 +2,8 @@ package com.lyqb.walletsdk.service.listener;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.lyqb.walletsdk.model.loopr.request.param.GetBalance;
-import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
+import com.lyqb.walletsdk.model.request.param.GetBalance;
+import com.lyqb.walletsdk.model.response.BalanceResult;
 
 import io.socket.client.Socket;
 import rx.Observable;

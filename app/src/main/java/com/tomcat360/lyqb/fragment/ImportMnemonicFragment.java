@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.lyqb.walletsdk.model.WalletDetail;
 import com.lyqb.walletsdk.service.LooprHttpService;
@@ -36,7 +35,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
-import org.web3j.crypto.Bip39Wallet;
 
 import java.io.IOException;
 

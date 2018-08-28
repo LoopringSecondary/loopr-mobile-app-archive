@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.lyqb.walletsdk.model.WalletDetail;

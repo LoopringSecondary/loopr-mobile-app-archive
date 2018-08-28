@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
+import com.lyqb.walletsdk.model.response.BalanceResult;
 import com.tomcat360.lyqb.R;
 
 import java.util.List;

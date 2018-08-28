@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
+import com.lyqb.walletsdk.model.response.BalanceResult;
 import com.lyqb.walletsdk.service.LooprSocketService;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.ActivityScanerCode;

@@ -7,21 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.TokenListAdapter;
-import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.TitleView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 
 public class TokenListActivity extends BaseActivity {
 

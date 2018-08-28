@@ -1,4 +1,4 @@
-package com.lyqb.walletsdk.model.loopr.response;
+package com.lyqb.walletsdk.model.response;
 
 import java.util.List;
 
