@@ -32,7 +32,7 @@
         <TextView
             android:id="@+id/wallet_amount"
             style="@style/WrapWrap"
-            android:layout_below="@+id/wallet_title"
+            android:layout_below="@+id/wallet_name"
             android:layout_centerVertical="true"
             android:layout_marginTop="7dp"
             android:text="Loopring"
@@ -43,6 +43,8 @@
 
 
     <ImageView
+        android:visibility="gone"
+        android:id="@+id/iv_checked"
         android:checked="false"
         android:layout_width="22.7dp"
         android:layout_height="22.7dp"

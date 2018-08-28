@@ -133,7 +133,7 @@ public class SendActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        sendWalletName.setText((String) SPUtils.get(this,"send_choose","LRC"));
     }
 
     @OnClick({R.id.ll_manager_wallet, R.id.iv_scan, R.id.btn_send, R.id.ll_show_fee})

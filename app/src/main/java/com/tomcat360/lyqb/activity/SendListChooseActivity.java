@@ -30,8 +30,6 @@ public class SendListChooseActivity extends BaseActivity {
     TitleView title;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    @BindView(R.id.refresh_layout)
-    SwipeRefreshLayout refreshLayout;
     private TokenChooseAdapter mAdapter;
     private List<BalanceResult.Token> list;
 
@@ -63,12 +61,13 @@ public class SendListChooseActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        List<BalanceResult.Token> tokens = SPUtils.getDataList(this, "tokens");
-        mAdapter = new TokenChooseAdapter(R.layout.adapter_item_token_choose, tokens);
+        list = APP.getListToken();
+        mAdapter = new TokenChooseAdapter(R.layout.adapter_item_token_choose, list);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                SPUtils.put(SendListChooseActivity.this,"send_choose",list.get(position).getSymbol());
                 Intent intent = new Intent();
                 intent.putExtra("symbol", list.get(position).getSymbol()); //
 //                intent.putExtra("amount", list.get(position).getSymbol()); //
@@ -76,33 +75,6 @@ public class SendListChooseActivity extends BaseActivity {
                 finish();
             }
         });
-
-
-//        getToken();
     }
 
-    private void getToken() {
-        String address = (String) SPUtils.get(this, "address", "");
-        Observable<BalanceResult> balance = APP.getLooprSocketService().getBalanceDataStream();
-        APP.getLooprSocketService().requestBalance(address);
-        balance.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BalanceResult>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(BalanceResult balanceResult) {
-                        LyqbLogger.log(balanceResult.toString());
-                        list = balanceResult.getTokens();
-                        mAdapter.setNewData(balanceResult.getTokens());
-                    }
-                });
-    }
 }

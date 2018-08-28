@@ -181,7 +181,6 @@ public class GenerateWalletActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         MyViewUtils.hideSoftInput(this, walletName);
-        LyqbLogger.log((String) SPUtils.get(this, "filename", ""));
 
     }
 
@@ -399,6 +398,7 @@ public class GenerateWalletActivity extends BaseActivity {
                 Message msg = handlerCreate.obtainMessage();
                 try {
                     address = FileUtils.getFileFromSD(GenerateWalletActivity.this);
+                    SPUtils.put(GenerateWalletActivity.this,"address",address);
                 } catch (IOException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();

@@ -9,12 +9,7 @@
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:visibility="gone"
-        android:id="@+id/refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="15dp">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -22,5 +17,4 @@
         android:layout_marginLeft="@dimen/margSide"
         android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="10dp" />
-    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

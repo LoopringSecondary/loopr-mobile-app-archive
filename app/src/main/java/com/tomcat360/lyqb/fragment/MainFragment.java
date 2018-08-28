@@ -104,6 +104,7 @@ public class MainFragment extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case BALANCE_SUCCESS:
+                    LyqbLogger.log("222222222");
                     Observable<BalanceResult> balance = looprSocketService.getBalanceDataStream();
                     APP.getLooprSocketService().requestBalance(address);
                     balance.observeOn(AndroidSchedulers.mainThread())
@@ -120,8 +121,9 @@ public class MainFragment extends BaseFragment {
 
                                 @Override
                                 public void onNext(BalanceResult balanceResult) {
-                                    LyqbLogger.log(balanceResult.toString());
-                                    SPUtils.setDataList(getContext(),"tokens",balanceResult.getTokens());
+                                    LyqbLogger.log(balanceResult.getTokens().toString());
+                                    APP.setListToken(balanceResult.getTokens());
+//                                    SPUtils.setDataList(getContext(),"tokens",balanceResult.getTokens());
                                     mAdapter.setNewData(balanceResult.getTokens());
                                 }
                             });
@@ -153,7 +155,6 @@ public class MainFragment extends BaseFragment {
 
 
         address = (String) SPUtils.get(getContext(), "address", "");
-//        looprSocketService = new LooprSocketService(G.RELAY_URL);
         looprSocketService = APP.getLooprSocketService();
 
 
@@ -173,7 +174,7 @@ public class MainFragment extends BaseFragment {
                 handlerBalance.sendEmptyMessage(BALANCE_SUCCESS);
             }
         };
-        handlerBalance.postDelayed(r, 100);
+        handlerBalance.postDelayed(r,100);
 
     }
 

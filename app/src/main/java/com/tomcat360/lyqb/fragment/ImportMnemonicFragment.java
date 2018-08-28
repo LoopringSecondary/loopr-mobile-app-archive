@@ -20,6 +20,7 @@ import com.lyqb.walletsdk.model.WalletDetail;
 import com.lyqb.walletsdk.service.LooprHttpService;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.activity.GenerateWalletActivity;
 import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.model.eventbusData.MnemonicData;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
@@ -157,6 +158,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                 Message msg = handlerCreate.obtainMessage();
                 try {
                     address = FileUtils.getFileFromSD(getContext());
+                    SPUtils.put(getContext(),"address",address);
                     msg.obj = address;
                     msg.what = CREATE_SUCCESS;
                     handlerCreate.sendMessage(msg);

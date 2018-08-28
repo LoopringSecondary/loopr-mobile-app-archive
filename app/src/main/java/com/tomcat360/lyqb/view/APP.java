@@ -8,6 +8,7 @@ import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.lyqb.walletsdk.Loopring;
+import com.lyqb.walletsdk.model.response.BalanceResult;
 import com.lyqb.walletsdk.service.EthHttpService;
 import com.lyqb.walletsdk.service.LooprHttpService;
 import com.lyqb.walletsdk.service.LooprSocketService;
@@ -19,11 +20,16 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.vondear.rxtool.RxTool;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class APP extends Application {
     private static APP mInstance;
     String appVersion;
 //    public static LooprSocketService looprSocketService; // 创建全局的socket服务
     private static Loopring loopring;
+
+    private static List<BalanceResult.Token> listToken = new ArrayList<>();
 
     @Override
     public void onCreate() {
@@ -31,7 +37,6 @@ public class APP extends Application {
         RxTool.init(this);
         appVersion = AndroidUtils.getVersionName(this);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-//        looprSocketService = new LooprSocketService(G.RELAY_URL);
         /**
          * Loopring.
          */
@@ -86,6 +91,14 @@ public class APP extends Application {
         return loopring;
     }
 
+    public static List<BalanceResult.Token> getListToken() {
+        return listToken;
+    }
+
+    public static void setListToken(List<BalanceResult.Token> listToken) {
+        APP.listToken.clear();
+        APP.listToken = listToken;
+    }
 
     @Override
     protected void attachBaseContext(Context base) {

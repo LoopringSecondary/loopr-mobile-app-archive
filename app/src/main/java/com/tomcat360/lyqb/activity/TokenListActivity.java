@@ -31,9 +31,9 @@ public class TokenListActivity extends BaseActivity {
     TitleView title;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    @BindView(R.id.refresh_layout)
-    SwipeRefreshLayout refreshLayout;
     private TokenListAdapter mAdapter;
+
+    private List<BalanceResult.Token> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +63,9 @@ public class TokenListActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        List<BalanceResult.Token> tokens = SPUtils.getDataList(this, "tokens");
-        LyqbLogger.log(tokens.toString());
-        mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, tokens);
+//        List<BalanceResult.Token> tokens = SPUtils.getDataList(this, "tokens");
+        list =  APP.getListToken();
+        mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list,list);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -74,31 +74,6 @@ public class TokenListActivity extends BaseActivity {
             }
         });
 
-
-//        getToken();
     }
 
-    private void getToken() {
-        String address = (String) SPUtils.get(this, "address", "");
-        Observable<BalanceResult> balance = APP.getLooprSocketService().getBalanceDataStream();
-        APP.getLooprSocketService().requestBalance(address);
-        balance.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BalanceResult>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(BalanceResult balanceResult) {
-                        LyqbLogger.log(balanceResult.toString());
-                        mAdapter.setNewData(balanceResult.getTokens());
-                    }
-                });
-    }
 }

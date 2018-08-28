@@ -14,6 +14,7 @@ import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.fragment.MainFragment;
 import com.tomcat360.lyqb.fragment.SettingFragment;
 import com.tomcat360.lyqb.fragment.TradeFragment;
+import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.view.APP;
 

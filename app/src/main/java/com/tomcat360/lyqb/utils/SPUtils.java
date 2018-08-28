@@ -201,17 +201,16 @@ public class SPUtils {
 	 * @param datalist
 	 */
 	public static <T> void setDataList(Context context,String tag, List<T> datalist) {
+
 		SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME,
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sp.edit();
 
 		if (null == datalist || datalist.size() <= 0)
 			return;
-
 		Gson gson = new Gson();
 		//转换成json数据，再保存
 		String strJson = gson.toJson(datalist);
-		editor.clear();
 		editor.putString(tag, strJson);
 		editor.commit();
 		SharedPreferencesCompat.commit(editor);
