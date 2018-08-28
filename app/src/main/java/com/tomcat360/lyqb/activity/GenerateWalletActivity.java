@@ -362,7 +362,7 @@ public class GenerateWalletActivity extends BaseActivity {
         Bip39Wallet bip39Wallet = null;
         try {
             String pas = repeatPassword.getText().toString();
-            bip39Wallet = WalletHelper.createWallet(mnemonic, null, pas, FileUtils.getKeyStoreLocation());
+            bip39Wallet = WalletHelper.createFromMnemonic(mnemonic, null, pas, FileUtils.getKeyStoreLocation());
         } catch (Exception e) {
             e.printStackTrace();
         }

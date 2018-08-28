@@ -7,7 +7,7 @@ import org.web3j.crypto.WalletFile;
 import java.io.File;
 import java.io.IOException;
 
-public class KeystoreHelper {
+public class KeystoreUtils {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static WalletFile loadFromFile(File keystoreFile) {

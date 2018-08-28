@@ -5,7 +5,7 @@ import com.lyqb.walletsdk.util.Assert;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 
-import java.io.IOException;
+import rx.Observable;
 
 public class EthHttpService {
     private Web3j web3j;
@@ -14,16 +14,8 @@ public class EthHttpService {
         this.web3j = web3j;
     }
 
-    public String sendSignedTransaction(String signedTransaction) throws IOException {
+    public Observable<EthSendTransaction> sendTransaction(String signedTransaction) {
         Assert.hasText(signedTransaction);
-
-        EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedTransaction).send();
-        if (ethSendTransaction.hasError()) {
-            String message = ethSendTransaction.getError().getMessage();
-            System.out.println(message);
-            return "";
-        }else {
-            return ethSendTransaction.getTransactionHash();
-        }
+        return web3j.ethSendRawTransaction(signedTransaction).observable();
     }
 }
