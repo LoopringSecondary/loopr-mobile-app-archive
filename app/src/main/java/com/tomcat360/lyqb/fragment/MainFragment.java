@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.lyqb.walletsdk.Loopring;
 import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
 import com.lyqb.walletsdk.service.LooprSocketService;
 import com.tomcat360.lyqb.R;
@@ -30,6 +29,7 @@ import com.tomcat360.lyqb.adapter.MainWalletAdapter;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
+import com.tomcat360.lyqb.view.APP;
 
 import java.util.ArrayList;
 
@@ -172,7 +172,7 @@ public class MainFragment extends BaseFragment {
 
         address = (String) SPUtils.get(getContext(), "address", "");
 //        looprSocketService = new LooprSocketService(G.RELAY_URL);
-        looprSocketService = Loopring.getSocketService();
+        looprSocketService = APP.getLooprSocketService();
 
 
 //        Runnable r = new Runnable() {

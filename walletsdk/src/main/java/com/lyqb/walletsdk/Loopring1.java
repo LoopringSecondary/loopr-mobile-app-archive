@@ -19,21 +19,25 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public final class Loopring {
-    private OkHttpClient okHttpClient;
-    private Socket socketClient;
-    private Retrofit retrofitClient;
-    private Web3j web3jClient;
+public final class Loopring1 {
 
-    private LooprHttpService httpService;
-    private LooprSocketService socketService;
-    private EthHttpService ethService;
+    private static OkHttpClient okHttpClient;
+    private static Socket socketClient;
+    private static Retrofit retrofitClient;
+    private static Web3j web3jClient;
 
-    public Loopring() {
-        this(new LoopringConfig());
+    private static LooprHttpService httpService;
+    private static LooprSocketService socketService;
+    private static EthHttpService ethService;
+
+    private Loopring1() {
     }
 
-    public Loopring(LoopringConfig config) {
+    public static void create() {
+        create(new LoopringConfig());
+    }
+
+    public static void create(LoopringConfig config) {
         initOkHttp(config);
         initRetrofit(config);
         initSocketIO(config);
@@ -41,12 +45,33 @@ public final class Loopring {
         initServices();
     }
 
-
-    public void destroy() {
-
+    public static void destroy() {
+        socketService.close();
+        socketClient.close();
     }
 
-    private void initOkHttp(LoopringConfig config) {
+    public static LooprHttpService getHttpService() {
+        if (httpService == null) {
+            throw new InitializeFailureException();
+        }
+        return httpService;
+    }
+
+    public static LooprSocketService getSocketService() {
+        if (socketService == null) {
+            throw new InitializeFailureException();
+        }
+        return socketService;
+    }
+
+    public static EthHttpService getEthService() {
+        if (ethService == null) {
+            throw new InitializeFailureException();
+        }
+        return ethService;
+    }
+
+    private static void initOkHttp(LoopringConfig config) {
         okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
@@ -54,7 +79,7 @@ public final class Loopring {
                 .build();
     }
 
-    private void initRetrofit(LoopringConfig config) {
+    private static void initRetrofit(LoopringConfig config) {
         retrofitClient = new Retrofit.Builder()
                 .baseUrl(config.relayBase)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -63,7 +88,7 @@ public final class Loopring {
                 .build();
     }
 
-    private void initSocketIO(LoopringConfig config) {
+    private static void initSocketIO(LoopringConfig config) {
         IO.Options opt = new IO.Options();
         opt.reconnection = true;
         opt.reconnectionAttempts = 5;
@@ -83,28 +108,15 @@ public final class Loopring {
         socketClient.connect();
     }
 
-    private void initWeb3j(LoopringConfig config) {
+    private static void initWeb3j(LoopringConfig config) {
         HttpService httpService = new HttpService(config.ethRpcUrl);
         web3jClient = Web3jFactory.build(httpService);
     }
 
-    private void initServices() {
+    private static void initServices() {
         httpService = new LooprHttpService(retrofitClient);
         socketService = new LooprSocketService(socketClient);
         ethService = new EthHttpService(web3jClient);
-    }
-
-
-    public LooprHttpService getHttpService() {
-        return httpService;
-    }
-
-    public LooprSocketService getSocketService() {
-        return socketService;
-    }
-
-    public EthHttpService getEthService() {
-        return ethService;
     }
 
 }

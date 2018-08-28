@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lyqb.walletsdk.Loopring;
 import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.lyqb.walletsdk.service.LooprHttpService;
@@ -29,6 +28,7 @@ import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.wheelPicker.picker.OptionPicker;
 
 import org.greenrobot.eventbus.EventBus;
@@ -205,7 +205,7 @@ public class ImportMnemonicFragment extends BaseFragment {
     @Override
     protected void initData() {
 //        looprHttpService = new LooprHttpService(G.RELAY_URL);
-        looprHttpService = Loopring.getHttpService();
+        looprHttpService = APP.getLooprHttpService();
     }
 
     @Override

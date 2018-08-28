@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.lyqb.walletsdk.Loopring;
 import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.IllegalCredentialException;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
@@ -27,6 +26,7 @@ import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.view.APP;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -166,7 +166,7 @@ public class ImportKeystoreFragment extends BaseFragment {
     @Override
     protected void initData() {
 //        looprHttpService = new LooprHttpService(G.RELAY_URL);
-        looprHttpService = Loopring.getHttpService();
+        looprHttpService = APP.getLooprHttpService();
     }
 
     @Override
