@@ -1,7 +1,10 @@
 package com.tomcat360.lyqb.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
+import com.tomcat360.lyqb.utils.ToastUtils;
 import com.vondear.rxfeature.tool.RxQRCode;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +34,38 @@ public class QRCodeFragment extends BaseFragment {
     Unbinder unbinder;
     @BindView(R.id.iv_code)
     ImageView ivCode;
+
+    public String keystore;
+
+
+    public final static int KEYSTORE_SUCCESS = 1;
+    public final static int ERROR_ONE = 2;
+    public final static int ERROR_TWO = 3;
+    @SuppressLint("HandlerLeak")
+    Handler handlerCreate = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case KEYSTORE_SUCCESS:
+
+                    //二维码生成方式一  推荐此方法
+                    RxQRCode.builder(keystore).
+                            backColor(0xFFFFFFFF).
+                            codeColor(0xFF000000).
+                            codeSide(800).
+                            into(ivCode);
+                    break;
+                case ERROR_ONE:
+                    ToastUtils.toast("本地文件读取失败，请重试");
+                    break;
+                case ERROR_TWO:
+                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    break;
+
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -53,14 +94,24 @@ public class QRCodeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        String str = (String) SPUtils.get(getContext(),"address","");
 
-        //二维码生成方式一  推荐此方法
-        RxQRCode.builder(str).
-                backColor(0xFFFFFFFF).
-                codeColor(0xFF000000).
-                codeSide(800).
-                into(ivCode);
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    keystore = FileUtils.getKeystoreFromSD(getContext());
+                    handlerCreate.sendEmptyMessage(KEYSTORE_SUCCESS);
+                } catch (IOException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_ONE);
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_TWO);
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
 

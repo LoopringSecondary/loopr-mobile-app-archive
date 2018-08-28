@@ -1,8 +1,11 @@
 package com.tomcat360.lyqb.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -17,15 +20,27 @@ import android.widget.TextView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
+import com.tomcat360.lyqb.utils.DialogUtil;
+import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.utils.NumberUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.RangeSeekBar;
 import com.tomcat360.lyqb.views.TitleView;
+
+import org.web3j.crypto.CipherException;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.WalletFile;
+
+import java.math.BigInteger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class SendActivity extends BaseActivity {
 
@@ -61,6 +76,39 @@ public class SendActivity extends BaseActivity {
     LinearLayout llShowFee;
 
     private static int REQUEST_CODE = 1;  //二维码扫一扫code
+    private static int TOKEN_CODE = 2;  //选择币种code
+
+    public final static int SEND_SUCCESS = 3;
+    public final static int SEND_FAILED = 4;
+    public final static int ERROR_ONE = 5;
+    public final static int ERROR_TWO = 6;
+    @SuppressLint("HandlerLeak")
+    Handler handlerCreate = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SEND_SUCCESS:
+                    hideProgress();
+                    ToastUtils.toast("转账成功");
+                    break;
+                case SEND_FAILED:
+                    hideProgress();
+                    ToastUtils.toast("转账失败，请重试");
+                    break;
+                case ERROR_ONE:
+                    hideProgress();
+                    ToastUtils.toast("密码输入错误");
+                    break;
+                case ERROR_TWO:
+                    hideProgress();
+                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    break;
+
+            }
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +138,7 @@ public class SendActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_manager_wallet:
-                getOperation().forward(TokenListActivity.class);
+                getOperation().forwardForResult(SendListChooseActivity.class,TOKEN_CODE);
                 break;
             case R.id.iv_scan:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
@@ -98,12 +146,7 @@ public class SendActivity extends BaseActivity {
                 }
                 break;
             case R.id.ll_show_fee:
-                showFeeDialog(this, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
+                showFeeDialog(this);
                 break;
             case R.id.btn_send:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
@@ -134,22 +177,24 @@ public class SendActivity extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-//                WalletFile walletFile = null;
-//                try {
-//                    File file = new File(Environment.getExternalStorageDirectory().getPath() + "/keystore/" + (String) SPUtils.get(SendActivity.this, "filename", ""));
+                try {
+//                    File file = new File(SendActivity.this.getFilesDir().getAbsolutePath()  + "/keystore/" + (String) SPUtils.get(SendActivity.this, "filename", ""));
 //                    walletFile = KeystoreHelper.loadFromFile(file);
 //                    Credentials credentials = WalletHelper.unlock("qqqqqq", walletFile);
-//                    String ethTrasnferTransaction = TransactionHelper.createEthTransferTransaction("0x75a6543F96e4177128f8CaA35db739e5088489B0", credentials, BigInteger.valueOf(0));
+//                    String ethTrasnferTransaction = TransactionHelper.createEthTrasnferTransaction("0x75a6543F96e4177128f8CaA35db739e5088489B0", credentials, BigInteger.valueOf(0));
 //                    String s = TransactionHelper.sendTransaction(ethTrasnferTransaction);
-//                    LyqbLogger.log(s);
-//                    hideProgress();
-//                } catch (FileNotFoundException e) {
-//                    ToastUtils.toast("本地文件读取失败，请重试");
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    ToastUtils.toast("本地文件读取失败，请重试");
-//                    e.printStackTrace();
-//                }
+                    Credentials credentials = APP.getLoopring().unlockWallet("qqqqqq", FileUtils.getKeystoreFile(SendActivity.this));
+                    String s = APP.getLoopring().sendTransaction("0x75a6543F96e4177128f8CaA35db739e5088489B0", BigInteger.valueOf(0), credentials);
+                    if (s != null){
+                        handlerCreate.sendEmptyMessage(SEND_SUCCESS);
+                    }else {
+                        handlerCreate.sendEmptyMessage(SEND_FAILED);
+                    }
+                    LyqbLogger.log(s);
+                } catch (CipherException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_ONE);
+                    e.printStackTrace();
+                }
             }
         }).start();
 
@@ -173,21 +218,27 @@ public class SendActivity extends BaseActivity {
                 LyqbLogger.log(result);
                 walletAddress.setText(result);
             }
+        }else if (requestCode == TOKEN_CODE){
+            if(resultCode == 1) {
+                String symbol = data.getStringExtra("symbol");
+//            String amount = data.getStringExtra("amount");
+                sendWalletName.setText(symbol);
+            }
         }
     }
 
-    public AlertDialog dialog;
-    TextView dialogTitle;
-    TextView tvAmount;
-    TextView tvWalletInfo;
-    ImageView cancel;
-    RangeSeekBar dialogSeekBar;
+    private AlertDialog dialog;
+    private TextView dialogTitle;
+    private TextView tvAmount;
+    private TextView tvWalletInfo;
+    private ImageView cancel;
+    private RangeSeekBar dialogSeekBar;
+    private int value;
 
     /**
      * @param context
-     * @param listener
      */
-    public void showFeeDialog(Context context, View.OnClickListener listener) {
+    public void showFeeDialog(Context context) {
         if (dialog == null) {
             final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);//
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_fee, null);
@@ -204,6 +255,20 @@ public class SendActivity extends BaseActivity {
                     dialog.dismiss();
                 }
             });
+
+            dialogSeekBar.setOnRangeChangedListener(new RangeSeekBar.OnRangeChangedListener() {
+                @Override
+                public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {
+                    value = (int) min  ;
+
+
+                    String dd = NumberUtils.formatSix(Double.toString(0.000200),Integer.toString(value));
+//                    LyqbLogger.log( dd +"     "+ss);
+                    tvAmount.setText(NumberUtils.formatSix(Double.toString(0.000200),Integer.toString(value))+" ETH = "+NumberUtils.formatTwo(Double.toString(0.06),Integer.toString(value)));
+                    tvWalletInfo.setText("Gas limit(200000) * Gas Price("+ NumberUtils.numberformat1((double)value)+" Gwei)");
+                }
+            });
+
             builder.setCancelable(true);
             dialog = builder.create();
             dialog.setCancelable(true);

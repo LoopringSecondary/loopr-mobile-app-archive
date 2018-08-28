@@ -2,6 +2,7 @@ package com.tomcat360.lyqb.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,12 +17,15 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.common.base.Joiner;
+import com.lyqb.walletsdk.Loopring;
 import com.lyqb.walletsdk.WalletHelper;
+import com.lyqb.walletsdk.model.WalletDetail;
 import com.lyqb.walletsdk.service.LooprHttpService;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
 import com.tomcat360.lyqb.adapter.MnemonicWordHintAdapter;
+import com.tomcat360.lyqb.net.G;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
@@ -29,13 +33,21 @@ import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.MyViewUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.SpacesItemDecoration;
 import com.tomcat360.lyqb.views.TitleView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.web3j.crypto.Bip39Wallet;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -109,6 +121,8 @@ public class GenerateWalletActivity extends BaseActivity {
 
     public final static int MNEMONIC_SUCCESS = 1;
     public final static int CREATE_SUCCESS = 2;
+    public final static int ERROR_ONE = 3;
+    public final static int ERROR_TWO = 4;
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
@@ -123,7 +137,6 @@ public class GenerateWalletActivity extends BaseActivity {
 
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    LyqbLogger.log(address);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -156,9 +169,17 @@ public class GenerateWalletActivity extends BaseActivity {
                         }
                     }).start();
                     break;
+                case ERROR_ONE:
+                    hideProgress();
+                    ToastUtils.toast("本地文件读取失败，请重试");
+                    break;
+                case ERROR_TWO:
+                    hideProgress();
+                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    break;
+
             }
         }
-
 
     };
 
@@ -187,7 +208,7 @@ public class GenerateWalletActivity extends BaseActivity {
 
     @Override
     public void initData() {
-//        looprHttpService = new LooprHttpService(G.RELAY_URL);
+        looprHttpService = APP.getLooprHttpService();
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         GridLayoutManager layoutManagerHint = new GridLayoutManager(this, 3);
@@ -264,7 +285,14 @@ public class GenerateWalletActivity extends BaseActivity {
                                 listRandomMnemonic.add(arrayMne[i]);
                             }
                             mHintAdapter.setNewData(listMnemonic);
-                            SPUtils.setDataList(this, "mnemonic", listMnemonic);
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    FileUtils.keepFile(GenerateWalletActivity.this, "mnemonic.txt", mnemonic);
+
+                                }
+                            }).start();
+//                            SPUtils.setDataList(this, "mnemonic", listMnemonic);
                             mHintAdapter.notifyDataSetChanged();
 
                             generatePartone.setVisibility(View.GONE);
@@ -314,13 +342,13 @@ public class GenerateWalletActivity extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Bip39Wallet bip39Wallet = createWallet();//生成助记词
+                WalletDetail walletDetail = createWallet();//生成助记词
                 Message msg = new Message();
                 Bundle bundle = new Bundle();
-                bundle.putString("filename", bip39Wallet.getFilename());
-                bundle.putString("mnemonic", bip39Wallet.getMnemonic());
-                SPUtils.put(GenerateWalletActivity.this, "filename", bip39Wallet.getFilename());
-                LyqbLogger.log(bip39Wallet.getMnemonic() + "   " + bip39Wallet.getFilename());
+                bundle.putString("filename", walletDetail.getFilename());
+                bundle.putString("mnemonic", walletDetail.getMnemonic());
+                SPUtils.put(GenerateWalletActivity.this, "filename", walletDetail.getFilename());
+                LyqbLogger.log(walletDetail.getMnemonic() + "   " + walletDetail.getFilename());
                 msg.setData(bundle);
                 msg.what = MNEMONIC_SUCCESS;
                 handlerCreate.sendMessage(msg);
@@ -358,21 +386,22 @@ public class GenerateWalletActivity extends BaseActivity {
     /**
      * 创建钱包
      */
-    private Bip39Wallet createWallet() {
-        Bip39Wallet bip39Wallet = null;
+    private WalletDetail createWallet() {
+        WalletDetail walletDetail = null;
         try {
             String pas = repeatPassword.getText().toString();
-            bip39Wallet = WalletHelper.createFromMnemonic(mnemonic, null, pas, FileUtils.getKeyStoreLocation());
+
+            walletDetail = APP.getLoopring().createFromMnemonic(mnemonic, null, pas, FileUtils.getKeyStoreLocation(this));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return bip39Wallet;
+        return walletDetail;
     }
 
 
     /**
      * 获取本地keystore中的address
-     * */
+     */
     public void getAddress() {
         new Thread() {
             @Override
@@ -381,12 +410,10 @@ public class GenerateWalletActivity extends BaseActivity {
                 try {
                     address = FileUtils.getFileFromSD(GenerateWalletActivity.this);
                 } catch (IOException e) {
-                    hideProgress();
-                    ToastUtils.toast("本地文件读取失败，请重试");
+                    handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();
                 } catch (JSONException e) {
-                    hideProgress();
-                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    handlerCreate.sendEmptyMessage(ERROR_TWO);
                     e.printStackTrace();
                 }
                 msg.obj = address;

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
+import com.lyqb.walletsdk.model.WalletDetail;
 import com.lyqb.walletsdk.service.LooprHttpService;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
@@ -76,6 +77,10 @@ public class ImportMnemonicFragment extends BaseFragment {
 
     public final static int MNEMONIC_SUCCESS = 1;
     public final static int CREATE_SUCCESS = 2;
+    public final static int ERROR_ONE = 3;
+    public final static int ERROR_TWO = 4;
+    public final static int ERROR_THREE = 5;
+    public final static int ERROR_FOUR = 6;
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
@@ -127,6 +132,21 @@ public class ImportMnemonicFragment extends BaseFragment {
                         }
                     }).start();
                     break;
+                case ERROR_ONE:
+                    ToastUtils.toast("钱包创建失败");
+                    hideProgress();
+                    break;
+                case ERROR_TWO:
+
+                    break;
+                case ERROR_THREE:
+                    hideProgress();
+                    ToastUtils.toast("本地文件读取失败，请重试");
+                    break;
+                case ERROR_FOUR:
+                    hideProgress();
+                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    break;
 
             }
         }
@@ -139,18 +159,17 @@ public class ImportMnemonicFragment extends BaseFragment {
                 Message msg = handlerCreate.obtainMessage();
                 try {
                     address = FileUtils.getFileFromSD(getContext());
+                    msg.obj = address;
+                    msg.what = CREATE_SUCCESS;
+                    handlerCreate.sendMessage(msg);
                 } catch (IOException e) {
-                    hideProgress();
-                    ToastUtils.toast("本地文件读取失败，请重试");
+                    handlerCreate.sendEmptyMessage(ERROR_THREE);
                     e.printStackTrace();
                 } catch (JSONException e) {
-                    hideProgress();
-                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    handlerCreate.sendEmptyMessage(ERROR_FOUR);
                     e.printStackTrace();
                 }
-                msg.obj = address;
-                msg.what = CREATE_SUCCESS;
-                handlerCreate.sendMessage(msg);
+
             }
         }.start();
 
@@ -263,21 +282,22 @@ public class ImportMnemonicFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Bip39Wallet bip39Wallet;
+                String fileName = null;
+                WalletDetail walletDetail = null;
                 try {
-                    bip39Wallet = WalletHelper.importFromMnemonic(etMnemonic.getText().toString(), dpath, etPassword.getText().toString(), FileUtils.getKeyStoreLocation(), 0);
+                    walletDetail = APP.getLoopring().importFromMnemonic(etMnemonic.getText().toString(), dpath, etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()), 0);
+                    fileName = walletDetail.getMnemonic();
                     Message msg = new Message();
                     Bundle bundle = new Bundle();
-                    bundle.putString("filename", bip39Wallet.getFilename());
-                    bundle.putString("mnemonic", bip39Wallet.getMnemonic());
-                    SPUtils.put(getContext(), "filename", bip39Wallet.getFilename());
-                    LyqbLogger.log(bip39Wallet.getFilename() + "   " + bip39Wallet.getMnemonic());
+                    bundle.putString("filename", walletDetail.getFilename());
+                    bundle.putString("mnemonic", walletDetail.getMnemonic());
+                    SPUtils.put(getContext(), "filename", walletDetail.getFilename());
+                    LyqbLogger.log(walletDetail.getFilename() + "   " + walletDetail.getMnemonic());
                     msg.setData(bundle);
                     msg.what = MNEMONIC_SUCCESS;
                     handlerCreate.sendMessage(msg);
                 } catch (KeystoreSaveException e) {
-                    ToastUtils.toast("钱包创建失败");
-                    hideProgress();
+                    handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();
                 }
 

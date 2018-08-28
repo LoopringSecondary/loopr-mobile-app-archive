@@ -3,6 +3,8 @@ package com.tomcat360.lyqb.utils;
 import android.content.Context;
 import android.os.Environment;
 
+import com.tomcat360.lyqb.activity.SendActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,14 +12,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class FileUtils {
 
-    public static File getKeyStoreLocation() {
-        //在SD卡下建目录
-        String dir = Environment.getExternalStorageDirectory().getPath() + "/keystore";
+    /**
+     * 在根目录下建文件夹
+     * */
+    public static File getKeyStoreLocation(Context context) {
+        //
+//        String dir = Environment.getExternalStorageDirectory().getPath() + "/keystore";
+        String dir = context.getFilesDir().getAbsolutePath() + "/keystore";  //getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath()
         File mFile = new File(dir);
         if (!mFile.exists()) {
             boolean mkdirs = mFile.mkdirs();
@@ -26,12 +33,13 @@ public class FileUtils {
     }
 
 
-    //获取keystore文件中的address
+    /**
+     * 获取keystore文件中的address
+     * */
     public static String getFileFromSD(Context context) throws IOException, JSONException {
         FileInputStream isr = null;
-//        try {
-//            isr = new FileInputStream(Environment.getExternalStorageDirectory().getPath() + "/keystore"+"/UTC--2018-08-20T17-52-51.231--8e1de49550b72f0dcc09b0c8344dac94248f066b.json");
-            isr = new FileInputStream(Environment.getExternalStorageDirectory().getPath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+//            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+            isr = new FileInputStream(context.getFilesDir().getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
             BufferedReader br = new BufferedReader(new InputStreamReader(isr));
             String line;
             StringBuilder builder = new StringBuilder();
@@ -46,29 +54,71 @@ public class FileUtils {
             LyqbLogger.log(testjson.toString());
             LyqbLogger.log(testjson.getString("address"));
             return testjson.getString("address");
-            //直接传入JSONObject来构造一个实例
-//            JSONArray array = testjson.getJSONArray("role");         //从JSONObject中取出数组对象
-//            for (int i = 0; i < array.length(); i++) {
-//                JSONObject role = array.getJSONObject(i);    //取出数组中的对象
-//                text.append(role.getString("name") + ": ");  //取出数组中对象的各个值
-//                text.append(role.getString("say") + "\n");
-//            }//
-//
-//            text.append("now the " +testjson.getString("dog") + " is here");
-//        } catch (FileNotFoundException e) {
-////            hideProgress();
-//            ToastUtils.toast("本地文件读取失败，请重试");
-//            e.printStackTrace();
-//        } catch (JSONException e) {
-////            hideProgress();
-//            ToastUtils.toast("本地文件读取失败，请重试");
-//            e.printStackTrace();
-//        } catch (IOException e) {
-////            hideProgress();
-//            ToastUtils.toast("本地文件读取失败，请重试");
-//            e.printStackTrace();
-//        }
-//        return "";
+
+    }
+
+    /**
+     * 获取keystore文件
+     * */
+    public static File getKeystoreFile(Context context)  {
+        File file = new File(context.getFilesDir().getAbsolutePath()  + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+        return file;
+    }
+    /**
+     * 获取keystore文件内容
+     * */
+    public static String getKeystoreFromSD(Context context) throws IOException, JSONException {
+        FileInputStream isr = null;
+//            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+            isr = new FileInputStream(context.getFilesDir().getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+            BufferedReader br = new BufferedReader(new InputStreamReader(isr));
+            String line;
+            StringBuilder builder = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                builder.append(line);
+            }
+            br.close();
+            isr.close();
+            JSONObject testjson = new JSONObject(builder.toString());//builder读取了JSON中的数据。
+            SPUtils.put(context, "address", testjson.getString("address"));
+            SPUtils.put(context, "private_key", testjson.toString());
+            LyqbLogger.log(testjson.toString());
+            LyqbLogger.log(testjson.getString("address"));
+            return testjson.toString();
+
+    }
+
+    /**
+     * 保存文件到本地
+     * */
+    public static void keepFile(Context context,String fileName,String fileInfo){
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(context.getFilesDir().getAbsolutePath() + "/keystore/"+fileName);
+            fos.write(fileInfo.getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 读取本地文件
+     * */
+    public static String[] getFile(Context context,String fileName) throws IOException, JSONException {
+        FileInputStream isr = null;
+//            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+        isr = new FileInputStream(context.getFilesDir().getAbsolutePath() + "/keystore/" + fileName);
+        BufferedReader br = new BufferedReader(new InputStreamReader(isr));
+        String text = br.readLine();
+        String[] s = text.split(" ");
+        br.close();
+        isr.close();
+        return s;
+
     }
 
 }

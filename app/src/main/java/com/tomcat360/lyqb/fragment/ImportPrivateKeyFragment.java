@@ -15,6 +15,7 @@ import android.widget.Button;
 import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
+import com.lyqb.walletsdk.model.WalletDetail;
 import com.lyqb.walletsdk.service.LooprHttpService;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
@@ -64,6 +65,10 @@ public class ImportPrivateKeyFragment extends BaseFragment {
 
     public final static int MNEMONIC_SUCCESS = 1;
     public final static int CREATE_SUCCESS = 2;
+    public final static int ERROR_ONE = 3;
+    public final static int ERROR_TWO = 4;
+    public final static int ERROR_THREE = 5;
+    public final static int ERROR_FOUR = 6;
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
@@ -82,7 +87,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            LyqbLogger.log("22222222"+address);
+                            LyqbLogger.log("22222222" + address);
                             looprHttpService.unlockWallet(address)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
@@ -113,6 +118,22 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                         }
                     }).start();
                     break;
+                case ERROR_ONE:
+                    ToastUtils.toast("私钥错误");
+                    hideProgress();
+                    break;
+                case ERROR_TWO:
+                    ToastUtils.toast("钱包创建失败");
+                    hideProgress();
+                    break;
+                case ERROR_THREE:
+                    hideProgress();
+                    ToastUtils.toast("本地文件读取失败，请重试");
+                    break;
+                case ERROR_FOUR:
+                    hideProgress();
+                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    break;
             }
         }
     };
@@ -124,18 +145,17 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                 Message msg = handlerCreate.obtainMessage();
                 try {
                     address = FileUtils.getFileFromSD(getContext());
+                    msg.obj = address;
+                    msg.what = CREATE_SUCCESS;
+                    handlerCreate.sendMessage(msg);
                 } catch (IOException e) {
-                    hideProgress();
-                    ToastUtils.toast("本地文件读取失败，请重试");
+                    handlerCreate.sendEmptyMessage(ERROR_THREE);
                     e.printStackTrace();
                 } catch (JSONException e) {
-                    hideProgress();
-                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    handlerCreate.sendEmptyMessage(ERROR_FOUR);
                     e.printStackTrace();
                 }
-                msg.obj = address;
-                msg.what = CREATE_SUCCESS;
-                handlerCreate.sendMessage(msg);
+
             }
         }.start();
 
@@ -237,9 +257,11 @@ public class ImportPrivateKeyFragment extends BaseFragment {
             @Override
             public void run() {
                 String fileName = null;
+                WalletDetail walletDetail = null;
                 try {
-                    fileName = WalletHelper.importFromPrivateKey(etPrivateKey.getText().toString().startsWith("0x") ? etPrivateKey.getText().toString().substring(2) :etPrivateKey.getText().toString() ,etPassword.getText().toString(), FileUtils.getKeyStoreLocation());
-                    SPUtils.put(getContext(),"filename",fileName);
+                    walletDetail = APP.getLoopring().importFromPrivateKey(etPrivateKey.getText().toString().startsWith("0x") ? etPrivateKey.getText().toString().substring(2) : etPrivateKey.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
+                    fileName = walletDetail.getFilename();
+                    SPUtils.put(getContext(), "filename", fileName);
                     Message msg = new Message();
                     Bundle bundle = new Bundle();
                     bundle.putString("filename", fileName);
@@ -248,12 +270,10 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     msg.what = MNEMONIC_SUCCESS;
                     handlerCreate.sendMessage(msg);
                 } catch (InvalidPrivateKeyException e) {
-                    ToastUtils.toast("私钥错误");
-                    hideProgress();
+                    handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();
                 } catch (KeystoreSaveException e) {
-                    ToastUtils.toast("钱包创建失败");
-                    hideProgress();
+                    handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();
                 }
 

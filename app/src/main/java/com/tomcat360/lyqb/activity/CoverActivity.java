@@ -1,6 +1,7 @@
 package com.tomcat360.lyqb.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.utils.AppManager;
+import com.tomcat360.lyqb.utils.LyqbLogger;
 
 import java.util.ArrayList;
 import java.util.List;

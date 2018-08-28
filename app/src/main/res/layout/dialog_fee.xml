@@ -47,7 +47,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="0.003 ETH = $0.97"
+                android:text="0.000200 ETH = $0.97"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normal14Text" />
             <TextView
@@ -71,7 +71,7 @@
             android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="gas limit"
+            android:text="Gas limit(200000) * Gas Price(20.0 Gwei)"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/normal14Text" />
 
@@ -87,8 +87,8 @@
             app:hideProgressHint="true"
             app:lineColorEdge="#444444"
             app:lineColorSelected="@color/colorGreen"
-            app:maxValue="100"
-            app:minValue="0"
+            app:maxValue="20"
+            app:minValue="1"
             app:progressHintResId="@drawable/progress_hint_bg3"
             app:seekBarHeight="5dp"
             app:seekBarMode="single"

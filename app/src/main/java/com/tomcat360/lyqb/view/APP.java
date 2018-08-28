@@ -79,7 +79,11 @@ public class APP extends Application {
     }
 
     public static EthHttpService getEthHttpService() {
+
         return loopring.getEthService();
+    }
+    public static Loopring getLoopring() {
+        return loopring;
     }
 
 

@@ -75,4 +75,5 @@
     <string name="dialog_fee_recom">推荐油价</string>
     <string name="gas_limit">Gas Limit</string>
     <string name="gas_pricae">Gas Price</string>
+    <string name="tokens">代币</string>
 </resources>

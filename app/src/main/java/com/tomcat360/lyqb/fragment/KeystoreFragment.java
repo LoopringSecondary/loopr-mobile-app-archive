@@ -1,9 +1,12 @@
 package com.tomcat360.lyqb.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +15,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +38,31 @@ public class KeystoreFragment extends BaseFragment {
     TextView tvKeystore;
     @BindView(R.id.btn_copy_keystore)
     Button btnCopyKeystore;
+
+    public String keystore;
+
+    public final static int KEYSTORE_SUCCESS = 1;
+    public final static int ERROR_ONE = 2;
+    public final static int ERROR_TWO = 3;
+    @SuppressLint("HandlerLeak")
+    Handler handlerCreate = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case KEYSTORE_SUCCESS:
+                    tvKeystore.setText(keystore);
+                    break;
+                case ERROR_ONE:
+                    ToastUtils.toast("本地文件读取失败，请重试");
+                    break;
+                case ERROR_TWO:
+                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    break;
+
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -58,7 +91,21 @@ public class KeystoreFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                     keystore = FileUtils.getKeystoreFromSD(getContext());
+                     handlerCreate.sendEmptyMessage(KEYSTORE_SUCCESS);
+                } catch (IOException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_ONE);
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_TWO);
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 
@@ -76,7 +123,7 @@ public class KeystoreFragment extends BaseFragment {
         ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
         // 将文本内容放到系统剪贴板里。
         cm.setText(tvKeystore.getText());
-        ToastUtils.toast("复制成功，可以发给朋友们了。");
+        ToastUtils.toast("复制成功");
     }
 
 

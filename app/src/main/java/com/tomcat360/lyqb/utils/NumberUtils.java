@@ -34,7 +34,7 @@ public class NumberUtils {
 	 * @param d
 	 * @return
 	 */
-	public static String Numberformat2(Double d){
+	public static String numberformat2(Double d){
 		DecimalFormat   fmt   =   new   DecimalFormat("##0");
 		return fmt.format(d);
 	}
@@ -44,7 +44,7 @@ public class NumberUtils {
 	 * @param d
 	 * @return
 	 */
-	public static String Numberformat1(Double d){
+	public static String numberformat1(Double d){
 		DecimalFormat   fmt   =   new   DecimalFormat("##0.0");
 		return fmt.format(d);
 	}
@@ -54,7 +54,7 @@ public class NumberUtils {
 	 * @param d
 	 * @return
 	 */
-	public static String Numberformat(Double d){
+	public static String numberformat(Double d){
 		DecimalFormat   fmt   =   new   DecimalFormat("#,##0.00");
 		return fmt.format(d);
 	}
@@ -91,8 +91,21 @@ public class NumberUtils {
 	}
 	public static double format6(double d){
 		DecimalFormat df = new DecimalFormat("0.000000");
+		df.setGroupingUsed(false);
 		String ds=df.format(d);
 		return Double.parseDouble(ds);
+	}
+	public static String formatSix(String s1,String s2){
+		BigDecimal d1 = new BigDecimal(s1);
+		BigDecimal d2 = new BigDecimal(s2);
+		String ss = d1.multiply(d2).setScale(6,BigDecimal.ROUND_HALF_DOWN).toString();
+		return ss;
+	}
+	public static String formatTwo(String s1,String s2){
+		BigDecimal d1 = new BigDecimal(s1);
+		BigDecimal d2 = new BigDecimal(s2);
+		String ss = d1.multiply(d2).setScale(2,BigDecimal.ROUND_HALF_DOWN).toString();
+		return ss;
 	}
 	public static int getInt(String str){
 		if(str==null||str.equals(""))

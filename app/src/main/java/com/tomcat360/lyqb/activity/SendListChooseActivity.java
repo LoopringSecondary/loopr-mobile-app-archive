@@ -1,5 +1,6 @@
 package com.tomcat360.lyqb.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,21 +10,17 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lyqb.walletsdk.model.loopr.response.BalanceResult;
 import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.adapter.TokenListAdapter;
-import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.adapter.TokenChooseAdapter;
 import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.TitleView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 
-public class TokenListActivity extends BaseActivity {
+public class SendListChooseActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
@@ -31,11 +28,12 @@ public class TokenListActivity extends BaseActivity {
     RecyclerView recyclerView;
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
-    private TokenListAdapter mAdapter;
+    private TokenChooseAdapter mAdapter;
+    private List<BalanceResult.Token> list ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_token_list);
+        setContentView(R.layout.activity_send_list);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
     }
@@ -61,13 +59,16 @@ public class TokenListActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        ArrayList<String> list = new ArrayList<>();
-        mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, null);
+        mAdapter = new TokenChooseAdapter(R.layout.adapter_item_token_choose, null);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                Intent intent = new Intent();
+                intent.putExtra("symbol", list.get(position).getSymbol()); //
+//                intent.putExtra("amount", list.get(position).getSymbol()); //
+                setResult(1, intent);
+                finish();
             }
         });
 
