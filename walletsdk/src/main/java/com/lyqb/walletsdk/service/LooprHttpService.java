@@ -28,6 +28,7 @@ public class LooprHttpService {
 //                .build();
 //        rpcDelegate = retrofit.create(RpcDelegate.class);
 //    }
+
     public LooprHttpService(Retrofit retrofit) {
         rpcDelegate = retrofit.create(RpcDelegate.class);
     }

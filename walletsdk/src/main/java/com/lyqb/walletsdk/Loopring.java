@@ -1,6 +1,7 @@
 package com.lyqb.walletsdk;
 
-import com.lyqb.walletsdk.exception.SdkUninitialized;
+import com.lyqb.walletsdk.exception.InitializeFailureException;
+import com.lyqb.walletsdk.service.EthHttpService;
 import com.lyqb.walletsdk.service.LooprHttpService;
 import com.lyqb.walletsdk.service.LooprSocketService;
 
@@ -21,23 +22,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public final class Loopring {
 
     private static OkHttpClient okHttpClient;
-
     private static Socket socketClient;
     private static Retrofit retrofitClient;
-
     private static Web3j web3jClient;
-
 
     private static LooprHttpService httpService;
     private static LooprSocketService socketService;
+    private static EthHttpService ethService;
 
-
-    public static void init() {
-        init(new LoopringConfig());
+    private Loopring() {
     }
 
+    public static void create() {
+        create(new LoopringConfig());
+    }
 
-    public static void init(LoopringConfig config) {
+    public static void create(LoopringConfig config) {
         initOkHttp(config);
         initRetrofit(config);
         initSocketIO(config);
@@ -45,35 +45,31 @@ public final class Loopring {
         initServices();
     }
 
-
     public static void destroy() {
-
-    }
-
-    public static Web3j getWeb3jClient() {
-        if (web3jClient == null) {
-            throw new SdkUninitialized();
-        }
-        return web3jClient;
+        socketService.close();
+        socketClient.close();
     }
 
     public static LooprHttpService getHttpService() {
         if (httpService == null) {
-            throw new SdkUninitialized();
+            throw new InitializeFailureException();
         }
         return httpService;
     }
 
     public static LooprSocketService getSocketService() {
         if (socketService == null) {
-            throw new SdkUninitialized();
+            throw new InitializeFailureException();
         }
         return socketService;
     }
 
-    private Loopring() {
+    public static EthHttpService getEthService() {
+        if (ethService == null) {
+            throw new InitializeFailureException();
+        }
+        return ethService;
     }
-
 
     private static void initOkHttp(LoopringConfig config) {
         okHttpClient = new OkHttpClient.Builder()
@@ -95,7 +91,7 @@ public final class Loopring {
     private static void initSocketIO(LoopringConfig config) {
         IO.Options opt = new IO.Options();
         opt.reconnection = true;
-        opt.reconnectionAttempts = 10;
+        opt.reconnectionAttempts = 5;
         opt.transports = new String[]{"websocket"};
         opt.callFactory = okHttpClient;
         opt.webSocketFactory = okHttpClient;
@@ -104,16 +100,12 @@ public final class Loopring {
             socketClient = IO.socket(relayBase, opt);
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new InitializeFailureException();
         }
-        socketClient.once(Socket.EVENT_CONNECT, args -> System.out.println("connected!"));
+        socketClient.on(Socket.EVENT_CONNECT, args -> System.out.println("connected!"));
+        socketClient.on(Socket.EVENT_CONNECT_ERROR, args -> System.out.println("network error"));
+        socketClient.on(Socket.EVENT_CONNECTING, args -> System.out.println("connecting"));
         socketClient.connect();
-        while (!socketClient.connected()) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private static void initWeb3j(LoopringConfig config) {
@@ -124,6 +116,7 @@ public final class Loopring {
     private static void initServices() {
         httpService = new LooprHttpService(retrofitClient);
         socketService = new LooprSocketService(socketClient);
+        ethService = new EthHttpService(web3jClient);
     }
 
 }

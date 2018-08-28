@@ -10,7 +10,12 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class HttpServiceTest {
 
-    private static LooprHttpService httpService = new LooprHttpService("https://relay1.loopring.io/");
+    private static LooprHttpService httpService;
+
+    static {
+        Loopring.create();
+        httpService = Loopring.getHttpService();
+    }
 
     @Test
     public void supportedTokenTest() {

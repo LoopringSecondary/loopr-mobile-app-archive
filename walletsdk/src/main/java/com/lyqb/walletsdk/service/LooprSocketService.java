@@ -11,19 +11,15 @@ import rx.Observable;
 
 public class LooprSocketService {
 
-//    private Socket socket;
-
     private BalanceListener balanceListener;
 
     public LooprSocketService(Socket socket) {
-
         balanceListener = new BalanceListener(socket);
     }
 
     public void close() {
         balanceListener.stop();
 
-//        socket.close();
     }
 
     public Observable<BalanceResult> getBalanceDataStream() {

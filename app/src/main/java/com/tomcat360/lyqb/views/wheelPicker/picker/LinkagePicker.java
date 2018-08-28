@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
-
 import com.tomcat360.lyqb.views.wheelPicker.LogUtils;
 import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
 
@@ -75,7 +74,7 @@ public class LinkagePicker extends WheelPicker {
 			String ft = firstList.get(i);
 			if (ft.contains(firstText)) {
 				selectedFirstIndex = i;
-				LogUtils.debug("init select first text: " + ft + ", index:" + selectedFirstIndex);
+				LogUtils.debug("create select first text: " + ft + ", index:" + selectedFirstIndex);
 				break;
 			}
 		}
@@ -84,7 +83,7 @@ public class LinkagePicker extends WheelPicker {
 			String st = secondTexts.get(j);
 			if (st.contains(secondText)) {
 				selectedSecondIndex = j;
-				LogUtils.debug("init select second text: " + st + ", index:" + selectedSecondIndex);
+				LogUtils.debug("create select second text: " + st + ", index:" + selectedSecondIndex);
 				break;
 			}
 		}
@@ -96,7 +95,7 @@ public class LinkagePicker extends WheelPicker {
 			String tt = thirdTexts.get(k);
 			if (tt.contains(thirdText)) {
 				selectedThirdIndex = k;
-				LogUtils.debug("init select third text: " + tt + ", index:" + selectedThirdIndex);
+				LogUtils.debug("create select third text: " + tt + ", index:" + selectedThirdIndex);
 				break;
 			}
 		}

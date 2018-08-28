@@ -298,7 +298,7 @@ public class RangeSeekBar extends View {
 
     /**
      * 初始化画笔
-     * init the paints
+     * create the paints
      */
     private void initPaint() {
 

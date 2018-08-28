@@ -16,14 +16,14 @@ public class EthHttpService {
 
     public String sendSignedTransaction(String signedTransaction) throws IOException {
         Assert.hasText(signedTransaction);
+
         EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedTransaction).send();
         if (ethSendTransaction.hasError()) {
             String message = ethSendTransaction.getError().getMessage();
-            throw new RuntimeException(message);
+            System.out.println(message);
+            return "";
         }else {
             return ethSendTransaction.getTransactionHash();
         }
-
-
     }
 }

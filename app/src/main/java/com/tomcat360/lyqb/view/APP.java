@@ -31,7 +31,7 @@ public class APP extends Application {
         /**
          * Loopring.
          */
-        Loopring.init();
+        Loopring.create();
 
         mInstance = this;
 
