@@ -71,9 +71,11 @@
     <string name="enter_the_amount">请输入额度</string>
     <string name="imput_valid_amount">请输入有效的数据</string>
     <string name="transacition_fee">交易费</string>
-    <string name="dialog_fee_title">设置邮费</string>
+    <string name="dialog_fee_title">设置油费</string>
     <string name="dialog_fee_recom">推荐油价</string>
     <string name="gas_limit">Gas Limit</string>
     <string name="gas_pricae">Gas Price</string>
     <string name="tokens">代币</string>
+    <string name="match_password">请验证密码</string>
+
 </resources>

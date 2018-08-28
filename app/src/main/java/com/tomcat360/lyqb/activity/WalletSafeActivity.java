@@ -64,13 +64,16 @@ public class WalletSafeActivity extends BaseActivity {
                 getOperation().forward(ReviseWalletNameActivity.class);
                 break;
             case R.id.ll_backup_mnemonic:
-                getOperation().forward(BackupMnemonicActivity.class);
+                getOperation().addParameter("type",1);
+                getOperation().forward(ExportMatchPasSafeActivity.class);
                 break;
             case R.id.ll_export_private_key:
-                getOperation().forward(ExportPrivateKeyActivity.class);
+                getOperation().addParameter("type",2);
+                getOperation().forward(ExportMatchPasSafeActivity.class);
                 break;
             case R.id.ll_export_keystore:
-                getOperation().forward(ExportKeystoreActivity.class);
+                getOperation().addParameter("type",3);
+                getOperation().forward(ExportMatchPasSafeActivity.class);
                 break;
             case R.id.ll_clear_records:
                 break;

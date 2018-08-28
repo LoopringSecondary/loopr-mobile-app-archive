@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.lyqb.walletsdk.exception.TransactionFailureException;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
@@ -77,6 +78,7 @@ public class SendActivity extends BaseActivity {
 
     private static int REQUEST_CODE = 1;  //二维码扫一扫code
     private static int TOKEN_CODE = 2;  //选择币种code
+    private String errorMes ;  //异常错误信息
 
     public final static int SEND_SUCCESS = 3;
     public final static int SEND_FAILED = 4;
@@ -102,7 +104,7 @@ public class SendActivity extends BaseActivity {
                     break;
                 case ERROR_TWO:
                     hideProgress();
-                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    ToastUtils.toast("转账失败"+errorMes);
                     break;
 
             }
@@ -193,6 +195,10 @@ public class SendActivity extends BaseActivity {
                     LyqbLogger.log(s);
                 } catch (CipherException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
+                    e.printStackTrace();
+                } catch (TransactionFailureException e) {
+                    errorMes = e.getMessage();
+                    handlerCreate.sendEmptyMessage(ERROR_TWO);
                     e.printStackTrace();
                 }
             }

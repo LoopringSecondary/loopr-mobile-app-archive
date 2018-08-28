@@ -39,6 +39,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 /**
@@ -103,46 +104,27 @@ public class MainFragment extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case BALANCE_SUCCESS:
+                    Observable<BalanceResult> balance = looprSocketService.getBalanceDataStream();
+                    APP.getLooprSocketService().requestBalance(address);
+                    balance.observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<BalanceResult>() {
+                                @Override
+                                public void onCompleted() {
 
-                    Observable<BalanceResult> balanceDataStream = looprSocketService.getBalanceDataStream();
-                    balanceDataStream.subscribe(new Subscriber<BalanceResult>() {
-                        @Override
-                        public void onCompleted() {
+                                }
 
-                        }
+                                @Override
+                                public void onError(Throwable e) {
 
-                        @Override
-                        public void onError(Throwable e) {
+                                }
 
-                        }
-
-                        @Override
-                        public void onNext(BalanceResult balanceResult) {
-                            LyqbLogger.log(balanceResult.toString());
-                            mAdapter.setNewData(balanceResult.getTokens());
-                        }
-                    });
-
-
-//                    Observable<BalanceResult> balance = APP.getLooprSocket().getBalance(address);
-//                    balance.observeOn(AndroidSchedulers.mainThread())
-//                            .subscribe(new Subscriber<BalanceResult>() {
-//                                @Override
-//                                public void onCompleted() {
-//
-//                                }
-//
-//                                @Override
-//                                public void onError(Throwable e) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onNext(BalanceResult balanceResult) {
-//                                    LyqbLogger.log(balanceResult.toString());
-//                                    mAdapter.setNewData(balanceResult.getTokens());
-//                                }
-//                            });
+                                @Override
+                                public void onNext(BalanceResult balanceResult) {
+                                    LyqbLogger.log(balanceResult.toString());
+                                    SPUtils.setDataList(getContext(),"tokens",balanceResult.getTokens());
+                                    mAdapter.setNewData(balanceResult.getTokens());
+                                }
+                            });
 
                 default:
 
@@ -175,9 +157,9 @@ public class MainFragment extends BaseFragment {
         looprSocketService = APP.getLooprSocketService();
 
 
-//        Runnable r = new Runnable() {
-//            @Override
-//            public void run() {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
 //                if (looprSocketService.connected) {
 //                    handlerBalance.sendEmptyMessage(BALANCE_SUCCESS);
 //                } else {
@@ -188,9 +170,10 @@ public class MainFragment extends BaseFragment {
 //                        ToastUtils.toast("连接超时");
 //                    }
 //                }
-//            }
-//        };
-//        handlerBalance.postDelayed(r, 100);
+                handlerBalance.sendEmptyMessage(BALANCE_SUCCESS);
+            }
+        };
+        handlerBalance.postDelayed(r, 100);
 
     }
 
@@ -226,7 +209,6 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        APP.getLooprSocket().close();
 
         unbinder.unbind();
     }

@@ -15,6 +15,7 @@ import com.tomcat360.lyqb.fragment.MainFragment;
 import com.tomcat360.lyqb.fragment.SettingFragment;
 import com.tomcat360.lyqb.fragment.TradeFragment;
 import com.tomcat360.lyqb.utils.SPUtils;
+import com.tomcat360.lyqb.view.APP;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -194,5 +195,11 @@ public class MainActivity extends BaseActivity {
         if ((Boolean) SPUtils.get(this,"isRecreate",false)){//判断是否是更改语言设置后，执行了系统的recreate()方法,
             recreate();//判断是否是更改语言设置后，执行了系统的recreate()方法,
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        APP.getLoopring().destroy();
     }
 }

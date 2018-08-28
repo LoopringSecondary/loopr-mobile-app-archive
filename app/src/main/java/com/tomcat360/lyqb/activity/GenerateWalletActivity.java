@@ -129,6 +129,7 @@ public class GenerateWalletActivity extends BaseActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            LyqbLogger.log(address);
                             looprHttpService.unlockWallet(address)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {

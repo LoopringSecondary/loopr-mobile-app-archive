@@ -1,5 +1,6 @@
 package com.tomcat360.lyqb.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,15 +8,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lyqb.walletsdk.model.response.BalanceResult;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.TokenListAdapter;
+import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
+import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.TitleView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class TokenListActivity extends BaseActivity {
 
@@ -55,8 +63,9 @@ public class TokenListActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        ArrayList<String> list = new ArrayList<>();
-        mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, null);
+        List<BalanceResult.Token> tokens = SPUtils.getDataList(this, "tokens");
+        LyqbLogger.log(tokens.toString());
+        mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, tokens);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -66,29 +75,30 @@ public class TokenListActivity extends BaseActivity {
         });
 
 
-        getToken();
+//        getToken();
     }
 
     private void getToken() {
         String address = (String) SPUtils.get(this, "address", "");
-//        Observable<BalanceResult> balance =APP.getLooprSocket().getBalance(address);
-//        balance.observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<BalanceResult>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(BalanceResult balanceResult) {
-//                        LyqbLogger.log(balanceResult.toString());
-//                        mAdapter.setNewData(balanceResult.getTokens());
-//                    }
-//                });
+        Observable<BalanceResult> balance = APP.getLooprSocketService().getBalanceDataStream();
+        APP.getLooprSocketService().requestBalance(address);
+        balance.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BalanceResult>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BalanceResult balanceResult) {
+                        LyqbLogger.log(balanceResult.toString());
+                        mAdapter.setNewData(balanceResult.getTokens());
+                    }
+                });
     }
 }

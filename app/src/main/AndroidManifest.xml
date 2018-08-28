@@ -186,7 +186,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ExportKeystoreActivity"
+            android:name=".activity.ExportMatchPasSafeActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
