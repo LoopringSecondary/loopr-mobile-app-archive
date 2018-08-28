@@ -22,17 +22,9 @@ public class BalanceListener extends AbstractListener<BalanceResult, GetBalance>
     @Override
     protected void registerEventHandler() {
         socket.on("balance_res", objects -> {
-            BalanceResult balanceResult;
-            try {
-                JsonObject object = gson.fromJson(((String) objects[0]), JsonObject.class);
-                JsonElement element = object.get("data");
-                balanceResult = gson.fromJson(element, BalanceResult.class);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                balanceResult = new BalanceResult();
-            }
-//            System.out.println("send" + balanceResult.hashCode());
+            JsonObject object = gson.fromJson(((String) objects[0]), JsonObject.class);
+            JsonElement element = object.get("data");
+            BalanceResult balanceResult = gson.fromJson(element, BalanceResult.class);
             subject.onNext(balanceResult);
         });
         socket.on("balance_end", data -> {

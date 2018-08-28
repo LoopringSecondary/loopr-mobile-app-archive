@@ -1,4 +1,4 @@
-package com.lyqb.walletsdk;
+package com.lyqb.walletsdk.util;
 
 import org.web3j.crypto.LinuxSecureRandom;
 

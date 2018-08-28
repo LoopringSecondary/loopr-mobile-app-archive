@@ -1,4 +1,4 @@
-package com.lyqb.walletsdk;
+package com.lyqb.walletsdk.util;
 
 import org.spongycastle.crypto.digests.SHA512Digest;
 import org.spongycastle.crypto.generators.PKCS5S2ParametersGenerator;
@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,11 +24,20 @@ import static org.web3j.crypto.Hash.sha256;
  * @see <a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">Mnemonic code
  * for generating deterministic keys</a>
  */
-final class MnemonicUtils {
+public final class MnemonicUtils {
 
     private static final int SEED_ITERATIONS = 2048;
     private static final int SEED_KEY_SIZE = 512;
     private static final List<String> WORD_LIST = populateWordList();
+
+    private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom();
+
+
+    public static String randomMneminic() {
+        byte[] initialEntropy = new byte[16];
+        secureRandom.nextBytes(initialEntropy);
+        return generateMnemonic(initialEntropy);
+    }
 
     /**
      * The mnemonic must encode entropy in a multiple of 32 bits. With more entropy security is

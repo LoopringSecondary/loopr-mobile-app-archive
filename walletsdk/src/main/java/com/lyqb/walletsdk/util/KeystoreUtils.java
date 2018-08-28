@@ -1,10 +1,12 @@
-package com.lyqb.walletsdk;
+package com.lyqb.walletsdk.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lyqb.walletsdk.exception.KeystoreSaveException;
 
 import org.web3j.crypto.WalletFile;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class KeystoreUtils {
@@ -15,7 +17,7 @@ public class KeystoreUtils {
         try {
             walletFile = objectMapper.readValue(keystoreFile, WalletFile.class);
         } catch (IOException e) {
-            return null;
+            return new WalletFile();
         }
         return walletFile;
     }
@@ -26,8 +28,18 @@ public class KeystoreUtils {
             walletFile = objectMapper.readValue(json, WalletFile.class);
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return new WalletFile();
         }
         return walletFile;
+    }
+
+    public static void writeToFile(String json, File keystoreFile) throws KeystoreSaveException {
+        try {
+            FileWriter fileWriter = new FileWriter(keystoreFile);
+            fileWriter.write(json);
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new KeystoreSaveException(e);
+        }
     }
 }

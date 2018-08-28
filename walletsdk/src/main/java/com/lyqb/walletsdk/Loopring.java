@@ -8,6 +8,8 @@ import com.lyqb.walletsdk.service.EthHttpService;
 import com.lyqb.walletsdk.service.LooprHttpService;
 import com.lyqb.walletsdk.service.LooprSocketService;
 import com.lyqb.walletsdk.util.Assert;
+import com.lyqb.walletsdk.util.KeystoreUtils;
+import com.lyqb.walletsdk.util.MnemonicUtils;
 
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicHierarchy;
@@ -29,8 +31,6 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
@@ -48,7 +48,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class Loopring {
     private OkHttpClient okHttpClient;
-    private Socket socketClient;
+    public Socket socketClient;
     private Retrofit retrofitClient;
     private Web3j web3jClient;
 
@@ -151,6 +151,9 @@ public final class Loopring {
         } catch (Exception e) {
             throw new KeystoreSaveException(e);
         }
+        // notify relay.
+//        String s = httpService.unlockWallet(credentials.getAddress()).toBlocking().first();
+//        System.out.println(s);
         return new WalletDetail(walletFileName, mnemonic);
     }
 
@@ -189,13 +192,7 @@ public final class Loopring {
         String fileName = dateFormat.format(new Date()) + credentials.getAddress() + ".json";
 
         File destination = new File(dest, fileName);
-        try {
-            FileWriter fileWriter = new FileWriter(destination);
-            fileWriter.write(keystoreJson);
-            fileWriter.close();
-        } catch (IOException e) {
-            throw new KeystoreSaveException(e);
-        }
+        KeystoreUtils.writeToFile(keystoreJson, destination);
         return new WalletDetail(fileName);
     }
 
