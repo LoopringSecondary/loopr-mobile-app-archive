@@ -17,8 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lyqb.walletsdk.Default;
+import com.lyqb.walletsdk.model.request.param.GetBalance;
 import com.lyqb.walletsdk.model.response.BalanceResult;
 import com.lyqb.walletsdk.service.LooprSocketService;
+import com.lyqb.walletsdk.service.listener.BalanceListener;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.ActivityScanerCode;
 import com.tomcat360.lyqb.activity.ReceiveActivity;
@@ -97,6 +100,10 @@ public class MainFragment extends BaseFragment {
     private int count = 1;
 
     public final static int BALANCE_SUCCESS = 1;
+
+    private BalanceListener balanceListener = null;
+    private Observable<BalanceResult> balanceResultObservable = null;
+
     @SuppressLint("HandlerLeak")
     Handler handlerBalance = new Handler() {
         @Override
@@ -105,9 +112,29 @@ public class MainFragment extends BaseFragment {
             switch (msg.what) {
                 case BALANCE_SUCCESS:
                     LyqbLogger.log("222222222");
-                    Observable<BalanceResult> balance = looprSocketService.getBalanceDataStream();
-                    APP.getLooprSocketService().requestBalance(address);
-                    balance.observeOn(AndroidSchedulers.mainThread())
+//                    Observable<BalanceResult> balance = looprSocketService.getBalanceDataStream();
+
+//                    balance.observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(new Subscriber<BalanceResult>() {
+//                                @Override
+//                                public void onCompleted() {
+//
+//                                }
+//
+//                                @Override
+//                                public void onError(Throwable e) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onNext(BalanceResult balanceResult) {
+//                                    LyqbLogger.log(balanceResult.getTokens().toString());
+//                                    APP.setListToken(balanceResult.getTokens());
+////                                    SPUtils.setDataList(getContext(),"tokens",balanceResult.getTokens());
+//                                    mAdapter.setNewData(balanceResult.getTokens());
+//                                }
+//                            });
+                    balanceResultObservable.observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<BalanceResult>() {
                                 @Override
                                 public void onCompleted() {
@@ -127,6 +154,14 @@ public class MainFragment extends BaseFragment {
                                     mAdapter.setNewData(balanceResult.getTokens());
                                 }
                             });
+
+                    GetBalance getBalance = GetBalance.builder()
+                            .owner(address)
+                            .delegateAddress(Default.DELEGATE_ADDRESS)
+                            .build();
+                    balanceListener.send(getBalance);
+
+//                    APP.getLooprSocketService().requestBalance(address);
 
                 default:
 
@@ -155,8 +190,12 @@ public class MainFragment extends BaseFragment {
 
 
         address = (String) SPUtils.get(getContext(), "address", "");
-        looprSocketService = APP.getLooprSocketService();
 
+//        looprSocketService = APP.getLooprSocketService();
+//        balanceResultObservable = looprSocketService.getBalanceDataStream();
+
+        balanceListener = APP.getLoopring().newBalanceListener();
+        balanceResultObservable = balanceListener.start();
 
         Runnable r = new Runnable() {
             @Override
@@ -212,6 +251,11 @@ public class MainFragment extends BaseFragment {
         super.onDestroyView();
 
         unbinder.unbind();
+
+
+        balanceListener.stop();
+
+//        looprSocketService.close();
     }
 
 

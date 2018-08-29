@@ -8,6 +8,8 @@ import com.lyqb.walletsdk.model.WalletDetail;
 import com.lyqb.walletsdk.service.EthHttpService;
 import com.lyqb.walletsdk.service.LooprHttpService;
 import com.lyqb.walletsdk.service.LooprSocketService;
+import com.lyqb.walletsdk.service.listener.BalanceListener;
+import com.lyqb.walletsdk.service.listener.TransactionListener;
 import com.lyqb.walletsdk.util.Assert;
 import com.lyqb.walletsdk.util.KeystoreUtils;
 import com.lyqb.walletsdk.util.MnemonicUtils;
@@ -152,9 +154,7 @@ public final class Loopring {
         } catch (Exception e) {
             throw new KeystoreSaveException(e);
         }
-        // notify relay.
-//        String s = httpService.unlockWallet(credentials.getAddress()).toBlocking().first();
-//        System.out.println(s);
+        createWalletNotification(credentials.getAddress());
         return new WalletDetail(walletFileName, mnemonic);
     }
 
@@ -174,12 +174,14 @@ public final class Loopring {
         DeterministicHierarchy hdKey = new DeterministicHierarchy(rootKey);
         DeterministicKey destKey = hdKey.deriveChild(childNumberList, true, true, new ChildNumber(childNumber));
         ECKeyPair ecKeyPair = ECKeyPair.create(destKey.getPrivKey());
+        Credentials credentials = Credentials.create(ecKeyPair);
         String walletFileName;
         try {
             walletFileName = WalletUtils.generateWalletFile(password, ecKeyPair, dest, false);
         } catch (Exception e) {
             throw new KeystoreSaveException(e);
         }
+        createWalletNotification(credentials.getAddress());
         return new WalletDetail(walletFileName, mnemonic);
     }
 
@@ -194,6 +196,7 @@ public final class Loopring {
 
         File destination = new File(dest, fileName);
         KeystoreUtils.writeToFile(keystoreJson, destination);
+        createWalletNotification(credentials.getAddress());
         return new WalletDetail(fileName);
     }
 
@@ -213,6 +216,7 @@ public final class Loopring {
         } catch (Exception e) {
             throw new KeystoreSaveException(e);
         }
+        createWalletNotification(credentials.getAddress());
         return new WalletDetail(walletFileName);
     }
 
@@ -272,6 +276,11 @@ public final class Loopring {
 
     /********************************************/
 
+    private void createWalletNotification(String owner){
+        // notify relay.
+        String s = httpService.unlockWallet(owner).toBlocking().first();
+        System.out.println(s);
+    }
 
     public void destroy() {
         socketService.close();
@@ -283,11 +292,27 @@ public final class Loopring {
     }
 
     public LooprSocketService getSocketService() {
+        // wait till socket connection established.
+        while (!socketClient.connected()) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         return socketService;
     }
 
     public EthHttpService getEthService() {
         return ethService;
+    }
+
+    public BalanceListener newBalanceListener() {
+        return new BalanceListener(socketClient);
+    }
+
+    public TransactionListener newTransactionListener() {
+        return new TransactionListener(socketClient);
     }
 
 }
