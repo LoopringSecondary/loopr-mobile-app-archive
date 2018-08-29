@@ -10,5 +10,4 @@ public class ResponseWrapper<T> {
     private T result;
 
     private String error;
-
 }

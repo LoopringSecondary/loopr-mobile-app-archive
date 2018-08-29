@@ -2,9 +2,13 @@ package com.lyqb.walletsdk.model.request.param;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
-@Builder
 @Data
-public class GetNonce {
+@Builder
+public class BalanceParam {
+    @NonNull
     private String owner;
+    @NonNull
+    private String delegateAddress;
 }

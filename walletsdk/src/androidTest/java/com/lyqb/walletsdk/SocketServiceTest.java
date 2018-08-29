@@ -2,7 +2,7 @@ package com.lyqb.walletsdk;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.lyqb.walletsdk.model.response.BalanceResult;
+import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.lyqb.walletsdk.service.LooprSocketService;
 
 import org.junit.Test;

@@ -1,22 +1,22 @@
-package com.lyqb.walletsdk.service.listener;
+package com.lyqb.walletsdk.listener;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.lyqb.walletsdk.model.request.param.GetBalance;
-import com.lyqb.walletsdk.model.response.BalanceResult;
+import com.lyqb.walletsdk.Default;
+import com.lyqb.walletsdk.model.request.param.BalanceParam;
+import com.lyqb.walletsdk.model.response.data.BalanceResult;
 
-import io.socket.client.Socket;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 
-public class BalanceListener extends AbstractListener<BalanceResult, GetBalance> {
+public class BalanceListener extends AbstractListener<BalanceResult, BalanceParam> {
 
     public static final String TAG = "balance";
 
     private PublishSubject<BalanceResult> subject = PublishSubject.create();
 
-    public BalanceListener(Socket socket) {
-        super(socket);
+    public BalanceListener() {
+        super();
     }
 
     @Override
@@ -44,8 +44,16 @@ public class BalanceListener extends AbstractListener<BalanceResult, GetBalance>
     }
 
     @Override
-    public void send(GetBalance param) {
+    public void send(BalanceParam param) {
         String json = gson.toJson(param);
         socket.emit("balance_req", json);
+    }
+
+    public void queryByOwner(String owner) {
+        BalanceParam param = BalanceParam.builder()
+                .owner(owner)
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .build();
+        send(param);
     }
 }

@@ -1,8 +1,8 @@
 //package com.lyqb.walletsdk;
 //
-//import com.lyqb.walletsdk.exception.InitializeFailureException;
-//import com.lyqb.walletsdk.service.EthHttpService;
-//import com.lyqb.walletsdk.service.LooprHttpService;
+//import com.lyqb.walletsdk.exception.SdkInitializeException;
+//import com.lyqb.walletsdk.service.EthereumService;
+//import com.lyqb.walletsdk.service.LoopringService;
 //import com.lyqb.walletsdk.service.LooprSocketService;
 //
 //import org.web3j.protocol.Web3j;
@@ -26,9 +26,9 @@
 //    private static Retrofit retrofitClient;
 //    private static Web3j web3jClient;
 //
-//    private static LooprHttpService httpService;
+//    private static LoopringService httpService;
 //    private static LooprSocketService socketService;
-//    private static EthHttpService ethService;
+//    private static EthereumService ethService;
 //
 //    private Loopring1() {
 //    }
@@ -50,23 +50,23 @@
 //        socketClient.close();
 //    }
 //
-//    public static LooprHttpService getHttpService() {
+//    public static LoopringService getHttpService() {
 //        if (httpService == null) {
-//            throw new InitializeFailureException();
+//            throw new SdkInitializeException();
 //        }
 //        return httpService;
 //    }
 //
 //    public static LooprSocketService getSocketService() {
 //        if (socketService == null) {
-//            throw new InitializeFailureException();
+//            throw new SdkInitializeException();
 //        }
 //        return socketService;
 //    }
 //
-//    public static EthHttpService getEthService() {
+//    public static EthereumService getEthService() {
 //        if (ethService == null) {
-//            throw new InitializeFailureException();
+//            throw new SdkInitializeException();
 //        }
 //        return ethService;
 //    }
@@ -100,7 +100,7 @@
 //            socketClient = IO.socket(relayBase, opt);
 //        } catch (URISyntaxException e) {
 //            e.printStackTrace();
-//            throw new InitializeFailureException();
+//            throw new SdkInitializeException();
 //        }
 //        socketClient.on(Socket.EVENT_CONNECT, args -> System.out.println("connected!"));
 //        socketClient.on(Socket.EVENT_CONNECT_ERROR, args -> System.out.println("network error"));
@@ -114,9 +114,9 @@
 //    }
 //
 //    private static void initServices() {
-//        httpService = new LooprHttpService(retrofitClient);
+//        httpService = new LoopringService(retrofitClient);
 //        socketService = new LooprSocketService(socketClient);
-//        ethService = new EthHttpService(web3jClient);
+//        ethService = new EthereumService(web3jClient);
 //    }
 //
 //}

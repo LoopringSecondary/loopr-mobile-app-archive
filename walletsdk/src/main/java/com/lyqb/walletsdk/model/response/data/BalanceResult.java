@@ -1,4 +1,4 @@
-package com.lyqb.walletsdk.model.response;
+package com.lyqb.walletsdk.model.response.data;
 
 import java.math.BigDecimal;
 import java.util.List;
