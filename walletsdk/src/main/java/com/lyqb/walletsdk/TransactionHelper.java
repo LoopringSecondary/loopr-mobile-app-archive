@@ -8,7 +8,6 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.Sign;
 import org.web3j.crypto.TransactionEncoder;
-import org.web3j.protocol.core.methods.response.EthEstimateGas;
 import org.web3j.utils.Numeric;
 
 import java.io.IOException;
@@ -41,16 +40,8 @@ public class TransactionHelper {
                 value,
                 ""
         );
-        EthEstimateGas ethEstimateGas = ethereumService.estimateGasLimit(transactionDetail);
-        BigInteger amountUsed;
-        if (ethEstimateGas.hasError()){
-            String message = ethEstimateGas.getError().getMessage();
-            System.out.println(message);
-            throw new RuntimeException(message);
-        }else {
-            amountUsed = ethEstimateGas.getAmountUsed();
-        }
-        transactionDetail.setGasLimit(amountUsed);
+        BigInteger estimateGasLimit = ethereumService.estimateGasLimit(transactionDetail);
+        transactionDetail.setGasLimit(estimateGasLimit);
         return transactionDetail;
     }
 
