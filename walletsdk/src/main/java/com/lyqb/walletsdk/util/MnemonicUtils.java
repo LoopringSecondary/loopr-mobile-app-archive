@@ -33,7 +33,7 @@ public final class MnemonicUtils {
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom();
 
 
-    public static String randomMneminic() {
+    public static String randomMnemonic() {
         byte[] initialEntropy = new byte[16];
         secureRandom.nextBytes(initialEntropy);
         return generateMnemonic(initialEntropy);
