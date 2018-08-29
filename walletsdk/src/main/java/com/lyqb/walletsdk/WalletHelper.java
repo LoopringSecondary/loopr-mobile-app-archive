@@ -28,7 +28,7 @@ import java.util.Locale;
 
 public class WalletHelper {
 
-    public WalletDetail createFromMnemonic(String mnemonic, String dpath, String password, File keystoreDest) throws KeystoreSaveException {
+    public static WalletDetail createFromMnemonic(String mnemonic, String dpath, String password, File keystoreDest) throws KeystoreSaveException {
         // validate inputs.
         Assert.validateMnemonic(mnemonic);
 //        Assert.hasText(password, "password can not be null");
@@ -82,7 +82,7 @@ public class WalletHelper {
 //        return new WalletDetail(walletFileName, mnemonic);
 //    }
 
-    public WalletDetail createFromKeystore(String keystoreJson, String password, File dest) throws CipherException, KeystoreSaveException, InvalidKeystoreException {
+    public static WalletDetail createFromKeystore(String keystoreJson, String password, File dest) throws CipherException, KeystoreSaveException, InvalidKeystoreException {
         WalletFile walletFile = KeystoreUtils.loadFromJsonString(keystoreJson);
         Assert.checkDirectory(dest);
 
@@ -96,7 +96,7 @@ public class WalletHelper {
         return new WalletDetail(fileName);
     }
 
-    public WalletDetail createFromPrivateKey(String privateKey, String newPassword, File dest) throws InvalidPrivateKeyException, KeystoreSaveException {
+    public static WalletDetail createFromPrivateKey(String privateKey, String newPassword, File dest) throws InvalidPrivateKeyException, KeystoreSaveException {
         Assert.hasText(privateKey, "private key can not be null");
         Assert.hasText(newPassword, "new password can not be null");
         Assert.checkDirectory(dest);
@@ -115,13 +115,13 @@ public class WalletHelper {
         return new WalletDetail(walletFileName);
     }
 
-    public Credentials unlockWallet(String password, File keystore) throws CipherException, InvalidKeystoreException {
+    public static Credentials unlockWallet(String password, File keystore) throws CipherException, InvalidKeystoreException {
         WalletFile walletFile = KeystoreUtils.loadFromFile(keystore);
         ECKeyPair ecKeyPair = Wallet.decrypt(password, walletFile);
         return Credentials.create(ecKeyPair);
     }
 
-    public Credentials unlockWallet(String password, String keystore) throws CipherException, InvalidKeystoreException {
+    public static Credentials unlockWallet(String password, String keystore) throws CipherException, InvalidKeystoreException {
         WalletFile walletFile = KeystoreUtils.loadFromJsonString(keystore);
         ECKeyPair ecKeyPair = Wallet.decrypt(password, walletFile);
         return Credentials.create(ecKeyPair);
