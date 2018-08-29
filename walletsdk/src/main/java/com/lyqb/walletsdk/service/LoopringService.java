@@ -41,7 +41,7 @@ public class LoopringService {
         return rpcDelegate.estimateGasPrice(request).map(ResponseWrapper::getResult);
     }
 
-    public Observable<String> unlockWallet(String owner) {
+    public Observable<String> notifyCreateWallet(String owner) {
         UnlockWallet unlockWallet = UnlockWallet.builder()
                 .owner(owner)
                 .build();

@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class HttpServiceTest {
 
-    private LoopringService httpService = new Loopring().getHttpService();
+    private LoopringService httpService = new LoopringService();
 
     @Test
     public void supportedTokenTest() {
@@ -29,7 +29,7 @@ public class HttpServiceTest {
 
     @Test
     public void unlockWalletTest() {
-        httpService.unlockWallet("0xb94065482ad64d4c2b9252358d746b39e820a585").subscribe(new DebugSubscriber<>());
+        httpService.notifyCreateWallet("0xb94065482ad64d4c2b9252358d746b39e820a585").subscribe(new DebugSubscriber<>());
     }
 
     @Test
