@@ -12,10 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.lyqb.walletsdk.model.WalletDetail;
-import com.lyqb.walletsdk.service.LooprHttpService;
+import com.lyqb.walletsdk.service.LoopringService;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.GenerateWalletActivity;
@@ -61,7 +62,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
     MaterialEditText etPrivateKey;
 
     private String address;//钱包地址
-    private LooprHttpService looprHttpService;
+    private LoopringService loopringService = new LoopringService();
 
     public final static int MNEMONIC_SUCCESS = 1;
     public final static int CREATE_SUCCESS = 2;
@@ -87,8 +88,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            LyqbLogger.log("22222222" + address);
-                            looprHttpService.unlockWallet(address)
+                            loopringService.notifyCreateWallet(address)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
                                         @Override
@@ -145,7 +145,6 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                 Message msg = handlerCreate.obtainMessage();
                 try {
                     address = FileUtils.getFileFromSD(getContext());
-                    SPUtils.put(getContext(),"address",address);
                     msg.obj = address;
                     msg.what = CREATE_SUCCESS;
                     handlerCreate.sendMessage(msg);
@@ -190,8 +189,6 @@ public class ImportPrivateKeyFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-//        looprHttpService = new LooprHttpService(G.RELAY_URL);
-        looprHttpService = APP.getLooprHttpService();
     }
 
     @Override
@@ -258,9 +255,10 @@ public class ImportPrivateKeyFragment extends BaseFragment {
             @Override
             public void run() {
                 String fileName = null;
+
                 WalletDetail walletDetail = null;
                 try {
-                    walletDetail = APP.getLoopring().importFromPrivateKey(etPrivateKey.getText().toString().startsWith("0x") ? etPrivateKey.getText().toString().substring(2) : etPrivateKey.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
+                    walletDetail = WalletHelper.createFromPrivateKey(etPrivateKey.getText().toString().startsWith("0x") ? etPrivateKey.getText().toString().substring(2) : etPrivateKey.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
                     fileName = walletDetail.getFilename();
                     SPUtils.put(getContext(), "filename", fileName);
                     Message msg = new Message();
@@ -274,9 +272,10 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();
                 } catch (KeystoreSaveException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_ONE);
+                    handlerCreate.sendEmptyMessage(ERROR_TWO);
                     e.printStackTrace();
                 }
+
 
             }
         }).start();

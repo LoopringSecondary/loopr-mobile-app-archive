@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.lyqb.walletsdk.WalletHelper;
+import com.lyqb.walletsdk.exception.InvalidKeystoreException;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.lyqb.walletsdk.model.WalletDetail;
-import com.lyqb.walletsdk.service.LooprHttpService;
+import com.lyqb.walletsdk.service.LoopringService;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.GenerateWalletActivity;
@@ -58,7 +60,7 @@ public class ImportKeystoreFragment extends BaseFragment {
     Button btnUnlock;
 
     private String address;//钱包地址
-    private LooprHttpService looprHttpService;
+    private LoopringService loopringService = new LoopringService();
 
     public final static int MNEMONIC_SUCCESS = 1;
     public final static int CREATE_SUCCESS = 2;
@@ -84,7 +86,7 @@ public class ImportKeystoreFragment extends BaseFragment {
                         @Override
                         public void run() {
                             LyqbLogger.log("22222222" + address);
-                            looprHttpService.unlockWallet(address)
+                            loopringService.notifyCreateWallet(address)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
                                         @Override
@@ -142,7 +144,6 @@ public class ImportKeystoreFragment extends BaseFragment {
                 Message msg = handlerCreate.obtainMessage();
                 try {
                     address = FileUtils.getFileFromSD(getContext());
-                    SPUtils.put(getContext(),"address",address);
                     msg.obj = address;
                     msg.what = CREATE_SUCCESS;
                     handlerCreate.sendMessage(msg);
@@ -186,8 +187,6 @@ public class ImportKeystoreFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-//        looprHttpService = new LooprHttpService(G.RELAY_URL);
-        looprHttpService = APP.getLooprHttpService();
     }
 
     @Override
@@ -246,24 +245,27 @@ public class ImportKeystoreFragment extends BaseFragment {
                 String fileName = null;
                 WalletDetail walletDetail = null;
                 try {
-                    walletDetail = APP.getLoopring().importFromKeystore(etKeystore.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
-                    fileName = walletDetail.getFilename();
-                    Message msg = new Message();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("filename", fileName);
-                    SPUtils.put(getContext(), "filename", fileName);
-                    LyqbLogger.log(fileName);
-                    msg.setData(bundle);
-                    msg.what = MNEMONIC_SUCCESS;
-                    handlerCreate.sendMessage(msg);
+                    walletDetail = WalletHelper.createFromKeystore(etKeystore.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
+                //                    walletDetail = APP.getLoopring().importFromKeystore(etKeystore.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
+                fileName = walletDetail.getFilename();
+                Message msg = new Message();
+                Bundle bundle = new Bundle();
+                bundle.putString("filename", fileName);
+                SPUtils.put(getContext(), "filename", fileName);
+                LyqbLogger.log(fileName);
+                msg.setData(bundle);
+                msg.what = MNEMONIC_SUCCESS;
+                handlerCreate.sendMessage(msg);
+                } catch (CipherException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_ONE);
+                    e.printStackTrace();
                 } catch (KeystoreSaveException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();
-                }  catch (CipherException e) {
+                } catch (InvalidKeystoreException e) {
                     handlerCreate.sendEmptyMessage(ERROR_TWO);
                     e.printStackTrace();
                 }
-
             }
         }).start();
     }

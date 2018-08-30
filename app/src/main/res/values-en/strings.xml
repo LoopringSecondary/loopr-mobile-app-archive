@@ -28,6 +28,7 @@
     <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>
     <string name="scan">Scan</string>
     <string name="receive">Receive</string>
+    <string name="receive_code">Receiven Code</string>
     <string name="send">Send</string>
     <string name="trade">Trade</string>
     <string name="copy_address">Copy Address</string>
@@ -75,10 +76,14 @@
     <string name="gas_pricae">Gas Price</string>
     <string name="tokens">Tokens</string>
     <string name="match_password">Please Match Passsword!</string>
-
-
-
-
+    <string name="share_title">Up Wallet Share</string>
+    <string name="spread_address">My income add:</string>
+    <string name="pay_detail">Payment Detail</string>
+    <string name="to">To</string>
+    <string name="form">Form</string>
+    <string name="gas_fee">Gas Fee</string>
+    <string name="send_and_confirm">Send And Confirm</string>
+    <string name="put_password">Please Enter Password</string>
 
 
 

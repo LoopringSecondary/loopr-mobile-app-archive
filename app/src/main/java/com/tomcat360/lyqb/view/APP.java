@@ -7,11 +7,8 @@ import android.content.res.Resources;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
-import com.lyqb.walletsdk.Loopring;
-import com.lyqb.walletsdk.model.response.BalanceResult;
-import com.lyqb.walletsdk.service.EthHttpService;
-import com.lyqb.walletsdk.service.LooprHttpService;
-import com.lyqb.walletsdk.service.LooprSocketService;
+import com.lyqb.walletsdk.SDK;
+import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.tomcat360.lyqb.utils.AndroidUtils;
 import com.tomcat360.lyqb.utils.LanguagesUtil;
 import com.tomcat360.lyqb.utils.SPUtils;
@@ -27,7 +24,6 @@ public class APP extends Application {
     private static APP mInstance;
     String appVersion;
 //    public static LooprSocketService looprSocketService; // 创建全局的socket服务
-    private static Loopring loopring;
 
     private static List<BalanceResult.Token> listToken = new ArrayList<>();
 
@@ -37,10 +33,6 @@ public class APP extends Application {
         RxTool.init(this);
         appVersion = AndroidUtils.getVersionName(this);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        /**
-         * Loopring.
-         */
-        loopring = new Loopring();
 
         mInstance = this;
 
@@ -61,6 +53,8 @@ public class APP extends Application {
 
         Config.DEBUG = true;
 
+        SDK.initSDK();
+
     }
 
     {
@@ -75,21 +69,7 @@ public class APP extends Application {
         return mInstance;
     }
 
-    public static LooprSocketService getLooprSocketService() {
-        return loopring.getSocketService();
-    }
 
-    public static LooprHttpService getLooprHttpService() {
-        return loopring.getHttpService();
-    }
-
-    public static EthHttpService getEthHttpService() {
-
-        return loopring.getEthService();
-    }
-    public static Loopring getLoopring() {
-        return loopring;
-    }
 
     public static List<BalanceResult.Token> getListToken() {
         return listToken;

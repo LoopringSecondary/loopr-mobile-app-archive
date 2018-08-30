@@ -33,7 +33,7 @@ public class LRCFeeRatioActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-        title.setBTitle("LRC费用比例");
+        title.setBTitle(getResources().getString(R.string.set_lrc_proportion));
         title.clickLeftGoBack(getWContext());
         title.setRightButton(getResources().getString(R.string.save), new TitleView.OnRightButtonClickListener() {
             @Override

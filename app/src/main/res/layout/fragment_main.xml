@@ -55,7 +55,7 @@
                 style="@style/WrapWrap"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="24dp"
-                android:text="$37,013.79"
+                android:text="$0.00"
                 android:textColor="@color/colorWhite"
                 android:textSize="32sp" />
 

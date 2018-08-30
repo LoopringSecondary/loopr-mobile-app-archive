@@ -28,6 +28,7 @@
     <string name="unlock">Unlock</string>
     <string name="scan">扫一扫</string>
     <string name="receive">收款</string>
+    <string name="receive_code">转入二维码</string>
     <string name="send">转出</string>
     <string name="trade">交易</string>
     <string name="copy_address">复制地址</string>
@@ -77,5 +78,12 @@
     <string name="gas_pricae">Gas Price</string>
     <string name="tokens">代币</string>
     <string name="match_password">请验证密码</string>
-
+    <string name="share_title">Up Wallet 推广</string>
+    <string name="spread_address">我的推广地址是:</string>
+    <string name="pay_detail">转账详情</string>
+    <string name="to">转到</string>
+    <string name="form">转账地址</string>
+    <string name="gas_fee">邮费</string>
+    <string name="send_and_confirm">确认转出</string>
+    <string name="put_password">请输入密码</string>
 </resources>

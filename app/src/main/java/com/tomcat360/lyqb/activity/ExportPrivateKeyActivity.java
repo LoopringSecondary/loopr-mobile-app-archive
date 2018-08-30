@@ -55,7 +55,7 @@ public class ExportPrivateKeyActivity extends BaseActivity {
         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         // 将文本内容放到系统剪贴板里。
         cm.setText(tvPrivateKey.getText());
-        ToastUtils.toast("复制成功，可以发给朋友们了。");
+        ToastUtils.toast("复制成功");
     }
 
 

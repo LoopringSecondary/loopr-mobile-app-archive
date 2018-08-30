@@ -144,6 +144,7 @@
                 android:layout_marginLeft="@dimen/margSide"
                 android:layout_weight="1"
                 android:ellipsize="middle"
+                android:inputType="number"
                 android:focusableInTouchMode="true"
                 android:hint="@string/enter_the_amount"
                 android:imeOptions="actionNext"
@@ -247,7 +248,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|end"
-                android:text="0.000 LRC ≈ ¥1.22"
+                android:text="0.0024 ETH ≈ ¥1.22"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normal14Text" />
 

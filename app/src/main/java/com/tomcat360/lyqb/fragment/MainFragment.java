@@ -17,11 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.lyqb.walletsdk.Default;
-import com.lyqb.walletsdk.model.request.param.GetBalance;
-import com.lyqb.walletsdk.model.response.BalanceResult;
-import com.lyqb.walletsdk.service.LooprSocketService;
-import com.lyqb.walletsdk.service.listener.BalanceListener;
+import com.lyqb.walletsdk.listener.BalanceListener;
+import com.lyqb.walletsdk.model.response.data.BalanceResult;
+import com.lyqb.walletsdk.model.response.data.SupportedToken;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.ActivityScanerCode;
 import com.tomcat360.lyqb.activity.ReceiveActivity;
@@ -29,12 +27,19 @@ import com.tomcat360.lyqb.activity.SendActivity;
 import com.tomcat360.lyqb.activity.TokenListActivity;
 import com.tomcat360.lyqb.activity.WalletDetailActivity;
 import com.tomcat360.lyqb.adapter.MainWalletAdapter;
+import com.tomcat360.lyqb.net.ResponseFunc;
+import com.tomcat360.lyqb.net.ResponseSupportFunc;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.utils.NumberUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
+import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.view.APP;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +48,7 @@ import butterknife.Unbinder;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -94,16 +100,16 @@ public class MainFragment extends BaseFragment {
 
     private boolean showMenu = false;  //判断menu是否显示
     private static int REQUEST_CODE = 1;  //二维码扫一扫code
+    private double moneyValue = 0;  //钱包总金额
+    private BalanceListener balanceListener = new BalanceListener();
 
-    private LooprSocketService looprSocketService;
+    private boolean flag = true; //第一次进入
     private String address;
-    private int count = 1;
+    private List<BalanceResult.Token> listToken; //  返回的token列表
+    private List<BalanceResult.Token> listChooseToken = new ArrayList<>(); //  选中的token列表
+    private List<String> listChooseSymbol; //  选择展示的token名字symbol
 
     public final static int BALANCE_SUCCESS = 1;
-
-    private BalanceListener balanceListener = null;
-    private Observable<BalanceResult> balanceResultObservable = null;
-
     @SuppressLint("HandlerLeak")
     Handler handlerBalance = new Handler() {
         @Override
@@ -111,57 +117,7 @@ public class MainFragment extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case BALANCE_SUCCESS:
-                    LyqbLogger.log("222222222");
-//                    Observable<BalanceResult> balance = looprSocketService.getBalanceDataStream();
 
-//                    balance.observeOn(AndroidSchedulers.mainThread())
-//                            .subscribe(new Subscriber<BalanceResult>() {
-//                                @Override
-//                                public void onCompleted() {
-//
-//                                }
-//
-//                                @Override
-//                                public void onError(Throwable e) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onNext(BalanceResult balanceResult) {
-//                                    LyqbLogger.log(balanceResult.getTokens().toString());
-//                                    APP.setListToken(balanceResult.getTokens());
-////                                    SPUtils.setDataList(getContext(),"tokens",balanceResult.getTokens());
-//                                    mAdapter.setNewData(balanceResult.getTokens());
-//                                }
-//                            });
-                    balanceResultObservable.observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<BalanceResult>() {
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(BalanceResult balanceResult) {
-                                    LyqbLogger.log(balanceResult.getTokens().toString());
-                                    APP.setListToken(balanceResult.getTokens());
-//                                    SPUtils.setDataList(getContext(),"tokens",balanceResult.getTokens());
-                                    mAdapter.setNewData(balanceResult.getTokens());
-                                }
-                            });
-
-                    GetBalance getBalance = GetBalance.builder()
-                            .owner(address)
-                            .delegateAddress(Default.DELEGATE_ADDRESS)
-                            .build();
-                    balanceListener.send(getBalance);
-
-//                    APP.getLooprSocketService().requestBalance(address);
 
                 default:
 
@@ -182,38 +138,12 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
     protected void initPresenter() {
 
-
         address = (String) SPUtils.get(getContext(), "address", "");
-
-//        looprSocketService = APP.getLooprSocketService();
-//        balanceResultObservable = looprSocketService.getBalanceDataStream();
-
-        balanceListener = APP.getLoopring().newBalanceListener();
-        balanceResultObservable = balanceListener.start();
-
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-//                if (looprSocketService.connected) {
-//                    handlerBalance.sendEmptyMessage(BALANCE_SUCCESS);
-//                } else {
-//                    count++;
-//                    if (count <= 50) {
-//                        handlerBalance.postDelayed(this, 100);
-//                    }else {
-//                        ToastUtils.toast("连接超时");
-//                    }
-//                }
-                handlerBalance.sendEmptyMessage(BALANCE_SUCCESS);
-            }
-        };
-        handlerBalance.postDelayed(r,100);
 
     }
 
@@ -227,7 +157,6 @@ public class MainFragment extends BaseFragment {
     protected void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        ArrayList<String> list = new ArrayList<>();
 
         mAdapter = new MainWalletAdapter(R.layout.adapter_item_wallet, null);
         recyclerView.setAdapter(mAdapter);
@@ -243,19 +172,114 @@ public class MainFragment extends BaseFragment {
             }
         });
 
+        initToken();
+
     }
 
+    private void initToken() {
+        LyqbLogger.log(address);
+
+        Observable<BalanceResult> observable = balanceListener.start();
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BalanceResult>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BalanceResult balanceResult) {
+                        LyqbLogger.log(balanceResult.getTokens().toString());
+                        if (balanceResult.getTokens() != null) {
+                            listToken = balanceResult.getTokens();
+                            Collections.sort(listToken,new Comparator<BalanceResult.Token>(){
+
+                                /**
+                                 * 对集合进行排列，在token列表中按字母顺序排列
+                                 * 返回负数表示：o1 小于o2，
+                                 * 返回0 表示：o1和o2相等，
+                                 * 返回正数表示：o1大于o2。
+                                 */
+                                public int compare(BalanceResult.Token o1, BalanceResult.Token o2) {
+
+                                    if(o1.getSymbol().compareTo(o2.getSymbol()) > 0){
+                                        return 1;
+                                    }
+                                    if(o1.getSymbol().compareTo(o2.getSymbol()) == 0){
+                                        return 0;
+                                    }
+                                    return -1;
+                                }
+                            });
+                            APP.setListToken(listToken);
+                            listChooseToken.clear();
+                            listChooseSymbol = SPUtils.getDataList(getContext(), "choose_token");
+                            for (int i = 0 ;i<listToken.size();i++){
+                                moneyValue = listToken.get(i).getBalance().doubleValue();
+                                if (listChooseSymbol.contains(listToken.get(i).getSymbol())){
+                                    if (listToken.get(i).getSymbol().equals("ETH")){
+                                        listChooseToken.add(0,listToken.get(i));
+                                    }else if (listToken.get(i).getSymbol().equals("WETH")){
+                                        if (listChooseSymbol.contains("ETH")){
+                                            listChooseToken.add(1,listToken.get(i));
+                                        } else {
+                                            listChooseToken.add(0,listToken.get(i));
+                                        }
+                                    }else {
+                                        listChooseToken.add(listToken.get(i));
+                                    }
+//                                    LyqbLogger.log(listChooseToken.toString());
+                                }
+                            }
+                            walletCount.setText(SPUtils.get(getContext(),"coin","¥")+NumberUtils.numberformat(moneyValue));
+                            mAdapter.setNewData(listChooseToken);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+        balanceListener.queryByOwner(address);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (flag){
+            flag = false;
+        }else {
+            if (listToken != null) {
+                listChooseToken.clear();
+                listChooseSymbol = SPUtils.getDataList(getContext(), "choose_token");
+                for (int i = 0; i < listToken.size(); i++) {
+                    if (listChooseSymbol.contains(listToken.get(i).getSymbol())) {
+                        if (listToken.get(i).getSymbol().equals("ETH")) {
+                            listChooseToken.add(0, listToken.get(i));
+                        } else if (listToken.get(i).getSymbol().equals("WETH")) {
+                            if (listChooseSymbol.contains("ETH")) {
+                                listChooseToken.add(1, listToken.get(i));
+                            } else {
+                                listChooseToken.add(0, listToken.get(i));
+                            }
+                        } else {
+                            listChooseToken.add(listToken.get(i));
+                        }
+                    }
+                }
+                mAdapter.setNewData(listChooseToken);
+            }
+        }
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
         unbinder.unbind();
-
-
-        balanceListener.stop();
-
-//        looprSocketService.close();
     }
 
 

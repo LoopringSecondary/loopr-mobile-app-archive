@@ -16,8 +16,9 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.common.base.Joiner;
+import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.model.WalletDetail;
-import com.lyqb.walletsdk.service.LooprHttpService;
+import com.lyqb.walletsdk.service.LoopringService;
 import com.lyqb.walletsdk.util.MnemonicUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
@@ -104,8 +105,8 @@ public class GenerateWalletActivity extends BaseActivity {
     private String nextStatus = "start"; //点击next时根据不同状态显示不同页面
     private String confirmStatus = "one";//点击confirm时根据不同状态显示不同页面
 
-    private LooprHttpService looprHttpService;//解锁wallet
     private String address;//钱包地址
+    private LoopringService loopringService = new LoopringService();
 
 
     public final static int MNEMONIC_SUCCESS = 1;
@@ -130,7 +131,7 @@ public class GenerateWalletActivity extends BaseActivity {
                         @Override
                         public void run() {
                             LyqbLogger.log(address);
-                            looprHttpService.unlockWallet(address)
+                            loopringService.notifyCreateWallet(address)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
                                         @Override
@@ -197,7 +198,6 @@ public class GenerateWalletActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        looprHttpService = APP.getLooprHttpService();
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         GridLayoutManager layoutManagerHint = new GridLayoutManager(this, 3);
@@ -265,7 +265,7 @@ public class GenerateWalletActivity extends BaseActivity {
                     if (repeatPassword.getText().toString().equals(password.getText().toString())) {
 
                         if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-                            mnemonic = MnemonicUtils.randomMneminic();
+                            mnemonic = MnemonicUtils.randomMnemonic();
                             String[] arrayMne = mnemonic.split(" ");
 
                             listMnemonic.clear();
@@ -379,8 +379,7 @@ public class GenerateWalletActivity extends BaseActivity {
         WalletDetail walletDetail = null;
         try {
             String pas = repeatPassword.getText().toString();
-
-            walletDetail = APP.getLoopring().createFromMnemonic(mnemonic, null, pas, FileUtils.getKeyStoreLocation(this));
+            walletDetail = WalletHelper.createFromMnemonic(mnemonic,null,pas, FileUtils.getKeyStoreLocation(this));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -398,7 +397,6 @@ public class GenerateWalletActivity extends BaseActivity {
                 Message msg = handlerCreate.obtainMessage();
                 try {
                     address = FileUtils.getFileFromSD(GenerateWalletActivity.this);
-                    SPUtils.put(GenerateWalletActivity.this,"address",address);
                 } catch (IOException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();

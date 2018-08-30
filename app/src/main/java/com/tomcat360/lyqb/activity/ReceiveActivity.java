@@ -2,6 +2,8 @@ package com.tomcat360.lyqb.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -20,9 +22,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.vondear.rxfeature.tool.RxQRCode;
-import com.vondear.rxtool.RxDataTool;
-import com.vondear.rxtool.RxSPTool;
-import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,8 +30,6 @@ import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.RuntimePermissions;
-
-import static com.vondear.rxtool.RxConstants.SP_MADE_CODE;
 
 @RuntimePermissions
 public class ReceiveActivity extends BaseActivity {
@@ -51,6 +48,8 @@ public class ReceiveActivity extends BaseActivity {
     Button btnCopy;
     @BindView(R.id.btn_save)
     Button btnSave;
+    @BindView(R.id.app_name)
+    TextView appName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,7 @@ public class ReceiveActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-        title.setBTitle("Receive Code");
+        title.setBTitle(getResources().getString(R.string.receive_code));
         title.clickLeftGoBack(getWContext());
         title.setRightImageButton(R.mipmap.icon_share, new TitleView.OnRightButtonClickListener() {
             @Override
@@ -74,12 +73,13 @@ public class ReceiveActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        coinAddress.setText((String) SPUtils.get(this,"address",""));
+        appName.setText(getResources().getString(R.string.app_name));
+        coinAddress.setText((String) SPUtils.get(this, "address", ""));
     }
 
     @Override
     public void initData() {
-        String str = (String) SPUtils.get(this,"address","");
+        String str = (String) SPUtils.get(this, "address", "");
         coinAddress.setText(str);
 
         //二维码生成方式一  推荐此方法
@@ -94,6 +94,10 @@ public class ReceiveActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_copy:
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 将文本内容放到系统剪贴板里。
+                cm.setText(coinAddress.getText());
+                ToastUtils.toast("复制成功");
                 break;
             case R.id.btn_save:
                 break;
@@ -147,7 +151,7 @@ public class ReceiveActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        ReceiveActivityPermissionsDispatcher.onRequestPermissionsResult(this,requestCode,grantResults);
+        ReceiveActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
 
     }
 

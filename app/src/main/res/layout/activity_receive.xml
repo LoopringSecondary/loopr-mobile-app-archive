@@ -29,6 +29,7 @@
             android:src="@mipmap/icon_wallet_active" />
 
         <TextView
+            android:id="@+id/app_name"
             style="@style/WrapWrap"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"

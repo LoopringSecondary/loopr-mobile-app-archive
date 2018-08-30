@@ -15,9 +15,10 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.lyqb.walletsdk.model.WalletDetail;
-import com.lyqb.walletsdk.service.LooprHttpService;
+import com.lyqb.walletsdk.service.LoopringService;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.GenerateWalletActivity;
@@ -70,8 +71,7 @@ public class ImportMnemonicFragment extends BaseFragment {
 
     private String dpath;
     private String address;//钱包地址
-
-    private LooprHttpService looprHttpService;
+    private LoopringService loopringService = new LoopringService();
 
 
     public final static int MNEMONIC_SUCCESS = 1;
@@ -100,8 +100,8 @@ public class ImportMnemonicFragment extends BaseFragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            LyqbLogger.log("22222222"+address);
-                            looprHttpService.unlockWallet(address)
+                            LyqbLogger.log("22222222" + address);
+                            loopringService.notifyCreateWallet(address)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
                                         @Override
@@ -158,7 +158,6 @@ public class ImportMnemonicFragment extends BaseFragment {
                 Message msg = handlerCreate.obtainMessage();
                 try {
                     address = FileUtils.getFileFromSD(getContext());
-                    SPUtils.put(getContext(),"address",address);
                     msg.obj = address;
                     msg.what = CREATE_SUCCESS;
                     handlerCreate.sendMessage(msg);
@@ -224,7 +223,6 @@ public class ImportMnemonicFragment extends BaseFragment {
     @Override
     protected void initData() {
 //        looprHttpService = new LooprHttpService(G.RELAY_URL);
-        looprHttpService = APP.getLooprHttpService();
     }
 
     @Override
@@ -285,7 +283,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                 String fileName = null;
                 WalletDetail walletDetail = null;
                 try {
-                    walletDetail = APP.getLoopring().importFromMnemonic(etMnemonic.getText().toString(), dpath, etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()), 0);
+                    walletDetail = WalletHelper.createFromMnemonic(etMnemonic.getText().toString(), dpath, etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
                     fileName = walletDetail.getMnemonic();
                     Message msg = new Message();
                     Bundle bundle = new Bundle();
