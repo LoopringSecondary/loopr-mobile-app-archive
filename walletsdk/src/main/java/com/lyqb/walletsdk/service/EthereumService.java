@@ -42,19 +42,19 @@ public class EthereumService {
 
     public BigInteger estimateGasLimit(TransactionObject transactionObject) {
         Transaction transaction = transactionObject.toTransaction();
-        BigInteger defaultGasLimit = new BigInteger("21000");
         EthEstimateGas ethEstimateGas;
         try {
             ethEstimateGas = web3j.ethEstimateGas(transaction).send();
-        } catch (IOException e) {
+            if (ethEstimateGas.hasError()) {
+                throw new Exception(ethEstimateGas.getError().getMessage());
+            }else {
+                return ethEstimateGas.getAmountUsed();
+            }
+        } catch (Exception e) {
+            // fallback to hard coded default.
             e.printStackTrace();
-            return defaultGasLimit;
+            return new BigInteger("21000");
         }
-        if (ethEstimateGas.hasError()) {
-            System.out.println(ethEstimateGas.getError().getMessage());
-            return defaultGasLimit;
-        }else {
-            return ethEstimateGas.getAmountUsed();
-        }
+
     }
 }

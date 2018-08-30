@@ -43,8 +43,8 @@ dependencies {
     implementation 'io.reactivex:rxjava:1.2.4'
     implementation 'io.reactivex:rxandroid:1.2.1'
 
-    implementation 'org.web3j:core:3.3.1-android'
-    implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
+    compile 'org.web3j:core:3.3.1-android'
+    compile 'org.bitcoinj:bitcoinj-core:0.14.7'
 
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation group: 'com.google.guava', name: 'guava', version: '26.0-android'

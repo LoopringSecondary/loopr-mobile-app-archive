@@ -46,8 +46,8 @@ public class TransactionHelper {
     }
 
     @Deprecated
-    public static String sendTransaction(TransactionObject transactionObject, String privatKey) throws TransactionException {
-        String signedTransaction = SignUtils.signTransaction(transactionObject, privatKey);
+    public static String sendTransaction(TransactionObject transactionObject, String privateKey) throws TransactionException {
+        String signedTransaction = SignUtils.signTransaction(transactionObject, privateKey);
 
         String txHash = ethereumService.sendRawTransaction(signedTransaction);
         String txHashReply = loopringService.notifyTransactionSubmitted(txHash, transactionObject).toBlocking().single();

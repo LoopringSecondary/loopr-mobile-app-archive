@@ -11,11 +11,6 @@ import com.lyqb.walletsdk.util.Assert;
 import com.lyqb.walletsdk.util.KeystoreUtils;
 import com.lyqb.walletsdk.util.MnemonicUtils;
 
-import org.bitcoinj.crypto.ChildNumber;
-import org.bitcoinj.crypto.DeterministicHierarchy;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.crypto.HDKeyDerivation;
-import org.bitcoinj.crypto.HDUtils;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
@@ -24,7 +19,6 @@ import org.web3j.crypto.WalletFile;
 import org.web3j.crypto.WalletUtils;
 
 import java.io.File;
-import java.util.List;
 
 public class WalletHelper {
 
@@ -37,13 +31,9 @@ public class WalletHelper {
         if (dpath == null) {
             dpath = Default.DEFAULT_DPATH;
         }
-        byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
-        List<ChildNumber> childNumberList = HDUtils.parsePath(dpath.replaceAll("\'", "H").toUpperCase());
-        DeterministicKey rootKey = HDKeyDerivation.createMasterPrivateKey(seed);
-        DeterministicHierarchy hdKey = new DeterministicHierarchy(rootKey);
-        DeterministicKey destKey = hdKey.deriveChild(childNumberList, true, true, new ChildNumber(0));
-        ECKeyPair ecKeyPair = ECKeyPair.create(destKey.getPrivKey());
 
+        Credentials credentials = MnemonicUtils.calculateCredentialsFromMnemonic(mnemonic, dpath, password);
+        ECKeyPair ecKeyPair = credentials.getEcKeyPair();
         String walletFileName;
         try {
             walletFileName = WalletUtils.generateWalletFile(password, ecKeyPair, keystoreDest, false);

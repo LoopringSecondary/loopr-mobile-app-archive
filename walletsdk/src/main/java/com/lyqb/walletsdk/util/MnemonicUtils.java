@@ -45,7 +45,7 @@ public final class MnemonicUtils {
         return generateMnemonic(initialEntropy);
     }
 
-    public static Credentials popluateCredentialsFromMnemonic(String mnemonic, String dpath, String mnemonicPassword) {
+    public static Credentials calculateCredentialsFromMnemonic(String mnemonic, String dpath, String mnemonicPassword) {
         byte[] seed = MnemonicUtils.generateSeed(mnemonic, mnemonicPassword);
         List<ChildNumber> childNumberList = HDUtils.parsePath(dpath.replaceAll("\'", "H").toUpperCase());
         DeterministicKey rootKey = HDKeyDerivation.createMasterPrivateKey(seed);

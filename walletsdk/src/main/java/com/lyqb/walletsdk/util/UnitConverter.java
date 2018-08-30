@@ -5,7 +5,7 @@ import org.web3j.utils.Convert;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class Converter {
+public class UnitConverter {
 
     public static BigInteger ethToWei(String value) {
         return Convert.toWei(value, Convert.Unit.ETHER).toBigInteger();
