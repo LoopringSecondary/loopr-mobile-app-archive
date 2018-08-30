@@ -228,6 +228,8 @@ public class SPUtils {
 		List<T> datalist=new ArrayList<T>();
 		String strJson = sp.getString(tag, null);
 		if (null == strJson) {
+			datalist.add((T)"ETH");
+			datalist.add((T)"WETH");
 			return datalist;
 		}
 		Gson gson = new Gson();

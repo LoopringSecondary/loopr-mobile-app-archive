@@ -32,7 +32,7 @@ public class MarginSplitActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-        title.setBTitle("差价分成");
+        title.setBTitle(getResources().getString(R.string.set_margin_split));
         title.clickLeftGoBack(getWContext());
         title.setRightButton("保存", new TitleView.OnRightButtonClickListener() {
             @Override

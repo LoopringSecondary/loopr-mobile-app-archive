@@ -22,6 +22,7 @@ import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.activity.ManageWalletActivity;
 import com.tomcat360.lyqb.activity.MarginSplitActivity;
 import com.tomcat360.lyqb.activity.ShareActivity;
+import com.tomcat360.lyqb.utils.SPUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,7 +101,7 @@ public class SettingFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        address.setText(getResources().getString(R.string.spread_address)+ (String) SPUtils.get(getContext(),"address",""));
     }
 
 

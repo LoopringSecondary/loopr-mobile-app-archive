@@ -74,7 +74,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:singleLine="true"
-                android:text="我的推广收益地址:shfhshfdksfhdskjhfdskjhswww"
+                android:text="@string/spread_address"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/font_14" />
 

@@ -39,7 +39,7 @@ public class ShareActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-        title.setBTitle("Up Wallet推广");
+        title.setBTitle(getResources().getString(R.string.share_title));
         title.clickLeftGoBack(getWContext());
         title.setRightImageButton(R.mipmap.icon_share, new TitleView.OnRightButtonClickListener() {
             @Override

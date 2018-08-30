@@ -35,13 +35,13 @@ public class CoinActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-        title.setBTitle("货币");
+        title.setBTitle(getResources().getString(R.string.set_money_type));
         title.clickLeftGoBack(getWContext());
     }
 
     @Override
     public void initView() {
-        if ((int)SPUtils.get(this,"coin",1) == 1){
+        if (SPUtils.get(this,"coin","¥").equals("¥")){
             ivCnyCheck.setVisibility(View.VISIBLE);
             ivUsdCheck.setVisibility(View.GONE);
         }else {
@@ -59,12 +59,12 @@ public class CoinActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_cny:
-                SPUtils.put(this, "coin", 1);  //保存货币显示，1为人命币，2为美元
+                SPUtils.put(this, "coin", "¥");  //保存货币显示，
                 ivCnyCheck.setVisibility(View.VISIBLE);
                 ivUsdCheck.setVisibility(View.GONE);
                 break;
             case R.id.ll_usd:
-                SPUtils.put(this, "coin", 2);
+                SPUtils.put(this, "coin", "$");
                 ivCnyCheck.setVisibility(View.GONE);
                 ivUsdCheck.setVisibility(View.VISIBLE);
                 break;
