@@ -1,9 +1,9 @@
 package com.lyqb.walletsdk.listener;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.lyqb.walletsdk.model.request.param.TransactionParam;
 import com.lyqb.walletsdk.model.response.data.TransactionPageWrapper;
+import com.lyqb.walletsdk.util.Assert;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;
@@ -12,17 +12,12 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
 
     public static final String TAG = "transaction";
 
-    private PublishSubject<TransactionPageWrapper> subject = PublishSubject.create();
-
-    public TransactionListener() {
-        super();
-    }
+    private final PublishSubject<TransactionPageWrapper> subject = PublishSubject.create();
 
     @Override
     protected void registerEventHandler() {
         socket.on("transaction_res", objects -> {
-            JsonObject object = gson.fromJson(((String) objects[0]), JsonObject.class);
-            JsonElement element = object.get("data");
+            JsonElement element = extractPayload(objects);
             TransactionPageWrapper transactionPageWrapper = gson.fromJson(element, TransactionPageWrapper.class);
             subject.onNext(transactionPageWrapper);
         });
@@ -45,5 +40,39 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
     public void send(TransactionParam param) {
         String json = gson.toJson(param);
         socket.emit("transaction_req", json);
+    }
+
+    public void queryByOwnerAndSymbol(String owner, String symbol, int pageIndex, int pageSize) {
+        Assert.hasText(owner, "owner can not be null");
+        Assert.hasText(owner, "symbol can not be null");
+        TransactionParam param = TransactionParam.builder()
+                .owner(owner)
+                .symbol(symbol)
+                .pageIndex(pageIndex)
+                .pageSize(pageSize)
+                .build();
+        send(param);
+    }
+
+    public void queryByTxHash(String txHash) {
+        Assert.hasText(txHash, "txHash can not be null");
+        TransactionParam param = TransactionParam.builder()
+                .txHash(txHash)
+                .build();
+        send(param);
+    }
+
+    public void queryByOwnerAndSymbolAndStatus(String owner, String symbol, String status, int pageIndex, int pageSize){
+        Assert.hasText(owner);
+        Assert.hasText(symbol);
+        Assert.hasText(status);
+        TransactionParam param = TransactionParam.builder()
+                .owner(owner)
+                .symbol(symbol)
+                .status(status)
+                .pageSize(pageSize)
+                .pageIndex(pageIndex)
+                .build();
+        send(param);
     }
 }
