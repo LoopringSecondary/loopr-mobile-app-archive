@@ -20,6 +20,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lyqb.walletsdk.listener.BalanceListener;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.lyqb.walletsdk.model.response.data.SupportedToken;
+import com.lyqb.walletsdk.util.UnitConverter;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.ActivityScanerCode;
 import com.tomcat360.lyqb.activity.ReceiveActivity;
@@ -36,6 +37,7 @@ import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.view.APP;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -100,7 +102,7 @@ public class MainFragment extends BaseFragment {
 
     private boolean showMenu = false;  //判断menu是否显示
     private static int REQUEST_CODE = 1;  //二维码扫一扫code
-    private double moneyValue = 0;  //钱包总金额
+    private BigDecimal moneyValue ;  //钱包总金额
     private BalanceListener balanceListener = new BalanceListener();
 
     private boolean flag = true; //第一次进入
@@ -220,9 +222,9 @@ public class MainFragment extends BaseFragment {
                             listChooseToken.clear();
                             listChooseSymbol = SPUtils.getDataList(getContext(), "choose_token");
                             for (int i = 0 ;i<listToken.size();i++){
-                                moneyValue = listToken.get(i).getBalance().doubleValue();
                                 if (listChooseSymbol.contains(listToken.get(i).getSymbol())){
                                     if (listToken.get(i).getSymbol().equals("ETH")){
+                                        moneyValue = UnitConverter.weiToEth(listToken.get(i).getBalance().toPlainString());
                                         listChooseToken.add(0,listToken.get(i));
                                     }else if (listToken.get(i).getSymbol().equals("WETH")){
                                         if (listChooseSymbol.contains("ETH")){
@@ -233,10 +235,9 @@ public class MainFragment extends BaseFragment {
                                     }else {
                                         listChooseToken.add(listToken.get(i));
                                     }
-//                                    LyqbLogger.log(listChooseToken.toString());
                                 }
                             }
-                            walletCount.setText(SPUtils.get(getContext(),"coin","¥")+NumberUtils.numberformat(moneyValue));
+                            walletCount.setText(SPUtils.get(getContext(),"coin","¥")+moneyValue.toPlainString());
                             mAdapter.setNewData(listChooseToken);
                             mAdapter.notifyDataSetChanged();
                         }

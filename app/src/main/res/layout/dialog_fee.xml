@@ -71,7 +71,7 @@
             android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Gas limit(200000) * Gas Price(20.0 Gwei)"
+            android:text="Gas limit(100000) * Gas Price(20.0 Gwei)"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/normal14Text" />
 

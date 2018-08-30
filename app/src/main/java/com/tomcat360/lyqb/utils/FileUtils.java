@@ -50,7 +50,6 @@ public class FileUtils {
             isr.close();
             JSONObject testjson = new JSONObject(builder.toString());//builder读取了JSON中的数据。
             SPUtils.put(context, "address", "0x"+ testjson.getString("address"));
-//            SPUtils.put(context, "private_key", testjson.toString());
             LyqbLogger.log(testjson.toString());
             LyqbLogger.log(testjson.getString("address"));
             return testjson.getString("address");
@@ -80,8 +79,6 @@ public class FileUtils {
             br.close();
             isr.close();
             JSONObject testjson = new JSONObject(builder.toString());//builder读取了JSON中的数据。
-            SPUtils.put(context, "address", testjson.getString("address"));
-            SPUtils.put(context, "private_key", testjson.toString());
             LyqbLogger.log(testjson.toString());
             LyqbLogger.log(testjson.getString("address"));
             return testjson.toString();

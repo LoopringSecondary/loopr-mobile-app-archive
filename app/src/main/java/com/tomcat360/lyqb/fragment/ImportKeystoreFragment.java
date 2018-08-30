@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.lyqb.walletsdk.WalletHelper;
+import com.lyqb.walletsdk.exception.IllegalCredentialException;
 import com.lyqb.walletsdk.exception.InvalidKeystoreException;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
 import com.lyqb.walletsdk.model.WalletDetail;
@@ -34,7 +35,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
-import org.web3j.crypto.CipherException;
 
 import java.io.IOException;
 
@@ -256,14 +256,14 @@ public class ImportKeystoreFragment extends BaseFragment {
                 msg.setData(bundle);
                 msg.what = MNEMONIC_SUCCESS;
                 handlerCreate.sendMessage(msg);
-                } catch (CipherException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_ONE);
-                    e.printStackTrace();
                 } catch (KeystoreSaveException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();
                 } catch (InvalidKeystoreException e) {
                     handlerCreate.sendEmptyMessage(ERROR_TWO);
+                    e.printStackTrace();
+                } catch (IllegalCredentialException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();
                 }
             }
