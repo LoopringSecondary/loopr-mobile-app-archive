@@ -1,172 +1,60 @@
 package com.lyqb.walletsdk;
 
-import com.lyqb.walletsdk.model.TransactionDetail;
+import com.lyqb.walletsdk.exception.TransactionException;
+import com.lyqb.walletsdk.model.TransactionObject;
 import com.lyqb.walletsdk.service.EthereumService;
 import com.lyqb.walletsdk.service.LoopringService;
+import com.lyqb.walletsdk.util.SignUtils;
 
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.RawTransaction;
-import org.web3j.crypto.Sign;
-import org.web3j.crypto.TransactionEncoder;
 import org.web3j.utils.Numeric;
 
-import java.io.IOException;
 import java.math.BigInteger;
 
 public class TransactionHelper {
 
-    private static LoopringService httpService = new LoopringService();
+    private static LoopringService loopringService = new LoopringService();
     private static EthereumService ethereumService = new EthereumService();
 
-    public static TransactionDetail createTransaction(
-            String to,
-            BigInteger value,
-            Credentials credentials
-    ) throws IOException {
+    public static TransactionObject createTransaction(String from, String to, BigInteger weiValue) {
+        return createTransaction(from, to, weiValue, "");
+    }
 
-        String nonceStr = httpService.getNonce(credentials.getAddress()).toBlocking().single();
-        String gasPriceStr = httpService.getEstimateGasPrice().toBlocking().single();
+    public static TransactionObject createTransaction(String from, String to, BigInteger weiValue, String data) {
+        String nonceStr = loopringService.getNonce(from).toBlocking().single();
+        String gasPriceStr = loopringService.getEstimateGasPrice().toBlocking().single();
 
         BigInteger nonce = Numeric.toBigInt(Numeric.cleanHexPrefix(nonceStr));
         BigInteger gasPrice = Numeric.toBigInt(Numeric.cleanHexPrefix(gasPriceStr));
 
-        TransactionDetail transactionDetail = new TransactionDetail(
-                (byte) 1,
-                credentials.getAddress(),
-                to,
-                nonce,
-                gasPrice,
-                BigInteger.ZERO,
-                value,
-                ""
-        );
-        BigInteger estimateGasLimit = ethereumService.estimateGasLimit(transactionDetail);
-        transactionDetail.setGasLimit(estimateGasLimit);
-        return transactionDetail;
+        TransactionObject transactionObject = createTransaction(((byte) 1), from, to, nonce, gasPrice, BigInteger.ZERO, weiValue, data);
+        BigInteger estimateGasLimit = ethereumService.estimateGasLimit(transactionObject);
+        transactionObject.setGasLimit(estimateGasLimit);
+        return transactionObject;
     }
 
-
-    public static TransactionDetail createTransaction(
-            String to,
-            BigInteger nonce,
-            BigInteger gasPrice,
-            BigInteger gasLimited,
-            BigInteger value,
-            String data,
-            Credentials credentials
-    ) {
-        String dataInHex = Numeric.toHexString(data.getBytes());
-        RawTransaction rawTransaction = RawTransaction.createTransaction(
+    public static TransactionObject createTransaction(byte chainId, String from, String to, BigInteger nonce, BigInteger gasPrice, BigInteger gasLimited, BigInteger weiValue, String data) {
+        return new TransactionObject(
+                chainId,
+                from,
+                to,
                 nonce,
                 gasPrice,
                 gasLimited,
-                to,
-                value,
-                dataInHex
+                weiValue,
+                data
         );
-        return create(((byte) 1), rawTransaction, credentials);
     }
 
-    public static TransactionDetail createTransaction(
-            String to,
-            BigInteger nonce,
-            BigInteger gasPrice,
-            BigInteger gasLimited,
-            BigInteger value,
-            String data,
-            String privateKey
-    ) {
-        String dataInHex = Numeric.toHexString(data.getBytes());
-        RawTransaction rawTransaction = RawTransaction.createTransaction(
-                nonce,
-                gasPrice,
-                gasLimited,
-                to,
-                value,
-                dataInHex
-        );
-        Credentials credentials = Credentials.create(privateKey);
-        return create(((byte) 1), rawTransaction, credentials);
+    @Deprecated
+    public static String sendTransaction(TransactionObject transactionObject, String privatKey) throws TransactionException {
+        String signedTransaction = SignUtils.signTransaction(transactionObject, privatKey);
+
+        String txHash = ethereumService.sendRawTransaction(signedTransaction);
+        String txHashReply = loopringService.notifyTransactionSubmitted(txHash, transactionObject).toBlocking().single();
+        if (txHash.equals(txHashReply)) {
+            return txHash;
+        } else {
+            throw new TransactionException("txHashReply not equals txHash, check transactionObject.");
+        }
     }
-
-    public static TransactionDetail createTransaction(
-            byte chainId,
-            String to,
-            BigInteger nonce,
-            BigInteger gasPrice,
-            BigInteger gasLimited,
-            BigInteger value,
-            String data,
-            Credentials credentials
-    ) {
-        String dataInHex = Numeric.toHexString(data.getBytes());
-        RawTransaction rawTransaction = RawTransaction.createTransaction(
-                nonce,
-                gasPrice,
-                gasLimited,
-                to,
-                value,
-                dataInHex
-        );
-        return create(chainId, rawTransaction, credentials);
-    }
-
-    public static TransactionDetail createTransaction(
-            byte chainId,
-            String to,
-            BigInteger nonce,
-            BigInteger gasPrice,
-            BigInteger gasLimited,
-            BigInteger value,
-            String data,
-            String privateKey
-    ) {
-        String dataInHex = Numeric.toHexString(data.getBytes());
-        RawTransaction rawTransaction = RawTransaction.createTransaction(
-                nonce,
-                gasPrice,
-                gasLimited,
-                to,
-                value,
-                dataInHex
-        );
-        Credentials credentials = Credentials.create(privateKey);
-        return create(chainId, rawTransaction, credentials);
-    }
-
-    private static TransactionDetail create(byte chainId, RawTransaction rawTransaction, Credentials credentials) {
-        BigInteger nonce = rawTransaction.getNonce();
-        BigInteger gasPrice = rawTransaction.getGasPrice();
-        BigInteger gasLimit = rawTransaction.getGasLimit();
-        String to = rawTransaction.getTo();
-        BigInteger value = rawTransaction.getValue();
-        String data = rawTransaction.getData();
-        String from = credentials.getAddress();
-
-        byte[] encodedTransaction = TransactionEncoder.encode(rawTransaction, chainId);
-        Sign.SignatureData signatureData = Sign.signMessage(encodedTransaction, credentials.getEcKeyPair());
-        String v = Numeric.toHexStringWithPrefix(BigInteger.valueOf(signatureData.getV()));
-        String r = Numeric.toHexString(signatureData.getR());
-        String s = Numeric.toHexString(signatureData.getS());
-
-        byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, chainId, credentials);
-        String signedTransaction = Numeric.toHexString(signedMessage);
-
-//        return TransactionDetail.builder()
-//                .nonce(nonce)
-//                .gasPrice(gasPrice)
-//                .gasLimit(gasLimit)
-//                .to(to)
-//                .value(value)
-//                .data(data)
-//                .chainId(chainId)
-//                .from(from)
-//                .v(v)
-//                .r(r)
-//                .s(s)
-//                .signedTransaction(signedTransaction)
-//                .build();
-        return new TransactionDetail();
-    }
-
 }

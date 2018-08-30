@@ -1,8 +1,14 @@
 package com.lyqb.walletsdk.util;
 
+import org.bitcoinj.crypto.ChildNumber;
+import org.bitcoinj.crypto.DeterministicHierarchy;
+import org.bitcoinj.crypto.DeterministicKey;
+import org.bitcoinj.crypto.HDKeyDerivation;
+import org.bitcoinj.crypto.HDUtils;
 import org.spongycastle.crypto.digests.SHA512Digest;
 import org.spongycastle.crypto.generators.PKCS5S2ParametersGenerator;
 import org.spongycastle.crypto.params.KeyParameter;
+import org.web3j.crypto.Credentials;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,6 +43,16 @@ public final class MnemonicUtils {
         byte[] initialEntropy = new byte[16];
         secureRandom.nextBytes(initialEntropy);
         return generateMnemonic(initialEntropy);
+    }
+
+    public static Credentials popluateCredentialsFromMnemonic(String mnemonic, String dpath, String mnemonicPassword) {
+        byte[] seed = MnemonicUtils.generateSeed(mnemonic, mnemonicPassword);
+        List<ChildNumber> childNumberList = HDUtils.parsePath(dpath.replaceAll("\'", "H").toUpperCase());
+        DeterministicKey rootKey = HDKeyDerivation.createMasterPrivateKey(seed);
+        DeterministicHierarchy hdKey = new DeterministicHierarchy(rootKey);
+        DeterministicKey destKey = hdKey.deriveChild(childNumberList, true, true, new ChildNumber(0));
+
+        return Credentials.create(destKey.getPrivateKeyAsHex());
     }
 
     /**

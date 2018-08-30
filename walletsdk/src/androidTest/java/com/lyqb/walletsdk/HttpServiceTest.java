@@ -10,6 +10,9 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class HttpServiceTest {
 
+    static {
+        SDK.initSDK();
+    }
     private LoopringService httpService = new LoopringService();
 
     @Test

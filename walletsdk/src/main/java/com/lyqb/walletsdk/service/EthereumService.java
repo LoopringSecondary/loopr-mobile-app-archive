@@ -2,7 +2,7 @@ package com.lyqb.walletsdk.service;
 
 import com.lyqb.walletsdk.SDK;
 import com.lyqb.walletsdk.exception.TransactionException;
-import com.lyqb.walletsdk.model.TransactionDetail;
+import com.lyqb.walletsdk.model.TransactionObject;
 import com.lyqb.walletsdk.util.Assert;
 
 import org.web3j.protocol.Web3j;
@@ -19,17 +19,12 @@ public class EthereumService {
     private Web3j web3j;
 
     public EthereumService() {
-        String ethBase = SDK.getEthBase();
+        String ethBase = SDK.ethBase();
         HttpService httpService = new HttpService(ethBase);
         this.web3j = Web3jFactory.build(httpService);
     }
 
-//    public Observable<EthSendTransaction> sendTransaction(String signedTransaction) {
-//        Assert.hasText(signedTransaction);
-//        return web3j.ethSendRawTransaction(signedTransaction).observable();
-//    }
-
-    public String sendTransaction(String signedTransaction) throws TransactionException {
+    public String sendRawTransaction(String signedTransaction) throws TransactionException {
         Assert.hasText(signedTransaction,"transaction can not be null!");
         EthSendTransaction ethSendTransaction;
         try {
@@ -45,8 +40,8 @@ public class EthereumService {
         }
     }
 
-    public BigInteger estimateGasLimit(TransactionDetail transactionDetail) {
-        Transaction transaction = transactionDetail.toTransaction();
+    public BigInteger estimateGasLimit(TransactionObject transactionObject) {
+        Transaction transaction = transactionObject.toTransaction();
         BigInteger defaultGasLimit = new BigInteger("21000");
         EthEstimateGas ethEstimateGas;
         try {

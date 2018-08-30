@@ -1,9 +1,7 @@
 package com.lyqb.walletsdk;
 
 import com.google.common.collect.ImmutableList;
-import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
-import com.lyqb.walletsdk.model.WalletDetail;
 import com.lyqb.walletsdk.util.MnemonicUtils;
 
 import org.bitcoinj.crypto.ChildNumber;
@@ -15,8 +13,6 @@ import org.junit.Test;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class WalletHelpetTest {
@@ -45,16 +41,5 @@ public class WalletHelpetTest {
         int numChildren = hdKey.getNumChildren(childNumberImmutableList);
         System.out.println(numChildren);
 
-    }
-
-    @Test
-    public void qwe() throws IOException, InvalidPrivateKeyException, KeystoreSaveException {
-        WalletHelper helper = new WalletHelper();
-        WalletDetail fromPrivateKey = helper.createFromPrivateKey(
-                "6385615bc43c0accaa331291a48e71e4de9dd021aaaa6b1238fe2c82dbce3c50",
-                "",
-                new File("/Users/slice30k/Desktop/test")
-        );
-        System.out.println(fromPrivateKey.toString());
     }
 }

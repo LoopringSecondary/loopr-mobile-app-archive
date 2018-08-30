@@ -17,11 +17,11 @@ public class SDK {
     private static String relayBase = null;
     private static String ethBase = null;
 
-    public static String getRelayBase() {
+    public static String relayBase() {
         return relayBase;
     }
 
-    public static String getEthBase() {
+    public static String ethBase() {
         return ethBase;
     }
 

@@ -2,7 +2,7 @@ package com.lyqb.walletsdk.service;
 
 import com.google.common.collect.Maps;
 import com.lyqb.walletsdk.SDK;
-import com.lyqb.walletsdk.model.TransactionDetail;
+import com.lyqb.walletsdk.model.TransactionObject;
 import com.lyqb.walletsdk.model.request.RequestWrapper;
 import com.lyqb.walletsdk.model.request.param.BalanceParam;
 import com.lyqb.walletsdk.model.request.param.NonceParam;
@@ -24,7 +24,7 @@ public class LoopringService {
     private RpcDelegate rpcDelegate;
 
     public LoopringService() {
-        String url = SDK.getRelayBase();
+        String url = SDK.relayBase();
         rpcDelegate = RpcDelegate.getService(url);
     }
 
@@ -81,18 +81,18 @@ public class LoopringService {
         return observable.map(ResponseWrapper::getResult);
     }
 
-    public Observable<String> notifyTransactionSubmitted(String txHash, TransactionDetail transactionDetail) {
+    public Observable<String> notifyTransactionSubmitted(String txHash, TransactionObject transactionObject) {
         // data validate.
-        Assert.notNull(transactionDetail, "");
+        Assert.notNull(transactionObject, "");
         NotifyTransactionSubmitParam notifyTransactionSubmitParam = NotifyTransactionSubmitParam.builder()
                 .hash(txHash)
-                .nonce(Numeric.toHexStringWithPrefixSafe(transactionDetail.getNonce()))
-                .to(transactionDetail.getTo())
-                .value(Numeric.toHexStringWithPrefixSafe(transactionDetail.getValue()))
-                .gasPrice(Numeric.toHexStringWithPrefixSafe(transactionDetail.getGasPrice()))
-                .gas(Numeric.toHexStringWithPrefixSafe(transactionDetail.getGasLimit()))
-                .input(transactionDetail.getData())
-                .from(transactionDetail.getFrom())
+                .nonce(Numeric.toHexStringWithPrefixSafe(transactionObject.getNonce()))
+                .to(transactionObject.getTo())
+                .value(Numeric.toHexStringWithPrefixSafe(transactionObject.getValue()))
+                .gasPrice(Numeric.toHexStringWithPrefixSafe(transactionObject.getGasPrice()))
+                .gas(Numeric.toHexStringWithPrefixSafe(transactionObject.getGasLimit()))
+                .input(transactionObject.getData())
+                .from(transactionObject.getFrom())
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", notifyTransactionSubmitParam);
         Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyTransactionSubmitted(request);
