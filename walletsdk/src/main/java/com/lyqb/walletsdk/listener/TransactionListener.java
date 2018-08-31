@@ -54,14 +54,6 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
         send(param);
     }
 
-    public void queryByTxHash(String txHash) {
-        Assert.hasText(txHash, "txHash can not be null");
-        TransactionParam param = TransactionParam.builder()
-                .txHash(txHash)
-                .build();
-        send(param);
-    }
-
     public void queryByOwnerAndSymbolAndStatus(String owner, String symbol, String status, int pageIndex, int pageSize){
         Assert.hasText(owner);
         Assert.hasText(symbol);
@@ -72,6 +64,37 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
                 .status(status)
                 .pageSize(pageSize)
                 .pageIndex(pageIndex)
+                .build();
+        send(param);
+    }
+
+    public void queryByOwnerAndSymbolAndTxType(String owner, String symbol, String txType, int pageIndex, int pageSize) {
+        TransactionParam param = TransactionParam.builder()
+                .owner(owner)
+                .symbol(symbol)
+                .txType(txType)
+                .pageIndex(pageIndex)
+                .pageSize(pageIndex)
+                .build();
+        send(param);
+    }
+
+    public void queryByOwnerAndSymbolAndStatusAndTxType(String owner, String symbol,String status, String txType, int pageIndex, int pageSize) {
+        TransactionParam param = TransactionParam.builder()
+                .owner(owner)
+                .symbol(symbol)
+                .status(status)
+                .txType(txType)
+                .pageIndex(pageIndex)
+                .pageSize(pageSize)
+                .build();
+        send(param);
+    }
+
+    public void queryByTxHash(String txHash) {
+        Assert.hasText(txHash, "txHash can not be null");
+        TransactionParam param = TransactionParam.builder()
+                .txHash(txHash)
                 .build();
         send(param);
     }

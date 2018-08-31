@@ -1,11 +1,13 @@
 package com.lyqb.walletsdk;
 
+import com.google.common.base.Strings;
 import com.lyqb.walletsdk.exception.TransactionException;
 import com.lyqb.walletsdk.model.TransactionObject;
 import com.lyqb.walletsdk.service.EthereumService;
 import com.lyqb.walletsdk.service.LoopringService;
 import com.lyqb.walletsdk.util.SignUtils;
 
+import org.web3j.tx.ChainId;
 import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
@@ -26,13 +28,18 @@ public class TransactionHelper {
         BigInteger nonce = Numeric.toBigInt(Numeric.cleanHexPrefix(nonceStr));
         BigInteger gasPrice = Numeric.toBigInt(Numeric.cleanHexPrefix(gasPriceStr));
 
-        TransactionObject transactionObject = createTransaction(((byte) 1), from, to, nonce, gasPrice, BigInteger.ZERO, weiValue, data);
+        TransactionObject transactionObject = createTransaction(ChainId.MAINNET, from, to, nonce, gasPrice, BigInteger.ZERO, weiValue, data);
         BigInteger estimateGasLimit = ethereumService.estimateGasLimit(transactionObject);
         transactionObject.setGasLimit(estimateGasLimit);
         return transactionObject;
     }
 
     public static TransactionObject createTransaction(byte chainId, String from, String to, BigInteger nonce, BigInteger gasPrice, BigInteger gasLimited, BigInteger weiValue, String data) {
+        if (Strings.isNullOrEmpty(data)) {
+            data = "0x";
+        }else {
+            data = Numeric.toHexString(data.getBytes());
+        }
         return new TransactionObject(
                 chainId,
                 from,
@@ -54,7 +61,8 @@ public class TransactionHelper {
         if (txHash.equals(txHashReply)) {
             return txHash;
         } else {
-            throw new TransactionException("txHashReply not equals txHash, check transactionObject.");
+            throw new TransactionException("relay notification failure.");
         }
     }
+
 }
