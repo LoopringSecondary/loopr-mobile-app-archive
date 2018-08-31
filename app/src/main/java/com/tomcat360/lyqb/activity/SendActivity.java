@@ -115,7 +115,6 @@ public class SendActivity extends BaseActivity {
             switch (msg.what) {
                 case SEND_SUCCESS:
                     hideProgress();
-                    String txhash = (String) msg.getData().get("txhash");
                     ToastUtils.toast("发送成功");
                     passwordDialog.dismiss();
                     break;
@@ -175,12 +174,10 @@ public class SendActivity extends BaseActivity {
 
 //                File file = new File(SendActivity.this.getFilesDir().getAbsolutePath() + "/keystore/" + (String) SPUtils.get(SendActivity.this, "filename", ""));
 
-                String nonceStr = loopringService.getNonce(address).toBlocking().single();
                 String gasPriceStr = loopringService.getEstimateGasPrice().toBlocking().single();
-
-                long nonceLong = Long.valueOf(nonceStr, 16);   //d=255
                 long gasPriceLong = Long.valueOf(gasPriceStr.substring(2), 16);   //d=255
-                nonce = BigInteger.valueOf(nonceLong);
+
+
                 gasPrice = BigInteger.valueOf(gasPriceLong);
                 LyqbLogger.log(nonce + "    " + gasPrice);
 
@@ -198,7 +195,6 @@ public class SendActivity extends BaseActivity {
                 amountTotal = listToken.get(i).getBalance().doubleValue();
             }
         }
-//        amount = (double)SPUtils.get(this,"send_amount",0.00);
 
         sendWalletName.setText(sendChoose);
         walletName2.setText(sendChoose);
@@ -266,7 +262,7 @@ public class SendActivity extends BaseActivity {
         formAddress.setText(address);
 
 
-        BigInteger gas = gasPrice.multiply(new BigInteger("21000"));
+        BigInteger gas = gasPrice.multiply(new BigInteger("25200"));
         BigDecimal bigDecimal = UnitConverter.weiToEth(gas.toString());
         tvGassFee.setText(bigDecimal.toPlainString().substring(0,8) + " ETH = " + NumberUtils.formatTwo(Double.toString(gasFee), Integer.toString(1)));
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -337,21 +333,20 @@ public class SendActivity extends BaseActivity {
                 try {
                     Account account = null;
                     String keystore = FileUtils.getKeystoreFromSD(SendActivity.this);
-                    account = WalletHelper.unlockWallet(password, keystore);
+                    account = WalletHelper.unlockWallet(password, keystore); //获取account信息，里面有privatekey
 
-                    Integer chanid = new Integer(1);
-                    BigInteger value = UnitConverter.ethToWei(moneyAmount.getText().toString());
+                    Integer chanid = new Integer(1);  //chanid
+                    BigInteger value = UnitConverter.ethToWei(moneyAmount.getText().toString()); //转账金额
 
-                    TransactionObject transaction = TransactionHelper.createTransaction(chanid.byteValue(), address, walletAddress.getText().toString(), nonce, gasPrice, BigInteger.valueOf(21000), value, "");
+                    String nonceStr = loopringService.getNonce(address).toBlocking().single();
+                    long nonceLong = Long.valueOf(nonceStr, 16);   //d=255
+                    nonce = BigInteger.valueOf(nonceLong);//获得nonce
+                    LyqbLogger.log(nonce+"");
+                    //调用transaction方法
+                    TransactionObject transaction = TransactionHelper.createTransaction(chanid.byteValue(), address, walletAddress.getText().toString(), nonce, gasPrice, BigInteger.valueOf(25200), value, "");
                     String txhash = TransactionHelper.sendTransaction(transaction, account.getPrivateKey());
-                    Message msg = new Message();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("txhash",txhash);
-                    msg.setData(bundle);
-                    msg.what = SEND_SUCCESS;
-                    handlerCreate.sendMessage(msg);
-//                    LyqbLogger.log(s);
-//                    handlerCreate.sendEmptyMessage(SEND_SUCCESS);
+                    LyqbLogger.log(txhash);
+                    handlerCreate.sendEmptyMessage(SEND_SUCCESS);
                 } catch (TransactionException e) {
                     errorMes = e.getMessage();
                     handlerCreate.sendEmptyMessage(SEND_FAILED);
@@ -369,32 +364,7 @@ public class SendActivity extends BaseActivity {
                     handlerCreate.sendEmptyMessage(ERROR_FOUR);
                     e.printStackTrace();
                 }
-//                handlerCreate.sendEmptyMessage(SEND_SUCCESS);
 
-//                String s = "";
-//                try {
-//                    File file = new File(SendActivity.this.getFilesDir().getAbsolutePath()  + "/keystore/" + (String) SPUtils.get(SendActivity.this, "filename", ""));
-//                    walletFile = KeystoreHelper.loadFromFile(file);
-//                    Credentials credentials = WalletHelper.unlockWallet("qqqqqq", walletFile);
-//                    String ethTrasnferTransaction = TransactionHelper.createEthTrasnferTransaction("0x75a6543F96e4177128f8CaA35db739e5088489B0", credentials, BigInteger.valueOf(0));
-//                    String s = TransactionHelper.sendTransaction(ethTrasnferTransaction);
-
-//                    Credentials credentials = APP.getLoopring().unlockWallet("qqqqqq", FileUtils.getKeystoreFile(SendActivity.this));
-//                    String s = APP.getLoopring().sendTransaction("0x75a6543F96e4177128f8CaA35db739e5088489B0", BigInteger.valueOf(0), credentials);
-//                    if (s != null) {
-//                        handlerCreate.sendEmptyMessage(SEND_SUCCESS);
-//                    } else {
-//                        handlerCreate.sendEmptyMessage(SEND_FAILED);
-//                    }
-//                    LyqbLogger.log(s);
-//                } catch (CipherException e) {
-//                    handlerCreate.sendEmptyMessage(ERROR_ONE);
-//                    e.printStackTrace();
-//                } catch (TransactionFailureException e) {
-//                    errorMes = e.getMessage();
-//                    handlerCreate.sendEmptyMessage(ERROR_TWO);
-//                    e.printStackTrace();
-//                }
             }
         }).start();
 
@@ -407,7 +377,7 @@ public class SendActivity extends BaseActivity {
          * 处理二维码扫描结果
          */
         if (requestCode == REQUEST_CODE) {
-            //处理扫描结果（在界面上显示）
+//            处理扫描结果（在界面上显示）
             if (null != data) {
 
                 Bundle bundle = data.getExtras();

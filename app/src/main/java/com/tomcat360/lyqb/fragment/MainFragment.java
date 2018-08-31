@@ -145,13 +145,13 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void initPresenter() {
 
-        address = (String) SPUtils.get(getContext(), "address", "");
+
 
     }
 
     @Override
     protected void initView() {
-
+        address = (String) SPUtils.get(getContext(), "address", "");
         walletAddress.setText(address);
     }
 
@@ -169,6 +169,8 @@ public class MainFragment extends BaseFragment {
                     llMenu.setVisibility(View.GONE);
                     showMenu = false;
                 } else {
+                    getOperation().addParameter("moneyValue",moneyValue.toPlainString());
+                    getOperation().addParameter("symbol",listChooseToken.get(position).getSymbol());
                     getOperation().forward(WalletDetailActivity.class);
                 }
             }
@@ -237,7 +239,9 @@ public class MainFragment extends BaseFragment {
                                     }
                                 }
                             }
-                            walletCount.setText(SPUtils.get(getContext(),"coin","¥")+moneyValue.toPlainString());
+                            String amount = moneyValue.toPlainString().length() > 8 ?moneyValue.toPlainString().substring(0,8) : moneyValue.toPlainString();
+                            SPUtils.put(getContext(),"amount",amount);
+                            walletCount.setText((String) SPUtils.get(getContext(),"coin","¥")+amount);
                             mAdapter.setNewData(listChooseToken);
                             mAdapter.notifyDataSetChanged();
                         }

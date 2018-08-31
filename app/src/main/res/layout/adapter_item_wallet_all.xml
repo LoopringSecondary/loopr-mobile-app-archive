@@ -38,7 +38,7 @@
                 android:layout_height="16dp"
                 android:id="@+id/iv_status"
                 android:layout_marginLeft="11dp"
-                android:src="@mipmap/icon_next" />
+                android:src="@mipmap/icon_warning" />
         </LinearLayout>
 
 

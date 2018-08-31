@@ -90,7 +90,7 @@ public class NumberUtils {
 		return Double.parseDouble(ds);
 	}
 	public static double format6(double d){
-		DecimalFormat df = new DecimalFormat("0.000000");
+		DecimalFormat df = new DecimalFormat("#,##0.000000");
 		df.setGroupingUsed(false);
 		String ds=df.format(d);
 		return Double.parseDouble(ds);

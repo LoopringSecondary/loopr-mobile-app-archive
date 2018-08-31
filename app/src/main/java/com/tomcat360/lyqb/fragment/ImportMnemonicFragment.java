@@ -24,6 +24,7 @@ import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.GenerateWalletActivity;
 import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.model.eventbusData.MnemonicData;
+import com.tomcat360.lyqb.utils.AppManager;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
@@ -88,10 +89,6 @@ public class ImportMnemonicFragment extends BaseFragment {
             switch (msg.what) {
                 case MNEMONIC_SUCCESS:
                     hideProgress();
-                    Bundle bundle = msg.getData();
-                    String filename = (String) bundle.get("filename");
-                    LyqbLogger.log(filename);
-
                     getAddress();
 
                     break;
@@ -112,7 +109,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                                                 @Override
                                                 public void onClick(View v) {
                                                     DialogUtil.dialog.dismiss();
-//                                                    AppManager.finishAll();
+                                                    AppManager.finishAll();
                                                     getOperation().forward(MainActivity.class);
                                                 }
                                             });
@@ -280,20 +277,11 @@ public class ImportMnemonicFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String fileName = null;
                 WalletDetail walletDetail = null;
                 try {
                     walletDetail = WalletHelper.createFromMnemonic(etMnemonic.getText().toString(), dpath, etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
-                    fileName = walletDetail.getMnemonic();
-                    Message msg = new Message();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("filename", walletDetail.getFilename());
-                    bundle.putString("mnemonic", walletDetail.getMnemonic());
                     SPUtils.put(getContext(), "filename", walletDetail.getFilename());
-                    LyqbLogger.log(walletDetail.getFilename() + "   " + walletDetail.getMnemonic());
-                    msg.setData(bundle);
-                    msg.what = MNEMONIC_SUCCESS;
-                    handlerCreate.sendMessage(msg);
+                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
                 } catch (KeystoreSaveException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();

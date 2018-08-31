@@ -459,6 +459,7 @@ public class ActivityScanerCode extends ActivityBase {
             } else if (message.what == com.vondear.rxfeature.R.id.decode_failed) {
                 state = State.PREVIEW;
                 CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), com.vondear.rxfeature.R.id.decode);
+//                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), com.vondear.rxfeature.R.id.quit);
             }
         }
 
