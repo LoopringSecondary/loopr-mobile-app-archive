@@ -20,17 +20,27 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            jniDebuggable false
+            renderscriptDebuggable false
+            minifyEnabled false
+            pseudoLocalesEnabled false
+        }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -55,7 +65,6 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:percent:27.1.1'
     implementation 'com.google.code.gson:gson:2.8.2'
-
     //友盟分享
     implementation 'com.umeng.sdk:common:1.5.3'
     implementation 'com.umeng.sdk:analytics:7.5.3'
@@ -63,28 +72,22 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.airbnb.android:lottie:1.0.1'
-
     //适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.41'
-
     //md对话框
     implementation 'com.afollestad.material-dialogs:core:0.9.5.0'
     implementation 'com.android.support:design:27.1.1'
     //RxTool工具类库
-
     //基础工具库
     implementation 'com.github.vondear.RxTool:RxKit:v2.0.4'
-
     //UI库
     implementation 'com.github.vondear.RxTool:RxUI:v2.0.4'
-
     //功能库（Zxing扫描与生成二维码条形码 支付宝 微信）
     implementation 'com.github.vondear.RxTool:RxFeature:v2.0.4'
-
     //ArcGis For Android工具库（API：100.1以上版本）
     implementation 'com.github.vondear.RxTool:RxArcGisKit:v2.0.4'
     implementation 'com.github.hotchemi:permissionsdispatcher:3.0.1'
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
     implementation project(':walletsdk')
-    implementation group: 'com.google.guava', name: 'guava', version: '26.0-android'
+    implementation 'com.google.guava:guava:26.0-android'
 }
