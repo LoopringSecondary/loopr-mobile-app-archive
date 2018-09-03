@@ -5,7 +5,12 @@ import com.lyqb.walletsdk.model.TransactionObject;
 import com.lyqb.walletsdk.service.EthereumService;
 
 import org.junit.Test;
+import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.Type;
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -16,6 +21,8 @@ import org.web3j.utils.Convert;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TransactionTest {
     static {
@@ -91,5 +98,39 @@ public class TransactionTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Test
+    public void qwerty() {
+        String ethBase = SDK.ethBase();
+        HttpService httpService = new HttpService(ethBase);
+        Web3j web3j = Web3jFactory.build(httpService);
+
+        String contractAddress = "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07";
+
+        List<Type> input = new ArrayList<>();
+
+        List<TypeReference<?>> output = new ArrayList<>();
+        Function function = new Function(
+                "totalSupply",
+                input,
+                output
+                );
+        String encode = FunctionEncoder.encode(function);
+        System.out.println(encode);
+
+
+        TransactionObject transaction = TransactionHelper.createTransaction(
+                "",
+                "",
+                BigInteger.ZERO,
+                encode
+        );
+
+        RawTransaction rawTransaction = transaction.toRawTransaction();
+
+
+
     }
 }

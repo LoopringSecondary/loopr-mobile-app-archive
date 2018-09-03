@@ -73,6 +73,14 @@ public class WalletHelper {
         return new WalletDetail(walletFileName);
     }
 
+
+
+    public static Account unlockWallet(String password, String keystore) throws InvalidKeystoreException, IllegalCredentialException {
+        Credentials credentials = decrypt(password, keystore);
+        return Account.create(credentials);
+    }
+
+
     private static Credentials decrypt(String password, String keystore) throws InvalidKeystoreException, IllegalCredentialException {
         WalletFile walletFile = KeystoreUtils.loadFromJsonString(keystore);
         ECKeyPair ecKeyPair = null;
@@ -82,10 +90,5 @@ public class WalletHelper {
             throw new IllegalCredentialException(e);
         }
         return Credentials.create(ecKeyPair);
-    }
-
-    public static Account unlockWallet(String password, String keystore) throws InvalidKeystoreException, IllegalCredentialException {
-        Credentials credentials = decrypt(password, keystore);
-        return Account.create(credentials);
     }
 }
