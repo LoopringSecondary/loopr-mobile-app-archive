@@ -120,9 +120,7 @@ public class GenerateWalletActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MNEMONIC_SUCCESS:
-                    Bundle bundle = msg.getData();
-                    String filename = (String) bundle.get("filename");
-                    String mnemonic = (String) bundle.get("mnemonic");
+
                     getAddress();
 
                     break;
@@ -332,15 +330,8 @@ public class GenerateWalletActivity extends BaseActivity {
             @Override
             public void run() {
                 WalletDetail walletDetail = createWallet();//生成助记词
-                Message msg = new Message();
-                Bundle bundle = new Bundle();
-                bundle.putString("filename", walletDetail.getFilename());
-                bundle.putString("mnemonic", walletDetail.getMnemonic());
                 SPUtils.put(GenerateWalletActivity.this, "filename", walletDetail.getFilename());
-                LyqbLogger.log(walletDetail.getMnemonic() + "   " + walletDetail.getFilename());
-                msg.setData(bundle);
-                msg.what = MNEMONIC_SUCCESS;
-                handlerCreate.sendMessage(msg);
+                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             }
         }).start();
     }

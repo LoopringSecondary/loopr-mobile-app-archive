@@ -54,7 +54,6 @@ public class ManageWalletActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         ArrayList<String> list = new ArrayList<>();
         list.add("1");
-        list.add("1");
 
         mAdapter = new ManageWalletListAdapter(R.layout.adapter_item_manage_wallet, list);
         recyclerView.setAdapter(mAdapter);

@@ -29,12 +29,13 @@ public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Token, Bas
         helper.setText(R.id.wallet_name, item.getSymbol());
 
         BigDecimal bigDecimal = UnitConverter.weiToEth(item.getBalance().toPlainString());
-        helper.setText(R.id.wallet_money, bigDecimal.toPlainString());
+        String amount =  bigDecimal.toPlainString().length() > 8 ? bigDecimal.toPlainString().substring(0,8):bigDecimal.toPlainString();
+        helper.setText(R.id.wallet_money,amount);
 
         if (SPUtils.get(mContext,"coin","¥").equals("¥")){
-            helper.setText(R.id.wallet_count, "¥ "+bigDecimal.toPlainString());
+            helper.setText(R.id.wallet_count, "¥ "+amount);
         }else {
-            helper.setText(R.id.wallet_count, "$ "+bigDecimal.toPlainString());
+            helper.setText(R.id.wallet_count, "$ "+amount);
         }
 
 

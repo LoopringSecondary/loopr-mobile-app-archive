@@ -22,6 +22,7 @@ import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.GenerateWalletActivity;
 import com.tomcat360.lyqb.activity.MainActivity;
 import com.tomcat360.lyqb.model.eventbusData.PrivateKeyData;
+import com.tomcat360.lyqb.utils.AppManager;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
@@ -78,9 +79,6 @@ public class ImportPrivateKeyFragment extends BaseFragment {
             switch (msg.what) {
                 case MNEMONIC_SUCCESS:
                     hideProgress();
-                    Bundle bundle = msg.getData();
-                    String filename = (String) bundle.get("filename");
-                    LyqbLogger.log(filename);
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
@@ -99,7 +97,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                                                 @Override
                                                 public void onClick(View v) {
                                                     DialogUtil.dialog.dismiss();
-//                                                    AppManager.finishAll();
+                                                    AppManager.finishAll();
                                                     getOperation().forward(MainActivity.class);
                                                 }
                                             });
@@ -261,13 +259,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     walletDetail = WalletHelper.createFromPrivateKey(etPrivateKey.getText().toString().startsWith("0x") ? etPrivateKey.getText().toString().substring(2) : etPrivateKey.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
                     fileName = walletDetail.getFilename();
                     SPUtils.put(getContext(), "filename", fileName);
-                    Message msg = new Message();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("filename", fileName);
-                    LyqbLogger.log(fileName);
-                    msg.setData(bundle);
-                    msg.what = MNEMONIC_SUCCESS;
-                    handlerCreate.sendMessage(msg);
+                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
                 } catch (InvalidPrivateKeyException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();

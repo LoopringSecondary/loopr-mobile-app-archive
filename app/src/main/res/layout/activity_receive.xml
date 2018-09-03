@@ -41,7 +41,7 @@
             android:id="@+id/coin_name"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
-            android:text="Receive LRC"
+            android:text="Receive ETH"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/normalText" />
 

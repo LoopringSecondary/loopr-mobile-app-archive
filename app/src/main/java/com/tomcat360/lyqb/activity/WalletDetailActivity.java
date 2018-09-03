@@ -4,22 +4,23 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.ViewPageAdapter;
-import com.tomcat360.lyqb.fragment.ImportKeystoreFragment;
-import com.tomcat360.lyqb.fragment.ImportMnemonicFragment;
-import com.tomcat360.lyqb.fragment.ImportPrivateKeyFragment;
 import com.tomcat360.lyqb.fragment.WalletAllFragment;
 import com.tomcat360.lyqb.views.TitleView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class WalletDetailActivity extends BaseActivity {
 
@@ -35,10 +36,15 @@ public class WalletDetailActivity extends BaseActivity {
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @BindView(R.id.btn_receive)
+    Button btnReceive;
+    @BindView(R.id.btn_send)
+    Button btnSend;
 
     private List<Fragment> mFragments;
-    private String[] mTitles = {"All","Receive","Send","Fail"};
-
+    private String[] mTitles = {"All", "Receive", "Send", "Fail"};
+    private String symbol;
+    private String moneyValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +56,12 @@ public class WalletDetailActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-        title.setBTitle("LRC");
+        symbol = getIntent().getStringExtra("symbol");
+        moneyValue = getIntent().getStringExtra("moneyValue");
+        title.setBTitle(symbol);
+        walletMoney.setText(moneyValue.length() > 8 ?moneyValue.substring(0,8) : moneyValue);
+        walletDollar.setText(moneyValue.length() > 8 ?moneyValue.substring(0,8) : moneyValue);
+
         title.clickLeftGoBack(getWContext());
     }
 
@@ -62,13 +73,37 @@ public class WalletDetailActivity extends BaseActivity {
     @Override
     public void initData() {
         mFragments = new ArrayList<>();
-        mFragments.add(new WalletAllFragment());
-        mFragments.add(new WalletAllFragment());
-        mFragments.add(new WalletAllFragment());
-        mFragments.add(new WalletAllFragment());
+        Bundle bundle = new Bundle();
+        bundle.putString("symbol", symbol);
+
+        WalletAllFragment allFragment = new WalletAllFragment();
+        WalletAllFragment allFragment2 = new WalletAllFragment();
+        WalletAllFragment allFragment3 = new WalletAllFragment();
+        WalletAllFragment allFragment4 = new WalletAllFragment();
+
+        allFragment.setArguments(bundle);
+        allFragment2.setArguments(bundle);
+        allFragment3.setArguments(bundle);
+        allFragment4.setArguments(bundle);
+        mFragments.add(allFragment);
+        mFragments.add(allFragment2);
+        mFragments.add(allFragment3);
+        mFragments.add(allFragment4);
 
         viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), mFragments, mTitles));
 
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @OnClick({R.id.btn_receive, R.id.btn_send})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_receive:
+                getOperation().forward(ReceiveActivity.class);
+                break;
+            case R.id.btn_send:
+                getOperation().forward(SendActivity.class);
+                break;
+        }
     }
 }

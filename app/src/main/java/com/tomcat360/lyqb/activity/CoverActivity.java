@@ -70,6 +70,7 @@ public class CoverActivity extends BaseActivity {
                 getOperation().forward(GenerateWalletActivity.class);
                 break;
             case R.id.icon:
+                finish();
                 getOperation().forward(MainActivity.class);
                 break;
         }

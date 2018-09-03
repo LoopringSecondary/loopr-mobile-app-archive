@@ -46,10 +46,14 @@
                 android:id="@+id/wallet_address"
                 style="@style/WrapWrap"
                 android:text="shadhwufh...sbadhasuhd"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:layout_marginLeft="70dp"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normal14Text" />
 
             <ImageView
+                android:layout_marginRight="70dp"
                 android:id="@+id/wallet_qrcode"
                 android:layout_width="18dp"
                 android:layout_height="18dp"

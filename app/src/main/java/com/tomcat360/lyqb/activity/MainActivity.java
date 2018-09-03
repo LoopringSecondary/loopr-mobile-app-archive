@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.fragment.MainFragment;
@@ -50,6 +52,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.rl_setting)
     RelativeLayout rlSetting;
 
+    private long exitTime = 0;
     private int index;
     private int currentTabIndex;  //当前页
     private ImageView[] imagebuttons; //底部tab-imageview集合
@@ -60,6 +63,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
+        mSwipeBackLayout.setEnableGesture(false);
     }
 
 
@@ -202,5 +206,28 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 //        APP.getLoopring().destroy();
+    }
+    /***
+     * 返回键按两下退出
+     *
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) // System.currentTimeMillis()无论何时调用，肯定大于2000
+            {
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
