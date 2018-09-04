@@ -37,6 +37,7 @@ public class CoverActivity extends BaseActivity {
         ButterKnife.bind(this);
         AppManager.getAppManager().addActivity(this);
         super.onCreate(savedInstanceState);
+        mSwipeBackLayout.setEnableGesture(false);
         initPermissions();
 
     }

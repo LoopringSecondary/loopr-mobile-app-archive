@@ -12,7 +12,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <!-- <item name="android:windowIsTranslucent">true</item>-->
         <item name="android:windowTranslucentStatus">true</item>  <!-- 沉浸式状态栏设置 -->
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="textAllCaps">false</item>   <!-- 英文字体自动大写设置 -->
