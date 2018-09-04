@@ -6,17 +6,21 @@ import com.lyqb.walletsdk.service.EthereumService;
 
 import org.junit.Test;
 import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.crypto.Credentials;
-import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.request.Transaction;
+import org.web3j.protocol.core.methods.response.EthCall;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
+import org.web3j.utils.Numeric;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -25,12 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionTest {
-    static {
-        SDK.initSDK();
-    }
 
     @Test
     public void test() {
+        SDK.initSDK();
 
         EthereumService ethereumService = new EthereumService();
 
@@ -51,7 +53,7 @@ public class TransactionTest {
 
     @Test
     public void send() throws TransactionException {
-
+        SDK.initSDK();
         String from = "0x5c479c8a0B9Da9949dfA0793B055195FcCDE6a93";
         String to = "0x78cc40ee3b9eCC6febAF8F18127f10392eb96c1f";
 
@@ -102,7 +104,9 @@ public class TransactionTest {
 
 
     @Test
-    public void qwerty() {
+    public void qwerty() throws TransactionException, IOException {
+        SDK.initSDK();
+
         String ethBase = SDK.ethBase();
         HttpService httpService = new HttpService(ethBase);
         Web3j web3j = Web3jFactory.build(httpService);
@@ -120,16 +124,19 @@ public class TransactionTest {
         String encode = FunctionEncoder.encode(function);
         System.out.println(encode);
 
-
-        TransactionObject transaction = TransactionHelper.createTransaction(
-                "",
-                "",
-                BigInteger.ZERO,
+        Transaction ethCallTransaction = Transaction.createEthCallTransaction(
+                "0x5c479c8a0B9Da9949dfA0793B055195FcCDE6a93",
+                "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
                 encode
         );
 
-        RawTransaction rawTransaction = transaction.toRawTransaction();
+        EthCall send = web3j.ethCall(ethCallTransaction, DefaultBlockParameterName.LATEST).send();
+        String value = send.getValue();
+        System.out.println(value);
 
+        BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(value));
+
+        System.out.println(bigInteger.toString());
 
 
     }

@@ -80,6 +80,5 @@ public class EthereumService {
             e.printStackTrace();
             return new BigInteger("25200");
         }
-
     }
 }

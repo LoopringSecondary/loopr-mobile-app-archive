@@ -1,5 +1,6 @@
 package com.lyqb.walletsdk.util;
 
+
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicHierarchy;
 import org.bitcoinj.crypto.DeterministicKey;
@@ -46,7 +47,8 @@ public final class MnemonicUtils {
     }
 
     public static Credentials calculateCredentialsFromMnemonic(String mnemonic, String dpath, String mnemonicPassword) {
-        byte[] seed = MnemonicUtils.generateSeed(mnemonic, mnemonicPassword);
+        validateMnemonic(mnemonic);
+        byte[] seed = generateSeed(mnemonic, mnemonicPassword);
         List<ChildNumber> childNumberList = HDUtils.parsePath(dpath.replaceAll("\'", "H").toUpperCase());
         DeterministicKey rootKey = HDKeyDerivation.createMasterPrivateKey(seed);
         DeterministicHierarchy hdKey = new DeterministicHierarchy(rootKey);
@@ -54,6 +56,7 @@ public final class MnemonicUtils {
 
         return Credentials.create(destKey.getPrivateKeyAsHex());
     }
+
 
     /**
      * The mnemonic must encode entropy in a multiple of 32 bits. With more entropy security is

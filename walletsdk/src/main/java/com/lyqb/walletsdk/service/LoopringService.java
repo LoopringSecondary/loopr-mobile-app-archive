@@ -2,6 +2,7 @@ package com.lyqb.walletsdk.service;
 
 import com.google.common.collect.Maps;
 import com.lyqb.walletsdk.SDK;
+import com.lyqb.walletsdk.deligate.RpcDelegate;
 import com.lyqb.walletsdk.model.TransactionObject;
 import com.lyqb.walletsdk.model.request.RequestWrapper;
 import com.lyqb.walletsdk.model.request.param.BalanceParam;

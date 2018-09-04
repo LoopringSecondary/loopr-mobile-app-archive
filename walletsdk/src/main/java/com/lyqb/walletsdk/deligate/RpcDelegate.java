@@ -1,4 +1,4 @@
-package com.lyqb.walletsdk.service;
+package com.lyqb.walletsdk.deligate;
 
 import com.lyqb.walletsdk.Default;
 import com.lyqb.walletsdk.SDK;
