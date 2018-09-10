@@ -23,6 +23,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.GenerateWalletActivity;
 import com.tomcat360.lyqb.activity.MainActivity;
+import com.tomcat360.lyqb.model.WalletEntity;
 import com.tomcat360.lyqb.model.eventbusData.MnemonicData;
 import com.tomcat360.lyqb.utils.AppManager;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
@@ -40,6 +41,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,6 +74,7 @@ public class ImportMnemonicFragment extends BaseFragment {
 
     private String dpath;
     private String address;//钱包地址
+    private String filename;//钱包名称
     private LoopringService loopringService = new LoopringService();
 
 
@@ -93,7 +96,14 @@ public class ImportMnemonicFragment extends BaseFragment {
 
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    LyqbLogger.log(address);
+                    SPUtils.put(getContext(), "pas", etPassword.getText().toString());
+
+                    SPUtils.put(getContext(), "hasWallet", true);
+                    SPUtils.put(getContext(), "address", "0x" + address);
+
+                    List<WalletEntity> list = SPUtils.getWalletDataList(getContext(), "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
+                    list.add(new WalletEntity("", filename, "0x" + address, etMnemonic.getText().toString()));
+                    SPUtils.setDataList(getContext(), "walletlist", list);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -241,14 +251,14 @@ public class ImportMnemonicFragment extends BaseFragment {
                         ToastUtils.toast("请输入助记词");
                         return;
                     }
-//                if (TextUtils.isEmpty(etPassword.getText().toString())) {
-//                    ToastUtils.toast("");
-//                    return;
-//                }
-//                if (etMnemonic.getText().toString().length() < 6){
-//                    ToastUtils.toast("6位以上密码");
-//                    return;
-//                }
+                    if (TextUtils.isEmpty(etPassword.getText().toString())) {
+                        ToastUtils.toast("请输入密码");
+                        return;
+                    }
+                    if (etPassword.getText().toString().length() < 6) {
+                        ToastUtils.toast("请输入6位以上密码");
+                        return;
+                    }
                     if (TextUtils.isEmpty(walletType.getText().toString())) {
                         ToastUtils.toast("请选择钱包类型");
                         return;
@@ -280,7 +290,8 @@ public class ImportMnemonicFragment extends BaseFragment {
                 WalletDetail walletDetail = null;
                 try {
                     walletDetail = WalletHelper.createFromMnemonic(etMnemonic.getText().toString(), dpath, etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
-                    SPUtils.put(getContext(), "filename", walletDetail.getFilename());
+                    filename = walletDetail.getFilename();
+                    SPUtils.put(getContext(), "filename", filename);
                     handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
                 } catch (KeystoreSaveException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);

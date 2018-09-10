@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.UnsupportedEncodingException;
@@ -235,6 +238,29 @@ public class SPUtils {
 		Gson gson = new Gson();
 		datalist = gson.fromJson(strJson, new TypeToken<List<T>>() {
 		}.getType());
+		return datalist;
+
+	}
+
+	/**
+	 * 获取List
+	 * @param tag
+	 * @return
+	 */
+	public static <T> List<T> getWalletDataList(Context context,String tag, Class<T> cls) {
+		SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME,
+				Context.MODE_PRIVATE);
+		List<T> datalist=new ArrayList<T>();
+		String strJson = sp.getString(tag, null);
+		if (null == strJson) {
+			return datalist;
+		}
+		Gson gson = new Gson();
+		JsonArray arry = new JsonParser().parse(strJson).getAsJsonArray();
+		for (JsonElement jsonElement : arry) {
+			datalist.add(gson.fromJson(jsonElement, cls));
+		}
+//		datalist = gson.fromJson(strJson, new TypeToken<List<T>>() {}.getType());
 		return datalist;
 
 	}

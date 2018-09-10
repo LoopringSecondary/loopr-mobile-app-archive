@@ -36,6 +36,7 @@ public class QRCodeFragment extends BaseFragment {
     ImageView ivCode;
 
     public String keystore;
+    public String filename;
 
 
     public final static int KEYSTORE_SUCCESS = 1;
@@ -73,6 +74,9 @@ public class QRCodeFragment extends BaseFragment {
         // 布局导入
         layout = inflater.inflate(R.layout.fragment_qr_code, container, false);
         unbinder = ButterKnife.bind(this, layout);
+        if (isAdded()) {
+            filename = getArguments().getString("filename");
+        }
         return layout;
     }
 
@@ -100,7 +104,7 @@ public class QRCodeFragment extends BaseFragment {
             @Override
             public void run() {
                 try {
-                    keystore = FileUtils.getKeystoreFromSD(getContext());
+                    keystore = FileUtils.getKeystoreFromSD(getContext(),filename);
                     handlerCreate.sendEmptyMessage(KEYSTORE_SUCCESS);
                 } catch (IOException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);

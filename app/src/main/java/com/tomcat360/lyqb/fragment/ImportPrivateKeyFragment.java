@@ -21,6 +21,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.GenerateWalletActivity;
 import com.tomcat360.lyqb.activity.MainActivity;
+import com.tomcat360.lyqb.model.WalletEntity;
 import com.tomcat360.lyqb.model.eventbusData.PrivateKeyData;
 import com.tomcat360.lyqb.utils.AppManager;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
@@ -37,6 +38,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +65,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
     MaterialEditText etPrivateKey;
 
     private String address;//钱包地址
+    private String filename;//钱包名称
     private LoopringService loopringService = new LoopringService();
 
     public final static int MNEMONIC_SUCCESS = 1;
@@ -82,7 +85,14 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    LyqbLogger.log(address);
+                    SPUtils.put(getContext(),"pas",etPassword.getText().toString());
+
+                    SPUtils.put(getContext(), "hasWallet", true);
+                    SPUtils.put(getContext(), "address", "0x" + address);
+
+                    List<WalletEntity> list = SPUtils.getWalletDataList(getContext(), "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
+                    list.add(new WalletEntity("", filename, "0x"+address, ""));
+                    SPUtils.setDataList(getContext(), "walletlist", list);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -252,13 +262,12 @@ public class ImportPrivateKeyFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String fileName = null;
 
                 WalletDetail walletDetail = null;
                 try {
                     walletDetail = WalletHelper.createFromPrivateKey(etPrivateKey.getText().toString().startsWith("0x") ? etPrivateKey.getText().toString().substring(2) : etPrivateKey.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
-                    fileName = walletDetail.getFilename();
-                    SPUtils.put(getContext(), "filename", fileName);
+                    filename = walletDetail.getFilename();
+                    SPUtils.put(getContext(), "filename", filename);
                     handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
                 } catch (InvalidPrivateKeyException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);

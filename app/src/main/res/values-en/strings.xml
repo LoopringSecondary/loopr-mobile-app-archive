@@ -84,6 +84,11 @@
     <string name="gas_fee">Gas Fee</string>
     <string name="send_and_confirm">Send And Confirm</string>
     <string name="put_password">Please Enter Password</string>
+    <string name="trade_detail">Transaction Detail</string>
+    <string name="received">Received</string>
+    <string name="status">Status</string>
+    <string name="id">ID</string>
+    <string name="date">Date</string>
 
 
 

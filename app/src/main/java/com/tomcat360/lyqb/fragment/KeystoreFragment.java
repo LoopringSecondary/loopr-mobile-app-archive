@@ -40,6 +40,7 @@ public class KeystoreFragment extends BaseFragment {
     Button btnCopyKeystore;
 
     public String keystore;
+    public String filename;
 
     public final static int KEYSTORE_SUCCESS = 1;
     public final static int ERROR_ONE = 2;
@@ -70,6 +71,9 @@ public class KeystoreFragment extends BaseFragment {
         // 布局导入
         layout = inflater.inflate(R.layout.fragment_keystore, container, false);
         unbinder = ButterKnife.bind(this, layout);
+        if (isAdded()) {
+            filename = getArguments().getString("filename");
+        }
         return layout;
     }
 
@@ -95,7 +99,7 @@ public class KeystoreFragment extends BaseFragment {
             @Override
             public void run() {
                 try {
-                     keystore = FileUtils.getKeystoreFromSD(getContext());
+                     keystore = FileUtils.getKeystoreFromSD(getContext(),filename);
                      handlerCreate.sendEmptyMessage(KEYSTORE_SUCCESS);
                 } catch (IOException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);

@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="分享AP，获得推广的新用户未来所有订单撮合手续费20%收益，多推广多获利"
+                android:text="分享APP，获得推广的新用户未来所有订单撮合手续费20%收益，多推广多获利"
                 android:textColor="@color/colorGreen"
                 android:textSize="@dimen/normalText" />
 

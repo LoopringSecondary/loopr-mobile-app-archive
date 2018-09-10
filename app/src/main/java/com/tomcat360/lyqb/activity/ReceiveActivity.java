@@ -129,9 +129,9 @@ public class ReceiveActivity extends BaseActivity {
 
     private void uShare() {
         UMWeb umWeb = new UMWeb("https://m.zhaoyunlicai.com/weekPayNo");
-        umWeb.setTitle("赵云理财喊您领周薪啦！");//标题
+        umWeb.setTitle("钱包地址分享");//标题
         umWeb.setThumb(new UMImage(ReceiveActivity.this, R.mipmap.icon_share));  //缩略图
-        umWeb.setDescription("挑战月薪制，日薪不是梦！");//描述
+        umWeb.setDescription("钱包地址分享");//描述
 
 
         ShareAction shareAction = new ShareAction(ReceiveActivity.this);

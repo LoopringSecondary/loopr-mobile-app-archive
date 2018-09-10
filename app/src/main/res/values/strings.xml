@@ -86,4 +86,10 @@
     <string name="gas_fee">邮费</string>
     <string name="send_and_confirm">确认转出</string>
     <string name="put_password">请输入密码</string>
+    <string name="trade_detail">交易详情</string>
+    <string name="received">收款</string>
+    <string name="status">状态</string>
+    <string name="id">地址</string>
+    <string name="date">日期</string>
+
 </resources>

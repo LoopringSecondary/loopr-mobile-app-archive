@@ -22,6 +22,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.GenerateWalletActivity;
 import com.tomcat360.lyqb.activity.MainActivity;
+import com.tomcat360.lyqb.model.WalletEntity;
 import com.tomcat360.lyqb.model.eventbusData.KeystoreData;
 import com.tomcat360.lyqb.utils.AppManager;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
@@ -38,6 +39,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +63,7 @@ public class ImportKeystoreFragment extends BaseFragment {
     Button btnUnlock;
 
     private String address;//钱包地址
+    private String filename;//钱包名称
     private LoopringService loopringService = new LoopringService();
 
     public final static int MNEMONIC_SUCCESS = 1;
@@ -80,11 +83,18 @@ public class ImportKeystoreFragment extends BaseFragment {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    LyqbLogger.log(address);
+                    SPUtils.put(getContext(),"pas",etPassword.getText().toString());
+
+                    SPUtils.put(getContext(), "hasWallet", true);
+                    SPUtils.put(getContext(), "address", "0x" + address);
+
+                    List<WalletEntity> list = SPUtils.getWalletDataList(getContext(), "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
+                    list.add(new WalletEntity("", filename,"0x"+ address, ""));
+                    SPUtils.setDataList(getContext(), "walletlist", list);
+
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            LyqbLogger.log("22222222" + address);
                             loopringService.notifyCreateWallet(address)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
@@ -241,14 +251,13 @@ public class ImportKeystoreFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String fileName = null;
                 WalletDetail walletDetail = null;
                 try {
                     walletDetail = WalletHelper.createFromKeystore(etKeystore.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
-                //                    walletDetail = APP.getLoopring().importFromKeystore(etKeystore.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
-                fileName = walletDetail.getFilename();
-                SPUtils.put(getContext(), "filename", fileName);
-                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
+                    //                    walletDetail = APP.getLoopring().importFromKeystore(etKeystore.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
+                    filename = walletDetail.getFilename();
+                    SPUtils.put(getContext(), "filename", filename);
+                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
                 } catch (KeystoreSaveException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();

@@ -181,6 +181,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initToken() {
+        showProgress("加载中...");
         LyqbLogger.log(address);
 
         Observable<BalanceResult> observable = balanceListener.start();
@@ -188,16 +189,17 @@ public class MainFragment extends BaseFragment {
                 .subscribe(new Subscriber<BalanceResult>() {
                     @Override
                     public void onCompleted() {
-
+                        hideProgress();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        hideProgress();
                     }
 
                     @Override
                     public void onNext(BalanceResult balanceResult) {
+                        hideProgress();
                         LyqbLogger.log(balanceResult.getTokens().toString());
                         if (balanceResult.getTokens() != null) {
                             listToken = balanceResult.getTokens();
@@ -257,7 +259,7 @@ public class MainFragment extends BaseFragment {
         if (flag){
             flag = false;
         }else {
-            if (listToken != null) {
+            if (listToken != null) {  //设置首页展示选择的币种
                 listChooseToken.clear();
                 listChooseSymbol = SPUtils.getDataList(getContext(), "choose_token");
                 for (int i = 0; i < listToken.size(); i++) {

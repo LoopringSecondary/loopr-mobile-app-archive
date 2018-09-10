@@ -6,30 +6,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.adapter.MnemonicWordHintAdapter;
-import com.tomcat360.lyqb.utils.DialogUtil;
-import com.tomcat360.lyqb.utils.FileUtils;
-import com.tomcat360.lyqb.utils.LyqbLogger;
-import com.tomcat360.lyqb.utils.SPUtils;
+import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.SpacesItemDecoration;
 import com.tomcat360.lyqb.views.TitleView;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 
 public class BackupMnemonicActivity extends BaseActivity {
 
@@ -46,9 +36,10 @@ public class BackupMnemonicActivity extends BaseActivity {
     @BindView(R.id.rl_word)
     RelativeLayout rlWord;
 
-    private MnemonicWordHintAdapter mHintAdapter; //助记词提示adapter
+    private MnemonicWordAdapter mHintAdapter; //助记词提示adapter
     private List<String> listMnemonic = new ArrayList<>();;
 
+    private String mnemonic;
 
     public final static int MNEMONIC_SUCCESS = 1;
     public final static int ERROR_ONE = 2;
@@ -75,6 +66,7 @@ public class BackupMnemonicActivity extends BaseActivity {
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_backup_mnemonic);
@@ -90,35 +82,42 @@ public class BackupMnemonicActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        mnemonic = getIntent().getStringExtra("mnemonic");
     }
 
     @Override
     public void initData() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String[] arrayMne = FileUtils.getFile(BackupMnemonicActivity.this,"mnemonic.txt");
-                    listMnemonic.clear();
-                    for (int i = 0; i < arrayMne.length; i++) {
-                        listMnemonic.add(arrayMne[i]);
-                    }
-                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
-                } catch (IOException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_ONE);
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_TWO);
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        String[] arrayMne = mnemonic.split(" ");
+
+        listMnemonic.clear();
+        for (int i = 0; i < arrayMne.length; i++) {
+            listMnemonic.add(arrayMne[i]);
+        }
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    String[] arrayMne = FileUtils.getFile(BackupMnemonicActivity.this,"mnemonic.txt");
+//                    listMnemonic.clear();
+//                    for (int i = 0; i < arrayMne.length; i++) {
+//                        listMnemonic.add(arrayMne[i]);
+//                    }
+//                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
+//                } catch (IOException e) {
+//                    handlerCreate.sendEmptyMessage(ERROR_ONE);
+//                    e.printStackTrace();
+//                } catch (JSONException e) {
+//                    handlerCreate.sendEmptyMessage(ERROR_TWO);
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
 
         GridLayoutManager layoutManagerHint = new GridLayoutManager(this, 3);
 
         recyclerMnemonicHint.setLayoutManager(layoutManagerHint);  //助记词提示列表
-        mHintAdapter = new MnemonicWordHintAdapter(R.layout.adapter_item_mnemonic_word_hint, null);
+        mHintAdapter = new MnemonicWordAdapter(R.layout.adapter_item_mnemonic_word_hint, listMnemonic);
         recyclerMnemonicHint.addItemDecoration(new SpacesItemDecoration(8));
         recyclerMnemonicHint.setAdapter(mHintAdapter);
 

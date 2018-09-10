@@ -7,9 +7,16 @@ import android.widget.LinearLayout;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.model.WalletEntity;
+import com.tomcat360.lyqb.model.eventbusData.MnemonicData;
+import com.tomcat360.lyqb.model.eventbusData.NameChangeData;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.TitleView;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,6 +29,9 @@ public class ReviseWalletNameActivity extends BaseActivity {
     MaterialEditText walletName;
     @BindView(R.id.ll_clear_records)
     LinearLayout llClearRecords;
+
+    private int position;
+    private List<WalletEntity> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +50,23 @@ public class ReviseWalletNameActivity extends BaseActivity {
                 if (TextUtils.isEmpty(walletName.getText().toString())) {
                     ToastUtils.toast("请输入钱包名称");
                     return;
+                }else {
+                    list.get(position).setWalletname(walletName.getText().toString());
+                    SPUtils.setDataList(ReviseWalletNameActivity.this, "walletlist", list);
+                    EventBus.getDefault().post(new NameChangeData(walletName.getText().toString()));
+
                 }
-                SPUtils.put(ReviseWalletNameActivity.this, "walletname", walletName.getText().toString());
+//                SPUtils.put(ReviseWalletNameActivity.this, "walletname", walletName.getText().toString());
             }
         });
     }
 
     @Override
     public void initView() {
-        walletName.setText((String) SPUtils.get(this,"walletname","name"));
+        list = SPUtils.getWalletDataList(this, "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
+
+        position = getIntent().getIntExtra("position",0);
+        walletName.setText(getIntent().getStringExtra("walletname"));
     }
 
     @Override

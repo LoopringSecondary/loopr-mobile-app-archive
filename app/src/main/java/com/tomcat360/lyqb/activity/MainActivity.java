@@ -1,5 +1,6 @@
 package com.tomcat360.lyqb.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.fragment.MainFragment;
 import com.tomcat360.lyqb.fragment.SettingFragment;
 import com.tomcat360.lyqb.fragment.TradeFragment;
+import com.tomcat360.lyqb.utils.AppManager;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.view.APP;
@@ -62,6 +64,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        AppManager.getAppManager().addActivity(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
     }
@@ -75,6 +78,11 @@ public class MainActivity extends BaseActivity {
                 ChangeMainFragment(2);
                 SPUtils.put(this,"isRecreate",false);
             }
+//            if ((Boolean) SPUtils.get(this,"isNewintent",false)){//
+//                ChangeMainFragment(0);
+//                SPUtils.put(this,"isNewintent",false);
+//            }
+
     }
 
     @Override
@@ -200,6 +208,16 @@ public class MainActivity extends BaseActivity {
         if ((Boolean) SPUtils.get(this,"isRecreate",false)){//判断是否是更改语言设置后，执行了系统的recreate()方法,
             recreate();//判断是否是更改语言设置后，执行了系统的recreate()方法,
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        LyqbLogger.log("22222222");
+        index = 0;
+        setTabSelect(0);
+        SPUtils.put(this,"isNewintent",true);
+        recreate();
     }
 
     @Override

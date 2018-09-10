@@ -49,7 +49,7 @@ public class FileUtils {
             br.close();
             isr.close();
             JSONObject testjson = new JSONObject(builder.toString());//builder读取了JSON中的数据。
-            SPUtils.put(context, "address", "0x"+ testjson.getString("address"));
+//            SPUtils.put(context, "address", "0x"+ testjson.getString("address"));
             LyqbLogger.log(testjson.toString());
             LyqbLogger.log(testjson.getString("address"));
             return testjson.getString("address");
@@ -70,6 +70,28 @@ public class FileUtils {
         FileInputStream isr = null;
 //            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
             isr = new FileInputStream(context.getFilesDir().getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+            BufferedReader br = new BufferedReader(new InputStreamReader(isr));
+            String line;
+            StringBuilder builder = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                builder.append(line);
+            }
+            br.close();
+            isr.close();
+            JSONObject testjson = new JSONObject(builder.toString());//builder读取了JSON中的数据。
+            LyqbLogger.log(testjson.toString());
+            LyqbLogger.log(testjson.getString("address"));
+            return testjson.toString();
+
+    }
+
+    /**
+     * 获取keystore文件内容
+     * */
+    public static String getKeystoreFromSD(Context context,String filename) throws IOException, JSONException {
+        FileInputStream isr = null;
+//            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+            isr = new FileInputStream(context.getFilesDir().getAbsolutePath() + "/keystore/" + filename);
             BufferedReader br = new BufferedReader(new InputStreamReader(isr));
             String line;
             StringBuilder builder = new StringBuilder();

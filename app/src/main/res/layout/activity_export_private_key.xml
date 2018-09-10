@@ -28,7 +28,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:text="sjakhdsahduwihduwihdsjkafbjksdbfjewjhkahsjdhsj"
+            android:text=""
             android:inputType="textMultiLine"
             android:lineSpacingExtra="3dp"
             android:textSize="@dimen/normalText"

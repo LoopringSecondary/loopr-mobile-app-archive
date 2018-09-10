@@ -1,6 +1,7 @@
 package com.tomcat360.lyqb.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +25,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
 import com.tomcat360.lyqb.adapter.MnemonicWordHintAdapter;
+import com.tomcat360.lyqb.model.WalletEntity;
+import com.tomcat360.lyqb.utils.AppManager;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
@@ -106,6 +109,7 @@ public class GenerateWalletActivity extends BaseActivity {
     private String confirmStatus = "one";//点击confirm时根据不同状态显示不同页面
 
     private String address;//钱包地址
+    private String filename;//钱包keystore名称
     private LoopringService loopringService = new LoopringService();
 
 
@@ -125,6 +129,14 @@ public class GenerateWalletActivity extends BaseActivity {
 
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
+                    SPUtils.put(GenerateWalletActivity.this,"pas",password.getText().toString());
+
+                    SPUtils.put(GenerateWalletActivity.this,"hasWallet",true);
+                    SPUtils.put(GenerateWalletActivity.this, "address", "0x"+ address);
+
+                    List<WalletEntity> list = SPUtils.getWalletDataList(GenerateWalletActivity.this,"walletlist",WalletEntity.class);//多钱包，将钱包信息存在本地
+                    list.add(new WalletEntity( walletName.getText().toString(),filename,"0x"+address,mnemonic));
+                    SPUtils.setDataList(GenerateWalletActivity.this, "walletlist", list);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -140,7 +152,9 @@ public class GenerateWalletActivity extends BaseActivity {
                                                 public void onClick(View v) {
                                                     DialogUtil.dialog.dismiss();
                                                     finish();
-                                                    getOperation().forward(MainActivity.class);
+                                                    AppManager.finishAll();
+//                                                    startActivity(new Intent(GenerateWalletActivity.this,MainActivity.class));
+                                                    getOperation().forwardClearTop(MainActivity.class);
                                                 }
                                             });
                                         }
@@ -330,7 +344,9 @@ public class GenerateWalletActivity extends BaseActivity {
             @Override
             public void run() {
                 WalletDetail walletDetail = createWallet();//生成助记词
-                SPUtils.put(GenerateWalletActivity.this, "filename", walletDetail.getFilename());
+                filename = walletDetail.getFilename();
+                LyqbLogger.log(filename);
+                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             }
         }).start();

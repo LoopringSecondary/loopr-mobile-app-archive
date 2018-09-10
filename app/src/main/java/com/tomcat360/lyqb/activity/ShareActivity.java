@@ -2,15 +2,14 @@ package com.tomcat360.lyqb.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.utils.LyqbLogger;
-import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.views.TitleView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -30,6 +29,11 @@ public class ShareActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
+    @BindView(R.id.share_info)
+    TextView shareInfo;
+    @BindView(R.id.address)
+    TextView address;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_share);
@@ -51,12 +55,11 @@ public class ShareActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        address.setText((String) SPUtils.get(this, "address", ""));
     }
 
     @Override
     public void initData() {
-
     }
 
     // 单个权限
@@ -83,9 +86,9 @@ public class ShareActivity extends BaseActivity {
 
     private void uShare() {
         UMWeb umWeb = new UMWeb("https://m.zhaoyunlicai.com/weekPayNo");
-        umWeb.setTitle("赵云理财喊您领周薪啦！");//标题
+        umWeb.setTitle("钱包地址分享");//标题
         umWeb.setThumb(new UMImage(ShareActivity.this, R.mipmap.icon_share));  //缩略图
-        umWeb.setDescription("挑战月薪制，日薪不是梦！");//描述
+        umWeb.setDescription("钱包地址分享");//描述
 
 
         ShareAction shareAction = new ShareAction(ShareActivity.this);
@@ -105,7 +108,7 @@ public class ShareActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        ShareActivityPermissionsDispatcher.onRequestPermissionsResult(this,requestCode,grantResults);
+        ShareActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
 
     }
 

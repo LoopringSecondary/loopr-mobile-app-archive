@@ -26,6 +26,9 @@ public class ExportKeystoreDetailActivity extends BaseActivity {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
+    private String filename;
+    private String address;
+
     private List<Fragment> mFragments;
     private String[] mTitles = new String[2];
 
@@ -46,7 +49,8 @@ public class ExportKeystoreDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        filename = getIntent().getStringExtra("filename");
+        address = getIntent().getStringExtra("address");
     }
 
     @Override
@@ -54,9 +58,19 @@ public class ExportKeystoreDetailActivity extends BaseActivity {
         mTitles[0] = getResources().getString(R.string.keystore);
         mTitles[1] = getResources().getString(R.string.qr_code);
 
+        Bundle bundle = new Bundle();
+        bundle.putString("filename", filename);
+
         mFragments = new ArrayList<>();
-        mFragments.add(new KeystoreFragment());
-        mFragments.add(new QRCodeFragment());
+
+        KeystoreFragment keystoreFragment = new KeystoreFragment();
+        QRCodeFragment qrCodeFragment = new QRCodeFragment();
+
+        keystoreFragment.setArguments(bundle);
+        qrCodeFragment.setArguments(bundle);
+
+        mFragments.add(keystoreFragment);
+        mFragments.add(qrCodeFragment);
 
         viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), mFragments, mTitles));
 
