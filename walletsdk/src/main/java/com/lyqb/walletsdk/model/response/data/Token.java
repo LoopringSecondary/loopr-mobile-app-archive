@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class SupportedToken {
+public class Token {
     private String protocol;
     private String symbol;
     private String name;

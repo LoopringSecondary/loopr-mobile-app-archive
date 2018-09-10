@@ -1,14 +1,14 @@
 package com.lyqb.walletsdk.deligate;
 
+import java.util.List;
+import java.util.Map;
+
 import com.lyqb.walletsdk.Default;
 import com.lyqb.walletsdk.SDK;
 import com.lyqb.walletsdk.model.request.RequestWrapper;
 import com.lyqb.walletsdk.model.response.ResponseWrapper;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
-import com.lyqb.walletsdk.model.response.data.SupportedToken;
-
-import java.util.List;
-import java.util.Map;
+import com.lyqb.walletsdk.model.response.data.Token;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -48,7 +48,7 @@ public interface RpcDelegate {
     Observable<ResponseWrapper<String>> unlockWallet(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<List<SupportedToken>>> getSupportedTokens(@Body RequestWrapper request);
+    Observable<ResponseWrapper<List<Token>>> getSupportedTokens(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
     Observable<ResponseWrapper<String>> notifyTransactionSubmitted(@Body RequestWrapper request);

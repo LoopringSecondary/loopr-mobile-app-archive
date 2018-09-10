@@ -1,5 +1,8 @@
 package com.lyqb.walletsdk.service;
 
+import java.util.List;
+
+import org.web3j.utils.Numeric;
 import com.google.common.collect.Maps;
 import com.lyqb.walletsdk.SDK;
 import com.lyqb.walletsdk.deligate.RpcDelegate;
@@ -11,12 +14,8 @@ import com.lyqb.walletsdk.model.request.param.NotifyTransactionSubmitParam;
 import com.lyqb.walletsdk.model.request.param.UnlockWallet;
 import com.lyqb.walletsdk.model.response.ResponseWrapper;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
-import com.lyqb.walletsdk.model.response.data.SupportedToken;
+import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.util.Assert;
-
-import org.web3j.utils.Numeric;
-
-import java.util.List;
 
 import rx.Observable;
 
@@ -60,9 +59,9 @@ public class LoopringService {
         return rpcDelegate.getBalance(request).map(ResponseWrapper::getResult);
     }
 
-    public Observable<List<SupportedToken>> getSupportedToken() {
+    public Observable<List<Token>> getSupportedToken() {
         RequestWrapper request = new RequestWrapper("loopring_getSupportedTokens", Maps.newHashMap());
-        Observable<ResponseWrapper<List<SupportedToken>>> observable = rpcDelegate.getSupportedTokens(request);
+        Observable<ResponseWrapper<List<Token>>> observable = rpcDelegate.getSupportedTokens(request);
         return observable.map(ResponseWrapper::getResult);
     }
 

@@ -233,10 +233,10 @@ public class SendActivity extends BaseActivity {
             }
         }).start();
         String sendChoose = (String) SPUtils.get(this, "send_choose", "LRC");
-        List<BalanceResult.Token> listToken = APP.getListToken();
-        for (int i = 0; i < listToken.size(); i++) {
-            if (listToken.get(i).equals(sendChoose)) {
-                amountTotal = listToken.get(i).getBalance().doubleValue();
+        List<BalanceResult.Asset> listAsset = APP.getListAsset();
+        for (int i = 0; i < listAsset.size(); i++) {
+            if (listAsset.get(i).equals(sendChoose)) {
+                amountTotal = listAsset.get(i).getBalance().doubleValue();
             }
         }
         sendWalletName.setText(sendChoose);

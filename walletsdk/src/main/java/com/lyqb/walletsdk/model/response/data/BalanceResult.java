@@ -3,17 +3,16 @@ package com.lyqb.walletsdk.model.response.data;
 import java.math.BigDecimal;
 import java.util.List;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data
 public class BalanceResult {
     private String delegateAddress;
     private String owner;
-    private List<Token> tokens;
+    private List<Asset> assets;
 
     @Data
-    public static class Token {
+    public static class Asset {
         private String symbol;
         private BigDecimal balance;
         private BigDecimal allowance;

@@ -24,7 +24,7 @@ public class APP extends Application {
 
     private static APP mInstance;
 
-    private static List<BalanceResult.Token> listToken = new ArrayList<>();
+    private static List<BalanceResult.Asset> listAsset = new ArrayList<>();
     //    public static LooprSocketService looprSocketService; // 创建全局的socket服务
 
     String appVersion;
@@ -40,13 +40,13 @@ public class APP extends Application {
         return mInstance;
     }
 
-    public static List<BalanceResult.Token> getListToken() {
-        return listToken;
+    public static List<BalanceResult.Asset> getListAsset() {
+        return listAsset;
     }
 
-    public static void setListToken(List<BalanceResult.Token> listToken) {
-        APP.listToken.clear();
-        APP.listToken = listToken;
+    public static void setListAsset(List<BalanceResult.Asset> listAsset) {
+        APP.listAsset.clear();
+        APP.listAsset = listAsset;
     }
 
     @Override

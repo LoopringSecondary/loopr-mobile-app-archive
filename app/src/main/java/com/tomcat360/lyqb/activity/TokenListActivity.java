@@ -50,9 +50,9 @@ public class TokenListActivity extends BaseActivity {
 
     private TokenListAdapter mAdapter;
 
-    private List<BalanceResult.Token> list;
+    private List<BalanceResult.Asset> list;
 
-    private List<BalanceResult.Token> listSearch = new ArrayList<>();
+    private List<BalanceResult.Asset> listSearch = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +112,7 @@ public class TokenListActivity extends BaseActivity {
         LyqbLogger.log(choose_token.toString());
         RecyclerViewBugLayoutManager layoutManager = new RecyclerViewBugLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        list = APP.getListToken();
+        list = APP.getListAsset();
         mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, list, choose_token);
         recyclerView.setAdapter(mAdapter);
         /**

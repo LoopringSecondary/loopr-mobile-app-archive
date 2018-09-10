@@ -1,20 +1,20 @@
 package com.tomcat360.lyqb.presenter;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
+import java.util.List;
+
+import com.lyqb.walletsdk.model.response.data.Token;
+import com.lyqb.walletsdk.service.LoopringService;
+
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-/**
- * Title:BasePresenter
- */
 
 public class BasePresenter<V> {
 
     private V mView;
 
-    private Subscription subscription;
+    private List<Token> tokens;
+
+    private LoopringService loopringService = new LoopringService();
 
     public void attachView(V view) {
         this.mView = view;
@@ -32,16 +32,11 @@ public class BasePresenter<V> {
         return mView;
     }
 
-    //RxJava取消注册，以避免内存泄露
-    public void onUnSubscribe() {
-        if (!subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
-    }
-
-    public void addSubscription(Observable observable, Subscriber subscriber) {
-        subscription = observable.subscribeOn(Schedulers.io())
+    private void updateTokens() {
+        loopringService.getSupportedToken()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(tokens -> this.tokens = tokens);
+        // TODO token 逻辑
     }
 }

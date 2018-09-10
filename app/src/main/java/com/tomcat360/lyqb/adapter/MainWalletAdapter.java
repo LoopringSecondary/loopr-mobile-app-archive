@@ -13,14 +13,14 @@ import com.tomcat360.lyqb.utils.SPUtils;
 /**
  *
  */
-public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Token, BaseViewHolder> {
+public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, BaseViewHolder> {
 
-    public MainWalletAdapter(int layoutResId, @Nullable List<BalanceResult.Token> data) {
+    public MainWalletAdapter(int layoutResId, @Nullable List<BalanceResult.Asset> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, BalanceResult.Token item) {
+    protected void convert(BaseViewHolder helper, BalanceResult.Asset item) {
         helper.setText(R.id.wallet_title, item.getSymbol());
         helper.setText(R.id.wallet_name, item.getSymbol());
         //        BigDecimal bigDecimal = UnitConverter.weiToEth(item.getBalance().toPlainString());

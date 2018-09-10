@@ -29,7 +29,7 @@ public class SendListChooseActivity extends BaseActivity {
 
     private TokenChooseAdapter mAdapter;
 
-    private List<BalanceResult.Token> list;
+    private List<BalanceResult.Asset> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class SendListChooseActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        list = APP.getListToken();
+        list = APP.getListAsset();
         mAdapter = new TokenChooseAdapter(R.layout.adapter_item_token_choose, list);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
