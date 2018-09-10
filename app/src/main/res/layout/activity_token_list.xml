@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical"
     >
+
     <com.tomcat360.lyqb.views.TitleView
         android:id="@+id/title"
         android:layout_width="fill_parent"
@@ -12,35 +13,35 @@
 
     <LinearLayout
         android:id="@+id/ll_search"
-        android:visibility="gone"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
         android:background="@color/colorTitleBac"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
 
         <EditText
-            android:layout_marginLeft="10dp"
             android:id="@+id/et_search"
             android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/radius_bg_38"
+            android:digits="@string/pwd_dig"
             android:drawableLeft="@mipmap/icon_search_small"
             android:drawablePadding="8dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"
             android:hint="@string/search"
+            android:inputType="textEmailAddress"
             android:paddingLeft="8dp"
             android:singleLine="true"
-            android:inputType="textEmailAddress"
-            android:digits="@string/pwd_dig"
             android:textColor="@color/colorTitleTv"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="@dimen/normal14Text" />
+            android:textSize="@dimen/normal14Text"/>
 
         <TextView
             android:id="@+id/cancel_text"
@@ -51,7 +52,7 @@
             android:layout_marginRight="10dp"
             android:minWidth="60dip"
             android:text="@string/cancel"
-            android:textSize="@dimen/normalText" />
+            android:textSize="@dimen/normalText"/>
 
     </LinearLayout>
 
@@ -62,5 +63,5 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margSide"
         android:layout_marginRight="@dimen/margSide"
-        android:layout_marginTop="85dp" />
+        android:layout_marginTop="85dp"/>
 </RelativeLayout>

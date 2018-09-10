@@ -5,17 +5,21 @@ package com.tomcat360.lyqb.model.eventbusData;
  */
 
 public class PrivateKeyData {
+
     private String privateKey;
 
     public PrivateKeyData(String privateKey) {
+
         this.privateKey = privateKey;
     }
 
     public String getPrivateKey() {
+
         return privateKey;
     }
 
     public void setPrivateKey(String privateKey) {
+
         this.privateKey = privateKey;
     }
 }

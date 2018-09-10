@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,69 +11,76 @@
         android:layout_centerInParent="true"
         android:background="@drawable/radius_bg_29"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
+
             <TextView
-                android:layout_centerInParent="true"
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:gravity="center_horizontal"
                 android:text="@string/dialog_fee_title"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
+
             <ImageView
                 android:id="@+id/cancel"
-                android:layout_alignParentRight="true"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginRight="@dimen/margSide"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_remove" />
+                android:layout_marginRight="@dimen/margSide"
+                android:src="@mipmap/icon_remove"/>
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lineBac" />
+            android:background="@color/lineBac"/>
+
         <RelativeLayout
-            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
             <TextView
                 android:id="@+id/tv_amount"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="20dp"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
                 android:gravity="center_horizontal"
                 android:text="0.000200 ETH = $0.97"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
+
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
                 android:layout_marginRight="20dp"
-                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/dialog_fee_recom"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>
 
         <TextView
-            android:layout_marginTop="3dp"
             android:id="@+id/tv_wallet_info"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="3dp"
             android:gravity="center_horizontal"
             android:text="Gas limit(100000) * Gas Price(20.0 Gwei)"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/normal14Text" />
+            android:textSize="@dimen/normal14Text"/>
 
 
         <com.tomcat360.lyqb.views.RangeSeekBar
@@ -94,14 +101,14 @@
             app:seekBarMode="single"
             app:thumbPrimaryColor="@color/colorGreen"
             app:thumbSecondaryColor="@color/colorGreen"
-            app:thumbSize="16dp" />
+            app:thumbSize="16dp"/>
 
         <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="18dp">
 
             <TextView
@@ -110,17 +117,17 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/slow"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normalText" />
+                android:textSize="@dimen/normalText"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/quick"
                 android:layout_marginRight="5dp"
+                android:text="@string/quick"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normalText" />
+                android:textSize="@dimen/normalText"/>
         </RelativeLayout>
 
     </LinearLayout>

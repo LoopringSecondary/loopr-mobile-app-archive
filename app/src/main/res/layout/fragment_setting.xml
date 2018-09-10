@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -16,7 +15,7 @@
             android:layout_centerInParent="true"
             android:text="@string/setting"
             android:textColor="@color/colorTitleTv"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
     </RelativeLayout>
 
@@ -53,13 +52,13 @@
                         android:gravity="center_vertical"
                         android:text="@string/set_share"
                         android:textColor="@color/colorGreen"
-                        android:textSize="@dimen/font_14" />
+                        android:textSize="@dimen/font_14"/>
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@mipmap/icon_next" />
+                        android:src="@mipmap/icon_next"/>
                 </LinearLayout>
 
 
@@ -76,12 +75,12 @@
                 android:singleLine="true"
                 android:text="@string/spread_address"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/lineBac" />
+                android:background="@color/lineBac"/>
 
             <LinearLayout
                 android:id="@+id/ll_manager_wallet"
@@ -106,20 +105,20 @@
                         android:gravity="center_vertical"
                         android:text="@string/set_manage_wallet"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/font_14" />
+                        android:textSize="@dimen/font_14"/>
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@mipmap/icon_next" />
+                        android:src="@mipmap/icon_next"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="@dimen/margSide"
-                    android:background="@color/lineBac" />
+                    android:background="@color/lineBac"/>
             </LinearLayout>
 
             <LinearLayout
@@ -145,20 +144,20 @@
                         android:gravity="center_vertical"
                         android:text="@string/set_money_type"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/font_14" />
+                        android:textSize="@dimen/font_14"/>
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@mipmap/icon_next" />
+                        android:src="@mipmap/icon_next"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="@dimen/margSide"
-                    android:background="@color/lineBac" />
+                    android:background="@color/lineBac"/>
             </LinearLayout>
 
             <LinearLayout
@@ -184,20 +183,20 @@
                         android:gravity="center_vertical"
                         android:text="@string/set_language"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/font_14" />
+                        android:textSize="@dimen/font_14"/>
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@mipmap/icon_next" />
+                        android:src="@mipmap/icon_next"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="@dimen/margSide"
-                    android:background="@color/lineBac" />
+                    android:background="@color/lineBac"/>
             </LinearLayout>
 
             <LinearLayout
@@ -223,17 +222,17 @@
                         android:gravity="center_vertical"
                         android:text="@string/set_itouch"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/font_14" />
+                        android:textSize="@dimen/font_14"/>
 
                     <ToggleButton
                         android:id="@+id/toggle_button"
-                        android:checked="false"
                         android:layout_width="44dp"
                         android:layout_height="22.7dp"
                         android:layout_centerVertical="true"
                         android:background="@drawable/toggle_drawable_selector"
-                        android:textOn="@null"
-                        android:textOff="@null" />
+                        android:checked="false"
+                        android:textOff="@null"
+                        android:textOn="@null"/>
 
                 </LinearLayout>
 
@@ -242,13 +241,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/lineBac" />
+                android:background="@color/lineBac"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/lineBac" />
+                android:background="@color/lineBac"/>
 
             <LinearLayout
                 android:id="@+id/ll_contract_version"
@@ -273,20 +272,20 @@
                         android:gravity="center_vertical"
                         android:text="@string/set_contract_version"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/font_14" />
+                        android:textSize="@dimen/font_14"/>
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@mipmap/icon_next" />
+                        android:src="@mipmap/icon_next"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="@dimen/margSide"
-                    android:background="@color/lineBac" />
+                    android:background="@color/lineBac"/>
             </LinearLayout>
 
             <LinearLayout
@@ -312,20 +311,20 @@
                         android:gravity="center_vertical"
                         android:text="@string/set_lrc_proportion"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/font_14" />
+                        android:textSize="@dimen/font_14"/>
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@mipmap/icon_next" />
+                        android:src="@mipmap/icon_next"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="@dimen/margSide"
-                    android:background="@color/lineBac" />
+                    android:background="@color/lineBac"/>
             </LinearLayout>
 
             <LinearLayout
@@ -351,13 +350,13 @@
                         android:gravity="center_vertical"
                         android:text="@string/set_margin_split"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/font_14" />
+                        android:textSize="@dimen/font_14"/>
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@mipmap/icon_next" />
+                        android:src="@mipmap/icon_next"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -365,13 +364,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/lineBac" />
+                android:background="@color/lineBac"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/lineBac" />
+                android:background="@color/lineBac"/>
 
 
             <LinearLayout
@@ -397,7 +396,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/set_app_version"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/font_14" />
+                        android:textSize="@dimen/font_14"/>
 
                     <TextView
                         android:id="@+id/app_version"
@@ -406,7 +405,7 @@
                         android:gravity="center_vertical"
                         android:text="0.9.3(0.9.3.7)"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/font_14" />
+                        android:textSize="@dimen/font_14"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -414,7 +413,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/lineBac" />
+                android:background="@color/lineBac"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

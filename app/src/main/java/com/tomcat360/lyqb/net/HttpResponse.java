@@ -6,43 +6,54 @@ package com.tomcat360.lyqb.net;
 
 public class HttpResponse<T> {
 
-	private RespHeadEntity respHead;
-	public T body;
+    public T body;
 
-	public RespHeadEntity getRespHead() {
-		return respHead;
-	}
+    private RespHeadEntity respHead;
 
-	public void setRespHead(RespHeadEntity respHead) {
-		this.respHead = respHead;
-	}
+    public RespHeadEntity getRespHead() {
 
-	public static class RespHeadEntity {
-		private String respCode;
-		private String respMsg;
+        return respHead;
+    }
 
-		public String getRespCode() {
-			return respCode;
-		}
+    public void setRespHead(RespHeadEntity respHead) {
 
-		public void setRespCode(String respCode) {
-			this.respCode = respCode;
-		}
+        this.respHead = respHead;
+    }
 
-		public String getRespMsg() {
-			return respMsg;
-		}
+    public T getBody() {
 
-		public void setRespMsg(String respMsg) {
-			this.respMsg = respMsg;
-		}
-	}
+        return body;
+    }
 
-	public T getBody() {
-		return body;
-	}
+    public void setBody(T body) {
 
-	public void setBody(T body) {
-		this.body = body;
-	}
+        this.body = body;
+    }
+
+    public static class RespHeadEntity {
+
+        private String respCode;
+
+        private String respMsg;
+
+        public String getRespCode() {
+
+            return respCode;
+        }
+
+        public void setRespCode(String respCode) {
+
+            this.respCode = respCode;
+        }
+
+        public String getRespMsg() {
+
+            return respMsg;
+        }
+
+        public void setRespMsg(String respMsg) {
+
+            this.respMsg = respMsg;
+        }
+    }
 }

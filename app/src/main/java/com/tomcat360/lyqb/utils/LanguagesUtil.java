@@ -1,13 +1,10 @@
 package com.tomcat360.lyqb.utils;
 
-import android.app.Activity;
+import java.util.Locale;
+
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.util.DisplayMetrics;
-import android.util.Log;
-
-import java.util.Locale;
 
 /**
  * 标题:    LanguagesUtil
@@ -15,8 +12,8 @@ import java.util.Locale;
  */
 public class LanguagesUtil {
 
-
     public static void changeLanguage(Context context, String type) {
+
         Configuration configuration = context.getResources().getConfiguration();
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         switch (type) {
@@ -32,13 +29,14 @@ public class LanguagesUtil {
 
     /**
      * 获得当前系统的版本
-     * */
-    public static int getLanguage(Context context){
+     */
+    public static int getLanguage(Context context) {
+
         Locale locale = context.getResources().getConfiguration().locale;
         String language = locale.getLanguage();
-        if (language.contains("en")){
+        if (language.contains("en")) {
             return 1;
-        }else {
+        } else {
             return 2;
         }
     }

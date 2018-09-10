@@ -1,14 +1,5 @@
 package com.tomcat360.lyqb.utils;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,11 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
 /**
  * SharedPreferences工具类
  */
 
 public class SPUtils {
+
     /**
      * 保存在手机里面的文件名
      */
@@ -35,8 +36,7 @@ public class SPUtils {
      */
     public static void put(Context context, String key, Object object) {
 
-        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         if (object == null) {
             editor.putString(key, "");
@@ -58,7 +58,6 @@ public class SPUtils {
         SharedPreferencesCompat.commit(editor);
     }
 
-
     /**
      * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
      *
@@ -68,6 +67,7 @@ public class SPUtils {
      * @return
      */
     public static Object get(Context context, String key, Object defaultObject) {
+
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         if (defaultObject instanceof String) {
             String str = sp.getString(key, (String) defaultObject);
@@ -81,7 +81,7 @@ public class SPUtils {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-//			return sp.getString(key, (String) defaultObject);
+                //			return sp.getString(key, (String) defaultObject);
                 return decodeString;
             }
         } else if (defaultObject instanceof Integer) {
@@ -103,8 +103,8 @@ public class SPUtils {
      * @param key
      */
     public static void remove(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(key);
         SharedPreferencesCompat.commit(editor);
@@ -116,8 +116,8 @@ public class SPUtils {
      * @param context
      */
     public static void clear(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         SharedPreferencesCompat.commit(editor);
@@ -131,8 +131,8 @@ public class SPUtils {
      * @return
      */
     public static boolean contains(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         return sp.contains(key);
     }
 
@@ -143,59 +143,9 @@ public class SPUtils {
      * @return
      */
     public static Map<String, ?> getAll(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         return sp.getAll();
-    }
-
-    /**
-     * 创建一个解决SharedPreferencesCompat.apply方法的一个兼容类
-     *
-     * @author zhy
-     */
-    private static class SharedPreferencesCompat {
-        private static final Method sApplyMethod = findApplyMethod();
-
-        /**
-         * 反射查找apply的方法
-         *
-         * @return
-         */
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        private static Method findApplyMethod() {
-            try {
-                Class clz = SharedPreferences.Editor.class;
-                return clz.getMethod("apply");
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        /**
-         * 如果找到则使用apply执行，否则使用commit
-         *
-         * @param editor
-         */
-        public static void apply(SharedPreferences.Editor editor) {
-            try {
-                if (sApplyMethod != null) {
-                    sApplyMethod.invoke(editor);
-                    return;
-                }
-            } catch (IllegalArgumentException e) {
-
-            } catch (IllegalAccessException e) {
-            } catch (InvocationTargetException e) {
-            }
-            editor.commit();
-        }
-
-        public static void commit(SharedPreferences.Editor editor) {
-
-            editor.commit();
-        }
     }
 
     /**
@@ -206,8 +156,7 @@ public class SPUtils {
      */
     public static <T> void setDataList(Context context, String tag, List<T> datalist) {
 
-        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
         if (null == datalist || datalist.size() <= 0)
@@ -228,8 +177,8 @@ public class SPUtils {
      * @return
      */
     public static <T> List<T> getDataList(Context context, String tag) {
-        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+
+        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         List<T> datalist = new ArrayList<T>();
         String strJson = sp.getString(tag, null);
         if (null == strJson) {
@@ -245,27 +194,81 @@ public class SPUtils {
 
     }
 
-	/**
-	 * 获取List
-	 * @param tag
-	 * @return
-	 */
-	public static <T> List<T> getWalletDataList(Context context,String tag, Class<T> cls) {
-		SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME,
-				Context.MODE_PRIVATE);
-		List<T> datalist=new ArrayList<T>();
-		String strJson = sp.getString(tag, null);
-		if (null == strJson) {
-			return datalist;
-		}
-		Gson gson = new Gson();
-		JsonArray arry = new JsonParser().parse(strJson).getAsJsonArray();
-		for (JsonElement jsonElement : arry) {
-			datalist.add(gson.fromJson(jsonElement, cls));
-		}
-//		datalist = gson.fromJson(strJson, new TypeToken<List<T>>() {}.getType());
+    /**
+     * 获取List
+     *
+     * @param tag
+     * @return
+     */
+    public static <T> List<T> getWalletDataList(Context context, String tag, Class<T> cls) {
+
+        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        List<T> datalist = new ArrayList<T>();
+        String strJson = sp.getString(tag, null);
+        if (null == strJson) {
+            return datalist;
+        }
+        Gson gson = new Gson();
+        JsonArray arry = new JsonParser().parse(strJson).getAsJsonArray();
+        for (JsonElement jsonElement : arry) {
+            datalist.add(gson.fromJson(jsonElement, cls));
+        }
+        //		datalist = gson.fromJson(strJson, new TypeToken<List<T>>() {}.getType());
         return datalist;
 
+    }
+
+    /**
+     * 创建一个解决SharedPreferencesCompat.apply方法的一个兼容类
+     *
+     * @author zhy
+     */
+    private static class SharedPreferencesCompat {
+
+        private static final Method sApplyMethod = findApplyMethod();
+
+        /**
+         * 反射查找apply的方法
+         *
+         * @return
+         */
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        private static Method findApplyMethod() {
+
+            try {
+                Class clz = SharedPreferences.Editor.class;
+                return clz.getMethod("apply");
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        /**
+         * 如果找到则使用apply执行，否则使用commit
+         *
+         * @param editor
+         */
+        public static void apply(SharedPreferences.Editor editor) {
+
+            try {
+                if (sApplyMethod != null) {
+                    sApplyMethod.invoke(editor);
+                    return;
+                }
+            } catch (IllegalArgumentException e) {
+
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
+            }
+            editor.commit();
+        }
+
+        public static void commit(SharedPreferences.Editor editor) {
+
+            editor.commit();
+        }
     }
 
 }

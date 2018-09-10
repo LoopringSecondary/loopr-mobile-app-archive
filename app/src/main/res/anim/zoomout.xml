@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@android:anim/decelerate_interpolator"
-    android:zAdjustment="top" >
+     android:interpolator="@android:anim/decelerate_interpolator"
+     android:zAdjustment="top">
 
     <scale
         android:duration="300"
@@ -10,7 +10,7 @@
         android:pivotX="50%p"
         android:pivotY="50%p"
         android:toXScale=".5"
-        android:toYScale=".5" />
+        android:toYScale=".5"/>
     <!--
 系统内置的动画持续时间
 android:duration="@android:integer/config_mediumAnimTime"
@@ -18,6 +18,6 @@ android:duration="@android:integer/config_mediumAnimTime"
     <alpha
         android:duration="300"
         android:fromAlpha="1.0"
-        android:toAlpha="0" />
+        android:toAlpha="0"/>
 
 </set>

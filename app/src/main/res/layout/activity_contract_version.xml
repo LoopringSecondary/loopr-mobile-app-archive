@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorPrimary"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical"
     >
+
     <com.tomcat360.lyqb.views.TitleView
         android:id="@+id/title"
         android:layout_width="fill_parent"
@@ -15,10 +16,10 @@
         android:layout_height="100dp"
         android:layout_marginLeft="@dimen/margSide"
         android:layout_marginRight="@dimen/margSide"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:layout_marginTop="21dp"
-        android:background="@drawable/radius_bg_38">
+        android:background="@drawable/radius_bg_38"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <TextView
             android:id="@+id/tv_contract_version"
@@ -28,12 +29,12 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:text="sjakhdsahduwihduwihdsjkafbjksdbfjewjhkahsjdhsj"
             android:inputType="textMultiLine"
             android:lineSpacingExtra="3dp"
-            android:textSize="@dimen/normalText"
+            android:text="sjakhdsahduwihduwihdsjkafbjksdbfjewjhkahsjdhsj"
             android:textColor="@color/colorWhite"
-             />
+            android:textSize="@dimen/normalText"
+            />
 
 
     </RelativeLayout>

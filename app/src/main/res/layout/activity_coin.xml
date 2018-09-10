@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
 
     <com.tomcat360.lyqb.views.TitleView
         android:id="@+id/title"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="@color/lineBac" />
+        android:background="@color/lineBac"/>
 
     <LinearLayout
         android:id="@+id/ll_cny"
@@ -39,7 +39,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/cny"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"/>
 
             <ImageView
                 android:id="@+id/iv_cny_check"
@@ -47,13 +47,13 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:src="@mipmap/icon_success_white"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lineBac" />
+            android:background="@color/lineBac"/>
     </LinearLayout>
 
     <LinearLayout
@@ -79,14 +79,14 @@
                 android:gravity="center_vertical"
                 android:text="@string/usd"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"/>
 
             <ImageView
                 android:id="@+id/iv_usd_check"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/icon_success_white" />
+                android:src="@mipmap/icon_success_white"/>
 
         </LinearLayout>
 
@@ -95,5 +95,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/lineBac" />
+        android:background="@color/lineBac"/>
 </LinearLayout>

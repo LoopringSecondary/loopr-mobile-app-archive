@@ -8,4 +8,5 @@ package com.tomcat360.lyqb.views.wheelPicker.entity;
  * Builder:Android Studio
  */
 public class County extends Area {
+
 }

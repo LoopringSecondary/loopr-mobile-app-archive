@@ -6,121 +6,138 @@ package com.tomcat360.lyqb.net;
 
 public class BaseResponse<T> {
 
-	private String success;
-	private String errCode;
-	private String errMsg;
-	private int size;
+    public Body<T> body;
 
-	public Body<T> body;
+    private String success;
 
-	public static class Body<T>{
-		public T data;
-		public int pageIndex;
-		public int pageSize;
-		public int total;
+    private String errCode;
 
-		public int getPageIndex() {
-			return pageIndex;
-		}
+    private String errMsg;
 
-		public void setPageIndex(int pageIndex) {
-			this.pageIndex = pageIndex;
-		}
+    private int size;
 
-		public int getPageSize() {
-			return pageSize;
-		}
+    public Body<T> getBody() {
 
-		public void setPageSize(int pageSize) {
-			this.pageSize = pageSize;
-		}
+        return body;
+    }
 
-		public int getTotal() {
-			return total;
-		}
+    public void setBody(Body<T> body) {
 
-		public void setTotal(int total) {
-			this.total = total;
-		}
+        this.body = body;
+    }
 
-		public int getTotalPage() {
-			return totalPage;
-		}
+    public String getSuccess() {
 
-		public void setTotalPage(int totalPage) {
-			this.totalPage = totalPage;
-		}
+        return success;
+    }
 
-		public int totalPage;
+    public void setSuccess(String success) {
 
-		public T getData() {
-			return data;
-		}
+        this.success = success;
+    }
 
-		public void setData(T data) {
-			this.data = data;
-		}
+    public String getErrCode() {
 
-		@Override
-		public String toString() {
-			return "Body{" +
-					"data=" + data +
-					", pageIndex=" + pageIndex +
-					", pageSize=" + pageSize +
-					", total=" + total +
-					", totalPage=" + totalPage +
-					'}';
-		}
-	}
+        return errCode;
+    }
 
-	public Body<T> getBody() {
-		return body;
-	}
+    public void setErrCode(String errCode) {
 
-	public void setBody(Body<T> body) {
-		this.body = body;
-	}
+        this.errCode = errCode;
+    }
 
-	public String getSuccess() {
-		return success;
-	}
+    public String getErrMsg() {
 
-	public void setSuccess(String success) {
-		this.success = success;
-	}
+        return errMsg;
+    }
 
-	public String getErrCode() {
-		return errCode;
-	}
+    public void setErrMsg(String errMsg) {
 
-	public void setErrCode(String errCode) {
-		this.errCode = errCode;
-	}
+        this.errMsg = errMsg;
+    }
 
-	public String getErrMsg() {
-		return errMsg;
-	}
+    public int getSize() {
 
-	public void setErrMsg(String errMsg) {
-		this.errMsg = errMsg;
-	}
+        return size;
+    }
 
-	public int getSize() {
-		return size;
-	}
+    public void setSize(int size) {
 
-	public void setSize(int size) {
-		this.size = size;
-	}
+        this.size = size;
+    }
 
-	@Override
-	public String toString() {
-		return "BaseResponse{" +
-				"success='" + success + '\'' +
-				", errCode='" + errCode + '\'' +
-				", errMsg='" + errMsg + '\'' +
-				", size=" + size +
-				", body=" + body +
-				'}';
-	}
+    @Override
+    public String toString() {
+
+        return "BaseResponse{" + "success='" + success + '\'' + ", errCode='" + errCode + '\'' + ", errMsg='" + errMsg + '\'' + ", size=" + size + ", body=" + body + '}';
+    }
+
+    public static class Body<T> {
+
+        public T data;
+
+        public int pageIndex;
+
+        public int pageSize;
+
+        public int total;
+
+        public int totalPage;
+
+        public int getPageIndex() {
+
+            return pageIndex;
+        }
+
+        public void setPageIndex(int pageIndex) {
+
+            this.pageIndex = pageIndex;
+        }
+
+        public int getPageSize() {
+
+            return pageSize;
+        }
+
+        public void setPageSize(int pageSize) {
+
+            this.pageSize = pageSize;
+        }
+
+        public int getTotal() {
+
+            return total;
+        }
+
+        public void setTotal(int total) {
+
+            this.total = total;
+        }
+
+        public int getTotalPage() {
+
+            return totalPage;
+        }
+
+        public void setTotalPage(int totalPage) {
+
+            this.totalPage = totalPage;
+        }
+
+        public T getData() {
+
+            return data;
+        }
+
+        public void setData(T data) {
+
+            this.data = data;
+        }
+
+        @Override
+        public String toString() {
+
+            return "Body{" + "data=" + data + ", pageIndex=" + pageIndex + ", pageSize=" + pageSize + ", total=" + total + ", totalPage=" + totalPage + '}';
+        }
+    }
 }

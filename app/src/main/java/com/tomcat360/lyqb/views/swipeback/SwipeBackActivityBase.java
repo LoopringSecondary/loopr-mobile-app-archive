@@ -1,10 +1,10 @@
 package com.tomcat360.lyqb.views.swipeback;
 
-
 /**
  * @author Yrom
  */
 public interface SwipeBackActivityBase {
+
     /**
      * @return the SwipeBackLayout associated with this activity.
      */

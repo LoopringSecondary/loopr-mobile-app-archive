@@ -1,6 +1,5 @@
 package com.tomcat360.lyqb.utils;
 
-
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
@@ -14,6 +13,7 @@ public class LyqbLogger {
     private static PrettyFormatStrategy formatStrategy;
 
     private static void startLog(String i, String name, String info) {
+
         initLogger(name);
         switch (i) {
             case "i":
@@ -41,12 +41,13 @@ public class LyqbLogger {
     }
 
     private static void initLogger(String name) {
+
         if (formatStrategy == null) {
             formatStrategy = PrettyFormatStrategy.newBuilder()
                     .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
                     .methodCount(1)         // (Optional) How many method line to show. Default 2
                     .methodOffset(2)        // (Optional) Hides internal method calls up to offset. Default 5
-//                .logStrategy(customLog) // (Optional) Changes the log strategy to print out. Default LogCat
+                    //                .logStrategy(customLog) // (Optional) Changes the log strategy to print out. Default LogCat
                     .tag(name)   // (Optional) Global tag for every log. Default PRETTY_LOGGER
                     .build();
 
@@ -55,10 +56,12 @@ public class LyqbLogger {
     }
 
     public static void log(String info) {
+
         startLog("i", "DENG_QIANG", info);
     }
 
     public static void debug(String info) {
+
         try {
             startLog("d", "DENG_QIANG", info);
         } catch (Exception e) {
@@ -67,8 +70,8 @@ public class LyqbLogger {
     }
 
     public static void log2Json(String info) {
+
         startLog("json", "DENG_QIANG", info);
     }
-
 
 }

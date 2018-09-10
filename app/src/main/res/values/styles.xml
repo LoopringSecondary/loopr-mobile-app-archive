@@ -194,6 +194,7 @@
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:layout_marginRight">15dp</item>
     </style>
+
     <style name="SubmitBtnGreenStyle">
         <item name="android:background">@drawable/button_green</item>
         <item name="android:textColor">@color/colorWhite</item>
@@ -203,6 +204,7 @@
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:layout_marginRight">15dp</item>
     </style>
+
     <style name="CancelBtnStyle">
         <item name="android:background">@drawable/button_cancel_bg</item>
         <item name="android:textColor">@color/colorWhite</item>
@@ -264,6 +266,7 @@
         <item name="android:textSize">@dimen/normalText</item>
         <item name="android:textColor">#99ffffff</item>
     </style>
+
     <style name="Animation.Popup" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>

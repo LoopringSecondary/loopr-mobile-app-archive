@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:orientation="vertical"
-    android:background="@drawable/radius_bg_38"
+              android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:background="@drawable/radius_bg_38"
+              android:orientation="vertical"
     >
+
     <CheckBox
-        android:clickable="false"
+        android:id="@+id/mnemonic_word"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:id="@+id/mnemonic_word"
+        android:background="@drawable/mnemonic_select"
+        android:button="@null"
+        android:clickable="false"
+        android:gravity="center"
         android:text="mnemonic_word"
         android:textColor="@color/colorWhite"
-        android:gravity="center"
         android:textSize="@dimen/normal14Text"
-        android:button="@null"
-        android:background="@drawable/mnemonic_select"
         />
 </LinearLayout>

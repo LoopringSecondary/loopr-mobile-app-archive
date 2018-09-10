@@ -1,9 +1,5 @@
 package com.tomcat360.lyqb.views.wheelPicker;
 
-import android.annotation.SuppressLint;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.text.SimpleDateFormat;
@@ -13,6 +9,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+
 /**
  * 日期时间工具类
  *
@@ -20,45 +20,52 @@ import java.util.Locale;
  * @since 2015/8/5
  */
 public class DateUtils extends android.text.format.DateUtils {
+
     public static final int Second = 0;
+
     public static final int Minute = 1;
+
     public static final int Hour = 2;
+
     public static final int Day = 3;
 
-    @IntDef(value = {Second, Minute, Hour, Day})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface DifferenceMode {
-    }
-
     public static long calculateDifferentSecond(Date startDate, Date endDate) {
+
         return calculateDifference(startDate, endDate, Second);
     }
 
     public static long calculateDifferentMinute(Date startDate, Date endDate) {
+
         return calculateDifference(startDate, endDate, Minute);
     }
 
     public static long calculateDifferentHour(Date startDate, Date endDate) {
+
         return calculateDifference(startDate, endDate, Hour);
     }
 
     public static long calculateDifferentDay(Date startDate, Date endDate) {
+
         return calculateDifference(startDate, endDate, Day);
     }
 
     public static long calculateDifferentSecond(long startTimeMillis, long endTimeMillis) {
+
         return calculateDifference(startTimeMillis, endTimeMillis, Second);
     }
 
     public static long calculateDifferentMinute(long startTimeMillis, long endTimeMillis) {
+
         return calculateDifference(startTimeMillis, endTimeMillis, Minute);
     }
 
     public static long calculateDifferentHour(long startTimeMillis, long endTimeMillis) {
+
         return calculateDifference(startTimeMillis, endTimeMillis, Hour);
     }
 
     public static long calculateDifferentDay(long startTimeMillis, long endTimeMillis) {
+
         return calculateDifference(startTimeMillis, endTimeMillis, Day);
     }
 
@@ -66,6 +73,7 @@ public class DateUtils extends android.text.format.DateUtils {
      * 计算两个时间戳之间相差的时间戳数
      */
     public static long calculateDifference(long startTimeMillis, long endTimeMillis, @DifferenceMode int mode) {
+
         return calculateDifference(new Date(startTimeMillis), new Date(endTimeMillis), mode);
     }
 
@@ -73,6 +81,7 @@ public class DateUtils extends android.text.format.DateUtils {
      * 计算两个日期之间相差的时间戳数
      */
     public static long calculateDifference(Date startDate, Date endDate, @DifferenceMode int mode) {
+
         long[] different = calculateDifference(startDate, endDate);
         if (mode == Minute) {
             return different[2];
@@ -86,10 +95,12 @@ public class DateUtils extends android.text.format.DateUtils {
     }
 
     private static long[] calculateDifference(Date startDate, Date endDate) {
+
         return calculateDifference(endDate.getTime() - startDate.getTime());
     }
 
     private static long[] calculateDifference(long differentMilliSeconds) {
+
         long secondsInMilli = 1000;//1s==1000ms
         long minutesInMilli = secondsInMilli * 60;
         long hoursInMilli = minutesInMilli * 60;
@@ -101,8 +112,7 @@ public class DateUtils extends android.text.format.DateUtils {
         long elapsedMinutes = differentMilliSeconds / minutesInMilli;
         differentMilliSeconds = differentMilliSeconds % minutesInMilli;
         long elapsedSeconds = differentMilliSeconds / secondsInMilli;
-        LogUtils.debug(String.format(Locale.CHINA, "different: %d ms, %d days, %d hours, %d minutes, %d seconds",
-                differentMilliSeconds, elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds));
+        LogUtils.debug(String.format(Locale.CHINA, "different: %d ms, %d days, %d hours, %d minutes, %d seconds", differentMilliSeconds, elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds));
         return new long[]{elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds};
     }
 
@@ -110,6 +120,7 @@ public class DateUtils extends android.text.format.DateUtils {
      * 计算每月的天数
      */
     public static int calculateDaysInMonth(int month) {
+
         return calculateDaysInMonth(0, month);
     }
 
@@ -145,6 +156,7 @@ public class DateUtils extends android.text.format.DateUtils {
      */
     @NonNull
     public static String fillZero(int number) {
+
         return number < 10 ? "0" + number : "" + number;
     }
 
@@ -154,6 +166,7 @@ public class DateUtils extends android.text.format.DateUtils {
      * @see #fillZero(int)
      */
     public static int trimZero(@NonNull String text) {
+
         if (text.startsWith("0")) {
             text = text.substring(1);
         }
@@ -168,15 +181,15 @@ public class DateUtils extends android.text.format.DateUtils {
      * @return boolean 如果在返回true，否则返回false。
      */
     public static boolean isSameDay(Date date) {
+
         if (date == null) {
             throw new IllegalArgumentException("date is null");
         }
         Calendar nowCalendar = Calendar.getInstance();
         Calendar newCalendar = Calendar.getInstance();
         newCalendar.setTime(date);
-        return (nowCalendar.get(Calendar.ERA) == newCalendar.get(Calendar.ERA) &&
-                nowCalendar.get(Calendar.YEAR) == newCalendar.get(Calendar.YEAR) &&
-                nowCalendar.get(Calendar.DAY_OF_YEAR) == newCalendar.get(Calendar.DAY_OF_YEAR));
+        return (nowCalendar.get(Calendar.ERA) == newCalendar.get(Calendar.ERA) && nowCalendar.get(Calendar.YEAR) == newCalendar
+                .get(Calendar.YEAR) && nowCalendar.get(Calendar.DAY_OF_YEAR) == newCalendar.get(Calendar.DAY_OF_YEAR));
     }
 
     /**
@@ -187,9 +200,9 @@ public class DateUtils extends android.text.format.DateUtils {
      * @return Date 日期 ,转换异常时返回null。
      */
     public static Date parseDate(String dateStr, String dataFormat) {
+
         try {
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat dateFormat = new SimpleDateFormat(dataFormat);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat(dataFormat);
             Date date = dateFormat.parse(dateStr);
             return new Date(date.getTime());
         } catch (Exception e) {
@@ -205,7 +218,14 @@ public class DateUtils extends android.text.format.DateUtils {
      * @return Date 日期 ,转换异常时返回null。
      */
     public static Date parseDate(String dateStr) {
+
         return parseDate(dateStr, "yyyy-MM-dd HH:mm:ss");
+    }
+
+    @IntDef(value = {Second, Minute, Hour, Day})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface DifferenceMode {
+
     }
 
 }

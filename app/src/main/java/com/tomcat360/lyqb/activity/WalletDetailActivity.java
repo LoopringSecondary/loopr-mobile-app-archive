@@ -1,5 +1,13 @@
 package com.tomcat360.lyqb.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.adapter.ViewPageAdapter;
+import com.tomcat360.lyqb.fragment.WalletAllFragment;
+import com.tomcat360.lyqb.views.TitleView;
+
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,15 +17,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.adapter.ViewPageAdapter;
-import com.tomcat360.lyqb.fragment.WalletAllFragment;
-import com.tomcat360.lyqb.views.TitleView;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -26,28 +25,39 @@ public class WalletDetailActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
+
     @BindView(R.id.wallet_money)
     TextView walletMoney;
+
     @BindView(R.id.wallet_dollar)
     TextView walletDollar;
+
     @BindView(R.id.wallet_qrcode)
     ImageView walletQrcode;
+
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
+
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+
     @BindView(R.id.btn_receive)
     Button btnReceive;
+
     @BindView(R.id.btn_send)
     Button btnSend;
 
     private List<Fragment> mFragments;
+
     private String[] mTitles = {"All", "Receive", "Send", "Fail"};
+
     private String symbol;
+
     private String moneyValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         setContentView(R.layout.activity_wallet_detail);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
@@ -56,11 +66,12 @@ public class WalletDetailActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
+
         symbol = getIntent().getStringExtra("symbol");
         moneyValue = getIntent().getStringExtra("moneyValue");
         title.setBTitle(symbol);
-        walletMoney.setText(moneyValue.length() > 8 ?moneyValue.substring(0,8) : moneyValue);
-        walletDollar.setText(moneyValue.length() > 8 ?moneyValue.substring(0,8) : moneyValue);
+        walletMoney.setText(moneyValue.length() > 8 ? moneyValue.substring(0, 8) : moneyValue);
+        walletDollar.setText(moneyValue.length() > 8 ? moneyValue.substring(0, 8) : moneyValue);
 
         title.clickLeftGoBack(getWContext());
     }
@@ -72,6 +83,7 @@ public class WalletDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
+
         mFragments = new ArrayList<>();
         Bundle bundle = new Bundle();
         bundle.putString("symbol", symbol);
@@ -97,6 +109,7 @@ public class WalletDetailActivity extends BaseActivity {
 
     @OnClick({R.id.btn_receive, R.id.btn_send})
     public void onViewClicked(View view) {
+
         switch (view.getId()) {
             case R.id.btn_receive:
                 getOperation().forward(ReceiveActivity.class);

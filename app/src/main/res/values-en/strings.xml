@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Loopring Wallet</string>
     <string name="wallet_name">Wallet Name</string>
     <string name="import_wallet">Import Wallet</string>
@@ -89,7 +89,6 @@
     <string name="status">Status</string>
     <string name="id">ID</string>
     <string name="date">Date</string>
-
 
 
 </resources>

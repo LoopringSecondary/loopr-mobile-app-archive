@@ -1,6 +1,5 @@
 package com.tomcat360.lyqb.view;
 
-
 import com.trello.rxlifecycle.FragmentEvent;
 
 import rx.Observable;
@@ -10,10 +9,10 @@ import rx.Observable;
  */
 public interface IBaseFragmentView {
 
-	/**
-	 * 结束刷新
-	 */
-	void finishRefresh();
+    /**
+     * 结束刷新
+     */
+    void finishRefresh();
 
     /**
      * 页面显示提示语
@@ -22,8 +21,9 @@ public interface IBaseFragmentView {
      */
     void showMessage(String str);
 
-	/**
-	 * RxFragment/RxActivity 中方法,声明在view中 便于在mvp中的presenter里调用
+    /**
+     * RxFragment/RxActivity 中方法,声明在view中 便于在mvp中的presenter里调用
+     *
      * @param <T> T
      * @return
      */
@@ -31,6 +31,7 @@ public interface IBaseFragmentView {
 
     /**
      * RxFragment/RxActivity 中方法,声明在view中 便于在mvp中的presenter里调用
+     *
      * @param <T> T
      * @return
      */

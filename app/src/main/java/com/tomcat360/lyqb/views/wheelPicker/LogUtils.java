@@ -1,12 +1,12 @@
 package com.tomcat360.lyqb.views.wheelPicker;
 
-import android.os.Debug;
-import android.os.Environment;
-import android.util.Log;
-
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import android.os.Debug;
+import android.os.Environment;
+import android.util.Log;
 
 /**
  * 将信息记录到“LogCat”，显示调用方法及所在的文件、行号，方便调试查错。
@@ -16,10 +16,15 @@ import java.io.StringWriter;
  * @since 2013/11/2
  */
 public final class LogUtils {
+
     private static final int MIN_STACK_OFFSET = 3;// starts at this class after two native calls
+
     private static final int MAX_STACK_TRACE_SIZE = 131071; //128 KB - 1
+
     private static final int METHOD_COUNT = 2; // show method count in trace
+
     private static boolean isDebug = AppConfig.DEBUG_ENABLE;// 是否调试模式
+
     private static String debugTag = AppConfig.DEBUG_TAG;// LogCat的标记
 
     /**
@@ -28,6 +33,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void verbose(String message) {
+
         verbose("", message);
     }
 
@@ -38,6 +44,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void verbose(Object object, String message) {
+
         verbose(object.getClass().getSimpleName(), message);
     }
 
@@ -48,6 +55,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void verbose(String tag, String message) {
+
         if (isDebug) {
             tag = debugTag + ((tag == null || tag.trim().length() == 0) ? "" : "-") + tag;
             String msg = message + getTraceElement();
@@ -65,6 +73,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void debug(String message) {
+
         debug("", message);
     }
 
@@ -75,6 +84,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void debug(Object object, String message) {
+
         debug(object.getClass().getSimpleName(), message);
     }
 
@@ -85,6 +95,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void debug(String tag, String message) {
+
         if (isDebug) {
             tag = debugTag + ((tag == null || tag.trim().length() == 0) ? "" : "-") + tag;
             String msg = message + getTraceElement();
@@ -102,6 +113,7 @@ public final class LogUtils {
      * @param e the e
      */
     public static void warn(Throwable e) {
+
         warn(toStackTraceString(e));
     }
 
@@ -111,6 +123,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void warn(String message) {
+
         warn("", message);
     }
 
@@ -121,6 +134,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void warn(Object object, String message) {
+
         warn(object.getClass().getSimpleName(), message);
     }
 
@@ -131,6 +145,7 @@ public final class LogUtils {
      * @param e      the e
      */
     public static void warn(Object object, Throwable e) {
+
         warn(object.getClass().getSimpleName(), toStackTraceString(e));
     }
 
@@ -141,6 +156,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void warn(String tag, String message) {
+
         if (isDebug) {
             tag = debugTag + ((tag == null || tag.trim().length() == 0) ? "" : "-") + tag;
             String msg = message + getTraceElement();
@@ -158,6 +174,7 @@ public final class LogUtils {
      * @param e the e
      */
     public static void error(Throwable e) {
+
         error(toStackTraceString(e));
     }
 
@@ -167,6 +184,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void error(String message) {
+
         error("", message);
     }
 
@@ -177,6 +195,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void error(Object object, String message) {
+
         error(object.getClass().getSimpleName(), message);
     }
 
@@ -187,6 +206,7 @@ public final class LogUtils {
      * @param e      the e
      */
     public static void error(Object object, Throwable e) {
+
         error(object.getClass().getSimpleName(), toStackTraceString(e));
     }
 
@@ -197,6 +217,7 @@ public final class LogUtils {
      * @param message the message
      */
     public static void error(String tag, String message) {
+
         if (isDebug) {
             tag = debugTag + ((tag == null || tag.trim().length() == 0) ? "" : "-") + tag;
             String msg = message + getTraceElement();
@@ -214,8 +235,10 @@ public final class LogUtils {
      * @see #stopMethodTracing()
      */
     public static void startMethodTracing() {
+
         if (isDebug) {
-            Debug.startMethodTracing(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + debugTag + ".trace");
+            Debug.startMethodTracing(Environment.getExternalStorageDirectory()
+                    .getAbsolutePath() + File.separator + debugTag + ".trace");
         }
     }
 
@@ -223,6 +246,7 @@ public final class LogUtils {
      * Stop method tracing.
      */
     public static void stopMethodTracing() {
+
         if (isDebug) {
             Debug.stopMethodTracing();
         }
@@ -237,6 +261,7 @@ public final class LogUtils {
      * @return the string
      */
     public static String toStackTraceString(Throwable throwable) {
+
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         throwable.printStackTrace(pw);
@@ -257,6 +282,7 @@ public final class LogUtils {
      * 此方法参考：https://github.com/orhanobut/logger
      */
     private static String getTraceElement() {
+
         try {
             int methodCount = METHOD_COUNT;
             StackTraceElement[] trace = Thread.currentThread().getStackTrace();
@@ -300,6 +326,7 @@ public final class LogUtils {
      * @return the stack offset
      */
     private static int _getStackOffset(StackTraceElement[] trace) {
+
         for (int i = MIN_STACK_OFFSET; i < trace.length; i++) {
             StackTraceElement e = trace[i];
             String name = e.getClassName();
@@ -311,6 +338,7 @@ public final class LogUtils {
     }
 
     private static String _getSimpleClassName(String name) {
+
         int lastIndex = name.lastIndexOf(".");
         return name.substring(lastIndex + 1);
     }

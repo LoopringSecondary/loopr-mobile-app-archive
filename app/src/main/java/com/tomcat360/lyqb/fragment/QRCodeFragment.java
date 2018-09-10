@@ -1,5 +1,13 @@
 package com.tomcat360.lyqb.fragment;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.FileUtils;
+import com.tomcat360.lyqb.utils.ToastUtils;
+import com.vondear.rxfeature.tool.RxQRCode;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -11,41 +19,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.utils.FileUtils;
-import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.utils.ToastUtils;
-import com.vondear.rxfeature.tool.RxQRCode;
-
-import org.json.JSONException;
-
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
 
 /**
  *
  */
 public class QRCodeFragment extends BaseFragment {
 
+    public final static int KEYSTORE_SUCCESS = 1;
+
+    public final static int ERROR_ONE = 2;
+
+    public final static int ERROR_TWO = 3;
+
+    public String keystore;
+
+    public String filename;
+
     Unbinder unbinder;
+
     @BindView(R.id.iv_code)
     ImageView ivCode;
 
-    public String keystore;
-    public String filename;
-
-
-    public final static int KEYSTORE_SUCCESS = 1;
-    public final static int ERROR_ONE = 2;
-    public final static int ERROR_TWO = 3;
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+
             super.handleMessage(msg);
             switch (msg.what) {
                 case KEYSTORE_SUCCESS:
@@ -82,6 +84,7 @@ public class QRCodeFragment extends BaseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
 
     }
@@ -103,8 +106,9 @@ public class QRCodeFragment extends BaseFragment {
 
             @Override
             public void run() {
+
                 try {
-                    keystore = FileUtils.getKeystoreFromSD(getContext(),filename);
+                    keystore = FileUtils.getKeystoreFromSD(getContext(), filename);
                     handlerCreate.sendEmptyMessage(KEYSTORE_SUCCESS);
                 } catch (IOException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
@@ -118,12 +122,11 @@ public class QRCodeFragment extends BaseFragment {
 
     }
 
-
     @Override
     public void onDestroyView() {
+
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
 }

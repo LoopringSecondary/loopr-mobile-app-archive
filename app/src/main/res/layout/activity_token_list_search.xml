@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -20,7 +19,7 @@
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:minWidth="60dip"
-            android:src="@mipmap/title_back" />
+            android:src="@mipmap/title_back"/>
 
 
         <EditText
@@ -40,7 +39,7 @@
             android:singleLine="true"
             android:textColor="@color/colorTitleTv"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="@dimen/normal14Text" />
+            android:textSize="@dimen/normal14Text"/>
 
         <TextView
             android:id="@+id/right_text"
@@ -51,7 +50,7 @@
             android:layout_marginRight="10dp"
             android:minWidth="60dip"
             android:text="@string/cancel"
-            android:textSize="@dimen/normalText" />
+            android:textSize="@dimen/normalText"/>
 
     </LinearLayout>
 
@@ -67,6 +66,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margSide"
             android:layout_marginRight="@dimen/margSide"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

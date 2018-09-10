@@ -102,18 +102,17 @@
         android:contentDescription="@string/app_name"/>
 
     <TextView
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/ll_scan_help"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:text="将二维码图片对准扫描框即可自动扫描"
         android:textColor="@android:color/white"
         android:textSize="15sp"/>
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_scan_help"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -121,8 +120,9 @@
         android:layout_below="@id/capture_crop_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-
         android:onClick="btn"
+
+        android:visibility="gone"
         android:weightSum="2">
 
         <TextView

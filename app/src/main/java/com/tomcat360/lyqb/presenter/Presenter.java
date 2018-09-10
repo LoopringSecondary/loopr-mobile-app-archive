@@ -1,6 +1,5 @@
 package com.tomcat360.lyqb.presenter;
 
-
 import com.tomcat360.lyqb.view.IBaseActivityView;
 
 /**
@@ -8,7 +7,8 @@ import com.tomcat360.lyqb.view.IBaseActivityView;
  */
 
 public interface Presenter<V extends IBaseActivityView> {
-	void attachView(V view);
 
-	void detachView();
+    void attachView(V view);
+
+    void detachView();
 }

@@ -1,6 +1,5 @@
 package com.tomcat360.lyqb.presenter;
 
-
 import com.tomcat360.lyqb.view.IBaseFragmentView;
 
 /**
@@ -8,7 +7,8 @@ import com.tomcat360.lyqb.view.IBaseFragmentView;
  */
 
 public interface FPresenter<V extends IBaseFragmentView> {
-	void attachView(V view);
 
-	void detachView();
+    void attachView(V view);
+
+    void detachView();
 }

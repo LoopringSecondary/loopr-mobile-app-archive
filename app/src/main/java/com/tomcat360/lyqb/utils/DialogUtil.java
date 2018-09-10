@@ -1,6 +1,5 @@
 package com.tomcat360.lyqb.utils;
 
-
 import com.tomcat360.lyqb.R;
 
 import android.content.Context;
@@ -9,9 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-
 public class DialogUtil {
 
+    public static AlertDialog dialog;
 
     private Context mContext;
 
@@ -21,8 +20,6 @@ public class DialogUtil {
 
     }
 
-    public static AlertDialog dialog;
-
     /**
      * 创建钱包结果dialog
      *
@@ -30,6 +27,7 @@ public class DialogUtil {
      * @param listener
      */
     public static void showWalletCreateResultDialog(Context context, View.OnClickListener listener) {
+
         final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);//
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_wallet_create_success, null);
         builder.setView(view);

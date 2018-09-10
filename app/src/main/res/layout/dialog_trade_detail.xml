@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,14 +23,14 @@
                 android:gravity="center_horizontal"
                 android:text="@string/trade_detail"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lineBac" />
+            android:background="@color/lineBac"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -44,7 +43,7 @@
                 android:layout_marginLeft="@dimen/margSide"
                 android:text="@string/received"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
             <TextView
                 android:id="@+id/receive_amount"
@@ -54,14 +53,14 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margSide"
                 android:textColor="@color/colorGreen"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lineBac" />
+            android:background="@color/lineBac"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -74,7 +73,7 @@
                 android:layout_marginLeft="@dimen/margSide"
                 android:text="@string/status"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
             <TextView
                 android:id="@+id/receive_status"
@@ -84,14 +83,14 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margSide"
                 android:textColor="@color/colorGreen"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lineBac" />
+            android:background="@color/lineBac"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -104,27 +103,27 @@
                 android:layout_marginLeft="@dimen/margSide"
                 android:text="@string/to"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
             <TextView
                 android:id="@+id/receive_to"
-                android:ellipsize="middle"
-                android:singleLine="true"
-                android:layout_marginLeft="100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="100dp"
                 android:layout_marginRight="@dimen/margSide"
+                android:ellipsize="middle"
+                android:singleLine="true"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lineBac" />
+            android:background="@color/lineBac"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -137,27 +136,27 @@
                 android:layout_marginLeft="@dimen/margSide"
                 android:text="@string/form"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
             <TextView
                 android:id="@+id/receive_form"
-                android:ellipsize="middle"
-                android:singleLine="true"
-                android:layout_marginLeft="100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="100dp"
                 android:layout_marginRight="@dimen/margSide"
+                android:ellipsize="middle"
+                android:singleLine="true"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lineBac" />
+            android:background="@color/lineBac"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -170,7 +169,7 @@
                 android:layout_marginLeft="@dimen/margSide"
                 android:text="@string/date"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
             <TextView
                 android:id="@+id/receive_date"
@@ -180,15 +179,15 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margSide"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>
 
         <View
-            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lineBac" />
+            android:layout_marginBottom="20dp"
+            android:background="@color/lineBac"/>
 
 
     </LinearLayout>

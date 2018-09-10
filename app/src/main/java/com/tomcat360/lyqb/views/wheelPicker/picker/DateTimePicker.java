@@ -1,5 +1,15 @@
 package com.tomcat360.lyqb.views.wheelPicker.picker;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+
+import com.tomcat360.lyqb.views.wheelPicker.DateUtils;
+import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
+
 import android.app.Activity;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -9,32 +19,23 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
-import com.tomcat360.lyqb.views.wheelPicker.DateUtils;
-import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-
-
 /**
  * 日期时间选择器，可同时选中日期及时间
  * 请参考{@link DatePicker}和{@link TimePicker}的实现
  * Created by Dong on 2016/5/13.
  */
 public class DateTimePicker extends WheelPicker {
+
     /**
      * 年月日
      */
     public static final int YEAR_MONTH_DAY = 0;
+
     /**
      * 年月
      */
     public static final int YEAR_MONTH = 1;
+
     /**
      * 月日
      */
@@ -44,28 +45,32 @@ public class DateTimePicker extends WheelPicker {
      * 24小时
      */
     public static final int HOUR_OF_DAY = 3;
+
     /**
      * 12小时
      */
     public static final int HOUR = 4;
 
     private ArrayList<String> years = new ArrayList<String>();
+
     private ArrayList<String> months = new ArrayList<String>();
+
     private ArrayList<String> days = new ArrayList<String>();
+
     private String yearLabel = "年", monthLabel = "月", dayLabel = "日";
+
     private int selectedYearIndex = 0, selectedMonthIndex = 0, selectedDayIndex = 0;
+
     private String hourLabel = "时", minuteLabel = "分";
+
     private String selectedHour = "", selectedMinute = "";
+
     private OnDateTimePickListener onDateTimePickListener;
+
     private int mode;
 
-
-    @IntDef(flag = false, value = {YEAR_MONTH_DAY, YEAR_MONTH, MONTH_DAY, HOUR_OF_DAY, HOUR})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Mode {
-    }
-
     public DateTimePicker(Activity activity, @Mode int mode) {
+
         super(activity);
         textSize = 16;//年月日时分，比较宽，设置字体小一点才能显示完整
         this.mode = mode;
@@ -85,6 +90,7 @@ public class DateTimePicker extends WheelPicker {
     @NonNull
     @Override
     protected View makeCenterView() {
+
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
@@ -192,6 +198,7 @@ public class DateTimePicker extends WheelPicker {
             yearView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
                 @Override
                 public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
+
                     selectedYearIndex = selectedIndex;
                     //需要根据年份及月份动态计算天数
                     days.clear();
@@ -218,11 +225,13 @@ public class DateTimePicker extends WheelPicker {
         monthView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
+
                 selectedMonthIndex = selectedIndex;
                 if (mode != YEAR_MONTH) {
                     //年月日或年月模式下，需要根据年份及月份动态计算天数
                     days.clear();
-                    int maxDays = DateUtils.calculateDaysInMonth(DateUtils.trimZero(years.get(selectedYearIndex)), DateUtils.trimZero(item));
+                    int maxDays = DateUtils.calculateDaysInMonth(DateUtils.trimZero(years.get(selectedYearIndex)), DateUtils
+                            .trimZero(item));
                     for (int i = 1; i <= maxDays; i++) {
                         days.add(DateUtils.fillZero(i));
                     }
@@ -246,6 +255,7 @@ public class DateTimePicker extends WheelPicker {
             dayView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
                 @Override
                 public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
+
                     selectedDayIndex = selectedIndex;
                 }
             });
@@ -270,12 +280,14 @@ public class DateTimePicker extends WheelPicker {
         hourView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
+
                 selectedHour = item;
             }
         });
         minuteView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
+
                 selectedMinute = item;
             }
         });
@@ -285,6 +297,7 @@ public class DateTimePicker extends WheelPicker {
 
     @Override
     protected void onSubmit() {
+
         if (onDateTimePickListener == null) {
             return;
         }
@@ -305,14 +318,17 @@ public class DateTimePicker extends WheelPicker {
     }
 
     public String getSelectedYear() {
+
         return years.get(selectedYearIndex);
     }
 
     public String getSelectedMonth() {
+
         return months.get(selectedMonthIndex);
     }
 
     public String getSelectedDay() {
+
         return days.get(selectedDayIndex);
     }
 
@@ -320,6 +336,7 @@ public class DateTimePicker extends WheelPicker {
      * 设置年月日时分的显示单位
      */
     public void setLabel(String yearLabel, String monthLabel, String dayLabel, String hourLabel, String minuteLabel) {
+
         this.yearLabel = yearLabel;
         this.monthLabel = monthLabel;
         this.dayLabel = dayLabel;
@@ -331,6 +348,7 @@ public class DateTimePicker extends WheelPicker {
      * 设置年份范围
      */
     public void setRange(int startYear, int endYear) {
+
         years.clear();
         for (int i = startYear; i <= endYear; i++) {
             years.add(String.valueOf(i));
@@ -342,6 +360,7 @@ public class DateTimePicker extends WheelPicker {
         int index = Collections.binarySearch(items, item, new Comparator<Object>() {
             @Override
             public int compare(Object lhs, Object rhs) {
+
                 String lhsStr = lhs.toString();
                 String rhsStr = rhs.toString();
                 lhsStr = lhsStr.startsWith("0") ? lhsStr.substring(1) : lhsStr;
@@ -359,6 +378,7 @@ public class DateTimePicker extends WheelPicker {
      * 设置默认选中的年月日时分
      */
     public void setSelectedItem(int year, int month, int day, int hour, int minute) {
+
         selectedYearIndex = findItemIndex(years, year);
         selectedMonthIndex = findItemIndex(months, month);
         selectedDayIndex = findItemIndex(days, day);
@@ -370,6 +390,7 @@ public class DateTimePicker extends WheelPicker {
      * 设置默认选中的年月时分或者月日时分
      */
     public void setSelectedItem(int yearOrMonth, int monthOrDay, int hour, int minute) {
+
         if (mode == MONTH_DAY) {
             selectedMonthIndex = findItemIndex(months, yearOrMonth);
             selectedDayIndex = findItemIndex(days, monthOrDay);
@@ -379,6 +400,17 @@ public class DateTimePicker extends WheelPicker {
         }
         selectedHour = DateUtils.fillZero(hour);
         selectedMinute = DateUtils.fillZero(minute);
+    }
+
+    public void setOnDateTimePickListener(OnDateTimePickListener listener) {
+
+        this.onDateTimePickListener = listener;
+    }
+
+    @IntDef(flag = false, value = {YEAR_MONTH_DAY, YEAR_MONTH, MONTH_DAY, HOUR_OF_DAY, HOUR})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Mode {
+
     }
 
     protected interface OnDateTimePickListener {
@@ -401,10 +433,6 @@ public class DateTimePicker extends WheelPicker {
 
         void onDateTimePicked(String month, String day, String hour, String minute);
 
-    }
-
-    public void setOnDateTimePickListener(OnDateTimePickListener listener) {
-        this.onDateTimePickListener = listener;
     }
 
 }

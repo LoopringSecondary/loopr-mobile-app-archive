@@ -1,5 +1,14 @@
 package com.tomcat360.lyqb.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
+import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.views.SpacesItemDecoration;
+import com.tomcat360.lyqb.views.TitleView;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,45 +18,46 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
-import com.tomcat360.lyqb.utils.ToastUtils;
-import com.tomcat360.lyqb.views.SpacesItemDecoration;
-import com.tomcat360.lyqb.views.TitleView;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class BackupMnemonicActivity extends BaseActivity {
 
+    public final static int MNEMONIC_SUCCESS = 1;
+
+    public final static int ERROR_ONE = 2;
+
+    public final static int ERROR_TWO = 3;
+
     @BindView(R.id.title)
     TitleView title;
+
     @BindView(R.id.backup_mnemonic)
     TextView backupMnemonic;
+
     @BindView(R.id.mnemonic_hint)
     TextView mnemonicHint;
+
     @BindView(R.id.rl_mnemonic)
     RelativeLayout rlMnemonic;
+
     @BindView(R.id.recycler_mnemonic_hint)
     RecyclerView recyclerMnemonicHint;
+
+    ;
+
     @BindView(R.id.rl_word)
     RelativeLayout rlWord;
 
     private MnemonicWordAdapter mHintAdapter; //助记词提示adapter
-    private List<String> listMnemonic = new ArrayList<>();;
 
-    private String mnemonic;
+    private List<String> listMnemonic = new ArrayList<>();
 
-    public final static int MNEMONIC_SUCCESS = 1;
-    public final static int ERROR_ONE = 2;
-    public final static int ERROR_TWO = 3;
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+
             super.handleMessage(msg);
             switch (msg.what) {
                 case MNEMONIC_SUCCESS:
@@ -67,8 +77,11 @@ public class BackupMnemonicActivity extends BaseActivity {
         }
     };
 
+    private String mnemonic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         setContentView(R.layout.activity_backup_mnemonic);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
@@ -76,17 +89,20 @@ public class BackupMnemonicActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
+
         title.setBTitle(getResources().getString(R.string.generate_wallet));
         title.clickLeftGoBack(getWContext());
     }
 
     @Override
     public void initView() {
+
         mnemonic = getIntent().getStringExtra("mnemonic");
     }
 
     @Override
     public void initData() {
+
         String[] arrayMne = mnemonic.split(" ");
 
         listMnemonic.clear();
@@ -94,25 +110,25 @@ public class BackupMnemonicActivity extends BaseActivity {
             listMnemonic.add(arrayMne[i]);
         }
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    String[] arrayMne = FileUtils.getFile(BackupMnemonicActivity.this,"mnemonic.txt");
-//                    listMnemonic.clear();
-//                    for (int i = 0; i < arrayMne.length; i++) {
-//                        listMnemonic.add(arrayMne[i]);
-//                    }
-//                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
-//                } catch (IOException e) {
-//                    handlerCreate.sendEmptyMessage(ERROR_ONE);
-//                    e.printStackTrace();
-//                } catch (JSONException e) {
-//                    handlerCreate.sendEmptyMessage(ERROR_TWO);
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
+        //        new Thread(new Runnable() {
+        //            @Override
+        //            public void run() {
+        //                try {
+        //                    String[] arrayMne = FileUtils.getFile(BackupMnemonicActivity.this,"mnemonic.txt");
+        //                    listMnemonic.clear();
+        //                    for (int i = 0; i < arrayMne.length; i++) {
+        //                        listMnemonic.add(arrayMne[i]);
+        //                    }
+        //                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
+        //                } catch (IOException e) {
+        //                    handlerCreate.sendEmptyMessage(ERROR_ONE);
+        //                    e.printStackTrace();
+        //                } catch (JSONException e) {
+        //                    handlerCreate.sendEmptyMessage(ERROR_TWO);
+        //                    e.printStackTrace();
+        //                }
+        //            }
+        //        }).start();
 
         GridLayoutManager layoutManagerHint = new GridLayoutManager(this, 3);
 
@@ -120,7 +136,6 @@ public class BackupMnemonicActivity extends BaseActivity {
         mHintAdapter = new MnemonicWordAdapter(R.layout.adapter_item_mnemonic_word_hint, listMnemonic);
         recyclerMnemonicHint.addItemDecoration(new SpacesItemDecoration(8));
         recyclerMnemonicHint.setAdapter(mHintAdapter);
-
 
     }
 }

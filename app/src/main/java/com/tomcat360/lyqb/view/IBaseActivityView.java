@@ -1,6 +1,5 @@
 package com.tomcat360.lyqb.view;
 
-
 import com.trello.rxlifecycle.ActivityEvent;
 
 import rx.Observable;
@@ -22,10 +21,9 @@ public interface IBaseActivityView {
      */
     void showMessage(String str);
 
-
-
-	/**
-	 * RxFragment/RxActivity 中方法,声明在view中 便于在mvp中的presenter里调用
+    /**
+     * RxFragment/RxActivity 中方法,声明在view中 便于在mvp中的presenter里调用
+     *
      * @param <T> T
      * @return
      */
@@ -33,6 +31,7 @@ public interface IBaseActivityView {
 
     /**
      * RxFragment/RxActivity 中方法,声明在view中 便于在mvp中的presenter里调用
+     *
      * @param <T> T
      * @return
      */

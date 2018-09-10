@@ -5,17 +5,20 @@ package com.tomcat360.lyqb.model.eventbusData;
  */
 
 public class RefreshData {
+
     private String refresh;
 
+    public RefreshData(String refresh) {
+
+        this.refresh = refresh;
+    }
+
     public String getRefresh() {
+
         return refresh;
     }
 
     public void setRefresh(String refresh) {
-        this.refresh = refresh;
-    }
-
-    public RefreshData(String refresh) {
 
         this.refresh = refresh;
     }

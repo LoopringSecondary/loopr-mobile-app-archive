@@ -1,5 +1,34 @@
 package com.tomcat360.lyqb.activity;
 
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Vector;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.ReaderException;
+import com.google.zxing.Result;
+import com.google.zxing.common.HybridBinarizer;
+import com.vondear.rxfeature.module.scaner.CameraManager;
+import com.vondear.rxfeature.module.scaner.OnRxScanerListener;
+import com.vondear.rxfeature.module.scaner.PlanarYUVLuminanceSource;
+import com.vondear.rxfeature.module.scaner.decoding.InactivityTimer;
+import com.vondear.rxfeature.tool.RxQrBarTool;
+import com.vondear.rxtool.RxAnimationTool;
+import com.vondear.rxtool.RxBarTool;
+import com.vondear.rxtool.RxBeepTool;
+import com.vondear.rxtool.RxConstants;
+import com.vondear.rxtool.RxDataTool;
+import com.vondear.rxtool.RxPhotoTool;
+import com.vondear.rxtool.RxSPTool;
+import com.vondear.rxtool.view.RxToast;
+import com.vondear.rxui.activity.ActivityBase;
+import com.vondear.rxui.view.dialog.RxDialogSure;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -23,36 +52,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.DecodeHintType;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.ReaderException;
-import com.google.zxing.Result;
-import com.google.zxing.common.HybridBinarizer;
-import com.tomcat360.lyqb.utils.LyqbLogger;
-import com.vondear.rxfeature.module.scaner.CameraManager;
-import com.vondear.rxfeature.module.scaner.OnRxScanerListener;
-import com.vondear.rxfeature.module.scaner.PlanarYUVLuminanceSource;
-import com.vondear.rxfeature.module.scaner.decoding.InactivityTimer;
-import com.vondear.rxfeature.tool.RxQrBarTool;
-import com.vondear.rxtool.RxAnimationTool;
-import com.vondear.rxtool.RxBarTool;
-import com.vondear.rxtool.RxBeepTool;
-import com.vondear.rxtool.RxConstants;
-import com.vondear.rxtool.RxDataTool;
-import com.vondear.rxtool.RxPhotoTool;
-import com.vondear.rxtool.RxSPTool;
-import com.vondear.rxtool.view.RxToast;
-import com.vondear.rxui.activity.ActivityBase;
-import com.vondear.rxui.view.dialog.RxDialogSure;
-
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static android.content.ContentValues.TAG;
 
@@ -123,15 +122,19 @@ public class ActivityScanerCode extends ActivityBase {
      */
     private RxDialogSure rxDialogSure;
 
+    private MultiFormatReader multiFormatReader;
+
     /**
      * 设置扫描信息回调
      */
     public static void setScanerListener(OnRxScanerListener scanerListener) {
+
         mScanerListener = scanerListener;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         RxBarTool.setNoTitle(this);
         setContentView(com.vondear.rxfeature.R.layout.activity_scaner_code);
@@ -150,6 +153,7 @@ public class ActivityScanerCode extends ActivityBase {
     }
 
     private void initDecode() {
+
         multiFormatReader = new MultiFormatReader();
 
         // 解码的参数
@@ -189,6 +193,7 @@ public class ActivityScanerCode extends ActivityBase {
     @SuppressWarnings("deprecation")
     @Override
     protected void onResume() {
+
         super.onResume();
         SurfaceView surfaceView = findViewById(com.vondear.rxfeature.R.id.capture_preview);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
@@ -204,6 +209,7 @@ public class ActivityScanerCode extends ActivityBase {
 
                 @Override
                 public void surfaceCreated(SurfaceHolder holder) {
+
                     if (!hasSurface) {
                         hasSurface = true;
                         initCamera(holder);
@@ -212,6 +218,7 @@ public class ActivityScanerCode extends ActivityBase {
 
                 @Override
                 public void surfaceDestroyed(SurfaceHolder holder) {
+
                     hasSurface = false;
 
                 }
@@ -222,6 +229,7 @@ public class ActivityScanerCode extends ActivityBase {
 
     @Override
     protected void onPause() {
+
         super.onPause();
         if (handler != null) {
             handler.quitSynchronously();
@@ -233,53 +241,60 @@ public class ActivityScanerCode extends ActivityBase {
 
     @Override
     protected void onDestroy() {
+
         inactivityTimer.shutdown();
         mScanerListener = null;
         super.onDestroy();
     }
 
     private void initView() {
+
         mIvLight = findViewById(com.vondear.rxfeature.R.id.top_mask);
         mContainer = findViewById(com.vondear.rxfeature.R.id.capture_containter);
         mCropLayout = findViewById(com.vondear.rxfeature.R.id.capture_crop_layout);
         mLlScanHelp = findViewById(com.vondear.rxfeature.R.id.ll_scan_help);
 
-
     }
 
     private void initPermission() {
         //请求Camera权限 与 文件读写 权限
-        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ContextCompat
+                .checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(mContext, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
     }
 
     private void initScanerAnimation() {
+
         ImageView mQrLineView = findViewById(com.vondear.rxfeature.R.id.capture_scan_line);
         RxAnimationTool.ScaleUpDowm(mQrLineView);
     }
 
     public int getCropWidth() {
+
         return mCropWidth;
     }
 
     public void setCropWidth(int cropWidth) {
+
         mCropWidth = cropWidth;
         CameraManager.FRAME_WIDTH = mCropWidth;
 
     }
 
     public int getCropHeight() {
+
         return mCropHeight;
     }
 
     public void setCropHeight(int cropHeight) {
+
         this.mCropHeight = cropHeight;
         CameraManager.FRAME_HEIGHT = mCropHeight;
     }
 
     public void btn(View view) {
+
         int viewId = view.getId();
         if (viewId == com.vondear.rxfeature.R.id.top_mask) {
             light();
@@ -291,6 +306,7 @@ public class ActivityScanerCode extends ActivityBase {
     }
 
     private void light() {
+
         if (mFlashing) {
             mFlashing = false;
             // 开闪光灯
@@ -304,6 +320,7 @@ public class ActivityScanerCode extends ActivityBase {
     }
 
     private void initCamera(SurfaceHolder surfaceHolder) {
+
         try {
             CameraManager.get().openDriver(surfaceHolder);
             Point point = CameraManager.get().getCameraResolution();
@@ -321,10 +338,10 @@ public class ActivityScanerCode extends ActivityBase {
         }
     }
 
-
     //--------------------------------------打开本地图片识别二维码 start---------------------------------
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             ContentResolver resolver = getContentResolver();
@@ -338,7 +355,7 @@ public class ActivityScanerCode extends ActivityBase {
                 Result rawResult = RxQrBarTool.decodeFromPhoto(photo);
                 if (rawResult != null) {
                     if (mScanerListener == null) {
-//                        initDialogResult(rawResult);
+                        //                        initDialogResult(rawResult);
 
                         initActivityResult(rawResult);
 
@@ -357,24 +374,24 @@ public class ActivityScanerCode extends ActivityBase {
             }
         }
     }
-
+    //========================================打开本地图片识别二维码 end=================================
 
     /**
      * 将结果返回到跳转的activity
-     * */
+     */
     private void initActivityResult(Result result) {
+
         Intent intent = new Intent();
-        intent.putExtra("result",result.getText());
+        intent.putExtra("result", result.getText());
         setResult(RESULT_OK, intent);
         finish();
-//        RxToast.error(result.getText());
-//        LyqbLogger.log(result.getText());
+        //        RxToast.error(result.getText());
+        //        LyqbLogger.log(result.getText());
 
     }
-    //========================================打开本地图片识别二维码 end=================================
-
 
     private void initDialogResult(Result result) {
+
         BarcodeFormat type = result.getBarcodeFormat();
         String realContent = result.getText();
 
@@ -395,12 +412,14 @@ public class ActivityScanerCode extends ActivityBase {
         rxDialogSure.setSureListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 rxDialogSure.cancel();
             }
         });
         rxDialogSure.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
+
                 if (handler != null) {
                     // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
                     handler.sendEmptyMessage(com.vondear.rxfeature.R.id.restart_preview);
@@ -414,8 +433,10 @@ public class ActivityScanerCode extends ActivityBase {
 
         RxSPTool.putContent(mContext, RxConstants.SP_SCAN_CODE, RxDataTool.stringToInt(RxSPTool.getContent(mContext, RxConstants.SP_SCAN_CODE)) + 1 + "");
     }
+    //==============================================================================================解析结果 及 后续处理 end
 
     public void handleDecode(Result result) {
+
         inactivityTimer.onActivity();
         //扫描成功之后的振动与声音提示
         RxBeepTool.playBeep(mContext, vibrate);
@@ -424,108 +445,15 @@ public class ActivityScanerCode extends ActivityBase {
         Log.v("二维码/条形码 扫描结果", result1);
         if (mScanerListener == null) {
             RxToast.success("扫描成功");
-//            initDialogResult(result);
+            //            initDialogResult(result);
             initActivityResult(result);
         } else {
             mScanerListener.onSuccess("From to Camera", result);
         }
     }
-    //==============================================================================================解析结果 及 后续处理 end
-
-    final class CaptureActivityHandler extends Handler {
-
-        DecodeThread decodeThread = null;
-        private State state;
-
-        public CaptureActivityHandler() {
-            decodeThread = new DecodeThread();
-            decodeThread.start();
-            state = State.SUCCESS;
-            CameraManager.get().startPreview();
-            restartPreviewAndDecode();
-        }
-
-        @Override
-        public void handleMessage(Message message) {
-            if (message.what == com.vondear.rxfeature.R.id.auto_focus) {
-                if (state == State.PREVIEW) {
-                    CameraManager.get().requestAutoFocus(this, com.vondear.rxfeature.R.id.auto_focus);
-                }
-            } else if (message.what == com.vondear.rxfeature.R.id.restart_preview) {
-                restartPreviewAndDecode();
-            } else if (message.what == com.vondear.rxfeature.R.id.decode_succeeded) {
-                state = State.SUCCESS;
-                handleDecode((Result) message.obj);// 解析成功，回调
-            } else if (message.what == com.vondear.rxfeature.R.id.decode_failed) {
-                state = State.PREVIEW;
-                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), com.vondear.rxfeature.R.id.decode);
-//                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), com.vondear.rxfeature.R.id.quit);
-            }
-        }
-
-        public void quitSynchronously() {
-            state = State.DONE;
-            decodeThread.interrupt();
-            CameraManager.get().stopPreview();
-            removeMessages(com.vondear.rxfeature.R.id.decode_succeeded);
-            removeMessages(com.vondear.rxfeature.R.id.decode_failed);
-            removeMessages(com.vondear.rxfeature.R.id.decode);
-            removeMessages(com.vondear.rxfeature.R.id.auto_focus);
-        }
-
-        private void restartPreviewAndDecode() {
-            if (state == State.SUCCESS) {
-                state = State.PREVIEW;
-                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), com.vondear.rxfeature.R.id.decode);
-                CameraManager.get().requestAutoFocus(this, com.vondear.rxfeature.R.id.auto_focus);
-            }
-        }
-    }
-
-    final class DecodeThread extends Thread {
-
-        private final CountDownLatch handlerInitLatch;
-        private Handler handler;
-
-        DecodeThread() {
-            handlerInitLatch = new CountDownLatch(1);
-        }
-
-        Handler getHandler() {
-            try {
-                handlerInitLatch.await();
-            } catch (InterruptedException ie) {
-                // continue?
-            }
-            return handler;
-        }
-
-        @Override
-        public void run() {
-            Looper.prepare();
-            handler = new DecodeHandler();
-            handlerInitLatch.countDown();
-            Looper.loop();
-        }
-    }
-
-    final class DecodeHandler extends Handler {
-        DecodeHandler() {
-        }
-
-        @Override
-        public void handleMessage(Message message) {
-            if (message.what == com.vondear.rxfeature.R.id.decode) {
-                decode((byte[]) message.obj, message.arg1, message.arg2);
-            } else if (message.what == com.vondear.rxfeature.R.id.quit) {
-                Looper.myLooper().quit();
-            }
-        }
-    }
-
-    private MultiFormatReader multiFormatReader;
 
     private void decode(byte[] data, int width, int height) {
+
         long start = System.currentTimeMillis();
         Result rawResult = null;
 
@@ -568,10 +496,111 @@ public class ActivityScanerCode extends ActivityBase {
 
     private enum State {
         //预览
-        PREVIEW,
-        //成功
-        SUCCESS,
-        //完成
+        PREVIEW, //成功
+        SUCCESS, //完成
         DONE
+    }
+
+    final class CaptureActivityHandler extends Handler {
+
+        DecodeThread decodeThread = null;
+
+        private State state;
+
+        public CaptureActivityHandler() {
+
+            decodeThread = new DecodeThread();
+            decodeThread.start();
+            state = State.SUCCESS;
+            CameraManager.get().startPreview();
+            restartPreviewAndDecode();
+        }
+
+        @Override
+        public void handleMessage(Message message) {
+
+            if (message.what == com.vondear.rxfeature.R.id.auto_focus) {
+                if (state == State.PREVIEW) {
+                    CameraManager.get().requestAutoFocus(this, com.vondear.rxfeature.R.id.auto_focus);
+                }
+            } else if (message.what == com.vondear.rxfeature.R.id.restart_preview) {
+                restartPreviewAndDecode();
+            } else if (message.what == com.vondear.rxfeature.R.id.decode_succeeded) {
+                state = State.SUCCESS;
+                handleDecode((Result) message.obj);// 解析成功，回调
+            } else if (message.what == com.vondear.rxfeature.R.id.decode_failed) {
+                state = State.PREVIEW;
+                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), com.vondear.rxfeature.R.id.decode);
+                //                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), com.vondear.rxfeature.R.id.quit);
+            }
+        }
+
+        public void quitSynchronously() {
+
+            state = State.DONE;
+            decodeThread.interrupt();
+            CameraManager.get().stopPreview();
+            removeMessages(com.vondear.rxfeature.R.id.decode_succeeded);
+            removeMessages(com.vondear.rxfeature.R.id.decode_failed);
+            removeMessages(com.vondear.rxfeature.R.id.decode);
+            removeMessages(com.vondear.rxfeature.R.id.auto_focus);
+        }
+
+        private void restartPreviewAndDecode() {
+
+            if (state == State.SUCCESS) {
+                state = State.PREVIEW;
+                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), com.vondear.rxfeature.R.id.decode);
+                CameraManager.get().requestAutoFocus(this, com.vondear.rxfeature.R.id.auto_focus);
+            }
+        }
+    }
+
+    final class DecodeThread extends Thread {
+
+        private final CountDownLatch handlerInitLatch;
+
+        private Handler handler;
+
+        DecodeThread() {
+
+            handlerInitLatch = new CountDownLatch(1);
+        }
+
+        Handler getHandler() {
+
+            try {
+                handlerInitLatch.await();
+            } catch (InterruptedException ie) {
+                // continue?
+            }
+            return handler;
+        }
+
+        @Override
+        public void run() {
+
+            Looper.prepare();
+            handler = new DecodeHandler();
+            handlerInitLatch.countDown();
+            Looper.loop();
+        }
+    }
+
+    final class DecodeHandler extends Handler {
+
+        DecodeHandler() {
+
+        }
+
+        @Override
+        public void handleMessage(Message message) {
+
+            if (message.what == com.vondear.rxfeature.R.id.decode) {
+                decode((byte[]) message.obj, message.arg1, message.arg2);
+            } else if (message.what == com.vondear.rxfeature.R.id.quit) {
+                Looper.myLooper().quit();
+            }
+        }
     }
 }

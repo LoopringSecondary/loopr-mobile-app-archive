@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorPrimary"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical"
     >
+
     <com.tomcat360.lyqb.views.TitleView
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginLeft="@dimen/margSide"
         android:layout_marginRight="@dimen/margSide"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"/>
+
     <LinearLayout
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
+        android:layout_gravity="bottom"
         android:layout_marginTop="10dp"
         android:gravity="bottom"
+        android:orientation="horizontal"
         android:paddingBottom="32dp"
         >
 
@@ -36,7 +39,7 @@
             android:layout_weight="1"
             android:text="@string/import_wallet"
             android:textAllCaps="false"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"/>
 
         <Button
             android:id="@+id/btn_generate"
@@ -47,7 +50,7 @@
             android:layout_weight="1"
             android:text="@string/generate_wallet"
             android:textAllCaps="false"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"/>
 
     </LinearLayout>
 </LinearLayout>

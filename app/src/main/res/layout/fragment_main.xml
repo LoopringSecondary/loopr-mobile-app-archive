@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:orientation="vertical">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/colorPrimary"
+             android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -21,7 +20,7 @@
             android:singleLine="true"
             android:text="@string/app_name"
             android:textColor="@color/colorTitleTv"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
 
         <ImageView
@@ -31,7 +30,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:src="@mipmap/icon_plus" />
+            android:src="@mipmap/icon_plus"/>
     </RelativeLayout>
 
 
@@ -57,32 +56,32 @@
                 android:layout_marginTop="24dp"
                 android:text="$0.00"
                 android:textColor="@color/colorWhite"
-                android:textSize="32sp" />
+                android:textSize="32sp"/>
 
             <LinearLayout
                 style="@style/MatchWrap.Horizontal"
                 android:layout_below="@+id/wallet_count"
                 android:layout_marginTop="11dp"
+                android:gravity="center"
                 android:paddingLeft="50dp"
-                android:paddingRight="30dp"
-                android:gravity="center">
+                android:paddingRight="30dp">
 
                 <TextView
                     android:id="@+id/wallet_address"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="shadhwufh...sbadhasuhd"
-                    android:textColor="@color/colorWhite"
                     android:ellipsize="middle"
                     android:singleLine="true"
-                    android:textSize="@dimen/normal14Text" />
+                    android:text="shadhwufh...sbadhasuhd"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/normal14Text"/>
 
                 <ImageView
                     android:id="@+id/wallet_qrcode"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginLeft="3dp"
-                    android:src="@mipmap/icon_wallet_qrcode" />
+                    android:src="@mipmap/icon_wallet_qrcode"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -107,7 +106,7 @@
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:src="@mipmap/icon_scan" />
+                    android:src="@mipmap/icon_scan"/>
 
                 <TextView
                     android:id="@+id/wallet_scan_tv"
@@ -115,7 +114,7 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/scan"
                     android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/normal14Text" />
+                    android:textSize="@dimen/normal14Text"/>
             </LinearLayout>
 
             <LinearLayout
@@ -132,7 +131,7 @@
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:src="@mipmap/icon_received" />
+                    android:src="@mipmap/icon_received"/>
 
                 <TextView
                     android:id="@+id/wallet_receive_tv"
@@ -140,7 +139,7 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/receive"
                     android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/normal14Text" />
+                    android:textSize="@dimen/normal14Text"/>
             </LinearLayout>
 
             <LinearLayout
@@ -157,7 +156,7 @@
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:src="@mipmap/icon_send" />
+                    android:src="@mipmap/icon_send"/>
 
                 <TextView
                     android:id="@+id/wallet_send_tv"
@@ -165,7 +164,7 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/send"
                     android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/normal14Text" />
+                    android:textSize="@dimen/normal14Text"/>
             </LinearLayout>
 
             <LinearLayout
@@ -182,7 +181,7 @@
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:src="@mipmap/icon_trades" />
+                    android:src="@mipmap/icon_trades"/>
 
                 <TextView
                     android:id="@+id/wallet_trades_tv"
@@ -190,7 +189,7 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/trade"
                     android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/normal14Text" />
+                    android:textSize="@dimen/normal14Text"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -200,20 +199,20 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margSide"
             android:layout_marginRight="@dimen/margSide"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_menu"
-        android:visibility="gone"
         android:layout_width="160dp"
         android:layout_height="150dp"
         android:layout_gravity="end"
         android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="94dp"
         android:background="@color/colorBg2"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/menu_scan"
@@ -227,14 +226,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="20dp"
-                android:src="@mipmap/icon_scan" />
+                android:src="@mipmap/icon_scan"/>
 
             <TextView
                 style="@style/WrapWrap"
                 android:layout_marginLeft="10dp"
                 android:text="@string/scan"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
         </LinearLayout>
 
         <LinearLayout
@@ -249,14 +248,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="20dp"
-                android:src="@mipmap/icon_plus" />
+                android:src="@mipmap/icon_plus"/>
 
             <TextView
                 style="@style/WrapWrap"
                 android:layout_marginLeft="10dp"
                 android:text="@string/add_assets"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
         </LinearLayout>
 
         <LinearLayout
@@ -271,37 +270,37 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="20dp"
-                android:src="@mipmap/icon_wallet_unactive" />
+                android:src="@mipmap/icon_wallet_unactive"/>
 
             <TextView
                 style="@style/WrapWrap"
                 android:layout_marginLeft="10dp"
                 android:text="@string/wallet"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/menu_transaction"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="20dp"
-                android:src="@mipmap/icon_trades" />
+                android:src="@mipmap/icon_trades"/>
 
             <TextView
                 style="@style/WrapWrap"
                 android:layout_marginLeft="10dp"
                 android:text="@string/transaction"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

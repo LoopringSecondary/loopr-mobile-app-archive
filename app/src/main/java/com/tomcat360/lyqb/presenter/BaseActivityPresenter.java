@@ -1,32 +1,35 @@
 package com.tomcat360.lyqb.presenter;
 
-
 import com.tomcat360.lyqb.view.IBaseActivityView;
 
 /**
  * Title:BaseActivityPresenter
  */
 
-public class BaseActivityPresenter <T extends IBaseActivityView> implements Presenter<T> {
+public class BaseActivityPresenter<T extends IBaseActivityView> implements Presenter<T> {
 
-	private T mView;
+    private T mView;
 
-	@Override
-	public void attachView(T view) {
-		this.mView = view;
-	}
+    @Override
+    public void attachView(T view) {
 
-	@Override
-	public void detachView() {
-		this.mView = null;
-	}
+        this.mView = view;
+    }
 
-	public boolean isViewAttached() {
-		return mView != null;
-	}
+    @Override
+    public void detachView() {
 
-	public T getView() {
-		return mView;
-	}
+        this.mView = null;
+    }
+
+    public boolean isViewAttached() {
+
+        return mView != null;
+    }
+
+    public T getView() {
+
+        return mView;
+    }
 
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
 
     <ImageView
         android:id="@+id/imageview"
@@ -11,7 +11,7 @@
         android:layout_height="102dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="200dp"
-        android:src="@mipmap/icon_wallet_active" />
+        android:src="@mipmap/icon_wallet_active"/>
 
     <TextView
         style="@style/WrapWrap"
@@ -19,7 +19,7 @@
         android:layout_marginTop="30dp"
         android:text="@string/app_name"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/normalText" />
+        android:textSize="@dimen/normalText"/>
 
 
 </LinearLayout>

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/main_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorLine" />
+        android:background="@color/colorLine"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,16 +40,16 @@
                     android:id="@+id/iv_main"
                     android:layout_width="@dimen/mainTabIcon"
                     android:layout_height="@dimen/mainTabIcon"
-                    android:src="@drawable/icon_wallet_select" />
+                    android:src="@drawable/icon_wallet_select"/>
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tv_main"
                     style="@style/WrapWrap"
                     android:layout_marginTop="4dp"
                     android:text="首页"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/mainTabText" />
+                    android:textSize="@dimen/mainTabText"
+                    android:visibility="gone"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -69,16 +69,16 @@
                     android:id="@+id/iv_trade"
                     android:layout_width="@dimen/mainTabIcon"
                     android:layout_height="@dimen/mainTabIcon"
-                    android:src="@drawable/icon_trade_select" />
+                    android:src="@drawable/icon_trade_select"/>
 
                 <TextView
                     android:id="@+id/tv_trade"
-                    android:visibility="gone"
                     style="@style/WrapWrap"
                     android:layout_marginTop="4dp"
                     android:text="交易"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/mainTabText" />
+                    android:textSize="@dimen/mainTabText"
+                    android:visibility="gone"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -98,16 +98,16 @@
                     android:id="@+id/iv_setting"
                     android:layout_width="@dimen/mainTabIcon"
                     android:layout_height="@dimen/mainTabIcon"
-                    android:src="@drawable/icon_setting_select" />
+                    android:src="@drawable/icon_setting_select"/>
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tv_setting"
                     style="@style/WrapWrap"
                     android:layout_marginTop="4dp"
                     android:text="设置"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/mainTabText" />
+                    android:textSize="@dimen/mainTabText"
+                    android:visibility="gone"/>
             </LinearLayout>
 
         </RelativeLayout>

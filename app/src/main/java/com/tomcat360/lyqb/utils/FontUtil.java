@@ -10,8 +10,8 @@ import android.util.Log;
  */
 public class FontUtil {
 
-
     public static Typeface getTypeface(Context context, int type) {
+
         Typeface TEXT_TYPE = null;
         try {
             switch (type) {

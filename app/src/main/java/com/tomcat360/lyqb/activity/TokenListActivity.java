@@ -1,18 +1,7 @@
 package com.tomcat360.lyqb.activity;
 
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.ToggleButton;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -25,8 +14,16 @@ import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.RecyclerViewBugLayoutManager;
 import com.tomcat360.lyqb.views.TitleView;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,23 +33,30 @@ public class TokenListActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
     @BindView(R.id.et_search)
     EditText etSearch;
+
     @BindView(R.id.cancel_text)
     TextView cancelText;
+
     @BindView(R.id.ll_search)
     LinearLayout llSearch;
+
+    List<String> choose_token;
+
     private TokenListAdapter mAdapter;
 
     private List<BalanceResult.Token> list;
-    private List<BalanceResult.Token> listSearch = new ArrayList<>();
-    List<String> choose_token ;
 
+    private List<BalanceResult.Token> listSearch = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         setContentView(R.layout.activity_token_list);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
@@ -60,11 +64,13 @@ public class TokenListActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
+
         title.setBTitle(getResources().getString(R.string.tokens));
         title.clickLeftGoBack(getWContext());
         title.setRightImageButton(R.mipmap.icon_search, new TitleView.OnRightButtonClickListener() {
             @Override
             public void onClick(View button) {
+
                 llSearch.setVisibility(View.VISIBLE);
             }
         });
@@ -77,22 +83,24 @@ public class TokenListActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                LyqbLogger.log(s.toString()+"   "+s);
+
+                LyqbLogger.log(s.toString() + "   " + s);
                 listSearch.clear();
-                for (int i = 0; i<list.size();i++){
-                    if (list.get(i).getSymbol().contains(s.toString().toUpperCase())){
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getSymbol().contains(s.toString().toUpperCase())) {
                         listSearch.add(list.get(i));
                         LyqbLogger.log(listSearch.toString());
                     }
                 }
                 mAdapter.setNewData(listSearch);
-                if (s == null){
+                if (s == null) {
                     mAdapter.setNewData(list);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -104,6 +112,7 @@ public class TokenListActivity extends BaseActivity {
 
     @Override
     public void initData() {
+
         choose_token = SPUtils.getDataList(TokenListActivity.this, "choose_token");
 
         LyqbLogger.log(choose_token.toString());
@@ -111,9 +120,8 @@ public class TokenListActivity extends BaseActivity {
         RecyclerViewBugLayoutManager layoutManager = new RecyclerViewBugLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         list = APP.getListToken();
-        mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, list,choose_token);
+        mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, list, choose_token);
         recyclerView.setAdapter(mAdapter);
-
 
         /**
          *代币选中状态
@@ -122,13 +130,14 @@ public class TokenListActivity extends BaseActivity {
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+
                 ToggleButton toggleButton = view.findViewById(R.id.toggle_button);
 
-                LyqbLogger.log(toggleButton.isChecked()+"");
-                if (toggleButton.isChecked()){
+                LyqbLogger.log(toggleButton.isChecked() + "");
+                if (toggleButton.isChecked()) {
                     toggleButton.setChecked(false);
                     choose_token.remove(list.get(position).getSymbol());
-                }else {
+                } else {
                     toggleButton.setChecked(true);
                     choose_token.add(list.get(position).getSymbol());
                 }
@@ -140,8 +149,9 @@ public class TokenListActivity extends BaseActivity {
 
     }
 
-    @OnClick({ R.id.cancel_text})
+    @OnClick({R.id.cancel_text})
     public void onViewClicked(View view) {
+
         switch (view.getId()) {
 
             case R.id.cancel_text:

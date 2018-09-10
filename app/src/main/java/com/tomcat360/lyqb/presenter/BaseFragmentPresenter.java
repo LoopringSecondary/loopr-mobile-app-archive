@@ -1,6 +1,5 @@
 package com.tomcat360.lyqb.presenter;
 
-
 import com.tomcat360.lyqb.view.IBaseFragmentView;
 
 /**
@@ -9,24 +8,28 @@ import com.tomcat360.lyqb.view.IBaseFragmentView;
 
 public class BaseFragmentPresenter<T extends IBaseFragmentView> implements FPresenter<T> {
 
-	private T mView;
+    private T mView;
 
-	@Override
-	public void attachView(T view) {
-		this.mView = view;
-	}
+    @Override
+    public void attachView(T view) {
 
-	@Override
-	public void detachView() {
-		this.mView = null;
-	}
+        this.mView = view;
+    }
 
-	public boolean isViewAttached() {
-		return mView != null;
-	}
+    @Override
+    public void detachView() {
 
-	public T getView() {
-		return mView;
-	}
+        this.mView = null;
+    }
+
+    public boolean isViewAttached() {
+
+        return mView != null;
+    }
+
+    public T getView() {
+
+        return mView;
+    }
 
 }

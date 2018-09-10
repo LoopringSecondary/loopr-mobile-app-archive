@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
 
     <com.tomcat360.lyqb.views.TitleView
         android:id="@+id/title"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="@color/lineBac" />
+        android:background="@color/lineBac"/>
 
     <LinearLayout
         android:id="@+id/ll_wallet_name"
@@ -39,20 +39,20 @@
                 android:gravity="center_vertical"
                 android:text="@string/wallet_name"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"/>
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/icon_next" />
+                android:src="@mipmap/icon_next"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/margSide"
-            android:background="@color/lineBac" />
+            android:background="@color/lineBac"/>
     </LinearLayout>
 
     <LinearLayout
@@ -78,20 +78,20 @@
                 android:gravity="center_vertical"
                 android:text="@string/backup_mnemonic"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"/>
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/icon_next" />
+                android:src="@mipmap/icon_next"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/margSide"
-            android:background="@color/lineBac" />
+            android:background="@color/lineBac"/>
     </LinearLayout>
 
     <LinearLayout
@@ -117,20 +117,20 @@
                 android:gravity="center_vertical"
                 android:text="@string/export_private_key"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"/>
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/icon_next" />
+                android:src="@mipmap/icon_next"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/margSide"
-            android:background="@color/lineBac" />
+            android:background="@color/lineBac"/>
     </LinearLayout>
 
     <LinearLayout
@@ -156,13 +156,13 @@
                 android:gravity="center_vertical"
                 android:text="@string/export_keystore"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"/>
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/icon_next" />
+                android:src="@mipmap/icon_next"/>
 
         </LinearLayout>
 
@@ -171,13 +171,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/lineBac" />
+        android:background="@color/lineBac"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="@color/lineBac" />
+        android:background="@color/lineBac"/>
 
     <LinearLayout
         android:id="@+id/ll_clear_records"
@@ -202,7 +202,7 @@
                 android:gravity="center"
                 android:text="@string/clear_records"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"/>
         </LinearLayout>
 
 
@@ -211,7 +211,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/lineBac" />
+        android:background="@color/lineBac"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -231,7 +231,7 @@
             android:layout_weight="1"
             android:text="@string/switch_wallet"
             android:textAllCaps="false"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"/>
 
     </LinearLayout>
 

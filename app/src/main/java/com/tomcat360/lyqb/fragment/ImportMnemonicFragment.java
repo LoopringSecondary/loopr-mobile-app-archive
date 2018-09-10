@@ -1,5 +1,30 @@
 package com.tomcat360.lyqb.fragment;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+
+import com.lyqb.walletsdk.WalletHelper;
+import com.lyqb.walletsdk.exception.KeystoreSaveException;
+import com.lyqb.walletsdk.model.WalletDetail;
+import com.lyqb.walletsdk.service.LoopringService;
+import com.rengwuxian.materialedittext.MaterialEditText;
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.activity.MainActivity;
+import com.tomcat360.lyqb.model.WalletEntity;
+import com.tomcat360.lyqb.model.eventbusData.MnemonicData;
+import com.tomcat360.lyqb.utils.AppManager;
+import com.tomcat360.lyqb.utils.ButtonClickUtil;
+import com.tomcat360.lyqb.utils.DialogUtil;
+import com.tomcat360.lyqb.utils.FileUtils;
+import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.utils.SPUtils;
+import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.views.wheelPicker.picker.OptionPicker;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -15,34 +40,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lyqb.walletsdk.WalletHelper;
-import com.lyqb.walletsdk.exception.KeystoreSaveException;
-import com.lyqb.walletsdk.model.WalletDetail;
-import com.lyqb.walletsdk.service.LoopringService;
-import com.rengwuxian.materialedittext.MaterialEditText;
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.activity.GenerateWalletActivity;
-import com.tomcat360.lyqb.activity.MainActivity;
-import com.tomcat360.lyqb.model.WalletEntity;
-import com.tomcat360.lyqb.model.eventbusData.MnemonicData;
-import com.tomcat360.lyqb.utils.AppManager;
-import com.tomcat360.lyqb.utils.ButtonClickUtil;
-import com.tomcat360.lyqb.utils.DialogUtil;
-import com.tomcat360.lyqb.utils.FileUtils;
-import com.tomcat360.lyqb.utils.LyqbLogger;
-import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.utils.ToastUtils;
-import com.tomcat360.lyqb.view.APP;
-import com.tomcat360.lyqb.views.wheelPicker.picker.OptionPicker;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -50,44 +47,59 @@ import butterknife.Unbinder;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
-
 /**
  *
  */
 public class ImportMnemonicFragment extends BaseFragment {
 
+    public final static int MNEMONIC_SUCCESS = 1;
+
+    public final static int CREATE_SUCCESS = 2;
+
+    public final static int ERROR_ONE = 3;
+
+    public final static int ERROR_TWO = 4;
+
+    public final static int ERROR_THREE = 5;
+
+    public final static int ERROR_FOUR = 6;
+
     Unbinder unbinder;
+
     @BindView(R.id.et_mnemonic)
     MaterialEditText etMnemonic;
+
     @BindView(R.id.wallet_type)
     TextView walletType;
+
     @BindView(R.id.wallet_list)
     RelativeLayout walletList;
+
     @BindView(R.id.et_password)
     MaterialEditText etPassword;
+
     @BindView(R.id.btn_unlock)
     Button btnUnlock;
+
     @BindView(R.id.et_dpath)
     MaterialEditText etDpath;
+
     @BindView(R.id.rl_dpath)
     RelativeLayout rlDpath;
 
     private String dpath;
+
     private String address;//钱包地址
+
     private String filename;//钱包名称
+
     private LoopringService loopringService = new LoopringService();
 
-
-    public final static int MNEMONIC_SUCCESS = 1;
-    public final static int CREATE_SUCCESS = 2;
-    public final static int ERROR_ONE = 3;
-    public final static int ERROR_TWO = 4;
-    public final static int ERROR_THREE = 5;
-    public final static int ERROR_FOUR = 6;
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+
             super.handleMessage(msg);
             switch (msg.what) {
                 case MNEMONIC_SUCCESS:
@@ -107,17 +119,20 @@ public class ImportMnemonicFragment extends BaseFragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+
                             LyqbLogger.log("22222222" + address);
                             loopringService.notifyCreateWallet(address)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
                                         @Override
                                         public void onCompleted() {
+
                                             hideProgress();
 
                                             DialogUtil.showWalletCreateResultDialog(getContext(), new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
+
                                                     DialogUtil.dialog.dismiss();
                                                     AppManager.finishAll();
                                                     getOperation().forward(MainActivity.class);
@@ -127,12 +142,14 @@ public class ImportMnemonicFragment extends BaseFragment {
 
                                         @Override
                                         public void onError(Throwable e) {
+
                                             ToastUtils.toast("创建失败，请重试");
                                             hideProgress();
                                         }
 
                                         @Override
                                         public void onNext(String s) {
+
                                         }
                                     });
                         }
@@ -159,9 +176,11 @@ public class ImportMnemonicFragment extends BaseFragment {
     };
 
     public void getAddress() {
+
         new Thread() {
             @Override
             public void run() {
+
                 Message msg = handlerCreate.obtainMessage();
                 try {
                     address = FileUtils.getFileFromSD(getContext());
@@ -181,7 +200,6 @@ public class ImportMnemonicFragment extends BaseFragment {
 
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -193,18 +211,21 @@ public class ImportMnemonicFragment extends BaseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
 
     }
 
     @Override
     public void onStart() {
+
         super.onStart();
         EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
+
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
@@ -229,18 +250,19 @@ public class ImportMnemonicFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-//        looprHttpService = new LooprHttpService(G.RELAY_URL);
+        //        looprHttpService = new LooprHttpService(G.RELAY_URL);
     }
 
     @Override
     public void onDestroyView() {
+
         super.onDestroyView();
         unbinder.unbind();
     }
 
-
     @OnClick({R.id.wallet_list, R.id.btn_unlock})
     public void onViewClicked(View view) {
+
         switch (view.getId()) {
             case R.id.wallet_list:
                 walletChoose();
@@ -270,7 +292,8 @@ public class ImportMnemonicFragment extends BaseFragment {
                         }
                         dpath = etDpath.getText().toString();
                     }
-                    LyqbLogger.log(etMnemonic.getText().toString() + "   " + dpath + "   " + etPassword.getText().toString());
+                    LyqbLogger.log(etMnemonic.getText().toString() + "   " + dpath + "   " + etPassword.getText()
+                            .toString());
                     unlockWallet();
 
                 }
@@ -278,18 +301,21 @@ public class ImportMnemonicFragment extends BaseFragment {
         }
     }
 
-
     /**
      * 生成钱包
      */
     private void unlockWallet() {
+
         showProgress("加载中...");
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 WalletDetail walletDetail = null;
                 try {
-                    walletDetail = WalletHelper.createFromMnemonic(etMnemonic.getText().toString(), dpath, etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
+                    walletDetail = WalletHelper.createFromMnemonic(etMnemonic.getText()
+                            .toString(), dpath, etPassword.getText()
+                            .toString(), FileUtils.getKeyStoreLocation(getContext()));
                     filename = walletDetail.getFilename();
                     SPUtils.put(getContext(), "filename", filename);
                     handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
@@ -306,17 +332,15 @@ public class ImportMnemonicFragment extends BaseFragment {
      * 选择钱包类型
      */
     public void walletChoose() {
-        OptionPicker picker = new OptionPicker((Activity) getContext(), new String[]{
-                "Loopring Wallet", "Imtoken", "MetaMask", "TREZOR (ETH)", "Digital Bitbox", "Exodus", "Jaxx",
-                "Ledger (ETH)", "TREZOR (ETC)", "Ledger (ETC)", "SingularDTV", "Network: Testnets", "Network: Expanse",
-                "Network: Ubiq", "Network: Ellaism", "other"
-        });
+
+        OptionPicker picker = new OptionPicker((Activity) getContext(), new String[]{"Loopring Wallet", "Imtoken", "MetaMask", "TREZOR (ETH)", "Digital Bitbox", "Exodus", "Jaxx", "Ledger (ETH)", "TREZOR (ETC)", "Ledger (ETC)", "SingularDTV", "Network: Testnets", "Network: Expanse", "Network: Ubiq", "Network: Ellaism", "other"});
         picker.setOffset(1);
         picker.setSelectedIndex(0);
         picker.setTextSize(18);
         picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
             @Override
             public void onOptionPicked(int position, String option) {
+
                 LyqbLogger.log(position + "  ");
                 rlDpath.setVisibility(View.GONE);
                 if (position <= 6) {
@@ -347,6 +371,5 @@ public class ImportMnemonicFragment extends BaseFragment {
         });
         picker.show();
     }
-
 
 }

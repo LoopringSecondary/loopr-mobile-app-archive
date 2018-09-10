@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
     >
+
     <TextView
+        android:id="@+id/mnemonic_word"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:id="@+id/mnemonic_word"
+        android:button="@null"
+        android:gravity="center"
         android:text="mnemonic_word"
         android:textColor="@color/colorWhite"
-        android:gravity="center"
         android:textSize="@dimen/normal14Text"
-        android:button="@null"
         />
 </LinearLayout>

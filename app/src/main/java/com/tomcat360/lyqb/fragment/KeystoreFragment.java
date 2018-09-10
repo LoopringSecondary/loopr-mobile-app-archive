@@ -1,5 +1,12 @@
 package com.tomcat360.lyqb.fragment;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.FileUtils;
+import com.tomcat360.lyqb.utils.ToastUtils;
 
 import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
@@ -14,41 +21,39 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.utils.FileUtils;
-import com.tomcat360.lyqb.utils.ToastUtils;
-
-import org.json.JSONException;
-
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-
 
 /**
  *
  */
 public class KeystoreFragment extends BaseFragment {
 
+    public final static int KEYSTORE_SUCCESS = 1;
+
+    public final static int ERROR_ONE = 2;
+
+    public final static int ERROR_TWO = 3;
+
+    public String keystore;
+
+    public String filename;
+
     Unbinder unbinder;
+
     @BindView(R.id.tv_keystore)
     TextView tvKeystore;
+
     @BindView(R.id.btn_copy_keystore)
     Button btnCopyKeystore;
 
-    public String keystore;
-    public String filename;
-
-    public final static int KEYSTORE_SUCCESS = 1;
-    public final static int ERROR_ONE = 2;
-    public final static int ERROR_TWO = 3;
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+
             super.handleMessage(msg);
             switch (msg.what) {
                 case KEYSTORE_SUCCESS:
@@ -79,6 +84,7 @@ public class KeystoreFragment extends BaseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
 
     }
@@ -95,12 +101,14 @@ public class KeystoreFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 try {
-                     keystore = FileUtils.getKeystoreFromSD(getContext(),filename);
-                     handlerCreate.sendEmptyMessage(KEYSTORE_SUCCESS);
+                    keystore = FileUtils.getKeystoreFromSD(getContext(), filename);
+                    handlerCreate.sendEmptyMessage(KEYSTORE_SUCCESS);
                 } catch (IOException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();
@@ -112,13 +120,12 @@ public class KeystoreFragment extends BaseFragment {
         }).start();
     }
 
-
     @Override
     public void onDestroyView() {
+
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
     @OnClick(R.id.btn_copy_keystore)
     public void onViewClicked() {
@@ -129,6 +136,5 @@ public class KeystoreFragment extends BaseFragment {
         cm.setText(tvKeystore.getText());
         ToastUtils.toast("复制成功");
     }
-
 
 }

@@ -1,5 +1,16 @@
 package com.tomcat360.lyqb.views.wheelPicker.picker;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Locale;
+
+import com.tomcat360.lyqb.views.wheelPicker.DateUtils;
+import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
+
 import android.app.Activity;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -9,19 +20,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
-import com.tomcat360.lyqb.views.wheelPicker.DateUtils;
-import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Locale;
-
-
 /**
  * 日期选择器
  *
@@ -29,29 +27,33 @@ import java.util.Locale;
  * @since 2015/12/14
  */
 public class DatePicker extends WheelPicker {
+
     public static final int YEAR_MONTH_DAY = 0;//年月日
+
     public static final int YEAR_MONTH = 1;//年月
+
     public static final int MONTH_DAY = 2;//月日
+
     private ArrayList<String> years = new ArrayList<String>();
+
     private ArrayList<String> months = new ArrayList<String>();
+
     private ArrayList<String> days = new ArrayList<String>();
+
     private OnDatePickListener onDatePickListener;
+
     private String yearLabel = "年", monthLabel = "月", dayLabel = "日";
+
     private int startYear = 2010, startMonth = 1, startDay = 1;
+
     private int endYear = 2020, endMonth = 12, endDay = 31;
+
     private int selectedYearIndex = 0, selectedMonthIndex = 0, selectedDayIndex = 0;
+
     private int mode = YEAR_MONTH_DAY;
 
-    /**
-     * 安卓开发应避免使用枚举类（enum），因为相比于静态常量enum会花费两倍以上的内存。
-     * http://developer.android.com/training/articles/memory.html#Overhead
-     */
-    @IntDef(value = {YEAR_MONTH_DAY, YEAR_MONTH, MONTH_DAY})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Mode {
-    }
-
     public DatePicker(Activity activity) {
+
         this(activity, YEAR_MONTH_DAY);
     }
 
@@ -61,6 +63,7 @@ public class DatePicker extends WheelPicker {
      * @see #MONTH_DAY
      */
     public DatePicker(Activity activity, @Mode int mode) {
+
         super(activity);
         this.mode = mode;
     }
@@ -69,6 +72,7 @@ public class DatePicker extends WheelPicker {
      * 设置年月日的单位
      */
     public void setLabel(String yearLabel, String monthLabel, String dayLabel) {
+
         this.yearLabel = yearLabel;
         this.monthLabel = monthLabel;
         this.dayLabel = dayLabel;
@@ -81,6 +85,7 @@ public class DatePicker extends WheelPicker {
      */
     @Deprecated
     public void setRange(int startYear, int endYear) {
+
         this.startYear = startYear;
         this.endYear = endYear;
         changeYearData();
@@ -90,6 +95,7 @@ public class DatePicker extends WheelPicker {
      * 设置范围：开始的年月日
      */
     public void setRangeStart(int startYear, int startMonth, int startDay) {
+
         this.startYear = startYear;
         this.startMonth = startMonth;
         this.startDay = startDay;
@@ -99,6 +105,7 @@ public class DatePicker extends WheelPicker {
      * 设置范围：结束的年月日
      */
     public void setRangeEnd(int endYear, int endMonth, int endDay) {
+
         this.endYear = endYear;
         this.endMonth = endMonth;
         this.endDay = endDay;
@@ -108,6 +115,7 @@ public class DatePicker extends WheelPicker {
      * 设置范围：开始的年月日
      */
     public void setRangeStart(int startYearOrMonth, int startMonthOrDay) {
+
         if (mode == YEAR_MONTH_DAY) {
             throw new IllegalArgumentException();
         }
@@ -126,6 +134,7 @@ public class DatePicker extends WheelPicker {
      * 设置范围：结束的年月日
      */
     public void setRangeEnd(int endYearOrMonth, int endMonthOrDay) {
+
         if (mode == YEAR_MONTH_DAY) {
             throw new IllegalArgumentException();
         }
@@ -142,6 +151,7 @@ public class DatePicker extends WheelPicker {
      * 设置默认选中的年月日
      */
     public void setSelectedItem(int year, int month, int day) {
+
         changeYearData();
         changeMonthData(year);
         changeDayData(year, month);
@@ -154,6 +164,7 @@ public class DatePicker extends WheelPicker {
      * 设置默认选中的年月或者月日
      */
     public void setSelectedItem(int yearOrMonth, int monthOrDay) {
+
         if (mode == MONTH_DAY) {
             int year = Calendar.getInstance(Locale.CHINA).get(Calendar.YEAR);
             startYear = endYear = year;
@@ -171,12 +182,14 @@ public class DatePicker extends WheelPicker {
     }
 
     public void setOnDatePickListener(OnDatePickListener listener) {
+
         this.onDatePickListener = listener;
     }
 
     @Override
     @NonNull
     protected View makeCenterView() {
+
         if (months.size() == 0) {
             // 如果未设置默认项，则需要在此初始化数据
             int year = Calendar.getInstance(Locale.CHINA).get(Calendar.YEAR);
@@ -255,6 +268,7 @@ public class DatePicker extends WheelPicker {
             yearView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
                 @Override
                 public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
+
                     selectedYearIndex = selectedIndex;
                     //需要根据年份及月份动态计算天数
                     int year = DateUtils.trimZero(item);
@@ -275,6 +289,7 @@ public class DatePicker extends WheelPicker {
         monthView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
+
                 selectedMonthIndex = selectedIndex;
                 if (mode != YEAR_MONTH) {
                     changeDayData(DateUtils.trimZero(years.get(selectedYearIndex)), DateUtils.trimZero(item));
@@ -290,6 +305,7 @@ public class DatePicker extends WheelPicker {
             dayView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
                 @Override
                 public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
+
                     selectedDayIndex = selectedIndex;
                 }
             });
@@ -302,6 +318,7 @@ public class DatePicker extends WheelPicker {
         int index = Collections.binarySearch(items, item, new Comparator<Object>() {
             @Override
             public int compare(Object lhs, Object rhs) {
+
                 String lhsStr = lhs.toString();
                 String rhsStr = rhs.toString();
                 lhsStr = lhsStr.startsWith("0") ? lhsStr.substring(1) : lhsStr;
@@ -316,6 +333,7 @@ public class DatePicker extends WheelPicker {
     }
 
     private void changeYearData() {
+
         years.clear();
         if (startYear == endYear) {
             years.add(String.valueOf(startYear));
@@ -333,6 +351,7 @@ public class DatePicker extends WheelPicker {
     }
 
     private int changeMonthData(int year) {
+
         String preSelectMonth = months.size() > selectedMonthIndex ? months.get(selectedMonthIndex) : null;
         months.clear();
         if (startYear == endYear) {
@@ -359,6 +378,7 @@ public class DatePicker extends WheelPicker {
     }
 
     private void changeDayData(int year, int month) {
+
         String preSelectDay = days.size() > selectedDayIndex ? days.get(selectedDayIndex) : null;
         days.clear();
         int maxDays = DateUtils.calculateDaysInMonth(year, month);
@@ -389,6 +409,7 @@ public class DatePicker extends WheelPicker {
 
     @Override
     protected void onSubmit() {
+
         if (onDatePickListener == null) {
             return;
         }
@@ -409,15 +430,28 @@ public class DatePicker extends WheelPicker {
     }
 
     public String getSelectedYear() {
+
         return years.get(selectedYearIndex);
     }
 
     public String getSelectedMonth() {
+
         return months.get(selectedMonthIndex);
     }
 
     public String getSelectedDay() {
+
         return days.get(selectedDayIndex);
+    }
+
+    /**
+     * 安卓开发应避免使用枚举类（enum），因为相比于静态常量enum会花费两倍以上的内存。
+     * http://developer.android.com/training/articles/memory.html#Overhead
+     */
+    @IntDef(value = {YEAR_MONTH_DAY, YEAR_MONTH, MONTH_DAY})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Mode {
+
     }
 
     protected interface OnDatePickListener {

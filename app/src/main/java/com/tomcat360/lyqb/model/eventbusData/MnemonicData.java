@@ -5,17 +5,21 @@ package com.tomcat360.lyqb.model.eventbusData;
  */
 
 public class MnemonicData {
+
     private String mnemonic;
 
     public MnemonicData(String mnemonic) {
+
         this.mnemonic = mnemonic;
     }
 
     public String getMnemonic() {
+
         return mnemonic;
     }
 
     public void setMnemonic(String mnemonic) {
+
         this.mnemonic = mnemonic;
     }
 }

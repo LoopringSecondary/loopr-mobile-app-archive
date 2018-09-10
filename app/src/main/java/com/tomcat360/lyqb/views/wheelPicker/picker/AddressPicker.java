@@ -1,19 +1,18 @@
 package com.tomcat360.lyqb.views.wheelPicker.picker;
 
-import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.LinearLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.tomcat360.lyqb.views.wheelPicker.entity.City;
 import com.tomcat360.lyqb.views.wheelPicker.entity.County;
 import com.tomcat360.lyqb.views.wheelPicker.entity.Province;
 import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import android.app.Activity;
+import android.support.annotation.NonNull;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
 
 /**
  * 地址选择器（包括省级、地级、县级）。
@@ -26,20 +25,26 @@ import java.util.List;
  * @since 2015/12/15
  */
 public class AddressPicker extends LinkagePicker {
+
     private OnAddressPickListener onAddressPickListener;
+
     //只显示地市及区县
     private boolean hideProvince = false;
+
     //只显示省份及地市
     private boolean hideCounty = false;
+
     //省市县数据
     private List<Province> provinceList = new ArrayList<Province>();
 
     public AddressPicker(Activity activity, ArrayList<Province> data) {
+
         super(activity);
         parseData(data);
     }
 
     private void parseData(ArrayList<Province> data) {
+
         int provinceSize = data.size();
         provinceList.clear();
         provinceList.addAll(data);
@@ -77,54 +82,64 @@ public class AddressPicker extends LinkagePicker {
      * 设置默认选中的省市县
      */
     public void setSelectedItem(String province, String city, String county) {
+
         super.setSelectedItem(province, city, county);
     }
 
     @Deprecated
     @Override
     public int getSelectedFirstIndex() {
+
         return super.getSelectedFirstIndex();
     }
 
     @Deprecated
     @Override
     public int getSelectedSecondIndex() {
+
         return super.getSelectedSecondIndex();
     }
 
     @Deprecated
     @Override
     public int getSelectedThirdIndex() {
+
         return super.getSelectedThirdIndex();
     }
 
     @Deprecated
     @Override
     public String getSelectedFirstText() {
+
         return super.getSelectedFirstText();
     }
 
     @Deprecated
     @Override
     public String getSelectedSecondText() {
+
         return super.getSelectedSecondText();
     }
 
     @Deprecated
     @Override
     public String getSelectedThirdText() {
+
         return super.getSelectedThirdText();
     }
 
     public Province getSelectedProvince() {
+
         return provinceList.get(selectedFirstIndex);
     }
 
     public City getSelectedCity() {
+
         return getSelectedProvince().getCities().get(selectedSecondIndex);
     }
 
     public County getSelectedCounty() {
+
         return getSelectedCity().getCounties().get(selectedThirdIndex);
     }
 
@@ -134,6 +149,7 @@ public class AddressPicker extends LinkagePicker {
      * 参见示例中的“assets/city2.json”
      */
     public void setHideProvince(boolean hideProvince) {
+
         this.hideProvince = hideProvince;
     }
 
@@ -143,22 +159,26 @@ public class AddressPicker extends LinkagePicker {
      * 数据源依然使用“assets/city.json” 仅在逻辑上隐藏县级选择框，实际项目中应该去掉县级数据。
      */
     public void setHideCounty(boolean hideCounty) {
+
         this.hideCounty = hideCounty;
     }
 
     public void setOnAddressPickListener(OnAddressPickListener listener) {
+
         this.onAddressPickListener = listener;
     }
 
     @Deprecated
     @Override
     public void setOnLinkageListener(OnLinkageListener onLinkageListener) {
+
         throw new UnsupportedOperationException("Please use setOnAddressPickListener instead.");
     }
 
     @NonNull
     @Override
     protected View makeCenterView() {
+
         if (hideCounty) {
             hideProvince = false;
         }
@@ -211,6 +231,7 @@ public class AddressPicker extends LinkagePicker {
         provinceView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
+
                 selectedFirstText = item;
                 selectedFirstIndex = selectedIndex;
                 selectedThirdIndex = 0;
@@ -235,6 +256,7 @@ public class AddressPicker extends LinkagePicker {
         cityView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
+
                 selectedSecondText = item;
                 selectedSecondIndex = selectedIndex;
                 //根据地市获取区县
@@ -254,6 +276,7 @@ public class AddressPicker extends LinkagePicker {
         countyView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
+
                 selectedThirdText = item;
                 selectedThirdIndex = selectedIndex;
             }
@@ -263,6 +286,7 @@ public class AddressPicker extends LinkagePicker {
 
     @Override
     public void onSubmit() {
+
         if (onAddressPickListener != null) {
             Province province = getSelectedProvince();
             City city = getSelectedCity();

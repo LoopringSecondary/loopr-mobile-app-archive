@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
 
     <com.tomcat360.lyqb.views.TitleView
         android:id="@+id/title"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:id="@+id/ll_manager_wallet"
@@ -35,7 +35,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_trades" />
+                android:src="@mipmap/icon_trades"/>
 
             <TextView
                 android:id="@+id/send_wallet_name"
@@ -45,7 +45,7 @@
                 android:gravity="center_vertical"
                 android:text="LRC"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
             <TextView
                 android:id="@+id/send_wallet_count"
@@ -57,13 +57,13 @@
                 android:gravity="center_vertical|end"
                 android:text="0.000 LRC"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/icon_next" />
+                android:src="@mipmap/icon_next"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -97,8 +97,8 @@
                 android:focusableInTouchMode="true"
                 android:hint="@string/enter_the_address"
                 android:imeOptions="actionNext"
-                android:singleLine="true"
                 android:maxLength="100"
+                android:singleLine="true"
                 android:textColorHint="@color/black"
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:textSize="@dimen/normalText"
@@ -107,7 +107,7 @@
                 app:met_floatingLabel="none"
                 app:met_helperTextColor="@color/black"
                 app:met_hideUnderline="true"
-                app:met_primaryColor="@color/black" />
+                app:met_primaryColor="@color/black"/>
 
             <ImageView
                 android:id="@+id/iv_scan"
@@ -115,7 +115,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/margSide"
-                android:src="@mipmap/icon_scan_light" />
+                android:src="@mipmap/icon_scan_light"/>
         </LinearLayout>
 
         <TextView
@@ -127,7 +127,7 @@
             android:gravity="center_vertical"
             android:text="@string/address_confirm"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/normal14Text" />
+            android:textSize="@dimen/normal14Text"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -144,10 +144,10 @@
                 android:layout_marginLeft="@dimen/margSide"
                 android:layout_weight="1"
                 android:ellipsize="middle"
-                android:inputType="number|numberDecimal"
                 android:focusableInTouchMode="true"
                 android:hint="@string/enter_the_amount"
                 android:imeOptions="actionNext"
+                android:inputType="number|numberDecimal"
                 android:singleLine="true"
                 android:textColorHint="@color/black"
                 android:textCursorDrawable="@drawable/color_cursor"
@@ -157,7 +157,7 @@
                 app:met_floatingLabel="none"
                 app:met_helperTextColor="@color/black"
                 app:met_hideUnderline="true"
-                app:met_primaryColor="@color/black" />
+                app:met_primaryColor="@color/black"/>
 
             <TextView
                 android:id="@+id/wallet_name2"
@@ -167,7 +167,7 @@
                 android:layout_marginRight="@dimen/margSide"
                 android:text="LRC"
                 android:textColor="@color/black"
-                android:textSize="@dimen/normalText" />
+                android:textSize="@dimen/normalText"/>
         </LinearLayout>
 
         <TextView
@@ -179,7 +179,7 @@
             android:gravity="center_vertical"
             android:text="@string/imput_valid_amount"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/normal14Text" />
+            android:textSize="@dimen/normal14Text"/>
 
         <com.tomcat360.lyqb.views.RangeSeekBar
             android:id="@+id/seekBar"
@@ -199,7 +199,7 @@
             app:seekBarMode="single"
             app:thumbPrimaryColor="@color/colorGreen"
             app:thumbSecondaryColor="@color/colorGreen"
-            app:thumbSize="16dp" />
+            app:thumbSize="16dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -212,25 +212,25 @@
                 android:layout_gravity="center_horizontal"
                 android:text="0%"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normalText" />
+                android:textSize="@dimen/normalText"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_horizontal"
-                android:text="100%"
                 android:layout_marginRight="5dp"
+                android:text="100%"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normalText" />
+                android:textSize="@dimen/normalText"/>
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/ll_show_fee"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
@@ -239,7 +239,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/transacition_fee"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
             <TextView
                 android:id="@+id/transacition_fee"
@@ -250,13 +250,13 @@
                 android:gravity="center_vertical|end"
                 android:text="0.0002 ETH ≈ ¥1.22"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/icon_next" />
+                android:src="@mipmap/icon_next"/>
         </LinearLayout>
 
         <LinearLayout
@@ -278,7 +278,7 @@
                 android:layout_weight="1"
                 android:text="@string/send"
                 android:textAllCaps="false"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -24,7 +24,6 @@
     <dimen name="font_44">44sp</dimen>
 
 
-
     <dimen name="margSide">12dp</dimen>  <!-- 边距12dp -->
     <dimen name="mainTabIcon">20dp</dimen>  <!-- 首页tab——imageview尺寸大小 -->
     <dimen name="mainTabText">12dp</dimen>  <!-- 首页tab——textview尺寸大小 -->

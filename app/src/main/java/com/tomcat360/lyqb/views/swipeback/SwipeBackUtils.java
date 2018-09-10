@@ -1,17 +1,18 @@
-
 package com.tomcat360.lyqb.views.swipeback;
+
+import java.lang.reflect.Method;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.os.Build;
 
-import java.lang.reflect.Method;
-
 /**
  * Created by Chaojun Wang on 6/9/14.
  */
 public class SwipeBackUtils {
+
     private SwipeBackUtils() {
+
     }
 
     /**
@@ -27,6 +28,7 @@ public class SwipeBackUtils {
      * with the {@link android.R.attr#windowIsFloating} attribute.
      */
     public static void convertActivityFromTranslucent(Activity activity) {
+
         try {
             Method method = Activity.class.getDeclaredMethod("convertFromTranslucent");
             method.setAccessible(true);
@@ -48,6 +50,7 @@ public class SwipeBackUtils {
      * with the {@link android.R.attr#windowIsFloating} attribute.
      */
     public static void convertActivityToTranslucent(Activity activity) {
+
         try {
             Class<?>[] classes = Activity.class.getDeclaredClasses();
             Class<?> translucentConversionListenerClazz = null;
@@ -56,25 +59,20 @@ public class SwipeBackUtils {
                     translucentConversionListenerClazz = clazz;
                 }
             }
-//            Method method = Activity.class.getDeclaredMethod("convertToTranslucent",
-//                    translucentConversionListenerClazz);
-//            method.setAccessible(true);
-//            method.invoke(activity, new Object[] {null });
-            
-			if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-				Method method = Activity.class.getDeclaredMethod(
-						"convertToTranslucent",
-						translucentConversionListenerClazz);
-				method.setAccessible(true);
-				method.invoke(activity, new Object[] { null });
-			} else {
-				Method method = Activity.class.getDeclaredMethod(
-						"convertToTranslucent",
-						translucentConversionListenerClazz,
-						ActivityOptions.class);
-				method.setAccessible(true);
-				method.invoke(activity, null, null);
-			}
+            //            Method method = Activity.class.getDeclaredMethod("convertToTranslucent",
+            //                    translucentConversionListenerClazz);
+            //            method.setAccessible(true);
+            //            method.invoke(activity, new Object[] {null });
+
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                Method method = Activity.class.getDeclaredMethod("convertToTranslucent", translucentConversionListenerClazz);
+                method.setAccessible(true);
+                method.invoke(activity, new Object[]{null});
+            } else {
+                Method method = Activity.class.getDeclaredMethod("convertToTranslucent", translucentConversionListenerClazz, ActivityOptions.class);
+                method.setAccessible(true);
+                method.invoke(activity, null, null);
+            }
         } catch (Throwable t) {
         }
     }

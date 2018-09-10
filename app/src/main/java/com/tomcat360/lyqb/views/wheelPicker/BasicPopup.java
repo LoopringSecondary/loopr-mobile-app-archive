@@ -20,19 +20,31 @@ import android.view.Window;
  * @since 2015/7/19
  */
 public abstract class BasicPopup<V extends View> implements DialogInterface.OnKeyListener {
+
     public static final int MATCH_PARENT = ViewGroup.LayoutParams.MATCH_PARENT;
+
     public static final int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
+
     protected Activity activity;
+
     protected int screenWidthPixels;
+
     protected int screenHeightPixels;
+
     private PopupDialog popupDialog;
+
     private int width = 0, height = 0;
+
     private boolean isFillScreen = false;
+
     private boolean isHalfScreen = false;
+
     private boolean isPrepared = false;
+
     private int gravity = Gravity.BOTTOM;//默认位于屏幕底部
 
     public BasicPopup(Activity activity) {
+
         this.activity = activity;
         DisplayMetrics displayMetrics = ScreenUtils.displayMetrics(activity);
         screenWidthPixels = displayMetrics.widthPixels;
@@ -52,6 +64,7 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
      * 弹出窗显示之前调用
      */
     private void onShowPrepare() {
+
         if (isPrepared) {
             return;
         }
@@ -86,6 +99,7 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
      * @param fillScreen true为全屏
      */
     public void setFillScreen(boolean fillScreen) {
+
         isFillScreen = fillScreen;
     }
 
@@ -95,6 +109,7 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
      * @param halfScreen true为半屏
      */
     public void setHalfScreen(boolean halfScreen) {
+
         isHalfScreen = halfScreen;
     }
 
@@ -104,6 +119,7 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
      * @see Gravity
      */
     public void setGravity(int gravity) {
+
         this.gravity = gravity;
         if (gravity == Gravity.CENTER) {
             setWidth((int) (screenWidthPixels * 0.7));
@@ -114,6 +130,7 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
      * 设置弹窗的内容视图之前执行
      */
     protected void setContentViewBefore() {
+
     }
 
     /**
@@ -122,13 +139,16 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
      * @param contentView 弹窗的内容视图
      */
     protected void setContentViewAfter(V contentView) {
+
     }
 
     public void setAnimationStyle(@StyleRes int animRes) {
+
         popupDialog.setAnimationStyle(animRes);
     }
 
     public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+
         popupDialog.setOnDismissListener(onDismissListener);
         LogUtils.verbose("popup setOnDismissListener");
     }
@@ -152,6 +172,7 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
      * @see #setSize(int, int)
      */
     public void setWidth(int width) {
+
         this.width = width;
     }
 
@@ -162,31 +183,37 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
      * @see #setSize(int, int)
      */
     public void setHeight(int height) {
+
         this.height = height;
     }
 
     public boolean isShowing() {
+
         return popupDialog.isShowing();
     }
 
     @CallSuper
     public void show() {
+
         onShowPrepare();
         popupDialog.show();
         LogUtils.verbose("popup show");
     }
 
     public void dismiss() {
+
         popupDialog.dismiss();
         LogUtils.verbose("popup dismiss");
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+
         return false;
     }
 
     @Override
     public final boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             return onKeyDown(keyCode, event);
         }
@@ -194,10 +221,12 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
     }
 
     public Context getContext() {
+
         return popupDialog.getContext();
     }
 
     public Window getWindow() {
+
         return popupDialog.getWindow();
     }
 
@@ -205,6 +234,7 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
      * 弹框的内容视图
      */
     public View getContentView() {
+
         return popupDialog.getContentView();
     }
 
@@ -212,6 +242,7 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
      * 弹框的根视图
      */
     public ViewGroup getRootView() {
+
         return popupDialog.getRootView();
     }
 

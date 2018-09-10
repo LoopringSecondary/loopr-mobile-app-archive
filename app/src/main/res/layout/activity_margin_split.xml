@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/colorPrimary"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical"
     >
+
     <com.tomcat360.lyqb.views.TitleView
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
+
     <TextView
         android:id="@+id/tv_margin"
         android:layout_width="match_parent"
@@ -18,10 +20,10 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="18dp"
-        android:text="差价分成2%"
         android:inputType="textMultiLine"
-        android:textSize="@dimen/normalText"
+        android:text="差价分成2%"
         android:textColor="@color/colorWhite"
+        android:textSize="@dimen/normalText"
         />
 
     <com.tomcat360.lyqb.views.RangeSeekBar
@@ -32,40 +34,42 @@
         android:layout_marginStart="0dp"
         android:padding="5dp"
         app:cellMode="number"
+        app:hideProgressHint="true"
         app:lineColorEdge="#444444"
         app:lineColorSelected="@color/colorGreen"
-        app:thumbPrimaryColor="@color/colorGreen"
-        app:thumbSecondaryColor="@color/colorGreen"
-        app:hideProgressHint="true"
         app:maxValue="100"
         app:minValue="0"
         app:progressHintResId="@drawable/progress_hint_bg3"
         app:seekBarHeight="5dp"
         app:seekBarMode="single"
-        app:thumbSize="16dp" />
+        app:thumbPrimaryColor="@color/colorGreen"
+        app:thumbSecondaryColor="@color/colorGreen"
+        app:thumbSize="16dp"/>
 
-     <RelativeLayout
-         android:layout_marginTop="18dp"
-         android:layout_marginLeft="20dp"
-         android:layout_marginRight="20dp"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content">
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center_horizontal"
-             android:text="0%"
-             android:textSize="@dimen/normalText"
-             android:textColor="@color/colorWhite"
-             />
-         <TextView
-             android:layout_alignParentRight="true"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center_horizontal"
-             android:text="100%"
-             android:textSize="@dimen/normalText"
-             android:textColor="@color/colorWhite"
-             />
-     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="18dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="0%"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/normalText"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_horizontal"
+            android:text="100%"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/normalText"
+            />
+    </RelativeLayout>
 </LinearLayout>

@@ -1,5 +1,18 @@
 package com.tomcat360.lyqb.fragment;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lyqb.walletsdk.listener.TransactionListener;
+import com.lyqb.walletsdk.model.response.data.Transaction;
+import com.lyqb.walletsdk.model.response.data.TransactionPageWrapper;
+import com.lyqb.walletsdk.util.UnitConverter;
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.adapter.WalletAllAdapter;
+import com.tomcat360.lyqb.utils.DateUtil;
+import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.utils.SPUtils;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,25 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.lyqb.walletsdk.listener.TransactionListener;
-import com.lyqb.walletsdk.model.response.data.Transaction;
-import com.lyqb.walletsdk.model.response.data.TransactionPageWrapper;
-import com.lyqb.walletsdk.util.UnitConverter;
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.adapter.WalletAllAdapter;
-import com.tomcat360.lyqb.utils.DateUtil;
-import com.tomcat360.lyqb.utils.LyqbLogger;
-import com.tomcat360.lyqb.utils.NumberUtils;
-import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.views.RangeSeekBar;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,21 +34,40 @@ import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 
-
 /**
  *
  */
 public class WalletAllFragment extends BaseFragment {
 
     Unbinder unbinder;
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
     private WalletAllAdapter mAdapter;
+
     private TransactionListener transactionListener = new TransactionListener();
+
     private String address;
+
     private String symbol;
+
     private List<Transaction> list;
 
+    /**
+     * @param context
+     */
+    private AlertDialog dialog;
+
+    private TextView receiveAmount;
+
+    private TextView receiveStatus;
+
+    private TextView receiveTo;
+
+    private TextView receiveForm;
+
+    private TextView receiveDate;
 
     @Nullable
     @Override
@@ -69,6 +83,7 @@ public class WalletAllFragment extends BaseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
 
     }
@@ -80,10 +95,12 @@ public class WalletAllFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+
     }
 
     @Override
     protected void initData() {
+
         address = (String) SPUtils.get(getContext(), "address", "");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -94,44 +111,36 @@ public class WalletAllFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                showDetailDialog(getContext(),list.get(position));
+
+                showDetailDialog(getContext(), list.get(position));
             }
         });
 
         Observable<TransactionPageWrapper> observable = transactionListener.start();
-        observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<TransactionPageWrapper>() {
-                    @Override
-                    public void onCompleted() {
+        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<TransactionPageWrapper>() {
+            @Override
+            public void onCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
+            @Override
+            public void onError(Throwable e) {
 
-                    }
+            }
 
-                    @Override
-                    public void onNext(TransactionPageWrapper transactionPageWrapper) {
-                        LyqbLogger.log(transactionPageWrapper.getData().toString());
-                        list = transactionPageWrapper.getData();
-                        mAdapter.setNewData(list);
-                    }
-                });
+            @Override
+            public void onNext(TransactionPageWrapper transactionPageWrapper) {
+
+                LyqbLogger.log(transactionPageWrapper.getData().toString());
+                list = transactionPageWrapper.getData();
+                mAdapter.setNewData(list);
+            }
+        });
         transactionListener.queryByOwnerAndSymbol(address, symbol, 1, 20);
     }
 
-    /**
-     * @param context
-     */
-    private AlertDialog dialog;
-    private TextView receiveAmount;
-    private TextView receiveStatus;
-    private TextView receiveTo;
-    private TextView receiveForm;
-    private TextView receiveDate;
-
     public void showDetailDialog(Context context, Transaction transaction) {
+
         if (dialog == null) {
             final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);//
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_trade_detail, null);
@@ -150,9 +159,10 @@ public class WalletAllFragment extends BaseFragment {
             window.setGravity(Gravity.BOTTOM);
         }
         BigDecimal value = UnitConverter.weiToEth(transaction.getValue()); //wei转成eth
-        String amount = value.toPlainString().length() > 8 ? value.toPlainString().substring(0, 8) : value.toPlainString();
+        String amount = value.toPlainString().length() > 8 ? value.toPlainString()
+                .substring(0, 8) : value.toPlainString();
 
-        receiveAmount.setText(amount+" "+symbol);
+        receiveAmount.setText(amount + " " + symbol);
         receiveStatus.setText(transaction.getStatus());
         receiveTo.setText(transaction.getTo());
         receiveForm.setText(transaction.getFrom());
@@ -164,9 +174,9 @@ public class WalletAllFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
+
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
 }

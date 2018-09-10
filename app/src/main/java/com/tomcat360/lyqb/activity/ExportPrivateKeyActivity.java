@@ -1,5 +1,18 @@
 package com.tomcat360.lyqb.activity;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+
+import com.lyqb.walletsdk.WalletHelper;
+import com.lyqb.walletsdk.exception.IllegalCredentialException;
+import com.lyqb.walletsdk.exception.InvalidKeystoreException;
+import com.lyqb.walletsdk.model.Account;
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.FileUtils;
+import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.views.TitleView;
+
 import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -9,44 +22,34 @@ import android.os.Message;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.lyqb.walletsdk.WalletHelper;
-import com.lyqb.walletsdk.exception.IllegalCredentialException;
-import com.lyqb.walletsdk.exception.InvalidKeystoreException;
-import com.lyqb.walletsdk.model.Account;
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.utils.FileUtils;
-import com.tomcat360.lyqb.utils.LyqbLogger;
-import com.tomcat360.lyqb.utils.ToastUtils;
-import com.tomcat360.lyqb.views.TitleView;
-
-import org.json.JSONException;
-
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ExportPrivateKeyActivity extends BaseActivity {
 
+    public final static int ERROR_ONE = 1;
+
+    public final static int ERROR_TWO = 2;
+
+    public final static int ERROR_THREE = 3;
+
+    public final static int ERROR_FOUR = 4;
+
     @BindView(R.id.title)
     TitleView title;
+
     @BindView(R.id.tv_private_key)
     TextView tvPrivateKey;
+
     @BindView(R.id.btn_copy_private_key)
     Button btnCopyPrivateKey;
 
-    private String filename;
-    private String address;
-
-    public final static int ERROR_ONE = 1;
-    public final static int ERROR_TWO = 2;
-    public final static int ERROR_THREE = 3;
-    public final static int ERROR_FOUR = 4;
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+
             super.handleMessage(msg);
             switch (msg.what) {
                 case ERROR_ONE:
@@ -67,8 +70,13 @@ public class ExportPrivateKeyActivity extends BaseActivity {
 
     };
 
+    private String filename;
+
+    private String address;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         setContentView(R.layout.activity_export_private_key);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
@@ -76,23 +84,26 @@ public class ExportPrivateKeyActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
+
         title.setBTitle(getResources().getString(R.string.export_private_key));
         title.clickLeftGoBack(getWContext());
     }
 
     @Override
     public void initView() {
+
         filename = getIntent().getStringExtra("filename");
         address = getIntent().getStringExtra("address");
     }
 
     @Override
     public void initData() {
+
         String password = getIntent().getStringExtra("password");
         Account account = null;
         String keystore = null;
         try {
-            keystore = FileUtils.getKeystoreFromSD(this,filename);
+            keystore = FileUtils.getKeystoreFromSD(this, filename);
             account = WalletHelper.unlockWallet(password, keystore); //获取account信息，里面有privatekey
             tvPrivateKey.setText(account.getPrivateKey());
 
@@ -111,7 +122,6 @@ public class ExportPrivateKeyActivity extends BaseActivity {
         }
     }
 
-
     @OnClick(R.id.btn_copy_private_key)
     public void onViewClicked() {
         // 从API11开始android推荐使用android.content.ClipboardManager
@@ -121,6 +131,5 @@ public class ExportPrivateKeyActivity extends BaseActivity {
         cm.setText(tvPrivateKey.getText());
         ToastUtils.toast("复制成功");
     }
-
 
 }

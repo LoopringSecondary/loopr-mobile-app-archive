@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical"
     >
+
     <com.tomcat360.lyqb.views.TitleView
         android:id="@+id/title"
         android:layout_width="fill_parent"
@@ -26,7 +27,7 @@
             android:layout_marginTop="24dp"
             android:text="37,013.79"
             android:textColor="@color/colorWhite"
-            android:textSize="32sp" />
+            android:textSize="32sp"/>
 
         <LinearLayout
             style="@style/MatchWrap.Horizontal"
@@ -39,31 +40,33 @@
                 style="@style/WrapWrap"
                 android:text="$367,822.11"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text" />
+                android:textSize="@dimen/normal14Text"/>
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/wallet_qrcode"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="3dp"
-                android:src="@mipmap/icon_wallet_qrcode" />
+                android:src="@mipmap/icon_wallet_qrcode"
+                android:visibility="gone"/>
         </LinearLayout>
     </RelativeLayout>
+
     <android.support.design.widget.TabLayout
-        android:layout_marginLeft="@dimen/margSide"
-        android:layout_marginRight="@dimen/margSide"
-        android:layout_marginTop="10dp"
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
-        app:tabSelectedTextColor="@color/colorWhite"
         app:tabIndicatorColor="#FA4A6F"
+        app:tabSelectedTextColor="@color/colorWhite"
         app:tabTextAppearance="@style/TabLayoutTextAppearance"
         />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
@@ -74,8 +77,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
         android:layout_marginTop="10dp"
+        android:orientation="horizontal"
         android:paddingBottom="32dp"
         >
 
@@ -88,7 +91,7 @@
             android:layout_weight="1"
             android:text="Receive"
             android:textAllCaps="false"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"/>
 
         <Button
             android:id="@+id/btn_send"
@@ -99,7 +102,7 @@
             android:layout_weight="1"
             android:text="Send"
             android:textAllCaps="false"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"/>
 
     </LinearLayout>
 </LinearLayout>

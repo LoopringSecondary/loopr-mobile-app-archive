@@ -1,5 +1,6 @@
 package com.tomcat360.lyqb.fragment;
 
+import com.tomcat360.lyqb.R;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,17 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tomcat360.lyqb.R;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-
 
 /**
  *
  */
-public class TradeFragment extends BaseFragment  {
+public class TradeFragment extends BaseFragment {
 
     Unbinder unbinder;
 
@@ -32,6 +29,7 @@ public class TradeFragment extends BaseFragment  {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
 
     }
@@ -51,12 +49,11 @@ public class TradeFragment extends BaseFragment  {
 
     }
 
-
     @Override
     public void onDestroyView() {
+
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
 }
