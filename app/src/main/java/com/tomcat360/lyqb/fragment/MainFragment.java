@@ -344,7 +344,6 @@ public class MainFragment extends BaseFragment {
                     amount += token.getLegalValue();
                 }
             }
-            SPUtils.put(getContext(), "amount", amount);
             moneyValue = BigDecimal.valueOf(amount);
             walletCount.setText((String) SPUtils.get(getContext(), "coin", "¥") + amount);
             mAdapter.setNewData(listChooseToken);
