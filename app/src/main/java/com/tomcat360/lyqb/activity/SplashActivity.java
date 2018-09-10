@@ -35,6 +35,10 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
+    protected void initPresenter() {
+    }
+
+    @Override
     public void initTitle() {
     }
 

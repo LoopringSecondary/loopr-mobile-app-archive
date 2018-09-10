@@ -57,6 +57,10 @@ public class ImportWalletActivity extends BaseActivity {
     }
 
     @Override
+    protected void initPresenter() {
+    }
+
+    @Override
     public void initTitle() {
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.SYSTEM_ALERT_WINDOW)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 100);

@@ -46,6 +46,10 @@ public class ExportMatchPasSafeActivity extends BaseActivity {
     }
 
     @Override
+    protected void initPresenter() {
+    }
+
+    @Override
     public void initTitle() {
         type = getIntent().getIntExtra("type", 1);
         title.setBTitle(getResources().getString(R.string.match_password));

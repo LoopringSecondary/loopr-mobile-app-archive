@@ -64,6 +64,10 @@ public class WalletDetailActivity extends BaseActivity {
     }
 
     @Override
+    protected void initPresenter() {
+    }
+
+    @Override
     public void initTitle() {
         symbol = getIntent().getStringExtra("symbol");
         moneyValue = getIntent().getStringExtra("moneyValue");

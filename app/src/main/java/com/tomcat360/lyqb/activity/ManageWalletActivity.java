@@ -101,4 +101,8 @@ public class ManageWalletActivity extends BaseActivity {
         List<WalletEntity> list = SPUtils.getWalletDataList(ManageWalletActivity.this, "walletlist", WalletEntity.class);
         mAdapter.setNewData(list);
     }
+
+    @Override
+    protected void initPresenter() {
+    }
 }

@@ -60,6 +60,10 @@ public class CoverActivity extends BaseActivity {
         super.onResume();
     }
 
+    @Override
+    protected void initPresenter() {
+    }
+
     @OnClick({R.id.rl_import, R.id.rl_generate, R.id.icon})
     public void onViewClicked(View view) {
         switch (view.getId()) {

@@ -108,6 +108,10 @@ public class ReceiveActivity extends BaseActivity {
     }
 
     @Override
+    protected void initPresenter() {
+    }
+
+    @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.receive_code));
         title.clickLeftGoBack(getWContext());

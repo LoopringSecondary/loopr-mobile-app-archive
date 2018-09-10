@@ -42,6 +42,10 @@ public class ReviseWalletNameActivity extends BaseActivity {
     }
 
     @Override
+    protected void initPresenter() {
+    }
+
+    @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.wallet_name));
         title.clickLeftGoBack(getWContext());

@@ -21,6 +21,10 @@ public class TempleteActivity extends BaseActivity {
     }
 
     @Override
+    protected void initPresenter() {
+    }
+
+    @Override
     public void initTitle() {
         title.setBTitle("");
         title.clickLeftGoBack(getWContext());

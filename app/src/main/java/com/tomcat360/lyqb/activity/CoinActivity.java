@@ -38,6 +38,10 @@ public class CoinActivity extends BaseActivity {
     }
 
     @Override
+    protected void initPresenter() {
+    }
+
+    @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.set_money_type));
         title.clickLeftGoBack(getWContext());

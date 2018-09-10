@@ -40,6 +40,7 @@ import com.tomcat360.lyqb.activity.SendActivity;
 import com.tomcat360.lyqb.activity.TokenListActivity;
 import com.tomcat360.lyqb.activity.WalletDetailActivity;
 import com.tomcat360.lyqb.adapter.MainWalletAdapter;
+import com.tomcat360.lyqb.presenter.MainFragmentPresenter;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
@@ -182,6 +183,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initPresenter() {
+        this.presenter = new MainFragmentPresenter(this);
     }
 
     @Override

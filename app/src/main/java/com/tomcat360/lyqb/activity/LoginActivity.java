@@ -21,6 +21,10 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
+    protected void initPresenter() {
+    }
+
+    @Override
     public void initData() {
     }
 

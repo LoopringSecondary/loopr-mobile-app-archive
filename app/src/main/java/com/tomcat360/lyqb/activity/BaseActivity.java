@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.presenter.BasePresenter;
 import com.tomcat360.lyqb.utils.SystemStatusManager;
 import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.view.Operation;
@@ -22,6 +23,8 @@ import com.tomcat360.lyqb.views.swipeback.SwipeBackLayout;
 public abstract class BaseActivity extends SwipeBackActivity {
 
     public SwipeBackLayout mSwipeBackLayout;
+
+    public BasePresenter presenter;
 
     /**
      * 当前Activity的弱引用，防止内存泄露
@@ -47,6 +50,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
         context = new WeakReference<Activity>(this);
         mBaseOperation = new Operation(this);
         //		MobclickAgent.setCatchUncaughtExceptions(false);
+        initPresenter();
         initTitle();
         initView();
         initData();
@@ -81,6 +85,11 @@ public abstract class BaseActivity extends SwipeBackActivity {
             overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
         }
     }
+
+    /**
+     * 初始化P层
+     */
+    protected abstract void initPresenter();
 
     /**
      * 初始化标题

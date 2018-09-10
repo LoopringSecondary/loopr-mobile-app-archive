@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.tomcat360.lyqb.presenter.BasePresenter;
 import com.tomcat360.lyqb.view.Operation;
 
 public abstract class BaseFragment extends LazyFragment {
 
     // Fragment的View
     protected View layout;
+
+    protected BasePresenter presenter;
 
     private Operation mBaseOperation = null;
 

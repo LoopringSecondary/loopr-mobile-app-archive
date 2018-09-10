@@ -45,6 +45,10 @@ public class ExportKeystoreDetailActivity extends BaseActivity {
     }
 
     @Override
+    protected void initPresenter() {
+    }
+
+    @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.export_keystore));
         title.clickLeftGoBack(getWContext());
