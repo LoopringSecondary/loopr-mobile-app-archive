@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,12 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lyqb.walletsdk.listener.BalanceListener;
+import com.lyqb.walletsdk.listener.MarketcapListener;
+import com.lyqb.walletsdk.model.request.param.MarketcapParam;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
+import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.SupportedToken;
+import com.lyqb.walletsdk.service.LoopringService;
 import com.lyqb.walletsdk.util.UnitConverter;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.ActivityScanerCode;
@@ -28,20 +33,18 @@ import com.tomcat360.lyqb.activity.SendActivity;
 import com.tomcat360.lyqb.activity.TokenListActivity;
 import com.tomcat360.lyqb.activity.WalletDetailActivity;
 import com.tomcat360.lyqb.adapter.MainWalletAdapter;
-import com.tomcat360.lyqb.net.ResponseFunc;
-import com.tomcat360.lyqb.net.ResponseSupportFunc;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
-import com.tomcat360.lyqb.utils.NumberUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.view.APP;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +53,6 @@ import butterknife.Unbinder;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 
 /**
@@ -102,14 +104,21 @@ public class MainFragment extends BaseFragment {
 
     private boolean showMenu = false;  //判断menu是否显示
     private static int REQUEST_CODE = 1;  //二维码扫一扫code
-    private BigDecimal moneyValue ;  //钱包总金额
+    private BigDecimal moneyValue;  //钱包总金额
     private BalanceListener balanceListener = new BalanceListener();
+    private MarketcapListener marketcapListener = new MarketcapListener();
+    private LoopringService loopringService = new LoopringService();
 
     private boolean flag = true; //第一次进入
+    private boolean marketcapFlag = false;
+    private boolean supportedFlag = false;
     private String address;
     private List<BalanceResult.Token> listToken; //  返回的token列表
     private List<BalanceResult.Token> listChooseToken = new ArrayList<>(); //  选中的token列表
     private List<String> listChooseSymbol; //  选择展示的token名字symbol
+    private Map<String, BigDecimal> supportedTokenMap = new HashMap<>();
+    private Map<String, Double> marketcapMap = new HashMap<>();
+    private Map<String, BalanceResult.Token> tokenMap = new HashMap<>();
 
     public final static int BALANCE_SUCCESS = 1;
     @SuppressLint("HandlerLeak")
@@ -146,7 +155,6 @@ public class MainFragment extends BaseFragment {
     protected void initPresenter() {
 
 
-
     }
 
     @Override
@@ -169,86 +177,144 @@ public class MainFragment extends BaseFragment {
                     llMenu.setVisibility(View.GONE);
                     showMenu = false;
                 } else {
-                    getOperation().addParameter("moneyValue",moneyValue.toPlainString());
-                    getOperation().addParameter("symbol",listChooseToken.get(position).getSymbol());
+                    getOperation().addParameter("moneyValue", moneyValue.toPlainString());
+                    getOperation().addParameter("symbol", listChooseToken.get(position).getSymbol());
                     getOperation().forward(WalletDetailActivity.class);
                 }
             }
         });
 
+        initSupportedTokens();
+        initMarketcap();
         initToken();
 
     }
 
+    private void initSupportedTokens() {
+        new Thread(() -> {
+            for (SupportedToken token : loopringService.getSupportedToken().toBlocking().single()) {
+                supportedTokenMap.put(token.getSymbol(), token.getDecimals());
+            }
+            supportedFlag = true;
+        }).start();
+    }
+
+    private void initMarketcap() {
+        Observable<MarketcapResult> observable = marketcapListener.start();
+        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<MarketcapResult>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(MarketcapResult marketcapResult) {
+                for (MarketcapResult.Token token : marketcapResult.getTokens()) {
+                    marketcapMap.put(marketcapResult.getCurrency() + "-" + token.getSymbol(), token.getPrice());
+                }
+                marketcapFlag = true;
+            }
+        });
+        marketcapListener.send(MarketcapParam.builder().currency("CNY").build());
+        marketcapListener.send(MarketcapParam.builder().currency("USD").build());
+    }
+
     private void initToken() {
-        showProgress("加载中...");
         LyqbLogger.log(address);
 
         Observable<BalanceResult> observable = balanceListener.start();
-        observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BalanceResult>() {
-                    @Override
-                    public void onCompleted() {
-                        hideProgress();
+        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<BalanceResult>() {
+            @Override
+            public void onCompleted() {
+                hideProgress();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                hideProgress();
+            }
+
+            @Override
+            public void onNext(BalanceResult balanceResult) {
+                hideProgress();
+                while (!supportedFlag || !marketcapFlag) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        hideProgress();
-                    }
-
-                    @Override
-                    public void onNext(BalanceResult balanceResult) {
-                        hideProgress();
-                        LyqbLogger.log(balanceResult.getTokens().toString());
-                        if (balanceResult.getTokens() != null) {
-                            listToken = balanceResult.getTokens();
-                            Collections.sort(listToken,new Comparator<BalanceResult.Token>(){
-
-                                /**
-                                 * 对集合进行排列，在token列表中按字母顺序排列
-                                 * 返回负数表示：o1 小于o2，
-                                 * 返回0 表示：o1和o2相等，
-                                 * 返回正数表示：o1大于o2。
-                                 */
-                                public int compare(BalanceResult.Token o1, BalanceResult.Token o2) {
-
-                                    if(o1.getSymbol().compareTo(o2.getSymbol()) > 0){
-                                        return 1;
-                                    }
-                                    if(o1.getSymbol().compareTo(o2.getSymbol()) == 0){
-                                        return 0;
-                                    }
-                                    return -1;
+                }
+                LyqbLogger.log(balanceResult.getTokens().toString());
+                if (balanceResult.getTokens() != null) {
+                    String currentCoin = "CNY";
+                    if (SPUtils.get(getContext(), "coin", "￥").toString().equals("$"))
+                        currentCoin = "USD";
+                    listToken = balanceResult.getTokens();
+                    for (BalanceResult.Token token : listToken) {
+                        try {
+                            if (!token.getBalance().equals(BigDecimal.ZERO) && supportedTokenMap.get(token.getSymbol()) != null && marketcapMap.get(currentCoin + "-" + token.getSymbol()) != null) {
+                                if (token.getSymbol().equals("ETH"))
+                                    token.setValue(UnitConverter.weiToEth(token.getBalance().toPlainString()).doubleValue());
+                                else {
+                                    token.setValue(token.getBalance().divide(supportedTokenMap.get(token.getSymbol())).doubleValue());
                                 }
-                            });
-                            APP.setListToken(listToken);
-                            listChooseToken.clear();
-                            listChooseSymbol = SPUtils.getDataList(getContext(), "choose_token");
-                            for (int i = 0 ;i<listToken.size();i++){
-                                if (listChooseSymbol.contains(listToken.get(i).getSymbol())){
-                                    if (listToken.get(i).getSymbol().equals("ETH")){
-                                        moneyValue = UnitConverter.weiToEth(listToken.get(i).getBalance().toPlainString());
-                                        listChooseToken.add(0,listToken.get(i));
-                                    }else if (listToken.get(i).getSymbol().equals("WETH")){
-                                        if (listChooseSymbol.contains("ETH")){
-                                            listChooseToken.add(1,listToken.get(i));
-                                        } else {
-                                            listChooseToken.add(0,listToken.get(i));
-                                        }
-                                    }else {
-                                        listChooseToken.add(listToken.get(i));
-                                    }
-                                }
+                                token.setLegalValue(marketcapMap.get(currentCoin + "-" + token.getSymbol()) * token.getValue());
                             }
-                            String amount = moneyValue.toPlainString().length() > 8 ?moneyValue.toPlainString().substring(0,8) : moneyValue.toPlainString();
-                            SPUtils.put(getContext(),"amount",amount);
-                            walletCount.setText((String) SPUtils.get(getContext(),"coin","¥")+amount);
-                            mAdapter.setNewData(listChooseToken);
-                            mAdapter.notifyDataSetChanged();
+                        } catch (Exception e) {
+                            Log.e("", token.toString() + ", " + supportedTokenMap.get(token.getSymbol()));
                         }
+                        tokenMap.put(token.getSymbol(), token);
+                    }
+                }
+                Collections.sort(listToken, new Comparator<BalanceResult.Token>() {
+
+                    /**
+                     * 对集合进行排列，在token列表中按字母顺序排列
+                     * 返回负数表示：o1 小于o2，
+                     * 返回0 表示：o1和o2相等，
+                     * 返回正数表示：o1大于o2。
+                     */
+                    public int compare(BalanceResult.Token o1, BalanceResult.Token o2) {
+
+                        if (o1.getLegalValue() < o2.getLegalValue()) {
+                            return 1;
+                        }
+                        if (o1.getLegalValue() == o2.getLegalValue()) {
+                            return 0;
+                        }
+                        return -1;
                     }
                 });
+                APP.setListToken(listToken);
+                updateListToken();
+
+
+//                    for (int i = 0; i < listToken.size(); i++) {
+//                        if (listChooseSymbol.contains(listToken.get(i).getSymbol())) {
+//                            if (listToken.get(i).getSymbol().equals("ETH")) {
+//                                moneyValue = UnitConverter.weiToEth(listToken.get(i).getBalance().toPlainString());
+//                                listChooseToken.add(0, listToken.get(i));
+//                            } else if (listToken.get(i).getSymbol().equals("WETH")) {
+//                                if (listChooseSymbol.contains("ETH")) {
+//                                    listChooseToken.add(1, listToken.get(i));
+//                                } else {
+//                                    listChooseToken.add(0, listToken.get(i));
+//                                }
+//                            } else {
+//                                listChooseToken.add(listToken.get(i));
+//                            }
+//                        }
+//                    }
+//                    String amount = moneyValue.toPlainString().length() > 8 ? moneyValue.toPlainString().substring(0, 8) : moneyValue.toPlainString();
+//                    mAdapter.setNewData(listChooseToken);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
         balanceListener.queryByOwner(address);
 
     }
@@ -256,31 +322,54 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (flag){
+        if (flag) {
             flag = false;
-        }else {
-            if (listToken != null) {  //设置首页展示选择的币种
-                listChooseToken.clear();
-                listChooseSymbol = SPUtils.getDataList(getContext(), "choose_token");
-                for (int i = 0; i < listToken.size(); i++) {
-                    if (listChooseSymbol.contains(listToken.get(i).getSymbol())) {
-                        if (listToken.get(i).getSymbol().equals("ETH")) {
-                            listChooseToken.add(0, listToken.get(i));
-                        } else if (listToken.get(i).getSymbol().equals("WETH")) {
-                            if (listChooseSymbol.contains("ETH")) {
-                                listChooseToken.add(1, listToken.get(i));
-                            } else {
-                                listChooseToken.add(0, listToken.get(i));
-                            }
-                        } else {
-                            listChooseToken.add(listToken.get(i));
-                        }
-                    }
-                }
-                mAdapter.setNewData(listChooseToken);
-            }
+        } else {
+            updateListToken();
         }
     }
+
+    private void updateListToken() {
+        if (listToken != null) {
+            listChooseToken.clear();
+            listChooseSymbol = SPUtils.getDataList(getContext(), "choose_token");
+            double amount = 0;
+            for (String symbol : listChooseSymbol) {
+                listChooseToken.add(tokenMap.get(symbol));
+                amount += tokenMap.get(symbol).getLegalValue();
+            }
+            for (BalanceResult.Token token : listToken) {
+                if (!listChooseSymbol.contains(token.getSymbol()) && token.getLegalValue() != 0) {
+                    listChooseToken.add(token);
+                    amount += token.getLegalValue();
+                }
+            }
+            SPUtils.put(getContext(), "amount", amount);
+            moneyValue = BigDecimal.valueOf(amount);
+            walletCount.setText((String) SPUtils.get(getContext(), "coin", "¥") + amount);
+            mAdapter.setNewData(listChooseToken);
+        }
+//        if (listToken != null) {
+//            listChooseToken.clear();
+//            listChooseSymbol = SPUtils.getDataList(getContext(), "choose_token");
+//            for (int i = 0; i < listToken.size(); i++) {
+//                if (listChooseSymbol.contains(listToken.get(i).getSymbol())) {
+//                    if (listToken.get(i).getSymbol().equals("ETH")) {
+//                        listChooseToken.add(0, listToken.get(i));
+//                    } else if (listToken.get(i).getSymbol().equals("WETH")) {
+//                        if (listChooseSymbol.contains("ETH")) {
+//                            listChooseToken.add(1, listToken.get(i));
+//                        } else {
+//                            listChooseToken.add(0, listToken.get(i));
+//                        }
+//                    } else {
+//                        listChooseToken.add(listToken.get(i));
+//                    }
+//                }
+//            }
+//        }
+    }
+
 
     @Override
     public void onDestroyView() {

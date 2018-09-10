@@ -28,14 +28,14 @@ public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Token, Bas
         helper.setText(R.id.wallet_title, item.getSymbol());
         helper.setText(R.id.wallet_name, item.getSymbol());
 
-        BigDecimal bigDecimal = UnitConverter.weiToEth(item.getBalance().toPlainString());
-        String amount =  bigDecimal.toPlainString().length() > 8 ? bigDecimal.toPlainString().substring(0,8):bigDecimal.toPlainString();
-        helper.setText(R.id.wallet_money,amount);
+//        BigDecimal bigDecimal = UnitConverter.weiToEth(item.getBalance().toPlainString());
+//        String amount =  bigDecimal.toPlainString().length() > 8 ? bigDecimal.toPlainString().substring(0,8):bigDecimal.toPlainString();
+        helper.setText(R.id.wallet_money, item.getValue() + "");
 
-        if (SPUtils.get(mContext,"coin","¥").equals("¥")){
-            helper.setText(R.id.wallet_count, "¥ "+amount);
-        }else {
-            helper.setText(R.id.wallet_count, "$ "+amount);
+        if (SPUtils.get(mContext, "coin", "¥").equals("¥")) {
+            helper.setText(R.id.wallet_count, "¥ " + item.getLegalValue());
+        } else {
+            helper.setText(R.id.wallet_count, "$ " + item.getLegalValue());
         }
 
 

@@ -59,11 +59,13 @@ public class CoinActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_cny:
+                SPUtils.put(this,"isRecreate",true);
                 SPUtils.put(this, "coin", "¥");  //保存货币显示，
                 ivCnyCheck.setVisibility(View.VISIBLE);
                 ivUsdCheck.setVisibility(View.GONE);
                 break;
             case R.id.ll_usd:
+                SPUtils.put(this,"isRecreate",true);
                 SPUtils.put(this, "coin", "$");
                 ivCnyCheck.setVisibility(View.GONE);
                 ivUsdCheck.setVisibility(View.VISIBLE);
