@@ -13,7 +13,6 @@ public class LyqbLogger {
     private static PrettyFormatStrategy formatStrategy;
 
     private static void startLog(String i, String name, String info) {
-
         initLogger(name);
         switch (i) {
             case "i":
@@ -41,7 +40,6 @@ public class LyqbLogger {
     }
 
     private static void initLogger(String name) {
-
         if (formatStrategy == null) {
             formatStrategy = PrettyFormatStrategy.newBuilder()
                     .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
@@ -50,18 +48,15 @@ public class LyqbLogger {
                     //                .logStrategy(customLog) // (Optional) Changes the log strategy to print out. Default LogCat
                     .tag(name)   // (Optional) Global tag for every log. Default PRETTY_LOGGER
                     .build();
-
             Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
         }
     }
 
     public static void log(String info) {
-
         startLog("i", "DENG_QIANG", info);
     }
 
     public static void debug(String info) {
-
         try {
             startLog("d", "DENG_QIANG", info);
         } catch (Exception e) {
@@ -70,8 +65,6 @@ public class LyqbLogger {
     }
 
     public static void log2Json(String info) {
-
         startLog("json", "DENG_QIANG", info);
     }
-
 }

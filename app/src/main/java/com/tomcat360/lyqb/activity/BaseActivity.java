@@ -2,13 +2,6 @@ package com.tomcat360.lyqb.activity;
 
 import java.lang.ref.WeakReference;
 
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.utils.SystemStatusManager;
-import com.tomcat360.lyqb.view.APP;
-import com.tomcat360.lyqb.view.Operation;
-import com.tomcat360.lyqb.views.swipeback.SwipeBackActivity;
-import com.tomcat360.lyqb.views.swipeback.SwipeBackLayout;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -18,6 +11,12 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.SystemStatusManager;
+import com.tomcat360.lyqb.view.APP;
+import com.tomcat360.lyqb.view.Operation;
+import com.tomcat360.lyqb.views.swipeback.SwipeBackActivity;
+import com.tomcat360.lyqb.views.swipeback.SwipeBackLayout;
 //import com.umeng.analytics.MobclickAgent;
 
 public abstract class BaseActivity extends SwipeBackActivity {
@@ -39,7 +38,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         //		setTranslucentStatus();
         mSwipeBackLayout = getSwipeBackLayout();
@@ -52,31 +50,24 @@ public abstract class BaseActivity extends SwipeBackActivity {
         initTitle();
         initView();
         initData();
-
     }
 
     protected WeakReference<Activity> getWContext() {
-
         return context;
     }
 
     @Override
     protected void onResume() {
-
         super.onResume();
-
     }
 
     @Override
     protected void onPause() {
-
         super.onPause();
-
     }
 
     @Override
     public void finish() {
-
         super.finish();
         if (android.os.Build.VERSION.SDK_INT >= 5) {
             overridePendingTransition(R.anim.translate_between_interface_left_in, R.anim.translate_between_interface_right_out);
@@ -85,7 +76,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     @Override
     public void startActivity(Intent intent) {
-
         super.startActivity(intent);
         if (android.os.Build.VERSION.SDK_INT >= 5) {
             overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
@@ -113,7 +103,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
      */
     @SuppressLint("InlinedApi")
     private void setTranslucentStatus() {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window win = getWindow();
             WindowManager.LayoutParams winParams = win.getAttributes();
@@ -128,7 +117,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     @Override
     public APP getApplicationContext() {
-
         return (APP) super.getApplicationContext();
     }
 
@@ -136,7 +124,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
      * 获取共通操作机能
      */
     public Operation getOperation() {
-
         return this.mBaseOperation;
     }
 
@@ -145,7 +132,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
      */
     @Override
     public void onTrimMemory(int level) {
-
         super.onTrimMemory(level);
         switch (level) {
             case TRIM_MEMORY_UI_HIDDEN:
@@ -155,17 +141,14 @@ public abstract class BaseActivity extends SwipeBackActivity {
     }
 
     public void showProgress(int messageResId) {
-
         showProgress(getString(messageResId));
     }
 
     public void showProgress(String message) {
-
         showProgress(message, false);
     }
 
     public void showProgress(String message, boolean cancelable) {
-
         try {
             if (progressDialog == null) {
                 progressDialog = new ProgressDialog(this);
@@ -188,7 +171,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
     }
 
     public void hideProgress() {
-
         if (progressDialog != null) {
             try {
                 progressDialog.dismiss();
@@ -201,7 +183,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
     }
 }

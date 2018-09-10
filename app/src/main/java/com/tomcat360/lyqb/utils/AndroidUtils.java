@@ -45,7 +45,6 @@ public class AndroidUtils {
     //	}
 
     public static String getChannel(Context context) {
-
         ApplicationInfo appInfo = null;
         try {
             appInfo = context.getPackageManager()
@@ -64,7 +63,6 @@ public class AndroidUtils {
      * @return
      */
     public static String getDpi(Context context) {
-
         String dpi = String.valueOf(context.getResources().getDisplayMetrics().densityDpi);
         return dpi;
     }
@@ -76,12 +74,10 @@ public class AndroidUtils {
      * @return
      */
     public static String getResolution(Activity context) {
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         context.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.widthPixels + "*" + displayMetrics.heightPixels;
     }
-
     //	public static String getDeviceId(Context context) {
     //		final String deviceId = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
     //		if (deviceId != null) {
@@ -92,7 +88,6 @@ public class AndroidUtils {
     //	}
 
     public static int getVersion(Context context) {
-
         try {
             PackageManager manager = context.getPackageManager();
             PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
@@ -104,7 +99,6 @@ public class AndroidUtils {
     }
 
     public static String getVersionName(Context context) {
-
         try {
             PackageManager manager = context.getPackageManager();
             PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
@@ -114,5 +108,4 @@ public class AndroidUtils {
             return "1.0.0";
         }
     }
-
 }

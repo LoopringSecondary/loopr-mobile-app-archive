@@ -16,5 +16,4 @@ public interface SwipeBackActivityBase {
      * Scroll out contentView and finish the activity
      */
     void scrollToFinishActivity();
-
 }

@@ -1,12 +1,12 @@
 package com.tomcat360.lyqb.views.wheelPicker.picker;
 
-import com.tomcat360.lyqb.views.wheelPicker.ConfirmPopup;
-import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
-
 import android.app.Activity;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntRange;
 import android.view.View;
+
+import com.tomcat360.lyqb.views.wheelPicker.ConfirmPopup;
+import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
 
 /**
  * 滑轮选择器
@@ -29,7 +29,6 @@ public abstract class WheelPicker extends ConfirmPopup<View> {
     protected int offset = WheelView.OFF_SET;
 
     public WheelPicker(Activity activity) {
-
         super(activity);
     }
 
@@ -37,7 +36,6 @@ public abstract class WheelPicker extends ConfirmPopup<View> {
      * 设置文字大小
      */
     public void setTextSize(int textSize) {
-
         this.textSize = textSize;
     }
 
@@ -45,7 +43,6 @@ public abstract class WheelPicker extends ConfirmPopup<View> {
      * 设置文字颜色
      */
     public void setTextColor(@ColorInt int textColorFocus, @ColorInt int textColorNormal) {
-
         this.textColorFocus = textColorFocus;
         this.textColorNormal = textColorNormal;
     }
@@ -54,7 +51,6 @@ public abstract class WheelPicker extends ConfirmPopup<View> {
      * 设置文字颜色
      */
     public void setTextColor(@ColorInt int textColor) {
-
         this.textColorFocus = textColor;
     }
 
@@ -62,7 +58,6 @@ public abstract class WheelPicker extends ConfirmPopup<View> {
      * 设置分隔线是否可见
      */
     public void setLineVisible(boolean lineVisible) {
-
         this.lineVisible = lineVisible;
     }
 
@@ -70,7 +65,6 @@ public abstract class WheelPicker extends ConfirmPopup<View> {
      * 设置分隔线颜色
      */
     public void setLineColor(@ColorInt int lineColor) {
-
         this.lineColor = lineColor;
     }
 
@@ -79,8 +73,6 @@ public abstract class WheelPicker extends ConfirmPopup<View> {
      * 1显示三条、2显示5条、3显示7条、4显示9条
      */
     public void setOffset(@IntRange(from = 1, to = 4) int offset) {
-
         this.offset = offset;
     }
-
 }

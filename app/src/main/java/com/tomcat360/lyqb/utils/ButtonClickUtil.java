@@ -23,7 +23,6 @@ public class ButtonClickUtil {
      * @return
      */
     public static boolean isFastDoubleClick() {
-
         long time = System.currentTimeMillis();
         long timeD = time - mLastClickTime;
         if (0 < timeD && timeD < 1000) {
@@ -39,7 +38,6 @@ public class ButtonClickUtil {
      * @return
      */
     public static boolean isFastDoubleClick(long id) {
-
         long time = System.currentTimeMillis();
         long timeD = time - mLastClickTime;
         if (0 < timeD && timeD < 1000 && staticid == id) {

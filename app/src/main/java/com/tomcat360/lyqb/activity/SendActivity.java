@@ -5,8 +5,25 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
-import org.json.JSONException;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import org.json.JSONException;
 import com.lyqb.walletsdk.TransactionHelper;
 import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.IllegalCredentialException;
@@ -29,24 +46,6 @@ import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.RangeSeekBar;
 import com.tomcat360.lyqb.views.TitleView;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -150,7 +149,6 @@ public class SendActivity extends BaseActivity {
     Handler handlerCreate = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
             super.handleMessage(msg);
             switch (msg.what) {
                 case SEND_SUCCESS:
@@ -179,10 +177,8 @@ public class SendActivity extends BaseActivity {
                     hideProgress();
                     ToastUtils.toast("keystore获取失败");
                     break;
-
             }
         }
-
     };
 
     private AlertDialog dialog;
@@ -201,7 +197,6 @@ public class SendActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         setContentView(R.layout.activity_send);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
@@ -211,37 +206,28 @@ public class SendActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-
         title.setBTitle(getResources().getString(R.string.send));
         title.clickLeftGoBack(getWContext());
     }
 
     @Override
     public void initView() {
-
         address = (String) SPUtils.get(SendActivity.this, "address", "");
     }
 
     @Override
     public void initData() {
-
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 //                File file = new File(SendActivity.this.getFilesDir().getAbsolutePath() + "/keystore/" + (String) SPUtils.get(SendActivity.this, "filename", ""));
-
                 String gasPriceStr = loopringService.getEstimateGasPrice().toBlocking().single();
                 long gasPriceLong = Long.valueOf(gasPriceStr.substring(2), 16);   //d=255
-
                 gasPrice = BigInteger.valueOf(gasPriceLong);
                 LyqbLogger.log(nonce + "    " + gasPrice);
-
                 //            BigInteger estimateGasLimit = ethereumService.estimateGasLimit(transactionDetail);
-
             }
         }).start();
-
         String sendChoose = (String) SPUtils.get(this, "send_choose", "LRC");
         List<BalanceResult.Token> listToken = APP.getListToken();
         for (int i = 0; i < listToken.size(); i++) {
@@ -249,7 +235,6 @@ public class SendActivity extends BaseActivity {
                 amountTotal = listToken.get(i).getBalance().doubleValue();
             }
         }
-
         sendWalletName.setText(sendChoose);
         walletName2.setText(sendChoose);
         sendWalletCount.setText(amountTotal + " " + sendChoose);
@@ -257,7 +242,6 @@ public class SendActivity extends BaseActivity {
 
     @OnClick({R.id.ll_manager_wallet, R.id.iv_scan, R.id.btn_send, R.id.ll_show_fee})
     public void onViewClicked(View view) {
-
         switch (view.getId()) {
             case R.id.ll_manager_wallet:
                 getOperation().forwardForResult(SendListChooseActivity.class, TOKEN_CODE);
@@ -279,7 +263,6 @@ public class SendActivity extends BaseActivity {
     }
 
     private void checkInfo() {
-
         String amount = moneyAmount.getText().toString();
         if (TextUtils.isEmpty(walletAddress.getText().toString())) {
             ToastUtils.toast("请输入钱包地址");
@@ -298,7 +281,6 @@ public class SendActivity extends BaseActivity {
     }
 
     public void showConfirmDialog(Context context) {
-
         final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);//
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_send_confirm, null);
         builder.setView(view);
@@ -307,11 +289,9 @@ public class SendActivity extends BaseActivity {
         TextView formAddress = (TextView) view.findViewById(R.id.form_address);
         TextView tvGassFee = (TextView) view.findViewById(R.id.gass_fee);
         Button confirm = (Button) view.findViewById(R.id.btn_confirm);
-
         payAmount.setText(moneyAmount.getText().toString());
         toAddress.setText(walletAddress.getText().toString());
         formAddress.setText(address);
-
         BigInteger gas = gasPrice.multiply(new BigInteger("25200"));
         BigDecimal bigDecimal = UnitConverter.weiToEth(gas.toString());
         tvGassFee.setText(bigDecimal.toPlainString()
@@ -319,7 +299,6 @@ public class SendActivity extends BaseActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 confirmDialog.dismiss();
                 showPasswordDialog();
             }
@@ -333,7 +312,6 @@ public class SendActivity extends BaseActivity {
     }
 
     public void showPasswordDialog() {
-
         final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.DialogTheme);//
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_put_password, null);
         builder.setView(view);
@@ -341,25 +319,21 @@ public class SendActivity extends BaseActivity {
         final EditText passwordInput = (EditText) view.findViewById(R.id.password_input);
         TextView cancel = (TextView) view.findViewById(R.id.cancel);
         TextView confirm = (TextView) view.findViewById(R.id.confirm);
-
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 passwordDialog.dismiss();
             }
         });
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (TextUtils.isEmpty(passwordInput.getText().toString())) {
                     ToastUtils.toast("请输入密码");
                     return;
                 } else {
                     send(passwordInput.getText().toString());
                 }
-
             }
         });
         builder.setCancelable(true);
@@ -368,24 +342,19 @@ public class SendActivity extends BaseActivity {
         passwordDialog.setCancelable(true);
         passwordDialog.setCanceledOnTouchOutside(true);
         passwordDialog.show();
-
     }
 
     private void send(String password) {
-
         showProgress("加载中");
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
                     Account account = null;
                     String keystore = FileUtils.getKeystoreFromSD(SendActivity.this);
                     account = WalletHelper.unlockWallet(password, keystore); //获取account信息，里面有privatekey
-
                     Integer chanid = new Integer(1);  //chanid
                     BigInteger value = UnitConverter.ethToWei(moneyAmount.getText().toString()); //转账金额
-
                     String nonceStr = loopringService.getNonce(address).toBlocking().single();
                     long nonceLong = Long.valueOf(nonceStr, 16);   //d=255
                     nonce = BigInteger.valueOf(nonceLong);//获得nonce
@@ -414,15 +383,12 @@ public class SendActivity extends BaseActivity {
                     handlerCreate.sendEmptyMessage(ERROR_FOUR);
                     e.printStackTrace();
                 }
-
             }
         }).start();
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
         /**
          * 处理二维码扫描结果
@@ -430,7 +396,6 @@ public class SendActivity extends BaseActivity {
         if (requestCode == REQUEST_CODE) {
             //            处理扫描结果（在界面上显示）
             if (null != data) {
-
                 Bundle bundle = data.getExtras();
                 if (bundle == null) {
                     return;
@@ -455,7 +420,6 @@ public class SendActivity extends BaseActivity {
      */
 
     public void showFeeDialog(Context context) {
-
         if (dialog == null) {
             final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);//
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_fee, null);
@@ -465,29 +429,24 @@ public class SendActivity extends BaseActivity {
             tvWalletInfo = (TextView) view.findViewById(R.id.tv_wallet_info);
             cancel = (ImageView) view.findViewById(R.id.cancel);
             dialogSeekBar = (RangeSeekBar) view.findViewById(R.id.seekBar);
-
             tvAmount.setText(NumberUtils.formatSix(Double.toString(gasFee), Integer.toString(1)) + " ETH = " + NumberUtils
                     .formatTwo(Double.toString(gasFee), Integer.toString(1)));
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     dialog.dismiss();
                 }
             });
             dialogSeekBar.setOnRangeChangedListener(new RangeSeekBar.OnRangeChangedListener() {
                 @Override
                 public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {
-
                     value = (int) min;
-
                     String dd = NumberUtils.formatSix(Double.toString(0.000200), Integer.toString(value));
                     gasFee = Double.parseDouble(dd);
                     tvAmount.setText(dd + " ETH = " + NumberUtils.formatTwo(Double.toString(0.06), Integer.toString(value)));
                     tvWalletInfo.setText("Gas limit(100000) * Gas Price(" + NumberUtils.numberformat1((double) value) + " Gwei)");
                 }
             });
-
             builder.setCancelable(true);
             dialog = builder.create();
             dialog.setCancelable(true);
@@ -498,7 +457,5 @@ public class SendActivity extends BaseActivity {
         } else {
             dialog.show();
         }
-
     }
-
 }

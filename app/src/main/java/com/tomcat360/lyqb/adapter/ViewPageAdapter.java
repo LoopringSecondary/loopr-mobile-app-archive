@@ -16,7 +16,6 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
     private String[] titles;
 
     public ViewPageAdapter(FragmentManager fm, List<Fragment> data, String[] titles) {
-
         super(fm);
         this.data = data;
         this.titles = titles;
@@ -24,19 +23,16 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
         return data.get(position);
     }
 
     @Override
     public int getCount() {
-
         return data != null ? data.size() : 0;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-
         return titles[position];
     }
 }

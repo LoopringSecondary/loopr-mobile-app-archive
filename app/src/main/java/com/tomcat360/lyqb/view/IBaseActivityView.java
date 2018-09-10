@@ -36,5 +36,4 @@ public interface IBaseActivityView {
      * @return
      */
     <T> Observable.Transformer<T, T> bindUntilEvent(ActivityEvent event);
-
 }

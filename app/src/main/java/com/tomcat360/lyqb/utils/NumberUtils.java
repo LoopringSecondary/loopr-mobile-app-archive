@@ -16,7 +16,6 @@ public class NumberUtils {
     /**
      * 由于Java的简单类型不能够精确的对浮点数进行运算，这个工具类提供精 确的浮点数运算，包括加减乘除和四舍五入。
      */
-
     // 默认除法运算精度
     private static final int DEF_DIV_SCALE = 10;
 
@@ -42,7 +41,6 @@ public class NumberUtils {
      * @return
      */
     public static String numberformat2(Double d) {
-
         DecimalFormat fmt = new DecimalFormat("##0");
         return fmt.format(d);
     }
@@ -54,7 +52,6 @@ public class NumberUtils {
      * @return
      */
     public static String numberformat1(Double d) {
-
         DecimalFormat fmt = new DecimalFormat("##0.0");
         return fmt.format(d);
     }
@@ -66,13 +63,11 @@ public class NumberUtils {
      * @return
      */
     public static String numberformat(Double d) {
-
         DecimalFormat fmt = new DecimalFormat("#,##0.00");
         return fmt.format(d);
     }
 
     public static BigDecimal Numberformat(BigDecimal d) {
-
         DecimalFormat fmt = new DecimalFormat("##0.00");
         return new BigDecimal(fmt.format(d.doubleValue()));
     }
@@ -86,7 +81,6 @@ public class NumberUtils {
      * @Description: TODO(这里用一句话描述这个方法的作用)
      */
     public static double format2(double d) {
-
         DecimalFormat formater = new DecimalFormat();
         formater.setMaximumFractionDigits(2);
         formater.setGroupingSize(0);
@@ -95,7 +89,6 @@ public class NumberUtils {
     }
 
     public static BigDecimal format3(double d) {
-
         DecimalFormat formater = new DecimalFormat();
         formater.setMaximumFractionDigits(2);
         formater.setGroupingSize(0);
@@ -104,14 +97,12 @@ public class NumberUtils {
     }
 
     public static double format4(double d) {
-
         DecimalFormat df = new DecimalFormat("0.00");
         String ds = df.format(d);
         return Double.parseDouble(ds);
     }
 
     public static double format6(double d) {
-
         DecimalFormat df = new DecimalFormat("#,##0.000000");
         df.setGroupingUsed(false);
         String ds = df.format(d);
@@ -119,7 +110,6 @@ public class NumberUtils {
     }
 
     public static String formatSix(String s1, String s2) {
-
         BigDecimal d1 = new BigDecimal(s1);
         BigDecimal d2 = new BigDecimal(s2);
         String ss = d1.multiply(d2).setScale(6, BigDecimal.ROUND_HALF_DOWN).toString();
@@ -127,7 +117,6 @@ public class NumberUtils {
     }
 
     public static String formatTwo(String s1, String s2) {
-
         BigDecimal d1 = new BigDecimal(s1);
         BigDecimal d2 = new BigDecimal(s2);
         String ss = d1.multiply(d2).setScale(2, BigDecimal.ROUND_HALF_DOWN).toString();
@@ -135,7 +124,6 @@ public class NumberUtils {
     }
 
     public static int getInt(String str) {
-
         if (str == null || str.equals(""))
             return 0;
         int ret = 0;
@@ -148,7 +136,6 @@ public class NumberUtils {
     }
 
     public static boolean isDigitsWithNoZero(String money) {
-
         if (TextUtils.isEmpty(money)) {
             return false;
         }
@@ -171,7 +158,6 @@ public class NumberUtils {
      * @return value不为空返回value，否则返回0
      */
     public static Integer valueOf(Integer value) {
-
         return value != null ? value : 0;
     }
 
@@ -182,7 +168,6 @@ public class NumberUtils {
      * @return value不为空返回value，否则返回0
      */
     public static Long valueOf(Long value) {
-
         return value != null ? value : 0L;
     }
 
@@ -193,7 +178,6 @@ public class NumberUtils {
      * @return value不为空返回value，否则返回0
      */
     public static Double valueOf(Double value) {
-
         return value != null ? value : 0L;
     }
 
@@ -204,7 +188,6 @@ public class NumberUtils {
      * @return value不为空返回value，否则返回0
      */
     public static Float valueOf(Float value) {
-
         return value != null ? value : 0L;
     }
 
@@ -215,7 +198,6 @@ public class NumberUtils {
      * @return 成功返回字符串对应的Integer对象，失败返回null
      */
     public static Integer intValue(String str) {
-
         if (!TextUtils.isEmpty(str)) {
             try {
                 return Integer.parseInt(str);
@@ -233,7 +215,6 @@ public class NumberUtils {
      * @return 成功返回字符串对应的Long对象，失败返回null
      */
     public static Long longValue(String str) {
-
         if (!TextUtils.isEmpty(str)) {
             try {
                 return Long.parseLong(str);
@@ -251,7 +232,6 @@ public class NumberUtils {
      * @return 成功返回字符串对应的Double对象，失败返回null
      */
     public static Double doubleValue(String str) {
-
         if (!TextUtils.isEmpty(str)) {
             try {
                 return Double.parseDouble(str);
@@ -269,7 +249,6 @@ public class NumberUtils {
      * @return 成功返回字符串对应的Float对象，失败返回null
      */
     public static Float floatValue(String str) {
-
         if (!TextUtils.isEmpty(str)) {
             try {
                 return Float.parseFloat(str);
@@ -288,7 +267,6 @@ public class NumberUtils {
      * @return 相等返回true，否则返回false
      */
     public static boolean isEqual(Integer value1, Integer value2) {
-
         if (value1 != null && value2 != null) {
             return value1.equals(value2);
         }
@@ -296,7 +274,6 @@ public class NumberUtils {
     }
 
     public static boolean notEqual(Integer value1, Integer value2) {
-
         return !isEqual(value1, value2);
     }
 
@@ -308,7 +285,6 @@ public class NumberUtils {
      * @return 相等返回true，否则返回false
      */
     public static boolean isEqual(Long value1, Long value2) {
-
         if (value1 != null && value2 != null) {
             return value1.equals(value2);
         }
@@ -316,7 +292,6 @@ public class NumberUtils {
     }
 
     public static boolean notEqual(Long value1, Long value2) {
-
         return !isEqual(value1, value2);
     }
 
@@ -328,7 +303,6 @@ public class NumberUtils {
      * @return 相等返回true，否则返回false
      */
     public static boolean isEqual(Double value1, Double value2) {
-
         if (value1 != null && value2 != null) {
             return value1.equals(value2);
         }
@@ -336,7 +310,6 @@ public class NumberUtils {
     }
 
     public static boolean notEqual(Double value1, Double value2) {
-
         return !isEqual(value1, value2);
     }
 
@@ -348,22 +321,18 @@ public class NumberUtils {
      * @return 随机整数
      */
     public static int random(int min, int max) {
-
         return (int) ((max - min + 1) * Math.random()) + min;
     }
 
     public static double random(double min, double max) {
-
         return (max - min) * Math.random() + min;
     }
 
     public static long random(long min, long max) {
-
         return (long) ((max - min + 1) * Math.random()) + min;
     }
 
     public static Integer parseInt(String s) {
-
         if (s != null && s.length() > 0) {
             try {
                 return Integer.parseInt(s);
@@ -375,7 +344,6 @@ public class NumberUtils {
     }
 
     public static Long parseLong(String s) {
-
         if (s != null && s.length() > 0) {
             try {
                 return Long.parseLong(s);
@@ -387,7 +355,6 @@ public class NumberUtils {
     }
 
     public static Double parseDouble(String s) {
-
         if (s != null && s.length() > 0) {
             try {
                 return Double.parseDouble(s);
@@ -399,7 +366,6 @@ public class NumberUtils {
     }
 
     public static Float parseFloat(String s) {
-
         if (s != null && s.length() > 0) {
             try {
                 return Float.parseFloat(s);
@@ -417,13 +383,11 @@ public class NumberUtils {
      * @param indexCount 需要生产的随机索引的数量
      */
     public static List<Integer> getRandomIndexList(int size, int indexCount) {
-
         List<Integer> indexList = new LinkedList<Integer>();
         List<Integer> allIndexList = new LinkedList<Integer>();
         for (int i = 0; i < size; i++) {
             allIndexList.add(i);
         }
-
         for (int i = 0; i < indexCount; i++) {
             int allIndexSize = allIndexList.size();
             if (allIndexSize == 0) {
@@ -442,7 +406,6 @@ public class NumberUtils {
      * @return 两个参数的和
      */
     public static double add(double value1, double value2) {
-
         BigDecimal b1 = new BigDecimal(Double.toString(value1));
         BigDecimal b2 = new BigDecimal(Double.toString(value2));
         return b1.add(b2).doubleValue();
@@ -455,7 +418,6 @@ public class NumberUtils {
      * @return 所有参数的和
      */
     public static double addAll(double... values) {
-
         double total = 0;
         if (values.length > 0) {
             for (double value : values) {
@@ -474,7 +436,6 @@ public class NumberUtils {
      */
 
     public static double subtract(double value1, double value2) {
-
         BigDecimal b1 = new BigDecimal(Double.toString(value1));
         BigDecimal b2 = new BigDecimal(Double.toString(value2));
         return b1.subtract(b2).doubleValue();
@@ -489,7 +450,6 @@ public class NumberUtils {
      */
 
     public static double multiply(double value1, double value2) {
-
         BigDecimal b1 = new BigDecimal(Double.toString(value1));
         BigDecimal b2 = new BigDecimal(Double.toString(value2));
         return b1.multiply(b2).doubleValue();
@@ -505,7 +465,6 @@ public class NumberUtils {
      */
 
     public static double multiply(double value1, double value2, int scale) {
-
         if (scale < 0) {
             throw new IllegalArgumentException("The scale must be a positive integer or zero");
         }
@@ -523,7 +482,6 @@ public class NumberUtils {
      */
 
     public static double divide(double value1, double value2) {
-
         return divide(value1, value2, DEF_DIV_SCALE);
     }
 
@@ -537,7 +495,6 @@ public class NumberUtils {
      */
 
     public static double divide(double value1, double value2, int scale) {
-
         if (scale < 0) {
             throw new IllegalArgumentException("The scale must be a positive integer or zero");
         }
@@ -554,7 +511,6 @@ public class NumberUtils {
      * @return 两个参数的和
      */
     public static float add(float value1, float value2) {
-
         BigDecimal b1 = new BigDecimal(Float.toString(value1));
         BigDecimal b2 = new BigDecimal(Float.toString(value2));
         return b1.add(b2).floatValue();
@@ -569,7 +525,6 @@ public class NumberUtils {
      */
 
     public static float subtract(float value1, float value2) {
-
         BigDecimal b1 = new BigDecimal(Float.toString(value1));
         BigDecimal b2 = new BigDecimal(Float.toString(value2));
         return b1.subtract(b2).floatValue();
@@ -584,7 +539,6 @@ public class NumberUtils {
      */
 
     public static float multiply(float value1, float value2) {
-
         BigDecimal b1 = new BigDecimal(Float.toString(value1));
         BigDecimal b2 = new BigDecimal(Float.toString(value2));
         return b1.multiply(b2).floatValue();
@@ -600,7 +554,6 @@ public class NumberUtils {
      */
 
     public static float multiply(float value1, float value2, int scale) {
-
         if (scale < 0) {
             throw new IllegalArgumentException("The scale must be a positive integer or zero");
         }
@@ -618,7 +571,6 @@ public class NumberUtils {
      */
 
     public static float divide(float value1, float value2) {
-
         return divide(value1, value2, DEF_DIV_SCALE);
     }
 
@@ -632,7 +584,6 @@ public class NumberUtils {
      */
 
     public static float divide(float value1, float value2, int scale) {
-
         if (scale < 0) {
             throw new IllegalArgumentException("The scale must be a positive integer or zero");
         }
@@ -649,7 +600,6 @@ public class NumberUtils {
      * @return 四舍五入后的结果
      */
     public static double round(double value, int scale) {
-
         return rounding(value, scale, BigDecimal.ROUND_HALF_UP);
     }
 
@@ -661,7 +611,6 @@ public class NumberUtils {
      * @return 四舍五入后的结果
      */
     public static float round(float value, int scale) {
-
         return rounding(value, scale, BigDecimal.ROUND_HALF_UP);
     }
 
@@ -673,7 +622,6 @@ public class NumberUtils {
      * @return "入"后的结果
      */
     public static double roundUp(double value, int scale) {
-
         return rounding(value, scale, BigDecimal.ROUND_UP);
     }
 
@@ -685,7 +633,6 @@ public class NumberUtils {
      * @return "入"后的结果
      */
     public static float roundUp(float value, int scale) {
-
         return rounding(value, scale, BigDecimal.ROUND_UP);
     }
 
@@ -697,7 +644,6 @@ public class NumberUtils {
      * @return "舍"后的结果
      */
     public static double roundDown(double value, int scale) {
-
         return rounding(value, scale, BigDecimal.ROUND_DOWN);
     }
 
@@ -709,7 +655,6 @@ public class NumberUtils {
      * @return "舍"后的结果
      */
     public static float roundDown(float value, int scale) {
-
         return rounding(value, scale, BigDecimal.ROUND_DOWN);
     }
 
@@ -722,7 +667,6 @@ public class NumberUtils {
      * @return "处理后的结果
      */
     private static double rounding(double value, int scale, int roundingMode) {
-
         if (scale < 0) {
             throw new IllegalArgumentException("The scale must be a positive integer or zero");
         }
@@ -740,7 +684,6 @@ public class NumberUtils {
      * @return "处理后的结果
      */
     private static float rounding(float value, int scale, int roundingMode) {
-
         if (scale < 0) {
             throw new IllegalArgumentException("The scale must be a positive integer or zero");
         }
@@ -755,7 +698,6 @@ public class NumberUtils {
      * @param yield        年化收益率
      */
     public static double calculateProfit(Double investAmount, Integer period, Double yield, boolean isDay) {
-
         investAmount = NumberUtils.valueOf(investAmount);
         period = NumberUtils.valueOf(period);
         yield = NumberUtils.divide(NumberUtils.valueOf(yield), 100.0);//服务端返回的年化收益是10.8表示年化10.8%
@@ -775,7 +717,6 @@ public class NumberUtils {
      * @param isDebx       是否是等额本息
      */
     public static double calculateProfit(Double investAmount, Integer period, Double yield, boolean isDay, boolean isDebx) {
-
         investAmount = NumberUtils.valueOf(investAmount);
         period = NumberUtils.valueOf(period);
         yield = NumberUtils.divide(NumberUtils.valueOf(yield), 100.0);//服务端返回的年化收益是10.8表示年化10.8%
@@ -789,7 +730,6 @@ public class NumberUtils {
                 result = NumberUtils.roundDown(NumberUtils.divide(NumberUtils.multiply(NumberUtils.multiply(investAmount, period), yield), 12.0), 2);
             }
         }
-
         return result;
     }
 
@@ -800,7 +740,6 @@ public class NumberUtils {
      * @return 每月还款金额
      */
     public static double Mrpi(double p, double r, int n) {
-
         BigDecimal mr = new BigDecimal(r).divide(new BigDecimal(12), 8, BigDecimal.ROUND_DOWN);
         mr = (mr.compareTo(new BigDecimal(0)) <= 0) ? (new BigDecimal(0)) : mr;
         BigDecimal aprPow = new BigDecimal(Math.pow(mr.add(new BigDecimal(1)).doubleValue(), n));
@@ -819,7 +758,6 @@ public class NumberUtils {
      * @return
      */
     public static double getTotalInterest(double account, double apr, int period) {
-
         double totalInterest = 0.0;
         //计算平均每月还款
         double moneyPerMonth = Mrpi(account, apr, period);
@@ -834,10 +772,8 @@ public class NumberUtils {
         double accountPerMon = 0.0;
         //每期需要还款中的利息
         double interest = 0.0;
-
         //累计还款本金
         double remainCapital = 0.0;
-
         //循环计算accountPerMon、interest、totalRemain
         for (int i = 0; i < period; i++) {
             if (period - i > 1) {
@@ -862,5 +798,4 @@ public class NumberUtils {
         }
         return totalInterest;
     }
-
 }

@@ -1,16 +1,5 @@
 package com.tomcat360.lyqb.fragment;
 
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.activity.CoinActivity;
-import com.tomcat360.lyqb.activity.ContractVersionActivity;
-import com.tomcat360.lyqb.activity.LRCFeeRatioActivity;
-import com.tomcat360.lyqb.activity.LanguageActivity;
-import com.tomcat360.lyqb.activity.MainActivity;
-import com.tomcat360.lyqb.activity.ManageWalletActivity;
-import com.tomcat360.lyqb.activity.MarginSplitActivity;
-import com.tomcat360.lyqb.activity.ShareActivity;
-import com.tomcat360.lyqb.utils.SPUtils;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +11,17 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.activity.CoinActivity;
+import com.tomcat360.lyqb.activity.ContractVersionActivity;
+import com.tomcat360.lyqb.activity.LRCFeeRatioActivity;
+import com.tomcat360.lyqb.activity.LanguageActivity;
+import com.tomcat360.lyqb.activity.MainActivity;
+import com.tomcat360.lyqb.activity.ManageWalletActivity;
+import com.tomcat360.lyqb.activity.MarginSplitActivity;
+import com.tomcat360.lyqb.activity.ShareActivity;
+import com.tomcat360.lyqb.utils.SPUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,50 +84,41 @@ public class SettingFragment extends BaseFragment {
 
     @Override
     public void onAttach(Activity activity) {
-
         super.onAttach(activity);
         mainActivity = (MainActivity) activity;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
     protected void initPresenter() {
-
     }
 
     @Override
     protected void initView() {
-
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
             }
         });
     }
 
     @Override
     protected void initData() {
-
         address.setText(getResources().getString(R.string.spread_address) + (String) SPUtils.get(getContext(), "address", ""));
     }
 
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         unbinder.unbind();
     }
 
     @OnClick({R.id.ll_share, R.id.ll_manager_wallet, R.id.ll_money_type, R.id.ll_language, R.id.ll_id_touch, R.id.ll_contract_version, R.id.ll_lrc_proportion, R.id.ll_margin_split, R.id.ll_app_version})
     public void onViewClicked(View view) {
-
         switch (view.getId()) {
             case R.id.ll_share:  //分享
                 getOperation().forward(ShareActivity.class);

@@ -1,8 +1,5 @@
 package com.tomcat360.lyqb.utils;
 
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.view.APP;
-
 import android.annotation.SuppressLint;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,6 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.view.APP;
 
 public class ToastUtils {
 
@@ -24,24 +24,20 @@ public class ToastUtils {
     private static ToastParams params;
 
     public static void toast(String content) {
-
         ToastParams params = getParams().reset();
         params.content = content;
         toast(params);
     }
 
     public static void toast(int textResId) {
-
         toast(APP.getInstance().getString(textResId));
     }
 
     public static void toast(int textResId, int iconResId) {
-
         toast(APP.getInstance().getString(textResId), iconResId, Toast.LENGTH_SHORT);
     }
 
     public static void toast(String content, int iconResId, int duration) {
-
         ToastParams params = getParams().reset();
         params.iconResId = iconResId;
         params.content = content;
@@ -49,28 +45,23 @@ public class ToastUtils {
     }
 
     public static void toastError(String content) {
-
         toast(content, errorIconResId, Toast.LENGTH_SHORT);
     }
 
     public static void toastError(int textResId) {
-
         toast(APP.getInstance().getString(textResId), errorIconResId, Toast.LENGTH_SHORT);
     }
 
     public static void toastSuccess(String content) {
-
         toast(content, successIconResId, Toast.LENGTH_SHORT);
     }
 
     public static void toastSuccess(int resId) {
-
         toast(APP.getInstance().getString(resId), successIconResId, Toast.LENGTH_SHORT);
     }
 
     @SuppressLint("InflateParams")
     public static void toast(ToastParams params) {
-
         View layout = LayoutInflater.from(APP.getInstance()).inflate(R.layout.layout_my_toast, null);
         ImageView imageView = (ImageView) layout.findViewById(R.id.icon_imageview);
         TextView textView = (TextView) layout.findViewById(R.id.message_textview);
@@ -85,7 +76,6 @@ public class ToastUtils {
     }
 
     private static ToastParams getParams() {
-
         if (params == null) {
             synchronized (ToastParams.class) {
                 if (params == null) {
@@ -97,7 +87,6 @@ public class ToastUtils {
     }
 
     private static Toast makeToast(ToastParams params, View view) {
-
         if (toast == null) {
             synchronized (Toast.class) {
                 if (toast == null) {
@@ -126,7 +115,6 @@ public class ToastUtils {
         public int iconResId;
 
         public ToastParams() {
-
             reset();
         }
 
@@ -135,12 +123,10 @@ public class ToastUtils {
             //			gravity = Gravity.CENTER;
             //			xOffset = 0;
             //			yOffset = 0;
-
             //底部显示
             gravity = Gravity.BOTTOM | Gravity.CENTER;
             xOffset = 0;
             yOffset = 110;
-
             content = null;
             duration = Toast.LENGTH_SHORT;
             iconResId = defaultIconResId;

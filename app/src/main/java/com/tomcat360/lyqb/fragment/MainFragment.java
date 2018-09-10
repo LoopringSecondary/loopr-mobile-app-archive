@@ -8,6 +8,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lyqb.walletsdk.listener.BalanceListener;
 import com.lyqb.walletsdk.listener.MarketcapListener;
@@ -28,22 +44,6 @@ import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.view.APP;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -125,13 +125,10 @@ public class MainFragment extends BaseFragment {
     Handler handlerBalance = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
             super.handleMessage(msg);
             switch (msg.what) {
                 case BALANCE_SUCCESS:
-
                 default:
-
                     break;
             }
         }
@@ -180,34 +177,28 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     protected void initPresenter() {
-
     }
 
     @Override
     protected void initView() {
-
         address = (String) SPUtils.get(getContext(), "address", "");
         walletAddress.setText(address);
     }
 
     @Override
     protected void initData() {
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-
         mAdapter = new MainWalletAdapter(R.layout.adapter_item_wallet, null);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
                 if (showMenu) {
                     llMenu.setVisibility(View.GONE);
                     showMenu = false;
@@ -218,15 +209,12 @@ public class MainFragment extends BaseFragment {
                 }
             }
         });
-
         initSupportedTokens();
         initMarketcap();
         initToken();
-
     }
 
     private void initSupportedTokens() {
-
         new Thread(() -> {
             for (SupportedToken token : loopringService.getSupportedToken().toBlocking().single()) {
                 supportedTokenMap.put(token.getSymbol(), token.getDecimals());
@@ -236,22 +224,18 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initMarketcap() {
-
         Observable<MarketcapResult> observable = marketcapListener.start();
         observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<MarketcapResult>() {
             @Override
             public void onCompleted() {
-
             }
 
             @Override
             public void onError(Throwable e) {
-
             }
 
             @Override
             public void onNext(MarketcapResult marketcapResult) {
-
                 for (MarketcapResult.Token token : marketcapResult.getTokens()) {
                     marketcapMap.put(marketcapResult.getCurrency() + "-" + token.getSymbol(), token.getPrice());
                 }
@@ -263,26 +247,21 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initToken() {
-
         LyqbLogger.log(address);
-
         Observable<BalanceResult> observable = balanceListener.start();
         observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<BalanceResult>() {
             @Override
             public void onCompleted() {
-
                 hideProgress();
             }
 
             @Override
             public void onError(Throwable e) {
-
                 hideProgress();
             }
 
             @Override
             public void onNext(BalanceResult balanceResult) {
-
                 hideProgress();
                 while (!supportedFlag || !marketcapFlag) {
                     try {
@@ -327,7 +306,6 @@ public class MainFragment extends BaseFragment {
                      * 返回正数表示：o1大于o2。
                      */
                     public int compare(BalanceResult.Token o1, BalanceResult.Token o2) {
-
                         if (o1.getLegalValue() < o2.getLegalValue()) {
                             return 1;
                         }
@@ -339,7 +317,6 @@ public class MainFragment extends BaseFragment {
                 });
                 APP.setListToken(listToken);
                 updateListToken();
-
                 //                    for (int i = 0; i < listToken.size(); i++) {
                 //                        if (listChooseSymbol.contains(listToken.get(i).getSymbol())) {
                 //                            if (listToken.get(i).getSymbol().equals("ETH")) {
@@ -362,12 +339,10 @@ public class MainFragment extends BaseFragment {
             }
         });
         balanceListener.queryByOwner(address);
-
     }
 
     @Override
     public void onResume() {
-
         super.onResume();
         if (flag) {
             flag = false;
@@ -377,7 +352,6 @@ public class MainFragment extends BaseFragment {
     }
 
     private void updateListToken() {
-
         if (listToken != null) {
             listChooseToken.clear();
             listChooseSymbol = SPUtils.getDataList(getContext(), "choose_token");
@@ -420,15 +394,12 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
-
         unbinder.unbind();
     }
 
     @OnClick({R.id.ll_scan, R.id.ll_receive, R.id.ll_send, R.id.ll_trade, R.id.menu_scan, R.id.menu_add_assets, R.id.menu_wallet, R.id.menu_transaction, R.id.right_btn, R.id.ll_main})
     public void onViewClicked(View view) {
-
         switch (view.getId()) {
             case R.id.ll_scan:  //scan 按钮
                 if (showMenu) {
@@ -446,7 +417,6 @@ public class MainFragment extends BaseFragment {
                     showMenu = false;
                 } else {
                     getOperation().forward(ReceiveActivity.class);
-
                 }
                 break;
             case R.id.ll_send://send转出 按钮
@@ -455,7 +425,6 @@ public class MainFragment extends BaseFragment {
                     showMenu = false;
                 } else {
                     getOperation().forward(SendActivity.class);
-
                 }
                 break;
             case R.id.ll_trade://trade 按钮
@@ -480,13 +449,11 @@ public class MainFragment extends BaseFragment {
                 break;
             case R.id.menu_transaction:
                 break;
-
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
         /**
          * 处理二维码扫描结果
@@ -494,7 +461,6 @@ public class MainFragment extends BaseFragment {
         if (requestCode == REQUEST_CODE) {
             //处理扫描结果（在界面上显示）
             if (null != data) {
-
                 Bundle bundle = data.getExtras();
                 if (bundle == null) {
                     return;

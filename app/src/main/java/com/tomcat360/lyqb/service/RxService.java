@@ -3,12 +3,12 @@ package com.tomcat360.lyqb.service;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.tomcat360.lyqb.net.G;
 import com.tomcat360.lyqb.utils.AndroidUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
-
-import android.content.Context;
-import android.util.Log;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -29,18 +29,15 @@ public class RxService {
     private Context mcontext;
 
     public RxService with(Context context) {
-
         mcontext = context;
         return this;
     }
 
     private OkHttpClient getClient() {
-
         return new OkHttpClient.Builder().addInterceptor(new TokenInterceptor())
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
-
                         return chain.proceed(chain.request() // originalRequest
                                 .newBuilder()
                                 //						.addHeader("Content-Type", "application/json;charset=UTF-8")
@@ -60,7 +57,6 @@ public class RxService {
     }
 
     public <T> T createApi(Class<T> clazz) {
-
         Retrofit retrofit = new Retrofit.Builder().baseUrl(G.BASE_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -73,7 +69,6 @@ public class RxService {
 
         @Override
         public Response intercept(Chain chain) throws IOException {
-
             Response originalResponse = chain.proceed(chain.request());
             //这里获取请求返回的cookie
             if (!originalResponse.headers("Set-Cookie").isEmpty()) {
@@ -82,14 +77,12 @@ public class RxService {
                 Observable.from(originalResponse.headers("Set-Cookie")).map(new Func1<String, String>() {
                     @Override
                     public String call(String s) {
-
                         String[] cookieArray = s.split(";");
                         return cookieArray[0];
                     }
                 }).subscribe(new Action1<String>() {
                     @Override
                     public void call(String cookie) {
-
                         cookieBuffer.append(cookie).append(";");
                     }
                 });
@@ -99,9 +92,7 @@ public class RxService {
                     SPUtils.put(mcontext, "SP_COOKIE", cookieBuffer.toString());
                 //					G.SP_COOKIE = cookieBuffer.toString();
             }
-
             return originalResponse;
         }
     }
-
 }

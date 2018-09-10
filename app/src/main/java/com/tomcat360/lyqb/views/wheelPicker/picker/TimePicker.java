@@ -5,9 +5,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import com.tomcat360.lyqb.views.wheelPicker.DateUtils;
-import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
-
 import android.app.Activity;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -16,6 +13,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.tomcat360.lyqb.views.wheelPicker.DateUtils;
+import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
 
 /**
  * 时间选择器
@@ -42,7 +42,6 @@ public class TimePicker extends WheelPicker {
     private int endHour, endMinute = 59;
 
     public TimePicker(Activity activity) {
-
         this(activity, HOUR_24);
     }
 
@@ -51,7 +50,6 @@ public class TimePicker extends WheelPicker {
      * @see #HOUR_12
      */
     public TimePicker(Activity activity, @Mode int mode) {
-
         super(activity);
         this.mode = mode;
         if (mode == HOUR_12) {
@@ -70,7 +68,6 @@ public class TimePicker extends WheelPicker {
      * 设置时间显示的单位
      */
     public void setLabel(String hourLabel, String minuteLabel) {
-
         this.hourLabel = hourLabel;
         this.minuteLabel = minuteLabel;
     }
@@ -79,7 +76,6 @@ public class TimePicker extends WheelPicker {
      * 设置范围：开始的时分
      */
     public void setRangeStart(int startHour, int startMinute) {
-
         boolean illegal = false;
         if (startHour < 0 || startMinute < 0 || startMinute > 59) {
             illegal = true;
@@ -101,7 +97,6 @@ public class TimePicker extends WheelPicker {
      * 设置范围：结束的时分
      */
     public void setRangeEnd(int endHour, int endMinute) {
-
         boolean illegal = false;
         if (endHour < 0 || endMinute < 0 || endMinute > 59) {
             illegal = true;
@@ -123,20 +118,17 @@ public class TimePicker extends WheelPicker {
      * 设置默认选中的时间
      */
     public void setSelectedItem(int hour, int minute) {
-
         selectedHour = DateUtils.fillZero(hour);
         selectedMinute = DateUtils.fillZero(minute);
     }
 
     public void setOnTimePickListener(OnTimePickListener listener) {
-
         this.onTimePickListener = listener;
     }
 
     @Override
     @NonNull
     protected View makeCenterView() {
-
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
@@ -184,7 +176,6 @@ public class TimePicker extends WheelPicker {
         hourView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-
                 selectedHour = item;
                 minuteView.setItems(changeMinuteData(item), selectedMinute);
             }
@@ -192,7 +183,6 @@ public class TimePicker extends WheelPicker {
         minuteView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-
                 selectedMinute = item;
             }
         });
@@ -200,7 +190,6 @@ public class TimePicker extends WheelPicker {
     }
 
     private ArrayList<String> changeMinuteData(String hour) {
-
         ArrayList<String> minutes = new ArrayList<String>();
         int hourInt = DateUtils.trimZero(hour);
         if (startHour == endHour) {
@@ -234,19 +223,16 @@ public class TimePicker extends WheelPicker {
 
     @Override
     public void onSubmit() {
-
         if (onTimePickListener != null) {
             onTimePickListener.onTimePicked(selectedHour, selectedMinute);
         }
     }
 
     public String getSelectedHour() {
-
         return selectedHour;
     }
 
     public String getSelectedMinute() {
-
         return selectedMinute;
     }
 
@@ -263,7 +249,5 @@ public class TimePicker extends WheelPicker {
     public interface OnTimePickListener {
 
         void onTimePicked(String hour, String minute);
-
     }
-
 }

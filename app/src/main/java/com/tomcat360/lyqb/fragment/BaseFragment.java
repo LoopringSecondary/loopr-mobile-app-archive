@@ -1,11 +1,11 @@
 package com.tomcat360.lyqb.fragment;
 
-import com.tomcat360.lyqb.view.Operation;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import com.tomcat360.lyqb.view.Operation;
 
 public abstract class BaseFragment extends LazyFragment {
 
@@ -18,7 +18,6 @@ public abstract class BaseFragment extends LazyFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
         mBaseOperation = new Operation(getActivity());
         initPresenter();
@@ -43,13 +42,11 @@ public abstract class BaseFragment extends LazyFragment {
 
     @Override
     public void onResume() {
-
         super.onResume();
     }
 
     @Override
     public void onPause() {
-
         super.onPause();
     }
 
@@ -57,7 +54,6 @@ public abstract class BaseFragment extends LazyFragment {
      * 获取共通操作机能
      */
     public Operation getOperation() {
-
         return this.mBaseOperation;
     }
 
@@ -67,27 +63,22 @@ public abstract class BaseFragment extends LazyFragment {
      * @param msg 消息
      */
     public void showToast(String msg) {
-
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void lazyLoad() {
-
     }
 
     public void showProgress(int messageResId) {
-
         showProgress(getString(messageResId));
     }
 
     public void showProgress(String message) {
-
         showProgress(message, false);
     }
 
     public void showProgress(String message, boolean cancelable) {
-
         try {
             if (progressDialog == null) {
                 progressDialog = new ProgressDialog(getContext());
@@ -110,7 +101,6 @@ public abstract class BaseFragment extends LazyFragment {
     }
 
     public void hideProgress() {
-
         if (progressDialog != null) {
             try {
                 progressDialog.dismiss();
@@ -120,5 +110,4 @@ public abstract class BaseFragment extends LazyFragment {
             }
         }
     }
-
 }

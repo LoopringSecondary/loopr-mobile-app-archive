@@ -20,21 +20,17 @@ public class AppManager {
     private static AppManager instance;
 
     private AppManager() {
-
     }
 
     public static void addA2ctivity(Activity activity) {
-
         activities.add(activity);
     }
 
     public static void removeActivity(Activity activity) {
-
         activities.remove(activity);
     }
 
     public static void finishAll() {
-
         for (Activity activity : activities) {
             if (!activity.isFinishing()) {
                 activity.finish();
@@ -46,7 +42,6 @@ public class AppManager {
      * 单一实例
      */
     public static AppManager getAppManager() {
-
         if (instance == null) {
             instance = new AppManager();
         }
@@ -57,7 +52,6 @@ public class AppManager {
      * 添加Activity到堆栈
      */
     public void addActivity(Activity activity) {
-
         if (activityStack == null) {
             activityStack = new Stack<Activity>();
         }
@@ -68,13 +62,11 @@ public class AppManager {
      * 获取当前Activity（堆栈中最后一个压入的）
      */
     public Activity currentActivity() {
-
         Activity activity = activityStack.lastElement();
         return activity;
     }
 
     public Activity preActivity() {
-
         if (activityStack.size() > 1)
             return activityStack.get(activityStack.size() - 2);
         return null;
@@ -84,7 +76,6 @@ public class AppManager {
      * 结束当前Activity（堆栈中最后一个压入的）
      */
     public void finishActivity() {
-
         Activity activity = activityStack.lastElement();
         finishActivity(activity);
     }
@@ -93,7 +84,6 @@ public class AppManager {
      * 结束指定的Activity
      */
     public void finishActivity(Activity activity) {
-
         if (activity != null) {
             activityStack.remove(activity);
             activity.finish();
@@ -105,7 +95,6 @@ public class AppManager {
      * 结束指定类名的Activity
      */
     public void finishActivity(Class<?> cls) {
-
         for (Activity activity : activityStack) {
             if (activity.getClass().equals(cls)) {
                 finishActivity(activity);
@@ -117,7 +106,6 @@ public class AppManager {
      * 结束所有Activity
      */
     public void finishAllActivity() {
-
         for (int i = 0, size = activityStack.size(); i < size; i++) {
             if (null != activityStack.get(i)) {
                 activityStack.get(i).finish();
@@ -130,7 +118,6 @@ public class AppManager {
      * 退出应用程序
      */
     public void AppExit(Context context) {
-
         try {
             finishAllActivity();
             ActivityManager activityMgr = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

@@ -9,17 +9,14 @@ public class KeystoreData {
     private String keystory;
 
     public KeystoreData(String keystory) {
-
         this.keystory = keystory;
     }
 
     public String getKeystory() {
-
         return keystory;
     }
 
     public void setKeystory(String keystory) {
-
         this.keystory = keystory;
     }
 }

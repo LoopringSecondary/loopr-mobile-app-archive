@@ -3,11 +3,10 @@ package com.tomcat360.lyqb.net;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
-import org.json.JSONException;
-
-import com.google.gson.JsonParseException;
-
 import android.net.ParseException;
+
+import org.json.JSONException;
+import com.google.gson.JsonParseException;
 
 import retrofit2.adapter.rxjava.HttpException;
 
@@ -35,7 +34,6 @@ public class ExceptionEngine {
     private static final int GATEWAY_TIMEOUT = 504;
 
     public static ApiException handleException(Throwable e) {
-
         ApiException ex;
         if (e instanceof HttpException) {             //HTTP错误
             HttpException httpException = (HttpException) e;

@@ -12,24 +12,19 @@ public class BaseActivityPresenter<T extends IBaseActivityView> implements Prese
 
     @Override
     public void attachView(T view) {
-
         this.mView = view;
     }
 
     @Override
     public void detachView() {
-
         this.mView = null;
     }
 
     public boolean isViewAttached() {
-
         return mView != null;
     }
 
     public T getView() {
-
         return mView;
     }
-
 }

@@ -5,7 +5,6 @@ package com.tomcat360.lyqb.service;
  */
 
 public interface UserService {
-
     //    /**
     //     * 用户获取短信验证码
     //     *
@@ -29,5 +28,4 @@ public interface UserService {
     //    @FormUrlEncoded
     //    @POST("updatePassword")
     //    Observable<BaseResponse> doFindPassword(@Field("phone") String phone, @Field("newPassword") String newPassword, @Field("vcode") String vcode, @Field("token") String token);
-
 }

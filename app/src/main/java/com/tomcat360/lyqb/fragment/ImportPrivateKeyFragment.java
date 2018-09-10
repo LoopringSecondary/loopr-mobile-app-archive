@@ -3,11 +3,21 @@ package com.tomcat360.lyqb.fragment;
 import java.io.IOException;
 import java.util.List;
 
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
-
 import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
 import com.lyqb.walletsdk.exception.KeystoreSaveException;
@@ -24,17 +34,6 @@ import com.tomcat360.lyqb.utils.DialogUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
-
-import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,7 +83,6 @@ public class ImportPrivateKeyFragment extends BaseFragment {
     Handler handlerCreate = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
             super.handleMessage(msg);
             switch (msg.what) {
                 case MNEMONIC_SUCCESS:
@@ -93,29 +91,23 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
                     SPUtils.put(getContext(), "pas", etPassword.getText().toString());
-
                     SPUtils.put(getContext(), "hasWallet", true);
                     SPUtils.put(getContext(), "address", "0x" + address);
-
                     List<WalletEntity> list = SPUtils.getWalletDataList(getContext(), "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
                     list.add(new WalletEntity("", filename, "0x" + address, ""));
                     SPUtils.setDataList(getContext(), "walletlist", list);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-
                             loopringService.notifyCreateWallet(address)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
                                         @Override
                                         public void onCompleted() {
-
                                             hideProgress();
-
                                             DialogUtil.showWalletCreateResultDialog(getContext(), new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-
                                                     DialogUtil.dialog.dismiss();
                                                     AppManager.finishAll();
                                                     getOperation().forward(MainActivity.class);
@@ -125,14 +117,12 @@ public class ImportPrivateKeyFragment extends BaseFragment {
 
                                         @Override
                                         public void onError(Throwable e) {
-
                                             ToastUtils.toast("创建失败，请重试");
                                             hideProgress();
                                         }
 
                                         @Override
                                         public void onNext(String s) {
-
                                         }
                                     });
                         }
@@ -159,11 +149,9 @@ public class ImportPrivateKeyFragment extends BaseFragment {
     };
 
     public void getAddress() {
-
         new Thread() {
             @Override
             public void run() {
-
                 Message msg = handlerCreate.obtainMessage();
                 try {
                     address = FileUtils.getFileFromSD(getContext());
@@ -177,10 +165,8 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     handlerCreate.sendEmptyMessage(ERROR_FOUR);
                     e.printStackTrace();
                 }
-
             }
         }.start();
-
     }
 
     @Nullable
@@ -194,36 +180,29 @@ public class ImportPrivateKeyFragment extends BaseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
     protected void initPresenter() {
-
     }
 
     @Override
     protected void initView() {
-
     }
 
     @Override
     protected void initData() {
-
     }
 
     @Override
     public void onStart() {
-
         super.onStart();
         EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
-
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
@@ -238,14 +217,12 @@ public class ImportPrivateKeyFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         unbinder.unbind();
     }
 
     @OnClick(R.id.btn_unlock)
     public void onViewClicked() {
-
         if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
             if (TextUtils.isEmpty(etPrivateKey.getText().toString())) {
                 ToastUtils.toast("请输入私钥");
@@ -268,7 +245,6 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                 return;
             }
             unlockWallet();
-
         }
     }
 
@@ -276,12 +252,10 @@ public class ImportPrivateKeyFragment extends BaseFragment {
      * 生成钱包
      */
     private void unlockWallet() {
-
         showProgress("加载中...");
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 WalletDetail walletDetail = null;
                 try {
                     walletDetail = WalletHelper.createFromPrivateKey(etPrivateKey.getText()
@@ -298,9 +272,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     handlerCreate.sendEmptyMessage(ERROR_TWO);
                     e.printStackTrace();
                 }
-
             }
         }).start();
     }
-
 }

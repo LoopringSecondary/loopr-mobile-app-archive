@@ -11,7 +11,6 @@ public abstract class LazyFragment extends RxFragment {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-
         super.setUserVisibleHint(isVisibleToUser);
         if (getUserVisibleHint()) {
             isVisible = true;
@@ -23,13 +22,11 @@ public abstract class LazyFragment extends RxFragment {
     }
 
     protected void onVisible() {
-
         lazyLoad();
     }
 
     protected abstract void lazyLoad();
 
     protected void onInvisible() {
-
     }
 }

@@ -12,7 +12,6 @@ import android.os.Build;
 public class SwipeBackUtils {
 
     private SwipeBackUtils() {
-
     }
 
     /**
@@ -28,7 +27,6 @@ public class SwipeBackUtils {
      * with the {@link android.R.attr#windowIsFloating} attribute.
      */
     public static void convertActivityFromTranslucent(Activity activity) {
-
         try {
             Method method = Activity.class.getDeclaredMethod("convertFromTranslucent");
             method.setAccessible(true);
@@ -50,7 +48,6 @@ public class SwipeBackUtils {
      * with the {@link android.R.attr#windowIsFloating} attribute.
      */
     public static void convertActivityToTranslucent(Activity activity) {
-
         try {
             Class<?>[] classes = Activity.class.getDeclaredClasses();
             Class<?> translucentConversionListenerClazz = null;
@@ -63,7 +60,6 @@ public class SwipeBackUtils {
             //                    translucentConversionListenerClazz);
             //            method.setAccessible(true);
             //            method.invoke(activity, new Object[] {null });
-
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
                 Method method = Activity.class.getDeclaredMethod("convertToTranslucent", translucentConversionListenerClazz);
                 method.setAccessible(true);

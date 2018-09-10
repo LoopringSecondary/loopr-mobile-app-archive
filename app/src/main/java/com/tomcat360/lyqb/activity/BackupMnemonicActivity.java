@@ -3,12 +3,6 @@ package com.tomcat360.lyqb.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
-import com.tomcat360.lyqb.utils.ToastUtils;
-import com.tomcat360.lyqb.views.SpacesItemDecoration;
-import com.tomcat360.lyqb.views.TitleView;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +11,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.adapter.MnemonicWordAdapter;
+import com.tomcat360.lyqb.utils.ToastUtils;
+import com.tomcat360.lyqb.views.SpacesItemDecoration;
+import com.tomcat360.lyqb.views.TitleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,13 +57,11 @@ public class BackupMnemonicActivity extends BaseActivity {
     Handler handlerCreate = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
             super.handleMessage(msg);
             switch (msg.what) {
                 case MNEMONIC_SUCCESS:
                     mHintAdapter.setNewData(listMnemonic);
                     break;
-
                 case ERROR_ONE:
                     hideProgress();
                     ToastUtils.toast("本地文件读取失败，请重试");
@@ -72,7 +70,6 @@ public class BackupMnemonicActivity extends BaseActivity {
                     hideProgress();
                     ToastUtils.toast("本地文件JSON解析失败，请重试");
                     break;
-
             }
         }
     };
@@ -81,7 +78,6 @@ public class BackupMnemonicActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         setContentView(R.layout.activity_backup_mnemonic);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
@@ -89,27 +85,22 @@ public class BackupMnemonicActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-
         title.setBTitle(getResources().getString(R.string.generate_wallet));
         title.clickLeftGoBack(getWContext());
     }
 
     @Override
     public void initView() {
-
         mnemonic = getIntent().getStringExtra("mnemonic");
     }
 
     @Override
     public void initData() {
-
         String[] arrayMne = mnemonic.split(" ");
-
         listMnemonic.clear();
         for (int i = 0; i < arrayMne.length; i++) {
             listMnemonic.add(arrayMne[i]);
         }
-
         //        new Thread(new Runnable() {
         //            @Override
         //            public void run() {
@@ -129,13 +120,10 @@ public class BackupMnemonicActivity extends BaseActivity {
         //                }
         //            }
         //        }).start();
-
         GridLayoutManager layoutManagerHint = new GridLayoutManager(this, 3);
-
         recyclerMnemonicHint.setLayoutManager(layoutManagerHint);  //助记词提示列表
         mHintAdapter = new MnemonicWordAdapter(R.layout.adapter_item_mnemonic_word_hint, listMnemonic);
         recyclerMnemonicHint.addItemDecoration(new SpacesItemDecoration(8));
         recyclerMnemonicHint.setAdapter(mHintAdapter);
-
     }
 }

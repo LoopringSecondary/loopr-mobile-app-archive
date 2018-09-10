@@ -68,10 +68,8 @@ public class SystemStatusManager {
     @SuppressWarnings("ResourceType")
     @TargetApi(19)
     public SystemStatusManager(Activity activity) {
-
         Window win = activity.getWindow();
         ViewGroup decorViewGroup = (ViewGroup) win.getDecorView();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // check theme attrs
             int[] attrs = {android.R.attr.windowTranslucentStatus, android.R.attr.windowTranslucentNavigation};
@@ -82,7 +80,6 @@ public class SystemStatusManager {
             } finally {
                 a.recycle();
             }
-
             // check window flags
             WindowManager.LayoutParams winParams = win.getAttributes();
             int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
@@ -94,20 +91,17 @@ public class SystemStatusManager {
                 mNavBarAvailable = true;
             }
         }
-
         mConfig = new SystemBarConfig(activity, mStatusBarAvailable, mNavBarAvailable);
         // device might not have virtual navigation keys
         if (!mConfig.hasNavigtionBar()) {
             mNavBarAvailable = false;
         }
-
         if (mStatusBarAvailable) {
             setupStatusBarView(activity, decorViewGroup);
         }
         if (mNavBarAvailable) {
             setupNavBarView(activity, decorViewGroup);
         }
-
     }
 
     /**
@@ -120,7 +114,6 @@ public class SystemStatusManager {
      * @param enabled True to enable tinting, false to disable it (default).
      */
     public void setNavigationBarTintEnabled(boolean enabled) {
-
         mNavBarTintEnabled = enabled;
         if (mNavBarAvailable) {
             mNavBarTintView.setVisibility(enabled ? View.VISIBLE : View.GONE);
@@ -133,7 +126,6 @@ public class SystemStatusManager {
      * @param color The color of the background tint.
      */
     public void setTintColor(int color) {
-
         setStatusBarTintColor(color);
         setNavigationBarTintColor(color);
     }
@@ -144,7 +136,6 @@ public class SystemStatusManager {
      * @param res The identifier of the resource.
      */
     public void setTintResource(int res) {
-
         setStatusBarTintResource(res);
         setNavigationBarTintResource(res);
     }
@@ -155,7 +146,6 @@ public class SystemStatusManager {
      * @param drawable The drawable to use as the background, or null to remove it.
      */
     public void setTintDrawable(Drawable drawable) {
-
         setStatusBarTintDrawable(drawable);
         setNavigationBarTintDrawable(drawable);
     }
@@ -166,7 +156,6 @@ public class SystemStatusManager {
      * @param alpha The alpha to use
      */
     public void setTintAlpha(float alpha) {
-
         setStatusBarAlpha(alpha);
         setNavigationBarAlpha(alpha);
     }
@@ -177,7 +166,6 @@ public class SystemStatusManager {
      * @param color The color of the background tint.
      */
     public void setStatusBarTintColor(int color) {
-
         if (mStatusBarAvailable) {
             mStatusBarTintView.setBackgroundColor(color);
         }
@@ -189,7 +177,6 @@ public class SystemStatusManager {
      * @param res The identifier of the resource.
      */
     public void setStatusBarTintResource(int res) {
-
         if (mStatusBarAvailable) {
             mStatusBarTintView.setBackgroundResource(res);
         }
@@ -202,7 +189,6 @@ public class SystemStatusManager {
      */
     @SuppressWarnings("deprecation")
     public void setStatusBarTintDrawable(Drawable drawable) {
-
         if (mStatusBarAvailable) {
             mStatusBarTintView.setBackgroundDrawable(drawable);
         }
@@ -215,7 +201,6 @@ public class SystemStatusManager {
      */
     @TargetApi(11)
     public void setStatusBarAlpha(float alpha) {
-
         if (mStatusBarAvailable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             mStatusBarTintView.setAlpha(alpha);
         }
@@ -227,7 +212,6 @@ public class SystemStatusManager {
      * @param color The color of the background tint.
      */
     public void setNavigationBarTintColor(int color) {
-
         if (mNavBarAvailable) {
             mNavBarTintView.setBackgroundColor(color);
         }
@@ -239,7 +223,6 @@ public class SystemStatusManager {
      * @param res The identifier of the resource.
      */
     public void setNavigationBarTintResource(int res) {
-
         if (mNavBarAvailable) {
             mNavBarTintView.setBackgroundResource(res);
         }
@@ -252,7 +235,6 @@ public class SystemStatusManager {
      */
     @SuppressWarnings("deprecation")
     public void setNavigationBarTintDrawable(Drawable drawable) {
-
         if (mNavBarAvailable) {
             mNavBarTintView.setBackgroundDrawable(drawable);
         }
@@ -265,7 +247,6 @@ public class SystemStatusManager {
      */
     @TargetApi(11)
     public void setNavigationBarAlpha(float alpha) {
-
         if (mNavBarAvailable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             mNavBarTintView.setAlpha(alpha);
         }
@@ -277,7 +258,6 @@ public class SystemStatusManager {
      * @return The system bar configuration for the current device configuration.
      */
     public SystemBarConfig getConfig() {
-
         return mConfig;
     }
 
@@ -287,7 +267,6 @@ public class SystemStatusManager {
      * @return True if enabled, False otherwise.
      */
     public boolean isStatusBarTintEnabled() {
-
         return mStatusBarTintEnabled;
     }
 
@@ -301,7 +280,6 @@ public class SystemStatusManager {
      * @param enabled True to enable tinting, false to disable it (default).
      */
     public void setStatusBarTintEnabled(boolean enabled) {
-
         mStatusBarTintEnabled = enabled;
         if (mStatusBarAvailable) {
             mStatusBarTintView.setVisibility(enabled ? View.VISIBLE : View.GONE);
@@ -314,12 +292,10 @@ public class SystemStatusManager {
      * @return True if enabled, False otherwise.
      */
     public boolean isNavBarTintEnabled() {
-
         return mNavBarTintEnabled;
     }
 
     private void setupStatusBarView(Context context, ViewGroup decorViewGroup) {
-
         mStatusBarTintView = new View(context);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, mConfig.getStatusBarHeight());
         params.gravity = Gravity.TOP;
@@ -333,7 +309,6 @@ public class SystemStatusManager {
     }
 
     private void setupNavBarView(Context context, ViewGroup decorViewGroup) {
-
         mNavBarTintView = new View(context);
         LayoutParams params;
         if (mConfig.isNavigationAtBottom()) {
@@ -384,7 +359,6 @@ public class SystemStatusManager {
         private final float mSmallestWidthDp;
 
         private SystemBarConfig(Activity activity, boolean translucentStatusBar, boolean traslucentNavBar) {
-
             Resources res = activity.getResources();
             mInPortrait = (res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
             mSmallestWidthDp = getSmallestWidthDp(activity);
@@ -399,7 +373,6 @@ public class SystemStatusManager {
 
         @TargetApi(14)
         private int getActionBarHeight(Context context) {
-
             int result = 0;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                 TypedValue tv = new TypedValue();
@@ -411,7 +384,6 @@ public class SystemStatusManager {
 
         @TargetApi(14)
         private int getNavigationBarHeight(Context context) {
-
             Resources res = context.getResources();
             int result = 0;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -430,7 +402,6 @@ public class SystemStatusManager {
 
         @TargetApi(14)
         private int getNavigationBarWidth(Context context) {
-
             Resources res = context.getResources();
             int result = 0;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -443,7 +414,6 @@ public class SystemStatusManager {
 
         @TargetApi(14)
         private boolean hasNavBar(Context context) {
-
             Resources res = context.getResources();
             int resourceId = res.getIdentifier(SHOW_NAV_BAR_RES_NAME, "bool", "android");
             if (resourceId != 0) {
@@ -461,7 +431,6 @@ public class SystemStatusManager {
         }
 
         private int getInternalDimensionSize(Resources res, String key) {
-
             int result = 0;
             int resourceId = res.getIdentifier(key, "dimen", "android");
             if (resourceId > 0) {
@@ -472,7 +441,6 @@ public class SystemStatusManager {
 
         @SuppressLint("NewApi")
         private float getSmallestWidthDp(Activity activity) {
-
             DisplayMetrics metrics = new DisplayMetrics();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
@@ -492,7 +460,6 @@ public class SystemStatusManager {
          * @return True if navigation should appear at the bottom of the screen, False otherwise.
          */
         public boolean isNavigationAtBottom() {
-
             return (mSmallestWidthDp >= 600 || mInPortrait);
         }
 
@@ -502,7 +469,6 @@ public class SystemStatusManager {
          * @return The height of the status bar (in pixels).
          */
         public int getStatusBarHeight() {
-
             return mStatusBarHeight;
         }
 
@@ -512,7 +478,6 @@ public class SystemStatusManager {
          * @return The height of the action bar (in pixels).
          */
         public int getActionBarHeight() {
-
             return mActionBarHeight;
         }
 
@@ -522,7 +487,6 @@ public class SystemStatusManager {
          * @return True if this device uses soft key navigation, False otherwise.
          */
         public boolean hasNavigtionBar() {
-
             return mHasNavigationBar;
         }
 
@@ -533,7 +497,6 @@ public class SystemStatusManager {
          * soft navigation keys, this will always return 0.
          */
         public int getNavigationBarHeight() {
-
             return mNavigationBarHeight;
         }
 
@@ -544,7 +507,6 @@ public class SystemStatusManager {
          * soft navigation keys, this will always return 0.
          */
         public int getNavigationBarWidth() {
-
             return mNavigationBarWidth;
         }
 
@@ -555,7 +517,6 @@ public class SystemStatusManager {
          * @return The layout inset (in pixels).
          */
         public int getPixelInsetTop(boolean withActionBar) {
-
             return (mTranslucentStatusBar ? mStatusBarHeight : 0) + (withActionBar ? mActionBarHeight : 0);
         }
 
@@ -565,7 +526,6 @@ public class SystemStatusManager {
          * @return The layout inset (in pixels).
          */
         public int getPixelInsetBottom() {
-
             if (mTranslucentNavBar && isNavigationAtBottom()) {
                 return mNavigationBarHeight;
             } else {
@@ -579,14 +539,11 @@ public class SystemStatusManager {
          * @return The layout inset (in pixels).
          */
         public int getPixelInsetRight() {
-
             if (mTranslucentNavBar && !isNavigationAtBottom()) {
                 return mNavigationBarWidth;
             } else {
                 return 0;
             }
         }
-
     }
-
 }

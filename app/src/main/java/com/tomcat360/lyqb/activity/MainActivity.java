@@ -1,13 +1,5 @@
 package com.tomcat360.lyqb.activity;
 
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.fragment.MainFragment;
-import com.tomcat360.lyqb.fragment.SettingFragment;
-import com.tomcat360.lyqb.fragment.TradeFragment;
-import com.tomcat360.lyqb.utils.AppManager;
-import com.tomcat360.lyqb.utils.LyqbLogger;
-import com.tomcat360.lyqb.utils.SPUtils;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +12,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.fragment.MainFragment;
+import com.tomcat360.lyqb.fragment.SettingFragment;
+import com.tomcat360.lyqb.fragment.TradeFragment;
+import com.tomcat360.lyqb.utils.AppManager;
+import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.utils.SPUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,7 +75,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         AppManager.getAppManager().addActivity(this);
@@ -85,7 +84,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
         changeFragment();
         setTabSelect(0);
         if ((Boolean) SPUtils.get(this, "isRecreate", false)) {//判断是否是更改语言设置后，执行了系统的recreate()方法,
@@ -96,21 +94,17 @@ public class MainActivity extends BaseActivity {
         //                ChangeMainFragment(0);
         //                SPUtils.put(this,"isNewintent",false);
         //            }
-
     }
 
     @Override
     public void initData() {
-
     }
 
     @Override
     public void initTitle() {
-
     }
 
     public void setTabSelect(int i) {
-
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         switch (i) {
@@ -144,14 +138,11 @@ public class MainActivity extends BaseActivity {
                     transaction.show(Fragment3);
                 }
                 break;
-
         }
         transaction.commitAllowingStateLoss();
-
     }
 
     private void hideTab(FragmentTransaction transaction) {
-
         if (Fragment1 != null) {
             transaction.hide(Fragment1);
         }
@@ -164,13 +155,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void changeFragment() {
-
         imagebuttons = new ImageView[3];
         imagebuttons[0] = (ImageView) findViewById(R.id.iv_main);
         imagebuttons[1] = (ImageView) findViewById(R.id.iv_trade);
         imagebuttons[2] = (ImageView) findViewById(R.id.iv_setting);
         imagebuttons[0].setSelected(true);
-
         textviews = new TextView[3];
         textviews[0] = (TextView) findViewById(R.id.tv_main);
         textviews[1] = (TextView) findViewById(R.id.tv_trade);
@@ -180,7 +169,6 @@ public class MainActivity extends BaseActivity {
 
     //改变主界面的fragment
     public void ChangeMainFragment(int type) {
-
         index = type;
         imagebuttons[currentTabIndex].setSelected(false);
         imagebuttons[index].setSelected(true);
@@ -192,7 +180,6 @@ public class MainActivity extends BaseActivity {
 
     @OnClick({R.id.rl_main, R.id.rl_trade, R.id.rl_setting})
     public void onViewClicked(View view) {
-
         switch (view.getId()) {
             case R.id.rl_main:
                 index = 0;
@@ -206,7 +193,6 @@ public class MainActivity extends BaseActivity {
                 index = 2;
                 setTabSelect(2);
                 break;
-
         }
         imagebuttons[currentTabIndex].setSelected(false);
         imagebuttons[index].setSelected(true);
@@ -217,7 +203,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-
         super.onResume();
         if ((Boolean) SPUtils.get(this, "isRecreate", false)) {//判断是否是更改语言设置后，执行了系统的recreate()方法,
             recreate();//判断是否是更改语言设置后，执行了系统的recreate()方法,
@@ -226,7 +211,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-
         super.onNewIntent(intent);
         LyqbLogger.log("22222222");
         index = 0;
@@ -237,7 +221,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         //        APP.getLoopring().destroy();
     }
@@ -250,7 +233,6 @@ public class MainActivity extends BaseActivity {
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if ((System.currentTimeMillis() - exitTime) > 2000) // System.currentTimeMillis()无论何时调用，肯定大于2000
             {
@@ -260,7 +242,6 @@ public class MainActivity extends BaseActivity {
                 finish();
                 System.exit(0);
             }
-
             return true;
         }
         return super.onKeyDown(keyCode, event);

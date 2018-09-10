@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-
-import android.content.Context;
-import android.content.SharedPreferences;
 
 /**
  * SharedPreferences工具类
@@ -35,7 +35,6 @@ public class SPUtils {
      * @param object
      */
     public static void put(Context context, String key, Object object) {
-
         SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         if (object == null) {
@@ -54,7 +53,6 @@ public class SPUtils {
         } else {
             editor.putString(key, object.toString());
         }
-
         SharedPreferencesCompat.commit(editor);
     }
 
@@ -67,11 +65,9 @@ public class SPUtils {
      * @return
      */
     public static Object get(Context context, String key, Object defaultObject) {
-
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         if (defaultObject instanceof String) {
             String str = sp.getString(key, (String) defaultObject);
-
             if (!sp.contains(key)) {
                 return defaultObject;
             } else {
@@ -103,7 +99,6 @@ public class SPUtils {
      * @param key
      */
     public static void remove(Context context, String key) {
-
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(key);
@@ -116,7 +111,6 @@ public class SPUtils {
      * @param context
      */
     public static void clear(Context context) {
-
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
@@ -131,7 +125,6 @@ public class SPUtils {
      * @return
      */
     public static boolean contains(Context context, String key) {
-
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         return sp.contains(key);
     }
@@ -143,7 +136,6 @@ public class SPUtils {
      * @return
      */
     public static Map<String, ?> getAll(Context context) {
-
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         return sp.getAll();
     }
@@ -155,10 +147,8 @@ public class SPUtils {
      * @param datalist
      */
     public static <T> void setDataList(Context context, String tag, List<T> datalist) {
-
         SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-
         if (null == datalist || datalist.size() <= 0)
             return;
         Gson gson = new Gson();
@@ -167,7 +157,6 @@ public class SPUtils {
         editor.putString(tag, strJson);
         editor.commit();
         SharedPreferencesCompat.commit(editor);
-
     }
 
     /**
@@ -177,7 +166,6 @@ public class SPUtils {
      * @return
      */
     public static <T> List<T> getDataList(Context context, String tag) {
-
         SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         List<T> datalist = new ArrayList<T>();
         String strJson = sp.getString(tag, null);
@@ -191,7 +179,6 @@ public class SPUtils {
         datalist = gson.fromJson(strJson, new TypeToken<List<T>>() {
         }.getType());
         return datalist;
-
     }
 
     /**
@@ -201,7 +188,6 @@ public class SPUtils {
      * @return
      */
     public static <T> List<T> getWalletDataList(Context context, String tag, Class<T> cls) {
-
         SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         List<T> datalist = new ArrayList<T>();
         String strJson = sp.getString(tag, null);
@@ -215,7 +201,6 @@ public class SPUtils {
         }
         //		datalist = gson.fromJson(strJson, new TypeToken<List<T>>() {}.getType());
         return datalist;
-
     }
 
     /**
@@ -234,14 +219,12 @@ public class SPUtils {
          */
         @SuppressWarnings({"unchecked", "rawtypes"})
         private static Method findApplyMethod() {
-
             try {
                 Class clz = SharedPreferences.Editor.class;
                 return clz.getMethod("apply");
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 
@@ -251,14 +234,12 @@ public class SPUtils {
          * @param editor
          */
         public static void apply(SharedPreferences.Editor editor) {
-
             try {
                 if (sApplyMethod != null) {
                     sApplyMethod.invoke(editor);
                     return;
                 }
             } catch (IllegalArgumentException e) {
-
             } catch (IllegalAccessException e) {
             } catch (InvocationTargetException e) {
             }
@@ -266,9 +247,7 @@ public class SPUtils {
         }
 
         public static void commit(SharedPreferences.Editor editor) {
-
             editor.commit();
         }
     }
-
 }

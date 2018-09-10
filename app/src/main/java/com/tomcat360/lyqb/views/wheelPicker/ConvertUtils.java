@@ -60,7 +60,6 @@ public class ConvertUtils {
      * 转换为6位十六进制颜色代码，不含“#”
      */
     public static String toColorString(int color) {
-
         return toColorString(color, false);
     }
 
@@ -68,7 +67,6 @@ public class ConvertUtils {
      * 转换为6位十六进制颜色代码，不含“#”
      */
     public static String toColorString(int color, boolean includeAlpha) {
-
         String alpha = Integer.toHexString(Color.alpha(color));
         String red = Integer.toHexString(Color.red(color));
         String green = Integer.toHexString(Color.green(color));
@@ -100,7 +98,6 @@ public class ConvertUtils {
      * 将指定的日期转换为一定格式的字符串
      */
     public static String toDateString(Date date, String format) {
-
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.CHINA);
         return sdf.format(date);
     }
@@ -109,7 +106,6 @@ public class ConvertUtils {
      * 将当前的日期转换为一定格式的字符串
      */
     public static String toDateString(String format) {
-
         return toDateString(Calendar.getInstance(Locale.CHINA).getTime(), format);
     }
 
@@ -119,7 +115,6 @@ public class ConvertUtils {
      * @param dateStr 如：2014-04-08 23:02
      */
     public static Date toDate(String dateStr) {
-
         return DateUtils.parseDate(dateStr);
     }
 
@@ -129,12 +124,10 @@ public class ConvertUtils {
      * @param dateStr 如：2014-04-08 23:02
      */
     public static long toTimemillis(String dateStr) {
-
         return toDate(dateStr).getTime();
     }
 
     public static String toSlashString(String str) {
-
         String result = "";
         char[] chars = str.toCharArray();
         for (char chr : chars) {
@@ -152,17 +145,14 @@ public class ConvertUtils {
     }
 
     public static <T> List<T> toList(T[] array) {
-
         return Arrays.asList(array);
     }
 
     public static String toString(Object[] objects) {
-
         return Arrays.deepToString(objects);
     }
 
     public static String toString(Object[] objects, String tag) {
-
         StringBuilder sb = new StringBuilder();
         for (Object object : objects) {
             sb.append(object);
@@ -172,7 +162,6 @@ public class ConvertUtils {
     }
 
     public static byte[] toByteArray(InputStream is) {
-
         if (is == null) {
             return null;
         }
@@ -194,7 +183,6 @@ public class ConvertUtils {
     }
 
     public static byte[] toByteArray(Bitmap bitmap) {
-
         if (bitmap == null) {
             return null;
         }
@@ -211,7 +199,6 @@ public class ConvertUtils {
     }
 
     public static Bitmap toBitmap(byte[] bytes, int width, int height) {
-
         Bitmap bitmap = null;
         if (bytes.length != 0) {
             try {
@@ -233,7 +220,6 @@ public class ConvertUtils {
     }
 
     public static Bitmap toBitmap(byte[] bytes) {
-
         return toBitmap(bytes, -1, -1);
     }
 
@@ -243,7 +229,6 @@ public class ConvertUtils {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static Bitmap toBitmap(Drawable drawable) {
-
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
         } else if (drawable instanceof ColorDrawable) {
@@ -271,7 +256,6 @@ public class ConvertUtils {
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String toPath(Context context, Uri uri) {
-
         if (uri == null) {
             LogUtils.verbose("uri is null");
             return "";
@@ -332,7 +316,6 @@ public class ConvertUtils {
     }
 
     private static String _queryPathFromMediaStore(Context context, Uri uri, String selection, String[] selectionArgs) {
-
         String filePath = null;
         try {
             String[] projection = {MediaStore.Images.Media.DATA};
@@ -354,7 +337,6 @@ public class ConvertUtils {
      * 参见：http://www.cnblogs.com/lee0oo0/p/3355468.html
      */
     public static Bitmap toBitmap(View view) {
-
         int width = view.getWidth();
         int height = view.getHeight();
         if (view instanceof ListView) {
@@ -405,17 +387,14 @@ public class ConvertUtils {
     }
 
     public static Drawable toDrawable(Bitmap bitmap) {
-
         return bitmap == null ? null : new BitmapDrawable(null, bitmap);
     }
 
     public static byte[] toByteArray(Drawable drawable) {
-
         return toByteArray(toBitmap(drawable));
     }
 
     public static Drawable toDrawable(byte[] bytes) {
-
         return toDrawable(toBitmap(bytes));
     }
 
@@ -423,7 +402,6 @@ public class ConvertUtils {
      * dp转换为px
      */
     public static int toPx(Context context, float dpValue) {
-
         final float scale = context.getResources().getDisplayMetrics().density;
         int pxValue = (int) (dpValue * scale + 0.5f);
         LogUtils.verbose(dpValue + " dp == " + pxValue + " px");
@@ -431,7 +409,6 @@ public class ConvertUtils {
     }
 
     public static int toPx(float dpValue) {
-
         Resources resources = Resources.getSystem();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, resources.getDisplayMetrics());
         return (int) px;
@@ -441,7 +418,6 @@ public class ConvertUtils {
      * px转换为dp
      */
     public static int toDp(Context context, float pxValue) {
-
         final float scale = context.getResources().getDisplayMetrics().density;
         int dpValue = (int) (pxValue / scale + 0.5f);
         LogUtils.verbose(pxValue + " px == " + dpValue + " dp");
@@ -452,7 +428,6 @@ public class ConvertUtils {
      * px转换为sp
      */
     public static int toSp(Context context, float pxValue) {
-
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         int spValue = (int) (pxValue / fontScale + 0.5f);
         LogUtils.verbose(pxValue + " px == " + spValue + " sp");
@@ -460,7 +435,6 @@ public class ConvertUtils {
     }
 
     public static String toGbk(String str) {
-
         try {
             return new String(str.getBytes("utf-8"), "gbk");
         } catch (UnsupportedEncodingException e) {
@@ -470,7 +444,6 @@ public class ConvertUtils {
     }
 
     public static String toFileSizeString(long fileSize) {
-
         DecimalFormat df = new DecimalFormat("0.00");
         String fileSizeString;
         if (fileSize < KB) {
@@ -486,7 +459,6 @@ public class ConvertUtils {
     }
 
     public static String toString(InputStream is, String charset) {
-
         StringBuffer sb = new StringBuffer();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, charset));
@@ -503,12 +475,10 @@ public class ConvertUtils {
     }
 
     public static String toString(InputStream is) {
-
         return toString(is, "utf-8");
     }
 
     public static ShapeDrawable toRoundDrawable(@ColorInt int color, int radius) {
-
         float[] outerR = new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
         RoundRectShape shape = new RoundRectShape(outerR, null, null);
         ShapeDrawable drawable = new ShapeDrawable(shape);
@@ -517,12 +487,10 @@ public class ConvertUtils {
     }
 
     public static StateListDrawable toStateRoundDrawable(@ColorInt int color, int radius) {
-
         return toStateListDrawable(new ColorDrawable(Color.TRANSPARENT), toRoundDrawable(color, radius));
     }
 
     public static StateListDrawable toStateRoundDrawable(@ColorInt int normalColor, @ColorInt int focusColor, int radius) {
-
         return toStateListDrawable(toRoundDrawable(normalColor, radius), toRoundDrawable(focusColor, radius));
     }
 
@@ -532,7 +500,6 @@ public class ConvertUtils {
      * Modified by liyujiang at 2015.08.13
      */
     public static ColorStateList toColorStateList(@ColorInt int normalColor, @ColorInt int pressedColor, @ColorInt int focusedColor, @ColorInt int unableColor) {
-
         int[] colors = new int[]{pressedColor, focusedColor, normalColor, focusedColor, unableColor, normalColor};
         int[][] states = new int[6][];
         states[0] = new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled};
@@ -545,12 +512,10 @@ public class ConvertUtils {
     }
 
     public static ColorStateList toColorStateList(@ColorInt int normalColor, @ColorInt int pressedColor) {
-
         return toColorStateList(normalColor, pressedColor, pressedColor, normalColor);
     }
 
     public static StateListDrawable toStateListDrawable(Drawable normal, Drawable pressed, Drawable focused, Drawable unable) {
-
         StateListDrawable drawable = new StateListDrawable();
         drawable.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, pressed);
         drawable.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_focused}, focused);
@@ -562,7 +527,6 @@ public class ConvertUtils {
     }
 
     public static StateListDrawable toStateListDrawable(@ColorInt int normalColor, @ColorInt int pressedColor, @ColorInt int focusedColor, @ColorInt int unableColor) {
-
         StateListDrawable drawable = new StateListDrawable();
         Drawable normal = new ColorDrawable(normalColor);
         Drawable pressed = new ColorDrawable(pressedColor);
@@ -578,18 +542,14 @@ public class ConvertUtils {
     }
 
     public static StateListDrawable toStateListDrawable(Drawable normal, Drawable pressed) {
-
         return toStateListDrawable(normal, pressed, pressed, normal);
     }
 
     public static StateListDrawable toStateListDrawable(@ColorInt int normalColor, @ColorInt int pressedColor) {
-
         return toStateListDrawable(normalColor, pressedColor, pressedColor, normalColor);
     }
 
     public static StateListDrawable toStateListDrawable(@ColorInt int pressedColor) {
-
         return toStateListDrawable(Color.TRANSPARENT, pressedColor);
     }
-
 }

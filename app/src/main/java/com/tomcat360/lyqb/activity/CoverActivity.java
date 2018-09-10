@@ -3,9 +3,6 @@ package com.tomcat360.lyqb.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.utils.AppManager;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -14,6 +11,9 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.AppManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,40 +35,33 @@ public class CoverActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         setContentView(R.layout.activity_cover);
         ButterKnife.bind(this);
         AppManager.getAppManager().addActivity(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
         initPermissions();
-
     }
 
     @Override
     public void initTitle() {
-
     }
 
     @Override
     public void initView() {
-
     }
 
     @Override
     public void initData() {
-
     }
 
     @Override
     protected void onResume() {
-
         super.onResume();
     }
 
     @OnClick({R.id.rl_import, R.id.rl_generate, R.id.icon})
     public void onViewClicked(View view) {
-
         switch (view.getId()) {
             case R.id.rl_import:
                 getOperation().forward(ImportWalletActivity.class);
@@ -119,6 +112,5 @@ public class CoverActivity extends BaseActivity {
             String[] mPermissionList = list.toArray(new String[]{});
             ActivityCompat.requestPermissions(this, mPermissionList, 100);
         }
-
     }
 }

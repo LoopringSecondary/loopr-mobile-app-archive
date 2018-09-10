@@ -2,13 +2,6 @@ package com.tomcat360.lyqb.fragment;
 
 import java.io.IOException;
 
-import org.json.JSONException;
-
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.utils.FileUtils;
-import com.tomcat360.lyqb.utils.ToastUtils;
-import com.vondear.rxfeature.tool.RxQRCode;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import org.json.JSONException;
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.FileUtils;
+import com.tomcat360.lyqb.utils.ToastUtils;
+import com.vondear.rxfeature.tool.RxQRCode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,11 +46,9 @@ public class QRCodeFragment extends BaseFragment {
     Handler handlerCreate = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
             super.handleMessage(msg);
             switch (msg.what) {
                 case KEYSTORE_SUCCESS:
-
                     //二维码生成方式一  推荐此方法
                     RxQRCode.builder(keystore).
                             backColor(0xFFFFFFFF).
@@ -65,7 +62,6 @@ public class QRCodeFragment extends BaseFragment {
                 case ERROR_TWO:
                     ToastUtils.toast("本地文件JSON解析失败，请重试");
                     break;
-
             }
         }
     };
@@ -84,29 +80,23 @@ public class QRCodeFragment extends BaseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
     protected void initPresenter() {
-
     }
 
     @Override
     protected void initView() {
-
     }
 
     @Override
     protected void initData() {
-
         new Thread(new Runnable() {
 
             @Override
             public void run() {
-
                 try {
                     keystore = FileUtils.getKeystoreFromSD(getContext(), filename);
                     handlerCreate.sendEmptyMessage(KEYSTORE_SUCCESS);
@@ -119,14 +109,11 @@ public class QRCodeFragment extends BaseFragment {
                 }
             }
         }).start();
-
     }
 
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         unbinder.unbind();
     }
-
 }

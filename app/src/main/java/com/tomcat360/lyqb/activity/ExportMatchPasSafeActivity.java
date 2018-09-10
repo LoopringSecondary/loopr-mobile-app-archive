@@ -1,13 +1,13 @@
 package com.tomcat360.lyqb.activity;
 
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.Button;
+
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.TitleView;
-
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.widget.Button;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +40,6 @@ public class ExportMatchPasSafeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         setContentView(R.layout.activity_export_keystore);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
@@ -48,7 +47,6 @@ public class ExportMatchPasSafeActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-
         type = getIntent().getIntExtra("type", 1);
         title.setBTitle(getResources().getString(R.string.match_password));
         title.clickLeftGoBack(getWContext());
@@ -56,24 +54,20 @@ public class ExportMatchPasSafeActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
     }
 
     @Override
     public void initData() {
-
         position = getIntent().getIntExtra("position", 0);
         filename = getIntent().getStringExtra("filename");
         address = getIntent().getStringExtra("address");
         walletname = getIntent().getStringExtra("walletname");
         mnemonic = getIntent().getStringExtra("mnemonic");
         pas = getIntent().getStringExtra("pas");
-
     }
 
     @OnClick(R.id.btn_confirm)
     public void onViewClicked() {
-
         if (TextUtils.isEmpty(etPassword.getText().toString())) {
             ToastUtils.toast("请输入密码");
             return;
@@ -89,7 +83,6 @@ public class ExportMatchPasSafeActivity extends BaseActivity {
         } else if (type == 2) {
             getOperation().addParameter("filename", filename);
             getOperation().addParameter("address", address);
-
             getOperation().addParameter("password", etPassword.getText().toString());
             getOperation().forward(ExportPrivateKeyActivity.class);
         } else if (type == 3) {

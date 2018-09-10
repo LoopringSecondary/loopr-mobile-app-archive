@@ -14,13 +14,10 @@ public class City extends Area {
     private ArrayList<County> counties = new ArrayList<County>();
 
     public ArrayList<County> getCounties() {
-
         return counties;
     }
 
     public void setCounties(ArrayList<County> counties) {
-
         this.counties = counties;
     }
-
 }

@@ -2,8 +2,6 @@ package com.tomcat360.lyqb.views;
 
 import java.lang.ref.WeakReference;
 
-import com.tomcat360.lyqb.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -14,6 +12,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.tomcat360.lyqb.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,17 +48,14 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
     private Activity activity;
 
     public TitleView(Context context) {
-
         this(context, null);
     }
 
     public TitleView(Context context, AttributeSet attrs) {
-
         this(context, attrs, 0);
     }
 
     public TitleView(Context context, AttributeSet attrs, int defStyle) {
-
         super(context, attrs, defStyle);
         if (isInEditMode()) {
             return;
@@ -81,7 +78,6 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
     }
 
     public void setLeftButton(OnLeftButtonClickListener listener) {
-
         mLeftBtn.setVisibility(View.VISIBLE);
         mOnLeftButtonClickListener = listener;
     }
@@ -90,32 +86,27 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
      * @param context
      */
     public void clickLeftGoBack(final WeakReference<Activity> context) {
-
         mLeftBtn.setVisibility(View.VISIBLE);
         mOnLeftButtonClickListener = new OnLeftButtonClickListener() {
             @Override
             public void onClick(View button) {
-
                 context.get().finish();
             }
         };
     }
 
     public void clickLeftGoBack(int imgResource, final WeakReference<Activity> context) {
-
         mLeftBtn.setVisibility(View.VISIBLE);
         mLeftBtn.setImageResource(imgResource);
         mOnLeftButtonClickListener = new OnLeftButtonClickListener() {
             @Override
             public void onClick(View button) {
-
                 context.get().finish();
             }
         };
     }
 
     public void setRightButton(String str, OnRightButtonClickListener listener) {
-
         mRightText.setText(str);
         mRightText.setVisibility(View.VISIBLE);
         mRightbtn.setVisibility(View.GONE);
@@ -123,7 +114,6 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
     }
 
     public void setRightImageButton(int srcId, OnRightButtonClickListener listener) {
-
         mRightText.setVisibility(View.GONE);
         mRightbtn.setVisibility(View.VISIBLE);
         mRightbtn.setImageResource(srcId);
@@ -131,35 +121,28 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
     }
 
     public void setHeight(int height) {
-
         titleView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, height));
     }
 
     // 居中标题设置
     public void setBTitle(int stringID) {
-
         bTitle.setVisibility(View.VISIBLE);
         bTitle.setText(stringID);
-
     }
 
     // 居中标题设置
     public void setBTitle(String stringID) {
-
         bTitle.setVisibility(View.VISIBLE);
         bTitle.setText(stringID);
-
     }
 
     // 居中标题设置String
     public void setStringBTitle(String str) {
-
         bTitle.setVisibility(View.VISIBLE);
         bTitle.setText(str);
     }
 
     public void setBTitleColor() {
-
         bTitle.setTextColor(Color.rgb(0x00, 0x00, 0x00));
         // TextPaint tpPaint = bTitle.getPaint();
         // tpPaint.setFakeBoldText(true); // 加粗
@@ -169,13 +152,11 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
 
     @OnClick({R.id.left_btn, R.id.right_text, R.id.right_btn})
     public void onClick(View view) {
-
         switch (view.getId()) {
             case R.id.left_btn:
                 if (mOnLeftButtonClickListener != null)
                     mOnLeftButtonClickListener.onClick(view);
                 break;
-
             case R.id.right_text:
             case R.id.right_btn:
                 if (mOnRightButtonClickListener != null)

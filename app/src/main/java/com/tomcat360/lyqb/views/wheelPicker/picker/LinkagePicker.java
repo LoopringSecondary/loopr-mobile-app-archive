@@ -3,9 +3,6 @@ package com.tomcat360.lyqb.views.wheelPicker.picker;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import com.tomcat360.lyqb.views.wheelPicker.LogUtils;
-import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
-
 import android.app.Activity;
 import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
@@ -13,6 +10,9 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.tomcat360.lyqb.views.wheelPicker.LogUtils;
+import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
 
 /**
  * 两级、三级联动选择器。
@@ -47,7 +47,6 @@ public class LinkagePicker extends WheelPicker {
     private double thirdColumnWeight = 0;//第三级显示的宽度比
 
     public LinkagePicker(Activity activity) {
-
         super(activity);
     }
 
@@ -55,7 +54,6 @@ public class LinkagePicker extends WheelPicker {
      * 二级联动选择器构造函数
      */
     public LinkagePicker(Activity activity, ArrayList<String> firstList, ArrayList<ArrayList<String>> secondList) {
-
         this(activity, firstList, secondList, null);
     }
 
@@ -63,7 +61,6 @@ public class LinkagePicker extends WheelPicker {
      * 三级联动选择器构造函数
      */
     public LinkagePicker(Activity activity, ArrayList<String> firstList, ArrayList<ArrayList<String>> secondList, ArrayList<ArrayList<ArrayList<String>>> thirdList) {
-
         super(activity);
         this.firstList = firstList;
         this.secondList = secondList;
@@ -75,12 +72,10 @@ public class LinkagePicker extends WheelPicker {
     }
 
     public void setSelectedItem(String firstText, String secondText) {
-
         setSelectedItem(firstText, secondText, "");
     }
 
     public void setSelectedItem(String firstText, String secondText, String thirdText) {
-
         for (int i = 0; i < firstList.size(); i++) {
             String ft = firstList.get(i);
             if (ft.contains(firstText)) {
@@ -113,32 +108,26 @@ public class LinkagePicker extends WheelPicker {
     }
 
     public String getSelectedFirstText() {
-
         return selectedFirstText;
     }
 
     public String getSelectedSecondText() {
-
         return selectedSecondText;
     }
 
     public String getSelectedThirdText() {
-
         return selectedThirdText;
     }
 
     public int getSelectedFirstIndex() {
-
         return selectedFirstIndex;
     }
 
     public int getSelectedSecondIndex() {
-
         return selectedSecondIndex;
     }
 
     public int getSelectedThirdIndex() {
-
         return selectedThirdIndex;
     }
 
@@ -146,7 +135,6 @@ public class LinkagePicker extends WheelPicker {
      * 设置每列的宽度比例，将屏幕分为三列，每列范围为0.0～1.0，如0.3333表示约占屏幕的三分之一。
      */
     public void setColumnWeight(@FloatRange(from = 0, to = 1) double firstColumnWeight, @FloatRange(from = 0, to = 1) double secondColumnWeight, @FloatRange(from = 0, to = 1) double thirdColumnWeight) {
-
         this.firstColumnWeight = firstColumnWeight;
         this.secondColumnWeight = secondColumnWeight;
         this.thirdColumnWeight = thirdColumnWeight;
@@ -156,14 +144,12 @@ public class LinkagePicker extends WheelPicker {
      * 设置每列的宽度比例，将屏幕分为两列，每列范围为0.0～1.0，如0.5表示占屏幕的一半。
      */
     public void setColumnWeight(@FloatRange(from = 0, to = 1) double firstColumnWeight, @FloatRange(from = 0, to = 1) double secondColumnWeight) {
-
         this.firstColumnWeight = firstColumnWeight;
         this.secondColumnWeight = secondColumnWeight;
         this.thirdColumnWeight = 0;
     }
 
     public void setOnLinkageListener(OnLinkageListener onLinkageListener) {
-
         this.onLinkageListener = onLinkageListener;
     }
 
@@ -172,7 +158,6 @@ public class LinkagePicker extends WheelPicker {
      * 三级联动默认每列宽度为屏幕宽度的三分之一，两级联动默认每列宽度为屏幕宽度的一半。
      */
     protected final int[] getColumnWidths(boolean onlyTwoColumn) {
-
         LogUtils.verbose(this, String.format(Locale.CHINA, "column weight is: %f-%f-%f", firstColumnWeight, secondColumnWeight, thirdColumnWeight));
         int[] widths = new int[3];
         if (firstColumnWeight == 0 && secondColumnWeight == 0 && thirdColumnWeight == 0) {
@@ -196,7 +181,6 @@ public class LinkagePicker extends WheelPicker {
     @NonNull
     @Override
     protected View makeCenterView() {
-
         if (firstList.size() == 0 || secondList.size() == 0) {
             throw new IllegalArgumentException("please initial data at first, can't be empty");
         }
@@ -235,7 +219,6 @@ public class LinkagePicker extends WheelPicker {
         firstView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-
                 selectedFirstText = item;
                 selectedFirstIndex = selectedIndex;
                 ArrayList<String> secondData = secondList.get(selectedFirstIndex);
@@ -257,7 +240,6 @@ public class LinkagePicker extends WheelPicker {
         secondView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-
                 selectedSecondText = item;
                 selectedSecondIndex = selectedIndex;
                 if (thirdList.size() == 0) {
@@ -279,7 +261,6 @@ public class LinkagePicker extends WheelPicker {
         thirdView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-
                 selectedThirdText = item;
                 selectedThirdIndex = selectedIndex;
             }
@@ -289,7 +270,6 @@ public class LinkagePicker extends WheelPicker {
 
     @Override
     public void onSubmit() {
-
         if (onLinkageListener != null) {
             if (onlyTwo) {
                 onLinkageListener.onPicked(selectedFirstText, selectedSecondText, null);
@@ -302,7 +282,5 @@ public class LinkagePicker extends WheelPicker {
     public interface OnLinkageListener {
 
         void onPicked(String first, String second, String third);
-
     }
-
 }

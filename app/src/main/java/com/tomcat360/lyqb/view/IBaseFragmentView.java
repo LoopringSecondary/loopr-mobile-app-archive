@@ -36,5 +36,4 @@ public interface IBaseFragmentView {
      * @return
      */
     <T> Observable.Transformer<T, T> bindUntilEvent(FragmentEvent event);
-
 }

@@ -14,14 +14,12 @@ public final class G {
     public static final String TRUE = "true";
 
     private G() {
-
     }
 
     /**
      * 生成tag
      */
     public static String tag() {
-
         return new Throwable().getStackTrace()[1].getClassName();
     }
 
@@ -29,8 +27,6 @@ public final class G {
      * 根据前缀生成tag
      */
     public static String tag(String prefix) {
-
         return prefix + "-" + new Throwable().getStackTrace()[1].getClassName();
     }
-
 }

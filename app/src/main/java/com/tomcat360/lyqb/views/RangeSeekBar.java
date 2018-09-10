@@ -1,7 +1,5 @@
 package com.tomcat360.lyqb.views;
 
-import com.tomcat360.lyqb.R;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.TypeEvaluator;
@@ -27,6 +25,8 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.tomcat360.lyqb.R;
 
 public class RangeSeekBar extends View {
 
@@ -153,12 +153,10 @@ public class RangeSeekBar extends View {
     private OnRangeChangedListener callback;
 
     public RangeSeekBar(Context context) {
-
         this(context, null);
     }
 
     public RangeSeekBar(Context context, AttributeSet attrs) {
-
         super(context, attrs);
         TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.RangeSeekBar);
         cellsCount = t.getInt(R.styleable.RangeSeekBar_cells, 1);
@@ -182,40 +180,31 @@ public class RangeSeekBar extends View {
         mThumbSize = (int) t.getDimension(R.styleable.RangeSeekBar_thumbSize, dp2px(context, 26));
         mCellMode = t.getInt(R.styleable.RangeSeekBar_cellMode, 0);
         mSeekBarMode = t.getInt(R.styleable.RangeSeekBar_seekBarMode, 2);
-
         if (mSeekBarMode == 2) {
             leftSB = new SeekBar(-1);
             rightSB = new SeekBar(1);
         } else {
             leftSB = new SeekBar(-1);
         }
-
         // if you don't set the mHintBGWith or the mHintBGWith < default value, if will use default value
         if (mHintBGWith == 0) {
             DEFAULT_PADDING_LEFT_AND_RIGHT = dp2px(context, 25);
         } else {
             DEFAULT_PADDING_LEFT_AND_RIGHT = Math.max((int) (mHintBGWith / 2 + dp2px(context, 5)), dp2px(context, 25));
-
         }
-
         setRules(mMin, mMax, reserveValue, cellsCount);
         initPaint();
         initBitmap();
         t.recycle();
-
         defaultPaddingTop = mSeekBarHeight / 2;
-
         mHintBGHeight = mHintBGHeight == 0 ? (mCursorPaint.measureText("国") * 3) : mHintBGHeight;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-
         heightNeeded = 2 * (lineTop) + mSeekBarHeight;
-
         /**
          * onMeasure传入的widthMeasureSpec和heightMeasureSpec不是一般的尺寸数值，而是将模式和尺寸组合在一起的数值
          * MeasureSpec.EXACTLY 是精确尺寸
@@ -229,19 +218,15 @@ public class RangeSeekBar extends View {
         } else {
             heightSize = MeasureSpec.makeMeasureSpec(heightNeeded, MeasureSpec.EXACTLY);
         }
-
         super.onMeasure(widthMeasureSpec, heightSize);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-
         super.onSizeChanged(w, h, oldw, oldh);
-
         //计算进度条的位置，并根据它初始化两个按钮的位置
         // Calculates the position of the progress bar and initializes the positions of
         // the two buttons based on it
-
         lineLeft = DEFAULT_PADDING_LEFT_AND_RIGHT + getPaddingLeft();
         lineRight = w - lineLeft - getPaddingRight();
         lineTop = (int) mHintBGHeight + mThumbSize / 2 - mSeekBarHeight / 2;
@@ -249,7 +234,6 @@ public class RangeSeekBar extends View {
         lineWidth = lineRight - lineLeft;
         line.set(lineLeft, lineTop, lineRight, lineBottom);
         lineCorners = (int) ((lineBottom - lineTop) * 0.45f);
-
         leftSB.onSizeChanged(lineLeft, lineBottom, mThumbSize, lineWidth, cellsCount > 1, mThumbResId, getContext());
         if (mSeekBarMode == 2) {
             rightSB.onSizeChanged(lineLeft, lineBottom, mThumbSize, lineWidth, cellsCount > 1, mThumbResId, getContext());
@@ -259,18 +243,14 @@ public class RangeSeekBar extends View {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDraw(Canvas canvas) {
-
         super.onDraw(canvas);
-
         //绘制刻度，并且根据当前位置是否在刻度范围内设置不同的颜色显示
         // Draw the scales, and according to the current position is set within
         // the scale range of different color display
-
         if (mTextArray != null) {
             mPartLength = lineWidth / (mTextArray.length - 1);
             for (int i = 0; i < mTextArray.length; i++) {
                 final String text2Draw = mTextArray[i].toString();
-
                 float x;
                 //平分显示
                 if (mCellMode == 1) {
@@ -289,7 +269,6 @@ public class RangeSeekBar extends View {
                     x = lineLeft + lineWidth * (num - mMin) / (mMax - mMin) - mCursorPaint.measureText(text2Draw) / 2;
                 }
                 float y = lineTop - textPadding;
-
                 canvas.drawText(text2Draw, x, y, mCursorPaint);
             }
         }
@@ -314,58 +293,45 @@ public class RangeSeekBar extends View {
      * create the paints
      */
     private void initPaint() {
-
         mMainPaint.setStyle(Paint.Style.FILL);
         mMainPaint.setColor(colorLineEdge);
-
         mCursorPaint.setStyle(Paint.Style.FILL);
         mCursorPaint.setColor(colorLineEdge);
         mCursorPaint.setTextSize(mTextSize);
-
         mProgressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mProgressPaint.setTypeface(Typeface.DEFAULT);
-
         //计算文字的高度
         //Calculate the height of the text
         Paint.FontMetrics fm = mCursorPaint.getFontMetrics();
         mCursorTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
-
     }
 
     /**
      * 初始化进度提示的背景
      */
     private void initBitmap() {
-
         if (mProgressHintBGId != 0) {
             mProgressHintBG = BitmapFactory.decodeResource(getResources(), mProgressHintBGId);
         } else {
             mProgressHintBG = BitmapFactory.decodeResource(getResources(), R.drawable.progress_hint_bg);
         }
-
     }
-
     //*********************************** SeekBar ***********************************//
 
     public void setOnRangeChangedListener(OnRangeChangedListener listener) {
-
         callback = listener;
     }
-
     //*********************************** SeekBar ***********************************//
 
     public void setValue(float min, float max) {
-
         min = min + offsetValue;
         max = max + offsetValue;
-
         if (min < minValue) {
             throw new IllegalArgumentException("setValue() min < (preset min - offsetValue) . #min:" + min + " #preset min:" + minValue + " #offsetValue:" + offsetValue);
         }
         if (max > maxValue) {
             throw new IllegalArgumentException("setValue() max > (preset max - offsetValue) . #max:" + max + " #preset max:" + maxValue + " #offsetValue:" + offsetValue);
         }
-
         if (reserveCount > 1) {
             if ((min - minValue) % reserveCount != 0) {
                 throw new IllegalArgumentException("setValue() (min - preset min) % reserveCount != 0 . #min:" + min + " #preset min:" + minValue + "#reserveCount:" + reserveCount + "#reserve:" + reserveValue);
@@ -395,17 +361,14 @@ public class RangeSeekBar extends View {
     }
 
     public void setValue(float value) {
-
         setValue(value, mMax);
     }
 
     public void setRange(float min, float max) {
-
         setRules(min, max, reserveCount, cellsCount);
     }
 
     public void setRules(float min, float max, float reserve, int cells) {
-
         if (max <= min) {
             throw new IllegalArgumentException("setRules() max must be greater than min ! #max:" + max + " #min:" + min);
         }
@@ -418,7 +381,6 @@ public class RangeSeekBar extends View {
         }
         minValue = min;
         maxValue = max;
-
         if (reserve < 0) {
             throw new IllegalArgumentException("setRules() reserve must be greater than zero ! #reserve:" + reserve);
         }
@@ -462,24 +424,20 @@ public class RangeSeekBar extends View {
     }
 
     public float getMax() {
-
         return mMax;
     }
 
     public void setMax(float value) {
-
         mMax = value;
         maxValue = value;
         invalidate();
     }
 
     public float getMin() {
-
         return mMin;
     }
 
     public float[] getCurrentRange() {
-
         float range = maxValue - minValue;
         if (mSeekBarMode == 2) {
             return new float[]{-offsetValue + minValue + range * leftSB.currPercent, -offsetValue + minValue + range * rightSB.currPercent};
@@ -490,13 +448,11 @@ public class RangeSeekBar extends View {
 
     @Override
     public void setEnabled(boolean enabled) {
-
         super.setEnabled(enabled);
         this.isEnable = enabled;
     }
 
     public void setProgressDescription(String progress) {
-
         if (leftSB != null) {
             leftSB.setProgressHint(progress);
         }
@@ -506,14 +462,12 @@ public class RangeSeekBar extends View {
     }
 
     public void setLeftProgressDescription(String progress) {
-
         if (leftSB != null) {
             leftSB.setProgressHint(progress);
         }
     }
 
     public void setRightProgressDescription(String progress) {
-
         if (rightSB != null) {
             rightSB.setProgressHint(progress);
         }
@@ -521,40 +475,30 @@ public class RangeSeekBar extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         if (!isEnable)
             return true;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-
                 boolean touchResult = false;
                 if (rightSB != null && rightSB.currPercent >= 1 && leftSB.collide(event)) {
                     currTouch = leftSB;
                     touchResult = true;
-
                 } else if (rightSB != null && rightSB.collide(event)) {
                     currTouch = rightSB;
                     touchResult = true;
-
                 } else if (leftSB.collide(event)) {
                     currTouch = leftSB;
                     touchResult = true;
-
                 }
-
                 //Intercept parent TouchEvent
                 if (getParent() != null) {
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
-
                 return touchResult;
             case MotionEvent.ACTION_MOVE:
-
                 float percent;
                 float x = event.getX();
-
                 currTouch.material = currTouch.material >= 1 ? 1 : currTouch.material + 0.1f;
-
                 if (currTouch == leftSB) {
                     if (cellsCount > 1) {
                         if (x < lineLeft) {
@@ -570,7 +514,6 @@ public class RangeSeekBar extends View {
                             currRightCellsValue = Math.round(1.0f / cellsPercent);
                         }
                         percent = touchLeftCellsValue * cellsPercent;
-
                         while (touchLeftCellsValue > currRightCellsValue - reserveCount) {
                             touchLeftCellsValue--;
                             if (touchLeftCellsValue < 0)
@@ -595,7 +538,6 @@ public class RangeSeekBar extends View {
                     }
                     leftSB.slide(percent);
                     leftSB.isShowingHint = true;
-
                     //Intercept parent TouchEvent
                     if (getParent() != null) {
                         getParent().requestDisallowInterceptTouchEvent(true);
@@ -610,7 +552,6 @@ public class RangeSeekBar extends View {
                         int touchRightCellsValue = Math.round(percent / cellsPercent);
                         int currLeftCellsValue = Math.round(leftSB.currPercent / cellsPercent);
                         percent = touchRightCellsValue * cellsPercent;
-
                         while (touchRightCellsValue < currLeftCellsValue + reserveCount) {
                             touchRightCellsValue++;
                             if (touchRightCellsValue > maxValue - minValue)
@@ -630,13 +571,11 @@ public class RangeSeekBar extends View {
                     rightSB.slide(percent);
                     rightSB.isShowingHint = true;
                 }
-
                 if (callback != null) {
                     float[] result = getCurrentRange();
                     callback.onRangeChanged(this, result[0], result[1], true);
                 }
                 invalidate();
-
                 //Intercept parent TouchEvent
                 if (getParent() != null) {
                     getParent().requestDisallowInterceptTouchEvent(true);
@@ -648,17 +587,14 @@ public class RangeSeekBar extends View {
                 }
                 //                leftSB.isShowingHint = false;
                 leftSB.isShowingHint = true;
-
                 if (callback != null) {
                     float[] result = getCurrentRange();
                     callback.onRangeChanged(this, result[0], result[1], false);
                 }
-
                 //Intercept parent TouchEvent
                 if (getParent() != null) {
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
-
                 break;
             case MotionEvent.ACTION_UP:
                 if (mSeekBarMode == 2) {
@@ -667,12 +603,10 @@ public class RangeSeekBar extends View {
                 //                leftSB.isShowingHint = false;
                 leftSB.isShowingHint = true;
                 currTouch.materialRestore();
-
                 if (callback != null) {
                     float[] result = getCurrentRange();
                     callback.onRangeChanged(this, result[0], result[1], false);
                 }
-
                 //Intercept parent TouchEvent
                 if (getParent() != null) {
                     getParent().requestDisallowInterceptTouchEvent(true);
@@ -686,7 +620,6 @@ public class RangeSeekBar extends View {
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
     private int dp2px(Context context, float dpValue) {
-
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
@@ -701,7 +634,6 @@ public class RangeSeekBar extends View {
      * 0 is a == b
      */
     private int compareFloat(float a, float b) {
-
         int ta = Math.round(a * 1000);
         int tb = Math.round(b * 1000);
         if (ta > tb) {
@@ -712,7 +644,6 @@ public class RangeSeekBar extends View {
             return 0;
         }
     }
-
     //    @Override
     //    public Parcelable onSaveInstanceState() {
     //        Parcelable superState = super.onSaveInstanceState();
@@ -751,7 +682,6 @@ public class RangeSeekBar extends View {
         final TypeEvaluator<Integer> te = new TypeEvaluator<Integer>() {
             @Override
             public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-
                 int alpha = (int) (Color.alpha(startValue) + fraction * (Color.alpha(endValue) - Color.alpha(startValue)));
                 int red = (int) (Color.red(startValue) + fraction * (Color.red(endValue) - Color.red(startValue)));
                 int green = (int) (Color.green(startValue) + fraction * (Color.green(endValue) - Color.green(startValue)));
@@ -787,7 +717,6 @@ public class RangeSeekBar extends View {
         private Boolean isPrimary = true;
 
         public SeekBar(int position) {
-
             isLeft = position < 0;
         }
 
@@ -804,32 +733,26 @@ public class RangeSeekBar extends View {
          * @param context
          */
         protected void onSizeChanged(int x, int y, int hSize, int parentLineWidth, boolean cellsMode, int bmpResId, Context context) {
-
             heightSize = hSize;
             widthSize = heightSize;
             left = x - widthSize / 2;
             right = x + widthSize / 2;
             top = y - heightSize / 2;
             bottom = y + heightSize / 2;
-
             if (cellsMode) {
                 lineWidth = parentLineWidth;
             } else {
                 lineWidth = parentLineWidth;
             }
-
             if (bmpResId > 0) {
                 Bitmap original = BitmapFactory.decodeResource(context.getResources(), bmpResId);
-
                 if (original != null) {
                     Matrix matrix = new Matrix();
                     float scaleHeight = mThumbSize * 1.0f / original.getHeight();
                     float scaleWidth = scaleHeight;
                     matrix.postScale(scaleWidth, scaleHeight);
                     bmp = Bitmap.createBitmap(original, 0, 0, original.getWidth(), original.getHeight(), matrix, true);
-
                 }
-
             } else {
                 defaultPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 int radius = (int) (widthSize * DEFAULT_RADIUS);
@@ -847,14 +770,12 @@ public class RangeSeekBar extends View {
          * @param canvas
          */
         protected void draw(Canvas canvas) {
-
             int offset = (int) (lineWidth * currPercent);
             canvas.save();
             canvas.translate(offset, 0);
             String text2Draw = "";
             int hintW = 0, hintH = 0;
             float[] result = getCurrentRange();
-
             if (mHideProgressHint) {
                 isShowingHint = false;
             } else {
@@ -864,31 +785,24 @@ public class RangeSeekBar extends View {
                     } else {
                         text2Draw = mHintText2Draw;
                     }
-
                     // if is the start，change the thumb color
                     isPrimary = (compareFloat(result[0], mMin) == 0);
-
                 } else {
                     if (mHintText2Draw == null) {
                         text2Draw = (int) result[1] + "";
                     } else {
                         text2Draw = mHintText2Draw;
                     }
-
                     isPrimary = (compareFloat(result[1], mMax) == 0);
                 }
-
                 hintH = (int) mHintBGHeight;
                 hintW = (int) (mHintBGWith == 0 ? (mCursorPaint.measureText(text2Draw) + DEFAULT_PADDING_LEFT_AND_RIGHT) : mHintBGWith);
-
                 if (hintW < 1.5f * hintH)
                     hintW = (int) (1.5f * hintH);
             }
-
             if (bmp != null) {
                 canvas.drawBitmap(bmp, left + 6, lineTop - bmp.getHeight() / 2 + 4, null);
                 if (isShowingHint) {
-
                     Rect rect = new Rect();
                     rect.left = left - (hintW / 2 - bmp.getWidth() / 2) + 6;
                     rect.top = bottom - hintH - bmp.getHeight();
@@ -896,7 +810,6 @@ public class RangeSeekBar extends View {
                     rect.bottom = rect.top + hintH;
                     drawNinePath(canvas, mProgressHintBG, rect);
                     mCursorPaint.setColor(Color.WHITE);
-
                     int x = (int) (left + (bmp.getWidth() / 2) - mCursorPaint.measureText(text2Draw) / 2);
                     int y = bottom - hintH - bmp.getHeight() + hintH / 2;
                     canvas.drawText(text2Draw, x + 6, y, mCursorPaint);
@@ -910,21 +823,16 @@ public class RangeSeekBar extends View {
                     rect.right = rect.left + hintW;
                     rect.bottom = rect.top + hintH;
                     drawNinePath(canvas, mProgressHintBG, rect);
-
                     mCursorPaint.setColor(getResources().getColor(R.color.green));
-
                     int x = (int) (widthSize / 2 - mCursorPaint.measureText(text2Draw) / 2);
-
                     // TODO: 2017/2/6
                     //这里和背景形状有关，暂时根据本图形状比例计算
                     //Here and the background shape, temporarily based on the shape of this figure ratio calculation
                     int y = hintH / 3 + defaultPaddingTop + mCursorTextHeight / 2;
-
                     canvas.drawText(text2Draw, x, y, mCursorPaint);
                 }
                 drawDefault(canvas);
             }
-
             canvas.restore();
         }
 
@@ -936,7 +844,6 @@ public class RangeSeekBar extends View {
          * @param rect
          */
         public void drawNinePath(Canvas c, Bitmap bmp, Rect rect) {
-
             NinePatch patch = new NinePatch(bmp, bmp.getNinePatchChunk(), null);
             patch.draw(c, rect);
         }
@@ -949,7 +856,6 @@ public class RangeSeekBar extends View {
          * @param canvas
          */
         private void drawDefault(Canvas canvas) {
-
             int centerX = widthSize / 2;
             int centerY = lineBottom - mSeekBarHeight / 2;
             int radius = (int) (widthSize * DEFAULT_RADIUS);
@@ -983,11 +889,9 @@ public class RangeSeekBar extends View {
             defaultPaint.setStyle(Paint.Style.FILL);
             defaultPaint.setColor(0xFF01B97F);//设置thumb颜色
             canvas.drawCircle(centerX, centerY, radius, defaultPaint);
-
             defaultPaint.setStyle(Paint.Style.FILL);
             defaultPaint.setColor(0xFF01B97F);  //设置thumb圆心颜色
             canvas.drawCircle(centerX, centerY, 5, defaultPaint);
-
         }
 
         /**
@@ -997,7 +901,6 @@ public class RangeSeekBar extends View {
          * @return
          */
         protected boolean collide(MotionEvent event) {
-
             float x = event.getX();
             float y = event.getY();
             int offset = (int) (lineWidth * currPercent);
@@ -1005,7 +908,6 @@ public class RangeSeekBar extends View {
         }
 
         private void slide(float percent) {
-
             if (percent < 0)
                 percent = 0;
             else if (percent > 1)
@@ -1014,14 +916,12 @@ public class RangeSeekBar extends View {
         }
 
         private void materialRestore() {
-
             if (anim != null)
                 anim.cancel();
             anim = ValueAnimator.ofFloat(material, 0);
             anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
-
                     material = (float) animation.getAnimatedValue();
                     invalidate();
                 }
@@ -1029,7 +929,6 @@ public class RangeSeekBar extends View {
             anim.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-
                     material = 0;
                     invalidate();
                 }
@@ -1038,7 +937,6 @@ public class RangeSeekBar extends View {
         }
 
         public void setProgressHint(String hint) {
-
             mHintText2Draw = hint;
         }
     }
@@ -1058,12 +956,10 @@ public class RangeSeekBar extends View {
         private float currSelectedMax;
 
         SavedState(Parcelable superState) {
-
             super(superState);
         }
 
         private SavedState(Parcel in) {
-
             super(in);
             minValue = in.readFloat();
             maxValue = in.readFloat();
@@ -1075,7 +971,6 @@ public class RangeSeekBar extends View {
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
-
             super.writeToParcel(out, flags);
             out.writeFloat(minValue);
             out.writeFloat(maxValue);

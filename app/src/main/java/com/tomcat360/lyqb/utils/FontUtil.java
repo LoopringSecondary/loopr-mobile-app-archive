@@ -11,7 +11,6 @@ import android.util.Log;
 public class FontUtil {
 
     public static Typeface getTypeface(Context context, int type) {
-
         Typeface TEXT_TYPE = null;
         try {
             switch (type) {
@@ -45,7 +44,6 @@ public class FontUtil {
                 case 10:
                     TEXT_TYPE = Typeface.createFromAsset(context.getAssets(), "fonts/Rubik-Regular.ttf");
                     break;
-
             }
         } catch (Exception e) {
             Log.e("FontUtil", "加载第三方字体失败 ");

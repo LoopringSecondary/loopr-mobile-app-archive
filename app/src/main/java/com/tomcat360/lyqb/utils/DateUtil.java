@@ -84,7 +84,6 @@ public class DateUtil {
     private static SimpleDateFormat excelDate = new SimpleDateFormat("yyyy/MM/dd");
 
     public DateUtil() {
-
         throw new UnsupportedOperationException("cannot be instantiated");
     }
 
@@ -94,7 +93,6 @@ public class DateUtil {
      * @return
      */
     public static String todayYyyyMmDd() {
-
         return YYYYMMDD_FORMAT.format(new Date());
     }
 
@@ -104,7 +102,6 @@ public class DateUtil {
      * @return
      */
     public static String todayHhMmSs() {
-
         return HHMMSS_FORMAT.format(new Date());
     }
 
@@ -114,7 +111,6 @@ public class DateUtil {
      * @return
      */
     public static String todayYyyyMmDdHhMmSs() {
-
         return YYYYMMDDHHMMSS_FORMAT.format(new Date());
     }
 
@@ -125,7 +121,6 @@ public class DateUtil {
      * @return
      */
     public static int parseYyyy(String dateTime) {
-
         try {
             Calendar e = Calendar.getInstance();
             Date date = YYYYMMDDHHMMSS_FORMAT.parse(dateTime);
@@ -145,7 +140,6 @@ public class DateUtil {
      * @return
      */
     public static int parseYyyy(String dateTime, SimpleDateFormat simpleDateFormat) {
-
         try {
             Calendar e = Calendar.getInstance();
             Date date = simpleDateFormat.parse(dateTime);
@@ -164,7 +158,6 @@ public class DateUtil {
      * @return
      */
     public static int parseYyyy(Date date) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(1);
@@ -177,7 +170,6 @@ public class DateUtil {
      * @return
      */
     public static int parseMm(String dateTime) {
-
         try {
             Calendar e = Calendar.getInstance();
             Date date = YYYYMMDDHHMMSS_FORMAT.parse(dateTime);
@@ -197,7 +189,6 @@ public class DateUtil {
      * @return
      */
     public static int parseMm(String dateTime, SimpleDateFormat simpleDateFormat) {
-
         try {
             Calendar e = Calendar.getInstance();
             Date date = simpleDateFormat.parse(dateTime);
@@ -216,7 +207,6 @@ public class DateUtil {
      * @return
      */
     public static int parseMm(Date date) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(2);
@@ -229,7 +219,6 @@ public class DateUtil {
      * @return
      */
     public static int parseDd(String dateTime) {
-
         try {
             Calendar e = Calendar.getInstance();
             Date date = YYYYMMDDHHMMSS_FORMAT.parse(dateTime);
@@ -249,7 +238,6 @@ public class DateUtil {
      * @return
      */
     public static int parseDd(String dateTime, SimpleDateFormat simpleDateFormat) {
-
         try {
             Calendar e = Calendar.getInstance();
             Date date = simpleDateFormat.parse(dateTime);
@@ -268,7 +256,6 @@ public class DateUtil {
      * @return
      */
     public static int parseDd(Date date) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(5);
@@ -281,16 +268,13 @@ public class DateUtil {
      * @return
      */
     public static String parseYyyyMmDd(String dateTime) {
-
         String result = "";
-
         try {
             Date e = YYYYMMDDHHMMSS_FORMAT.parse(dateTime);
             result = YYYYMMDD_FORMAT.format(e);
         } catch (ParseException var3) {
             var3.printStackTrace();
         }
-
         return result;
     }
 
@@ -302,16 +286,13 @@ public class DateUtil {
      * @return
      */
     public static String parseYyyyMmDd(String dateTime, SimpleDateFormat simpleDateFormat) {
-
         String result = "";
-
         try {
             Date e = simpleDateFormat.parse(dateTime);
             result = YYYYMMDD_FORMAT.format(e);
         } catch (ParseException var4) {
             var4.printStackTrace();
         }
-
         return result;
     }
 
@@ -322,7 +303,6 @@ public class DateUtil {
      * @return
      */
     public static String parseYyyyMmDd(Date date) {
-
         return YYYYMMDD_FORMAT.format(date);
     }
 
@@ -333,7 +313,6 @@ public class DateUtil {
      * @return
      */
     public static String parseHhMmSs(String dateTime) {
-
         try {
             Date e = YYYYMMDDHHMMSS_FORMAT.parse(dateTime);
             return HHMMSS_FORMAT.format(e);
@@ -351,7 +330,6 @@ public class DateUtil {
      * @return
      */
     public static String parseHhMmSs(String dateTime, SimpleDateFormat simpleDateFormat) {
-
         try {
             Date e = simpleDateFormat.parse(dateTime);
             return HHMMSS_FORMAT.format(e);
@@ -368,7 +346,6 @@ public class DateUtil {
      * @return
      */
     public static String parseHhMmSs(Date date) {
-
         return HHMMSS_FORMAT.format(date);
     }
 
@@ -379,7 +356,6 @@ public class DateUtil {
      * @return
      */
     public static int getWeekNumber(String dateTime) {
-
         return getWeekNumber(string2Date(dateTime, YYYYMMDDHHMMSS_FORMAT));
     }
 
@@ -391,7 +367,6 @@ public class DateUtil {
      * @return
      */
     public static int getWeekNumber(String dateTime, SimpleDateFormat simpleDateFormat) {
-
         return getWeekNumber(string2Date(dateTime, simpleDateFormat));
     }
 
@@ -402,7 +377,6 @@ public class DateUtil {
      * @return
      */
     public static int getWeekNumber(Date date) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(7);
@@ -415,7 +389,6 @@ public class DateUtil {
      * @return
      */
     public static int getWeekOfMonth(String dateTime) {
-
         return getWeekOfMonth(string2Date(dateTime, YYYYMMDDHHMMSS_FORMAT));
     }
 
@@ -427,7 +400,6 @@ public class DateUtil {
      * @return
      */
     public static int getWeekOfMonth(String dateTime, SimpleDateFormat simpleDateFormat) {
-
         return getWeekOfMonth(string2Date(dateTime, simpleDateFormat));
     }
 
@@ -438,7 +410,6 @@ public class DateUtil {
      * @return
      */
     public static int getWeekOfMonth(Date date) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(4);
@@ -451,7 +422,6 @@ public class DateUtil {
      * @return
      */
     public static int getWeekOfYear(String time) {
-
         return getWeekOfYear(string2Date(time, YYYYMMDDHHMMSS_FORMAT));
     }
 
@@ -463,7 +433,6 @@ public class DateUtil {
      * @return
      */
     public static int getWeekOfYear(String time, SimpleDateFormat simpleDateFormat) {
-
         return getWeekOfYear(string2Date(time, simpleDateFormat));
     }
 
@@ -474,7 +443,6 @@ public class DateUtil {
      * @return
      */
     public static int getWeekOfYear(Date date) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(3);
@@ -487,7 +455,6 @@ public class DateUtil {
      * @return
      */
     public static Long dateTimeToTimeStamp(String dateTime) {
-
         try {
             Date e = YYYYMMDDHHMMSS_FORMAT.parse(dateTime);
             return Long.valueOf(e.getTime() / 1000L);
@@ -504,7 +471,6 @@ public class DateUtil {
      * @return
      */
     public static Date string2Date(String time) {
-
         return string2Date(time, YYYYMMDDHHMMSS_FORMAT);
     }
 
@@ -516,7 +482,6 @@ public class DateUtil {
      * @return
      */
     public static Date string2Date(String time, SimpleDateFormat simpleDateFormat) {
-
         try {
             return simpleDateFormat.parse(time);
         } catch (ParseException var3) {
@@ -532,7 +497,6 @@ public class DateUtil {
      * @return
      */
     public static String date2String(Date date) {
-
         return date2String(date, YYYYMMDDHHMMSS_FORMAT);
     }
 
@@ -544,7 +508,6 @@ public class DateUtil {
      * @return
      */
     public static String date2String(Date date, SimpleDateFormat simpleDateFormat) {
-
         return simpleDateFormat.format(date);
     }
 
@@ -556,7 +519,6 @@ public class DateUtil {
      * @return
      */
     public static boolean dateIsBefore(String standDate, String desDate) {
-
         try {
             return YYYYMMDDHHMMSS_FORMAT.parse(desDate).before(YYYYMMDDHHMMSS_FORMAT.parse(standDate));
         } catch (ParseException var3) {
@@ -573,7 +535,6 @@ public class DateUtil {
      * @return
      */
     public static long minutesBetweenTwoDate(String beginDate, String endDate) {
-
         long millisBegin = dateTimeToTimeStamp(beginDate).longValue();
         long millisEnd = dateTimeToTimeStamp(endDate).longValue();
         return (millisEnd - millisBegin) / 60L;
@@ -586,7 +547,6 @@ public class DateUtil {
      * @return
      */
     public static String getChineseZodiac(String dateTime) {
-
         int yyyy = parseYyyy(dateTime);
         return getChineseZodiac(yyyy);
     }
@@ -599,7 +559,6 @@ public class DateUtil {
      * @return
      */
     public static String getChineseZodiac(String dateTime, SimpleDateFormat simpleDateFormat) {
-
         int yyyy = parseYyyy(dateTime, simpleDateFormat);
         return getChineseZodiac(yyyy);
     }
@@ -611,7 +570,6 @@ public class DateUtil {
      * @return
      */
     public static String getChineseZodiac(Date date) {
-
         int yyyy = parseYyyy(date);
         return getChineseZodiac(yyyy);
     }
@@ -623,7 +581,6 @@ public class DateUtil {
      * @return
      */
     public static String getChineseZodiac(int year) {
-
         return CHINESE_ZODIAC[year % 12];
     }
 
@@ -634,7 +591,6 @@ public class DateUtil {
      * @return
      */
     public static String getZodiac(String dateTime) {
-
         int dd = parseDd(dateTime);
         int month = parseMm(dateTime);
         return getZodiac(month, dd);
@@ -648,7 +604,6 @@ public class DateUtil {
      * @return
      */
     public static String getZodiac(String dateTime, SimpleDateFormat simpleDateFormat) {
-
         int dd = parseDd(dateTime, simpleDateFormat);
         int month = parseMm(dateTime, simpleDateFormat);
         return getZodiac(month, dd);
@@ -661,7 +616,6 @@ public class DateUtil {
      * @return
      */
     public static String getZodiac(Date date) {
-
         int dd = parseDd(date);
         int month = parseMm(date);
         return getZodiac(month, dd);
@@ -675,7 +629,6 @@ public class DateUtil {
      * @return
      */
     public static String getZodiac(int month, int day) {
-
         return ZODIAC[day >= ZODIAC_FLAGS[month - 1] ? month - 1 : (month + 10) % 12];
     }
 
@@ -686,7 +639,6 @@ public class DateUtil {
      * @return
      */
     public static String formatFriendly(Date date) {
-
         if (date == null) {
             return null;
         }
@@ -722,7 +674,6 @@ public class DateUtil {
      * @return
      */
     public static String formatDateTime(long dateL) {
-
         SimpleDateFormat sdf = new SimpleDateFormat(DF_YYYY_MM_DD_HH_MM_SS);
         Date date = new Date(dateL);
         return sdf.format(date);
@@ -735,7 +686,6 @@ public class DateUtil {
      * @return
      */
     public static String formatDateTime(long dateL, String formater) {
-
         SimpleDateFormat sdf = new SimpleDateFormat(formater);
         return sdf.format(new Date(dateL));
     }
@@ -747,7 +697,6 @@ public class DateUtil {
      * @return
      */
     public static String formatDateTime(Date date, String formater) {
-
         SimpleDateFormat sdf = new SimpleDateFormat(formater);
         return sdf.format(date);
     }
@@ -760,17 +709,14 @@ public class DateUtil {
      */
 
     public static Date parseDate(String strDate) {
-
         DateFormat dateFormat = new SimpleDateFormat(DF_YYYY_MM_DD_HH_MM_SS);
         Date returnDate = null;
         try {
             returnDate = dateFormat.parse(strDate);
         } catch (ParseException e) {
             Log.v(TAG, "parseDate failed !");
-
         }
         return returnDate;
-
     }
 
     /**
@@ -779,7 +725,6 @@ public class DateUtil {
      * @return
      */
     public static Date gainCurrentDate() {
-
         return new Date();
     }
 
@@ -791,7 +736,6 @@ public class DateUtil {
      * @return true 则代表target1比target2晚或等于target2，否则比target2早
      */
     public static boolean compareDate(Date target1, Date target2) {
-
         boolean flag = false;
         try {
             String target1DateTime = DateUtil.formatDateTime(target1, DF_YYYY_MM_DD_HH_MM_SS);
@@ -813,11 +757,9 @@ public class DateUtil {
      * @return
      */
     public static Date addDateTime(Date target, double hour) {
-
         if (null == target || hour < 0) {
             return target;
         }
-
         return new Date(target.getTime() + (long) (hour * 60 * 60 * 1000));
     }
 
@@ -829,11 +771,9 @@ public class DateUtil {
      * @return
      */
     public static Date subDateTime(Date target, double hour) {
-
         if (null == target || hour < 0) {
             return target;
         }
-
         return new Date(target.getTime() - (long) (hour * 60 * 60 * 1000));
     }
 
@@ -844,7 +784,6 @@ public class DateUtil {
      * @return
      */
     public static String formatDateForExcelDate(Date date) {
-
         return excelDate.format(date);
     }
 
@@ -855,7 +794,6 @@ public class DateUtil {
      * @return
      */
     public static String formatDateForFileName(Date date) {
-
         return fileName.format(date);
     }
 
@@ -866,7 +804,6 @@ public class DateUtil {
      * @return
      */
     public static String formatDateSecond(Date date) {
-
         return second.format(date);
     }
 
@@ -877,7 +814,6 @@ public class DateUtil {
      * @return
      */
     public static String tempDateSecond(Date date) {
-
         return tempTime.format(date);
     }
 
@@ -888,7 +824,6 @@ public class DateUtil {
      * @return
      */
     public static Date tempDateSecond(String str) {
-
         try {
             return tempTime.parse(str);
         } catch (ParseException e) {
@@ -904,7 +839,6 @@ public class DateUtil {
      * @return
      */
     public static String formatDateDay(Date date) {
-
         return day.format(date);
     }
 
@@ -915,7 +849,6 @@ public class DateUtil {
      * @return
      */
     public static String formatDateDetailDay(Date date) {
-
         return detailDay.format(date);
     }
 
@@ -926,7 +859,6 @@ public class DateUtil {
      * @return
      */
     public static String formatNumber(double number) {
-
         DecimalFormat df = new DecimalFormat();
         df.applyPattern("#0.00");
         return df.format(number);
@@ -940,7 +872,6 @@ public class DateUtil {
      * @throws Exception
      */
     public static Date formateDate(String date) throws Exception {
-
         return day.parse(date);
     }
 
@@ -952,7 +883,6 @@ public class DateUtil {
      * @throws Exception
      */
     public static Date parseStringToDate(String date) throws Exception {
-
         return day.parse(date);
     }
 
@@ -963,13 +893,11 @@ public class DateUtil {
      * @return
      */
     public static String formatDoubleNumber(double number) {
-
         DecimalFormat df = new DecimalFormat("#");
         return df.format(number);
     }
 
     public static String getStrTimeYMD(String time) {
-
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(Long.parseLong(time));
         SimpleDateFormat sf = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
@@ -977,7 +905,6 @@ public class DateUtil {
     }
 
     public static String getStrTimeYMD2(String time) {
-
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(Long.parseLong(time));
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
@@ -985,7 +912,6 @@ public class DateUtil {
     }
 
     public static String getStrTimeYMD3(String time) {
-
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(Long.parseLong(time));
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -999,7 +925,6 @@ public class DateUtil {
      * @return
      */
     public static String timeStampToDateTime(Long timeStamp) {
-
         return YYYYMMDDHHMMSS_FORMAT.format(new Date(timeStamp.longValue() * 1000L));
     }
 
@@ -1010,7 +935,6 @@ public class DateUtil {
      * @return
      */
     public static String timeStampToDateTime2(Long timeStamp) {
-
         return YYYYMMDD_FORMAT.format(new Date(timeStamp.longValue() * 1000L));
     }
 
@@ -1021,7 +945,6 @@ public class DateUtil {
      * @return
      */
     public static String timeStampToDateTime3(Long timeStamp) {
-
         return YYYYMMDDHHMM_FORMAT.format(new Date(timeStamp.longValue() * 1000L));
     }
 
@@ -1032,7 +955,6 @@ public class DateUtil {
      * @return
      */
     public String getNowDayOffset(int offset) {
-
         Calendar m_Calendar = Calendar.getInstance();
         long time = (long) m_Calendar.getTimeInMillis();
         time = time + offset * 24 * 3600 * 1000;
@@ -1048,7 +970,6 @@ public class DateUtil {
      * @return
      */
     public String getTime(long time) {
-
         Date myDate = new Date(time);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return df.format(myDate);
@@ -1060,7 +981,6 @@ public class DateUtil {
      * @param cal 等处理日期
      */
     public void forward(Calendar cal) {
-
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);//0到11
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -1070,17 +990,14 @@ public class DateUtil {
                 cal.roll(Calendar.YEAR, true);
                 cal.set(Calendar.MONTH, 0);//月份，第一月是0
                 cal.set(Calendar.DAY_OF_MONTH, 1);
-
             } else {//如果不是12月份
                 cal.roll(Calendar.MONTH, true);
                 cal.set(Calendar.DAY_OF_MONTH, 1);
             }
-
         } else {
             cal.roll(Calendar.DAY_OF_MONTH, 1);//如果是月内，直接天数加1
         }
     }
-
     //    /**
     //     * 身份证号转生日
     //     *
@@ -1152,7 +1069,6 @@ public class DateUtil {
      * @return true表示闰年，false表示平年
      */
     public boolean isLeapYear(int year) {
-
         if (year % 400 == 0) {
             return true;
         } else if (year % 100 != 0 && year % 4 == 0) {
@@ -1170,7 +1086,6 @@ public class DateUtil {
      */
 
     public int getDaysOfMonth(int year, int month) {
-
         if (month < 1 || month > 12) {
             return 0;
         }
@@ -1198,7 +1113,6 @@ public class DateUtil {
                 } else {
                     daysOfMonth = 28;
                 }
-
         }
         return daysOfMonth;
     }
@@ -1209,7 +1123,6 @@ public class DateUtil {
      * @return
      */
     public long secondsMorning(Calendar c) {
-
         Calendar tempCalendar = Calendar.getInstance();
         tempCalendar.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         return tempCalendar.getTimeInMillis();
@@ -1221,7 +1134,6 @@ public class DateUtil {
      * @return
      */
     public long secondsNight(Calendar c) {
-
         Calendar tempCalendar = Calendar.getInstance();
         tempCalendar.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         forward(tempCalendar);
@@ -1236,7 +1148,6 @@ public class DateUtil {
      * @return
      */
     public boolean isSameDay(Calendar c1, Calendar c2) {
-
         if (c1.get(Calendar.YEAR) != c2.get(Calendar.YEAR))
             return false;
         if (c1.get(Calendar.MONTH) != c2.get(Calendar.MONTH))
@@ -1245,5 +1156,4 @@ public class DateUtil {
             return false;
         return true;
     }
-
 }

@@ -2,12 +2,6 @@ package com.tomcat360.lyqb.fragment;
 
 import java.io.IOException;
 
-import org.json.JSONException;
-
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.utils.FileUtils;
-import com.tomcat360.lyqb.utils.ToastUtils;
-
 import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -20,6 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.FileUtils;
+import com.tomcat360.lyqb.utils.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +52,6 @@ public class KeystoreFragment extends BaseFragment {
     Handler handlerCreate = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
             super.handleMessage(msg);
             switch (msg.what) {
                 case KEYSTORE_SUCCESS:
@@ -65,7 +63,6 @@ public class KeystoreFragment extends BaseFragment {
                 case ERROR_TWO:
                     ToastUtils.toast("本地文件JSON解析失败，请重试");
                     break;
-
             }
         }
     };
@@ -84,28 +81,22 @@ public class KeystoreFragment extends BaseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
     protected void initPresenter() {
-
     }
 
     @Override
     protected void initView() {
-
     }
 
     @Override
     protected void initData() {
-
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
                     keystore = FileUtils.getKeystoreFromSD(getContext(), filename);
                     handlerCreate.sendEmptyMessage(KEYSTORE_SUCCESS);
@@ -122,7 +113,6 @@ public class KeystoreFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         unbinder.unbind();
     }
@@ -136,5 +126,4 @@ public class KeystoreFragment extends BaseFragment {
         cm.setText(tvKeystore.getText());
         ToastUtils.toast("复制成功");
     }
-
 }

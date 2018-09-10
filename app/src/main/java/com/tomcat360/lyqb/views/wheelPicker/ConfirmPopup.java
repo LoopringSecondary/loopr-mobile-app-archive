@@ -53,7 +53,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
     protected int titleTextSize = 0;
 
     public ConfirmPopup(Activity activity) {
-
         super(activity);
         cancelText = activity.getString(android.R.string.cancel);
         submitText = activity.getString(android.R.string.ok);
@@ -63,7 +62,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏下划线颜色
      */
     public void setTopLineColor(@ColorInt int topLineColor) {
-
         this.topLineColor = topLineColor;
     }
 
@@ -71,7 +69,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏背景颜色
      */
     public void setTopBackgroundColor(@ColorInt int topBackgroundColor) {
-
         this.topBackgroundColor = topBackgroundColor;
     }
 
@@ -79,7 +76,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏高度（单位为dp）
      */
     public void setTopHeight(@IntRange(from = 10, to = 80) int topHeight) {
-
         this.topHeight = topHeight;
     }
 
@@ -87,7 +83,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏下划线是否显示
      */
     public void setTopLineVisible(boolean topLineVisible) {
-
         this.topLineVisible = topLineVisible;
     }
 
@@ -95,7 +90,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏取消按钮是否显示
      */
     public void setCancelVisible(boolean cancelVisible) {
-
         this.cancelVisible = cancelVisible;
     }
 
@@ -103,7 +97,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏取消按钮文字
      */
     public void setCancelText(CharSequence cancelText) {
-
         this.cancelText = cancelText;
     }
 
@@ -111,7 +104,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏取消按钮文字
      */
     public void setCancelText(@StringRes int textRes) {
-
         this.cancelText = activity.getString(textRes);
     }
 
@@ -119,7 +111,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏确定按钮文字
      */
     public void setSubmitText(CharSequence submitText) {
-
         this.submitText = submitText;
     }
 
@@ -127,7 +118,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏确定按钮文字
      */
     public void setSubmitText(@StringRes int textRes) {
-
         this.submitText = activity.getString(textRes);
     }
 
@@ -135,7 +125,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏标题文字
      */
     public void setTitleText(CharSequence titleText) {
-
         this.titleText = titleText;
     }
 
@@ -143,7 +132,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏标题文字
      */
     public void setTitleText(@StringRes int textRes) {
-
         this.titleText = activity.getString(textRes);
     }
 
@@ -151,7 +139,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏取消按钮文字颜色
      */
     public void setCancelTextColor(@ColorInt int cancelTextColor) {
-
         this.cancelTextColor = cancelTextColor;
     }
 
@@ -159,7 +146,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏确定按钮文字颜色
      */
     public void setSubmitTextColor(@ColorInt int submitTextColor) {
-
         this.submitTextColor = submitTextColor;
     }
 
@@ -167,7 +153,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏标题文字颜色
      */
     public void setTitleTextColor(@ColorInt int titleTextColor) {
-
         this.titleTextColor = titleTextColor;
     }
 
@@ -175,7 +160,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏取消按钮文字大小（单位为sp）
      */
     public void setCancelTextSize(@IntRange(from = 10, to = 40) int cancelTextSize) {
-
         this.cancelTextSize = cancelTextSize;
     }
 
@@ -183,7 +167,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏确定按钮文字大小（单位为sp）
      */
     public void setSubmitTextSize(@IntRange(from = 10, to = 40) int submitTextSize) {
-
         this.submitTextSize = submitTextSize;
     }
 
@@ -191,7 +174,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      * 设置顶部标题栏标题文字大小（单位为sp）
      */
     public void setTitleTextSize(@IntRange(from = 10, to = 40) int titleTextSize) {
-
         this.titleTextSize = titleTextSize;
     }
 
@@ -202,7 +184,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
      */
     @Override
     protected final View makeContentView() {
-
         LinearLayout rootLayout = new LinearLayout(activity);
         rootLayout.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
         rootLayout.setBackgroundColor(0xFF222222);
@@ -230,12 +211,10 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
 
     @Nullable
     protected View makeHeaderView() {
-
         RelativeLayout topButtonLayout = new RelativeLayout(activity);
         topButtonLayout.setLayoutParams(new RelativeLayout.LayoutParams(MATCH_PARENT, ConvertUtils.toPx(activity, topHeight)));
         topButtonLayout.setBackgroundColor(topBackgroundColor);
         topButtonLayout.setGravity(Gravity.CENTER_VERTICAL);
-
         Button cancelButton = new Button(activity);
         cancelButton.setVisibility(cancelVisible ? View.VISIBLE : View.GONE);
         RelativeLayout.LayoutParams cancelButtonLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
@@ -254,13 +233,11 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dismiss();
                 onCancel();
             }
         });
         topButtonLayout.addView(cancelButton);
-
         TextView titleView = new TextView(activity);
         RelativeLayout.LayoutParams titleLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         int margin = ConvertUtils.toPx(activity, 20);
@@ -278,7 +255,6 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
             titleView.setTextSize(titleTextSize);
         }
         topButtonLayout.addView(titleView);
-
         Button submitButton = new Button(activity);
         RelativeLayout.LayoutParams submitButtonLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         submitButtonLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
@@ -296,13 +272,11 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dismiss();
                 onSubmit();
             }
         });
         topButtonLayout.addView(submitButton);
-
         return topButtonLayout;
     }
 
@@ -311,16 +285,12 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
 
     @Nullable
     protected View makeFooterView() {
-
         return null;
     }
 
     protected void onSubmit() {
-
     }
 
     protected void onCancel() {
-
     }
-
 }

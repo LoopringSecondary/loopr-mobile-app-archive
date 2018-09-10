@@ -14,13 +14,10 @@ public class Province extends Area {
     private ArrayList<City> cities = new ArrayList<City>();
 
     public ArrayList<City> getCities() {
-
         return cities;
     }
 
     public void setCities(ArrayList<City> cities) {
-
         this.cities = cities;
     }
-
 }

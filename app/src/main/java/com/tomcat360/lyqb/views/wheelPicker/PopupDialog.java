@@ -1,7 +1,5 @@
 package com.tomcat360.lyqb.views.wheelPicker;
 
-import com.tomcat360.lyqb.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
+
+import com.tomcat360.lyqb.R;
 
 /**
  * 弹窗，内部类，仅供{@link BasicPopup}调用
@@ -29,12 +29,10 @@ class PopupDialog {
     private FrameLayout contentLayout;
 
     PopupDialog(Context context) {
-
         init(context);
     }
 
     private void init(Context context) {
-
         contentLayout = new FrameLayout(context);
         contentLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         contentLayout.setFocusable(true);
@@ -56,12 +54,10 @@ class PopupDialog {
     }
 
     Context getContext() {
-
         return contentLayout.getContext();
     }
 
     void setAnimationStyle(@StyleRes int animRes) {
-
         Window window = dialog.getWindow();
         if (window != null) {
             window.setWindowAnimations(animRes);
@@ -69,35 +65,29 @@ class PopupDialog {
     }
 
     boolean isShowing() {
-
         return dialog.isShowing();
     }
 
     @CallSuper
     void show() {
-
         dialog.show();
     }
 
     @CallSuper
     void dismiss() {
-
         dialog.dismiss();
     }
 
     View getContentView() {
-
         return contentLayout.getChildAt(0);
     }
 
     void setContentView(View view) {
-
         contentLayout.removeAllViews();
         contentLayout.addView(view);
     }
 
     void setSize(int width, int height) {
-
         LogUtils.verbose(String.format("will set popup width/height to: %s/%s", width, height));
         ViewGroup.LayoutParams params = contentLayout.getLayoutParams();
         if (params == null) {
@@ -110,23 +100,18 @@ class PopupDialog {
     }
 
     void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
-
         dialog.setOnDismissListener(onDismissListener);
     }
 
     void setOnKeyListener(DialogInterface.OnKeyListener onKeyListener) {
-
         dialog.setOnKeyListener(onKeyListener);
     }
 
     Window getWindow() {
-
         return dialog.getWindow();
     }
 
     ViewGroup getRootView() {
-
         return contentLayout;
     }
-
 }

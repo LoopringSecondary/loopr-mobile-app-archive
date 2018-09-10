@@ -1,13 +1,13 @@
 package com.tomcat360.lyqb.activity;
 
-import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.views.TitleView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.SPUtils;
+import com.tomcat360.lyqb.views.TitleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +32,6 @@ public class CoinActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         setContentView(R.layout.activity_coin);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
@@ -40,14 +39,12 @@ public class CoinActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-
         title.setBTitle(getResources().getString(R.string.set_money_type));
         title.clickLeftGoBack(getWContext());
     }
 
     @Override
     public void initView() {
-
         if (SPUtils.get(this, "coin", "¥").equals("¥")) {
             ivCnyCheck.setVisibility(View.VISIBLE);
             ivUsdCheck.setVisibility(View.GONE);
@@ -59,21 +56,19 @@ public class CoinActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
     }
 
     @OnClick({R.id.ll_cny, R.id.ll_usd})
     public void onViewClicked(View view) {
-
         switch (view.getId()) {
             case R.id.ll_cny:
-                SPUtils.put(this,"isRecreate",true);
+                SPUtils.put(this, "isRecreate", true);
                 SPUtils.put(this, "coin", "¥");  //保存货币显示，
                 ivCnyCheck.setVisibility(View.VISIBLE);
                 ivUsdCheck.setVisibility(View.GONE);
                 break;
             case R.id.ll_usd:
-                SPUtils.put(this,"isRecreate",true);
+                SPUtils.put(this, "isRecreate", true);
                 SPUtils.put(this, "coin", "$");
                 ivCnyCheck.setVisibility(View.GONE);
                 ivUsdCheck.setVisibility(View.VISIBLE);

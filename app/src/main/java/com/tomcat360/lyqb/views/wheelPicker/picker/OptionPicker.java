@@ -3,8 +3,6 @@ package com.tomcat360.lyqb.views.wheelPicker.picker;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
-
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -12,6 +10,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
 
 /**
  * 单项选择器
@@ -33,13 +33,11 @@ public class OptionPicker extends WheelPicker {
      * @param options  the options
      */
     public OptionPicker(Activity activity, String[] options) {
-
         super(activity);
         this.options.addAll(Arrays.asList(options));
     }
 
     public OptionPicker(Activity activity, ArrayList<String> options) {
-
         super(activity);
         this.options.addAll(options);
     }
@@ -48,7 +46,6 @@ public class OptionPicker extends WheelPicker {
      * 设置显示的单位，如身高为cm、体重为kg
      */
     public void setLabel(String label) {
-
         this.label = label;
     }
 
@@ -56,7 +53,6 @@ public class OptionPicker extends WheelPicker {
      * 设置默认选中的项的索引
      */
     public void setSelectedIndex(int index) {
-
         if (index >= 0 && index < options.size()) {
             selectedOption = index;
         }
@@ -66,19 +62,16 @@ public class OptionPicker extends WheelPicker {
      * 设置默认选中的项
      */
     public void setSelectedItem(String option) {
-
         setSelectedIndex(options.indexOf(option));
     }
 
     public void setOnOptionPickListener(OnOptionPickListener listener) {
-
         this.onOptionPickListener = listener;
     }
 
     @Override
     @NonNull
     protected View makeCenterView() {
-
         if (options.size() == 0) {
             throw new IllegalArgumentException("please initial options at first, can't be empty");
         }
@@ -105,7 +98,6 @@ public class OptionPicker extends WheelPicker {
         optionView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-
                 selectedOption = selectedIndex;
             }
         });
@@ -114,7 +106,6 @@ public class OptionPicker extends WheelPicker {
 
     @Override
     public void onSubmit() {
-
         if (onOptionPickListener != null) {
             onOptionPickListener.onOptionPicked(selectedOption, options.get(selectedOption));
         }
@@ -126,7 +117,6 @@ public class OptionPicker extends WheelPicker {
      * @return the selected option
      */
     public String getSelectedOption() {
-
         return options.get(selectedOption);
     }
 
@@ -136,7 +126,6 @@ public class OptionPicker extends WheelPicker {
      * @return the selected position
      */
     public int getSelectedPosition() {
-
         return selectedOption;
     }
 
@@ -152,7 +141,5 @@ public class OptionPicker extends WheelPicker {
          * @param option   the option
          */
         void onOptionPicked(int position, String option);
-
     }
-
 }

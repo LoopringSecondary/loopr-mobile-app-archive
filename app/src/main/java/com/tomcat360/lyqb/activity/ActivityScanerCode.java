@@ -6,29 +6,6 @@ import java.util.Vector;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.DecodeHintType;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.ReaderException;
-import com.google.zxing.Result;
-import com.google.zxing.common.HybridBinarizer;
-import com.vondear.rxfeature.module.scaner.CameraManager;
-import com.vondear.rxfeature.module.scaner.OnRxScanerListener;
-import com.vondear.rxfeature.module.scaner.PlanarYUVLuminanceSource;
-import com.vondear.rxfeature.module.scaner.decoding.InactivityTimer;
-import com.vondear.rxfeature.tool.RxQrBarTool;
-import com.vondear.rxtool.RxAnimationTool;
-import com.vondear.rxtool.RxBarTool;
-import com.vondear.rxtool.RxBeepTool;
-import com.vondear.rxtool.RxConstants;
-import com.vondear.rxtool.RxDataTool;
-import com.vondear.rxtool.RxPhotoTool;
-import com.vondear.rxtool.RxSPTool;
-import com.vondear.rxtool.view.RxToast;
-import com.vondear.rxui.activity.ActivityBase;
-import com.vondear.rxui.view.dialog.RxDialogSure;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -52,6 +29,29 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.ReaderException;
+import com.google.zxing.Result;
+import com.google.zxing.common.HybridBinarizer;
+import com.vondear.rxfeature.module.scaner.CameraManager;
+import com.vondear.rxfeature.module.scaner.OnRxScanerListener;
+import com.vondear.rxfeature.module.scaner.PlanarYUVLuminanceSource;
+import com.vondear.rxfeature.module.scaner.decoding.InactivityTimer;
+import com.vondear.rxfeature.tool.RxQrBarTool;
+import com.vondear.rxtool.RxAnimationTool;
+import com.vondear.rxtool.RxBarTool;
+import com.vondear.rxtool.RxBeepTool;
+import com.vondear.rxtool.RxConstants;
+import com.vondear.rxtool.RxDataTool;
+import com.vondear.rxtool.RxPhotoTool;
+import com.vondear.rxtool.RxSPTool;
+import com.vondear.rxtool.view.RxToast;
+import com.vondear.rxui.activity.ActivityBase;
+import com.vondear.rxui.view.dialog.RxDialogSure;
 
 import static android.content.ContentValues.TAG;
 
@@ -128,13 +128,11 @@ public class ActivityScanerCode extends ActivityBase {
      * 设置扫描信息回调
      */
     public static void setScanerListener(OnRxScanerListener scanerListener) {
-
         mScanerListener = scanerListener;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         RxBarTool.setNoTitle(this);
         setContentView(com.vondear.rxfeature.R.layout.activity_scaner_code);
@@ -153,16 +151,13 @@ public class ActivityScanerCode extends ActivityBase {
     }
 
     private void initDecode() {
-
         multiFormatReader = new MultiFormatReader();
-
         // 解码的参数
         Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>(2);
         // 可以解析的编码类型
         Vector<BarcodeFormat> decodeFormats = new Vector<BarcodeFormat>();
         if (decodeFormats == null || decodeFormats.isEmpty()) {
             decodeFormats = new Vector<BarcodeFormat>();
-
             Vector<BarcodeFormat> PRODUCT_FORMATS = new Vector<BarcodeFormat>(5);
             PRODUCT_FORMATS.add(BarcodeFormat.UPC_A);
             PRODUCT_FORMATS.add(BarcodeFormat.UPC_E);
@@ -179,21 +174,18 @@ public class ActivityScanerCode extends ActivityBase {
             QR_CODE_FORMATS.add(BarcodeFormat.QR_CODE);
             Vector<BarcodeFormat> DATA_MATRIX_FORMATS = new Vector<BarcodeFormat>(1);
             DATA_MATRIX_FORMATS.add(BarcodeFormat.DATA_MATRIX);
-
             // 这里设置可扫描的类型，我这里选择了都支持
             decodeFormats.addAll(ONE_D_FORMATS);
             decodeFormats.addAll(QR_CODE_FORMATS);
             decodeFormats.addAll(DATA_MATRIX_FORMATS);
         }
         hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
-
         multiFormatReader.setHints(hints);
     }
 
     @SuppressWarnings("deprecation")
     @Override
     protected void onResume() {
-
         super.onResume();
         SurfaceView surfaceView = findViewById(com.vondear.rxfeature.R.id.capture_preview);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
@@ -204,12 +196,10 @@ public class ActivityScanerCode extends ActivityBase {
             surfaceHolder.addCallback(new SurfaceHolder.Callback() {
                 @Override
                 public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
                 }
 
                 @Override
                 public void surfaceCreated(SurfaceHolder holder) {
-
                     if (!hasSurface) {
                         hasSurface = true;
                         initCamera(holder);
@@ -218,9 +208,7 @@ public class ActivityScanerCode extends ActivityBase {
 
                 @Override
                 public void surfaceDestroyed(SurfaceHolder holder) {
-
                     hasSurface = false;
-
                 }
             });
             surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -229,7 +217,6 @@ public class ActivityScanerCode extends ActivityBase {
 
     @Override
     protected void onPause() {
-
         super.onPause();
         if (handler != null) {
             handler.quitSynchronously();
@@ -241,19 +228,16 @@ public class ActivityScanerCode extends ActivityBase {
 
     @Override
     protected void onDestroy() {
-
         inactivityTimer.shutdown();
         mScanerListener = null;
         super.onDestroy();
     }
 
     private void initView() {
-
         mIvLight = findViewById(com.vondear.rxfeature.R.id.top_mask);
         mContainer = findViewById(com.vondear.rxfeature.R.id.capture_containter);
         mCropLayout = findViewById(com.vondear.rxfeature.R.id.capture_crop_layout);
         mLlScanHelp = findViewById(com.vondear.rxfeature.R.id.ll_scan_help);
-
     }
 
     private void initPermission() {
@@ -265,36 +249,29 @@ public class ActivityScanerCode extends ActivityBase {
     }
 
     private void initScanerAnimation() {
-
         ImageView mQrLineView = findViewById(com.vondear.rxfeature.R.id.capture_scan_line);
         RxAnimationTool.ScaleUpDowm(mQrLineView);
     }
 
     public int getCropWidth() {
-
         return mCropWidth;
     }
 
     public void setCropWidth(int cropWidth) {
-
         mCropWidth = cropWidth;
         CameraManager.FRAME_WIDTH = mCropWidth;
-
     }
 
     public int getCropHeight() {
-
         return mCropHeight;
     }
 
     public void setCropHeight(int cropHeight) {
-
         this.mCropHeight = cropHeight;
         CameraManager.FRAME_HEIGHT = mCropHeight;
     }
 
     public void btn(View view) {
-
         int viewId = view.getId();
         if (viewId == com.vondear.rxfeature.R.id.top_mask) {
             light();
@@ -306,7 +283,6 @@ public class ActivityScanerCode extends ActivityBase {
     }
 
     private void light() {
-
         if (mFlashing) {
             mFlashing = false;
             // 开闪光灯
@@ -316,11 +292,9 @@ public class ActivityScanerCode extends ActivityBase {
             // 关闪光灯
             CameraManager.get().offLight();
         }
-
     }
 
     private void initCamera(SurfaceHolder surfaceHolder) {
-
         try {
             CameraManager.get().openDriver(surfaceHolder);
             Point point = CameraManager.get().getCameraResolution();
@@ -341,7 +315,6 @@ public class ActivityScanerCode extends ActivityBase {
     //--------------------------------------打开本地图片识别二维码 start---------------------------------
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             ContentResolver resolver = getContentResolver();
@@ -350,15 +323,12 @@ public class ActivityScanerCode extends ActivityBase {
             try {
                 // 使用ContentProvider通过URI获取原始图片
                 Bitmap photo = MediaStore.Images.Media.getBitmap(resolver, originalUri);
-
                 // 开始对图像资源解码
                 Result rawResult = RxQrBarTool.decodeFromPhoto(photo);
                 if (rawResult != null) {
                     if (mScanerListener == null) {
                         //                        initDialogResult(rawResult);
-
                         initActivityResult(rawResult);
-
                     } else {
                         mScanerListener.onSuccess("From to Picture", rawResult);
                     }
@@ -380,26 +350,21 @@ public class ActivityScanerCode extends ActivityBase {
      * 将结果返回到跳转的activity
      */
     private void initActivityResult(Result result) {
-
         Intent intent = new Intent();
         intent.putExtra("result", result.getText());
         setResult(RESULT_OK, intent);
         finish();
         //        RxToast.error(result.getText());
         //        LyqbLogger.log(result.getText());
-
     }
 
     private void initDialogResult(Result result) {
-
         BarcodeFormat type = result.getBarcodeFormat();
         String realContent = result.getText();
-
         if (rxDialogSure == null) {
             //提示弹窗
             rxDialogSure = new RxDialogSure(mContext);
         }
-
         if (BarcodeFormat.QR_CODE.equals(type)) {
             rxDialogSure.setTitle("二维码扫描结果");
         } else if (BarcodeFormat.EAN_13.equals(type)) {
@@ -407,40 +372,33 @@ public class ActivityScanerCode extends ActivityBase {
         } else {
             rxDialogSure.setTitle("扫描结果");
         }
-
         rxDialogSure.setContent(realContent);
         rxDialogSure.setSureListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 rxDialogSure.cancel();
             }
         });
         rxDialogSure.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-
                 if (handler != null) {
                     // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
                     handler.sendEmptyMessage(com.vondear.rxfeature.R.id.restart_preview);
                 }
             }
         });
-
         if (!rxDialogSure.isShowing()) {
             rxDialogSure.show();
         }
-
         RxSPTool.putContent(mContext, RxConstants.SP_SCAN_CODE, RxDataTool.stringToInt(RxSPTool.getContent(mContext, RxConstants.SP_SCAN_CODE)) + 1 + "");
     }
     //==============================================================================================解析结果 及 后续处理 end
 
     public void handleDecode(Result result) {
-
         inactivityTimer.onActivity();
         //扫描成功之后的振动与声音提示
         RxBeepTool.playBeep(mContext, vibrate);
-
         String result1 = result.getText();
         Log.v("二维码/条形码 扫描结果", result1);
         if (mScanerListener == null) {
@@ -453,10 +411,8 @@ public class ActivityScanerCode extends ActivityBase {
     }
 
     private void decode(byte[] data, int width, int height) {
-
         long start = System.currentTimeMillis();
         Result rawResult = null;
-
         //modify here
         byte[] rotatedData = new byte[data.length];
         for (int y = 0; y < height; y++) {
@@ -468,7 +424,6 @@ public class ActivityScanerCode extends ActivityBase {
         int tmp = width;
         width = height;
         height = tmp;
-
         PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData, width, height);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
         try {
@@ -478,7 +433,6 @@ public class ActivityScanerCode extends ActivityBase {
         } finally {
             multiFormatReader.reset();
         }
-
         if (rawResult != null) {
             long end = System.currentTimeMillis();
             Log.d(TAG, "Found barcode (" + (end - start) + " ms):\n" + rawResult.toString());
@@ -508,7 +462,6 @@ public class ActivityScanerCode extends ActivityBase {
         private State state;
 
         public CaptureActivityHandler() {
-
             decodeThread = new DecodeThread();
             decodeThread.start();
             state = State.SUCCESS;
@@ -518,7 +471,6 @@ public class ActivityScanerCode extends ActivityBase {
 
         @Override
         public void handleMessage(Message message) {
-
             if (message.what == com.vondear.rxfeature.R.id.auto_focus) {
                 if (state == State.PREVIEW) {
                     CameraManager.get().requestAutoFocus(this, com.vondear.rxfeature.R.id.auto_focus);
@@ -536,7 +488,6 @@ public class ActivityScanerCode extends ActivityBase {
         }
 
         public void quitSynchronously() {
-
             state = State.DONE;
             decodeThread.interrupt();
             CameraManager.get().stopPreview();
@@ -547,7 +498,6 @@ public class ActivityScanerCode extends ActivityBase {
         }
 
         private void restartPreviewAndDecode() {
-
             if (state == State.SUCCESS) {
                 state = State.PREVIEW;
                 CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), com.vondear.rxfeature.R.id.decode);
@@ -563,12 +513,10 @@ public class ActivityScanerCode extends ActivityBase {
         private Handler handler;
 
         DecodeThread() {
-
             handlerInitLatch = new CountDownLatch(1);
         }
 
         Handler getHandler() {
-
             try {
                 handlerInitLatch.await();
             } catch (InterruptedException ie) {
@@ -579,7 +527,6 @@ public class ActivityScanerCode extends ActivityBase {
 
         @Override
         public void run() {
-
             Looper.prepare();
             handler = new DecodeHandler();
             handlerInitLatch.countDown();
@@ -590,12 +537,10 @@ public class ActivityScanerCode extends ActivityBase {
     final class DecodeHandler extends Handler {
 
         DecodeHandler() {
-
         }
 
         @Override
         public void handleMessage(Message message) {
-
             if (message.what == com.vondear.rxfeature.R.id.decode) {
                 decode((byte[]) message.obj, message.arg1, message.arg2);
             } else if (message.what == com.vondear.rxfeature.R.id.quit) {

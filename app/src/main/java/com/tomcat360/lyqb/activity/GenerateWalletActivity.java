@@ -6,8 +6,21 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.json.JSONException;
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import org.json.JSONException;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.common.base.Joiner;
 import com.lyqb.walletsdk.WalletHelper;
@@ -29,20 +42,6 @@ import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.SpacesItemDecoration;
 import com.tomcat360.lyqb.views.TitleView;
-
-import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -149,39 +148,31 @@ public class GenerateWalletActivity extends BaseActivity {
     Handler handlerCreate = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
             super.handleMessage(msg);
             switch (msg.what) {
                 case MNEMONIC_SUCCESS:
-
                     getAddress();
-
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
                     SPUtils.put(GenerateWalletActivity.this, "pas", password.getText().toString());
-
                     SPUtils.put(GenerateWalletActivity.this, "hasWallet", true);
                     SPUtils.put(GenerateWalletActivity.this, "address", "0x" + address);
-
                     List<WalletEntity> list = SPUtils.getWalletDataList(GenerateWalletActivity.this, "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
                     list.add(new WalletEntity(walletName.getText().toString(), filename, "0x" + address, mnemonic));
                     SPUtils.setDataList(GenerateWalletActivity.this, "walletlist", list);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-
                             LyqbLogger.log(address);
                             loopringService.notifyCreateWallet(address)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
                                         @Override
                                         public void onCompleted() {
-
                                             hideProgress();
                                             DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-
                                                     DialogUtil.dialog.dismiss();
                                                     finish();
                                                     AppManager.finishAll();
@@ -193,14 +184,12 @@ public class GenerateWalletActivity extends BaseActivity {
 
                                         @Override
                                         public void onError(Throwable e) {
-
                                             ToastUtils.toast("创建失败，请重试");
                                             hideProgress();
                                         }
 
                                         @Override
                                         public void onNext(String s) {
-
                                         }
                                     });
                         }
@@ -214,46 +203,36 @@ public class GenerateWalletActivity extends BaseActivity {
                     hideProgress();
                     ToastUtils.toast("本地文件JSON解析失败，请重试");
                     break;
-
             }
         }
-
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         setContentView(R.layout.activity_generate_wallet);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
-
         MyViewUtils.hideSoftInput(this, walletName);
-
     }
 
     @Override
     public void initTitle() {
-
         title.setBTitle(getResources().getString(R.string.generate_wallet));
         title.clickLeftGoBack(getWContext());
     }
 
     @Override
     public void initView() {
-
     }
 
     @Override
     public void initData() {
-
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         GridLayoutManager layoutManagerHint = new GridLayoutManager(this, 3);
-
         recyclerMnemonicHint.setLayoutManager(layoutManagerHint);  //助记词提示列表
         mHintAdapter = new MnemonicWordHintAdapter(R.layout.adapter_item_mnemonic_word_hint, null);
         recyclerMnemonicHint.addItemDecoration(new SpacesItemDecoration(8));
         recyclerMnemonicHint.setAdapter(mHintAdapter);
-
         recyclerView.setLayoutManager(layoutManager);   //助记词选择列表
         mAdapter = new MnemonicWordAdapter(R.layout.adapter_item_mnemonic_word, null);
         recyclerView.addItemDecoration(new SpacesItemDecoration(8));
@@ -275,15 +254,12 @@ public class GenerateWalletActivity extends BaseActivity {
                 }
             }
         });
-
     }
 
     @OnClick({R.id.wallet_name, R.id.btn_next, R.id.btn_confirm, R.id.btn_skip})
     public void onViewClicked(View view) {
-
         switch (view.getId()) {
             case R.id.wallet_name:
-
                 break;
             case R.id.btn_next:
                 if (TextUtils.isEmpty(walletName.getText().toString())) {
@@ -307,11 +283,9 @@ public class GenerateWalletActivity extends BaseActivity {
                     }
                 } else if (nextStatus.equals("match")) {
                     if (repeatPassword.getText().toString().equals(password.getText().toString())) {
-
                         if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
                             mnemonic = MnemonicUtils.randomMnemonic();
                             String[] arrayMne = mnemonic.split(" ");
-
                             listMnemonic.clear();
                             for (int i = 0; i < arrayMne.length; i++) {
                                 listMnemonic.add(arrayMne[i]);
@@ -321,14 +295,11 @@ public class GenerateWalletActivity extends BaseActivity {
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-
                                     FileUtils.keepFile(GenerateWalletActivity.this, "mnemonic.txt", mnemonic);
-
                                 }
                             }).start();
                             //                            SPUtils.setDataList(this, "mnemonic", listMnemonic);
                             mHintAdapter.notifyDataSetChanged();
-
                             generatePartone.setVisibility(View.GONE);
                             generateParttwo.setVisibility(View.VISIBLE);
                             passwordMatch.setVisibility(View.VISIBLE);
@@ -343,20 +314,17 @@ public class GenerateWalletActivity extends BaseActivity {
                 break;
             case R.id.btn_confirm:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-
                     if (confirmStatus.equals("one")) {
                         confirmStatus = "two";
                         rlMnemonic.setVisibility(View.GONE);
                         rlWord.setVisibility(View.GONE);
                         generatePartthree.setVisibility(View.VISIBLE);
                         LyqbLogger.log(listMnemonic.toString());
-
                         Collections.shuffle(listRandomMnemonic); //打乱助记词
                         mAdapter.setNewData(listRandomMnemonic);
                         mAdapter.notifyDataSetChanged();
                     } else {
                         matchMnemonic();
-
                     }
                 }
                 break;
@@ -372,12 +340,10 @@ public class GenerateWalletActivity extends BaseActivity {
      * 生成钱包
      */
     private void startThread() {
-
         showProgress("加载中...");
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 WalletDetail walletDetail = createWallet();//生成助记词
                 filename = walletDetail.getFilename();
                 LyqbLogger.log(filename);
@@ -391,7 +357,6 @@ public class GenerateWalletActivity extends BaseActivity {
      * 助记词匹配
      */
     private void matchMnemonic() {
-
         String str = Joiner.on(" ").join(mneCheckedList);
         if (str.trim().equals(mnemonic)) {
             startThread();
@@ -404,7 +369,6 @@ public class GenerateWalletActivity extends BaseActivity {
      * 判断两个集合是否相等
      */
     public boolean compare(List<String> a, List<String> b) {
-
         if (a.size() != b.size())
             return false;
         Collections.sort(a);
@@ -420,7 +384,6 @@ public class GenerateWalletActivity extends BaseActivity {
      * 创建钱包
      */
     private WalletDetail createWallet() {
-
         WalletDetail walletDetail = null;
         try {
             String pas = repeatPassword.getText().toString();
@@ -435,11 +398,9 @@ public class GenerateWalletActivity extends BaseActivity {
      * 获取本地keystore中的address
      */
     public void getAddress() {
-
         new Thread() {
             @Override
             public void run() {
-
                 Message msg = handlerCreate.obtainMessage();
                 try {
                     address = FileUtils.getFileFromSD(GenerateWalletActivity.this);
@@ -455,7 +416,5 @@ public class GenerateWalletActivity extends BaseActivity {
                 handlerCreate.sendMessage(msg);
             }
         }.start();
-
     }
-
 }

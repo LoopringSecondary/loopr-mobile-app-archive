@@ -30,42 +30,34 @@ public class DateUtils extends android.text.format.DateUtils {
     public static final int Day = 3;
 
     public static long calculateDifferentSecond(Date startDate, Date endDate) {
-
         return calculateDifference(startDate, endDate, Second);
     }
 
     public static long calculateDifferentMinute(Date startDate, Date endDate) {
-
         return calculateDifference(startDate, endDate, Minute);
     }
 
     public static long calculateDifferentHour(Date startDate, Date endDate) {
-
         return calculateDifference(startDate, endDate, Hour);
     }
 
     public static long calculateDifferentDay(Date startDate, Date endDate) {
-
         return calculateDifference(startDate, endDate, Day);
     }
 
     public static long calculateDifferentSecond(long startTimeMillis, long endTimeMillis) {
-
         return calculateDifference(startTimeMillis, endTimeMillis, Second);
     }
 
     public static long calculateDifferentMinute(long startTimeMillis, long endTimeMillis) {
-
         return calculateDifference(startTimeMillis, endTimeMillis, Minute);
     }
 
     public static long calculateDifferentHour(long startTimeMillis, long endTimeMillis) {
-
         return calculateDifference(startTimeMillis, endTimeMillis, Hour);
     }
 
     public static long calculateDifferentDay(long startTimeMillis, long endTimeMillis) {
-
         return calculateDifference(startTimeMillis, endTimeMillis, Day);
     }
 
@@ -73,7 +65,6 @@ public class DateUtils extends android.text.format.DateUtils {
      * 计算两个时间戳之间相差的时间戳数
      */
     public static long calculateDifference(long startTimeMillis, long endTimeMillis, @DifferenceMode int mode) {
-
         return calculateDifference(new Date(startTimeMillis), new Date(endTimeMillis), mode);
     }
 
@@ -81,7 +72,6 @@ public class DateUtils extends android.text.format.DateUtils {
      * 计算两个日期之间相差的时间戳数
      */
     public static long calculateDifference(Date startDate, Date endDate, @DifferenceMode int mode) {
-
         long[] different = calculateDifference(startDate, endDate);
         if (mode == Minute) {
             return different[2];
@@ -95,12 +85,10 @@ public class DateUtils extends android.text.format.DateUtils {
     }
 
     private static long[] calculateDifference(Date startDate, Date endDate) {
-
         return calculateDifference(endDate.getTime() - startDate.getTime());
     }
 
     private static long[] calculateDifference(long differentMilliSeconds) {
-
         long secondsInMilli = 1000;//1s==1000ms
         long minutesInMilli = secondsInMilli * 60;
         long hoursInMilli = minutesInMilli * 60;
@@ -120,7 +108,6 @@ public class DateUtils extends android.text.format.DateUtils {
      * 计算每月的天数
      */
     public static int calculateDaysInMonth(int month) {
-
         return calculateDaysInMonth(0, month);
     }
 
@@ -156,7 +143,6 @@ public class DateUtils extends android.text.format.DateUtils {
      */
     @NonNull
     public static String fillZero(int number) {
-
         return number < 10 ? "0" + number : "" + number;
     }
 
@@ -166,7 +152,6 @@ public class DateUtils extends android.text.format.DateUtils {
      * @see #fillZero(int)
      */
     public static int trimZero(@NonNull String text) {
-
         if (text.startsWith("0")) {
             text = text.substring(1);
         }
@@ -181,7 +166,6 @@ public class DateUtils extends android.text.format.DateUtils {
      * @return boolean 如果在返回true，否则返回false。
      */
     public static boolean isSameDay(Date date) {
-
         if (date == null) {
             throw new IllegalArgumentException("date is null");
         }
@@ -200,7 +184,6 @@ public class DateUtils extends android.text.format.DateUtils {
      * @return Date 日期 ,转换异常时返回null。
      */
     public static Date parseDate(String dateStr, String dataFormat) {
-
         try {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat(dataFormat);
             Date date = dateFormat.parse(dateStr);
@@ -218,7 +201,6 @@ public class DateUtils extends android.text.format.DateUtils {
      * @return Date 日期 ,转换异常时返回null。
      */
     public static Date parseDate(String dateStr) {
-
         return parseDate(dateStr, "yyyy-MM-dd HH:mm:ss");
     }
 
@@ -227,5 +209,4 @@ public class DateUtils extends android.text.format.DateUtils {
     public @interface DifferenceMode {
 
     }
-
 }
