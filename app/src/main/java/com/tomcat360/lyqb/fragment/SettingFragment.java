@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.activity.CoinActivity;
+import com.tomcat360.lyqb.activity.CurrencyActivity;
 import com.tomcat360.lyqb.activity.ContractVersionActivity;
 import com.tomcat360.lyqb.activity.LRCFeeRatioActivity;
 import com.tomcat360.lyqb.activity.LanguageActivity;
@@ -127,7 +127,7 @@ public class SettingFragment extends BaseFragment {
                 getOperation().forward(ManageWalletActivity.class);
                 break;
             case R.id.ll_money_type://货币
-                getOperation().forward(CoinActivity.class);
+                getOperation().forward(CurrencyActivity.class);
                 break;
             case R.id.ll_language://语言
                 startActivity(new Intent(mainActivity, LanguageActivity.class));

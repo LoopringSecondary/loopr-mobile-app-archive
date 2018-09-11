@@ -152,7 +152,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.CoinActivity"
+            android:name=".activity.CurrencyActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>

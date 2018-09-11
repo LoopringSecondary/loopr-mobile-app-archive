@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CoinActivity extends BaseActivity {
+public class CurrencyActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
@@ -32,7 +32,7 @@ public class CoinActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_coin);
+        setContentView(R.layout.activity_currency);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
     }

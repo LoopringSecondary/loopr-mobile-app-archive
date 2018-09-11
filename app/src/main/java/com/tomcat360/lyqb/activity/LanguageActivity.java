@@ -5,8 +5,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.lyqb.walletsdk.model.Language;
 import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.utils.LanguagesUtil;
+import com.tomcat360.lyqb.utils.LanguageUtil;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.views.TitleView;
 
@@ -57,7 +58,7 @@ public class LanguageActivity extends BaseActivity {
             ivEnglishCheck.setVisibility(View.GONE);
             ivChineseCheck.setVisibility(View.VISIBLE);
         } else {
-            if (LanguagesUtil.getLanguage(this) == 1) {
+            if (LanguageUtil.getLanguage(this) == Language.en_US) {
                 ivEnglishCheck.setVisibility(View.VISIBLE);
                 ivChineseCheck.setVisibility(View.GONE);
             } else {
@@ -82,7 +83,7 @@ public class LanguageActivity extends BaseActivity {
                 /**
                  * 显示英文
                  * */
-                LanguagesUtil.changeLanguage(this, "en");
+                LanguageUtil.changeLanguage(this, "en");
                 recreate();
                 break;
             case R.id.ll_chinese:
@@ -91,7 +92,7 @@ public class LanguageActivity extends BaseActivity {
                 ivEnglishCheck.setVisibility(View.GONE);
                 ivChineseCheck.setVisibility(View.VISIBLE);
                 //显示中文
-                LanguagesUtil.changeLanguage(this, "zh");
+                LanguageUtil.changeLanguage(this, "zh");
                 recreate();
                 break;
         }
