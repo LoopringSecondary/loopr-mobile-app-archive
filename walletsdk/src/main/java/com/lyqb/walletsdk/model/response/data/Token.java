@@ -15,4 +15,5 @@ public class Token {
     private BigDecimal decimals;
     private String isMarket;
     private Object icoPrice;
+    private int imageResId;
 }

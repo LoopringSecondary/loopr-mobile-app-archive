@@ -10,9 +10,6 @@ import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.utils.SPUtils;
 
-/**
- *
- */
 public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, BaseViewHolder> {
 
     public MainWalletAdapter(int layoutResId, @Nullable List<BalanceResult.Asset> data) {

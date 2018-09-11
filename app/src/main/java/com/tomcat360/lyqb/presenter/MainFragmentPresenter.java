@@ -6,11 +6,16 @@
  */
 package com.tomcat360.lyqb.presenter;
 
+import android.content.Context;
+
 import com.tomcat360.lyqb.fragment.MainFragment;
 
 public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
-    public MainFragmentPresenter(MainFragment view) {
-        attachView(view);
+    public MainFragmentPresenter(MainFragment view, Context context) {
+        super(view, context);
+
     }
+
+
 }
