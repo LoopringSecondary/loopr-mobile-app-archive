@@ -27,7 +27,8 @@
             android:layout_marginTop="24dp"
             android:text="37,013.79"
             android:textColor="@color/colorWhite"
-            android:textSize="32sp"/>
+            android:textSize="32sp"
+            android:textStyle="bold"/>
 
         <LinearLayout
             style="@style/MatchWrap.Horizontal"

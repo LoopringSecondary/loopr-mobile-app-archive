@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="68dp"
                 android:layout_marginBottom="8dp"
@@ -19,7 +20,8 @@
         style="@style/WrapMatch"
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@id/wallet_image"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        tools:ignore="MissingPrefix">
 
         <TextView
             android:id="@+id/wallet_title"
@@ -27,7 +29,8 @@
             android:layout_centerVertical="true"
             android:text="LRC"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/normal14Text"/>
+            android:textSize="@dimen/font_14"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/wallet_name"
@@ -36,7 +39,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="7dp"
             android:text="Loopring"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorFortyWhite"
             android:textSize="13sp"/>
 
     </RelativeLayout>
@@ -54,7 +57,8 @@
             android:layout_centerVertical="true"
             android:text="2335.2211"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/normal14Text"/>
+            android:textSize="@dimen/font_14"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/wallet_count"
@@ -64,7 +68,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="7dp"
             android:text="39,222.01"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorFortyWhite"
             android:textSize="13sp"/>
 
     </RelativeLayout>

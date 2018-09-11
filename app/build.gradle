@@ -90,4 +90,7 @@ dependencies {
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
     implementation project(':walletsdk')
     implementation 'com.google.guava:guava:26.0-android'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
+    implementation 'com.robinhood.ticker:ticker:2.0.0'
 }

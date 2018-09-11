@@ -16,7 +16,7 @@ import com.tomcat360.lyqb.views.wheelPicker.widget.WheelView;
 
 /**
  * 地址选择器（包括省级、地级、县级）。
- * 地址数据见示例项目的“assets/city.json”，来源于国家统计局官网（http://www.stats.gov.cn/tjsj/tjbz/xzqhdm）
+ * 地址数据见示例项目的“tokens/city.json”，来源于国家统计局官网（http://www.stats.gov.cn/tjsj/tjbz/xzqhdm）
  *
  * @author 李玉江[QQ:1032694760]
  * @see Province
@@ -134,7 +134,7 @@ public class AddressPicker extends LinkagePicker {
     /**
      * 隐藏省级行政区，只显示地市级和区县级。
      * 设置为true的话，地址数据中只需要某个省份的即可
-     * 参见示例中的“assets/city2.json”
+     * 参见示例中的“tokens/city2.json”
      */
     public void setHideProvince(boolean hideProvince) {
         this.hideProvince = hideProvince;
@@ -143,7 +143,7 @@ public class AddressPicker extends LinkagePicker {
     /**
      * 隐藏县级行政区，只显示省级和市级。
      * 设置为true的话，hideProvince将强制为false
-     * 数据源依然使用“assets/city.json” 仅在逻辑上隐藏县级选择框，实际项目中应该去掉县级数据。
+     * 数据源依然使用“tokens/city.json” 仅在逻辑上隐藏县级选择框，实际项目中应该去掉县级数据。
      */
     public void setHideCounty(boolean hideCounty) {
         this.hideCounty = hideCounty;

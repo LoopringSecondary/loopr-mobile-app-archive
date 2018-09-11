@@ -33,7 +33,8 @@
                 style="@style/WrapWrap"
                 android:text="LRC"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text"/>
+                android:textSize="@dimen/normal14Text"
+                android:textStyle="bold"/>
 
             <ImageView
                 android:id="@+id/iv_status"
@@ -51,7 +52,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="7dp"
             android:text="Loopring"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorFortyWhite"
             android:textSize="13sp"/>
 
 
@@ -71,7 +72,8 @@
             android:layout_centerVertical="true"
             android:text="2335.2211"
             android:textColor="@color/colorGreen"
-            android:textSize="@dimen/normal14Text"/>
+            android:textSize="@dimen/normal14Text"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/wallet_count"
@@ -81,7 +83,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="7dp"
             android:text="39,222.01"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorFortyWhite"
             android:textSize="13sp"/>
 
     </RelativeLayout>

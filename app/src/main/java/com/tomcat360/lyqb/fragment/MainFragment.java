@@ -33,6 +33,7 @@ import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.service.LoopringService;
 import com.lyqb.walletsdk.util.UnitConverter;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.ActivityScanerCode;
 import com.tomcat360.lyqb.activity.ReceiveActivity;
@@ -122,6 +123,9 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.ll_menu)
     LinearLayout llMenu;
 
+    @BindView(R.id.refresh_layout)
+    RefreshLayout refreshLayout;
+
     @SuppressLint("HandlerLeak")
     Handler handlerBalance = new Handler() {
         @Override
@@ -173,6 +177,9 @@ public class MainFragment extends BaseFragment {
         // 布局导入
         layout = inflater.inflate(R.layout.fragment_main, container, false);
         unbinder = ButterKnife.bind(this, layout);
+        refreshLayout.setOnRefreshListener(refreshLayout -> {
+            refreshLayout.finishRefresh(2000);
+        });
         return layout;
     }
 
@@ -272,27 +279,25 @@ public class MainFragment extends BaseFragment {
                         e.printStackTrace();
                     }
                 }
-                LyqbLogger.log(balanceResult.getAssets().toString());
-                if (balanceResult.getAssets() != null) {
+                LyqbLogger.log(balanceResult.getTokens().toString());
+                if (balanceResult.getTokens() != null) {
                     String currentCoin = "CNY";
                     if (SPUtils.get(getContext(), "coin", "￥").toString().equals("$"))
                         currentCoin = "USD";
-                    listAsset = balanceResult.getAssets();
+                    listAsset = balanceResult.getTokens();
                     for (BalanceResult.Asset asset : listAsset) {
                         try {
+                            if (asset.getSymbol().equals("ETH"))
+                                asset.setValue(UnitConverter.weiToEth(asset.getBalance().toPlainString())
+                                        .doubleValue());
                             if (!asset.getBalance()
-                                    .equals(BigDecimal.ZERO) && supportedTokenMap.get(asset.getSymbol()) != null && marketcapMap
-                                    .get(currentCoin + "-" + asset.getSymbol()) != null) {
-                                if (asset.getSymbol().equals("ETH"))
-                                    asset.setValue(UnitConverter.weiToEth(asset.getBalance().toPlainString())
-                                            .doubleValue());
-                                else {
-                                    asset.setValue(asset.getBalance()
-                                            .divide(supportedTokenMap.get(asset.getSymbol()))
-                                            .doubleValue());
-                                }
-                                asset.setLegalValue(marketcapMap.get(currentCoin + "-" + asset.getSymbol()) * asset.getValue());
+                                    .equals(BigDecimal.ZERO) && supportedTokenMap.get(asset.getSymbol()) != null) {
+                                asset.setValue(asset.getBalance()
+                                        .divide(supportedTokenMap.get(asset.getSymbol()))
+                                        .doubleValue());
                             }
+                            if (marketcapMap.get(currentCoin + "-" + asset.getSymbol()) != null)
+                                asset.setLegalValue(marketcapMap.get(currentCoin + "-" + asset.getSymbol()) * asset.getValue());
                         } catch (Exception e) {
                             Log.e("", asset.toString() + ", " + supportedTokenMap.get(asset.getSymbol()));
                         }
@@ -370,8 +375,8 @@ public class MainFragment extends BaseFragment {
             }
             SPUtils.put(getContext(), "amount", String.valueOf(amount));
             moneyValue = BigDecimal.valueOf(amount);
-            walletCount.setText((String) SPUtils.get(getContext(), "coin", "¥") + amount);
             mAdapter.setNewData(listChooseAsset);
+            walletCount.setText((String) SPUtils.get(getContext(), "coin", "¥") + amount);
         }
         //        if (listAsset != null) {
         //            listChooseAsset.clear();

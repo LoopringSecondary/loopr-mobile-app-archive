@@ -27,7 +27,8 @@
             android:layout_centerVertical="true"
             android:text="LRC"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/normal14Text"/>
+            android:textSize="@dimen/normal14Text"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/wallet_name"

@@ -11,6 +11,7 @@ import com.lyqb.walletsdk.model.response.data.Transaction;
 import com.lyqb.walletsdk.util.UnitConverter;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.utils.DateUtil;
+import com.tomcat360.lyqb.utils.SPUtils;
 
 /**
  *
@@ -29,6 +30,7 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
         BigDecimal value = UnitConverter.weiToEth(item.getValue()); //wei转成eth
         String amount = value.toPlainString().length() > 8 ? value.toPlainString()
                 .substring(0, 8) : value.toPlainString();
+        String coin = (String) SPUtils.get(mContext, "coin", "￥");
         if (item.getType().equals("send")) {
             helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.send) + " " + symbol);
             helper.setText(R.id.wallet_money, "-" + amount + " " + symbol);
@@ -42,6 +44,6 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
         } else {
             helper.setImageResource(R.id.iv_status, R.mipmap.icon_warning_lg);
         }
-        helper.setText(R.id.wallet_count, amount);
+        helper.setText(R.id.wallet_count, coin + amount);
     }
 }

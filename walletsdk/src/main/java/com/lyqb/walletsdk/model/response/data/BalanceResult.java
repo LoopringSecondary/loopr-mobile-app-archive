@@ -9,7 +9,7 @@ import lombok.Data;
 public class BalanceResult {
     private String delegateAddress;
     private String owner;
-    private List<Asset> assets;
+    private List<Asset> tokens;
 
     @Data
     public static class Asset {
