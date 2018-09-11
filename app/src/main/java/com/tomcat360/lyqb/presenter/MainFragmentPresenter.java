@@ -15,6 +15,4 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     public MainFragmentPresenter(MainFragment view, Context context) {
         super(view, context);
     }
-
-
 }

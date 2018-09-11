@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.activity.CurrencyActivity;
 import com.tomcat360.lyqb.activity.ContractVersionActivity;
+import com.tomcat360.lyqb.activity.CurrencyActivity;
 import com.tomcat360.lyqb.activity.LRCFeeRatioActivity;
 import com.tomcat360.lyqb.activity.LanguageActivity;
 import com.tomcat360.lyqb.activity.MainActivity;
