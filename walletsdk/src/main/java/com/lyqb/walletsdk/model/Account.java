@@ -7,9 +7,18 @@ import lombok.Data;
 
 @Data
 public class Account {
+
     private String address;
+
     private String publicKey;
+
     private String privateKey;
+
+    public Account(String address, String publicKey, String privateKey) {
+        this.address = address;
+        this.publicKey = publicKey;
+        this.privateKey = privateKey;
+    }
 
     public static Account create(String privateKey) {
         Credentials credentials = Credentials.create(privateKey);
@@ -22,12 +31,6 @@ public class Account {
                 Numeric.toHexStringWithPrefix(credentials.getEcKeyPair().getPublicKey()),
                 Numeric.toHexStringWithPrefix(credentials.getEcKeyPair().getPrivateKey())
         );
-    }
-
-    public Account(String address, String publicKey, String privateKey) {
-        this.address = address;
-        this.publicKey = publicKey;
-        this.privateKey = privateKey;
     }
 
     public Credentials toCredentials() {

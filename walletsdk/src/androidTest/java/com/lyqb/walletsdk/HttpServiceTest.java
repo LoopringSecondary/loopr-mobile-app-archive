@@ -2,10 +2,9 @@ package com.lyqb.walletsdk;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.lyqb.walletsdk.service.LoopringService;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import com.lyqb.walletsdk.service.LoopringService;
 
 @RunWith(AndroidJUnit4.class)
 public class HttpServiceTest {
@@ -13,6 +12,7 @@ public class HttpServiceTest {
     static {
         SDK.initSDK();
     }
+
     private LoopringService httpService = new LoopringService();
 
     @Test

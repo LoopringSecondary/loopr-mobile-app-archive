@@ -1,8 +1,8 @@
 package com.lyqb.walletsdk.util;
 
-import com.google.common.base.Strings;
-
 import java.io.File;
+
+import com.google.common.base.Strings;
 
 public class Assert {
 

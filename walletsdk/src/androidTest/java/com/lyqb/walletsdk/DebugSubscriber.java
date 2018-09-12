@@ -8,6 +8,7 @@ import rx.Subscriber;
 public class DebugSubscriber<T> extends Subscriber<T> {
 
     private ObjectMapper mapper = new ObjectMapper();
+
     @Override
     public void onCompleted() {
         System.out.println("complete.");

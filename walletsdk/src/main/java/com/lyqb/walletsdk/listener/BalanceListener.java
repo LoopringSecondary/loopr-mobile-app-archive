@@ -22,7 +22,7 @@ public class BalanceListener extends AbstractListener<BalanceResult, BalancePara
             subject.onNext(balanceResult);
         });
         socket.on("balance_end", data -> {
-//            System.out.println(Arrays.toString(data));
+            //            System.out.println(Arrays.toString(data));
             subject.onCompleted();
         });
     }

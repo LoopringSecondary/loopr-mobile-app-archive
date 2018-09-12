@@ -1,16 +1,15 @@
 package com.lyqb.walletsdk.util;
 
-import com.lyqb.walletsdk.model.Account;
-import com.lyqb.walletsdk.model.TransactionObject;
-import com.lyqb.walletsdk.model.TransactionSignature;
+import java.math.BigInteger;
 
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.Sign;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.utils.Numeric;
-
-import java.math.BigInteger;
+import com.lyqb.walletsdk.model.Account;
+import com.lyqb.walletsdk.model.TransactionObject;
+import com.lyqb.walletsdk.model.TransactionSignature;
 
 public class SignUtils {
 
@@ -35,5 +34,4 @@ public class SignUtils {
         String r = Numeric.toHexString(signatureData.getR());
         return new TransactionSignature(v, r, s);
     }
-
 }

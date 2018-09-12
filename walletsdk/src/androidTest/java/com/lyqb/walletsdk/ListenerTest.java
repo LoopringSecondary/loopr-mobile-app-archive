@@ -2,11 +2,10 @@ package com.lyqb.walletsdk;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.lyqb.walletsdk.listener.BalanceListener;
-import com.lyqb.walletsdk.model.response.data.BalanceResult;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import com.lyqb.walletsdk.listener.BalanceListener;
+import com.lyqb.walletsdk.model.response.data.BalanceResult;
 
 import rx.Observable;
 
@@ -20,7 +19,6 @@ public class ListenerTest {
         Observable<BalanceResult> start = balanceListener.start();
         start.subscribe(new DebugSubscriber<>());
         balanceListener.queryByOwner("0xb94065482ad64d4c2b9252358d746b39e820a582");
-
         balanceListener.stop();
         Thread.sleep(50000);
     }

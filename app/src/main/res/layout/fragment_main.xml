@@ -60,11 +60,12 @@
                 android:layout_marginTop="10dp"
                 android:background="@mipmap/wallet_bg">
 
-                <TextView
+                <com.robinhood.ticker.TickerView
                     android:id="@+id/wallet_count"
                     style="@style/WrapWrap"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="24dp"
+                    android:gravity="center"
                     android:textColor="@color/colorWhite"
                     android:textSize="32sp"
                     android:textStyle="bold"/>

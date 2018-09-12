@@ -1,5 +1,7 @@
 package com.lyqb.walletsdk;
 
+import java.io.IOException;
+
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
@@ -9,15 +11,12 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.Wallet;
 import org.web3j.crypto.WalletFile;
 
-import java.io.IOException;
-
 @RunWith(AndroidJUnit4.class)
 public class CommonTest {
 
     @Test
     public void test1() throws IOException {
         SDK.initSDK();
-
     }
 
     @Test
@@ -26,6 +25,4 @@ public class CommonTest {
         WalletFile walletFile = Wallet.createStandard("qqqqqq", credentials.getEcKeyPair());
         System.out.println(walletFile.toString());
     }
-
-
 }

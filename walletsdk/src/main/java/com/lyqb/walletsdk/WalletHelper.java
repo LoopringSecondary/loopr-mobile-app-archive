@@ -1,5 +1,13 @@
 package com.lyqb.walletsdk;
 
+import java.io.File;
+
+import org.web3j.crypto.CipherException;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Wallet;
+import org.web3j.crypto.WalletFile;
+import org.web3j.crypto.WalletUtils;
 import com.lyqb.walletsdk.exception.IllegalCredentialException;
 import com.lyqb.walletsdk.exception.InvalidKeystoreException;
 import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
@@ -11,27 +19,16 @@ import com.lyqb.walletsdk.util.Assert;
 import com.lyqb.walletsdk.util.KeystoreUtils;
 import com.lyqb.walletsdk.util.MnemonicUtils;
 
-import org.web3j.crypto.CipherException;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.ECKeyPair;
-import org.web3j.crypto.Wallet;
-import org.web3j.crypto.WalletFile;
-import org.web3j.crypto.WalletUtils;
-
-import java.io.File;
-
 public class WalletHelper {
 
     public static WalletDetail createFromMnemonic(String mnemonic, String dpath, String password, File keystoreDest) throws KeystoreSaveException {
         // validate inputs.
         Assert.validateMnemonic(mnemonic);
-//        Assert.hasText(password, "password can not be null");
+        //        Assert.hasText(password, "password can not be null");
         Assert.checkDirectory(keystoreDest);
-
         if (dpath == null) {
             dpath = Default.DEFAULT_DPATH;
         }
-
         Credentials credentials = MnemonicUtils.calculateCredentialsFromMnemonic(mnemonic, dpath, password);
         ECKeyPair ecKeyPair = credentials.getEcKeyPair();
         String walletFileName;
@@ -46,10 +43,8 @@ public class WalletHelper {
     public static WalletDetail createFromKeystore(String keystoreJson, String password, File dest) throws KeystoreSaveException, InvalidKeystoreException, IllegalCredentialException {
         WalletFile walletFile = KeystoreUtils.loadFromJsonString(keystoreJson);
         Assert.checkDirectory(dest);
-
         Credentials credentials = decrypt(password, keystoreJson);
         String fileName = AccountUtils.generateKeystoreFilename(credentials.getAddress());
-
         File destination = new File(dest, fileName);
         KeystoreUtils.writeToFile(walletFile, destination);
         return new WalletDetail(fileName);
@@ -59,7 +54,6 @@ public class WalletHelper {
         Assert.hasText(privateKey, "private key can not be null");
         Assert.hasText(newPassword, "new password can not be null");
         Assert.checkDirectory(dest);
-
         if (!WalletUtils.isValidPrivateKey(privateKey)) {
             throw new InvalidPrivateKeyException();
         }
@@ -73,13 +67,10 @@ public class WalletHelper {
         return new WalletDetail(walletFileName);
     }
 
-
-
     public static Account unlockWallet(String password, String keystore) throws InvalidKeystoreException, IllegalCredentialException {
         Credentials credentials = decrypt(password, keystore);
         return Account.create(credentials);
     }
-
 
     private static Credentials decrypt(String password, String keystore) throws InvalidKeystoreException, IllegalCredentialException {
         WalletFile walletFile = KeystoreUtils.loadFromJsonString(keystore);

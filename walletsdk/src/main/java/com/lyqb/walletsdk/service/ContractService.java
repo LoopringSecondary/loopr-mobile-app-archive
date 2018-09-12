@@ -1,5 +1,9 @@
 package com.lyqb.walletsdk.service;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
@@ -7,10 +11,6 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.tx.Contract;
 import org.web3j.tx.TransactionManager;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ContractService extends Contract {
 
@@ -22,9 +22,11 @@ public class ContractService extends Contract {
         super(contractBinary, contractAddress, web3j, credentials, gasPrice, gasLimit);
     }
 
+    public static void main(String[] args) {
+    }
+
     // try 1.
     public void totalSupply() throws Exception {
-
         List<Type> input = new ArrayList<>();
         List<TypeReference<?>> output = new ArrayList<>();
         Function function = new Function(
@@ -34,9 +36,5 @@ public class ContractService extends Contract {
         );
         BigInteger bigInteger = executeRemoteCallSingleValueReturn(function, BigInteger.class).send();
         System.out.println(bigInteger.toString());
-    }
-
-    public static void main(String[] args) {
-
     }
 }

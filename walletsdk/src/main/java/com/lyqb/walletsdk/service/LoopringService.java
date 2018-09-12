@@ -65,7 +65,7 @@ public class LoopringService {
         return observable.map(ResponseWrapper::getResult);
     }
 
-    public Observable<String> notifyTransactionSubmitted(String txHash, String nonce, String to,String valueInHex, String gasPriceInHex, String gasLimitInHex, String dataInHex, String from) {
+    public Observable<String> notifyTransactionSubmitted(String txHash, String nonce, String to, String valueInHex, String gasPriceInHex, String gasLimitInHex, String dataInHex, String from) {
         NotifyTransactionSubmitParam notifyTransactionSubmitParam = NotifyTransactionSubmitParam.builder()
                 .hash(txHash)
                 .nonce(nonce)

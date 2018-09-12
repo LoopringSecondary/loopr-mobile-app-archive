@@ -43,7 +43,7 @@ dependencies {
     implementation 'io.reactivex:rxandroid:1.2.1'
 
     compile 'org.web3j:core:3.3.1-android'
-    implementation ('org.bitcoinj:bitcoinj-core:0.14.7') {
+    implementation('org.bitcoinj:bitcoinj-core:0.14.7') {
         // todo this lib does not support Android 8.0, deal with it when scrypt algorithm running slow or an error occured.
         exclude module: 'scrypt'
     }
@@ -52,9 +52,9 @@ dependencies {
     implementation 'com.google.guava:guava:26.0-android'
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
-    implementation ('io.socket:socket.io-client:1.0.0') {
+    implementation('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }
-    
+
 }

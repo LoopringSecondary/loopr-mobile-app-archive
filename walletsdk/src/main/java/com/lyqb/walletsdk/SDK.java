@@ -1,9 +1,9 @@
 package com.lyqb.walletsdk;
 
-import com.lyqb.walletsdk.exception.SdkInitializeException;
-
 import java.net.URISyntaxException;
 import java.util.concurrent.TimeUnit;
+
+import com.lyqb.walletsdk.exception.SdkInitializeException;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -12,9 +12,11 @@ import okhttp3.OkHttpClient;
 public class SDK {
 
     private static OkHttpClient okHttpClient = null;
+
     private static Socket socketClient = null;
 
     private static String relayBase = null;
+
     private static String ethBase = null;
 
     public static String relayBase() {
@@ -47,7 +49,6 @@ public class SDK {
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .build();
-
         IO.Options opt = new IO.Options();
         opt.reconnection = true;
         opt.reconnectionAttempts = 5;

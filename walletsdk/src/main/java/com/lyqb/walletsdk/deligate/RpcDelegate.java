@@ -34,7 +34,6 @@ public interface RpcDelegate {
     @POST(Default.RELAY_RPC_URL)
     Observable<Map> send(@Body RequestWrapper request);
 
-
     @POST(Default.RELAY_RPC_URL)
     Observable<ResponseWrapper<BalanceResult>> getBalance(@Body RequestWrapper request);
 

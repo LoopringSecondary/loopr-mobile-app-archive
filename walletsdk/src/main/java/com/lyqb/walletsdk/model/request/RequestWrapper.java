@@ -6,8 +6,11 @@ import lombok.Data;
 public class RequestWrapper {
 
     private String jsonrpc;
+
     private String method;
+
     private Object[] params;
+
     private long id;
 
     public RequestWrapper(String method, Object... params) {

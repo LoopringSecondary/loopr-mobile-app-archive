@@ -1,6 +1,7 @@
 package com.lyqb.walletsdk.exception;
 
 public class IllegalCredentialException extends Exception {
+
     private static final String MESSAGE = "unlock wallet failed!";
 
     public IllegalCredentialException() {

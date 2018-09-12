@@ -1,6 +1,5 @@
 package com.lyqb.walletsdk.listener;
 
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,12 +11,13 @@ import rx.Observable;
 public abstract class AbstractListener<R, P> {
 
     Socket socket;
+
     Gson gson = new Gson();
 
     //    public AbstractListener(Socket socket) {
-//        this.socket = socket;
-//        registerEventHandler();
-//    }
+    //        this.socket = socket;
+    //        registerEventHandler();
+    //    }
     AbstractListener() {
         this.socket = SDK.getSocketClient();
         registerEventHandler();

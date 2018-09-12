@@ -1,17 +1,17 @@
 package com.lyqb.walletsdk.util;
 
-import org.web3j.crypto.Keys;
-import org.web3j.crypto.Sign;
-import org.web3j.utils.Numeric;
-
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.web3j.crypto.Keys;
+import org.web3j.crypto.Sign;
+import org.web3j.utils.Numeric;
+
 public class AccountUtils {
 
-    public static String generateKeystoreFilename (String address) {
+    public static String generateKeystoreFilename(String address) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("'UTC--'yyyy-MM-dd'T'HH-mm-ss.SSS'--'", Locale.CHINA);
         return dateFormat.format(new Date()) + address + ".json";
     }
@@ -29,5 +29,4 @@ public class AccountUtils {
         BigInteger publicKey = Sign.publicKeyFromPrivate(Numeric.toBigInt(privateKey));
         return Numeric.toHexStringWithPrefix(publicKey);
     }
-
 }

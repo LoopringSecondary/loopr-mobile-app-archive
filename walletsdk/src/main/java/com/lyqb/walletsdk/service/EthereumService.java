@@ -1,10 +1,8 @@
 package com.lyqb.walletsdk.service;
 
-import com.lyqb.walletsdk.SDK;
-import com.lyqb.walletsdk.exception.TransactionException;
-import com.lyqb.walletsdk.model.Account;
-import com.lyqb.walletsdk.model.TransactionObject;
-import com.lyqb.walletsdk.util.Assert;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
@@ -16,12 +14,14 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import com.lyqb.walletsdk.SDK;
+import com.lyqb.walletsdk.exception.TransactionException;
+import com.lyqb.walletsdk.model.Account;
+import com.lyqb.walletsdk.model.TransactionObject;
+import com.lyqb.walletsdk.util.Assert;
 
 public class EthereumService {
+
     private Web3j web3j;
 
     public EthereumService() {
@@ -50,7 +50,7 @@ public class EthereumService {
     }
 
     public String sendRawTransaction(String signedTransaction) throws TransactionException {
-        Assert.hasText(signedTransaction,"transaction can not be null!");
+        Assert.hasText(signedTransaction, "transaction can not be null!");
         EthSendTransaction ethSendTransaction;
         try {
             ethSendTransaction = web3j.ethSendRawTransaction(signedTransaction).send();
@@ -60,7 +60,7 @@ public class EthereumService {
         }
         if (ethSendTransaction.hasError()) {
             throw new TransactionException(ethSendTransaction.getError().getMessage());
-        }else {
+        } else {
             return ethSendTransaction.getTransactionHash();
         }
     }
@@ -72,7 +72,7 @@ public class EthereumService {
             ethEstimateGas = web3j.ethEstimateGas(transaction).send();
             if (ethEstimateGas.hasError()) {
                 throw new Exception(ethEstimateGas.getError().getMessage());
-            }else {
+            } else {
                 return ethEstimateGas.getAmountUsed();
             }
         } catch (Exception e) {

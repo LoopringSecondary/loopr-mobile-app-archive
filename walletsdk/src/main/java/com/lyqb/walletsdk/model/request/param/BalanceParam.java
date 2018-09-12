@@ -7,8 +7,10 @@ import lombok.NonNull;
 @Data
 @Builder
 public class BalanceParam {
+
     @NonNull
     private String owner;
+
     @NonNull
     private String delegateAddress;
 }

@@ -7,16 +7,24 @@ import lombok.Data;
 
 @Data
 public class BalanceResult {
+
     private String delegateAddress;
+
     private String owner;
+
     private List<Asset> tokens;
 
     @Data
     public static class Asset {
+
         private String symbol;
+
         private BigDecimal balance;
+
         private BigDecimal allowance;
+
         private double value;
+
         private double legalValue;
     }
 }

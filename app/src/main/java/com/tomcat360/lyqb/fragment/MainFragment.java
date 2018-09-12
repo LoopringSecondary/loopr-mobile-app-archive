@@ -2,8 +2,11 @@ package com.tomcat360.lyqb.fragment;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,12 +17,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lyqb.walletsdk.listener.BalanceListener;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
+import com.robinhood.ticker.TickerUtils;
+import com.robinhood.ticker.TickerView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.ActivityScanerCode;
@@ -59,7 +65,7 @@ public class MainFragment extends BaseFragment {
     ImageView rightBtn;
 
     @BindView(R.id.wallet_count)
-    TextView walletCount;
+    TickerView walletCount;
 
     @BindView(R.id.wallet_address)
     TextView walletAddress;
@@ -141,6 +147,8 @@ public class MainFragment extends BaseFragment {
 
     private List<BalanceResult.Asset> listAsset; //  返回的token列表
 
+    private MainFragment.MainFramentReceiver broadcastReceiver;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -148,7 +156,9 @@ public class MainFragment extends BaseFragment {
         layout = inflater.inflate(R.layout.fragment_main, container, false);
         unbinder = ButterKnife.bind(this, layout);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
-            refreshLayout.finishRefresh(2000);
+            presenter.refreshTokens();
+//            initToken();
+            refreshLayout.finishRefresh(true);
         });
         return layout;
     }
@@ -160,18 +170,20 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initPresenter() {
+        broadcastReceiver = MainFramentReceiver.getInstance(this);
         this.presenter = new MainFragmentPresenter(this, this.getContext());
     }
 
     @Override
     protected void initView() {
-        address = (String) SPUtils.get(getContext(), "address", "");
+        address = (String) SPUtils.get(Objects.requireNonNull(getContext()), "address", "");
         walletAddress.setText(address);
+        walletCount.setAnimationInterpolator(new OvershootInterpolator());
+        walletCount.setCharacterLists(TickerUtils.provideNumberList());
     }
 
     @Override
     protected void initData() {
-        showProgress("loading");
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new MainWalletAdapter(R.layout.adapter_item_wallet, null, presenter);
@@ -206,8 +218,16 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onNext(BalanceResult balanceResult) {
                 hideProgress();
-                if (balanceResult.getTokens() != null)
+                if (balanceResult.getTokens() != null) {
+                    while (!presenter.getDataManager().initComplete()) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     presenter.setTokenLegalPrice(balanceResult.getTokens());
+                }
             }
         });
         balanceListener.queryByOwner(address);
@@ -219,7 +239,7 @@ public class MainFragment extends BaseFragment {
         if (flag) {
             flag = false;
         } else {
-            presenter.updateListToken(listAsset);
+            presenter.setTokenLegalPrice(listAsset);
         }
     }
 
@@ -227,6 +247,7 @@ public class MainFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        presenter.destroy();
     }
 
     @OnClick({R.id.ll_scan, R.id.ll_receive, R.id.ll_send, R.id.ll_trade, R.id.menu_scan, R.id.menu_add_assets, R.id.menu_wallet, R.id.menu_transaction, R.id.right_btn, R.id.ll_main})
@@ -310,11 +331,39 @@ public class MainFragment extends BaseFragment {
         this.moneyValue = moneyValue;
     }
 
-    public TextView getWalletCount() {
-        return walletCount;
+    public void setWalletCount(String text) {
+        walletCount.setText(text);
     }
 
     public void setListAsset(List<BalanceResult.Asset> listAsset) {
         this.listAsset = listAsset;
+    }
+
+    public MainFragment.MainFramentReceiver getBroadcastReceiver() {
+        return broadcastReceiver;
+    }
+
+    public static class MainFramentReceiver extends BroadcastReceiver {
+
+        private static MainFramentReceiver broadcastReceiver;
+
+        private MainFragment fragment;
+
+        public MainFramentReceiver(MainFragment fragment) {
+            this.fragment = fragment;
+        }
+
+        public static MainFramentReceiver getInstance(MainFragment fragment) {
+            if (broadcastReceiver == null) {
+                broadcastReceiver = new MainFramentReceiver(fragment);
+            }
+            return broadcastReceiver;
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("marketcap".equals(intent.getAction()))
+                fragment.onResume();
+        }
     }
 }

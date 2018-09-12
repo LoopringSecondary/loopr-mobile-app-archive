@@ -7,6 +7,7 @@ import lombok.NonNull;
 @Data
 @Builder
 public class PendingTxParam {
+
     @NonNull
     private String owner;
 }

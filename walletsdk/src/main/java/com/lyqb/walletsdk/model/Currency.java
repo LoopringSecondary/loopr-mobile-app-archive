@@ -7,17 +7,22 @@ package com.lyqb.walletsdk.model;
  * Cooperation: loopring.org 路印协议基金会
  */
 public enum Currency {
-    CNY("CNY"),
-    USD("USD");
+    CNY("CNY", "￥"), USD("USD", "$");
 
-    private final String text;
+    private String text;
 
-    Currency(final String text) {
+    private String symbol;
+
+    Currency(String text, String symbol) {
         this.text = text;
+        this.symbol = symbol;
     }
 
-    @Override
-    public String toString() {
+    public String getText() {
         return text;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 }

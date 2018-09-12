@@ -7,6 +7,7 @@ import lombok.NonNull;
 @Builder
 @Data
 public class NonceParam {
+
     @NonNull
     private String owner;
 }

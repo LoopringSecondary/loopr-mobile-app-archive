@@ -54,7 +54,7 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
         send(param);
     }
 
-    public void queryByOwnerAndSymbolAndStatus(String owner, String symbol, String status, int pageIndex, int pageSize){
+    public void queryByOwnerAndSymbolAndStatus(String owner, String symbol, String status, int pageIndex, int pageSize) {
         Assert.hasText(owner);
         Assert.hasText(symbol);
         Assert.hasText(status);
@@ -79,7 +79,7 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
         send(param);
     }
 
-    public void queryByOwnerAndSymbolAndStatusAndTxType(String owner, String symbol,String status, String txType, int pageIndex, int pageSize) {
+    public void queryByOwnerAndSymbolAndStatusAndTxType(String owner, String symbol, String status, String txType, int pageIndex, int pageSize) {
         TransactionParam param = TransactionParam.builder()
                 .owner(owner)
                 .symbol(symbol)
