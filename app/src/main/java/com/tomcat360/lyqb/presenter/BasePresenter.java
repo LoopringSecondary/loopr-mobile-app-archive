@@ -5,13 +5,14 @@ import java.util.List;
 import android.content.Context;
 
 import com.lyqb.walletsdk.listener.MarketcapListener;
+import com.lyqb.walletsdk.model.Currency;
 import com.lyqb.walletsdk.model.request.param.MarketcapParam;
 import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.service.LoopringService;
+import com.tomcat360.lyqb.utils.CurrencyUtil;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class BasePresenter<V> {
@@ -20,17 +21,23 @@ public class BasePresenter<V> {
 
     protected Context context;
 
-    private List<Token> tokens;
+    private static List<Token> tokens;
 
-    private MarketcapResult marketcapResult;
+    private static MarketcapResult marketcapResult;
 
     private LoopringService loopringService = new LoopringService();
 
     private MarketcapListener marketcapListener = new MarketcapListener();
 
+    private static boolean tokensGet = false;
+
+    private static boolean marketcapGet = false;
+
     public BasePresenter(V View, Context context) {
         this.attachView(View);
         this.context = context;
+        this.updateMarketcap();
+        this.updateTokens();
     }
 
     public void attachView(V view) {
@@ -49,21 +56,26 @@ public class BasePresenter<V> {
     private void updateTokens() {
         loopringService.getSupportedToken()
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(tokens -> this.tokens = tokens);
-        for (Token token : tokens) {
-            String image = String.format("icon_token_%s", token.getSymbol());
-            int identifier = context.getResources().getIdentifier(image, "mipmap", "android");
-            token.setImageResId(identifier);
-        }
+                .subscribe(tokens -> {
+                    for (Token token : tokens) {
+                        String image = String.format("icon_token_%s", token.getSymbol());
+                        int identifier = context.getResources().getIdentifier(image, "mipmap", "android");
+                        token.setImageResId(identifier);
+                    }
+                    BasePresenter.tokens = tokens;
+                    tokensGet = true;
+                });
     }
 
     private void updateMarketcap() {
         Observable<MarketcapResult> observable = marketcapListener.start();
         observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(marketcapResult -> this.marketcapResult = marketcapResult);
-        marketcapListener.send(MarketcapParam.builder().currency("CNY").build()); //TODO
+                .subscribe(marketcapResult -> {
+                    BasePresenter.marketcapResult = marketcapResult;
+                    marketcapGet = true;
+                });
+        Currency currency = CurrencyUtil.getCurrency(context);
+        marketcapListener.send(MarketcapParam.builder().currency(currency.name()).build());
     }
 
     public Double getLegalPriceBySymbol(String symbol) {
@@ -96,4 +108,9 @@ public class BasePresenter<V> {
         }
         return result;
     }
+
+    public boolean initComplete() {
+        return tokensGet && marketcapGet;
+    }
+
 }

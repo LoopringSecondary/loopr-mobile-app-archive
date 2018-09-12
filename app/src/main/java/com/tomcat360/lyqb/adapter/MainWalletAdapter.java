@@ -8,12 +8,16 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.presenter.BasePresenter;
 import com.tomcat360.lyqb.utils.SPUtils;
 
 public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, BaseViewHolder> {
 
-    public MainWalletAdapter(int layoutResId, @Nullable List<BalanceResult.Asset> data) {
+    private BasePresenter presenter;
+
+    public MainWalletAdapter(int layoutResId, @Nullable List<BalanceResult.Asset> data, BasePresenter presenter) {
         super(layoutResId, data);
+        this.presenter = presenter;
     }
 
     @Override

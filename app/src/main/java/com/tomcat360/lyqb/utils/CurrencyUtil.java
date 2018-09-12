@@ -14,8 +14,12 @@ public class CurrencyUtil {
 
     public static Currency getCurrency(Context context) {
         String currency = (String) SPUtils.get(context, "coin", "$");
-        if (currency != null && currency.equals("￥")) {
-            return Currency.CNY;
+        if (currency != null) {
+            if (currency.equals("$")) {
+                return Currency.USD;
+            } else {
+                return Currency.CNY;
+            }
         } else {
             return Currency.USD;
         }

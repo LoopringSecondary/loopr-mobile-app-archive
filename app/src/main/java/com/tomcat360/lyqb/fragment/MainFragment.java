@@ -1,12 +1,7 @@
 package com.tomcat360.lyqb.fragment;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,7 +11,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,15 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lyqb.walletsdk.listener.BalanceListener;
-import com.lyqb.walletsdk.listener.MarketcapListener;
-import com.lyqb.walletsdk.model.request.param.MarketcapParam;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
-import com.lyqb.walletsdk.model.response.data.MarketcapResult;
-import com.lyqb.walletsdk.model.response.data.Token;
-import com.lyqb.walletsdk.service.LoopringService;
-import com.lyqb.walletsdk.util.UnitConverter;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.ActivityScanerCode;
@@ -45,7 +32,6 @@ import com.tomcat360.lyqb.presenter.MainFragmentPresenter;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.view.APP;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -147,29 +133,13 @@ public class MainFragment extends BaseFragment {
 
     private BalanceListener balanceListener = new BalanceListener();
 
-    private MarketcapListener marketcapListener = new MarketcapListener();
-
-    private LoopringService loopringService = new LoopringService();
+    private MainFragmentPresenter presenter;
 
     private boolean flag = true; //第一次进入
-
-    private boolean marketcapFlag = false;
-
-    private boolean supportedFlag = false;
 
     private String address;
 
     private List<BalanceResult.Asset> listAsset; //  返回的token列表
-
-    private List<BalanceResult.Asset> listChooseAsset = new ArrayList<>(); //  选中的token列表
-
-    private List<String> listChooseSymbol; //  选择展示的token名字symbol
-
-    private Map<String, BigDecimal> supportedTokenMap = new HashMap<>();
-
-    private Map<String, Double> marketcapMap = new HashMap<>();
-
-    private Map<String, BalanceResult.Asset> tokenMap = new HashMap<>();
 
     @Nullable
     @Override
@@ -201,58 +171,22 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        showProgress("loading");
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MainWalletAdapter(R.layout.adapter_item_wallet, null);
+        mAdapter = new MainWalletAdapter(R.layout.adapter_item_wallet, null, presenter);
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (showMenu) {
-                    llMenu.setVisibility(View.GONE);
-                    showMenu = false;
-                } else {
-                    getOperation().addParameter("moneyValue", moneyValue.toPlainString());
-                    getOperation().addParameter("symbol", listChooseAsset.get(position).getSymbol());
-                    getOperation().forward(WalletDetailActivity.class);
-                }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (showMenu) {
+                llMenu.setVisibility(View.GONE);
+                showMenu = false;
+            } else {
+                getOperation().addParameter("moneyValue", moneyValue.toPlainString());
+                getOperation().addParameter("symbol", listAsset.get(position).getSymbol());
+                getOperation().forward(WalletDetailActivity.class);
             }
         });
-        initSupportedTokens();
-        initMarketcap();
         initToken();
-    }
-
-    private void initSupportedTokens() {
-        new Thread(() -> {
-            for (Token token : loopringService.getSupportedToken().toBlocking().single()) {
-                supportedTokenMap.put(token.getSymbol(), token.getDecimals());
-            }
-            supportedFlag = true;
-        }).start();
-    }
-
-    private void initMarketcap() {
-        Observable<MarketcapResult> observable = marketcapListener.start();
-        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<MarketcapResult>() {
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-
-            @Override
-            public void onNext(MarketcapResult marketcapResult) {
-                for (MarketcapResult.Token token : marketcapResult.getTokens()) {
-                    marketcapMap.put(marketcapResult.getCurrency() + "-" + token.getSymbol(), token.getPrice());
-                }
-                marketcapFlag = true;
-            }
-        });
-        marketcapListener.send(MarketcapParam.builder().currency("CNY").build());
-        marketcapListener.send(MarketcapParam.builder().currency("USD").build());
     }
 
     private void initToken() {
@@ -272,77 +206,8 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onNext(BalanceResult balanceResult) {
                 hideProgress();
-                while (!supportedFlag || !marketcapFlag) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                LyqbLogger.log(balanceResult.getTokens().toString());
-                if (balanceResult.getTokens() != null) {
-                    String currentCoin = "CNY";
-                    if (SPUtils.get(getContext(), "coin", "￥").toString().equals("$"))
-                        currentCoin = "USD";
-                    listAsset = balanceResult.getTokens();
-                    for (BalanceResult.Asset asset : listAsset) {
-                        try {
-                            if (asset.getSymbol().equals("ETH"))
-                                asset.setValue(UnitConverter.weiToEth(asset.getBalance().toPlainString())
-                                        .doubleValue());
-                            if (!asset.getBalance()
-                                    .equals(BigDecimal.ZERO) && supportedTokenMap.get(asset.getSymbol()) != null) {
-                                asset.setValue(asset.getBalance()
-                                        .divide(supportedTokenMap.get(asset.getSymbol()))
-                                        .doubleValue());
-                            }
-                            if (marketcapMap.get(currentCoin + "-" + asset.getSymbol()) != null)
-                                asset.setLegalValue(marketcapMap.get(currentCoin + "-" + asset.getSymbol()) * asset.getValue());
-                        } catch (Exception e) {
-                            Log.e("", asset.toString() + ", " + supportedTokenMap.get(asset.getSymbol()));
-                        }
-                        tokenMap.put(asset.getSymbol(), asset);
-                    }
-                }
-                Collections.sort(listAsset, new Comparator<BalanceResult.Asset>() {
-
-                    /**
-                     * 对集合进行排列，在token列表中按字母顺序排列
-                     * 返回负数表示：o1 小于o2，
-                     * 返回0 表示：o1和o2相等，
-                     * 返回正数表示：o1大于o2。
-                     */
-                    public int compare(BalanceResult.Asset o1, BalanceResult.Asset o2) {
-                        if (o1.getLegalValue() < o2.getLegalValue()) {
-                            return 1;
-                        }
-                        if (o1.getLegalValue() == o2.getLegalValue()) {
-                            return 0;
-                        }
-                        return -1;
-                    }
-                });
-                APP.setListAsset(listAsset);
-                updateListToken();
-                //                    for (int i = 0; i < listAsset.size(); i++) {
-                //                        if (listChooseSymbol.contains(listAsset.get(i).getSymbol())) {
-                //                            if (listAsset.get(i).getSymbol().equals("ETH")) {
-                //                                moneyValue = UnitConverter.weiToEth(listAsset.get(i).getBalance().toPlainString());
-                //                                listChooseAsset.add(0, listAsset.get(i));
-                //                            } else if (listAsset.get(i).getSymbol().equals("WETH")) {
-                //                                if (listChooseSymbol.contains("ETH")) {
-                //                                    listChooseAsset.add(1, listAsset.get(i));
-                //                                } else {
-                //                                    listChooseAsset.add(0, listAsset.get(i));
-                //                                }
-                //                            } else {
-                //                                listChooseAsset.add(listAsset.get(i));
-                //                            }
-                //                        }
-                //                    }
-                //                    String amount = moneyValue.toPlainString().length() > 8 ? moneyValue.toPlainString().substring(0, 8) : moneyValue.toPlainString();
-                //                    mAdapter.setNewData(listChooseAsset);
-                mAdapter.notifyDataSetChanged();
+                if (balanceResult.getTokens() != null)
+                    presenter.setTokenLegalPrice(balanceResult.getTokens());
             }
         });
         balanceListener.queryByOwner(address);
@@ -354,49 +219,8 @@ public class MainFragment extends BaseFragment {
         if (flag) {
             flag = false;
         } else {
-            updateListToken();
+            presenter.updateListToken(listAsset);
         }
-    }
-
-    private void updateListToken() {
-        if (listAsset != null) {
-            listChooseAsset.clear();
-            listChooseSymbol = SPUtils.getDataList(getContext(), "choose_token");
-            double amount = 0;
-            for (String symbol : listChooseSymbol) {
-                listChooseAsset.add(tokenMap.get(symbol));
-                amount += tokenMap.get(symbol).getLegalValue();
-            }
-            for (BalanceResult.Asset asset : listAsset) {
-                if (!listChooseSymbol.contains(asset.getSymbol()) && asset.getLegalValue() != 0) {
-                    listChooseAsset.add(asset);
-                    amount += asset.getLegalValue();
-                }
-            }
-            SPUtils.put(getContext(), "amount", String.valueOf(amount));
-            moneyValue = BigDecimal.valueOf(amount);
-            mAdapter.setNewData(listChooseAsset);
-            walletCount.setText((String) SPUtils.get(getContext(), "coin", "¥") + amount);
-        }
-        //        if (listAsset != null) {
-        //            listChooseAsset.clear();
-        //            listChooseSymbol = SPUtils.getDataList(getContext(), "choose_token");
-        //            for (int i = 0; i < listAsset.size(); i++) {
-        //                if (listChooseSymbol.contains(listAsset.get(i).getSymbol())) {
-        //                    if (listAsset.get(i).getSymbol().equals("ETH")) {
-        //                        listChooseAsset.add(0, listAsset.get(i));
-        //                    } else if (listAsset.get(i).getSymbol().equals("WETH")) {
-        //                        if (listChooseSymbol.contains("ETH")) {
-        //                            listChooseAsset.add(1, listAsset.get(i));
-        //                        } else {
-        //                            listChooseAsset.add(0, listAsset.get(i));
-        //                        }
-        //                    } else {
-        //                        listChooseAsset.add(listAsset.get(i));
-        //                    }
-        //                }
-        //            }
-        //        }
     }
 
     @Override
@@ -476,5 +300,21 @@ public class MainFragment extends BaseFragment {
                 LyqbLogger.log(result);
             }
         }
+    }
+
+    public MainWalletAdapter getmAdapter() {
+        return mAdapter;
+    }
+
+    public void setMoneyValue(BigDecimal moneyValue) {
+        this.moneyValue = moneyValue;
+    }
+
+    public TextView getWalletCount() {
+        return walletCount;
+    }
+
+    public void setListAsset(List<BalanceResult.Asset> listAsset) {
+        this.listAsset = listAsset;
     }
 }
