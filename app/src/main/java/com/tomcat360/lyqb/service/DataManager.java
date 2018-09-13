@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -39,9 +38,9 @@ public class DataManager {
 
     private LocalBroadcastManager broadcastManager;
 
-    private boolean marketcapGet;
+    private Observable<List<Token>> tokenObservable;
 
-    private boolean tokenGet;
+    private Observable<MarketcapResult> marketcapObservable;
 
     private DataManager(Context context) {
         this.context = context;
@@ -75,31 +74,30 @@ public class DataManager {
 
     // for common usage
     private void updateTokens() {
-        tokenGet = false;
-        loopringService.getSupportedToken()
-                .subscribeOn(Schedulers.io())
-                //                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(tokens -> {
-                    for (Token token : tokens) {
-                        String image = String.format("icon_token_%s", token.getSymbol());
-                        int identifier = context.getResources().getIdentifier(image, "mipmap", "android");
-                        token.setImageResId(identifier);
-                    }
-                    this.tokens = tokens;
-                    tokenGet = true;
-                });
+        if (this.tokenObservable == null) {
+            this.tokenObservable = loopringService.getSupportedToken().subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+        this.tokenObservable.subscribe(tokens -> {
+            for (Token token : tokens) {
+                String image = String.format("icon_token_%s", token.getSymbol());
+                int identifier = context.getResources().getIdentifier(image, "mipmap", "android");
+                token.setImageResId(identifier);
+            }
+            this.tokens = tokens;
+        });
     }
 
     private void updateMarketcap() {
-        marketcapGet = false;
-        Observable<MarketcapResult> observable = marketcapListener.start();
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(marketcapResult -> {
-                    this.marketcapResult = marketcapResult;
-                    broadcastManager.sendBroadcast(new Intent("marketcap"));
-                    marketcapGet = true;
-                });
+        if (this.marketcapObservable == null) {
+            this.marketcapObservable = marketcapListener.start()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+            this.marketcapObservable.subscribe(marketcapResult -> {
+                this.marketcapResult = marketcapResult;
+                //                    broadcastManager.sendBroadcast(new Intent("marketcap"));
+            });
+        }
         Currency currency = CurrencyUtil.getCurrency(context);
         marketcapListener.send(MarketcapParam.builder().currency(currency.name()).build());
     }
@@ -112,7 +110,11 @@ public class DataManager {
         return marketcapResult;
     }
 
-    public boolean initComplete() {
-        return marketcapGet && tokenGet;
+    public Observable<List<Token>> getTokenObservable() {
+        return tokenObservable;
+    }
+
+    public Observable<MarketcapResult> getMarketcapObservable() {
+        return marketcapObservable;
     }
 }

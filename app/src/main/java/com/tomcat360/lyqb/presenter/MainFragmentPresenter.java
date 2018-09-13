@@ -14,8 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
+import com.lyqb.walletsdk.model.response.data.MarketcapResult;
+import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.util.UnitConverter;
 import com.tomcat360.lyqb.fragment.MainFragment;
 import com.tomcat360.lyqb.utils.CurrencyUtil;
@@ -36,18 +39,22 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment, MainFragm
         dataManager.refreshTokens();
     }
 
-    public void setTokenLegalPrice(List<BalanceResult.Asset> assetList) {
+    public void setTokenLegalPrice(List<BalanceResult.Asset> assetList, List<Token> tokenList, MarketcapResult marketcapResult) {
         LyqbLogger.log(assetList.toString());
+        LyqbLogger.log(tokenList.toString());
+        LyqbLogger.log(marketcapResult.toString());
         for (BalanceResult.Asset asset : assetList) {
             if (asset.getSymbol().equals("ETH"))
                 asset.setValue(UnitConverter.weiToEth(asset.getBalance().toPlainString()).doubleValue());
-            if (!asset.getBalance().equals(BigDecimal.ZERO) && getTokenBySymbol(asset.getSymbol()) != null) {
+            if (!asset.getBalance()
+                    .equals(BigDecimal.ZERO) && getTokenBySymbol(tokenList, asset.getSymbol()) != null) {
+                Log.d("", asset.getSymbol() + " " + getTokenBySymbol(tokenList, asset.getSymbol()));
                 asset.setValue(asset.getBalance()
-                        .divide(getTokenBySymbol(asset.getSymbol()).getDecimals())
+                        .divide(getTokenBySymbol(tokenList, asset.getSymbol()).getDecimals())
                         .doubleValue());
             }
-            if (getLegalPriceBySymbol(asset.getSymbol()) != null) {
-                asset.setLegalValue(getLegalPriceBySymbol(asset.getSymbol()) * asset.getValue());
+            if (getLegalPriceBySymbol(marketcapResult, asset.getSymbol()) != null) {
+                asset.setLegalValue(getLegalPriceBySymbol(marketcapResult, asset.getSymbol()) * asset.getValue());
             }
             tokenMap.put(asset.getSymbol(), asset);
         }

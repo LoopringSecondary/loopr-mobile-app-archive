@@ -9,6 +9,8 @@ import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.tomcat360.lyqb.service.DataManager;
 
+import rx.Observable;
+
 public class BasePresenter<V, T extends BroadcastReceiver> {
 
     protected V view;
@@ -45,8 +47,12 @@ public class BasePresenter<V, T extends BroadcastReceiver> {
     }
 
     public Double getLegalPriceBySymbol(String symbol) {
+        return getLegalPriceBySymbol(dataManager.getMarketcapResult(), symbol);
+    }
+
+    public Double getLegalPriceBySymbol(MarketcapResult marketcapResult, String symbol) {
         Double result = null;
-        List<MarketcapResult.Token> tokens = dataManager.getMarketcapResult().getTokens();
+        List<MarketcapResult.Token> tokens = marketcapResult.getTokens();
         for (MarketcapResult.Token token : tokens) {
             if (token.getSymbol().equalsIgnoreCase(symbol)) {
                 result = token.getPrice();
@@ -56,8 +62,12 @@ public class BasePresenter<V, T extends BroadcastReceiver> {
     }
 
     public Token getTokenBySymbol(String symbol) {
+        return getTokenBySymbol(dataManager.getTokens(), symbol);
+    }
+
+    public Token getTokenBySymbol(List<Token> tokenList, String symbol) {
         Token result = null;
-        for (Token token : dataManager.getTokens()) {
+        for (Token token : tokenList) {
             if (token.getSymbol().equalsIgnoreCase(symbol)) {
                 result = token;
             }
@@ -82,5 +92,13 @@ public class BasePresenter<V, T extends BroadcastReceiver> {
 
     public DataManager getDataManager() {
         return dataManager;
+    }
+
+    public Observable getTokenObservable() {
+        return dataManager.getTokenObservable();
+    }
+
+    public Observable getMarketcapObservable() {
+        return dataManager.getMarketcapObservable();
     }
 }

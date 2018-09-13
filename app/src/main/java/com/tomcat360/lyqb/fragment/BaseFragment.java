@@ -1,5 +1,7 @@
 package com.tomcat360.lyqb.fragment;
 
+import java.util.Observable;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;

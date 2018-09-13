@@ -14,6 +14,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import android.widget.TextView;
 
 import com.lyqb.walletsdk.listener.BalanceListener;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
+import com.lyqb.walletsdk.model.response.data.MarketcapResult;
+import com.lyqb.walletsdk.model.response.data.Token;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -44,8 +47,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  *
@@ -147,6 +150,12 @@ public class MainFragment extends BaseFragment {
 
     private List<BalanceResult.Asset> listAsset; //  返回的token列表
 
+    private List<Token> tokenList;
+
+    private MarketcapResult marketcapResult;
+
+    private Observable<BalanceResult> balanceObserable;
+
     private MainFragment.MainFramentReceiver broadcastReceiver;
 
     @Nullable
@@ -155,9 +164,11 @@ public class MainFragment extends BaseFragment {
         // 布局导入
         layout = inflater.inflate(R.layout.fragment_main, container, false);
         unbinder = ButterKnife.bind(this, layout);
+        walletCount.setAnimationInterpolator(new OvershootInterpolator());
+        walletCount.setCharacterLists(TickerUtils.provideNumberList());
         refreshLayout.setOnRefreshListener(refreshLayout -> {
             presenter.refreshTokens();
-//            initToken();
+            initToken();
             refreshLayout.finishRefresh(true);
         });
         return layout;
@@ -178,8 +189,6 @@ public class MainFragment extends BaseFragment {
     protected void initView() {
         address = (String) SPUtils.get(Objects.requireNonNull(getContext()), "address", "");
         walletAddress.setText(address);
-        walletCount.setAnimationInterpolator(new OvershootInterpolator());
-        walletCount.setCharacterLists(TickerUtils.provideNumberList());
     }
 
     @Override
@@ -203,34 +212,21 @@ public class MainFragment extends BaseFragment {
 
     private void initToken() {
         LyqbLogger.log(address);
-        Observable<BalanceResult> observable = balanceListener.start();
-        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<BalanceResult>() {
-            @Override
-            public void onCompleted() {
-                hideProgress();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                hideProgress();
-            }
-
-            @Override
-            public void onNext(BalanceResult balanceResult) {
-                hideProgress();
-                if (balanceResult.getTokens() != null) {
-                    while (!presenter.getDataManager().initComplete()) {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    presenter.setTokenLegalPrice(balanceResult.getTokens());
-                }
-            }
-        });
+        if (this.balanceObserable == null) {
+            this.balanceObserable = balanceListener.start()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
         balanceListener.queryByOwner(address);
+        Observable.zip(this.balanceObserable, presenter.getTokenObservable(), presenter.getMarketcapObservable(), (balanceResult, tokens, marketcap) ->
+                CombineObservable.getInstance(balanceResult.getTokens(), (List<Token>) tokens, (MarketcapResult) marketcap))
+                .subscribe(o -> {
+                    this.tokenList = ((CombineObservable) o).getTokenList();
+                    this.marketcapResult = ((CombineObservable) o).getMarketcapResult();
+                    Log.d("", "====================================================================");
+                    presenter.setTokenLegalPrice(((CombineObservable) o).getAssetList(), ((CombineObservable) o).getTokenList(), ((CombineObservable) o)
+                            .getMarketcapResult());
+                });
     }
 
     @Override
@@ -239,7 +235,9 @@ public class MainFragment extends BaseFragment {
         if (flag) {
             flag = false;
         } else {
-            presenter.setTokenLegalPrice(listAsset);
+            if (listAsset == null) {
+                initToken();
+            }
         }
     }
 
@@ -332,7 +330,8 @@ public class MainFragment extends BaseFragment {
     }
 
     public void setWalletCount(String text) {
-        walletCount.setText(text);
+        if (walletCount != null)
+            walletCount.setText(text);
     }
 
     public void setListAsset(List<BalanceResult.Asset> listAsset) {
@@ -362,8 +361,62 @@ public class MainFragment extends BaseFragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if ("marketcap".equals(intent.getAction()))
-                fragment.onResume();
+            //            if ("marketcap".equals(intent.getAction()))
+            //                fragment.onResume();
+        }
+    }
+
+    public static class CombineObservable {
+
+        private static CombineObservable combineObservable;
+
+        private List<BalanceResult.Asset> assetList;
+
+        private List<Token> tokenList;
+
+        private MarketcapResult marketcapResult;
+
+        public static CombineObservable getInstance(List<BalanceResult.Asset> assetList, List<Token> tokenList, MarketcapResult marketcapResult) {
+            if (combineObservable == null) {
+                return new CombineObservable(assetList, tokenList, marketcapResult);
+            }
+            combineObservable.setAssetList(assetList);
+            combineObservable.setMarketcapResult(marketcapResult);
+            combineObservable.setTokenList(tokenList);
+            return combineObservable;
+        }
+
+        private CombineObservable() {
+        }
+
+        public CombineObservable(List<BalanceResult.Asset> balanceResult, List<Token> tokenList, MarketcapResult marketcapResult) {
+            this.assetList = balanceResult;
+            this.tokenList = tokenList;
+            this.marketcapResult = marketcapResult;
+        }
+
+        public List<BalanceResult.Asset> getAssetList() {
+            return assetList;
+        }
+
+        public void setAssetList(List<BalanceResult.Asset> assetList) {
+            this.assetList = assetList;
+        }
+
+        public List<Token> getTokenList() {
+            return tokenList;
+        }
+
+        public void setTokenList(List<Token> tokenList) {
+            this.tokenList = tokenList;
+        }
+
+        public MarketcapResult getMarketcapResult() {
+            return marketcapResult;
+        }
+
+        public void setMarketcapResult(MarketcapResult marketcapResult) {
+            this.marketcapResult = marketcapResult;
         }
     }
 }
