@@ -9,6 +9,11 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lyqb.walletsdk.model.response.data.Token;
+import com.lyqb.walletsdk.service.LoopringService;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,22 +23,29 @@ import com.lyqb.walletsdk.model.response.data.Token;
  */
 public class TokenDataManager {
 
+    private List<Token> tokens;
+
     private List<Token> whiteList;
 
     private Context context;
+
+    private Observable<List<Token>> tokenObservable;
+
+    private LoopringService loopringService = new LoopringService();
 
     private static TokenDataManager tokenDataManager;
 
     private TokenDataManager(Context context) {
         this.context = context;
-        this.parseJsonFile();
+        this.loadTokensFromJson();
+        this.loadTokensFromRelay();
     }
 
-    public static TokenDataManager getInstance(Context context) {
+    public static TokenDataManager getInstance() {
         return tokenDataManager;
     }
 
-    private void parseJsonFile() {
+    private void loadTokensFromJson() {
         try {
             InputStream is = context.getAssets().open("json/tokens.json");
             int size = is.available();
@@ -50,10 +62,24 @@ public class TokenDataManager {
         Gson gson = new Gson();
         List<Token> tokens = gson.fromJson(jsonData, new TypeToken<List<Token>>() {
         }.getType());
-        whiteList = tokens;
+        this.tokens = tokens;
+        this.whiteList = tokens;
     }
 
-    private void combine() {
-
+    private void loadTokensFromRelay() {
+        if (this.tokenObservable == null) {
+            this.tokenObservable = loopringService.getSupportedToken().subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+        this.tokenObservable.subscribe(tokens -> {
+            for (Token token : tokens) {
+                String image = String.format("icon_token_%s", token.getSymbol());
+                int identifier = context.getResources().getIdentifier(image, "mipmap", "android");
+                token.setImageResId(identifier);
+                if (!this.tokens.contains(token)) {
+                    this.tokens.add(token);
+                }
+            }
+        });
     }
 }
