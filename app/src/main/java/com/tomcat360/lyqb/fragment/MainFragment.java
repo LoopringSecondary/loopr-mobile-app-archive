@@ -1,12 +1,11 @@
 package com.tomcat360.lyqb.fragment;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +13,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,15 +146,17 @@ public class MainFragment extends BaseFragment {
 
     private String address;
 
-    private List<BalanceResult.Asset> listAsset; //  返回的token列表
+    private List<BalanceResult.Asset> listAsset = new ArrayList<>(); //  返回的token列表
 
-    private List<Token> tokenList;
+    private List<Token> tokenList = new ArrayList<>();
 
     private MarketcapResult marketcapResult;
 
     private Observable<BalanceResult> balanceObserable;
 
-    private MainFragment.MainFramentReceiver broadcastReceiver;
+    private Observable<CombineObservable> refreshObservable;
+
+    private Observable<CombineObservable> createObservable;
 
     @Nullable
     @Override
@@ -167,8 +167,7 @@ public class MainFragment extends BaseFragment {
         walletCount.setAnimationInterpolator(new OvershootInterpolator());
         walletCount.setCharacterLists(TickerUtils.provideNumberList());
         refreshLayout.setOnRefreshListener(refreshLayout -> {
-            presenter.refreshTokens();
-            initToken();
+            refresh();
             refreshLayout.finishRefresh(true);
         });
         return layout;
@@ -181,7 +180,6 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initPresenter() {
-        broadcastReceiver = MainFramentReceiver.getInstance(this);
         this.presenter = new MainFragmentPresenter(this, this.getContext());
     }
 
@@ -207,26 +205,56 @@ public class MainFragment extends BaseFragment {
                 getOperation().forward(WalletDetailActivity.class);
             }
         });
-        initToken();
+        //        refresh();
     }
 
-    private void initToken() {
-        LyqbLogger.log(address);
+    private void initObservable() {
+//        LyqbLogger.log(address);
+        tokenList.clear();
+        listAsset.clear();
+        marketcapResult = null;
         if (this.balanceObserable == null) {
             this.balanceObserable = balanceListener.start()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
+            this.balanceObserable.subscribe(o1 -> {
+                if (!tokenList.isEmpty() && marketcapResult != null) {
+                    presenter.setTokenLegalPrice(o1.getTokens(), tokenList, marketcapResult);
+                }
+            });
         }
         balanceListener.queryByOwner(address);
-        Observable.zip(this.balanceObserable, presenter.getTokenObservable(), presenter.getMarketcapObservable(), (balanceResult, tokens, marketcap) ->
-                CombineObservable.getInstance(balanceResult.getTokens(), (List<Token>) tokens, (MarketcapResult) marketcap))
-                .subscribe(o -> {
-                    this.tokenList = ((CombineObservable) o).getTokenList();
-                    this.marketcapResult = ((CombineObservable) o).getMarketcapResult();
-                    Log.d("", "====================================================================");
-                    presenter.setTokenLegalPrice(((CombineObservable) o).getAssetList(), ((CombineObservable) o).getTokenList(), ((CombineObservable) o)
-                            .getMarketcapResult());
-                });
+        presenter.getMarketcapObservable().subscribe(o1 -> {
+            if (!tokenList.isEmpty() && !listAsset.isEmpty()) {
+                presenter.setTokenLegalPrice(listAsset, tokenList, o1);
+            }
+        });
+        if (this.refreshObservable == null) {
+            this.refreshObservable = Observable.zip(balanceObserable, presenter.getMarketcapObservable(), (balanceResult, marketcapResult) -> CombineObservable
+                    .getInstance(balanceResult.getTokens(), tokenList, marketcapResult));
+            this.refreshObservable.subscribe(o1 -> {
+                if (!tokenList.isEmpty()) {
+                    this.marketcapResult = o1.getMarketcapResult();
+                    presenter.setTokenLegalPrice(o1.getAssetList(), o1.getTokenList(), o1.getMarketcapResult());
+                }
+            });
+        }
+        if (this.createObservable == null) {
+            this.createObservable = Observable.zip(balanceObserable, presenter.getTokenObservable(), presenter.getMarketcapObservable(), (balanceResult, tokens, marketcap) ->
+                    CombineObservable.getInstance(balanceResult.getTokens(), tokens, marketcap));
+            this.createObservable.subscribe(o -> {
+                this.tokenList = o.getTokenList();
+                this.marketcapResult = o.getMarketcapResult();
+                presenter.setTokenLegalPrice(o.getAssetList(), o.getTokenList(), o.getMarketcapResult());
+            });
+        }
+    }
+
+    private void refresh() {
+        marketcapResult = null;
+        listAsset.clear();
+        balanceListener.queryByOwner(address);
+        presenter.refreshMarketcap();
     }
 
     @Override
@@ -234,10 +262,10 @@ public class MainFragment extends BaseFragment {
         super.onResume();
         if (flag) {
             flag = false;
+            initObservable();
         } else {
-            if (listAsset == null) {
-                initToken();
-            }
+            if (listAsset.isEmpty())
+                refresh();
         }
     }
 
@@ -245,7 +273,6 @@ public class MainFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        presenter.destroy();
     }
 
     @OnClick({R.id.ll_scan, R.id.ll_receive, R.id.ll_send, R.id.ll_trade, R.id.menu_scan, R.id.menu_add_assets, R.id.menu_wallet, R.id.menu_transaction, R.id.right_btn, R.id.ll_main})
@@ -336,34 +363,6 @@ public class MainFragment extends BaseFragment {
 
     public void setListAsset(List<BalanceResult.Asset> listAsset) {
         this.listAsset = listAsset;
-    }
-
-    public MainFragment.MainFramentReceiver getBroadcastReceiver() {
-        return broadcastReceiver;
-    }
-
-    public static class MainFramentReceiver extends BroadcastReceiver {
-
-        private static MainFramentReceiver broadcastReceiver;
-
-        private MainFragment fragment;
-
-        public MainFramentReceiver(MainFragment fragment) {
-            this.fragment = fragment;
-        }
-
-        public static MainFramentReceiver getInstance(MainFragment fragment) {
-            if (broadcastReceiver == null) {
-                broadcastReceiver = new MainFramentReceiver(fragment);
-            }
-            return broadcastReceiver;
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //            if ("marketcap".equals(intent.getAction()))
-            //                fragment.onResume();
-        }
     }
 
     public static class CombineObservable {

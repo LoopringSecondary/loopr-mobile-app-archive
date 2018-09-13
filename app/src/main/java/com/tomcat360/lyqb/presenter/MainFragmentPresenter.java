@@ -21,23 +21,32 @@ import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.util.UnitConverter;
 import com.tomcat360.lyqb.fragment.MainFragment;
+import com.tomcat360.lyqb.manager.MarketcapDataManager;
 import com.tomcat360.lyqb.manager.TokenDataManager;
 import com.tomcat360.lyqb.utils.CurrencyUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.view.APP;
 
-public class MainFragmentPresenter extends BasePresenter<MainFragment, MainFragment.MainFramentReceiver> {
+import rx.Observable;
+
+public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
     private Map<String, BalanceResult.Asset> tokenMap = new HashMap<>();
 
+    private MarketcapDataManager marketcapDataManager;
+
+    private TokenDataManager tokenDataManager;
+
     public MainFragmentPresenter(MainFragment view, Context context) {
-        super(view, context, view.getBroadcastReceiver());
-        refreshTokens();
+        super(view, context);
+        marketcapDataManager = MarketcapDataManager.getInstance(context);
+        tokenDataManager = TokenDataManager.getInstance(context);
+        refreshMarketcap();
     }
 
-    public void refreshTokens() {
-        dataManager.refreshTokens();
+    public void refreshMarketcap() {
+        marketcapDataManager.refreshTokens();
     }
 
     public void setTokenLegalPrice(List<BalanceResult.Asset> assetList, List<Token> tokenList, MarketcapResult marketcapResult) {
@@ -87,5 +96,13 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment, MainFragm
         view.setWalletCount(CurrencyUtil.getCurrency(this.context).getSymbol() + amount);
         view.setListAsset(listChooseAsset);
         view.getmAdapter().notifyDataSetChanged();
+    }
+
+    public Observable<MarketcapResult> getMarketcapObservable() {
+        return marketcapDataManager.getObservable();
+    }
+
+    public Observable<List<Token>> getTokenObservable() {
+        return tokenDataManager.getTokenObservable();
     }
 }

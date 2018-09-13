@@ -76,17 +76,17 @@ public class TokenDataManager {
                     .getSupportedToken()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
-        }
-        this.tokenObservable.subscribe(tokens -> {
-            for (Token token : tokens) {
-                String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
-                int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
-                token.setImageResId(identifier);
-                if (!this.tokens.contains(token)) {
-                    this.tokens.add(token);
+            this.tokenObservable.subscribe(tokens -> {
+                for (Token token : tokens) {
+                    String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
+                    int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
+                    token.setImageResId(identifier);
+                    if (!this.tokens.contains(token)) {
+                        this.tokens.add(token);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     public List<Token> getTokens() {
@@ -111,5 +111,9 @@ public class TokenDataManager {
             }
         }
         return result;
+    }
+
+    public Observable<List<Token>> getTokenObservable() {
+        return tokenObservable;
     }
 }

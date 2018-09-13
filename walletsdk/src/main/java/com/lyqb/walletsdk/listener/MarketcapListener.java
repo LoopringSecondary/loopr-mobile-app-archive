@@ -1,5 +1,7 @@
 package com.lyqb.walletsdk.listener;
 
+import android.util.Log;
+
 import com.lyqb.walletsdk.model.request.param.MarketcapParam;
 import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 
@@ -31,6 +33,7 @@ public class MarketcapListener extends AbstractListener<MarketcapResult, Marketc
 
     @Override
     public void send(MarketcapParam param) {
+        Log.d("", "marketcap send===============================>");
         String json = gson.toJson(param);
         socket.emit("marketcap_req", json);
     }

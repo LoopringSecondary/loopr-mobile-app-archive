@@ -1,5 +1,7 @@
 package com.lyqb.walletsdk.listener;
 
+import android.util.Log;
+
 import com.google.gson.JsonElement;
 import com.lyqb.walletsdk.Default;
 import com.lyqb.walletsdk.model.request.param.BalanceParam;
@@ -39,6 +41,7 @@ public class BalanceListener extends AbstractListener<BalanceResult, BalancePara
 
     @Override
     public void send(BalanceParam param) {
+        Log.d("", "balance send===============================>");
         String json = gson.toJson(param);
         socket.emit("balance_req", json);
     }
