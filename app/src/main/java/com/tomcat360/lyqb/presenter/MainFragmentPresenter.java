@@ -21,6 +21,7 @@ import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.util.UnitConverter;
 import com.tomcat360.lyqb.fragment.MainFragment;
+import com.tomcat360.lyqb.manager.TokenDataManager;
 import com.tomcat360.lyqb.utils.CurrencyUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
@@ -43,15 +44,14 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment, MainFragm
         LyqbLogger.log(assetList.toString());
         LyqbLogger.log(tokenList.toString());
         LyqbLogger.log(marketcapResult.toString());
+        TokenDataManager manager = TokenDataManager.getInstance(context);
         for (BalanceResult.Asset asset : assetList) {
             if (asset.getSymbol().equals("ETH"))
                 asset.setValue(UnitConverter.weiToEth(asset.getBalance().toPlainString()).doubleValue());
-            if (!asset.getBalance()
-                    .equals(BigDecimal.ZERO) && getTokenBySymbol(tokenList, asset.getSymbol()) != null) {
-                Log.d("", asset.getSymbol() + " " + getTokenBySymbol(tokenList, asset.getSymbol()));
+            if (!asset.getBalance().equals(BigDecimal.ZERO) && manager.getTokenBySymbol(asset.getSymbol()) != null) {
+                Log.d("", asset.getSymbol() + " " + manager.getTokenBySymbol(asset.getSymbol()));
                 asset.setValue(asset.getBalance()
-                        .divide(getTokenBySymbol(tokenList, asset.getSymbol()).getDecimals())
-                        .doubleValue());
+                        .divide(manager.getTokenBySymbol(asset.getSymbol()).getDecimals()).doubleValue());
             }
             if (getLegalPriceBySymbol(marketcapResult, asset.getSymbol()) != null) {
                 asset.setLegalValue(getLegalPriceBySymbol(marketcapResult, asset.getSymbol()) * asset.getValue());

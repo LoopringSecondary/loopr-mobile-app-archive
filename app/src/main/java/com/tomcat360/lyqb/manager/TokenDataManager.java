@@ -33,7 +33,7 @@ public class TokenDataManager {
 
     private LoopringService loopringService = new LoopringService();
 
-    private static TokenDataManager tokenDataManager;
+    private static TokenDataManager tokenDataManager = null;
 
     private TokenDataManager(Context context) {
         this.context = context;
@@ -42,10 +42,13 @@ public class TokenDataManager {
     }
 
     public static TokenDataManager getInstance(Context context) {
-        tokenDataManager = new TokenDataManager(context);
+        if (tokenDataManager == null) {
+            tokenDataManager = new TokenDataManager(context);
+        }
         return tokenDataManager;
     }
 
+    // Generate whitelist of tokens through tokens json file
     private void loadTokensFromJson() {
         try {
             InputStream is = context.getAssets().open("json/tokens.json");
@@ -69,18 +72,44 @@ public class TokenDataManager {
 
     private void loadTokensFromRelay() {
         if (this.tokenObservable == null) {
-            this.tokenObservable = loopringService.getSupportedToken().subscribeOn(Schedulers.io())
+            this.tokenObservable = loopringService
+                    .getSupportedToken()
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
         }
         this.tokenObservable.subscribe(tokens -> {
             for (Token token : tokens) {
-                String image = String.format("icon_token_%s", token.getSymbol());
-                int identifier = context.getResources().getIdentifier(image, "mipmap", "android");
+                String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
+                int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
                 token.setImageResId(identifier);
                 if (!this.tokens.contains(token)) {
                     this.tokens.add(token);
                 }
             }
         });
+    }
+
+    public List<Token> getTokens() {
+        return this.tokens;
+    }
+
+    public Token getTokenBySymbol(String symbol) {
+        Token result = null;
+        for (Token token : this.tokens) {
+            if (token.getSymbol().equalsIgnoreCase(symbol)) {
+                result = token;
+            }
+        }
+        return result;
+    }
+
+    public Token getTokenByProtocol(String protocol) {
+        Token result = null;
+        for (Token token : this.tokens) {
+            if (token.getProtocol().equalsIgnoreCase(protocol)) {
+                result = token;
+            }
+        }
+        return result;
     }
 }

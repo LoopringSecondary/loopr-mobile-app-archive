@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 
 import com.lyqb.walletsdk.model.response.data.MarketcapResult;
-import com.lyqb.walletsdk.model.response.data.Token;
 import com.tomcat360.lyqb.service.DataManager;
 
 import rx.Observable;
@@ -56,30 +55,6 @@ public class BasePresenter<V, T extends BroadcastReceiver> {
         for (MarketcapResult.Token token : tokens) {
             if (token.getSymbol().equalsIgnoreCase(symbol)) {
                 result = token.getPrice();
-            }
-        }
-        return result;
-    }
-
-    public Token getTokenBySymbol(String symbol) {
-        return getTokenBySymbol(dataManager.getTokens(), symbol);
-    }
-
-    public Token getTokenBySymbol(List<Token> tokenList, String symbol) {
-        Token result = null;
-        for (Token token : tokenList) {
-            if (token.getSymbol().equalsIgnoreCase(symbol)) {
-                result = token;
-            }
-        }
-        return result;
-    }
-
-    public Token getTokenByProtocol(String protocol) {
-        Token result = null;
-        for (Token token : dataManager.getTokens()) {
-            if (token.getProtocol().equalsIgnoreCase(protocol)) {
-                result = token;
             }
         }
         return result;
