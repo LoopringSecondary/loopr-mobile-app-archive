@@ -28,6 +28,8 @@ public class Token {
 
     private int imageResId;
 
+    private int precision = 4;
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -38,10 +40,5 @@ public class Token {
             return false;
         Token token = (Token) o;
         return Objects.equals(symbol, token.symbol);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), protocol, symbol, name, source, time, deny, decimals, isMarket, icoPrice, imageResId);
     }
 }

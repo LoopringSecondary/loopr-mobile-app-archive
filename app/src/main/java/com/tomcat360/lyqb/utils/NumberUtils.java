@@ -67,7 +67,7 @@ public class NumberUtils {
         return fmt.format(d);
     }
 
-    public static BigDecimal Numberformat(BigDecimal d) {
+    public static BigDecimal numberformat(BigDecimal d) {
         DecimalFormat fmt = new DecimalFormat("##0.00");
         return new BigDecimal(fmt.format(d.doubleValue()));
     }
@@ -80,6 +80,15 @@ public class NumberUtils {
      * @Method: format2
      * @Description: TODO(这里用一句话描述这个方法的作用)
      */
+
+    public static String format1(double d, int precision) {
+        DecimalFormat formater = new DecimalFormat();
+        formater.setMaximumFractionDigits(precision);
+        formater.setGroupingSize(0);
+        formater.setRoundingMode(RoundingMode.FLOOR);
+        return formater.format(d);
+    }
+
     public static double format2(double d) {
         DecimalFormat formater = new DecimalFormat();
         formater.setMaximumFractionDigits(2);

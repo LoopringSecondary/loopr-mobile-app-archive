@@ -103,6 +103,16 @@ public class TokenDataManager {
         return result;
     }
 
+    public int getPrecisionBySymbol(String symbol) {
+        int result = 4;
+        for (Token token : this.tokens) {
+            if (token.getSymbol().equalsIgnoreCase(symbol)) {
+                result = token.getPrecision();
+            }
+        }
+        return result;
+    }
+
     public Token getTokenByProtocol(String protocol) {
         Token result = null;
         for (Token token : this.tokens) {
@@ -112,6 +122,7 @@ public class TokenDataManager {
         }
         return result;
     }
+
 
     public Observable<List<Token>> getTokenObservable() {
         return tokenObservable;
