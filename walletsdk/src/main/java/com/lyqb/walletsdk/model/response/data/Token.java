@@ -44,5 +44,4 @@ public class Token {
     public int hashCode() {
         return Objects.hash(super.hashCode(), protocol, symbol, name, source, time, deny, decimals, isMarket, icoPrice, imageResId);
     }
-
 }

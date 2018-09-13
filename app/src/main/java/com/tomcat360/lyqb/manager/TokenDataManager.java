@@ -1,3 +1,9 @@
+/**
+ * Created with IntelliJ IDEA.
+ * User: kenshin wangchen@loopring.org
+ * Time: 2018-09-13 下午1:55
+ * Cooperation: loopring.org 路印协议基金会
+ */
 package com.tomcat360.lyqb.manager;
 
 import java.io.IOException;
@@ -15,12 +21,6 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created with IntelliJ IDEA.
- * User: kenshin wangchen@loopring.org
- * Time: 2018-09-13 下午1:55
- * Cooperation: loopring.org 路印协议基金会
- */
 public class TokenDataManager {
 
     private List<Token> tokens;
@@ -41,7 +41,8 @@ public class TokenDataManager {
         this.loadTokensFromRelay();
     }
 
-    public static TokenDataManager getInstance() {
+    public static TokenDataManager getInstance(Context context) {
+        tokenDataManager = new TokenDataManager(context);
         return tokenDataManager;
     }
 
