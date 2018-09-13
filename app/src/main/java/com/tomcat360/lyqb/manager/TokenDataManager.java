@@ -85,7 +85,7 @@ public class TokenDataManager {
                         this.tokens.add(token);
                     }
                 }
-            });
+            }, error -> {});
         }
     }
 

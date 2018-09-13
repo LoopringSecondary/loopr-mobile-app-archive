@@ -315,5 +315,12 @@
                     android:textSize="@dimen/normal14Text"/>
             </LinearLayout>
         </LinearLayout>
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit"
+            style="@style/SpinKitView.Large.Circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
     </FrameLayout>
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

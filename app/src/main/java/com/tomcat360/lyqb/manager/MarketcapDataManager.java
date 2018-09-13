@@ -61,7 +61,7 @@ public class MarketcapDataManager {
                     .observeOn(AndroidSchedulers.mainThread());
             this.observable.subscribe(marketcapResult -> {
                 this.marketcapResult = marketcapResult;
-            });
+            }, error -> {});
         }
         Currency currency = CurrencyUtil.getCurrency(context);
         marketcapListener.send(MarketcapParam.builder().currency(currency.name()).build());

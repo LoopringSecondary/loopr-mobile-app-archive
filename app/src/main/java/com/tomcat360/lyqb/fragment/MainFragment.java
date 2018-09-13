@@ -13,6 +13,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.Circle;
 import com.lyqb.walletsdk.listener.BalanceListener;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.lyqb.walletsdk.model.response.data.MarketcapResult;
@@ -119,6 +122,9 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.refresh_layout)
     RefreshLayout refreshLayout;
 
+    @BindView(R.id.spin_kit)
+    SpinKitView progressBar;
+
     @SuppressLint("HandlerLeak")
     Handler handlerBalance = new Handler() {
         @Override
@@ -170,6 +176,7 @@ public class MainFragment extends BaseFragment {
             refresh();
             refreshLayout.finishRefresh(true);
         });
+//        progressBar.setIndeterminateDrawable(new Circle());
         return layout;
     }
 
@@ -215,16 +222,20 @@ public class MainFragment extends BaseFragment {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
             this.balanceObserable.subscribe(o1 -> {
-                if (!this.tokenList.isEmpty() && this.marketcapResult != null) {
+                if (!this.tokenList.isEmpty() && this.marketcapResult != null && o1.getTokens() != null && !o1.getTokens()
+                        .isEmpty()) {
                     presenter.setTokenLegalPrice(o1.getTokens(), tokenList, marketcapResult);
                 }
+            }, error -> {
             });
         }
         balanceListener.queryByOwner(address);
         presenter.getMarketcapObservable().subscribe(o1 -> {
             if (!this.tokenList.isEmpty() && !this.listAsset.isEmpty()) {
+                Log.d("", "marketcap******************");
                 presenter.setTokenLegalPrice(listAsset, tokenList, o1);
             }
+        }, error -> {
         });
         if (this.refreshObservable == null) {
             this.refreshObservable = Observable.zip(balanceObserable, presenter.getMarketcapObservable(), (balanceResult, marketcapResult) -> CombineObservable
@@ -234,6 +245,7 @@ public class MainFragment extends BaseFragment {
                     this.marketcapResult = o1.getMarketcapResult();
                     presenter.setTokenLegalPrice(o1.getAssetList(), o1.getTokenList(), o1.getMarketcapResult());
                 }
+            }, error -> {
             });
         }
         if (this.createObservable == null) {
@@ -243,6 +255,8 @@ public class MainFragment extends BaseFragment {
                 this.tokenList = o.getTokenList();
                 this.marketcapResult = o.getMarketcapResult();
                 presenter.setTokenLegalPrice(o.getAssetList(), o.getTokenList(), o.getMarketcapResult());
+                progressBar.setVisibility(View.GONE);
+            }, error -> {
             });
         }
     }
