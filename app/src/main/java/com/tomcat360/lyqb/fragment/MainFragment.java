@@ -209,23 +209,20 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initObservable() {
-//        LyqbLogger.log(address);
-        tokenList.clear();
-        listAsset.clear();
-        marketcapResult = null;
+        LyqbLogger.log(address);
         if (this.balanceObserable == null) {
             this.balanceObserable = balanceListener.start()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
             this.balanceObserable.subscribe(o1 -> {
-                if (!tokenList.isEmpty() && marketcapResult != null) {
+                if (!this.tokenList.isEmpty() && this.marketcapResult != null) {
                     presenter.setTokenLegalPrice(o1.getTokens(), tokenList, marketcapResult);
                 }
             });
         }
         balanceListener.queryByOwner(address);
         presenter.getMarketcapObservable().subscribe(o1 -> {
-            if (!tokenList.isEmpty() && !listAsset.isEmpty()) {
+            if (!this.tokenList.isEmpty() && !this.listAsset.isEmpty()) {
                 presenter.setTokenLegalPrice(listAsset, tokenList, o1);
             }
         });
@@ -233,7 +230,7 @@ public class MainFragment extends BaseFragment {
             this.refreshObservable = Observable.zip(balanceObserable, presenter.getMarketcapObservable(), (balanceResult, marketcapResult) -> CombineObservable
                     .getInstance(balanceResult.getTokens(), tokenList, marketcapResult));
             this.refreshObservable.subscribe(o1 -> {
-                if (!tokenList.isEmpty()) {
+                if (!this.tokenList.isEmpty()) {
                     this.marketcapResult = o1.getMarketcapResult();
                     presenter.setTokenLegalPrice(o1.getAssetList(), o1.getTokenList(), o1.getMarketcapResult());
                 }
@@ -273,6 +270,9 @@ public class MainFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        this.tokenList.clear();
+        this.listAsset.clear();
+        this.marketcapResult = null;
     }
 
     @OnClick({R.id.ll_scan, R.id.ll_receive, R.id.ll_send, R.id.ll_trade, R.id.menu_scan, R.id.menu_add_assets, R.id.menu_wallet, R.id.menu_transaction, R.id.right_btn, R.id.ll_main})
