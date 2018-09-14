@@ -31,28 +31,14 @@ public class MarketcapDataManager {
     public static MarketcapDataManager getInstance(Context context) {
         if (marketDataManager == null) {
             marketDataManager = new MarketcapDataManager(context);
+            marketDataManager.updateMarketcap();
         }
         return marketDataManager;
     }
 
-    public void refreshTokens() {
+    public void refresh() {
         marketDataManager.updateMarketcap();
     }
-    // for common usage
-    //    private void updateTokens() {
-    //        if (this.tokenObservable == null) {
-    //            this.tokenObservable = loopringService.getSupportedToken().subscribeOn(Schedulers.io())
-    //                    .observeOn(AndroidSchedulers.mainThread());
-    //        }
-    //        this.tokenObservable.subscribe(tokens -> {
-    //            for (Token token : tokens) {
-    //                String image = String.format("icon_token_%s", token.getSymbol());
-    //                int identifier = context.getResources().getIdentifier(image, "mipmap", "android");
-    //                token.setImageResId(identifier);
-    //            }
-    //            this.tokens = tokens;
-    //        });
-    //    }
 
     private void updateMarketcap() {
         if (this.observable == null) {
@@ -61,14 +47,11 @@ public class MarketcapDataManager {
                     .observeOn(AndroidSchedulers.mainThread());
             this.observable.subscribe(marketcapResult -> {
                 this.marketcapResult = marketcapResult;
-            }, error -> {});
+            }, error -> {
+            });
         }
         Currency currency = CurrencyUtil.getCurrency(context);
         marketcapListener.send(MarketcapParam.builder().currency(currency.name()).build());
-    }
-
-    public MarketcapResult getMarketcapResult() {
-        return marketcapResult;
     }
 
     public Observable<MarketcapResult> getObservable() {

@@ -34,8 +34,8 @@ public class BasePresenter<V> {
 //        return getLegalPriceBySymbol(marketDataManager.getMarketcapResult(), symbol);
 //    }
 
-    public Double getLegalPriceBySymbol(MarketcapResult marketcapResult, String symbol) {
-        Double result = null;
+    public double getLegalPriceBySymbol(MarketcapResult marketcapResult, String symbol) {
+        double result = 0.0;
         List<MarketcapResult.Token> tokens = marketcapResult.getTokens();
         for (MarketcapResult.Token token : tokens) {
             if (token.getSymbol().equalsIgnoreCase(symbol)) {

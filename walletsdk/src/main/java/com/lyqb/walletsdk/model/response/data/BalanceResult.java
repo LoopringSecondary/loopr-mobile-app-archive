@@ -26,5 +26,7 @@ public class BalanceResult {
         private double value;
 
         private double legalValue;
+
+        private String legalStr;
     }
 }

@@ -9,7 +9,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.presenter.BasePresenter;
-import com.tomcat360.lyqb.utils.SPUtils;
 
 public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, BaseViewHolder> {
 
@@ -24,13 +23,12 @@ public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, Bas
     protected void convert(BaseViewHolder helper, BalanceResult.Asset item) {
         helper.setText(R.id.wallet_title, item.getSymbol());
         helper.setText(R.id.wallet_name, item.getSymbol());
-        //        BigDecimal bigDecimal = UnitConverter.weiToEth(item.getBalance().toPlainString());
-        //        String amount =  bigDecimal.toPlainString().length() > 8 ? bigDecimal.toPlainString().substring(0,8):bigDecimal.toPlainString();
         helper.setText(R.id.wallet_money, item.getValue() + "");
-        if (SPUtils.get(mContext, "coin", "¥").equals("¥")) {
-            helper.setText(R.id.wallet_count, "¥ " + item.getLegalValue());
-        } else {
-            helper.setText(R.id.wallet_count, "$ " + item.getLegalValue());
-        }
+        helper.setText(R.id.wallet_count, item.getLegalStr());
+        //        if (SPUtils.get(mContext, "coin", "¥").equals("¥")) {
+        //            helper.setText(R.id.wallet_count, "¥ " + item.getLegalValue());
+        //        } else {
+        //            helper.setText(R.id.wallet_count, "$ " + item.getLegalValue());
+        //        }
     }
 }

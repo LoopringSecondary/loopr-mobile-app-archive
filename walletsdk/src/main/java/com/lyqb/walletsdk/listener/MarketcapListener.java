@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.lyqb.walletsdk.model.request.param.MarketcapParam;
 import com.lyqb.walletsdk.model.response.data.MarketcapResult;
+import com.lyqb.walletsdk.service.LoopringService;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;
@@ -16,6 +17,7 @@ public class MarketcapListener extends AbstractListener<MarketcapResult, Marketc
     protected void registerEventHandler() {
         socket.on("marketcap_res", objects -> {
             MarketcapResult marketcapResult = gson.fromJson(extractPayload(objects), MarketcapResult.class);
+            Log.d("", marketcapResult.toString());
             subject.onNext(marketcapResult);
         });
         socket.on("marketcap_end", data -> subject.onCompleted());
