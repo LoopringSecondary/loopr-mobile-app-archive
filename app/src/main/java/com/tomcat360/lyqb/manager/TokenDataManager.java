@@ -70,22 +70,24 @@ public class TokenDataManager {
         this.whiteList = tokens;
     }
 
+    public void updateToken(List<Token> tokens) {
+        for (Token token : tokens) {
+            String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
+            int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
+            token.setImageResId(identifier);
+            if (!this.tokens.contains(token)) {
+                this.tokens.add(token);
+            }
+        }
+    }
+
     private void loadTokensFromRelay() {
         if (this.tokenObservable == null) {
             this.tokenObservable = loopringService
                     .getSupportedToken()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
-            this.tokenObservable.subscribe(tokens -> {
-                for (Token token : tokens) {
-                    String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
-                    int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
-                    token.setImageResId(identifier);
-                    if (!this.tokens.contains(token)) {
-                        this.tokens.add(token);
-                    }
-                }
-            }, error -> {});
+            this.tokenObservable.subscribe(tokens -> updateToken(tokens), error -> {});
         }
     }
 
