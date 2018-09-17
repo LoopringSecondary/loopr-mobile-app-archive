@@ -8,10 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.lyqb.walletsdk.model.response.data.BalanceResult;
+import com.lyqb.walletsdk.model.response.data.Token;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.TokenChooseAdapter;
-import com.tomcat360.lyqb.manager.BalanceDataManager;
+import com.tomcat360.lyqb.manager.TokenDataManager;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.views.TitleView;
 
@@ -28,7 +28,7 @@ public class SendListChooseActivity extends BaseActivity {
 
     private TokenChooseAdapter mAdapter;
 
-    private List<BalanceResult.Asset> list;
+    private List<Token> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +61,13 @@ public class SendListChooseActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        list = BalanceDataManager.getInstance(this).getAssets();
+        list = TokenDataManager.getInstance(this).getTokens();
         mAdapter = new TokenChooseAdapter(R.layout.adapter_item_token_choose, list);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             SPUtils.put(SendListChooseActivity.this, "send_choose", list.get(position).getSymbol());
-            //                SPUtils.put(SendListChooseActivity.this,"send_amount",list.get(position).getBalance().doubleValue());
             Intent intent = new Intent();
-            intent.putExtra("symbol", list.get(position).getSymbol()); //
-            intent.putExtra("amount", list.get(position).getBalance().doubleValue()); //
+            intent.putExtra("symbol", list.get(position).getSymbol());
             setResult(1, intent);
             finish();
         });

@@ -132,6 +132,8 @@ public class SendActivity extends BaseActivity {
 
     private LoopringService loopringService = new LoopringService();
 
+    private BalanceDataManager balanceManager;
+
     /**
      * 确认转出dialog
      */
@@ -206,6 +208,7 @@ public class SendActivity extends BaseActivity {
 
     @Override
     protected void initPresenter() {
+        balanceManager = BalanceDataManager.getInstance(this);
     }
 
     @Override
@@ -411,10 +414,10 @@ public class SendActivity extends BaseActivity {
         } else if (requestCode == TOKEN_CODE) {
             if (resultCode == 1) {
                 String symbol = data.getStringExtra("symbol");
-                amountTotal = data.getDoubleExtra("amount", 0.00);
+                BalanceResult.Asset asset = balanceManager.getAssetBySymbol(symbol);
                 sendWalletName.setText(symbol);
                 walletName2.setText(symbol);
-                sendWalletCount.setText(amountTotal + " " + symbol);
+                sendWalletCount.setText(asset.getValueShown() + " " + symbol);
             }
         }
     }

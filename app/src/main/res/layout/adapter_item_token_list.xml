@@ -44,19 +44,32 @@
     </RelativeLayout>
 
 
-    <ToggleButton
-        android:id="@+id/toggle_button"
-        android:layout_width="44dp"
-        android:layout_height="22.7dp"
-        android:layout_alignParentRight="true"
+    <!--<ToggleButton-->
+        <!--android:id="@+id/toggle_button"-->
+        <!--android:layout_width="44dp"-->
+        <!--android:layout_height="22.7dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:background="@drawable/toggle_drawable_selector"-->
+        <!--android:checked="false"-->
+        <!--android:clickable="false"-->
+        <!--android:textOff="@null"-->
+        <!--android:textOn="@null"/>-->
+    <Switch
+        android:id="@+id/s_v"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:switchMinWidth="20dp"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/toggle_drawable_selector"
+        android:layout_marginEnd="20dp"
         android:checked="false"
         android:clickable="false"
-        android:textOff="@null"
-        android:textOn="@null"/>
-
+        android:textOn="on"
+        android:textOff="off"
+        android:thumb="@drawable/switch_thumb"
+        android:track="@drawable/switch_track" />
 
 </RelativeLayout>
 

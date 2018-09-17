@@ -309,8 +309,8 @@
     <!--Whether to close the progress prompt-->
     <!--The Seekbar color after dragging-->
     <!--The default Seekbar color-->
-    <!--The color of the thumb when the progress is minimum or maximum, by default this property is not called-->
-    <!--The color of the thumb moving, this property is not called-->
+    <!--The color of the switch_thumb when the progress is minimum or maximum, by default this property is not called-->
+    <!--The color of the switch_thumb moving, this property is not called-->
     <!--Scale text, do not set the default when hidden-->
     <!--Button background resources, do not set the default when the circular button-->
     <!--Progress prompt background resources, you must use the 9 path file-->

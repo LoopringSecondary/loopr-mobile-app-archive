@@ -11,8 +11,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -122,13 +122,18 @@ public class TokenListActivity extends BaseActivity {
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ToggleButton toggleButton = view.findViewById(R.id.toggle_button);
-                LyqbLogger.log(toggleButton.isChecked() + "");
-                if (toggleButton.isChecked()) {
-                    toggleButton.setChecked(false);
+                Switch aSwitch = view.findViewById(R.id.s_v);
+                if (aSwitch.isChecked()) {
+//                    aSwitch.setChecked(false);
+
+                    aSwitch.setSwitchTextAppearance(TokenListActivity.this, R.style.s_false);
+
                     choose_token.remove(list.get(position).getSymbol());
                 } else {
-                    toggleButton.setChecked(true);
+//                    aSwitch.setChecked(true);
+
+                    aSwitch.setSwitchTextAppearance(TokenListActivity.this, R.style.s_true);
+
                     choose_token.add(list.get(position).getSymbol());
                 }
                 mAdapter.setChoose_token(choose_token);

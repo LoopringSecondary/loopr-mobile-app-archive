@@ -3,7 +3,7 @@ package com.tomcat360.lyqb.adapter;
 import java.util.List;
 
 import android.support.annotation.Nullable;
-import android.widget.ToggleButton;
+import android.widget.Switch;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -25,13 +25,14 @@ public class TokenListAdapter extends BaseQuickAdapter<Token, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, Token item) {
         helper.setText(R.id.wallet_title, item.getSymbol());
-        helper.setText(R.id.wallet_name, item.getSymbol());
-        ToggleButton toggleButton = helper.getView(R.id.toggle_button);
-        toggleButton.setTag(item.getSymbol());
+        helper.setText(R.id.wallet_name, item.getSource());
+        helper.setImageResource(R.id.wallet_image, item.getImageResId());
+        Switch aSwitch = helper.getView(R.id.s_v);
+        aSwitch.setTag(item.getSymbol());
         if (choose_token.contains(item.getSymbol())) {
-            toggleButton.setChecked(true);
+            aSwitch.setChecked(true);
         } else {
-            toggleButton.setChecked(false);
+            aSwitch.setChecked(false);
         }
     }
 

@@ -96,22 +96,24 @@ public class BalanceDataManager {
 
     // support for main fragment presenter
     public void mergeAssets(BalanceResult balance) {
-        this.balance.getTokens().clear();
         List<MarketcapResult.Token> tokens = priceManager.getMarketcapResult().getTokens();
         for (BalanceResult.Asset asset : balance.getTokens()) {
             for (MarketcapResult.Token token : tokens) {
                 if (token.getSymbol().equalsIgnoreCase(asset.getSymbol())) {
                     int precision = NumberUtils.integralLength(token.getPrice()) + 2; // TODO: 显示到当前货币最小单位
-                    BigDecimal decimals = tokenManager.getTokenBySymbol(asset.getSymbol()).getDecimals();
-                    double value = asset.getBalance().divide(decimals).doubleValue();
-                    asset.setPrecision(precision);
-                    asset.setValue(value);
-                    asset.setValueShown(NumberUtils.format1(value, precision));
-                    asset.setLegalValue(token.getPrice() * asset.getBalance().doubleValue());
-                    asset.setLegalShown(CurrencyUtil.format(context, asset.getLegalValue()));
-                    this.balance.getTokens().add(asset);
+                    if (tokenManager.getTokenBySymbol(asset.getSymbol()) != null) {   // TODO: no RHOC token ???
+                        BigDecimal decimals = tokenManager.getTokenBySymbol(asset.getSymbol()).getDecimals();
+                        double value = asset.getBalance().divide(decimals).doubleValue();
+                        asset.setPrecision(precision);
+                        asset.setValue(value);
+                        asset.setValueShown(NumberUtils.format1(value, precision));
+                        asset.setLegalValue(token.getPrice() * value);
+                        asset.setLegalShown(CurrencyUtil.format(context, asset.getLegalValue()));
+                    }
+                    break;
                 }
             }
         }
+        this.balance = balance;
     }
 }

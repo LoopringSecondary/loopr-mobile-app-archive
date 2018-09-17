@@ -95,10 +95,10 @@ public class RangeSeekBar extends View {
     // the color of the unselected progress bar
     private int colorLineEdge;
 
-    //The foreground color of progress bar and thumb button.
+    //The foreground color of progress bar and switch_thumb button.
     private int colorPrimary;
 
-    //The background color of progress bar and thumb button.
+    //The background color of progress bar and switch_thumb button.
     private int colorSecondary;
 
     //刻度文字与提示文字的大小
@@ -785,7 +785,7 @@ public class RangeSeekBar extends View {
                     } else {
                         text2Draw = mHintText2Draw;
                     }
-                    // if is the start，change the thumb color
+                    // if is the start，change the switch_thumb color
                     isPrimary = (compareFloat(result[0], mMin) == 0);
                 } else {
                     if (mHintText2Draw == null) {
