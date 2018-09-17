@@ -30,6 +30,7 @@ import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.view.APP;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -64,56 +65,80 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     public void initObservable() {
         listAsset.clear();
         marketcapResult = null;
-        if (balanceObservable == null) {
-            balanceObservable = balanceListener.start()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-            balanceObservable.subscribe(balanceResult -> {
-                if (!tokenList.isEmpty() && marketcapResult != null && balanceResult.getTokens() != null) {
-                    setTokenLegalPrice(balanceResult.getTokens(), tokenList, marketcapResult);
-                }
-            });
+        if (balanceObservable == null)
+            initBalanceObservable();
+        else
             balanceListener.queryByOwner(address);
-        } else {
-            balanceListener.queryByOwner(address);
-        }
-        if (marketcapObservable == null) {
-            marketcapObservable = marketcapDataManager.getObservable();
-            marketcapObservable.subscribe(marketcapResult -> {
-                if (!tokenList.isEmpty() && !listAsset.isEmpty()) {
-                    setTokenLegalPrice(listAsset, tokenList, marketcapResult);
-                }
-            });
-        } else {
+        if (marketcapObservable == null)
+            initMarketcapObservable();
+        else
             marketcapDataManager.refresh();
-        }
         if (createObservable == null) {
-            createObservable = Observable.zip(balanceObservable, tokenDataManager.getTokenObservable(), marketcapDataManager
-                    .getObservable(), (balanceResult, tokens, marketcap) ->
-                    CombineObservable.getInstance(balanceResult.getTokens(), tokens, marketcap));
-            createObservable.subscribe(combineObservable -> {
-                tokenList = combineObservable.getTokenList();
+            initCreateObservable();
+        } else if (refreshObservable == null) {
+            initRefreshObservable();
+        }
+    }
+
+    private void initBalanceObservable() {
+        balanceObservable = balanceListener.start()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        balanceObservable.subscribe(balanceResult -> {
+            if (!tokenList.isEmpty() && marketcapResult != null && balanceResult.getTokens() != null) {
+                setTokenLegalPrice(balanceResult.getTokens(), tokenList, marketcapResult);
+            }
+        });
+        balanceListener.queryByOwner(address);
+    }
+
+    private void initMarketcapObservable() {
+        marketcapObservable = marketcapDataManager.getObservable();
+        marketcapObservable.subscribe(marketcapResult -> {
+            if (!tokenList.isEmpty() && !listAsset.isEmpty()) {
+                setTokenLegalPrice(listAsset, tokenList, marketcapResult);
+            }
+        });
+    }
+
+    private void initCreateObservable() {
+        createObservable = Observable.zip(balanceObservable, tokenDataManager.getTokenObservable(), marketcapDataManager
+                .getObservable(), (balanceResult, tokens, marketcap) ->
+                CombineObservable.getInstance(balanceResult.getTokens(), tokens, marketcap));
+        createObservable.subscribe(new Subscriber<CombineObservable>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                view.hideLoading();
+            }
+
+            @Override
+            public void onNext(CombineObservable combineObservable) {
+                tokenDataManager.mergeTokens(combineObservable.getTokenList());
+                tokenList = tokenDataManager.getTokens();
                 marketcapResult = combineObservable.getMarketcapResult();
                 setTokenLegalPrice(combineObservable.getAssetList(), combineObservable.getTokenList(), combineObservable
                         .getMarketcapResult());
                 view.hideLoading();
-            }, error -> {
-                view.hideLoading();
-            });
-        } else if (refreshObservable == null) {
-            refreshObservable = Observable.zip(balanceObservable, marketcapDataManager.getObservable(), (balanceResult, marketcapResult) -> CombineObservable
-                    .getInstance(balanceResult.getTokens(), tokenList, marketcapResult));
-            refreshObservable.subscribe(combineObservable -> {
-                if (!tokenList.isEmpty()) {
-                    marketcapResult = combineObservable.getMarketcapResult();
-                    setTokenLegalPrice(combineObservable.getAssetList(), combineObservable.getTokenList(), combineObservable
-                            .getMarketcapResult());
-                }
-                view.hideLoading();
-            }, error -> {
-                view.hideLoading();
-            });
-        }
+                unsubscribe();
+            }
+        });
+    }
+
+    private void initRefreshObservable() {
+        refreshObservable = Observable.zip(balanceObservable, marketcapDataManager.getObservable(), (balanceResult, marketcapResult) -> CombineObservable
+                .getInstance(balanceResult.getTokens(), tokenList, marketcapResult));
+        refreshObservable.subscribe(combineObservable -> {
+            if (!tokenList.isEmpty()) {
+                marketcapResult = combineObservable.getMarketcapResult();
+                setTokenLegalPrice(combineObservable.getAssetList(), combineObservable.getTokenList(), combineObservable
+                        .getMarketcapResult());
+            }
+        }, error -> {
+        });
     }
 
     public void destroy() {
