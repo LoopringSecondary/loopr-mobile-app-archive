@@ -10,7 +10,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public enum Currency {
-    CNY("CNY", "￥", Locale.CHINA), USD("USD", "$", Locale.US);
+    CNY("CNY", "￥", Locale.SIMPLIFIED_CHINESE), USD("USD", "$", Locale.ENGLISH);
 
     private String text;
 

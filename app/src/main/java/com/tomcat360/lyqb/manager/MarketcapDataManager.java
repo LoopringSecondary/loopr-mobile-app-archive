@@ -40,6 +40,10 @@ public class MarketcapDataManager {
         marketDataManager.updateMarketcap();
     }
 
+    public MarketcapResult getMarketcapResult() {
+        return marketcapResult;
+    }
+
     private void updateMarketcap() {
         if (this.observable == null) {
             this.observable = marketcapListener.start()

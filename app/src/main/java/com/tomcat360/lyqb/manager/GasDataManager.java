@@ -45,12 +45,15 @@ public class GasDataManager {
 
     private LoopringService loopringService = new LoopringService();
 
+    private static BalanceDataManager manager;
+
     private static GasDataManager gasDataManager = null;
 
     private GasDataManager(Context context) {
         this.context = context;
         this.loadGasLimitsFromJson();
         this.getGasPriceFromRelay();
+        manager = BalanceDataManager.getInstance(context);
     }
 
     public static GasDataManager getInstance(Context context) {
@@ -113,7 +116,7 @@ public class GasDataManager {
 
     public String getRecommendGasPriceString() {
         BigDecimal ether = Convert.toWei(this.recommendGasPrice, Convert.Unit.ETHER);
-        int precision = TokenDataManager.getInstance(context).getPrecisionBySymbol("ETH");
+        int precision = manager.getPrecisionBySymbol("ETH");
         return NumberUtils.format1(ether.doubleValue(), precision);
     }
 
@@ -127,7 +130,7 @@ public class GasDataManager {
 
     public String getCustomizeGasPriceString() {
         BigDecimal ether = Convert.toWei(this.customizeGasPrice, Convert.Unit.ETHER);
-        int precision = TokenDataManager.getInstance(context).getPrecisionBySymbol("ETH");
+        int precision = manager.getPrecisionBySymbol("ETH");
         return NumberUtils.format1(ether.doubleValue(), precision);
     }
 
@@ -138,7 +141,7 @@ public class GasDataManager {
 
     public String getGasPriceString() {
         double gasPrice = getGasPriceInWei();
-        int precision = TokenDataManager.getInstance(context).getPrecisionBySymbol("ETH");
+        int precision = manager.getPrecisionBySymbol("ETH");
         return NumberUtils.format1(gasPrice, precision);
     }
 
@@ -166,7 +169,7 @@ public class GasDataManager {
         String result = null;
         if (getGasLimitByType(type) != null) {
             Double amount = getGasPriceInWei() *getGasLimitByType(type);
-            int precision = TokenDataManager.getInstance(context).getPrecisionBySymbol("ETH");
+            int precision = manager.getPrecisionBySymbol("ETH");
             result = NumberUtils.format1(amount, precision);
         }
         return result;

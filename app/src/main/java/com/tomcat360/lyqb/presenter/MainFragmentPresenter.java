@@ -146,9 +146,9 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
                 asset.setValue(Double.parseDouble(String.format("%." + (String.valueOf(legalPrice.intValue())
                         .length() + 2) + "f", value)));
             }
-            if (legalPrice != 0 && asset.getValue() != 0) {
-                asset.setLegalValue(legalPrice * asset.getValue());
-                asset.setLegalStr(CurrencyUtil.format(context, asset.getLegalValue()));
+            if (legalPrice != 0 && asset.getBalance().doubleValue() != 0) {
+                asset.setLegalValue(legalPrice * asset.getBalance().doubleValue());
+                asset.setLegalShown(CurrencyUtil.format(context, asset.getLegalValue()));
             }
             tokenMap.put(asset.getSymbol(), asset);
         }

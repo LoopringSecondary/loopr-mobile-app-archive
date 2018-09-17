@@ -51,7 +51,7 @@ public class CurrencyActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        if (CurrencyUtil.getCurrency(getBaseContext()) == Currency.CNY) {
+        if (SPUtils.get(this, "coin", "CNY").equals("CNY")) {
             ivCnyCheck.setVisibility(View.VISIBLE);
             ivUsdCheck.setVisibility(View.GONE);
         } else {
@@ -69,13 +69,13 @@ public class CurrencyActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.ll_cny:
                 SPUtils.put(this, "isRecreate", true);
-                SPUtils.put(this, "coin", "¥");  //保存货币显示，
+                SPUtils.put(this, "coin", "CNY");  //保存货币显示，
                 ivCnyCheck.setVisibility(View.VISIBLE);
                 ivUsdCheck.setVisibility(View.GONE);
                 break;
             case R.id.ll_usd:
                 SPUtils.put(this, "isRecreate", true);
-                SPUtils.put(this, "coin", "$");
+                SPUtils.put(this, "coin", "USD");
                 ivCnyCheck.setVisibility(View.GONE);
                 ivUsdCheck.setVisibility(View.VISIBLE);
                 break;

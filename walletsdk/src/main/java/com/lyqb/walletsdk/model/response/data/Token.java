@@ -28,8 +28,6 @@ public class Token {
 
     private int imageResId;
 
-    private int precision = 4;
-
     @Override
     public boolean equals(Object o) {
         if (this == o)

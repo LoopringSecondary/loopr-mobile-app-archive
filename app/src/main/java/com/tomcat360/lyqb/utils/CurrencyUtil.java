@@ -16,19 +16,23 @@ import com.lyqb.walletsdk.model.Currency;
 public class CurrencyUtil {
 
     public static Currency getCurrency(Context context) {
-        Locale locale = context.getResources().getConfiguration().locale;
-        String currency = (String) SPUtils.get(context, "coin", NumberFormat.getCurrencyInstance(locale)
-                .getCurrency()
-                .getSymbol(locale));
+        Currency result = null;
+        String currency = (String) SPUtils.get(context, "coin", "CNY");
         if (currency != null) {
-            if (currency.equals("$")) {
-                return Currency.USD;
+            if (currency.equals("CNY")) {
+                result = Currency.CNY;
             } else {
-                return Currency.CNY;
+                result = Currency.USD;
             }
         } else {
-            return Currency.USD;
+            Locale locale = context.getResources().getConfiguration().locale;
+            if (locale == Locale.SIMPLIFIED_CHINESE) {
+                result = Currency.CNY;
+            } else if (locale == Locale.ENGLISH) {
+                result = Currency.USD;
+            }
         }
+        return result;
     }
 
     public static String format(Context context, double value) {

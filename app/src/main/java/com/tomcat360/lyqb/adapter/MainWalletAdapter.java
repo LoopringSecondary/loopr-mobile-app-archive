@@ -24,7 +24,7 @@ public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, Bas
         helper.setText(R.id.wallet_title, item.getSymbol());
         helper.setText(R.id.wallet_name, item.getSymbol());
         helper.setText(R.id.wallet_money, item.getValue() + "");
-        helper.setText(R.id.wallet_count, item.getLegalStr());
+        helper.setText(R.id.wallet_count, item.getLegalShown());
         //        if (SPUtils.get(mContext, "coin", "¥").equals("¥")) {
         //            helper.setText(R.id.wallet_count, "¥ " + item.getLegalValue());
         //        } else {

@@ -15,13 +15,12 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lyqb.walletsdk.model.response.data.Token;
-import com.lyqb.walletsdk.service.LoopringService;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class TokenDataManager {
+
+    private static TokenDataManager tokenDataManager = null;
 
     private List<Token> tokens;
 
@@ -31,14 +30,9 @@ public class TokenDataManager {
 
     private Observable<List<Token>> tokenObservable;
 
-    private LoopringService loopringService = new LoopringService();
-
-    private static TokenDataManager tokenDataManager = null;
-
     private TokenDataManager(Context context) {
         this.context = context;
         this.loadTokensFromJson();
-        this.loadTokensFromRelay();
     }
 
     public static TokenDataManager getInstance(Context context) {
@@ -70,29 +64,12 @@ public class TokenDataManager {
         this.whiteList = tokens;
     }
 
-    public void updateToken(List<Token> tokens) {
-        for (Token token : tokens) {
-            String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
-            int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
-            token.setImageResId(identifier);
-            if (!this.tokens.contains(token)) {
-                this.tokens.add(token);
-            }
-        }
-    }
-
-    private void loadTokensFromRelay() {
-        if (this.tokenObservable == null) {
-            this.tokenObservable = loopringService
-                    .getSupportedToken()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-            this.tokenObservable.subscribe(tokens -> updateToken(tokens), error -> {});
-        }
-    }
-
     public List<Token> getTokens() {
         return this.tokens;
+    }
+
+    public Observable<List<Token>> getTokenObservable() {
+        return tokenObservable;
     }
 
     public Token getTokenBySymbol(String symbol) {
@@ -100,16 +77,6 @@ public class TokenDataManager {
         for (Token token : this.tokens) {
             if (token.getSymbol().equalsIgnoreCase(symbol)) {
                 result = token;
-            }
-        }
-        return result;
-    }
-
-    public int getPrecisionBySymbol(String symbol) {
-        int result = 4;
-        for (Token token : this.tokens) {
-            if (token.getSymbol().equalsIgnoreCase(symbol)) {
-                result = token.getPrecision();
             }
         }
         return result;
@@ -125,8 +92,15 @@ public class TokenDataManager {
         return result;
     }
 
-
-    public Observable<List<Token>> getTokenObservable() {
-        return tokenObservable;
+    // support for main frament presenter
+    public void mergeTokens(List<Token> tokens) {
+        for (Token token : tokens) {
+            String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
+            int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
+            token.setImageResId(identifier);
+            if (!this.tokens.contains(token)) {
+                this.tokens.add(token);
+            }
+        }
     }
 }

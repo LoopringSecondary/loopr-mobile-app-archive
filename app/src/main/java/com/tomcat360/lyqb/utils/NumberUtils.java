@@ -72,18 +72,15 @@ public class NumberUtils {
         return new BigDecimal(fmt.format(d.doubleValue()));
     }
 
-    /**
-     * 截取一位小数
-     *
-     * @param d
-     * @return
-     * @Method: format2
-     * @Description: TODO(这里用一句话描述这个方法的作用)
-     */
+    public static int integralLength(double d) {
+        int integer = (int) d;
+        return new Integer(integer).toString().length();
+    }
 
     public static String format1(double d, int precision) {
         DecimalFormat formater = new DecimalFormat();
         formater.setMaximumFractionDigits(precision);
+        formater.setMinimumFractionDigits(precision);
         formater.setGroupingSize(0);
         formater.setRoundingMode(RoundingMode.FLOOR);
         return formater.format(d);
