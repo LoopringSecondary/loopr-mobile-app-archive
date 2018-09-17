@@ -15,12 +15,13 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lyqb.walletsdk.model.response.data.Token;
+import com.lyqb.walletsdk.service.LoopringService;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class TokenDataManager {
-
-    private static TokenDataManager tokenDataManager = null;
 
     private List<Token> tokens;
 
@@ -30,9 +31,14 @@ public class TokenDataManager {
 
     private Observable<List<Token>> tokenObservable;
 
+    private LoopringService loopringService = new LoopringService();
+
+    private static TokenDataManager tokenDataManager = null;
+
     private TokenDataManager(Context context) {
         this.context = context;
         this.loadTokensFromJson();
+        this.loadTokensFromRelay();
     }
 
     public static TokenDataManager getInstance(Context context) {
@@ -62,6 +68,15 @@ public class TokenDataManager {
         }.getType());
         this.tokens = tokens;
         this.whiteList = tokens;
+    }
+
+    private void loadTokensFromRelay() {
+        if (this.tokenObservable == null) {
+            this.tokenObservable = loopringService
+                    .getSupportedToken()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
     }
 
     public List<Token> getTokens() {
