@@ -8,12 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.TokenChooseAdapter;
+import com.tomcat360.lyqb.manager.BalanceDataManager;
 import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.TitleView;
 
 import butterknife.BindView;
@@ -62,20 +61,17 @@ public class SendListChooseActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        list = APP.getListAsset();
+        list = BalanceDataManager.getInstance(this).getAssets();
         mAdapter = new TokenChooseAdapter(R.layout.adapter_item_token_choose, list);
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                SPUtils.put(SendListChooseActivity.this, "send_choose", list.get(position).getSymbol());
-                //                SPUtils.put(SendListChooseActivity.this,"send_amount",list.get(position).getBalance().doubleValue());
-                Intent intent = new Intent();
-                intent.putExtra("symbol", list.get(position).getSymbol()); //
-                intent.putExtra("amount", list.get(position).getBalance().doubleValue()); //
-                setResult(1, intent);
-                finish();
-            }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            SPUtils.put(SendListChooseActivity.this, "send_choose", list.get(position).getSymbol());
+            //                SPUtils.put(SendListChooseActivity.this,"send_amount",list.get(position).getBalance().doubleValue());
+            Intent intent = new Intent();
+            intent.putExtra("symbol", list.get(position).getSymbol()); //
+            intent.putExtra("amount", list.get(position).getBalance().doubleValue()); //
+            setResult(1, intent);
+            finish();
         });
     }
 }

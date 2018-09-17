@@ -6,7 +6,6 @@
  */
 package com.tomcat360.lyqb.presenter;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,19 +19,16 @@ import com.lyqb.walletsdk.listener.BalanceListener;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.Token;
-import com.lyqb.walletsdk.util.UnitConverter;
 import com.tomcat360.lyqb.fragment.MainFragment;
+import com.tomcat360.lyqb.manager.BalanceDataManager;
 import com.tomcat360.lyqb.manager.MarketcapDataManager;
 import com.tomcat360.lyqb.manager.TokenDataManager;
 import com.tomcat360.lyqb.utils.CurrencyUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.view.APP;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
@@ -41,6 +37,8 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     private MarketcapDataManager marketcapDataManager;
 
     private TokenDataManager tokenDataManager;
+
+    private BalanceDataManager balanceDataManager;
 
     private BalanceListener balanceListener = new BalanceListener();
 
@@ -65,14 +63,16 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     public void initObservable() {
         listAsset.clear();
         marketcapResult = null;
-        if (balanceObservable == null)
+        if (balanceObservable == null) {
             initBalanceObservable();
-        else
+        } else {
             balanceListener.queryByOwner(address);
-        if (marketcapObservable == null)
+        }
+        if (marketcapObservable == null) {
             initMarketcapObservable();
-        else
+        } else {
             marketcapDataManager.refresh();
+        }
         if (createObservable == null) {
             initCreateObservable();
         } else if (refreshObservable == null) {
@@ -81,12 +81,12 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     }
 
     private void initBalanceObservable() {
-        balanceObservable = balanceListener.start()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        balanceObservable = balanceDataManager.getBalanceObservable();
         balanceObservable.subscribe(balanceResult -> {
             if (!tokenList.isEmpty() && marketcapResult != null && balanceResult.getTokens() != null) {
-                setTokenLegalPrice(balanceResult.getTokens(), tokenList, marketcapResult);
+                balanceDataManager.mergeAssets(balanceResult);
+                BalanceResult balance = balanceDataManager.getBalance();
+                setTokenLegalPrice(balance.getTokens(), tokenList, marketcapResult);
             }
         });
         balanceListener.queryByOwner(address);
@@ -154,6 +154,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         super(view, context);
         marketcapDataManager = MarketcapDataManager.getInstance(context);
         tokenDataManager = TokenDataManager.getInstance(context);
+        balanceDataManager = BalanceDataManager.getInstance(context);
     }
 
     private void setTokenLegalPrice(List<BalanceResult.Asset> assetList, List<Token> tokenList, MarketcapResult marketcapResult) {
@@ -162,23 +163,22 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         LyqbLogger.log(marketcapResult.toString());
         TokenDataManager manager = TokenDataManager.getInstance(context);
         for (BalanceResult.Asset asset : assetList) {
-            Token supportedToken = manager.getTokenBySymbol(asset.getSymbol());
-            Double legalPrice = getLegalPriceBySymbol(marketcapResult, asset.getSymbol());
-            if (asset.getSymbol().equals("ETH"))
-                asset.setValue(UnitConverter.weiToEth(asset.getBalance().toPlainString()).doubleValue());
-            if (!asset.getBalance().equals(BigDecimal.ZERO) && supportedToken != null && legalPrice != 0) {
-                double value = asset.getBalance().divide(supportedToken.getDecimals()).doubleValue();
-                asset.setValue(Double.parseDouble(String.format("%." + (String.valueOf(legalPrice.intValue())
-                        .length() + 2) + "f", value)));
-            }
-            if (legalPrice != 0 && asset.getBalance().doubleValue() != 0) {
-                asset.setLegalValue(legalPrice * asset.getBalance().doubleValue());
-                asset.setLegalShown(CurrencyUtil.format(context, asset.getLegalValue()));
-            }
+//            Token supportedToken = manager.getTokenBySymbol(asset.getSymbol());
+//            Double legalPrice = getLegalPriceBySymbol(marketcapResult, asset.getSymbol());
+//            if (asset.getSymbol().equals("ETH"))
+//                asset.setValue(UnitConverter.weiToEth(asset.getBalance().toPlainString()).doubleValue());
+//            if (!asset.getBalance().equals(BigDecimal.ZERO) && supportedToken != null && legalPrice != 0) {
+//                double value = asset.getBalance().divide(supportedToken.getDecimals()).doubleValue();
+//                asset.setValue(Double.parseDouble(String.format("%." + (String.valueOf(legalPrice.intValue())
+//                        .length() + 2) + "f", value)));
+//            }
+//            if (legalPrice != 0 && asset.getBalance().doubleValue() != 0) {
+//                asset.setLegalValue(legalPrice * asset.getBalance().doubleValue());
+//                asset.setLegalShown(CurrencyUtil.format(context, asset.getLegalValue()));
+//            }
             tokenMap.put(asset.getSymbol(), asset);
         }
         Collections.sort(assetList, (o1, o2) -> Double.compare(o2.getLegalValue(), o1.getLegalValue()));
-        APP.setListAsset(assetList);
         List<BalanceResult.Asset> listChooseAsset = new ArrayList<>();
         List<String> listChooseSymbol = SPUtils.getDataList(this.context, "choose_token");
         double amount = 0;

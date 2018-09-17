@@ -23,11 +23,11 @@ public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, Bas
 
     @Override
     protected void convert(BaseViewHolder helper, BalanceResult.Asset item) {
-        helper.setText(R.id.wallet_title, item.getSymbol());
-        helper.setText(R.id.wallet_name, item.getSymbol());
-        helper.setText(R.id.wallet_money, item.getValue() + "");
-        helper.setText(R.id.wallet_count, item.getLegalShown());
         Token token = TokenDataManager.getInstance(mContext).getTokenBySymbol(item.getSymbol());
+        helper.setText(R.id.wallet_title, item.getSymbol());
+        helper.setText(R.id.wallet_name, token.getSource());
+        helper.setText(R.id.wallet_money, item.getValueShown());
+        helper.setText(R.id.wallet_count, item.getLegalShown());
         helper.setImageResource(R.id.wallet_image, token.getImageResId());
     }
 }

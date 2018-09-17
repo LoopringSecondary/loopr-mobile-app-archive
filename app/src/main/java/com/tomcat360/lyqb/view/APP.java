@@ -1,8 +1,5 @@
 package com.tomcat360.lyqb.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -11,7 +8,6 @@ import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.lyqb.walletsdk.SDK;
-import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.tomcat360.lyqb.utils.AndroidUtils;
 import com.tomcat360.lyqb.utils.LanguageUtil;
 import com.tomcat360.lyqb.utils.SPUtils;
@@ -24,9 +20,6 @@ public class APP extends Application {
 
     private static APP mInstance;
 
-    private static List<BalanceResult.Asset> listAsset = new ArrayList<>();
-    //    public static LooprSocketService looprSocketService; // 创建全局的socket服务
-
     String appVersion;
 
     {
@@ -38,15 +31,6 @@ public class APP extends Application {
 
     public static APP getInstance() {
         return mInstance;
-    }
-
-    public static List<BalanceResult.Asset> getListAsset() {
-        return listAsset;
-    }
-
-    public static void setListAsset(List<BalanceResult.Asset> listAsset) {
-        APP.listAsset.clear();
-        APP.listAsset = listAsset;
     }
 
     @Override

@@ -16,12 +16,12 @@ import android.widget.ToggleButton;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.lyqb.walletsdk.model.response.data.BalanceResult;
+import com.lyqb.walletsdk.model.response.data.Token;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.TokenListAdapter;
+import com.tomcat360.lyqb.manager.TokenDataManager;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.SPUtils;
-import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.RecyclerViewBugLayoutManager;
 import com.tomcat360.lyqb.views.TitleView;
 
@@ -50,9 +50,9 @@ public class TokenListActivity extends BaseActivity {
 
     private TokenListAdapter mAdapter;
 
-    private List<BalanceResult.Asset> list;
+    private List<Token> list;
 
-    private List<BalanceResult.Asset> listSearch = new ArrayList<>();
+    private List<Token> listSearch = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +112,7 @@ public class TokenListActivity extends BaseActivity {
         LyqbLogger.log(choose_token.toString());
         RecyclerViewBugLayoutManager layoutManager = new RecyclerViewBugLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        list = APP.getListAsset();
+        list = TokenDataManager.getInstance(this).getTokens();
         mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, list, choose_token);
         recyclerView.setAdapter(mAdapter);
         /**

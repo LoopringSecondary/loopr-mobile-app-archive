@@ -37,13 +37,13 @@ import com.lyqb.walletsdk.service.LoopringService;
 import com.lyqb.walletsdk.util.UnitConverter;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.manager.BalanceDataManager;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.NumberUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
-import com.tomcat360.lyqb.view.APP;
 import com.tomcat360.lyqb.views.RangeSeekBar;
 import com.tomcat360.lyqb.views.TitleView;
 
@@ -233,7 +233,7 @@ public class SendActivity extends BaseActivity {
             }
         }).start();
         String sendChoose = (String) SPUtils.get(this, "send_choose", "LRC");
-        List<BalanceResult.Asset> listAsset = APP.getListAsset();
+        List<BalanceResult.Asset> listAsset = BalanceDataManager.getInstance(this).getAssets();
         for (int i = 0; i < listAsset.size(); i++) {
             if (listAsset.get(i).equals(sendChoose)) {
                 amountTotal = listAsset.get(i).getBalance().doubleValue();
