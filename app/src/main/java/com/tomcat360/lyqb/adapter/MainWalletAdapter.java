@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
+import com.lyqb.walletsdk.model.response.data.Token;
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.manager.TokenDataManager;
 import com.tomcat360.lyqb.presenter.BasePresenter;
 
 public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, BaseViewHolder> {
@@ -25,10 +27,7 @@ public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, Bas
         helper.setText(R.id.wallet_name, item.getSymbol());
         helper.setText(R.id.wallet_money, item.getValue() + "");
         helper.setText(R.id.wallet_count, item.getLegalShown());
-        //        if (SPUtils.get(mContext, "coin", "¥").equals("¥")) {
-        //            helper.setText(R.id.wallet_count, "¥ " + item.getLegalValue());
-        //        } else {
-        //            helper.setText(R.id.wallet_count, "$ " + item.getLegalValue());
-        //        }
+        Token token = TokenDataManager.getInstance(mContext).getTokenBySymbol(item.getSymbol());
+        helper.setImageResource(R.id.wallet_image, token.getImageResId());
     }
 }

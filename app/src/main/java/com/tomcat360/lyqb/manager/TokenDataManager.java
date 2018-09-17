@@ -107,15 +107,17 @@ public class TokenDataManager {
         return result;
     }
 
-    // support for main frament presenter
+    // support for main fragment presenter
     public void mergeTokens(List<Token> tokens) {
         for (Token token : tokens) {
-            String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
-            int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
-            token.setImageResId(identifier);
             if (!this.tokens.contains(token)) {
                 this.tokens.add(token);
             }
+        }
+        for (Token token : this.tokens) {
+            String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
+            int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
+            token.setImageResId(identifier);
         }
     }
 }
