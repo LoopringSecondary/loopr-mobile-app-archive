@@ -16,7 +16,10 @@ import com.lyqb.walletsdk.model.Currency;
 public class CurrencyUtil {
 
     public static Currency getCurrency(Context context) {
-        String currency = (String) SPUtils.get(context, "coin", "$");
+        Locale locale = context.getResources().getConfiguration().locale;
+        String currency = (String) SPUtils.get(context, "coin", NumberFormat.getCurrencyInstance(locale)
+                .getCurrency()
+                .getSymbol(locale));
         if (currency != null) {
             if (currency.equals("$")) {
                 return Currency.USD;

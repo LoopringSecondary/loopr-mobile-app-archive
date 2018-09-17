@@ -5,7 +5,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.lyqb.walletsdk.model.Currency;
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.utils.CurrencyUtil;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.views.TitleView;
 
@@ -49,7 +51,7 @@ public class CurrencyActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        if (SPUtils.get(this, "coin", "¥").equals("¥")) {
+        if (CurrencyUtil.getCurrency(getBaseContext()) == Currency.CNY) {
             ivCnyCheck.setVisibility(View.VISIBLE);
             ivUsdCheck.setVisibility(View.GONE);
         } else {

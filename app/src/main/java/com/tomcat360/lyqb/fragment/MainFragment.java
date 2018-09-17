@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.style.Circle;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -148,7 +149,7 @@ public class MainFragment extends BaseFragment {
             presenter.initObservable();
             refreshLayout.finishRefresh(true);
         });
-        progressBar.setIndeterminateDrawable(new Circle());
+        progressBar.setIndeterminateDrawable(new FadingCircle());
         return layout;
     }
 

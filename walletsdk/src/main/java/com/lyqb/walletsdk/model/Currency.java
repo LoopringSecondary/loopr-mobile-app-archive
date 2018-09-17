@@ -6,6 +6,7 @@
  */
 package com.lyqb.walletsdk.model;
 
+import java.text.NumberFormat;
 import java.util.Locale;
 
 public enum Currency {
@@ -31,6 +32,7 @@ public enum Currency {
         return symbol;
     }
 
-    public Locale getLocale() { return locale; }
-
+    public Locale getLocale() {
+        return locale;
+    }
 }
