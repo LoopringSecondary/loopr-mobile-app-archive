@@ -102,7 +102,7 @@ public class WalletDetailActivity extends BaseActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    @OnClick({R.id.btn_receive, R.id.btn_send})
+    @OnClick({R.id.btn_receive, R.id.btn_send, R.id.wallet_qrcode})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_receive:

@@ -202,7 +202,7 @@ public class MainFragment extends BaseFragment {
         presenter.destroy();
     }
 
-    @OnClick({R.id.ll_scan, R.id.ll_receive, R.id.ll_send, R.id.ll_trade, R.id.menu_scan, R.id.menu_add_assets, R.id.menu_wallet, R.id.menu_transaction, R.id.right_btn, R.id.ll_main})
+    @OnClick({R.id.ll_scan, R.id.ll_receive, R.id.ll_send, R.id.ll_trade, R.id.menu_scan, R.id.menu_add_assets, R.id.menu_wallet, R.id.menu_transaction, R.id.right_btn, R.id.ll_main, R.id.wallet_qrcode})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_scan:  //scan 按钮
@@ -216,6 +216,7 @@ public class MainFragment extends BaseFragment {
                 }
                 break;
             case R.id.ll_receive://receive 按钮
+            case R.id.wallet_qrcode:
                 if (showMenu) {
                     llMenu.setVisibility(View.GONE);
                     showMenu = false;
