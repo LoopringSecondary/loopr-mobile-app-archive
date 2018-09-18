@@ -2,18 +2,23 @@ package com.lyqb.walletsdk.service;
 
 import java.util.List;
 
+import android.util.Log;
+
 import org.web3j.utils.Numeric;
 import com.google.common.collect.Maps;
+import com.lyqb.walletsdk.Default;
 import com.lyqb.walletsdk.SDK;
 import com.lyqb.walletsdk.deligate.RpcDelegate;
 import com.lyqb.walletsdk.model.TransactionObject;
 import com.lyqb.walletsdk.model.request.RequestWrapper;
 import com.lyqb.walletsdk.model.request.param.BalanceParam;
+import com.lyqb.walletsdk.model.request.param.MarketcapParam;
 import com.lyqb.walletsdk.model.request.param.NonceParam;
 import com.lyqb.walletsdk.model.request.param.NotifyTransactionSubmitParam;
 import com.lyqb.walletsdk.model.request.param.UnlockWallet;
 import com.lyqb.walletsdk.model.response.ResponseWrapper;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
+import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.util.Assert;
 
@@ -52,7 +57,7 @@ public class LoopringService {
 
     public Observable<BalanceResult> getBalance(String owner) {
         BalanceParam param = BalanceParam.builder()
-                .delegateAddress("0x17233e07c67d086464fD408148c3ABB56245FA64")
+                .delegateAddress(Default.DELEGATE_ADDRESS)
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getBalance", param);
@@ -63,6 +68,13 @@ public class LoopringService {
         RequestWrapper request = new RequestWrapper("loopring_getSupportedTokens", Maps.newHashMap());
         Observable<ResponseWrapper<List<Token>>> observable = rpcDelegate.getSupportedTokens(request);
         return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<MarketcapResult> getMarketcap(String currency) {
+        RequestWrapper request = new RequestWrapper("loopring_getPriceQuote", MarketcapParam.builder()
+                .currency(currency)
+                .build());
+        return rpcDelegate.getMarketcap(request).map(ResponseWrapper::getResult);
     }
 
     public Observable<String> notifyTransactionSubmitted(String txHash, String nonce, String to, String valueInHex, String gasPriceInHex, String gasLimitInHex, String dataInHex, String from) {

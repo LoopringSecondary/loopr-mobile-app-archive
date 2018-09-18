@@ -28,7 +28,7 @@ public class CurrencyUtil {
             Locale locale = context.getResources().getConfiguration().locale;
             if (locale == Locale.SIMPLIFIED_CHINESE) {
                 result = Currency.CNY;
-            } else if (locale == Locale.ENGLISH) {
+            } else if (locale == Locale.US) {
                 result = Currency.USD;
             }
         }

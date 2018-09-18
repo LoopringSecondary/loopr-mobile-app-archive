@@ -9,7 +9,7 @@ package com.lyqb.walletsdk.model;
 import java.util.Locale;
 
 public enum Currency {
-    CNY("CNY", "￥", Locale.SIMPLIFIED_CHINESE), USD("USD", "$", Locale.ENGLISH);
+    CNY("CNY", "￥", Locale.SIMPLIFIED_CHINESE), USD("USD", "$", Locale.US);
 
     private String text;
 

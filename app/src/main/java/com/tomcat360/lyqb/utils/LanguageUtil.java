@@ -22,7 +22,7 @@ public class LanguageUtil {
                 configuration.locale = Locale.SIMPLIFIED_CHINESE;
                 break;
             case "en":
-                configuration.locale = Locale.ENGLISH;
+                configuration.locale = Locale.US;
                 break;
         }
         context.getResources().updateConfiguration(configuration, displayMetrics);

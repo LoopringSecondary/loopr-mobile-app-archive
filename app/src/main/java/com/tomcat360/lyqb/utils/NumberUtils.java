@@ -72,6 +72,15 @@ public class NumberUtils {
         return new BigDecimal(fmt.format(d.doubleValue()));
     }
 
+    public static int precision(double d) {
+        // 0.0000001 -> 0
+        // 0.01  -> 1
+        // 0.1 -> 2
+        // 100.34 -> 5
+        // regex
+        return 0;
+    }
+
     public static int integralLength(double d) {
         int integer = (int) d;
         return new Integer(integer).toString().length();

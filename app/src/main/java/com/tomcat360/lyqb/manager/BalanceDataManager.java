@@ -8,6 +8,7 @@ package com.tomcat360.lyqb.manager;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 import android.content.Context;
 
@@ -16,6 +17,7 @@ import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.tomcat360.lyqb.utils.CurrencyUtil;
 import com.tomcat360.lyqb.utils.NumberUtils;
+import com.tomcat360.lyqb.utils.SPUtils;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,6 +32,8 @@ public class BalanceDataManager {
     private Observable<BalanceResult> balanceObservable;
 
     private BalanceListener balanceListener;
+
+    private String address;
 
     private static TokenDataManager tokenManager;
 
@@ -51,6 +55,7 @@ public class BalanceDataManager {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
         }
+        balanceListener.queryByOwner(getAddress());
     }
 
     public static BalanceDataManager getInstance(Context context) {
@@ -65,7 +70,7 @@ public class BalanceDataManager {
     }
 
     public List<BalanceResult.Asset> getAssets() {
-        return balance.getTokens();
+        return balance != null ? balance.getTokens() : null;
     }
 
     public Observable<BalanceResult> getBalanceObservable() {
@@ -115,5 +120,15 @@ public class BalanceDataManager {
             }
         }
         this.balance = balance;
+    }
+
+    public Observable<BalanceResult> getObservable() {
+        return balanceObservable;
+    }
+
+    public String getAddress() {
+        if (address == null)
+            address = (String) SPUtils.get(Objects.requireNonNull(context), "address", "");
+        return address;
     }
 }

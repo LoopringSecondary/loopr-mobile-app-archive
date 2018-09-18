@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.ybq.android.spinkit.SpinKitView;
-import com.github.ybq.android.spinkit.style.Circle;
 import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
@@ -191,6 +190,7 @@ public class MainFragment extends BaseFragment {
         super.onResume();
         if (flag) {
             flag = false;
+            presenter.initPushService();
             presenter.initObservable();
         }
     }

@@ -31,20 +31,16 @@ public class MarketcapDataManager {
     public static MarketcapDataManager getInstance(Context context) {
         if (marketDataManager == null) {
             marketDataManager = new MarketcapDataManager(context);
-            marketDataManager.updateMarketcap();
+            marketDataManager.initMarketcap();
         }
         return marketDataManager;
-    }
-
-    public void refresh() {
-        marketDataManager.updateMarketcap();
     }
 
     public MarketcapResult getMarketcapResult() {
         return marketcapResult;
     }
 
-    private void updateMarketcap() {
+    private void initMarketcap() {
         if (this.observable == null) {
             this.observable = marketcapListener.start()
                     .subscribeOn(Schedulers.io())
@@ -60,5 +56,9 @@ public class MarketcapDataManager {
 
     public Observable<MarketcapResult> getObservable() {
         return observable;
+    }
+
+    public void setMarketcapResult(MarketcapResult marketcapResult) {
+        this.marketcapResult = marketcapResult;
     }
 }

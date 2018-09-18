@@ -8,6 +8,7 @@ import com.lyqb.walletsdk.SDK;
 import com.lyqb.walletsdk.model.request.RequestWrapper;
 import com.lyqb.walletsdk.model.response.ResponseWrapper;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
+import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.Token;
 
 import okhttp3.OkHttpClient;
@@ -48,6 +49,9 @@ public interface RpcDelegate {
 
     @POST(Default.RELAY_RPC_URL)
     Observable<ResponseWrapper<List<Token>>> getSupportedTokens(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<MarketcapResult>> getMarketcap(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
     Observable<ResponseWrapper<String>> notifyTransactionSubmitted(@Body RequestWrapper request);
