@@ -25,6 +25,7 @@ import com.robinhood.ticker.TickerView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.ActivityScanerCode;
+import com.tomcat360.lyqb.activity.ManageWalletActivity;
 import com.tomcat360.lyqb.activity.ReceiveActivity;
 import com.tomcat360.lyqb.activity.SendActivity;
 import com.tomcat360.lyqb.activity.TokenListActivity;
@@ -100,9 +101,6 @@ public class MainFragment extends BaseFragment {
 
     @BindView(R.id.menu_wallet)
     LinearLayout menuWallet;
-
-    @BindView(R.id.menu_transaction)
-    LinearLayout menuTransaction;
 
     @BindView(R.id.ll_menu)
     LinearLayout llMenu;
@@ -193,6 +191,10 @@ public class MainFragment extends BaseFragment {
             presenter.initPushService();
             presenter.initObservable();
         }
+        if (showMenu) {
+            showMenu = false;
+            llMenu.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -202,7 +204,7 @@ public class MainFragment extends BaseFragment {
         presenter.destroy();
     }
 
-    @OnClick({R.id.ll_scan, R.id.ll_receive, R.id.ll_send, R.id.ll_trade, R.id.menu_scan, R.id.menu_add_assets, R.id.menu_wallet, R.id.menu_transaction, R.id.right_btn, R.id.ll_main, R.id.wallet_qrcode})
+    @OnClick({R.id.ll_scan, R.id.ll_receive, R.id.ll_send, R.id.ll_trade, R.id.menu_scan, R.id.menu_add_assets, R.id.menu_wallet, R.id.right_btn, R.id.ll_main, R.id.wallet_qrcode})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_scan:  //scan 按钮
@@ -251,8 +253,7 @@ public class MainFragment extends BaseFragment {
                 getOperation().forward(TokenListActivity.class);
                 break;
             case R.id.menu_wallet:
-                break;
-            case R.id.menu_transaction:
+                getOperation().forward(ManageWalletActivity.class);
                 break;
         }
     }
@@ -279,17 +280,12 @@ public class MainFragment extends BaseFragment {
     public MainWalletAdapter getmAdapter() {
         return mAdapter;
     }
-    //
-    //    public void setMoneyValue(BigDecimal moneyValue) {
-    //        this.moneyValue = moneyValue;
-    //    }
 
     public void setWalletCount(String text) {
         if (walletCount != null)
             walletCount.setText(text);
     }
 
-    //
     public void showLoading() {
         if (progressBar != null)
             progressBar.setVisibility(View.VISIBLE);

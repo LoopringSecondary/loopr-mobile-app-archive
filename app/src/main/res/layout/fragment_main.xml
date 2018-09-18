@@ -292,28 +292,6 @@
                     android:textSize="@dimen/normal14Text"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/menu_transaction"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="20dp"
-                    android:src="@mipmap/icon_trades"/>
-
-                <TextView
-                    style="@style/WrapWrap"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/transaction"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/normal14Text"/>
-            </LinearLayout>
         </LinearLayout>
 
         <com.github.ybq.android.spinkit.SpinKitView
