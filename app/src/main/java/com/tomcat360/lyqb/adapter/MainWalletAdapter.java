@@ -28,6 +28,14 @@ public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, Bas
         helper.setText(R.id.wallet_name, token.getSource());
         helper.setText(R.id.wallet_money, item.getValueShown());
         helper.setText(R.id.wallet_count, item.getLegalShown());
-        helper.setImageResource(R.id.wallet_image, token.getImageResId());
+        if (token.getImageResId() == 0) {
+            helper.setVisible(R.id.wallet_symbol, true);
+            helper.setVisible(R.id.wallet_image, false);
+            helper.setText(R.id.wallet_symbol, item.getSymbol());
+        } else {
+            helper.setVisible(R.id.wallet_symbol, false);
+            helper.setVisible(R.id.wallet_image, true);
+            helper.setImageResource(R.id.wallet_image, token.getImageResId());
+        }
     }
 }

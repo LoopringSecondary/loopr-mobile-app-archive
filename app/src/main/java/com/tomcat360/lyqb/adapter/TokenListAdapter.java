@@ -26,7 +26,16 @@ public class TokenListAdapter extends BaseQuickAdapter<Token, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, Token item) {
         helper.setText(R.id.wallet_title, item.getSymbol());
         helper.setText(R.id.wallet_name, item.getSource());
-        helper.setImageResource(R.id.wallet_image, item.getImageResId());
+
+        if (item.getImageResId() == 0) {
+            helper.setVisible(R.id.wallet_symbol, true);
+            helper.setVisible(R.id.wallet_image, false);
+            helper.setText(R.id.wallet_symbol, item.getSymbol());
+        } else {
+            helper.setVisible(R.id.wallet_symbol, false);
+            helper.setVisible(R.id.wallet_image, true);
+            helper.setImageResource(R.id.wallet_image, item.getImageResId());
+        }
         Switch aSwitch = helper.getView(R.id.s_v);
         aSwitch.setTag(item.getSymbol());
         if (choose_token.contains(item.getSymbol())) {

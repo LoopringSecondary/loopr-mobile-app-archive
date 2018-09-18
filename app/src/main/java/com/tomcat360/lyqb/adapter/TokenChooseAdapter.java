@@ -28,6 +28,15 @@ public class TokenChooseAdapter extends BaseQuickAdapter<Token, BaseViewHolder> 
         }
         helper.setText(R.id.wallet_name, item.getSymbol());
         helper.setText(R.id.wallet_amount, item.getSource());
-        helper.setImageResource(R.id.wallet_image, item.getImageResId());
+
+        if (item.getImageResId() == 0) {
+            helper.setVisible(R.id.wallet_symbol, true);
+            helper.setVisible(R.id.wallet_image, false);
+            helper.setText(R.id.wallet_symbol, item.getSymbol());
+        } else {
+            helper.setVisible(R.id.wallet_symbol, false);
+            helper.setVisible(R.id.wallet_image, true);
+            helper.setImageResource(R.id.wallet_image, item.getImageResId());
+        }
     }
 }

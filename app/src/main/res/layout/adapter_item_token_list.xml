@@ -16,6 +16,19 @@
         android:layout_marginLeft="20dp"
         android:src="@mipmap/icon_trades"/>
 
+    <TextView
+        android:id="@+id/wallet_symbol"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/stroke_token_bg"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/colorToken"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:textSize="12sp"/>
+
     <RelativeLayout
         style="@style/WrapMatch"
         android:layout_marginLeft="16dp"
