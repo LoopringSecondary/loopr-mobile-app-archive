@@ -5,16 +5,18 @@
                                                    android:layout_height="match_parent"
                                                    android:background="@color/colorLine">
 
+
     <com.scwang.smartrefresh.header.WaterDropHeader
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="40dp"/>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:background="@color/colorPrimary"
-                 android:orientation="vertical">
+    <com.tomcat360.lyqb.layout.ChildClickableFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                         android:id="@+id/frame_layout"
+                                                         android:layout_width="match_parent"
+                                                         android:layout_height="match_parent"
+                                                         android:background="@color/colorPrimary"
+                                                         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -75,8 +77,8 @@
                     android:layout_below="@+id/wallet_count"
                     android:layout_marginTop="11dp"
                     android:gravity="center"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="30dp">
+                    android:paddingEnd="30dp"
+                    android:paddingStart="50dp">
 
                     <TextView
                         android:id="@+id/wallet_address"
@@ -300,5 +302,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
-    </FrameLayout>
+
+    </com.tomcat360.lyqb.layout.ChildClickableFrameLayout>
+
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

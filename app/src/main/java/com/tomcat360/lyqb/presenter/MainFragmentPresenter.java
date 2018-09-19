@@ -71,11 +71,12 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
                     @Override
                     public void onCompleted() {
                         view.hideLoading();
+                        view.finishRefresh();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        view.hideLoading();
+                        view.showToast("网络连接不可用");
                     }
 
                     @Override
@@ -84,7 +85,6 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
                         tokenDataManager.mergeTokens(combineObservable.getTokenList());
                         balanceDataManager.mergeAssets(combineObservable.getBalanceResult());
                         setTokenLegalPrice();
-                        view.hideLoading();
                         unsubscribe();
                     }
                 });

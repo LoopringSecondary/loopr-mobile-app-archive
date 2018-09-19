@@ -31,6 +31,7 @@ import com.tomcat360.lyqb.activity.SendActivity;
 import com.tomcat360.lyqb.activity.TokenListActivity;
 import com.tomcat360.lyqb.activity.WalletDetailActivity;
 import com.tomcat360.lyqb.adapter.MainWalletAdapter;
+import com.tomcat360.lyqb.layout.ChildClickableFrameLayout;
 import com.tomcat360.lyqb.presenter.MainFragmentPresenter;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
@@ -111,6 +112,9 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.spin_kit)
     SpinKitView progressBar;
 
+    @BindView(R.id.frame_layout)
+    ChildClickableFrameLayout frameLayout;
+
     @SuppressLint("HandlerLeak")
     Handler handlerBalance = new Handler() {
         @Override
@@ -142,9 +146,10 @@ public class MainFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, layout);
         walletCount.setAnimationInterpolator(new OvershootInterpolator());
         walletCount.setCharacterLists(TickerUtils.provideNumberList());
+        frameLayout.setChildClickable(false);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
+            frameLayout.setChildClickable(false);
             presenter.initObservable();
-            refreshLayout.finishRefresh(true);
         });
         progressBar.setIndeterminateDrawable(new FadingCircle());
         return layout;
@@ -286,13 +291,13 @@ public class MainFragment extends BaseFragment {
             walletCount.setText(text);
     }
 
-    public void showLoading() {
-        if (progressBar != null)
-            progressBar.setVisibility(View.VISIBLE);
-    }
-
     public void hideLoading() {
         if (progressBar != null)
             progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    public void finishRefresh() {
+        frameLayout.setChildClickable(true);
+        refreshLayout.finishRefresh(true);
     }
 }
