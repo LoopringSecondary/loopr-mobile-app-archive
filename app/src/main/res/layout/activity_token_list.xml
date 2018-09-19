@@ -45,6 +45,7 @@
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"
             android:hint="@string/search"
+            android:textColorHint="@color/colorSixText"
             android:inputType="textEmailAddress"
             android:paddingLeft="8dp"
             android:singleLine="true"
