@@ -6,18 +6,41 @@
  */
 package com.lyqb.walletsdk.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum TxType {
-    APPROVED("approve"),
-    SEND("send"),
-    RECEIVED("receive"),
-    SOLD("sell"),
-    BOUGHT("buy"),
-    CONVERT_INCOME("convert_income"),
-    CONVERT_OUTCOME("convert_outcome"),
-    CANCEL("cancel_order"),
-    CUTOFF("cutoff"),
-    UNSUPPORTED("unsupported_contract"),
-    OTHER("unknown");
+    @SerializedName("approve")
+    APPROVE("Approve"),
+
+    @SerializedName("send")
+    SEND("Send"),
+
+    @SerializedName("receive")
+    RECEIVE("Receive"),
+
+    @SerializedName("sell")
+    SELL("Sell"),
+
+    @SerializedName("buy")
+    BUY("Buy"),
+
+    @SerializedName("convert_income")
+    CONVERT_INCOME("Convert"),
+
+    @SerializedName("convert_outcome")
+    CONVERT_OUTCOME("Convert"),
+
+    @SerializedName("cancel_order")
+    CANCEL("Cancel"),
+
+    @SerializedName("cutoff")
+    CUTOFF("Cancel"),
+
+    @SerializedName("unsupported_contract")
+    UNSUPPORTED("Unsupported"),
+
+    @SerializedName("unknown")
+    OTHER("Unknown");
 
     private String description;
 
@@ -27,14 +50,5 @@ public enum TxType {
 
     public String getDescription() {
         return description;
-    }
-
-    public static TxType fromValue(String value) {
-        for (TxType t : TxType.values()) {
-            if (t.description.equalsIgnoreCase(value)) {
-                return t;
-            }
-        }
-        return null;
     }
 }

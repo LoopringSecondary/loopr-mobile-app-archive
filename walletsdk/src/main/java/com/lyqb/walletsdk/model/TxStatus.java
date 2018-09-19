@@ -6,11 +6,20 @@
  */
 package com.lyqb.walletsdk.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum TxStatus {
-    PENDING("pending"),
-    SUCCESS("success"),
-    FAILED("failed"),
-    OTHER("other");
+    @SerializedName("pending")
+    PENDING("Pending"),
+
+    @SerializedName("success")
+    SUCCESS("Success"),
+
+    @SerializedName("failed")
+    FAILED("Failed"),
+
+    @SerializedName("unknown")
+    OTHER("Other");
 
     private String description;
 
@@ -20,14 +29,5 @@ public enum TxStatus {
 
     public String getDescription() {
         return description;
-    }
-
-    public static TxStatus fromValue(String value) {
-        for (TxStatus t : TxStatus.values()) {
-            if (t.description.equalsIgnoreCase(value)) {
-                return t;
-            }
-        }
-        return null;
     }
 }

@@ -61,4 +61,15 @@ public class MarketcapDataManager {
     public void setMarketcapResult(MarketcapResult marketcapResult) {
         this.marketcapResult = marketcapResult;
     }
+
+    public Double getPriceBySymbol(String symbol) {
+        Double result = null;
+        for (MarketcapResult.Token token : marketcapResult.getTokens()) {
+            if (token.getSymbol().equalsIgnoreCase(symbol)) {
+                result = token.getPrice();
+                break;
+            }
+        }
+        return result;
+    }
 }

@@ -3,9 +3,7 @@ package com.lyqb.walletsdk.model.response.data;
 import com.lyqb.walletsdk.model.TxStatus;
 import com.lyqb.walletsdk.model.TxType;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 public class Transaction {
@@ -20,23 +18,21 @@ public class Transaction {
 
     private long updateTime;
 
-    private String hash;
+    private String txHash;
+
+    private String symbol;
 
     private long blockNumber;
 
     private String value;
 
-    @Setter(AccessLevel.NONE)
     private TxType type;
 
-    @Setter(AccessLevel.NONE)
     private TxStatus status;
 
-    public void setType(String type) {
-        this.type = TxType.fromValue(type);
-    }
+    private String gas_price;
 
-    public void setStatus(String status) {
-        this.status = TxStatus.fromValue(status);
-    }
+    private String gas_limit;
+
+    private String gas_used;
 }

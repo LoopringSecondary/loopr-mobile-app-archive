@@ -27,9 +27,13 @@
     <string name="unlock">Unlock</string>
     <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>
     <string name="scan">Scan</string>
-    <string name="receive">Receive</string>
     <string name="receive_code">Receiven Code</string>
     <string name="send">Send</string>
+    <string name="receive">Receive</string>
+    <string name="buy">Buy</string>
+    <string name="sell">Sell</string>
+    <string name="approve">Approve token to trade</string>
+    <string name="cancelled">Cancel Order</string>
     <string name="trade">Trade</string>
     <string name="copy_address">Copy Address</string>
     <string name="save_address">Save to Album</string>

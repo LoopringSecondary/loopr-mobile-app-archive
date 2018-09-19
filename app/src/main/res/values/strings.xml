@@ -27,9 +27,13 @@
     <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>
     <string name="unlock">Unlock</string>
     <string name="scan">扫一扫</string>
-    <string name="receive">收款</string>
     <string name="receive_code">转入二维码</string>
     <string name="send">转出</string>
+    <string name="receive">收款</string>
+    <string name="buy">买入</string>
+    <string name="sell">卖出</string>
+    <string name="approve">授权进行交易</string>
+    <string name="cancelled">取消订单</string>
     <string name="trade">交易</string>
     <string name="copy_address">复制地址</string>
     <string name="save_address">保存地址</string>

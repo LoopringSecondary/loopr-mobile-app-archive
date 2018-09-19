@@ -8,16 +8,16 @@ package com.tomcat360.lyqb.manager;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 
 import android.content.Context;
 
+import org.web3j.utils.Convert;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.service.LoopringService;
-import com.tomcat360.lyqb.utils.SPUtils;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -107,6 +107,21 @@ public class TokenDataManager {
             }
         }
         return result;
+    }
+
+    public Double getDoubleFromWei(String symbol, BigDecimal valueInWei) {
+        Double result = null;
+        Token token = getTokenBySymbol(symbol);
+        if (token != null) {
+            BigDecimal decimals = token.getDecimals();
+            result = valueInWei.divide(decimals).doubleValue();
+        }
+        return result;
+    }
+
+    public Double getDoubleFromWei(String symbol, String valueInWei) {
+        BigDecimal bigDecimal = Convert.toWei(valueInWei, Convert.Unit.WEI);
+        return getDoubleFromWei(symbol, bigDecimal);
     }
 
     // support for main fragment presenter

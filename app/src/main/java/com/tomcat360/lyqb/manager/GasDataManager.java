@@ -86,8 +86,7 @@ public class GasDataManager {
     // get recommend gas price through relay
     private void getGasPriceFromRelay() {
         if (this.gasObservable == null) {
-            this.gasObservable = loopringService
-                    .getEstimateGasPrice()
+            this.gasObservable = loopringService.getEstimateGasPrice()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(str -> Convert.fromWei(str, Convert.Unit.WEI));
@@ -165,10 +164,19 @@ public class GasDataManager {
         return result;
     }
 
+    public String getGasAmountInETH(String gasLimit, String gasPriceInWei) {
+        BigDecimal gasPriceInETH = Convert.fromWei(gasPriceInWei, Convert.Unit.ETHER);
+        double limit = Double.parseDouble(gasLimit);
+        double price = gasPriceInETH.doubleValue();
+        int precision = manager.getPrecisionBySymbol("ETH");
+        String result = NumberUtils.format1(limit * price, precision);
+        return result;
+    }
+
     public String getGasAmountString(String type) {
         String result = null;
         if (getGasLimitByType(type) != null) {
-            Double amount = getGasPriceInWei() *getGasLimitByType(type);
+            Double amount = getGasPriceInWei() * getGasLimitByType(type);
             int precision = manager.getPrecisionBySymbol("ETH");
             result = NumberUtils.format1(amount, precision);
         }
@@ -177,7 +185,6 @@ public class GasDataManager {
 
     @SuppressLint("DefaultLocale")
     public String description(String type) {
-        return String.format("GasPrice: %s * GasLimit: %6d = %s ETH",
-                getGasPriceString(), getGasLimitByType(type), getGasAmountString(type));
+        return String.format("GasPrice: %s * GasLimit: %6d = %s ETH", getGasPriceString(), getGasLimitByType(type), getGasAmountString(type));
     }
 }
