@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.lyqb.walletsdk.model.TxStatus;
+import com.lyqb.walletsdk.model.TxType;
 import com.lyqb.walletsdk.model.response.data.Transaction;
 import com.lyqb.walletsdk.util.UnitConverter;
 import com.tomcat360.lyqb.R;
@@ -31,7 +33,7 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
         String amount = value.toPlainString().length() > 8 ? value.toPlainString()
                 .substring(0, 8) : value.toPlainString();
         String coin = (String) SPUtils.get(mContext, "coin", "CNY");
-        if (item.getType().equals("send")) {
+        if (item.getType() == TxType.SEND) {
             helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.send) + " " + symbol);
             helper.setText(R.id.wallet_money, "-" + amount + " " + symbol);
         } else {
@@ -39,11 +41,15 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
             helper.setText(R.id.wallet_money, "+" + amount + " " + symbol);
         }
         helper.setText(R.id.wallet_name, DateUtil.timeStampToDateTime3(item.getCreateTime()));
-        if (item.getStatus().equals("success")) {
+        if (item.getStatus() == TxStatus.SUCCESS) {
             helper.setImageResource(R.id.iv_status, R.mipmap.icon_warning);
         } else {
             helper.setImageResource(R.id.iv_status, R.mipmap.icon_warning_lg);
         }
         helper.setText(R.id.wallet_count, coin + amount);
+
+        String image = String.format("icon_tx_%s", item.getType());
+        int identifier = mContext.getResources().getIdentifier(image, "mipmap", mContext.getPackageName());
+        helper.setImageResource(R.id.wallet_image, identifier);
     }
 }

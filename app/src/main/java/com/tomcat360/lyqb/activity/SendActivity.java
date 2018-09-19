@@ -238,7 +238,7 @@ public class SendActivity extends BaseActivity {
         String sendChoose = (String) SPUtils.get(this, "send_choose", "LRC");
         List<BalanceResult.Asset> listAsset = BalanceDataManager.getInstance(this).getAssets();
         for (int i = 0; i < listAsset.size(); i++) {
-            if (listAsset.get(i).equals(sendChoose)) {
+            if (listAsset.get(i).getSymbol().equalsIgnoreCase(sendChoose)) {
                 amountTotal = listAsset.get(i).getBalance().doubleValue();
             }
         }

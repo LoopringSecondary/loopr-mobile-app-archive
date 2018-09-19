@@ -1,6 +1,11 @@
 package com.lyqb.walletsdk.model.response.data;
 
+import com.lyqb.walletsdk.model.TxStatus;
+import com.lyqb.walletsdk.model.TxType;
+
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 public class Transaction {
@@ -21,7 +26,17 @@ public class Transaction {
 
     private String value;
 
-    private String type;
+    @Setter(AccessLevel.NONE)
+    private TxType type;
 
-    private String status;
+    @Setter(AccessLevel.NONE)
+    private TxStatus status;
+
+    public void setType(String type) {
+        this.type = TxType.fromValue(type);
+    }
+
+    public void setStatus(String status) {
+        this.status = TxStatus.fromValue(status);
+    }
 }

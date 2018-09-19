@@ -148,7 +148,7 @@ public class WalletAllFragment extends BaseFragment {
         String amount = value.toPlainString().length() > 8 ? value.toPlainString()
                 .substring(0, 8) : value.toPlainString();
         receiveAmount.setText(amount + " " + symbol);
-        receiveStatus.setText(transaction.getStatus());
+        receiveStatus.setText(transaction.getStatus().getDescription());
         receiveTo.setText(transaction.getTo());
         receiveForm.setText(transaction.getFrom());
         receiveDate.setText(DateUtil.timeStampToDateTime3(transaction.getCreateTime()));
