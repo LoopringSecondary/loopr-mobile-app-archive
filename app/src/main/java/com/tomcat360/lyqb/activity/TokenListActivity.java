@@ -3,13 +3,14 @@ package com.tomcat360.lyqb.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -78,12 +79,12 @@ public class TokenListActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                LyqbLogger.log(s.toString() + "   " + s);
+//                LyqbLogger.log(s.toString() + "   " + s);
                 listSearch.clear();
                 for (int i = 0; i < list.size(); i++) {
                     if (list.get(i).getSymbol().contains(s.toString().toUpperCase())) {
                         listSearch.add(list.get(i));
-                        LyqbLogger.log(listSearch.toString());
+//                        LyqbLogger.log(listSearch.toString());
                     }
                 }
                 mAdapter.setNewData(listSearch);
@@ -118,10 +119,10 @@ public class TokenListActivity extends BaseActivity {
                 SwitchButton aSwitch = view.findViewById(R.id.s_v);
                 if (aSwitch.isChecked()) {
                     aSwitch.setChecked(false);
-                    choose_token.remove(list.get(position).getSymbol());
+                    choose_token.remove(aSwitch.getTag().toString());
                 } else {
                     aSwitch.setChecked(true);
-                    choose_token.add(list.get(position).getSymbol());
+                    choose_token.add(aSwitch.getTag().toString());
                 }
                 mAdapter.setChoose_token(choose_token);
                 SPUtils.setDataList(TokenListActivity.this, "choose_token", choose_token);
@@ -133,6 +134,8 @@ public class TokenListActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cancel_text:
+                ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(this.getCurrentFocus()
+                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 llSearch.setVisibility(View.GONE);
                 etSearch.setText("");
                 mAdapter.setNewData(list);

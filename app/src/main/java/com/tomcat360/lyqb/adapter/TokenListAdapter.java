@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -42,12 +43,12 @@ public class TokenListAdapter extends BaseQuickAdapter<Token, BaseViewHolder> {
         if (Arrays.asList("ETH", "WETH", "LRC").contains(item.getSymbol())) {
             aSwitch.setVisibility(View.GONE);
         } else {
-            aSwitch.setVisibility(View.VISIBLE);
             if (choose_token.contains(item.getSymbol()) && !aSwitch.isChecked()) {
                 aSwitch.setChecked(true);
             } else if (!choose_token.contains(item.getSymbol()) && aSwitch.isChecked()) {
                 aSwitch.setChecked(false);
             }
+            aSwitch.setVisibility(View.VISIBLE);
         }
     }
 

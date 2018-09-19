@@ -20,13 +20,22 @@
         android:orientation="horizontal"
         android:visibility="gone">
 
+        <ImageView
+            android:id="@+id/left_btn"
+            style="@style/Text.Title_Button"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_gravity="center_vertical"
+            android:minWidth="60dip"
+            android:src="@mipmap/title_back"/>
 
         <EditText
             android:id="@+id/et_search"
             android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:background="@drawable/radius_bg_38"
             android:digits="@string/pwd_dig"
@@ -40,6 +49,7 @@
             android:paddingLeft="8dp"
             android:singleLine="true"
             android:textColor="@color/colorTitleTv"
+            android:textColorHint="@color/colorSixText"
             android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/normal14Text"/>
 
