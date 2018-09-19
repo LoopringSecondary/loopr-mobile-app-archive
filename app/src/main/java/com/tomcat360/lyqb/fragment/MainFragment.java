@@ -148,6 +148,7 @@ public class MainFragment extends BaseFragment {
         walletCount.setCharacterLists(TickerUtils.provideNumberList());
         frameLayout.setChildClickable(false);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
+            presenter.handleNetworkError();
             frameLayout.setChildClickable(false);
             presenter.initObservable();
         });
@@ -163,6 +164,7 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void initPresenter() {
         this.presenter = new MainFragmentPresenter(this, this.getContext());
+        presenter.initNetworkListener();
     }
 
     @Override

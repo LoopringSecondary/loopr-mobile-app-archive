@@ -89,6 +89,6 @@
     <string name="status">Status</string>
     <string name="id">ID</string>
     <string name="date">Date</string>
-
+    <string name="network_error">network unavailable</string>
 
 </resources>

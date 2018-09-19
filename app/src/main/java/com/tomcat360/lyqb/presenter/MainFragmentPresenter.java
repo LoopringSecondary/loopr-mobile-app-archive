@@ -14,18 +14,25 @@ import java.util.Map;
 import java.util.Objects;
 
 import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 
+import com.lyqb.walletsdk.model.Network;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.service.LoopringService;
+import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.fragment.MainFragment;
 import com.tomcat360.lyqb.manager.BalanceDataManager;
 import com.tomcat360.lyqb.manager.MarketcapDataManager;
 import com.tomcat360.lyqb.manager.TokenDataManager;
+import com.tomcat360.lyqb.receiver.NetworkStateReceiver;
 import com.tomcat360.lyqb.utils.CurrencyUtil;
 import com.tomcat360.lyqb.utils.LyqbLogger;
+import com.tomcat360.lyqb.utils.NetworkUtil;
 import com.tomcat360.lyqb.utils.SPUtils;
+import com.tomcat360.lyqb.utils.ToastUtils;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -54,6 +61,8 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
     private static Observable<BalanceResult> balanceObservable;
 
+    private MainNetworkReceiver mainNetworkReceiver;
+
     public void initObservable() {
         LyqbLogger.log(getAddress());
         if (loopringService == null)
@@ -76,7 +85,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
                     @Override
                     public void onError(Throwable e) {
-                        view.showToast("网络连接不可用");
+                        handleNetworkError();
                     }
 
                     @Override
@@ -112,6 +121,19 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
                 }
             }, error -> {
             });
+        }
+    }
+
+    public void initNetworkListener() {
+        mainNetworkReceiver = MainNetworkReceiver.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        context.registerReceiver(mainNetworkReceiver, intentFilter);
+    }
+
+    public void handleNetworkError() {
+        if (NetworkUtil.getNetWorkState(context) == Network.NETWORK_NONE) {
+            ToastUtils.toast(context.getResources().getString(R.string.network_error));
+            view.finishRefresh();
         }
     }
 
@@ -221,6 +243,39 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
         public void setMarketcapResult(MarketcapResult marketcapResult) {
             this.marketcapResult = marketcapResult;
+        }
+    }
+
+    private static class MainNetworkReceiver extends NetworkStateReceiver {
+
+        private MainFragmentPresenter presenter;
+
+        private static MainNetworkReceiver mainNetworkReceiver;
+
+        public static MainNetworkReceiver getInstance(MainFragmentPresenter presenter) {
+            if (mainNetworkReceiver == null) {
+                return new MainNetworkReceiver(presenter);
+            }
+            return mainNetworkReceiver;
+        }
+
+        private MainNetworkReceiver(MainFragmentPresenter presenter) {
+            this.presenter = presenter;
+        }
+
+        @Override
+        public void doNetWorkNone() {
+            ToastUtils.toast(presenter.context.getResources().getString(R.string.network_error));
+        }
+
+        @Override
+        public void doNetWorkWifi() {
+            presenter.initObservable();
+        }
+
+        @Override
+        public void doNetWorkMobile() {
+            doNetWorkWifi();
         }
     }
 }
