@@ -8,14 +8,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.kyleduo.switchbutton.SwitchButton;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.TokenListAdapter;
@@ -114,18 +115,15 @@ public class TokenListActivity extends BaseActivity {
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Switch aSwitch = view.findViewById(R.id.s_v);
+                SwitchButton aSwitch = view.findViewById(R.id.s_v);
                 if (aSwitch.isChecked()) {
-                    //                    aSwitch.setChecked(false);
-                    aSwitch.setSwitchTextAppearance(TokenListActivity.this, R.style.s_false);
+                    aSwitch.setChecked(false);
                     choose_token.remove(list.get(position).getSymbol());
                 } else {
-                    //                    aSwitch.setChecked(true);
-                    aSwitch.setSwitchTextAppearance(TokenListActivity.this, R.style.s_true);
+                    aSwitch.setChecked(true);
                     choose_token.add(list.get(position).getSymbol());
                 }
                 mAdapter.setChoose_token(choose_token);
-                mAdapter.notifyDataSetChanged();
                 SPUtils.setDataList(TokenListActivity.this, "choose_token", choose_token);
             }
         });

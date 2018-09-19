@@ -191,12 +191,18 @@ public class MainFragment extends BaseFragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        flag = true;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (flag) {
             flag = false;
-            presenter.initPushService();
             presenter.initObservable();
+            presenter.initPushService();
         }
         if (showMenu) {
             showMenu = false;

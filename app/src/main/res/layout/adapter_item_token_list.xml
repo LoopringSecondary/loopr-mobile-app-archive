@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/wallet_item"
                 android:layout_width="match_parent"
                 android:layout_height="68dp"
@@ -21,13 +22,13 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_centerVertical="true"
-        android:background="@drawable/stroke_token_bg"
         android:layout_marginStart="20dp"
-        android:textColor="@color/colorToken"
-        android:textStyle="bold"
+        android:background="@drawable/stroke_token_bg"
         android:gravity="center"
-        android:visibility="invisible"
-        android:textSize="12sp"/>
+        android:textColor="@color/colorToken"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="invisible"/>
 
     <RelativeLayout
         style="@style/WrapMatch"
@@ -58,31 +59,28 @@
 
 
     <!--<ToggleButton-->
-        <!--android:id="@+id/toggle_button"-->
-        <!--android:layout_width="44dp"-->
-        <!--android:layout_height="22.7dp"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_marginRight="20dp"-->
-        <!--android:background="@drawable/toggle_drawable_selector"-->
-        <!--android:checked="false"-->
-        <!--android:clickable="false"-->
-        <!--android:textOff="@null"-->
-        <!--android:textOn="@null"/>-->
-    <Switch
+    <!--android:id="@+id/toggle_button"-->
+    <!--android:layout_width="44dp"-->
+    <!--android:layout_height="22.7dp"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:background="@drawable/toggle_drawable_selector"-->
+    <!--android:checked="false"-->
+    <!--android:clickable="false"-->
+    <!--android:textOff="@null"-->
+    <!--android:textOn="@null"/>-->
+    <com.kyleduo.switchbutton.SwitchButton
         android:id="@+id/s_v"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:switchMinWidth="20dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="20dp"
         android:checked="false"
         android:clickable="false"
-        android:textOn="on"
-        android:textOff="off"
-        android:thumb="@drawable/switch_thumb"
-        android:track="@drawable/switch_track" />
+        android:switchMinWidth="20dp"
+        tools:ignore="RelativeOverlap"/>
 
 </RelativeLayout>
 

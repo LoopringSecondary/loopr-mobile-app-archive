@@ -94,4 +94,5 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
     implementation 'com.robinhood.ticker:ticker:2.0.0'
     implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+    implementation 'com.kyleduo.switchbutton:library:2.0.0'
 }

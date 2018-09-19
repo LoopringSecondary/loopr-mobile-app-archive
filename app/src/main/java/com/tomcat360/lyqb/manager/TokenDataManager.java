@@ -8,6 +8,7 @@ package com.tomcat360.lyqb.manager;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.service.LoopringService;
+import com.tomcat360.lyqb.utils.SPUtils;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;

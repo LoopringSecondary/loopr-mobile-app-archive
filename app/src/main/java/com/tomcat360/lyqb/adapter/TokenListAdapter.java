@@ -1,12 +1,14 @@
 package com.tomcat360.lyqb.adapter;
 
+import java.util.Arrays;
 import java.util.List;
 
 import android.support.annotation.Nullable;
-import android.widget.Switch;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.kyleduo.switchbutton.SwitchButton;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.tomcat360.lyqb.R;
 
@@ -26,7 +28,6 @@ public class TokenListAdapter extends BaseQuickAdapter<Token, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, Token item) {
         helper.setText(R.id.wallet_title, item.getSymbol());
         helper.setText(R.id.wallet_name, item.getSource());
-
         if (item.getImageResId() == 0) {
             helper.setVisible(R.id.wallet_symbol, true);
             helper.setVisible(R.id.wallet_image, false);
@@ -36,12 +37,17 @@ public class TokenListAdapter extends BaseQuickAdapter<Token, BaseViewHolder> {
             helper.setVisible(R.id.wallet_image, true);
             helper.setImageResource(R.id.wallet_image, item.getImageResId());
         }
-        Switch aSwitch = helper.getView(R.id.s_v);
+        SwitchButton aSwitch = helper.getView(R.id.s_v);
         aSwitch.setTag(item.getSymbol());
-        if (choose_token.contains(item.getSymbol())) {
-            aSwitch.setChecked(true);
+        if (Arrays.asList("ETH", "WETH", "LRC").contains(item.getSymbol())) {
+            aSwitch.setVisibility(View.GONE);
         } else {
-            aSwitch.setChecked(false);
+            aSwitch.setVisibility(View.VISIBLE);
+            if (choose_token.contains(item.getSymbol()) && !aSwitch.isChecked()) {
+                aSwitch.setChecked(true);
+            } else if (!choose_token.contains(item.getSymbol()) && aSwitch.isChecked()) {
+                aSwitch.setChecked(false);
+            }
         }
     }
 

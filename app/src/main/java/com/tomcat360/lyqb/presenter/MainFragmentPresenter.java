@@ -61,8 +61,6 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
     private static Observable<BalanceResult> balanceObservable;
 
-    private MainNetworkReceiver mainNetworkReceiver;
-
     public void initObservable() {
         LyqbLogger.log(getAddress());
         if (loopringService == null)
@@ -125,7 +123,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     }
 
     public void initNetworkListener() {
-        mainNetworkReceiver = MainNetworkReceiver.getInstance(this);
+        MainNetworkReceiver mainNetworkReceiver = MainNetworkReceiver.getInstance(this);
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         context.registerReceiver(mainNetworkReceiver, intentFilter);
     }
@@ -138,8 +136,14 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     }
 
     public void destroy() {
-        marketcapObservable = null;
-        balanceObservable = null;
+        if (marketcapObservable != null) {
+            marketcapObservable.unsubscribeOn(Schedulers.io());
+            marketcapObservable = null;
+        }
+        if (balanceObservable != null) {
+            balanceObservable.unsubscribeOn(Schedulers.io());
+            balanceObservable = null;
+        }
     }
 
     public MainFragmentPresenter(MainFragment view, Context context) {
@@ -150,7 +154,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     }
 
     private void setTokenLegalPrice() {
-        //        LyqbLogger.log(balanceDataManager.getAssets().toString());
+        LyqbLogger.log(balanceDataManager.getAssets().toString());
         //        LyqbLogger.log(tokenDataManager.getTokens().toString());
         //        LyqbLogger.log(marketcapDataManager.getMarketcapResult().toString());
         for (BalanceResult.Asset asset : balanceDataManager.getAssets()) {
@@ -250,6 +254,8 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
         private MainFragmentPresenter presenter;
 
+        private static boolean first = true;
+
         private static MainNetworkReceiver mainNetworkReceiver;
 
         public static MainNetworkReceiver getInstance(MainFragmentPresenter presenter) {
@@ -270,6 +276,10 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
         @Override
         public void doNetWorkWifi() {
+            if (first) {
+                first = false;
+                return;
+            }
             presenter.initObservable();
         }
 
