@@ -9,6 +9,8 @@ package com.tomcat360.lyqb.manager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
@@ -137,6 +139,12 @@ public class TokenDataManager {
                 int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
                 token.setImageResId(identifier);
             }
+            Collections.sort(tokens, new Comparator<Token>() {
+                @Override
+                public int compare(Token t1, Token t2) {
+                    return t1.getSymbol().compareTo(t2.getSymbol());
+                }
+            });
         }
     }
 }

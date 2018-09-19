@@ -89,8 +89,8 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
                     @Override
                     public void onNext(CombineObservable combineObservable) {
                         marketcapDataManager.setMarketcapResult(combineObservable.getMarketcapResult());
-                        tokenDataManager.mergeTokens(combineObservable.getTokenList());
                         balanceDataManager.mergeAssets(combineObservable.getBalanceResult());
+                        tokenDataManager.mergeTokens(combineObservable.getTokenList());
                         setTokenLegalPrice();
                         unsubscribe();
                     }
