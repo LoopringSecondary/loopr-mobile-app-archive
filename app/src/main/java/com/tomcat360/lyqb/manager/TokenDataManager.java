@@ -109,15 +109,17 @@ public class TokenDataManager {
 
     // support for main fragment presenter
     public void mergeTokens(List<Token> tokens) {
-        for (Token token : tokens) {
-            if (!this.tokens.contains(token)) {
-                this.tokens.add(token);
+        synchronized (this) {
+            for (Token token : tokens) {
+                if (!this.tokens.contains(token)) {
+                    this.tokens.add(token);
+                }
             }
-        }
-        for (Token token : this.tokens) {
-            String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
-            int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
-            token.setImageResId(identifier);
+            for (Token token : this.tokens) {
+                String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
+                int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
+                token.setImageResId(identifier);
+            }
         }
     }
 }

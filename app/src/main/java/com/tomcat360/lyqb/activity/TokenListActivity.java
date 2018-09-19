@@ -69,12 +69,7 @@ public class TokenListActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.tokens));
         title.clickLeftGoBack(getWContext());
-        title.setRightImageButton(R.mipmap.icon_search, new TitleView.OnRightButtonClickListener() {
-            @Override
-            public void onClick(View button) {
-                llSearch.setVisibility(View.VISIBLE);
-            }
-        });
+        title.setRightImageButton(R.mipmap.icon_search, button -> llSearch.setVisibility(View.VISIBLE));
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -91,9 +86,6 @@ public class TokenListActivity extends BaseActivity {
                     }
                 }
                 mAdapter.setNewData(listSearch);
-                if (s == null) {
-                    mAdapter.setNewData(list);
-                }
             }
 
             @Override
@@ -124,16 +116,12 @@ public class TokenListActivity extends BaseActivity {
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Switch aSwitch = view.findViewById(R.id.s_v);
                 if (aSwitch.isChecked()) {
-//                    aSwitch.setChecked(false);
-
+                    //                    aSwitch.setChecked(false);
                     aSwitch.setSwitchTextAppearance(TokenListActivity.this, R.style.s_false);
-
                     choose_token.remove(list.get(position).getSymbol());
                 } else {
-//                    aSwitch.setChecked(true);
-
+                    //                    aSwitch.setChecked(true);
                     aSwitch.setSwitchTextAppearance(TokenListActivity.this, R.style.s_true);
-
                     choose_token.add(list.get(position).getSymbol());
                 }
                 mAdapter.setChoose_token(choose_token);

@@ -3,9 +3,13 @@ package com.lyqb.walletsdk.model.response.data;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Setter
+@Getter
+@ToString
 public class Token {
 
     private String protocol;
@@ -34,9 +38,12 @@ public class Token {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        if (!super.equals(o))
-            return false;
         Token token = (Token) o;
         return Objects.equals(symbol, token.symbol);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(symbol);
     }
 }
