@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Objects;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,7 +17,6 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,12 +32,14 @@ import com.lyqb.walletsdk.exception.TransactionException;
 import com.lyqb.walletsdk.model.Account;
 import com.lyqb.walletsdk.model.TransactionObject;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
+import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.service.EthereumService;
 import com.lyqb.walletsdk.service.LoopringService;
 import com.lyqb.walletsdk.util.UnitConverter;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.manager.BalanceDataManager;
+import com.tomcat360.lyqb.manager.TokenDataManager;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.LyqbLogger;
@@ -50,6 +52,8 @@ import com.tomcat360.lyqb.views.TitleView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SendActivity extends BaseActivity {
 
@@ -76,6 +80,9 @@ public class SendActivity extends BaseActivity {
 
     @BindView(R.id.wallet_image)
     ImageView walletImage;
+
+    @BindView(R.id.wallet_symbol)
+    TextView walletSymbol;
 
     @BindView(R.id.send_wallet_name)
     TextView sendWalletName;
@@ -133,6 +140,8 @@ public class SendActivity extends BaseActivity {
     private LoopringService loopringService = new LoopringService();
 
     private BalanceDataManager balanceManager;
+
+    private TokenDataManager tokenDataManager;
 
     /**
      * 确认转出dialog
@@ -209,6 +218,7 @@ public class SendActivity extends BaseActivity {
     @Override
     protected void initPresenter() {
         balanceManager = BalanceDataManager.getInstance(this);
+        tokenDataManager = TokenDataManager.getInstance(this);
     }
 
     @Override
@@ -222,29 +232,30 @@ public class SendActivity extends BaseActivity {
         address = (String) SPUtils.get(SendActivity.this, "address", "");
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void initData() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //                File file = new File(SendActivity.this.getFilesDir().getAbsolutePath() + "/keystore/" + (String) SPUtils.get(SendActivity.this, "filename", ""));
-                String gasPriceStr = loopringService.getEstimateGasPrice().toBlocking().single();
-                long gasPriceLong = Long.valueOf(gasPriceStr.substring(2), 16);   //d=255
-                gasPrice = BigInteger.valueOf(gasPriceLong);
-                LyqbLogger.log(nonce + "    " + gasPrice);
-                //            BigInteger estimateGasLimit = ethereumService.estimateGasLimit(transactionDetail);
-            }
-        }).start();
+        loopringService.getEstimateGasPrice()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+                    long gasPriceLong = Long.valueOf(s.substring(2), 16);   //d=255
+                    gasPrice = BigInteger.valueOf(gasPriceLong);
+                    LyqbLogger.log(nonce + "    " + gasPrice);
+                });
         String sendChoose = (String) SPUtils.get(this, "send_choose", "LRC");
         List<BalanceResult.Asset> listAsset = BalanceDataManager.getInstance(this).getAssets();
-        for (int i = 0; i < listAsset.size(); i++) {
-            if (listAsset.get(i).getSymbol().equalsIgnoreCase(sendChoose)) {
-                amountTotal = listAsset.get(i).getBalance().doubleValue();
+        String valueShow = "";
+        for (BalanceResult.Asset asset : listAsset) {
+            if (asset.getSymbol().equalsIgnoreCase(sendChoose)) {
+                setWalletImage(asset.getSymbol());
+                amountTotal = asset.getValue();
+                valueShow = asset.getValueShown();
             }
         }
         sendWalletName.setText(sendChoose);
         walletName2.setText(sendChoose);
-        sendWalletCount.setText(amountTotal + " " + sendChoose);
+        sendWalletCount.setText(valueShow + " " + sendChoose);
     }
 
     @OnClick({R.id.ll_manager_wallet, R.id.iv_scan, R.id.btn_send, R.id.ll_show_fee})
@@ -287,15 +298,16 @@ public class SendActivity extends BaseActivity {
         showConfirmDialog(this);
     }
 
+    @SuppressLint("SetTextI18n")
     public void showConfirmDialog(Context context) {
         final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);//
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_send_confirm, null);
         builder.setView(view);
-        TextView payAmount = (TextView) view.findViewById(R.id.pay_amount);
-        TextView toAddress = (TextView) view.findViewById(R.id.to_address);
-        TextView formAddress = (TextView) view.findViewById(R.id.form_address);
-        TextView tvGassFee = (TextView) view.findViewById(R.id.gass_fee);
-        Button confirm = (Button) view.findViewById(R.id.btn_confirm);
+        TextView payAmount = view.findViewById(R.id.pay_amount);
+        TextView toAddress = view.findViewById(R.id.to_address);
+        TextView formAddress = view.findViewById(R.id.form_address);
+        TextView tvGassFee = view.findViewById(R.id.gass_fee);
+        Button confirm = view.findViewById(R.id.btn_confirm);
         payAmount.setText(moneyAmount.getText().toString());
         toAddress.setText(walletAddress.getText().toString());
         formAddress.setText(address);
@@ -303,12 +315,9 @@ public class SendActivity extends BaseActivity {
         BigDecimal bigDecimal = UnitConverter.weiToEth(gas.toString());
         tvGassFee.setText(bigDecimal.toPlainString()
                 .substring(0, 8) + " ETH = " + NumberUtils.formatTwo(Double.toString(gasFee), Integer.toString(1)));
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirmDialog.dismiss();
-                showPasswordDialog();
-            }
+        confirm.setOnClickListener(v -> {
+            confirmDialog.dismiss();
+            showPasswordDialog();
         });
         builder.setCancelable(true);
         confirmDialog = null;
@@ -322,25 +331,16 @@ public class SendActivity extends BaseActivity {
         final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.DialogTheme);//
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_put_password, null);
         builder.setView(view);
-        TextView title = (TextView) view.findViewById(R.id.title);
-        final EditText passwordInput = (EditText) view.findViewById(R.id.password_input);
-        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-        TextView confirm = (TextView) view.findViewById(R.id.confirm);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                passwordDialog.dismiss();
-            }
-        });
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(passwordInput.getText().toString())) {
-                    ToastUtils.toast("请输入密码");
-                    return;
-                } else {
-                    send(passwordInput.getText().toString());
-                }
+        TextView title = view.findViewById(R.id.title);
+        final EditText passwordInput = view.findViewById(R.id.password_input);
+        TextView cancel = view.findViewById(R.id.cancel);
+        TextView confirm = view.findViewById(R.id.confirm);
+        cancel.setOnClickListener(v -> passwordDialog.dismiss());
+        confirm.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(passwordInput.getText().toString())) {
+                ToastUtils.toast("请输入密码");
+            } else {
+                send(passwordInput.getText().toString());
             }
         });
         builder.setCancelable(true);
@@ -353,47 +353,39 @@ public class SendActivity extends BaseActivity {
 
     private void send(String password) {
         showProgress("加载中");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Account account = null;
-                    String keystore = FileUtils.getKeystoreFromSD(SendActivity.this);
-                    account = WalletHelper.unlockWallet(password, keystore); //获取account信息，里面有privatekey
-                    Integer chanid = new Integer(1);  //chanid
-                    BigInteger value = UnitConverter.ethToWei(moneyAmount.getText().toString()); //转账金额
-                    String nonceStr = loopringService.getNonce(address).toBlocking().single();
-                    long nonceLong = Long.valueOf(nonceStr, 16);   //d=255
-                    nonce = BigInteger.valueOf(nonceLong);//获得nonce
-                    LyqbLogger.log(nonce + "");
-                    //调用transaction方法
-                    TransactionObject transaction = TransactionHelper.createTransaction(chanid.byteValue(), address, walletAddress
-                            .getText()
-                            .toString(), nonce, gasPrice, BigInteger.valueOf(25200), value, "");
-                    String txhash = TransactionHelper.sendTransaction(transaction, account.getPrivateKey());
-                    LyqbLogger.log(txhash);
-                    handlerCreate.sendEmptyMessage(SEND_SUCCESS);
-                } catch (TransactionException e) {
-                    errorMes = e.getMessage();
-                    handlerCreate.sendEmptyMessage(SEND_FAILED);
-                    e.printStackTrace();
-                } catch (InvalidKeystoreException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_THREE);
-                    e.printStackTrace();
-                } catch (IllegalCredentialException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_THREE);
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_FOUR);
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_FOUR);
-                    e.printStackTrace();
-                }
+        new Thread(() -> {
+            try {
+                Account account = null;
+                String keystore = FileUtils.getKeystoreFromSD(SendActivity.this);
+                account = WalletHelper.unlockWallet(password, keystore); //获取account信息，里面有privatekey
+                Integer chanid = 1;  //chanid
+                BigInteger value = UnitConverter.ethToWei(moneyAmount.getText().toString()); //转账金额
+                String nonceStr = loopringService.getNonce(address).toBlocking().single();
+                long nonceLong = Long.valueOf(nonceStr, 16);   //d=255
+                nonce = BigInteger.valueOf(nonceLong);//获得nonce
+                LyqbLogger.log(nonce + "");
+                //调用transaction方法
+                TransactionObject transaction = TransactionHelper.createTransaction(chanid.byteValue(), address, walletAddress
+                        .getText()
+                        .toString(), nonce, gasPrice, BigInteger.valueOf(25200), value, "");
+                String txhash = TransactionHelper.sendTransaction(transaction, account.getPrivateKey());
+                LyqbLogger.log(txhash);
+                handlerCreate.sendEmptyMessage(SEND_SUCCESS);
+            } catch (TransactionException e) {
+                errorMes = e.getMessage();
+                handlerCreate.sendEmptyMessage(SEND_FAILED);
+                e.printStackTrace();
+            } catch (InvalidKeystoreException | IllegalCredentialException e) {
+                handlerCreate.sendEmptyMessage(ERROR_THREE);
+                e.printStackTrace();
+            } catch (JSONException | IOException e) {
+                handlerCreate.sendEmptyMessage(ERROR_FOUR);
+                e.printStackTrace();
             }
         }).start();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -415,6 +407,7 @@ public class SendActivity extends BaseActivity {
             if (resultCode == 1) {
                 String symbol = data.getStringExtra("symbol");
                 BalanceResult.Asset asset = balanceManager.getAssetBySymbol(symbol);
+                setWalletImage(asset.getSymbol());
                 sendWalletName.setText(symbol);
                 walletName2.setText(symbol);
                 sendWalletCount.setText(asset.getValueShown() + " " + symbol);
@@ -425,44 +418,48 @@ public class SendActivity extends BaseActivity {
     /**
      * @param context
      */
-
+    @SuppressLint("SetTextI18n")
     public void showFeeDialog(Context context) {
         if (dialog == null) {
             final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);//
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_fee, null);
             builder.setView(view);
-            dialogTitle = (TextView) view.findViewById(R.id.title);
-            tvAmount = (TextView) view.findViewById(R.id.tv_amount);
-            tvWalletInfo = (TextView) view.findViewById(R.id.tv_wallet_info);
-            cancel = (ImageView) view.findViewById(R.id.cancel);
-            dialogSeekBar = (RangeSeekBar) view.findViewById(R.id.seekBar);
+            dialogTitle = view.findViewById(R.id.title);
+            tvAmount = view.findViewById(R.id.tv_amount);
+            tvWalletInfo = view.findViewById(R.id.tv_wallet_info);
+            cancel = view.findViewById(R.id.cancel);
+            dialogSeekBar = view.findViewById(R.id.seekBar);
             tvAmount.setText(NumberUtils.formatSix(Double.toString(gasFee), Integer.toString(1)) + " ETH = " + NumberUtils
                     .formatTwo(Double.toString(gasFee), Integer.toString(1)));
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-            dialogSeekBar.setOnRangeChangedListener(new RangeSeekBar.OnRangeChangedListener() {
-                @Override
-                public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {
-                    value = (int) min;
-                    String dd = NumberUtils.formatSix(Double.toString(0.000200), Integer.toString(value));
-                    gasFee = Double.parseDouble(dd);
-                    tvAmount.setText(dd + " ETH = " + NumberUtils.formatTwo(Double.toString(0.06), Integer.toString(value)));
-                    tvWalletInfo.setText("Gas limit(100000) * Gas Price(" + NumberUtils.numberformat1((double) value) + " Gwei)");
-                }
+            cancel.setOnClickListener(v -> dialog.dismiss());
+            dialogSeekBar.setOnRangeChangedListener((view1, min, max, isFromUser) -> {
+                value = (int) min;
+                String dd = NumberUtils.formatSix(Double.toString(0.000200), Integer.toString(value));
+                gasFee = Double.parseDouble(dd);
+                tvAmount.setText(dd + " ETH = " + NumberUtils.formatTwo(Double.toString(0.06), Integer.toString(value)));
+                tvWalletInfo.setText("Gas limit(100000) * Gas Price(" + NumberUtils.numberformat1((double) value) + " Gwei)");
             });
             builder.setCancelable(true);
             dialog = builder.create();
             dialog.setCancelable(true);
             dialog.setCanceledOnTouchOutside(true);
             dialog.show();
-            Window window = dialog.getWindow();
-            window.setGravity(Gravity.BOTTOM);
+            Objects.requireNonNull(dialog.getWindow()).setGravity(Gravity.BOTTOM);
         } else {
             dialog.show();
+        }
+    }
+
+    private void setWalletImage(String symbol) {
+        Token token = tokenDataManager.getTokenBySymbol(symbol);
+        if (token.getImageResId() != 0) {
+            walletSymbol.setVisibility(View.GONE);
+            walletImage.setImageResource(token.getImageResId());
+            walletImage.setVisibility(View.VISIBLE);
+        } else {
+            walletImage.setVisibility(View.GONE);
+            walletSymbol.setText(symbol);
+            walletSymbol.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -38,6 +38,7 @@
             android:paddingLeft="8dp"
             android:singleLine="true"
             android:textColor="@color/colorTitleTv"
+            android:textColorHint="@color/colorSixText"
             android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/normal14Text"/>
 

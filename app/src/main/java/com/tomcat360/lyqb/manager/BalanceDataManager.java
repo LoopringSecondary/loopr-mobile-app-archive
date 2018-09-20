@@ -105,7 +105,7 @@ public class BalanceDataManager {
         for (BalanceResult.Asset asset : balance.getTokens()) {
             for (MarketcapResult.Token token : tokens) {
                 if (token.getSymbol().equalsIgnoreCase(asset.getSymbol())) {
-                    int precision = NumberUtils.integralLength(token.getPrice()) + 2; // TODO: 显示到当前货币最小单位
+                    int precision = NumberUtils.precision(token.getPrice()); // TODO: 显示到当前货币最小单位
                     if (tokenManager.getTokenBySymbol(asset.getSymbol()) != null) {   // TODO: no RHOC token ???
                         BigDecimal decimals = tokenManager.getTokenBySymbol(asset.getSymbol()).getDecimals();
                         double value = asset.getBalance().divide(decimals).doubleValue();

@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.TokenListSearchAdapter;
 import com.tomcat360.lyqb.utils.MyViewUtils;
@@ -91,10 +90,7 @@ public class TokenListSearchActivity extends BaseActivity {
         ArrayList<String> list = new ArrayList<>();
         mAdapter = new TokenListSearchAdapter(R.layout.adapter_item_token_list, list);
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-            }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
         });
     }
 

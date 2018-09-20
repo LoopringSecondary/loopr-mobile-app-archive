@@ -38,6 +38,18 @@
                 android:src="@mipmap/icon_trades"/>
 
             <TextView
+                android:id="@+id/wallet_symbol"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/stroke_token_bg"
+                android:gravity="center"
+                android:textColor="@color/colorToken"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <TextView
                 android:id="@+id/send_wallet_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

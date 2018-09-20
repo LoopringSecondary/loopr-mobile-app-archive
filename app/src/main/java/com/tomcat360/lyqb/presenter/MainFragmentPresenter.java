@@ -89,8 +89,8 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
                     @Override
                     public void onNext(CombineObservable combineObservable) {
                         marketcapDataManager.setMarketcapResult(combineObservable.getMarketcapResult());
-                        balanceDataManager.mergeAssets(combineObservable.getBalanceResult());
                         tokenDataManager.mergeTokens(combineObservable.getTokenList());
+                        balanceDataManager.mergeAssets(combineObservable.getBalanceResult());
                         setTokenLegalPrice();
                         unsubscribe();
                     }
@@ -154,7 +154,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     }
 
     private void setTokenLegalPrice() {
-        LyqbLogger.log(balanceDataManager.getAssets().toString());
+        //        LyqbLogger.log(balanceDataManager.getAssets().toString());
         //        LyqbLogger.log(tokenDataManager.getTokens().toString());
         //        LyqbLogger.log(marketcapDataManager.getMarketcapResult().toString());
         for (BalanceResult.Asset asset : balanceDataManager.getAssets()) {
