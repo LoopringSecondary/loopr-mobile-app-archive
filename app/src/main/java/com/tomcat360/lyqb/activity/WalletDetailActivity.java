@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.ViewPageAdapter;
 import com.tomcat360.lyqb.fragment.WalletAllFragment;
+import com.tomcat360.lyqb.manager.BalanceDataManager;
 import com.tomcat360.lyqb.views.TitleView;
 
 import butterknife.BindView;
@@ -47,16 +48,17 @@ public class WalletDetailActivity extends BaseActivity {
     @BindView(R.id.btn_send)
     Button btnSend;
 
+    private String symbol;
     private List<Fragment> mFragments;
+
+    private BalanceDataManager balanceManager;
 
     private String[] mTitles = {"All", "Receive", "Send", "Fail"};
 
-    private String symbol;
-
-    private String moneyValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        balanceManager = BalanceDataManager.getInstance(this);
         setContentView(R.layout.activity_wallet_detail);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
@@ -70,11 +72,10 @@ public class WalletDetailActivity extends BaseActivity {
     @Override
     public void initTitle() {
         symbol = getIntent().getStringExtra("symbol");
-        moneyValue = getIntent().getStringExtra("moneyValue");
         title.setBTitle(symbol);
-        walletMoney.setText(moneyValue.length() > 8 ? moneyValue.substring(0, 8) : moneyValue);
-        walletDollar.setText(moneyValue.length() > 8 ? moneyValue.substring(0, 8) : moneyValue);
         title.clickLeftGoBack(getWContext());
+        walletMoney.setText(balanceManager.getAssetBySymbol(symbol).getValueShown());
+        walletDollar.setText(balanceManager.getAssetBySymbol(symbol).getLegalShown());
     }
 
     @Override

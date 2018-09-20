@@ -73,7 +73,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="start"
                 android:paddingLeft="@dimen/margSide"
-                android:text="@string/form"
+                android:text="@string/from"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normal14Text"/>
 

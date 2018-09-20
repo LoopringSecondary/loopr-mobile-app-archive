@@ -34,6 +34,8 @@
     <string name="sell">Sell</string>
     <string name="approve">Approve token to trade</string>
     <string name="cancelled">Cancel Order</string>
+    <string name="convert_eth">Convert to ETH</string>
+    <string name="convert_weth">Convert to WETH</string>
     <string name="trade">Trade</string>
     <string name="copy_address">Copy Address</string>
     <string name="save_address">Save to Album</string>
@@ -84,7 +86,9 @@
     <string name="spread_address">My income add:</string>
     <string name="pay_detail">Payment Detail</string>
     <string name="to">To</string>
-    <string name="form">Form</string>
+    <string name="from">From</string>
+    <string name="address">Address</string>
+    <string name="ID">ID</string>
     <string name="gas_fee">Gas Fee</string>
     <string name="send_and_confirm">Send And Confirm</string>
     <string name="put_password">Please Enter Password</string>

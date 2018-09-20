@@ -34,6 +34,8 @@
     <string name="sell">卖出</string>
     <string name="approve">授权进行交易</string>
     <string name="cancelled">取消订单</string>
+    <string name="convert_eth">转换为 ETH</string>
+    <string name="convert_weth">转换为 WETH</string>
     <string name="trade">交易</string>
     <string name="copy_address">复制地址</string>
     <string name="save_address">保存地址</string>
@@ -86,7 +88,9 @@
     <string name="spread_address">我的推广地址是:</string>
     <string name="pay_detail">转账详情</string>
     <string name="to">转到</string>
-    <string name="form">转账地址</string>
+    <string name="from">转账地址</string>
+    <string name="address">地址</string>
+    <string name="ID">ID</string>
     <string name="gas_fee">邮费</string>
     <string name="send_and_confirm">确认转出</string>
     <string name="put_password">请输入密码</string>

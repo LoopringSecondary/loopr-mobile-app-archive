@@ -183,7 +183,6 @@ public class MainFragment extends BaseFragment {
                 llMenu.setVisibility(View.GONE);
                 showMenu = false;
             } else {
-                getOperation().addParameter("moneyValue", presenter.getMoneyValue());
                 getOperation().addParameter("symbol", presenter.getListAsset().get(position).getSymbol());
                 getOperation().forward(WalletDetailActivity.class);
             }

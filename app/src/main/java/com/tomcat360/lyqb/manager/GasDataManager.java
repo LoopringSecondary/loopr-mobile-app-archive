@@ -9,12 +9,14 @@ package com.tomcat360.lyqb.manager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 
 import org.web3j.utils.Convert;
+import org.web3j.utils.Numeric;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lyqb.walletsdk.service.LoopringService;
@@ -89,7 +91,10 @@ public class GasDataManager {
             this.gasObservable = loopringService.getEstimateGasPrice()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .map(str -> Convert.fromWei(str, Convert.Unit.WEI));
+                    .map(s -> {
+                        BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(s));
+                        return new BigDecimal(bigInteger);
+                    });
         }
         this.gasObservable.subscribe(gasPrice -> {
             recommendGasPrice = gasPrice;
