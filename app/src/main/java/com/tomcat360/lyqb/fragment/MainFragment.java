@@ -304,7 +304,9 @@ public class MainFragment extends BaseFragment {
     }
 
     public void finishRefresh() {
-        frameLayout.setChildClickable(true);
-        refreshLayout.finishRefresh(true);
+        if (frameLayout != null && refreshLayout != null) {
+            frameLayout.setChildClickable(true);
+            refreshLayout.finishRefresh(true);
+        }
     }
 }

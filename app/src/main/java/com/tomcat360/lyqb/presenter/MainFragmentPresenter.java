@@ -61,6 +61,8 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
     private static Observable<BalanceResult> balanceObservable;
 
+    private MainNetworkReceiver mainNetworkReceiver;
+
     public void initObservable() {
         LyqbLogger.log(getAddress());
         if (loopringService == null)
@@ -123,7 +125,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     }
 
     public void initNetworkListener() {
-        MainNetworkReceiver mainNetworkReceiver = MainNetworkReceiver.getInstance(this);
+        mainNetworkReceiver = MainNetworkReceiver.getInstance(this);
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         context.registerReceiver(mainNetworkReceiver, intentFilter);
     }
@@ -143,6 +145,9 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         if (balanceObservable != null) {
             balanceObservable.unsubscribeOn(Schedulers.io());
             balanceObservable = null;
+        }
+        if (mainNetworkReceiver != null) {
+            context.unregisterReceiver(mainNetworkReceiver);
         }
     }
 
