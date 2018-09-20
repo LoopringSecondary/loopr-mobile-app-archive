@@ -111,8 +111,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="100dp"
                 android:layout_marginEnd="@dimen/margSide"
+                android:layout_marginStart="100dp"
                 android:ellipsize="middle"
                 android:singleLine="true"
                 android:textColor="@color/colorLink"
@@ -144,8 +144,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="100dp"
                 android:layout_marginEnd="@dimen/margSide"
+                android:layout_marginStart="100dp"
                 android:ellipsize="middle"
                 android:singleLine="true"
                 android:textColor="@color/colorLink"
@@ -177,8 +177,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="100dp"
                 android:layout_marginEnd="@dimen/margSide"
+                android:layout_marginStart="100dp"
                 android:ellipsize="middle"
                 android:singleLine="true"
                 android:textColor="@color/colorWhite"
@@ -221,7 +221,5 @@
             android:layout_height="1dp"
             android:layout_marginBottom="20dp"
             android:background="@color/lineBac"/>
-
-
     </LinearLayout>
 </RelativeLayout>

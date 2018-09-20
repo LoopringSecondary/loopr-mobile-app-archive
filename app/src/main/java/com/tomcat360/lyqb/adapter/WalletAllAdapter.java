@@ -83,8 +83,10 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
                 break;
             case CONVERT_INCOME:
                 this.updateIncome(helper, item, value);
+                break;
             case CONVERT_OUTCOME:
                 this.updateOutcome(helper, item, value);
+                break;
             default:
                 System.out.println(item.getType());
         }

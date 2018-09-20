@@ -21,6 +21,7 @@ import com.lyqb.walletsdk.model.TxType;
 import com.lyqb.walletsdk.model.response.data.Transaction;
 import com.lyqb.walletsdk.model.response.data.TransactionPageWrapper;
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.activity.DefaultWebViewActivity;
 import com.tomcat360.lyqb.adapter.WalletAllAdapter;
 import com.tomcat360.lyqb.manager.BalanceDataManager;
 import com.tomcat360.lyqb.manager.GasDataManager;
@@ -141,6 +142,7 @@ public class WalletAllFragment extends BaseFragment {
                 LyqbLogger.log(transactionPageWrapper.getData().toString());
                 list = transactionPageWrapper.getData();
                 mAdapter.setNewData(list);
+
             }
         });
         transactionListener.queryByOwnerAndSymbol(address, symbol, 1, 20);
@@ -222,20 +224,29 @@ public class WalletAllFragment extends BaseFragment {
     }
 
     private void setAddress(Transaction tx) {
+        String etherUrl = "https://etherscan.io/address/";
         if (tx.getType() == TxType.RECEIVE) {
+            etherUrl += tx.getFrom();
             txAddress.setText(tx.getFrom());
         } else {
+            etherUrl += tx.getTo();
             txAddress.setText(tx.getTo());
         }
+        final String url = etherUrl;
         txAddress.setOnClickListener(v -> {
-            System.out.println("sdfsdfsdf");
+            getOperation().addParameter("url", url);
+            getOperation().forward(DefaultWebViewActivity.class);
         });
     }
 
     private void setID(Transaction tx) {
+        String etherUrl = "https://etherscan.io/tx/";
         txID.setText(tx.getTxHash());
+        etherUrl += tx.getTxHash();
+        final String url = etherUrl;
         txID.setOnClickListener(v -> {
-            System.out.println("sdfsdfsd");
+            getOperation().addParameter("url", url);
+            getOperation().forward(DefaultWebViewActivity.class);
         });
     }
 

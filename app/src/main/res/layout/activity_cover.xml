@@ -21,7 +21,6 @@
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/normalText"/>
 
-
     <RelativeLayout
         android:id="@+id/rl_import"
         style="@style/SubmitBtnStyle"
@@ -34,8 +33,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerInParent="true"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@+id/tv_import"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@+id/tv_import"
             android:src="@mipmap/icon_wallet_active"/>
 
         <TextView

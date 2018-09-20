@@ -3,7 +3,6 @@ package com.tomcat360.lyqb.utils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -84,8 +83,9 @@ public class NumberUtils {
         String s = new BigDecimal(d).toPlainString();
         if (d > 0 && d < 1) {
             Matcher m = Pattern.compile("(0\\.[0]*)").matcher(s);
-            if (m.find())
+            if (m.find()) {
                 return 4 - m.group().length() > 0 ? (4 - m.group().length()) : 0;
+            }
         } else if (d > 1) {
             return Pattern.compile("(\\.\\d*)").matcher(s).replaceAll("").length() + 2;
         }
