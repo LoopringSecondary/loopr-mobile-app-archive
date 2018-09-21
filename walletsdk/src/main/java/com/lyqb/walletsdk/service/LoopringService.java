@@ -2,8 +2,6 @@ package com.lyqb.walletsdk.service;
 
 import java.util.List;
 
-import android.util.Log;
-
 import org.web3j.utils.Numeric;
 import com.google.common.collect.Maps;
 import com.lyqb.walletsdk.Default;
@@ -15,11 +13,13 @@ import com.lyqb.walletsdk.model.request.param.BalanceParam;
 import com.lyqb.walletsdk.model.request.param.MarketcapParam;
 import com.lyqb.walletsdk.model.request.param.NonceParam;
 import com.lyqb.walletsdk.model.request.param.NotifyTransactionSubmitParam;
+import com.lyqb.walletsdk.model.request.param.TransactionParam;
 import com.lyqb.walletsdk.model.request.param.UnlockWallet;
 import com.lyqb.walletsdk.model.response.ResponseWrapper;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.Token;
+import com.lyqb.walletsdk.model.response.data.TransactionPageWrapper;
 import com.lyqb.walletsdk.util.Assert;
 
 import rx.Observable;
@@ -62,6 +62,18 @@ public class LoopringService {
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getBalance", param);
         return rpcDelegate.getBalance(request).map(ResponseWrapper::getResult);
+    }
+
+    public Observable<TransactionPageWrapper> getTransactions(String owner, String symbol, int pageIndex, int pageSize) {
+        TransactionParam param = TransactionParam.builder()
+                .owner(owner)
+                .symbol(symbol)
+                .pageIndex(pageIndex)
+                .pageSize(pageSize)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_getTransactions", param);
+        Observable<ResponseWrapper<TransactionPageWrapper>> observable = rpcDelegate.getTransactions(request);
+        return observable.map(ResponseWrapper::getResult);
     }
 
     public Observable<List<Token>> getSupportedToken() {

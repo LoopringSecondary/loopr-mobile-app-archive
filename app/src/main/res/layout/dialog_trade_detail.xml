@@ -115,7 +115,9 @@
                 android:layout_marginStart="100dp"
                 android:ellipsize="middle"
                 android:singleLine="true"
-                android:textColor="@color/colorLink"
+                android:clickable="true"
+                android:focusable="true"
+                android:textColor="@drawable/link_state_color"
                 android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>
@@ -148,7 +150,9 @@
                 android:layout_marginStart="100dp"
                 android:ellipsize="middle"
                 android:singleLine="true"
-                android:textColor="@color/colorLink"
+                android:clickable="true"
+                android:focusable="true"
+                android:textColor="@drawable/link_state_color"
                 android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>

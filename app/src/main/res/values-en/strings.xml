@@ -46,6 +46,7 @@
     <string name="search">search</string>
     <string name="wallet_type">Please choose wallet type</string>
     <string name="setting">Settings</string>
+    <string name="etherscan">Etherscan.io</string>
 
     <string name="set_share">Share APP,harvest 20% of trading fee</string>
     <string name="set_manage_wallet">Manage Wallet</string>

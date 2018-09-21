@@ -10,26 +10,38 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 
 import com.tomcat360.lyqb.R;
+import com.tomcat360.lyqb.views.TitleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DefaultWebViewActivity extends BaseActivity {
 
+    @BindView(R.id.title)
+    TitleView title;
+
+    @BindView(R.id.browser_btn)
+    ImageView browser;
+
     @BindView(R.id.webView)
     WebView webView;
+
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_defalut_webview);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(getIntent().getStringExtra("url"));
+        url = getIntent().getStringExtra("url");
+        webView.loadUrl(url);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -48,6 +60,12 @@ public class DefaultWebViewActivity extends BaseActivity {
                 return true;
             }
         });
+    }
+
+    @OnClick({R.id.browser_btn})
+    public void onViewClicked(View view) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
     }
 
     @Override
@@ -71,6 +89,8 @@ public class DefaultWebViewActivity extends BaseActivity {
      */
     @Override
     public void initTitle() {
+        title.setBTitle(getResources().getString(R.string.etherscan));
+        title.clickLeftGoBack(getWContext());
     }
 
     /**

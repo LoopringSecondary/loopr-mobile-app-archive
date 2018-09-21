@@ -176,7 +176,7 @@ public class MainFragment extends BaseFragment {
     protected void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MainWalletAdapter(R.layout.adapter_item_wallet, null, presenter);
+        mAdapter = new MainWalletAdapter(R.layout.adapter_item_wallet, null);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (showMenu) {

@@ -19,7 +19,7 @@
     <string name="personal_user">我是普通用户</string>
     <string name="city_user">我是城市合伙人</string>
     <string name="city_code">城市合伙人激活码</string>
-    <string name="et_mnemonic">Please use space to seperate the mnemonic words</string>
+    <string name="et_mnemonic">Please use space to separate the mnemonic words</string>
     <string name="mnemonic_password">助记词密码(可选)</string>
     <string name="keystore_password">Keystore密码</string>
     <string name="keystore_hint">请输入keystore</string>
@@ -46,6 +46,7 @@
     <string name="search">搜索</string>
     <string name="wallet_type">请选择钱包类型</string>
     <string name="setting">设置</string>
+    <string name="etherscan">Etherscan.io</string>
 
     <string name="set_share">分享APP,获得撮合费20%收益</string>
     <string name="set_manage_wallet">管理钱包</string>

@@ -16,10 +16,10 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.lyqb.walletsdk.listener.TransactionListener;
 import com.lyqb.walletsdk.model.TxType;
 import com.lyqb.walletsdk.model.response.data.Transaction;
 import com.lyqb.walletsdk.model.response.data.TransactionPageWrapper;
+import com.lyqb.walletsdk.service.LoopringService;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.DefaultWebViewActivity;
 import com.tomcat360.lyqb.adapter.WalletAllAdapter;
@@ -29,16 +29,15 @@ import com.tomcat360.lyqb.manager.MarketcapDataManager;
 import com.tomcat360.lyqb.manager.TokenDataManager;
 import com.tomcat360.lyqb.utils.CurrencyUtil;
 import com.tomcat360.lyqb.utils.DateUtil;
-import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.NumberUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import rx.Observable;
-import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  *
@@ -52,7 +51,7 @@ public class WalletAllFragment extends BaseFragment {
 
     private WalletAllAdapter mAdapter;
 
-    private TransactionListener transactionListener = new TransactionListener();
+    private LoopringService loopringService = new LoopringService();
 
     private GasDataManager gasManager;
 
@@ -67,6 +66,12 @@ public class WalletAllFragment extends BaseFragment {
     private String symbol;
 
     private List<Transaction> list;
+
+    private int txTotalCount;
+
+    private int currentPageIndex;
+
+    private static final int PAGE_SIZE = 20;
 
     /**
      * @param context
@@ -94,6 +99,8 @@ public class WalletAllFragment extends BaseFragment {
         if (isAdded()) {
             symbol = getArguments().getString("symbol");
         }
+        txTotalCount = 0;
+        currentPageIndex = 1;
         return layout;
     }
 
@@ -121,31 +128,106 @@ public class WalletAllFragment extends BaseFragment {
         recyclerView.setLayoutManager(layoutManager);  //助记词提示列表
         mAdapter = new WalletAllAdapter(R.layout.adapter_item_wallet_all, null, symbol);
         recyclerView.setAdapter(mAdapter);
+
+
+
+
+
+
+
+
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 showDetailDialog(getContext(), list.get(position));
             }
         });
-        Observable<TransactionPageWrapper> observable = transactionListener.start();
-        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<TransactionPageWrapper>() {
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
-            public void onCompleted() {
+            public void onLoadMoreRequested() {
+//                recyclerView.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+                        if (currentPageIndex * PAGE_SIZE >= txTotalCount) {
+                            //数据全部加载完毕
+                            mAdapter.loadMoreEnd();
+                        } else {
+        //                    if (isErr) {
+                                //成功获取更多数据
+                                getTxsFromRelay();
+                                mAdapter.loadMoreComplete();
+        //                    } else {
+        //                        //获取更多数据失败
+        //                        isErr = true;
+        //                        mAdapter.loadMoreFail();
+        //                    }
+                        }
+//                    }
+//                }, 0);
             }
+        }, recyclerView);
 
-            @Override
-            public void onError(Throwable e) {
-            }
 
-            @Override
-            public void onNext(TransactionPageWrapper transactionPageWrapper) {
-                LyqbLogger.log(transactionPageWrapper.getData().toString());
-                list = transactionPageWrapper.getData();
-                mAdapter.setNewData(list);
+        getTxsFromRelay();
 
-            }
-        });
-        transactionListener.queryByOwnerAndSymbol(address, symbol, 1, 20);
+
+
+
+
+
+
+
+
+//        Observable<TransactionPageWrapper> observable = transactionListener.start();
+//        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<TransactionPageWrapper>() {
+//            @Override
+//            public void onCompleted() {
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//            }
+//
+//            @Override
+//            public void onNext(TransactionPageWrapper transactionPageWrapper) {
+//                LyqbLogger.log(transactionPageWrapper.getData().toString());
+//                list = transactionPageWrapper.getData();
+//                //                mAdapter.setNewData(list);
+//                mAdapter.addData(list);
+//                currentPageIndex += 1;
+//            }
+//        });
+//        transactionListener.queryByOwnerAndSymbol(address, symbol, currentPageIndex, PAGE_SIZE);
+    }
+
+    private void getTxsFromRelay() {
+        loopringService.getTransactions(address, symbol, currentPageIndex, PAGE_SIZE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<TransactionPageWrapper>() {
+                    @Override
+                    public void onCompleted() {
+                        System.out.println(12333);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("error");
+                    }
+
+                    @Override
+                    public void onNext(TransactionPageWrapper transactionPageWrapper) {
+                        list = transactionPageWrapper.getData();
+                        for (Transaction tx: list) {
+                            System.out.println(DateUtil.timeStampToDateTime3(tx.getCreateTime()) + " " +  currentPageIndex + "\n");
+                        }
+
+                        mAdapter.addData(list);
+                        currentPageIndex += 1;
+                        txTotalCount = transactionPageWrapper.getTotal();
+                        unsubscribe();
+                    }
+                });
     }
 
     public void showDetailDialog(Context context, Transaction tx) {
@@ -173,6 +255,14 @@ public class WalletAllFragment extends BaseFragment {
         setGas(tx);
         setDate(tx);
         dialog.show();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
     }
 
     @Override

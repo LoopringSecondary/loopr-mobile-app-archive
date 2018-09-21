@@ -10,15 +10,12 @@ import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.manager.TokenDataManager;
-import com.tomcat360.lyqb.presenter.BasePresenter;
 
 public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, BaseViewHolder> {
 
-    private BasePresenter presenter;
 
-    public MainWalletAdapter(int layoutResId, @Nullable List<BalanceResult.Asset> data, BasePresenter presenter) {
+    public MainWalletAdapter(int layoutResId, @Nullable List<BalanceResult.Asset> data) {
         super(layoutResId, data);
-        this.presenter = presenter;
     }
 
     @Override
