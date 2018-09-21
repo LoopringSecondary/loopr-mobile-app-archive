@@ -22,7 +22,7 @@
     <string name="et_mnemonic">Please use space to seperate the mnemonic words</string>
     <string name="mnemonic_password">Mnemonic Password ( optional )</string>
     <string name="keystore_password">Keystore Password</string>
-    <string name="keystore_hint">Please imput keystore</string>
+    <string name="keystore_hint">Please input keystore</string>
     <string name="private_key_hint">Please input your private key</string>
     <string name="unlock">Unlock</string>
     <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>
@@ -74,7 +74,7 @@
     <string name="address_confirm">Please confirm the address before sending</string>
     <string name="enter_the_address">Enter The Address</string>
     <string name="enter_the_amount">Enter The Amount</string>
-    <string name="imput_valid_amount">Please imput a valid amount</string>
+    <string name="input_valid_amount">Please input a valid amount</string>
     <string name="transacition_fee">Transacition Fee</string>
     <string name="dialog_fee_title">Set Gas</string>
     <string name="dialog_fee_recom">Recommend Price</string>

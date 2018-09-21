@@ -79,7 +79,6 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
                 .subscribe(new Subscriber<CombineObservable>() {
                     @Override
                     public void onCompleted() {
-                        view.hideLoading();
                         view.finishRefresh();
                     }
 
@@ -106,6 +105,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
                     marketcapDataManager.setMarketcapResult(marketcapResult);
                     balanceDataManager.mergeAssets(balanceDataManager.getBalance());
                     setTokenLegalPrice();
+                    view.finishRefresh();
                 } else
                     marketcapObservable = marketcapDataManager.getObservable();
             }, error -> {
@@ -116,6 +116,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
                 if (balanceObservable != null) {
                     balanceDataManager.mergeAssets(balanceResult);
                     setTokenLegalPrice();
+                    view.finishRefresh();
                 } else {
                     balanceObservable = balanceDataManager.getBalanceObservable();
                 }

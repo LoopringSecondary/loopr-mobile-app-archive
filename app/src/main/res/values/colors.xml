@@ -24,5 +24,6 @@
     <color name="lineBac">#383838</color>  <!-- 间隔线颜色 -->
     <color name="colorCursor">#ffffff</color>  <!-- 输入框游标背景色 -->
     <color name="colorLink">#126fdb</color>  <!-- 链接色 -->
+    <color name="colorLinkHighlight">#88126fdb</color>  <!-- 链接高亮色 -->
     <color name="colorPending">#fcac35</color>  <!-- 交易进行中配色 -->
 </resources>

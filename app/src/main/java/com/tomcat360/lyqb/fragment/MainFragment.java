@@ -298,15 +298,12 @@ public class MainFragment extends BaseFragment {
             walletCount.setText(text);
     }
 
-    public void hideLoading() {
+    public void finishRefresh() {
+        if (frameLayout != null)
+            frameLayout.setChildClickable(true);
+        if (refreshLayout != null)
+            refreshLayout.finishRefresh(true);
         if (progressBar != null)
             progressBar.setVisibility(View.INVISIBLE);
-    }
-
-    public void finishRefresh() {
-        if (frameLayout != null && refreshLayout != null) {
-            frameLayout.setChildClickable(true);
-            refreshLayout.finishRefresh(true);
-        }
     }
 }

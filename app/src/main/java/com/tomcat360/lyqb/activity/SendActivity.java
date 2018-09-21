@@ -13,10 +13,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.Selection;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,21 +44,24 @@ import com.lyqb.walletsdk.util.UnitConverter;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.manager.BalanceDataManager;
+import com.tomcat360.lyqb.manager.GasDataManager;
+import com.tomcat360.lyqb.manager.MarketcapDataManager;
 import com.tomcat360.lyqb.manager.TokenDataManager;
 import com.tomcat360.lyqb.utils.ButtonClickUtil;
+import com.tomcat360.lyqb.utils.CurrencyUtil;
 import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.LyqbLogger;
 import com.tomcat360.lyqb.utils.NumberUtils;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
-import com.tomcat360.lyqb.views.RangeSeekBar;
 import com.tomcat360.lyqb.views.TitleView;
+import com.warkiz.widget.IndicatorSeekBar;
+import com.warkiz.widget.OnSeekChangeListener;
+import com.warkiz.widget.SeekParams;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class SendActivity extends BaseActivity {
 
@@ -112,7 +120,7 @@ public class SendActivity extends BaseActivity {
     TextView amountToast;
 
     @BindView(R.id.seekBar)
-    RangeSeekBar seekBar;
+    IndicatorSeekBar seekBar;
 
     @BindView(R.id.transacition_fee)
     TextView transacitionFee;
@@ -137,11 +145,17 @@ public class SendActivity extends BaseActivity {
 
     private BigInteger gasPrice;
 
+    private String sendChoose;
+
     private LoopringService loopringService = new LoopringService();
 
     private BalanceDataManager balanceManager;
 
     private TokenDataManager tokenDataManager;
+
+    private GasDataManager gasDataManager;
+
+    private MarketcapDataManager marketcapDataManager;
 
     /**
      * 确认转出dialog
@@ -202,9 +216,13 @@ public class SendActivity extends BaseActivity {
 
     private ImageView cancel;
 
-    private RangeSeekBar dialogSeekBar;
+    private TextView recommendGas;
+
+    private IndicatorSeekBar gasSeekBar;
 
     private int value;
+
+    private Double gasEthValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,6 +237,8 @@ public class SendActivity extends BaseActivity {
     protected void initPresenter() {
         balanceManager = BalanceDataManager.getInstance(this);
         tokenDataManager = TokenDataManager.getInstance(this);
+        marketcapDataManager = MarketcapDataManager.getInstance(this);
+        gasDataManager = GasDataManager.getInstance(this);
     }
 
     @Override
@@ -229,21 +249,19 @@ public class SendActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        address = (String) SPUtils.get(SendActivity.this, "address", "");
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void initData() {
-        loopringService.getEstimateGasPrice()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
-                    long gasPriceLong = Long.valueOf(s.substring(2), 16);   //d=255
-                    gasPrice = BigInteger.valueOf(gasPriceLong);
-                    LyqbLogger.log(nonce + "    " + gasPrice);
-                });
-        String sendChoose = (String) SPUtils.get(this, "send_choose", "LRC");
+        address = (String) SPUtils.get(this, "address", "");
+        sendChoose = (String) SPUtils.get(this, "send_choose", "LRC");
+        gasDataManager.getGasObservable().subscribe(gasPrice -> {
+            gasDataManager.setRecommendGasPrice(gasPrice);
+            gasEthValue = Double.parseDouble(gasDataManager.getGasAmountInETH(gasDataManager.getGasLimitByType("token_transfer")
+                    .toString(), gasDataManager.getGasPriceString()));
+            transacitionFee.setText(new StringBuilder(gasEthValue.toString()).append(" ETH ≈ ")
+                    .append(CurrencyUtil.format(this, gasEthValue * marketcapDataManager.getPriceBySymbol("ETH"))));
+        });
         List<BalanceResult.Asset> listAsset = BalanceDataManager.getInstance(this).getAssets();
         String valueShow = "";
         for (BalanceResult.Asset asset : listAsset) {
@@ -255,7 +273,14 @@ public class SendActivity extends BaseActivity {
         }
         sendWalletName.setText(sendChoose);
         walletName2.setText(sendChoose);
-        sendWalletCount.setText(valueShow + " " + sendChoose);
+        sendWalletCount.setText(String.valueOf(valueShow + " " + sendChoose));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initSeekbar();
+        initMoneyAmount();
     }
 
     @OnClick({R.id.ll_manager_wallet, R.id.iv_scan, R.id.btn_send, R.id.ll_show_fee})
@@ -298,7 +323,6 @@ public class SendActivity extends BaseActivity {
         showConfirmDialog(this);
     }
 
-    @SuppressLint("SetTextI18n")
     public void showConfirmDialog(Context context) {
         final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);//
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_send_confirm, null);
@@ -313,8 +337,8 @@ public class SendActivity extends BaseActivity {
         formAddress.setText(address);
         BigInteger gas = gasPrice.multiply(new BigInteger("25200"));
         BigDecimal bigDecimal = UnitConverter.weiToEth(gas.toString());
-        tvGassFee.setText(bigDecimal.toPlainString()
-                .substring(0, 8) + " ETH = " + NumberUtils.formatTwo(Double.toString(gasFee), Integer.toString(1)));
+        tvGassFee.setText(new StringBuilder(bigDecimal.toPlainString().substring(0, 8)).append(" ETH = ")
+                .append(NumberUtils.formatTwo(Double.toString(gasFee), Integer.toString(1))));
         confirm.setOnClickListener(v -> {
             confirmDialog.dismiss();
             showPasswordDialog();
@@ -331,7 +355,6 @@ public class SendActivity extends BaseActivity {
         final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.DialogTheme);//
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_put_password, null);
         builder.setView(view);
-        TextView title = view.findViewById(R.id.title);
         final EditText passwordInput = view.findViewById(R.id.password_input);
         TextView cancel = view.findViewById(R.id.cancel);
         TextView confirm = view.findViewById(R.id.confirm);
@@ -355,7 +378,7 @@ public class SendActivity extends BaseActivity {
         showProgress("加载中");
         new Thread(() -> {
             try {
-                Account account = null;
+                Account account;
                 String keystore = FileUtils.getKeystoreFromSD(SendActivity.this);
                 account = WalletHelper.unlockWallet(password, keystore); //获取account信息，里面有privatekey
                 Integer chanid = 1;  //chanid
@@ -411,6 +434,7 @@ public class SendActivity extends BaseActivity {
                 sendWalletName.setText(symbol);
                 walletName2.setText(symbol);
                 sendWalletCount.setText(asset.getValueShown() + " " + symbol);
+                sendChoose = asset.getSymbol();
             }
         }
     }
@@ -418,7 +442,6 @@ public class SendActivity extends BaseActivity {
     /**
      * @param context
      */
-    @SuppressLint("SetTextI18n")
     public void showFeeDialog(Context context) {
         if (dialog == null) {
             final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);//
@@ -428,26 +451,53 @@ public class SendActivity extends BaseActivity {
             tvAmount = view.findViewById(R.id.tv_amount);
             tvWalletInfo = view.findViewById(R.id.tv_wallet_info);
             cancel = view.findViewById(R.id.cancel);
-            dialogSeekBar = view.findViewById(R.id.seekBar);
-            tvAmount.setText(NumberUtils.formatSix(Double.toString(gasFee), Integer.toString(1)) + " ETH = " + NumberUtils
-                    .formatTwo(Double.toString(gasFee), Integer.toString(1)));
-            cancel.setOnClickListener(v -> dialog.dismiss());
-            dialogSeekBar.setOnRangeChangedListener((view1, min, max, isFromUser) -> {
-                value = (int) min;
-                String dd = NumberUtils.formatSix(Double.toString(0.000200), Integer.toString(value));
-                gasFee = Double.parseDouble(dd);
-                tvAmount.setText(dd + " ETH = " + NumberUtils.formatTwo(Double.toString(0.06), Integer.toString(value)));
-                tvWalletInfo.setText("Gas limit(100000) * Gas Price(" + NumberUtils.numberformat1((double) value) + " Gwei)");
+            recommendGas = view.findViewById(R.id.recommend_gas);
+            gasSeekBar = view.findViewById(R.id.gasSeekBar);
+            gasSeekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+                @Override
+                public void onSeeking(SeekParams seekParams) {
+                    gasDataManager.setCustomizeGasPriceInGWei((double) seekParams.progressFloat);
+                    gasEthValue = Double.parseDouble(gasDataManager.getGasAmountInETH(String.valueOf(gasDataManager.getGasLimitByType("token_transfer")), String
+                            .valueOf(gasDataManager.getCustomizeGasPriceInWei())));
+                    tvAmount.setText(new StringBuilder(gasEthValue.toString()).append(" ETH ≈ ")
+                            .append(CurrencyUtil.format(view.getContext(), gasEthValue * marketcapDataManager.getPriceBySymbol("ETH"))));
+                    tvWalletInfo.setText(new StringBuilder("Gas limit(").append(gasDataManager.getGasLimitByType("token_transfer"))
+                            .append(") * Gas Price(")
+                            .append((int) gasDataManager.getGasPriceInGwei())
+                            .append(" Gwei)"));
+                }
+
+                @Override
+                public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                }
             });
+            recommendGas.setOnClickListener(view1 -> gasSeekBar.post(() -> gasSeekBar.setProgress(gasDataManager.getRecommendGasPriceInGWei()
+                    .intValue())));
             builder.setCancelable(true);
             dialog = builder.create();
             dialog.setCancelable(true);
             dialog.setCanceledOnTouchOutside(true);
-            dialog.show();
             Objects.requireNonNull(dialog.getWindow()).setGravity(Gravity.BOTTOM);
-        } else {
-            dialog.show();
         }
+        cancel.setOnClickListener(v -> dialog.dismiss());
+        gasSeekBar.setMin(Float.parseFloat(NumberUtils.format1(gasDataManager.getRecommendGasPriceInGWei()
+                .divide(new BigDecimal(2))
+                .doubleValue(), 1)));
+        gasSeekBar.setMax(Float.parseFloat(NumberUtils.format1(gasDataManager.getRecommendGasPriceInGWei()
+                .multiply(new BigDecimal(2))
+                .doubleValue(), 1)));
+        gasSeekBar.setProgress((float) gasDataManager.getGasPriceInGwei());
+        tvAmount.setText(new StringBuilder(gasEthValue.toString()).append(" ETH ≈ ")
+                .append(CurrencyUtil.format(context, gasEthValue * marketcapDataManager.getPriceBySymbol("ETH"))));
+        tvWalletInfo.setText(new StringBuilder("Gas limit(").append(gasDataManager.getGasLimitByType("token_transfer"))
+                .append(") * Gas Price(")
+                .append((int) gasDataManager.getGasPriceInGwei())
+                .append(" Gwei)"));
+        dialog.show();
     }
 
     private void setWalletImage(String symbol) {
@@ -461,5 +511,57 @@ public class SendActivity extends BaseActivity {
             walletSymbol.setText(symbol);
             walletSymbol.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void initSeekbar() {
+        moneyAmount.post(() -> moneyAmount.setText(""));
+        seekBar.setProgress(0);
+        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+                double value = balanceManager.getAssetBySymbol(sendChoose)
+                        .getValue() * seekParams.progressFloat / 100;
+                moneyAmount.setText(NumberUtils.format1(value, balanceManager.getPrecisionBySymbol(sendChoose)));
+                amountToast.setText(CurrencyUtil.format(SendActivity.this, value * balanceManager.getAssetBySymbol(sendChoose)
+                        .getLegalValue()));
+                Selection.setSelection(moneyAmount.getText(), moneyAmount.getText().length());
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+            }
+        });
+    }
+
+    private void initMoneyAmount() {
+        amountToast.setText(CurrencyUtil.format(SendActivity.this, 0));
+        moneyAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable == null || editable.toString().isEmpty())
+                    return;
+                if (Double.parseDouble(editable.toString()) > amountTotal) {
+                    amountToast.setText(getResources().getText(R.string.input_valid_amount));
+                    amountToast.setTextColor(getResources().getColor(R.color.colorRed));
+                    Animation shakeAnimation = AnimationUtils.loadAnimation(SendActivity.this, R.anim.shake_x);
+                    amountToast.startAnimation(shakeAnimation);
+                } else {
+                    amountToast.setText(balanceManager.getAssetBySymbol(sendChoose).getLegalShown());
+                    amountToast.setTextColor(getResources().getColor(R.color.colorNineText));
+                }
+            }
+        });
     }
 }

@@ -94,7 +94,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/itemHeight"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/radius_white_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -106,6 +106,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/margSide"
                 android:layout_weight="1"
+                android:cursorVisible="true"
                 android:focusableInTouchMode="true"
                 android:hint="@string/enter_the_address"
                 android:imeOptions="actionNext"
@@ -138,12 +139,14 @@
             android:layout_marginTop="5dp"
             android:gravity="center_vertical"
             android:text="@string/address_confirm"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/normal14Text"/>
+            android:textColor="@color/colorRed"
+            android:textSize="@dimen/normal14Text"
+            android:visibility="invisible"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/itemHeight"
+            android:layout_marginTop="3dp"
             android:background="@drawable/radius_white_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -189,65 +192,68 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical"
-            android:text="@string/imput_valid_amount"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorNineText"
             android:textSize="@dimen/normal14Text"/>
 
-        <com.tomcat360.lyqb.views.RangeSeekBar
+        <com.warkiz.widget.IndicatorSeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:padding="5dp"
-            app:cellMode="number"
-            app:hideProgressHint="true"
-            app:lineColorEdge="#444444"
-            app:lineColorSelected="@color/colorGreen"
-            app:maxValue="100"
-            app:minValue="0"
-            app:progressHintResId="@drawable/progress_hint_bg3"
-            app:seekBarHeight="5dp"
-            app:seekBarMode="single"
-            app:thumbPrimaryColor="@color/colorGreen"
-            app:thumbSecondaryColor="@color/colorGreen"
-            app:thumbSize="16dp"/>
+            android:layout_marginTop="4dp"
+            app:isb_progress_value_float="true"
+            app:isb_seek_smoothly="true"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_thumb_text="false"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_adjust_auto="false"
+            app:isb_thumb_color="@color/colorGreen"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_color="@color/colorGreen"
+            app:isb_tick_marks_size="7dp"
+            app:isb_tick_texts_array="@array/markArray"
+            app:isb_tick_texts_color="@color/colorNineText"
+            app:isb_ticks_count="5"
+            app:isb_track_background_color="@color/colorNineText"
+            app:isb_track_progress_color="@color/colorGreen"
+            app:isb_track_progress_size="3dp"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp">
+        <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="18dp">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="0%"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normalText"/>
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:text="0%"-->
+        <!--android:textColor="@color/colorWhite"-->
+        <!--android:textSize="@dimen/normalText"/>-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginRight="5dp"
-                android:text="100%"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normalText"/>
-        </RelativeLayout>
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:text="100%"-->
+        <!--android:textColor="@color/colorWhite"-->
+        <!--android:textSize="@dimen/normalText"/>-->
+        <!--</RelativeLayout>-->
 
         <LinearLayout
             android:id="@+id/ll_show_fee"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="18dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
                 android:gravity="center_vertical"
                 android:text="@string/transacition_fee"
                 android:textColor="@color/colorWhite"
@@ -262,7 +268,8 @@
                 android:gravity="center_vertical|end"
                 android:text="0.0002 ETH ≈ ¥1.22"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text"/>
+                android:textSize="@dimen/normal14Text"
+                android:textStyle="bold"/>
 
             <ImageView
                 android:layout_width="24dp"
@@ -275,8 +282,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:gravity="bottom"
             android:orientation="horizontal">
 

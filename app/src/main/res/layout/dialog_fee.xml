@@ -44,7 +44,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/tv_amount"
@@ -54,10 +54,12 @@
                 android:layout_marginLeft="20dp"
                 android:gravity="center_horizontal"
                 android:text="0.000200 ETH = $0.97"
+                android:textStyle="bold"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normal14Text"/>
 
             <TextView
+                android:id="@+id/recommend_gas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -65,7 +67,7 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center_horizontal"
                 android:text="@string/dialog_fee_recom"
-                android:textColor="@color/colorWhite"
+                android:textColor="@drawable/link_state_color"
                 android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>
@@ -76,32 +78,28 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="Gas limit(100000) * Gas Price(20.0 Gwei)"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/normal14Text"/>
+            android:textColor="@color/colorSixText"
+            android:textSize="@dimen/mainTabText"/>
 
-
-        <com.tomcat360.lyqb.views.RangeSeekBar
-            android:id="@+id/seekBar"
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/gasSeekBar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:padding="5dp"
-            app:cellMode="number"
-            app:hideProgressHint="true"
-            app:lineColorEdge="#444444"
-            app:lineColorSelected="@color/colorGreen"
-            app:maxValue="20"
-            app:minValue="1"
-            app:progressHintResId="@drawable/progress_hint_bg3"
-            app:seekBarHeight="5dp"
-            app:seekBarMode="single"
-            app:thumbPrimaryColor="@color/colorGreen"
-            app:thumbSecondaryColor="@color/colorGreen"
-            app:thumbSize="16dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="13dp"
+            app:isb_progress_value_float="true"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_thumb_text="false"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_adjust_auto="false"
+            app:isb_thumb_color="@color/colorGreen"
+            app:isb_thumb_size="20dp"
+            app:isb_track_background_color="#444444"
+            app:isb_track_progress_color="@color/colorGreen"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -109,15 +107,15 @@
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="18dp">
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/slow"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normalText"/>
+                android:textColor="@color/colorSixText"
+                android:textSize="@dimen/mainTabText"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -126,8 +124,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="5dp"
                 android:text="@string/quick"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normalText"/>
+                android:textColor="@color/colorSixText"
+                android:textSize="@dimen/mainTabText"/>
         </RelativeLayout>
 
     </LinearLayout>
