@@ -15,11 +15,11 @@
     <string name="skip">skip</string>
     <string name="confirm_mnemonic_word">Confirm Mnemonic Word</string>
     <string name="wallet_create_success">Wallet Create Successull!</string>
-    <string name="got_it">Ok,Got it</string>
+    <string name="got_it">OK,Got it</string>
     <string name="personal_user">我是普通用户</string>
     <string name="city_user">我是城市合伙人</string>
     <string name="city_code">城市合伙人激活码</string>
-    <string name="et_mnemonic">Please use space to seperate the mnemonic words</string>
+    <string name="et_mnemonic">Please use space to separate the mnemonic words</string>
     <string name="mnemonic_password">Mnemonic Password ( optional )</string>
     <string name="keystore_password">Keystore Password</string>
     <string name="keystore_hint">Please input keystore</string>

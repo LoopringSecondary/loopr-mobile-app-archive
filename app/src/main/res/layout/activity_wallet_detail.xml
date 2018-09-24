@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/colorPrimary"
@@ -47,41 +46,27 @@
                 android:id="@+id/wallet_qrcode"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:src="@mipmap/icon_wallet_qrcode"
                 android:visibility="gone"/>
         </LinearLayout>
     </RelativeLayout>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margSide"
-        android:layout_marginRight="@dimen/margSide"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorPrimary"
-        app:tabIndicatorColor="#FA4A6F"
-        app:tabSelectedTextColor="@color/colorWhite"
-        app:tabTextAppearance="@style/TabLayoutTextAppearance"
-        />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
         android:layout_weight="1"
-        />
+        android:layout_marginTop="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:paddingBottom="32dp"
-        >
+        android:paddingBottom="32dp">
 
         <Button
             android:id="@+id/btn_receive"
@@ -106,4 +91,5 @@
             android:textColor="@color/colorWhite"/>
 
     </LinearLayout>
+
 </LinearLayout>

@@ -1,26 +1,43 @@
 package com.tomcat360.lyqb.activity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lyqb.walletsdk.model.TxType;
+import com.lyqb.walletsdk.model.response.data.Transaction;
+import com.lyqb.walletsdk.model.response.data.TransactionPageWrapper;
+import com.lyqb.walletsdk.service.LoopringService;
 import com.tomcat360.lyqb.R;
-import com.tomcat360.lyqb.adapter.ViewPageAdapter;
-import com.tomcat360.lyqb.fragment.WalletAllFragment;
+import com.tomcat360.lyqb.adapter.WalletAllAdapter;
 import com.tomcat360.lyqb.manager.BalanceDataManager;
+import com.tomcat360.lyqb.manager.GasDataManager;
+import com.tomcat360.lyqb.manager.MarketcapDataManager;
+import com.tomcat360.lyqb.manager.TokenDataManager;
+import com.tomcat360.lyqb.utils.CurrencyUtil;
+import com.tomcat360.lyqb.utils.DateUtil;
+import com.tomcat360.lyqb.utils.NumberUtils;
+import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.views.TitleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class WalletDetailActivity extends BaseActivity {
 
@@ -36,25 +53,55 @@ public class WalletDetailActivity extends BaseActivity {
     @BindView(R.id.wallet_qrcode)
     ImageView walletQrcode;
 
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-
     @BindView(R.id.btn_receive)
     Button btnReceive;
 
     @BindView(R.id.btn_send)
     Button btnSend;
 
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+
     private String symbol;
-    private List<Fragment> mFragments;
+
+    private WalletAllAdapter mAdapter;
+
+    private LoopringService loopringService = new LoopringService();
+
+    private GasDataManager gasManager;
+
+    private TokenDataManager tokenManager;
+
+    private MarketcapDataManager priceManager;
 
     private BalanceDataManager balanceManager;
 
-    private String[] mTitles = {"All", "Receive", "Send", "Fail"};
+    private String address;
 
+    private List<Transaction> list;
+
+    private int txTotalCount;
+
+    private int currentPageIndex = 1;
+
+    private static final int PAGE_SIZE = 2000;
+
+    /**
+     * @param context
+     */
+    private AlertDialog dialog;
+
+    private TextView txAmount;
+
+    private TextView txStatus;
+
+    private TextView txAddress;
+
+    private TextView txID;
+
+    private TextView txGas;
+
+    private TextView txDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +114,10 @@ public class WalletDetailActivity extends BaseActivity {
 
     @Override
     protected void initPresenter() {
+        gasManager = GasDataManager.getInstance(this);
+        tokenManager = TokenDataManager.getInstance(this);
+        priceManager = MarketcapDataManager.getInstance(this);
+        balanceManager = BalanceDataManager.getInstance(this);
     }
 
     @Override
@@ -76,6 +127,7 @@ public class WalletDetailActivity extends BaseActivity {
         title.clickLeftGoBack(getWContext());
         walletMoney.setText(balanceManager.getAssetBySymbol(symbol).getValueShown());
         walletDollar.setText(balanceManager.getAssetBySymbol(symbol).getLegalShown());
+        list = new ArrayList<>();
     }
 
     @Override
@@ -84,23 +136,165 @@ public class WalletDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mFragments = new ArrayList<>();
-        Bundle bundle = new Bundle();
-        bundle.putString("symbol", symbol);
-        WalletAllFragment allFragment = new WalletAllFragment();
-        WalletAllFragment allFragment2 = new WalletAllFragment();
-        WalletAllFragment allFragment3 = new WalletAllFragment();
-        WalletAllFragment allFragment4 = new WalletAllFragment();
-        allFragment.setArguments(bundle);
-        allFragment2.setArguments(bundle);
-        allFragment3.setArguments(bundle);
-        allFragment4.setArguments(bundle);
-        mFragments.add(allFragment);
-        mFragments.add(allFragment2);
-        mFragments.add(allFragment3);
-        mFragments.add(allFragment4);
-        viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), mFragments, mTitles));
-        tabLayout.setupWithViewPager(viewPager);
+        address = (String) SPUtils.get(this, "address", "");
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);  //助记词提示列表
+        mAdapter = new WalletAllAdapter(R.layout.adapter_item_wallet_all, null, symbol);
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> showDetailDialog(mAdapter.getItem(position)));
+        mAdapter.setOnLoadMoreListener(() -> {
+            if (mAdapter.getData().size() >= txTotalCount) {
+                //数据全部加载完毕
+                mAdapter.loadMoreEnd();
+            } else {
+                //成功获取更多数据
+                getTxsFromRelay();
+                mAdapter.loadMoreComplete();
+            }
+        }, recyclerView);
+        getTxsFromRelay();
+    }
+
+    private void getTxsFromRelay() {
+        loopringService.getTransactions(address, symbol, currentPageIndex, PAGE_SIZE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<TransactionPageWrapper>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(TransactionPageWrapper transactionPageWrapper) {
+                        list.addAll(transactionPageWrapper.getData());
+                        Collections.sort(list, (o1, o2) -> o1.getCreateTime() < o2.getCreateTime() ? 1 : -1);
+                        mAdapter.setNewData(list);
+                        currentPageIndex += 1;
+                        txTotalCount = transactionPageWrapper.getTotal();
+                        unsubscribe();
+                    }
+                });
+    }
+
+    public void showDetailDialog(Transaction tx) {
+        if (dialog == null) {
+            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.DialogTheme);//
+            View view = LayoutInflater.from(this).inflate(R.layout.dialog_trade_detail, null);
+            builder.setView(view);
+            txAmount = view.findViewById(R.id.tx_detail_amount);
+            txStatus = view.findViewById(R.id.tx_detail_status);
+            txAddress = view.findViewById(R.id.tx_detail_address);
+            txID = view.findViewById(R.id.tx_detail_ID);
+            txGas = view.findViewById(R.id.tx_detail_gas);
+            txDate = view.findViewById(R.id.receive_date);
+            builder.setCancelable(true);
+            dialog = builder.create();
+            dialog.setCancelable(true);
+            dialog.setCanceledOnTouchOutside(true);
+            Window window = dialog.getWindow();
+            window.setGravity(Gravity.BOTTOM);
+        }
+        setAmount(tx);
+        setStatus(tx);
+        setAddress(tx);
+        setID(tx);
+        setGas(tx);
+        setDate(tx);
+        dialog.show();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+    }
+
+    private void setAmount(Transaction tx) {
+        String result = "--";
+        Double price = priceManager.getPriceBySymbol(tx.getSymbol());
+        Double value = tokenManager.getDoubleFromWei(tx.getSymbol(), tx.getValue());
+        if (price != null && value != null) {
+            int precision = balanceManager.getPrecisionBySymbol(tx.getSymbol());
+            String valueShown = NumberUtils.format1(value, precision);
+            String currency = CurrencyUtil.format(this, value * price);
+            switch (tx.getType()) {
+                case SEND:
+                case SELL:
+                case CONVERT_OUTCOME:
+                    valueShown = "-" + valueShown + " " + tx.getSymbol();
+                    txAmount.setTextColor(this.getResources().getColor(R.color.colorRed));
+                    break;
+                case BUY:
+                case RECEIVE:
+                case CONVERT_INCOME:
+                    valueShown = "+" + valueShown + " " + tx.getSymbol();
+                    txAmount.setTextColor(this.getResources().getColor(R.color.colorGreen));
+                    break;
+            }
+            result = valueShown + " ≈ " + currency;
+        }
+        txAmount.setText(result);
+    }
+
+    private void setStatus(Transaction tx) {
+        switch (tx.getStatus()) {
+            case SUCCESS:
+                txStatus.setTextColor(this.getResources().getColor(R.color.colorGreen));
+                break;
+            case PENDING:
+                txStatus.setTextColor(this.getResources().getColor(R.color.colorPending));
+                break;
+            case FAILED:
+                txStatus.setTextColor(this.getResources().getColor(R.color.colorRed));
+                break;
+        }
+        txStatus.setText(tx.getStatus().getDescription());
+    }
+
+    private void setAddress(Transaction tx) {
+        String etherUrl = "https://etherscan.io/address/";
+        if (tx.getType() == TxType.RECEIVE) {
+            etherUrl += tx.getFrom();
+            txAddress.setText(tx.getFrom());
+        } else {
+            etherUrl += tx.getTo();
+            txAddress.setText(tx.getTo());
+        }
+        final String url = etherUrl;
+        txAddress.setOnClickListener(v -> {
+            getOperation().addParameter("url", url);
+            getOperation().forward(DefaultWebViewActivity.class);
+        });
+    }
+
+    private void setID(Transaction tx) {
+        String etherUrl = "https://etherscan.io/tx/";
+        txID.setText(tx.getTxHash());
+        etherUrl += tx.getTxHash();
+        final String url = etherUrl;
+        txID.setOnClickListener(v -> {
+            getOperation().addParameter("url", url);
+            getOperation().forward(DefaultWebViewActivity.class);
+        });
+    }
+
+    private void setGas(Transaction tx) {
+        String gasAmount = gasManager.getGasAmountInETH(tx.getGas_used(), tx.getGas_price());
+        double gasValue = Double.parseDouble(gasAmount);
+        Double price = priceManager.getPriceBySymbol("ETH");
+        String currency = CurrencyUtil.format(this, gasValue * price);
+        txGas.setText(gasAmount + " ETH ≈ " + currency);
+    }
+
+    private void setDate(Transaction tx) {
+        String date = DateUtil.timeStampToDateTime3(tx.getCreateTime());
+        txDate.setText(date);
     }
 
     @OnClick({R.id.btn_receive, R.id.btn_send})
