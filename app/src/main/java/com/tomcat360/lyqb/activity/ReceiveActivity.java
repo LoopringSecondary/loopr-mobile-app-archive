@@ -1,11 +1,25 @@
 package com.tomcat360.lyqb.activity;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,6 +48,9 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class ReceiveActivity extends BaseActivity {
 
+    @BindView(R.id.ll_share_view)
+    ConstraintLayout llShareView;
+
     @BindView(R.id.title)
     TitleView title;
 
@@ -57,6 +74,12 @@ public class ReceiveActivity extends BaseActivity {
 
     @BindView(R.id.app_name)
     TextView appName;
+
+    @BindView(R.id.qrcode_image)
+    ImageView qrcodeImage;
+
+    @BindView(R.id.wallet_address)
+    TextView walletAddress;
 
     private UMShareListener umShareListener = new UMShareListener() {
         /**
@@ -134,12 +157,14 @@ public class ReceiveActivity extends BaseActivity {
     public void initData() {
         String str = (String) SPUtils.get(this, "address", "");
         coinAddress.setText(str);
+        walletAddress.setText(str);
         //二维码生成方式一  推荐此方法
-        RxQRCode.builder(str).
+        RxQRCode.Builder builder = RxQRCode.builder(str).
                 backColor(0xFFFFFFFF).
                 codeColor(0xFF000000).
-                codeSide(600).
-                into(ivCode);
+                codeSide(600);
+        builder.into(ivCode);
+        builder.into(qrcodeImage);
     }
 
     @OnClick({R.id.btn_copy, R.id.btn_save})
@@ -152,6 +177,8 @@ public class ReceiveActivity extends BaseActivity {
                 ToastUtils.toast("复制成功");
                 break;
             case R.id.btn_save:
+                Bitmap bitmap = getBitmap(llShareView);
+                saveChart(bitmap, llShareView.getMeasuredHeight(), llShareView.getMeasuredWidth());
                 break;
         }
     }
@@ -194,5 +221,54 @@ public class ReceiveActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         ReceiveActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    // 根据 layout 生成bitmap
+    public Bitmap getBitmap(ConstraintLayout layout) {
+        layout.setDrawingCacheEnabled(true);
+        layout.buildDrawingCache();
+        Bitmap bmp = Bitmap.createBitmap(layout.getDrawingCache());
+        layout.setDrawingCacheEnabled(false);
+        return bmp;
+    }
+
+    // 将bitmap保存至sd card
+    public boolean saveChart(Bitmap getbitmap, float height, float width) {
+        File folder = new File(Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "myfolder");
+        boolean success = false;
+        if (!folder.exists()) {
+            success = folder.mkdirs();
+        }
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(new Date());
+        File file = new File(folder.getPath() + File.separator + "/" + timeStamp + ".png");
+        if (!file.exists()) {
+            try {
+                success = file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        FileOutputStream ostream;
+        try {
+            ostream = new FileOutputStream(file);
+            Bitmap well = getbitmap;
+            Bitmap save = Bitmap.createBitmap((int) width, (int) height, Bitmap.Config.ARGB_8888);
+            Paint paint = new Paint();
+            paint.setColor(Color.WHITE);
+            Canvas now = new Canvas(save);
+            now.drawRect(new Rect(0, 0, (int) width, (int) height), paint);
+            now.drawBitmap(well,
+                    new Rect(0, 0, well.getWidth(), well.getHeight()),
+                    new Rect(0, 0, (int) width, (int) height), null);
+            if (save == null) {
+                System.out.println("NULL bitmap save\n");
+            }
+            save.compress(Bitmap.CompressFormat.PNG, 100, ostream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
     }
 }

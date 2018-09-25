@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.umeng.socialize.media.UMWeb;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -35,6 +37,9 @@ public class ShareActivity extends BaseActivity {
 
     @BindView(R.id.address)
     TextView address;
+
+    @BindView(R.id.btn_share)
+    Button shareButton;
 
     private UMShareListener umShareListener = new UMShareListener() {
         /**
@@ -93,12 +98,6 @@ public class ShareActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.share_title));
         title.clickLeftGoBack(getWContext());
-        title.setRightImageButton(R.mipmap.icon_share, new TitleView.OnRightButtonClickListener() {
-            @Override
-            public void onClick(View button) {
-                ShareActivityPermissionsDispatcher.showWriteWithPermissionCheck(ShareActivity.this);
-            }
-        });
     }
 
     @Override
@@ -110,13 +109,24 @@ public class ShareActivity extends BaseActivity {
     public void initData() {
     }
 
+
+    @OnClick ({R.id.btn_share})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_share:
+                ShareActivityPermissionsDispatcher.showWriteWithPermissionCheck(ShareActivity.this);
+                break;
+            default:
+                break;
+        }
+    }
+
     // 单个权限
     // @NeedsPermission(Manifest.permission.CAMERA)
     // 多个权限
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void showWrite() {
         uShare();
-        //        ToastUtils.toast("jinlaile ");
     }
 
     // 用户拒绝授权回调（可选）

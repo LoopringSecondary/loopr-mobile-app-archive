@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.lyqb.walletsdk.Default;
 import com.lyqb.walletsdk.SDK;
+import com.lyqb.walletsdk.model.Partner;
 import com.lyqb.walletsdk.model.request.RequestWrapper;
 import com.lyqb.walletsdk.model.response.ResponseWrapper;
 import com.lyqb.walletsdk.model.response.data.BalanceResult;
@@ -59,4 +60,10 @@ public interface RpcDelegate {
 
     @POST(Default.RELAY_RPC_URL)
     Observable<ResponseWrapper<String>> notifyTransactionSubmitted(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<Partner>> createPartner(@Body RequestWrapper request);
+
+    @POST(Default.PARTNER_ACTIVATE)
+    Observable<ResponseWrapper<Partner>> activateInvitation();
 }

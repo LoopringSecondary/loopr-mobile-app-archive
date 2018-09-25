@@ -9,11 +9,13 @@ import com.google.common.collect.Maps;
 import com.lyqb.walletsdk.Default;
 import com.lyqb.walletsdk.SDK;
 import com.lyqb.walletsdk.deligate.RpcDelegate;
+import com.lyqb.walletsdk.model.Partner;
 import com.lyqb.walletsdk.model.request.RequestWrapper;
 import com.lyqb.walletsdk.model.request.param.BalanceParam;
 import com.lyqb.walletsdk.model.request.param.MarketcapParam;
 import com.lyqb.walletsdk.model.request.param.NonceParam;
 import com.lyqb.walletsdk.model.request.param.NotifyTransactionSubmitParam;
+import com.lyqb.walletsdk.model.request.param.PartnerParam;
 import com.lyqb.walletsdk.model.request.param.TransactionParam;
 import com.lyqb.walletsdk.model.request.param.UnlockWallet;
 import com.lyqb.walletsdk.model.response.ResponseWrapper;
@@ -121,6 +123,16 @@ public class LoopringService {
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", param);
         Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyTransactionSubmitted(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<Partner> createPartner(String owner) {
+        RequestWrapper request = new RequestWrapper("loopring_createCityPartner", PartnerParam.builder().owner(owner));
+        return rpcDelegate.createPartner(request).map(ResponseWrapper::getResult);
+    }
+
+    public Observable<Partner> activateInvitation() {
+        Observable<ResponseWrapper<Partner>> observable = rpcDelegate.activateInvitation();
         return observable.map(ResponseWrapper::getResult);
     }
 }

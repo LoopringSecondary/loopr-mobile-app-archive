@@ -16,9 +16,6 @@
     <string name="confirm_mnemonic_word">确认助记词</string>
     <string name="wallet_create_success">钱包创建成功!</string>
     <string name="got_it">确认</string>
-    <string name="personal_user">我是普通用户</string>
-    <string name="city_user">我是城市合伙人</string>
-    <string name="city_code">城市合伙人激活码</string>
     <string name="et_mnemonic">Please use space to separate the mnemonic words</string>
     <string name="mnemonic_password">助记词密码(可选)</string>
     <string name="keystore_password">Keystore密码</string>
@@ -87,6 +84,7 @@
     <string name="tokens">代币</string>
     <string name="match_password">请验证密码</string>
     <string name="share_title">Up Wallet 推广</string>
+    <string name="share_button">分享APP</string>
     <string name="spread_address">我的推广地址是:</string>
     <string name="pay_detail">转账详情</string>
     <string name="to">转到</string>
