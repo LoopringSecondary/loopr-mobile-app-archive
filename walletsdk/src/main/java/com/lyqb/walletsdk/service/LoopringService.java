@@ -1,13 +1,14 @@
 package com.lyqb.walletsdk.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
+import org.web3j.protocol.core.methods.response.Transaction;
 import org.web3j.utils.Numeric;
 import com.google.common.collect.Maps;
 import com.lyqb.walletsdk.Default;
 import com.lyqb.walletsdk.SDK;
 import com.lyqb.walletsdk.deligate.RpcDelegate;
-import com.lyqb.walletsdk.model.TransactionObject;
 import com.lyqb.walletsdk.model.request.RequestWrapper;
 import com.lyqb.walletsdk.model.request.param.BalanceParam;
 import com.lyqb.walletsdk.model.request.param.MarketcapParam;
@@ -20,7 +21,6 @@ import com.lyqb.walletsdk.model.response.data.BalanceResult;
 import com.lyqb.walletsdk.model.response.data.MarketcapResult;
 import com.lyqb.walletsdk.model.response.data.Token;
 import com.lyqb.walletsdk.model.response.data.TransactionPageWrapper;
-import com.lyqb.walletsdk.util.Assert;
 
 import rx.Observable;
 
@@ -105,20 +105,21 @@ public class LoopringService {
         return observable.map(ResponseWrapper::getResult);
     }
 
-    public Observable<String> notifyTransactionSubmitted(String txHash, TransactionObject transactionObject) {
-        // data validate.
-        Assert.notNull(transactionObject, "");
-        NotifyTransactionSubmitParam notifyTransactionSubmitParam = NotifyTransactionSubmitParam.builder()
+    public Observable<String> notifyTransactionSubmitted(String txHash, Transaction transaction) {
+        NotifyTransactionSubmitParam param = NotifyTransactionSubmitParam.builder()
                 .hash(txHash)
-                .nonce(Numeric.toHexStringWithPrefixSafe(transactionObject.getNonce()))
-                .to(transactionObject.getTo())
-                .value(Numeric.toHexStringWithPrefixSafe(transactionObject.getValue()))
-                .gasPrice(Numeric.toHexStringWithPrefixSafe(transactionObject.getGasPrice()))
-                .gas(Numeric.toHexStringWithPrefixSafe(transactionObject.getGasLimit()))
-                .input(transactionObject.getData())
-                .from(transactionObject.getFrom())
+                .nonce(transaction.getNonceRaw())
+                .to(transaction.getTo())
+                .value(transaction.getValueRaw())
+                .gasPrice(transaction.getGasPriceRaw())
+                .gas(transaction.getGasRaw())
+                .input(transaction.getInput())
+                .from(transaction.getFrom())
+                .v(Numeric.toHexStringWithPrefixSafe(BigInteger.valueOf(transaction.getV())))
+                .r(transaction.getR())
+                .s(transaction.getS())
                 .build();
-        RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", notifyTransactionSubmitParam);
+        RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", param);
         Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyTransactionSubmitted(request);
         return observable.map(ResponseWrapper::getResult);
     }

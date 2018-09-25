@@ -124,7 +124,6 @@ public class GasDataManager {
     public void setCustomizeGasPriceInEth(Double value) {
         BigDecimal decimal = BigDecimal.valueOf(value);
         this.customizeGasPrice = Convert.toWei(decimal, Convert.Unit.ETHER);
-        LyqbLogger.log("set: " + value + " -> " + customizeGasPrice);
     }
 
     public BigDecimal getRecommendGasPriceInWei() {
@@ -136,7 +135,7 @@ public class GasDataManager {
     }
 
     public BigDecimal getCustomizeGasPriceInEth() {
-        return Convert.fromWei(this.customizeGasPrice, Convert.Unit.ETHER);
+        return Convert.fromWei(this.customizeGasPrice == null ? recommendGasPrice : customizeGasPrice, Convert.Unit.ETHER);
     }
 
     public String getRecommendGasPriceString() {
@@ -146,11 +145,11 @@ public class GasDataManager {
     }
 
     public BigDecimal getCustomizeGasPriceInWei() {
-        return this.customizeGasPrice;
+        return this.customizeGasPrice == null ? recommendGasPrice : customizeGasPrice;
     }
 
     public BigDecimal getCustomizeGasPriceInGWei() {
-        return Convert.fromWei(this.customizeGasPrice, Convert.Unit.GWEI);
+        return Convert.fromWei(this.customizeGasPrice == null ? recommendGasPrice : customizeGasPrice, Convert.Unit.GWEI);
     }
 
     public String getCustomizeGasPriceString() {
@@ -165,7 +164,6 @@ public class GasDataManager {
     }
 
     public double getGasPriceInGwei() {
-        LyqbLogger.log("get: " + customizeGasPrice + "");
         return Convert.fromWei(this.customizeGasPrice == null ? recommendGasPrice : customizeGasPrice, Convert.Unit.GWEI)
                 .doubleValue();
     }

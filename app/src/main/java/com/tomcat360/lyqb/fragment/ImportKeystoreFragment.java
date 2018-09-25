@@ -18,12 +18,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
-import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.IllegalCredentialException;
 import com.lyqb.walletsdk.exception.InvalidKeystoreException;
-import com.lyqb.walletsdk.exception.KeystoreSaveException;
-import com.lyqb.walletsdk.model.WalletDetail;
+import com.lyqb.walletsdk.exception.KeystoreCreateException;
 import com.lyqb.walletsdk.service.LoopringService;
+import com.lyqb.walletsdk.util.KeystoreUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.MainActivity;
@@ -246,21 +245,18 @@ public class ImportKeystoreFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                WalletDetail walletDetail = null;
                 try {
-                    walletDetail = WalletHelper.createFromKeystore(etKeystore.getText().toString(), etPassword.getText()
-                            .toString(), FileUtils.getKeyStoreLocation(getContext()));
-                    //                    walletDetail = APP.getLoopring().importFromKeystore(etKeystore.getText().toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
-                    filename = walletDetail.getFilename();
+                    filename = KeystoreUtils.createFromKeystoreJson(etKeystore.getText()
+                            .toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
                     SPUtils.put(getContext(), "filename", filename);
                     handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
-                } catch (KeystoreSaveException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_ONE);
-                    e.printStackTrace();
                 } catch (InvalidKeystoreException e) {
                     handlerCreate.sendEmptyMessage(ERROR_TWO);
                     e.printStackTrace();
                 } catch (IllegalCredentialException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_ONE);
+                    e.printStackTrace();
+                } catch (KeystoreCreateException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();
                 }

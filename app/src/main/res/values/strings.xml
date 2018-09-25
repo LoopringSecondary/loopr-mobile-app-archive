@@ -77,6 +77,7 @@
     <string name="address_confirm">在发送前，请确认地址无误。</string>
     <string name="enter_the_address">请输入地址</string>
     <string name="enter_the_amount">请输入额度</string>
+    <string name="input_valid_address">请输入合法地址</string>
     <string name="input_valid_amount">请输入有效的数据</string>
     <string name="transacition_fee">交易费</string>
     <string name="dialog_fee_title">设置油费</string>

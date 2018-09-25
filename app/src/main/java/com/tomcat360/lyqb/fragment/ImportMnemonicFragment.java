@@ -21,10 +21,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
-import com.lyqb.walletsdk.WalletHelper;
-import com.lyqb.walletsdk.exception.KeystoreSaveException;
-import com.lyqb.walletsdk.model.WalletDetail;
+import org.web3j.crypto.Credentials;
+import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
+import com.lyqb.walletsdk.exception.KeystoreCreateException;
 import com.lyqb.walletsdk.service.LoopringService;
+import com.lyqb.walletsdk.util.CredentialsUtils;
+import com.lyqb.walletsdk.util.KeystoreUtils;
+import com.lyqb.walletsdk.util.MnemonicUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.MainActivity;
@@ -283,15 +286,20 @@ public class ImportMnemonicFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                WalletDetail walletDetail = null;
+                Credentials credentials = null;
                 try {
-                    walletDetail = WalletHelper.createFromMnemonic(etMnemonic.getText()
-                            .toString(), dpath, etPassword.getText()
+                    credentials = MnemonicUtils.calculateCredentialsFromMnemonic(etMnemonic.getText()
+                            .toString(), dpath, etPassword.getText().toString());
+                    String privateKeyHexString = CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair()
+                            .getPrivateKey());
+                    filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, etPassword.getText()
                             .toString(), FileUtils.getKeyStoreLocation(getContext()));
-                    filename = walletDetail.getFilename();
                     SPUtils.put(getContext(), "filename", filename);
                     handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
-                } catch (KeystoreSaveException e) {
+                } catch (KeystoreCreateException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_ONE);
+                    e.printStackTrace();
+                } catch (InvalidPrivateKeyException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();
                 }

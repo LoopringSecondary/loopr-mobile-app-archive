@@ -22,4 +22,10 @@ public class NotifyTransactionSubmitParam {
     private String input;
 
     private String from;
+
+    private String v;
+
+    private String r;
+
+    private String s;
 }

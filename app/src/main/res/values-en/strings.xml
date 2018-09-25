@@ -75,6 +75,7 @@
     <string name="address_confirm">Please confirm the address before sending</string>
     <string name="enter_the_address">Enter The Address</string>
     <string name="enter_the_amount">Enter The Amount</string>
+    <string name="input_valid_address">Please input a valid address</string>
     <string name="input_valid_amount">Please input a valid amount</string>
     <string name="transacition_fee">Transacition Fee</string>
     <string name="dialog_fee_title">Set Gas</string>

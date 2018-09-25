@@ -21,11 +21,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
+import org.web3j.crypto.Credentials;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.common.base.Joiner;
-import com.lyqb.walletsdk.WalletHelper;
-import com.lyqb.walletsdk.model.WalletDetail;
+import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
+import com.lyqb.walletsdk.exception.KeystoreCreateException;
 import com.lyqb.walletsdk.service.LoopringService;
+import com.lyqb.walletsdk.util.CredentialsUtils;
+import com.lyqb.walletsdk.util.KeystoreUtils;
 import com.lyqb.walletsdk.util.MnemonicUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
@@ -58,6 +61,8 @@ public class GenerateWalletActivity extends BaseActivity {
     public final static int ERROR_ONE = 3;
 
     public final static int ERROR_TWO = 4;
+
+    public final static int ERROR_THREE = 5;
 
     @BindView(R.id.title)
     TitleView title;
@@ -348,11 +353,27 @@ public class GenerateWalletActivity extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                WalletDetail walletDetail = createWallet();//生成助记词
-                filename = walletDetail.getFilename();
-                LyqbLogger.log(filename);
-                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
-                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
+                Credentials credentials = MnemonicUtils.calculateCredentialsFromMnemonic(mnemonic, "m/44'/60'/0'/0", "");
+                String privateKeyHexString = CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair()
+                        .getPrivateKey());
+                String pas = repeatPassword.getText().toString();
+                try {
+                    filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, pas, FileUtils.getKeyStoreLocation(GenerateWalletActivity.this));
+                    LyqbLogger.log(filename);
+                    SPUtils.put(GenerateWalletActivity.this, "filename", filename);
+                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
+                } catch (InvalidPrivateKeyException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_THREE);
+                    e.printStackTrace();
+                } catch (KeystoreCreateException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_THREE);
+                    e.printStackTrace();
+                }
+                //                WalletDetail walletDetail = createWallet();//生成助记词
+                //                filename = walletDetail.getFilename();
+                //                LyqbLogger.log(filename);
+                //                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
+                //                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             }
         }).start();
     }
@@ -383,20 +404,19 @@ public class GenerateWalletActivity extends BaseActivity {
         }
         return true;
     }
-
     /**
      * 创建钱包
      */
-    private WalletDetail createWallet() {
-        WalletDetail walletDetail = null;
-        try {
-            String pas = repeatPassword.getText().toString();
-            walletDetail = WalletHelper.createFromMnemonic(mnemonic, null, pas, FileUtils.getKeyStoreLocation(this));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return walletDetail;
-    }
+    //    private WalletDetail createWallet() {
+    //        WalletDetail walletDetail = null;
+    //        try {
+    //            String pas = repeatPassword.getText().toString();
+    //            walletDetail = WalletHelper.createFromMnemonic(mnemonic, null, pas, FileUtils.getKeyStoreLocation(this));
+    //        } catch (Exception e) {
+    //            e.printStackTrace();
+    //        }
+    //        return walletDetail;
+    //    }
 
     /**
      * 获取本地keystore中的address

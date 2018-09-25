@@ -18,11 +18,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
-import com.lyqb.walletsdk.WalletHelper;
 import com.lyqb.walletsdk.exception.InvalidPrivateKeyException;
-import com.lyqb.walletsdk.exception.KeystoreSaveException;
-import com.lyqb.walletsdk.model.WalletDetail;
+import com.lyqb.walletsdk.exception.KeystoreCreateException;
 import com.lyqb.walletsdk.service.LoopringService;
+import com.lyqb.walletsdk.util.KeystoreUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.activity.MainActivity;
@@ -256,20 +255,16 @@ public class ImportPrivateKeyFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                WalletDetail walletDetail = null;
                 try {
-                    walletDetail = WalletHelper.createFromPrivateKey(etPrivateKey.getText()
-                            .toString()
-                            .startsWith("0x") ? etPrivateKey.getText().toString().substring(2) : etPrivateKey.getText()
+                    filename = KeystoreUtils.createFromPrivateKey(etPrivateKey.getText()
                             .toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
-                    filename = walletDetail.getFilename();
                     SPUtils.put(getContext(), "filename", filename);
                     handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
+                } catch (KeystoreCreateException e) {
+                    handlerCreate.sendEmptyMessage(ERROR_TWO);
+                    e.printStackTrace();
                 } catch (InvalidPrivateKeyException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
-                    e.printStackTrace();
-                } catch (KeystoreSaveException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_TWO);
                     e.printStackTrace();
                 }
             }

@@ -12,10 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.json.JSONException;
-import com.lyqb.walletsdk.WalletHelper;
+import org.web3j.crypto.Credentials;
 import com.lyqb.walletsdk.exception.IllegalCredentialException;
 import com.lyqb.walletsdk.exception.InvalidKeystoreException;
-import com.lyqb.walletsdk.model.Account;
+import com.lyqb.walletsdk.util.CredentialsUtils;
+import com.lyqb.walletsdk.util.KeystoreUtils;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.utils.FileUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
@@ -96,12 +97,12 @@ public class ExportPrivateKeyActivity extends BaseActivity {
     @Override
     public void initData() {
         String password = getIntent().getStringExtra("password");
-        Account account = null;
+        Credentials credentials = null;
         String keystore = null;
         try {
             keystore = FileUtils.getKeystoreFromSD(this, filename);
-            account = WalletHelper.unlockWallet(password, keystore); //获取account信息，里面有privatekey
-            tvPrivateKey.setText(account.getPrivateKey());
+            credentials = KeystoreUtils.unlock(password, keystore); //获取account信息，里面有privatekey
+            tvPrivateKey.setText(CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair().getPrivateKey()));
         } catch (IOException e) {
             handlerCreate.sendEmptyMessage(ERROR_ONE);
             e.printStackTrace();
