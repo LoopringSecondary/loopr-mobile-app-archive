@@ -238,7 +238,7 @@ public class ReceiveActivity extends BaseActivity {
     // 将bitmap保存至sd card
     public boolean saveChart(Bitmap getbitmap, float height, float width) {
         File folder = new File(Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "myfolder");
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "");
         boolean success = false;
         if (!folder.exists()) {
             success = folder.mkdirs();

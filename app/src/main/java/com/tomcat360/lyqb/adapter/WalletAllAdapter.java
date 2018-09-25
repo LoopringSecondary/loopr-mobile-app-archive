@@ -55,21 +55,29 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
                 helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.send) + " " + symbol);
                 helper.setText(R.id.wallet_money, "-" + value + " " + symbol);
                 helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorRed));
+                helper.setVisible(R.id.wallet_money, true);
+                helper.setVisible(R.id.wallet_count, true);
                 break;
             case RECEIVE:
                 helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.receive) + " " + symbol);
                 helper.setText(R.id.wallet_money, "+" + value + " " + symbol);
                 helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorGreen));
+                helper.setVisible(R.id.wallet_money, true);
+                helper.setVisible(R.id.wallet_count, true);
                 break;
             case SELL:
                 helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.sell) + " " + symbol);
                 helper.setText(R.id.wallet_money, "-" + value + " " + symbol);
                 helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorRed));
+                helper.setVisible(R.id.wallet_money, true);
+                helper.setVisible(R.id.wallet_count, true);
                 break;
             case BUY:
                 helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.buy) + " " + symbol);
                 helper.setText(R.id.wallet_money, "+" + value + " " + symbol);
                 helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorGreen));
+                helper.setVisible(R.id.wallet_money, true);
+                helper.setVisible(R.id.wallet_count, true);
                 break;
             case APPROVE:
                 helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.approve));
@@ -119,6 +127,8 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
         }
         helper.setText(R.id.wallet_money, "+" + value + " " + symbol);
         helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorGreen));
+        helper.setVisible(R.id.wallet_money, true);
+        helper.setVisible(R.id.wallet_count, true);
     }
 
     private void updateOutcome(BaseViewHolder helper, Transaction item, String value) {
@@ -129,5 +139,7 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
         }
         helper.setText(R.id.wallet_money, "-" + value + " " + symbol);
         helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorRed));
+        helper.setVisible(R.id.wallet_money, true);
+        helper.setVisible(R.id.wallet_count, true);
     }
 }
