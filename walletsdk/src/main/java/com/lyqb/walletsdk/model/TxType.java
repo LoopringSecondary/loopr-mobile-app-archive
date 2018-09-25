@@ -37,7 +37,7 @@ public enum TxType {
     CUTOFF("Cancel"),
 
     @SerializedName("unsupported_contract")
-    UNSUPPORTED("Unsupported"),
+    UNSUPPORTED("Other"),
 
     @SerializedName("unknown")
     OTHER("Unknown");

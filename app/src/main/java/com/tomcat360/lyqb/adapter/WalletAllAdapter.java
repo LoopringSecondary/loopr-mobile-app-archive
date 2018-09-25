@@ -87,6 +87,11 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
             case CONVERT_OUTCOME:
                 this.updateOutcome(helper, item, value);
                 break;
+            case UNSUPPORTED:
+                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.other));
+                helper.setVisible(R.id.wallet_money, false);
+                helper.setVisible(R.id.wallet_count, false);
+                break;
             default:
                 System.out.println(item.getType());
         }

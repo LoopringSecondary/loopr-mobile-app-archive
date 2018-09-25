@@ -24,7 +24,7 @@
     <string name="unlock">Unlock</string>
     <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>
     <string name="scan">Scan</string>
-    <string name="receive_code">Receiven Code</string>
+    <string name="receive_code">Receive Code</string>
     <string name="send">Send</string>
     <string name="receive">Receive</string>
     <string name="buy">Buy</string>
@@ -33,6 +33,7 @@
     <string name="cancelled">Cancel Order</string>
     <string name="convert_eth">Convert to ETH</string>
     <string name="convert_weth">Convert to WETH</string>
+    <string name="other">Unsupported Transaction Type</string>
     <string name="trade">Trade</string>
     <string name="copy_address">Copy Address</string>
     <string name="save_address">Save to Album</string>

@@ -174,11 +174,14 @@ public class ReceiveActivity extends BaseActivity {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 // 将文本内容放到系统剪贴板里。
                 cm.setText(coinAddress.getText());
-                ToastUtils.toast("复制成功");
+                ToastUtils.toast("复制地址至剪切板成功");
                 break;
             case R.id.btn_save:
                 Bitmap bitmap = getBitmap(llShareView);
-                saveChart(bitmap, llShareView.getMeasuredHeight(), llShareView.getMeasuredWidth());
+                boolean result = saveChart(bitmap, llShareView.getMeasuredHeight(), llShareView.getMeasuredWidth());
+                if (result) {
+                    ToastUtils.toast("保存图片至相册成功");
+                }
                 break;
         }
     }
