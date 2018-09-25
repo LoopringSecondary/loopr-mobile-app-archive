@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/colorPrimary"
@@ -18,12 +19,11 @@
         android:layout_marginTop="10dp"
         android:background="@mipmap/wallet_bg">
 
-        <TextView
+        <com.robinhood.ticker.TickerView
             android:id="@+id/wallet_money"
             style="@style/WrapWrap"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
-            android:text="37,013.79"
             android:textColor="@color/colorWhite"
             android:textSize="32sp"
             android:textStyle="bold"/>
@@ -51,44 +51,65 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/margSide"
-        android:layout_marginRight="@dimen/margSide"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:paddingBottom="32dp">
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="74dp"
+            android:background="@color/colorLine"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/btn_receive"
-            style="@style/SubmitBtnStyle"
-            android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:text="Receive"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"/>
+            <com.scwang.smartrefresh.header.WaterDropHeader
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="40dp"/>
 
-        <Button
-            android:id="@+id/btn_send"
-            style="@style/SubmitBtnStyle"
-            android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:text="Send"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margSide"
+                android:layout_marginRight="@dimen/margSide"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"/>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/buttonPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
 
+            <Button
+                android:id="@+id/btn_receive"
+                style="@style/SubmitBtnStyle"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:text="Receive"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"/>
+
+            <Button
+                android:id="@+id/btn_send"
+                style="@style/SubmitBtnStyle"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:text="Send"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"/>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 </LinearLayout>

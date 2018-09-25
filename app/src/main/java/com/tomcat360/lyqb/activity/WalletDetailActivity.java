@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,9 @@ import com.lyqb.walletsdk.model.TxType;
 import com.lyqb.walletsdk.model.response.data.Transaction;
 import com.lyqb.walletsdk.model.response.data.TransactionPageWrapper;
 import com.lyqb.walletsdk.service.LoopringService;
+import com.robinhood.ticker.TickerUtils;
+import com.robinhood.ticker.TickerView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.adapter.WalletAllAdapter;
 import com.tomcat360.lyqb.manager.BalanceDataManager;
@@ -45,7 +49,7 @@ public class WalletDetailActivity extends BaseActivity {
     TitleView title;
 
     @BindView(R.id.wallet_money)
-    TextView walletMoney;
+    TickerView walletMoney;
 
     @BindView(R.id.wallet_dollar)
     TextView walletDollar;
@@ -61,6 +65,9 @@ public class WalletDetailActivity extends BaseActivity {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout refreshLayout;
 
     private String symbol;
 
@@ -108,8 +115,13 @@ public class WalletDetailActivity extends BaseActivity {
         balanceManager = BalanceDataManager.getInstance(this);
         setContentView(R.layout.activity_wallet_detail);
         ButterKnife.bind(this);
+        walletMoney.setAnimationInterpolator(new OvershootInterpolator());
+        walletMoney.setCharacterLists(TickerUtils.provideNumberList());
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
+        refreshLayout.setOnRefreshListener(refreshLayout -> {
+            getTxsFromRelay();
+        });
     }
 
     @Override
@@ -162,10 +174,12 @@ public class WalletDetailActivity extends BaseActivity {
                 .subscribe(new Subscriber<TransactionPageWrapper>() {
                     @Override
                     public void onCompleted() {
+                        refreshLayout.finishRefresh(true);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        refreshLayout.finishRefresh(false);
                     }
 
                     @Override
@@ -175,6 +189,9 @@ public class WalletDetailActivity extends BaseActivity {
                         mAdapter.setNewData(list);
                         currentPageIndex += 1;
                         txTotalCount = transactionPageWrapper.getTotal();
+                        walletMoney.setText(balanceManager.getAssetBySymbol(symbol).getValueShown());
+                        walletDollar.setText(balanceManager.getAssetBySymbol(symbol).getLegalShown());
+                        refreshLayout.finishRefresh(true);
                         unsubscribe();
                     }
                 });
@@ -307,5 +324,10 @@ public class WalletDetailActivity extends BaseActivity {
                 getOperation().forward(SendActivity.class);
                 break;
         }
+    }
+
+    private void setWalletMoney(String text) {
+        if (walletMoney != null)
+            walletMoney.setText(text);
     }
 }
