@@ -550,7 +550,7 @@ public class SendActivity extends BaseActivity {
                 int precision = balanceManager.getPrecisionBySymbol(sendChoose);
                 moneyAmount.setText(NumberUtils.format1(balanceManager.getAssetBySymbol(sendChoose)
                         .getValue() * seekParams.progressFloat / 100, precision));
-                amountToast.setText(NumberUtils.format1(balanceManager.getAssetBySymbol(sendChoose)
+                amountToast.setText(CurrencyUtil.getCurrency(getBaseContext()).getSymbol() + NumberUtils.format1(balanceManager.getAssetBySymbol(sendChoose)
                         .getLegalValue() * seekParams.progressFloat / 100, precision));
                 Selection.setSelection(moneyAmount.getText(), moneyAmount.getText().length());
             }
