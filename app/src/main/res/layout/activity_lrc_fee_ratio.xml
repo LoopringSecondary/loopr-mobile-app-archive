@@ -7,7 +7,7 @@
               android:orientation="vertical"
     >
 
-    <com.tomcat360.lyqb.views.TitleView
+    <leaf.prod.app.views.TitleView
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
@@ -26,7 +26,7 @@
         android:textSize="@dimen/normalText"
         />
 
-    <com.tomcat360.lyqb.views.RangeSeekBar
+    <leaf.prod.app.views.RangeSeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"

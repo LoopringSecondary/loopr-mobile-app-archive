@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="40dp"/>
 
-    <com.tomcat360.lyqb.layout.ChildClickableFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <leaf.prod.app.layout.ChildClickableFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                          android:id="@+id/frame_layout"
                                                          android:layout_width="match_parent"
                                                          android:layout_height="match_parent"
@@ -303,6 +303,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 
-    </com.tomcat360.lyqb.layout.ChildClickableFrameLayout>
+    </leaf.prod.app.layout.ChildClickableFrameLayout>
 
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

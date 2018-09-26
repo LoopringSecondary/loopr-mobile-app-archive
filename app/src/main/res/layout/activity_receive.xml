@@ -102,12 +102,12 @@
                   android:clipToPadding="false"
                   android:orientation="vertical">
 
-        <com.tomcat360.lyqb.views.TitleView
+        <leaf.prod.app.views.TitleView
             android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-        </com.tomcat360.lyqb.views.TitleView>
+        </leaf.prod.app.views.TitleView>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -3,9 +3,9 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context="com.tomcat360.lyqb.activity.LoginActivity">
+              tools:context="leaf.prod.app.activity.LoginActivity">
 
-    <com.tomcat360.lyqb.views.TitleView
+    <leaf.prod.app.views.TitleView
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
