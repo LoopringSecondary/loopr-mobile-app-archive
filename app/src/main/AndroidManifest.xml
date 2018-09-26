@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.tomcat360.lyqb">
+    package="com.tomcat360.lyqb">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/> -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
         android:name=".view.APP"
@@ -25,203 +25,172 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme">
-        <activity
-            android:name=".activity.SplashActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5a98bcff8f4a9d400000010e"/>
+            android:value="5a98bcff8f4a9d400000010e" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Channel ID"/>
+            android:value="Channel ID" />
 
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/SwipeBackLayout">
-        </activity>
+            android:theme="@style/SwipeBackLayout"></activity>
         <activity
             android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
             android:launchMode="singleTask"
             android:theme="@style/SwipeBackLayout">
             <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".apshare.ShareEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/SwipeBackLayout"/>
+            android:theme="@style/SwipeBackLayout" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:theme="@style/SwipeBackLayout">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="1106526050"/>
+                <data android:scheme="1106526050" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/SwipeBackLayout"
-            />
+            android:theme="@style/SwipeBackLayout" />
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:theme="@style/SwipeBackLayout"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".activity.LoginActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.CoverActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="locale|layoutDirection|keyboard"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.GenerateWalletActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ImportWalletActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.WalletDetailActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ReceiveActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.TokenListActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.TokenListSearchActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ActivityScanerCode"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ShareActivity"
             android:configChanges="locale|layoutDirection|keyboard"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ManageWalletActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.CurrencyActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.LanguageActivity"
             android:configChanges="locale|layoutDirection|keyboard"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ContractVersionActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.LRCFeeRatioActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.MarginSplitActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.WalletSafeActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ReviseWalletNameActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.BackupMnemonicActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ExportMatchPasSafeActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ExportPrivateKeyActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ExportKeystoreDetailActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.SendActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.SendListChooseActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.DefaultWebViewActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

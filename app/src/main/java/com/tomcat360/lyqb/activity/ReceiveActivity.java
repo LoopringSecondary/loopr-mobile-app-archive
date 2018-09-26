@@ -30,11 +30,11 @@ import com.tomcat360.lyqb.R;
 import com.tomcat360.lyqb.utils.SPUtils;
 import com.tomcat360.lyqb.utils.ToastUtils;
 import com.tomcat360.lyqb.views.TitleView;
+import com.umeng.socialize.Config;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMWeb;
 import com.vondear.rxfeature.tool.RxQRCode;
 
 import butterknife.BindView;
@@ -128,6 +128,7 @@ public class ReceiveActivity extends BaseActivity {
         setContentView(R.layout.activity_receive);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
+        Config.DEBUG = true;
     }
 
     @Override
@@ -191,6 +192,7 @@ public class ReceiveActivity extends BaseActivity {
     // 多个权限
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void showWrite() {
+        //com.tomcat360.lyqb
         uShare();
         //        ToastUtils.toast("jinlaile ");
     }
@@ -208,15 +210,13 @@ public class ReceiveActivity extends BaseActivity {
     }
 
     private void uShare() {
-        UMWeb umWeb = new UMWeb("https://m.zhaoyunlicai.com/weekPayNo");
-        umWeb.setTitle("钱包地址分享");//标题
-        umWeb.setThumb(new UMImage(ReceiveActivity.this, R.mipmap.icon_share));  //缩略图
-        umWeb.setDescription("钱包地址分享");//描述
+        UMImage umImage = new UMImage(getApplicationContext(), getBitmap(llShareView));
+        umImage.setTitle("钱包地址分享");//标题
+        umImage.setDescription("钱包地址分享");//描述
         ShareAction shareAction = new ShareAction(ReceiveActivity.this);
         shareAction.setDisplayList(SHARE_MEDIA.QQ,
-                //                        SHARE_MEDIA.QZONE,
                 SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA)//传入平台
-                .setCallback(umShareListener).withMedia(umWeb).open();
+                .setCallback(umShareListener).withMedia(umImage).open();
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")
