@@ -74,7 +74,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
             loopringService = new LoopringService();
         Observable.zip(loopringService.getBalance(getAddress())
                         .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()), loopringService.getSupportedToken()
+                        .observeOn(AndroidSchedulers.mainThread()), loopringService.getCustomToken(getAddress())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread()), loopringService.getMarketcap(CurrencyUtil.getCurrency(context)
                         .getText())
@@ -165,9 +165,6 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     }
 
     private void setTokenLegalPrice() {
-        //        LyqbLogger.log(balanceDataManager.getAssets().toString());
-        //        LyqbLogger.log(tokenDataManager.getTokens().toString());
-        //        LyqbLogger.log(marketcapDataManager.getMarketcapResult().toString());
         for (BalanceResult.Asset asset : balanceDataManager.getAssets()) {
             tokenMap.put(asset.getSymbol(), asset);
         }
@@ -198,8 +195,9 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     }
 
     public String getAddress() {
-        if (address == null)
+        if (address == null) {
             address = (String) SPUtils.get(Objects.requireNonNull(context), "address", "");
+        }
         return address;
     }
 

@@ -39,7 +39,7 @@
                 android:id="@+id/iv_status"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginLeft="11dp"
+                android:layout_marginLeft="4dp"
                 android:src="@mipmap/icon_tx_success"/>
         </LinearLayout>
 

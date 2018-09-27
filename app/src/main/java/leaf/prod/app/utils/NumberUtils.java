@@ -74,6 +74,17 @@ public class NumberUtils {
         return new BigDecimal(fmt.format(d.doubleValue()));
     }
 
+    // 18 -> 10000000000000000000
+    public static String toBigDecimal(int digit) {
+        BigDecimal pow = BigDecimal.valueOf(Math.pow(10, digit));
+        return pow.toPlainString();
+    }
+
+    // 10000000000000000000 -> 18
+    public static int toDigitLength(String bigDecimal) {
+        return bigDecimal.length() - 1;
+    }
+
     public static int precision(double d) {
         // 0.0000001 -> 0
         // 0.01  -> 1

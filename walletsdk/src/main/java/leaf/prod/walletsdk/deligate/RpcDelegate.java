@@ -68,4 +68,10 @@ public interface RpcDelegate {
 
     @POST(Default.PARTNER_ACTIVATE)
     Observable<ResponseWrapper<Partner>> activateInvitation();
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<String>> addCustomToken(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<List<Token>>> getCustomToken(@Body RequestWrapper request);
 }

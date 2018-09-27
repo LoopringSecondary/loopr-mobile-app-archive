@@ -3,6 +3,7 @@ package leaf.prod.walletsdk.model.response.data;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,6 +11,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
+@Builder
 public class Token {
 
     private String protocol;

@@ -195,6 +195,11 @@
             android:name=".activity.DefaultWebViewActivity"
             android:exported="true"
             android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.AddCustomTokenActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

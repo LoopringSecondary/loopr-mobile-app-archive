@@ -105,4 +105,7 @@
     <string name="pending">待处理</string>
     <string name="time">时间</string>
     <string name="return_back">返回</string>
+    <string name="token_address">代币地址</string>
+    <string name="token_symbol">代币符号</string>
+    <string name="token_add">添加代币</string>
 </resources>

@@ -30,16 +30,18 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
     @BindView(R.id.title_text)
     TextView bTitle;
 
-    @BindView(R.id.right_text)
-    TextView mRightText;
+    @BindView(R.id.title_view)
+    LinearLayout titleView;
+
+    @BindView(R.id.mid_btn)
+    ImageView mMiddlebtn;
 
     @BindView(R.id.right_btn)
     ImageView mRightbtn;
 
-    @BindView(R.id.title_view)
-    LinearLayout titleView;
-
     private OnLeftButtonClickListener mOnLeftButtonClickListener;
+
+    private OnMiddleButtonClickListener mOnMiddleButtonClickListener;
 
     private OnRightButtonClickListener mOnRightButtonClickListener;
 
@@ -70,8 +72,8 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
         //		}
         mLeftBtn.setVisibility(View.INVISIBLE);
         mLeftBtn.setOnClickListener(this);
-        mRightText.setVisibility(View.GONE);
-        mRightText.setOnClickListener(this);
+        mMiddlebtn.setVisibility(View.INVISIBLE);
+        mMiddlebtn.setOnClickListener(this);
         mRightbtn.setVisibility(View.INVISIBLE);
         mRightbtn.setOnClickListener(this);
         bTitle.setVisibility(View.INVISIBLE);
@@ -87,34 +89,32 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
      */
     public void clickLeftGoBack(final WeakReference<Activity> context) {
         mLeftBtn.setVisibility(View.VISIBLE);
-        mOnLeftButtonClickListener = new OnLeftButtonClickListener() {
-            @Override
-            public void onClick(View button) {
-                context.get().finish();
-            }
-        };
+        mOnLeftButtonClickListener = button -> context.get().finish();
     }
 
     public void clickLeftGoBack(int imgResource, final WeakReference<Activity> context) {
         mLeftBtn.setVisibility(View.VISIBLE);
         mLeftBtn.setImageResource(imgResource);
-        mOnLeftButtonClickListener = new OnLeftButtonClickListener() {
-            @Override
-            public void onClick(View button) {
-                context.get().finish();
-            }
-        };
+        mOnLeftButtonClickListener = button -> context.get().finish();
+    }
+
+    public void setMiddleButton(String str, OnMiddleButtonClickListener listener) {
+        mMiddlebtn.setVisibility(View.GONE);
+        mOnMiddleButtonClickListener = listener;
+    }
+
+    public void setMiddleImageButton(int srcId, OnMiddleButtonClickListener listener) {
+        mMiddlebtn.setVisibility(View.VISIBLE);
+        mMiddlebtn.setImageResource(srcId);
+        mOnMiddleButtonClickListener = listener;
     }
 
     public void setRightButton(String str, OnRightButtonClickListener listener) {
-        mRightText.setText(str);
-        mRightText.setVisibility(View.VISIBLE);
         mRightbtn.setVisibility(View.GONE);
         mOnRightButtonClickListener = listener;
     }
 
     public void setRightImageButton(int srcId, OnRightButtonClickListener listener) {
-        mRightText.setVisibility(View.GONE);
         mRightbtn.setVisibility(View.VISIBLE);
         mRightbtn.setImageResource(srcId);
         mOnRightButtonClickListener = listener;
@@ -150,14 +150,17 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
         // mRightText.setTextColor(Color.rgb(0xff, 0xff, 0xff));
     }
 
-    @OnClick({R.id.left_btn, R.id.right_text, R.id.right_btn})
+    @OnClick({R.id.left_btn, R.id.mid_btn, R.id.right_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.left_btn:
                 if (mOnLeftButtonClickListener != null)
                     mOnLeftButtonClickListener.onClick(view);
                 break;
-            case R.id.right_text:
+            case R.id.mid_btn:
+                if (mOnMiddleButtonClickListener != null)
+                    mOnMiddleButtonClickListener.onClick(view);
+                break;
             case R.id.right_btn:
                 if (mOnRightButtonClickListener != null)
                     mOnRightButtonClickListener.onClick(view);
@@ -166,6 +169,11 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
     }
 
     public interface OnLeftButtonClickListener {
+
+        void onClick(View button);
+    }
+
+    public interface OnMiddleButtonClickListener {
 
         void onClick(View button);
     }

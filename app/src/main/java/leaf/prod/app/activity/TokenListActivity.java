@@ -72,6 +72,7 @@ public class TokenListActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.tokens));
         title.clickLeftGoBack(getWContext());
+        title.setMiddleImageButton(R.mipmap.icon_plus, button -> getOperation().forward(AddCustomTokenActivity.class));
         title.setRightImageButton(R.mipmap.icon_search, button -> llSearch.setVisibility(View.VISIBLE));
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -80,12 +81,10 @@ public class TokenListActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                LyqbLogger.log(s.toString() + "   " + s);
                 listSearch.clear();
                 for (int i = 0; i < list.size(); i++) {
                     if (list.get(i).getSymbol().contains(s.toString().toUpperCase())) {
                         listSearch.add(list.get(i));
-//                        LyqbLogger.log(listSearch.toString());
                     }
                 }
                 mAdapter.setNewData(listSearch);

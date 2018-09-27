@@ -103,4 +103,7 @@
     <string name="pending">Pending</string>
     <string name="time">Time</string>
     <string name="return_back">Return</string>
+    <string name="token_address">Token Address</string>
+    <string name="token_symbol">Token Symbol</string>
+    <string name="token_add">Add Token</string>
 </resources>

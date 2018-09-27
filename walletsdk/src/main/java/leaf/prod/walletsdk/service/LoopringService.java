@@ -6,11 +6,13 @@ import java.util.List;
 import org.web3j.protocol.core.methods.response.Transaction;
 import org.web3j.utils.Numeric;
 import com.google.common.collect.Maps;
+
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
+import leaf.prod.walletsdk.model.request.param.AddTokenParam;
 import leaf.prod.walletsdk.model.request.param.BalanceParam;
 import leaf.prod.walletsdk.model.request.param.MarketcapParam;
 import leaf.prod.walletsdk.model.request.param.NonceParam;
@@ -23,10 +25,6 @@ import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.MarketcapResult;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.model.response.data.TransactionPageWrapper;
-
-import leaf.prod.walletsdk.model.request.param.BalanceParam;
-import leaf.prod.walletsdk.model.request.param.UnlockWallet;
-import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import rx.Observable;
 
 public class LoopringService {
@@ -81,6 +79,10 @@ public class LoopringService {
         return observable.map(ResponseWrapper::getResult);
     }
 
+    /**
+     * use getCustomToken instead: getCustomToken = getSupportedToken + customToken
+     */
+    @Deprecated
     public Observable<List<Token>> getSupportedToken() {
         RequestWrapper request = new RequestWrapper("loopring_getSupportedTokens", Maps.newHashMap());
         Observable<ResponseWrapper<List<Token>>> observable = rpcDelegate.getSupportedTokens(request);
@@ -136,6 +138,28 @@ public class LoopringService {
 
     public Observable<Partner> activateInvitation() {
         Observable<ResponseWrapper<Partner>> observable = rpcDelegate.activateInvitation();
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<String> addCustomToken(String owner, String address, String symbol, String decimals) {
+        AddTokenParam param = AddTokenParam.builder()
+                .owner(owner)
+                .address(address)
+                .symbol(symbol)
+                .decimals(decimals)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_addCustomToken", param);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.addCustomToken(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<List<Token>> getCustomToken(String owner) {
+        com.lyqb.walletsdk.model.request.param.GetTokenParam param = com.lyqb.walletsdk.model.request.param.GetTokenParam
+                .builder()
+                .owner(owner)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_getCustomTokens", param);
+        Observable<ResponseWrapper<List<Token>>> observable = rpcDelegate.getCustomToken(request);
         return observable.map(ResponseWrapper::getResult);
     }
 }

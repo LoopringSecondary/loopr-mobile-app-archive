@@ -19,7 +19,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/icon_bg"
+            android:src="@mipmap/icon_tx_bg"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -29,7 +29,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="42dp"
-            android:src="@drawable/icon_checked"
+            android:src="@mipmap/icon_checked"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"

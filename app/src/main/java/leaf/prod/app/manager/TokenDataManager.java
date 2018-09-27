@@ -18,9 +18,8 @@ import android.content.Context;
 import org.web3j.utils.Convert;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import leaf.prod.walletsdk.model.response.data.Token;
-import leaf.prod.walletsdk.service.LoopringService;
 
+import leaf.prod.app.utils.SPUtils;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.service.LoopringService;
 import rx.Observable;
@@ -77,9 +76,10 @@ public class TokenDataManager {
     }
 
     private void loadTokensFromRelay() {
+        String owner = (String) SPUtils.get(context, "address", "");
         if (this.tokenObservable == null) {
             this.tokenObservable = loopringService
-                    .getSupportedToken()
+                    .getCustomToken(owner)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
         }
@@ -91,6 +91,12 @@ public class TokenDataManager {
 
     public Observable<List<Token>> getTokenObservable() {
         return tokenObservable;
+    }
+
+    public void addToken(Token token) {
+        if (!tokens.contains(token)) {
+            this.tokens.add(token);
+        }
     }
 
     public Token getTokenBySymbol(String symbol) {
@@ -132,9 +138,7 @@ public class TokenDataManager {
     public void mergeTokens(List<Token> tokens) {
         synchronized (this) {
             for (Token token : tokens) {
-                if (!this.tokens.contains(token)) {
-                    this.tokens.add(token);
-                }
+                addToken(token);
             }
             for (Token token : this.tokens) {
                 String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
