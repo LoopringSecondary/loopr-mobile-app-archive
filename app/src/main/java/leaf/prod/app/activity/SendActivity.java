@@ -231,6 +231,8 @@ public class SendActivity extends BaseActivity {
      */
     private AlertDialog passwordDialog;
 
+    private Animation shakeAnimation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_send);
@@ -282,6 +284,7 @@ public class SendActivity extends BaseActivity {
         sendWalletName.setText(sendChoose);
         walletName2.setText(sendChoose);
         sendWalletCount.setText(String.valueOf(valueShow + " " + sendChoose));
+        shakeAnimation = AnimationUtils.loadAnimation(SendActivity.this, R.anim.shake_x);
     }
 
     @Override
@@ -321,17 +324,19 @@ public class SendActivity extends BaseActivity {
 
     private void checkInfo() {
         String amount = moneyAmount.getText().toString();
-        if (TextUtils.isEmpty(walletAddress.getText().toString())) {
-            ToastUtils.toast("请输入钱包地址");
+        if (TextUtils.isEmpty(walletAddress.getText().toString()) || !WalletUtils.isValidAddress(walletAddress.getText()
+                .toString()
+                .trim())) {
+            Animation shakeAnimation = AnimationUtils.loadAnimation(SendActivity.this, R.anim.shake_x);
+            addressToast.setVisibility(View.VISIBLE);
+            addressToast.startAnimation(shakeAnimation);
             return;
         }
-        if (TextUtils.isEmpty(amount)) {
-            ToastUtils.toast("请输入额度");
-            return;
-        }
-        amountSend = Double.parseDouble(amount);
-        if (amountSend > amountTotal) {
-            ToastUtils.toast("可用余额不足");
+        if (TextUtils.isEmpty(amount) || (amountSend = Double.parseDouble(amount)) > amountTotal) {
+            amountToast.setText(getResources().getText(R.string.input_valid_amount));
+            amountToast.setTextColor(getResources().getColor(R.color.colorRed));
+            amountToast.setVisibility(View.VISIBLE);
+            amountToast.startAnimation(shakeAnimation);
             return;
         }
         showConfirmDialog(this);
@@ -357,7 +362,7 @@ public class SendActivity extends BaseActivity {
             confirmDialog.setCancelable(true);
             confirmDialog.setCanceledOnTouchOutside(true);
         }
-        payAmount.setText(moneyAmount.getText().toString());
+        payAmount.setText(moneyAmount.getText().toString() + " " + sendChoose);
         toAddress.setText(walletAddress.getText().toString());
         formAddress.setText(address);
         tvGassFee.setText(transacitionFee.getText());
@@ -406,22 +411,19 @@ public class SendActivity extends BaseActivity {
                             .transfer(gasDataManager.getCustomizeGasPriceInWei().toBigInteger(), walletAddress.getText()
                                     .toString(), values);
                 }
+                getOperation().addParameter("tokenAmount", "-" + moneyAmount.getText() + " " + sendChoose);
+                getOperation().addParameter("address", walletAddress.getText().toString());
+                getOperation().forward(SendResultActivity.class);
                 LyqbLogger.log(txHash);
                 handlerCreate.sendEmptyMessage(SEND_SUCCESS);
             } catch (TransactionException e) {
                 errorMes = e.getMessage();
                 handlerCreate.sendEmptyMessage(SEND_FAILED);
                 e.printStackTrace();
-            } catch (InvalidKeystoreException e) {
+            } catch (InvalidKeystoreException | IllegalCredentialException e) {
                 handlerCreate.sendEmptyMessage(ERROR_THREE);
                 e.printStackTrace();
-            } catch (IllegalCredentialException e) {
-                handlerCreate.sendEmptyMessage(ERROR_THREE);
-                e.printStackTrace();
-            } catch (JSONException e) {
-                handlerCreate.sendEmptyMessage(ERROR_FOUR);
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (JSONException | IOException e) {
                 handlerCreate.sendEmptyMessage(ERROR_FOUR);
                 e.printStackTrace();
             } catch (Exception e) {
@@ -510,9 +512,7 @@ public class SendActivity extends BaseActivity {
             feeDialog.setOnDismissListener(dialogInterface -> transacitionFee.setText(tvAmount.getText()));
             Objects.requireNonNull(feeDialog.getWindow()).setGravity(Gravity.BOTTOM);
         }
-        gasSeekBar.setMin(Float.parseFloat(NumberUtils.format1(gasDataManager.getRecommendGasPriceInGWei()
-                .divide(new BigDecimal(2))
-                .doubleValue(), 1)));
+        gasSeekBar.setMin(1);
         gasSeekBar.setMax(Float.parseFloat(NumberUtils.format1(gasDataManager.getRecommendGasPriceInGWei()
                 .multiply(new BigDecimal(2))
                 .doubleValue(), 1)));
@@ -550,7 +550,8 @@ public class SendActivity extends BaseActivity {
                 int precision = balanceManager.getPrecisionBySymbol(sendChoose);
                 moneyAmount.setText(NumberUtils.format1(balanceManager.getAssetBySymbol(sendChoose)
                         .getValue() * seekParams.progressFloat / 100, precision));
-                amountToast.setText(CurrencyUtil.getCurrency(getBaseContext()).getSymbol() + NumberUtils.format1(balanceManager.getAssetBySymbol(sendChoose)
+                amountToast.setText(CurrencyUtil.getCurrency(getBaseContext())
+                        .getSymbol() + NumberUtils.format1(balanceManager.getAssetBySymbol(sendChoose)
                         .getLegalValue() * seekParams.progressFloat / 100, precision));
                 Selection.setSelection(moneyAmount.getText(), moneyAmount.getText().length());
             }
@@ -570,6 +571,7 @@ public class SendActivity extends BaseActivity {
      */
     private void initMoneyAmount() {
         amountToast.setText(CurrencyUtil.format(SendActivity.this, 0));
+        amountToast.setTextColor(getResources().getColor(R.color.colorNineText));
         moneyAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -587,11 +589,12 @@ public class SendActivity extends BaseActivity {
                 if (currentAmount > amountTotal) {
                     amountToast.setText(getResources().getText(R.string.input_valid_amount));
                     amountToast.setTextColor(getResources().getColor(R.color.colorRed));
-                    Animation shakeAnimation = AnimationUtils.loadAnimation(SendActivity.this, R.anim.shake_x);
                     amountToast.startAnimation(shakeAnimation);
                 } else {
                     int precision = balanceManager.getPrecisionBySymbol(sendChoose);
-                    amountToast.setText(NumberUtils.format1(currentAmount * marketcapDataManager.getPriceBySymbol(sendChoose), precision));
+                    amountToast.setText(CurrencyUtil.getCurrency(getApplicationContext())
+                            .getSymbol() + NumberUtils.format1(currentAmount * marketcapDataManager
+                            .getPriceBySymbol(sendChoose), precision));
                     amountToast.setTextColor(getResources().getColor(R.color.colorNineText));
                 }
                 // TODO 拖动条随金额变化
@@ -618,7 +621,6 @@ public class SendActivity extends BaseActivity {
                     return;
                 if (!WalletUtils.isValidAddress(editable.toString().trim())) {
                     addressToast.setText(getResources().getText(R.string.input_valid_address));
-                    Animation shakeAnimation = AnimationUtils.loadAnimation(SendActivity.this, R.anim.shake_x);
                     addressToast.startAnimation(shakeAnimation);
                     addressToast.setVisibility(View.VISIBLE);
                 } else {

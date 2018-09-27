@@ -77,6 +77,7 @@
     <string name="enter_the_amount">请输入额度</string>
     <string name="input_valid_address">请输入合法地址</string>
     <string name="input_valid_amount">请输入有效的数据</string>
+    <string name="insufficient_balance">可用余额不足</string>
     <string name="transacition_fee">交易费</string>
     <string name="dialog_fee_title">设置油费</string>
     <string name="dialog_fee_recom">推荐油价</string>
@@ -87,7 +88,7 @@
     <string name="share_title">Up Wallet 推广</string>
     <string name="share_button">分享APP</string>
     <string name="spread_address">我的推广地址是:</string>
-    <string name="pay_detail">转账详情</string>
+    <string name="pay_detail">发送确认</string>
     <string name="to">转到</string>
     <string name="from">转账地址</string>
     <string name="address">地址</string>
@@ -101,5 +102,7 @@
     <string name="id">地址</string>
     <string name="date">日期</string>
     <string name="network_error">网络连接不可用</string>
-
+    <string name="pending">待处理</string>
+    <string name="time">时间</string>
+    <string name="return_back">返回</string>
 </resources>

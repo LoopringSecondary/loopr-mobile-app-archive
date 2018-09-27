@@ -19,6 +19,7 @@ import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import leaf.prod.walletsdk.service.LoopringService;
 
 import leaf.prod.app.utils.NumberUtils;
@@ -193,6 +194,7 @@ public class GasDataManager {
             Double price = getGasPriceInWei();
             Integer limit = getGasLimitByType(type);
             result = price * limit;
+            Convert.fromWei(new BigDecimal(result), Convert.Unit.ETHER);
         }
         return result;
     }

@@ -75,6 +75,7 @@
     <string name="enter_the_amount">Enter The Amount</string>
     <string name="input_valid_address">Please input a valid address</string>
     <string name="input_valid_amount">Please input a valid amount</string>
+    <string name="insufficient_balance">insufficient balance</string>
     <string name="transacition_fee">Transacition Fee</string>
     <string name="dialog_fee_title">Set Gas</string>
     <string name="dialog_fee_recom">Recommend Price</string>
@@ -85,7 +86,7 @@
     <string name="share_title">Up Wallet Share</string>
     <string name="share_button">Share APP</string>
     <string name="spread_address">My income add:</string>
-    <string name="pay_detail">Payment Detail</string>
+    <string name="pay_detail">Send Confirmation</string>
     <string name="to">To</string>
     <string name="from">From</string>
     <string name="address">Address</string>
@@ -99,5 +100,7 @@
     <string name="id">ID</string>
     <string name="date">Date</string>
     <string name="network_error">network unavailable</string>
-
+    <string name="pending">Pending</string>
+    <string name="time">Time</string>
+    <string name="return_back">Return</string>
 </resources>

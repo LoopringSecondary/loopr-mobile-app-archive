@@ -17,10 +17,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import leaf.prod.walletsdk.model.TxType;
-import leaf.prod.walletsdk.model.response.data.Transaction;
-import leaf.prod.walletsdk.model.response.data.TransactionPageWrapper;
-import leaf.prod.walletsdk.service.LoopringService;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -39,6 +35,10 @@ import leaf.prod.app.utils.DateUtil;
 import leaf.prod.app.utils.NumberUtils;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.model.TxType;
+import leaf.prod.walletsdk.model.response.data.Transaction;
+import leaf.prod.walletsdk.model.response.data.TransactionPageWrapper;
+import leaf.prod.walletsdk.service.LoopringService;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -129,7 +129,6 @@ public class WalletDetailActivity extends BaseActivity {
         gasManager = GasDataManager.getInstance(this);
         tokenManager = TokenDataManager.getInstance(this);
         priceManager = MarketcapDataManager.getInstance(this);
-        balanceManager = BalanceDataManager.getInstance(this);
     }
 
     @Override

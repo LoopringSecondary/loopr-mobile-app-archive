@@ -2,50 +2,58 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margSide"
+                android:layout_marginRight="@dimen/margSide"
                 android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:background="@drawable/radius_bg_38"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
-            android:text="@string/pay_detail"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/normal14Text"/>
-
-        <TextView
-            android:id="@+id/pay_amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:text="0"
-            android:textColor="@color/colorGreen"
-            android:textSize="@dimen/normal14Text"/>
+        android:divider="@drawable/divide_line"
+        android:orientation="vertical"
+        android:showDividers="middle">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@color/colorBg2"
+            android:layout_height="85dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:text="@string/pay_detail"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normalText"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/pay_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="0"
+                android:textColor="@color/colorGreen"
+                android:textSize="@dimen/normalText"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="@dimen/margSide"
+                android:layout_marginTop="15dp"
                 android:gravity="start"
-                android:paddingLeft="@dimen/margSide"
                 android:text="@string/to"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normal14Text"/>
@@ -54,27 +62,28 @@
                 android:id="@+id/to_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="@dimen/margSide"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:ellipsize="middle"
                 android:gravity="start"
-                android:paddingLeft="@dimen/margSide"
                 android:singleLine="true"
                 android:text=""
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorSixText"
                 android:textSize="@dimen/normal14Text"/>
+        </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp1"
-                android:background="@color/lineBac"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="@dimen/margSide"
+                android:layout_marginTop="15dp"
                 android:gravity="start"
-                android:paddingLeft="@dimen/margSide"
                 android:text="@string/from"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normal14Text"/>
@@ -83,27 +92,28 @@
                 android:id="@+id/form_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="@dimen/margSide"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:ellipsize="middle"
-                android:singleLine="true"
                 android:gravity="start"
-                android:paddingLeft="@dimen/margSide"
+                android:singleLine="true"
                 android:text=""
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorSixText"
                 android:textSize="@dimen/normal14Text"/>
+        </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp1"
-                android:background="@color/lineBac"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="@dimen/margSide"
+                android:layout_marginTop="15dp"
                 android:gravity="start"
-                android:paddingLeft="@dimen/margSide"
                 android:text="@string/gas_fee"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normal14Text"/>
@@ -112,32 +122,26 @@
                 android:id="@+id/gass_fee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="@dimen/margSide"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="start"
-                android:paddingLeft="@dimen/margSide"
                 android:text=""
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normal14Text"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp1"
-                android:background="@color/lineBac"/>
-
-            <Button
-                android:id="@+id/btn_confirm"
-                style="@style/SubmitBtnGreenStyle"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="@dimen/margSide"
-                android:layout_marginRight="@dimen/margSide"
-                android:layout_marginTop="20dp"
-                android:text="@string/send_and_confirm"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorSixText"/>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btn_confirm"
+            style="@style/SubmitBtnGreenStyle"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="@dimen/margSide"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="@dimen/margSide"
+            android:layout_marginBottom="20dp"
+            android:text="@string/send_and_confirm"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"/>
     </LinearLayout>
+
 </RelativeLayout>
