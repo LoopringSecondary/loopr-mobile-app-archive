@@ -88,7 +88,8 @@
     <string name="share_title">Up Wallet 推广</string>
     <string name="share_button">分享APP</string>
     <string name="spread_address">我的推广地址是:</string>
-    <string name="pay_detail">发送确认</string>
+    <string name="send_confirmation">转出确认</string>
+    <string name="send_result">转出结果</string>
     <string name="to">转到</string>
     <string name="from">转账地址</string>
     <string name="address">地址</string>
@@ -108,4 +109,6 @@
     <string name="token_address">代币地址</string>
     <string name="token_symbol">代币符号</string>
     <string name="token_add">添加代币</string>
+    <string name="send_error_result">请确保有足够的油费完成转账！</string>
+    <string name="you_need">您需要</string>
 </resources>

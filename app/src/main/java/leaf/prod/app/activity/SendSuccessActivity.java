@@ -11,8 +11,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
+import leaf.prod.app.views.TitleView;
 
-public class SendResultActivity extends BaseActivity {
+public class SendSuccessActivity extends BaseActivity {
 
     @BindView(R.id.token_amount)
     TextView tokenAmount;
@@ -23,11 +24,14 @@ public class SendResultActivity extends BaseActivity {
     @BindView(R.id.time)
     TextView time;
 
+    @BindView(R.id.title)
+    TitleView title;
+
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_send_result);
+        setContentView(R.layout.activity_send_success);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
@@ -39,6 +43,7 @@ public class SendResultActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
+        title.setBTitleNoBar(getResources().getString(R.string.send_result));
     }
 
     @Override
@@ -61,5 +66,10 @@ public class SendResultActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        getOperation().forward(MainActivity.class);
     }
 }

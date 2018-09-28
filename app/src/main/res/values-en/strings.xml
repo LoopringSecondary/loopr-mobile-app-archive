@@ -86,7 +86,8 @@
     <string name="share_title">Up Wallet Share</string>
     <string name="share_button">Share APP</string>
     <string name="spread_address">My income add:</string>
-    <string name="pay_detail">Send Confirmation</string>
+    <string name="send_confirmation">Send Confirmation</string>
+    <string name="send_result">Send Result</string>
     <string name="to">To</string>
     <string name="from">From</string>
     <string name="address">Address</string>
@@ -106,4 +107,6 @@
     <string name="token_address">Token Address</string>
     <string name="token_symbol">Token Symbol</string>
     <string name="token_add">Add Token</string>
+    <string name="send_error_result">Your transfer has been submited! However, please make sure you have enough balance to complete the trade.</string>
+    <string name="you_need">You Need</string>
 </resources>

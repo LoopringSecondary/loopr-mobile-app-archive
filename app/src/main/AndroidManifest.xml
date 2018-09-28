@@ -184,7 +184,11 @@
             android:exported="true"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.SendResultActivity"
+            android:name=".activity.SendSuccessActivity"
+            android:exported="true"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.SendErrorActivity"
             android:exported="true"
             android:launchMode="singleTask"/>
         <activity

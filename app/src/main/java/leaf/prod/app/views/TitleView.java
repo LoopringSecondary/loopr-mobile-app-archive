@@ -136,6 +136,13 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
         bTitle.setText(stringID);
     }
 
+    // 居中标题设置不带返回按钮
+    public void setBTitleNoBar(String stringID) {
+        bTitle.setVisibility(View.VISIBLE);
+        bTitle.setText(stringID);
+        mLeftBtn.setVisibility(INVISIBLE);
+    }
+
     // 居中标题设置String
     public void setStringBTitle(String str) {
         bTitle.setVisibility(View.VISIBLE);

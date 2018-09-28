@@ -194,9 +194,8 @@ public class GasDataManager {
             Double price = getGasPriceInWei();
             Integer limit = getGasLimitByType(type);
             result = price * limit;
-            Convert.fromWei(new BigDecimal(result), Convert.Unit.ETHER);
         }
-        return result;
+        return Convert.fromWei(new BigDecimal(result), Convert.Unit.ETHER).doubleValue();
     }
 
     public String getGasAmountInETH(String gasLimit, String gasPriceInWei) {

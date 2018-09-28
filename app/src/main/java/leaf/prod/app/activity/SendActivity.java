@@ -393,7 +393,17 @@ public class SendActivity extends BaseActivity {
     }
 
     private void send(String password) {
-        showProgress("加载中");
+//        showProgress("加载中");
+        if ((gasFee = gasDataManager.getGasAmountInETH("token_transfer")) > balanceManager.getAssetBySymbol("ETH")
+                .getValue()) {
+            // 油费不足
+            getOperation().addParameter("tokenAmount", gasFee + " ETH");
+            getOperation().forward(SendErrorActivity.class);
+        } else {
+            getOperation().addParameter("tokenAmount", "-" + moneyAmount.getText() + " " + sendChoose);
+            getOperation().addParameter("address", walletAddress.getText().toString());
+            getOperation().forwardClearTop(SendSuccessActivity.class);
+        }
         new Thread(() -> {
             try {
                 String keystore = FileUtils.getKeystoreFromSD(SendActivity.this);
@@ -411,9 +421,6 @@ public class SendActivity extends BaseActivity {
                             .transfer(gasDataManager.getCustomizeGasPriceInWei().toBigInteger(), walletAddress.getText()
                                     .toString(), values);
                 }
-                getOperation().addParameter("tokenAmount", "-" + moneyAmount.getText() + " " + sendChoose);
-                getOperation().addParameter("address", walletAddress.getText().toString());
-                getOperation().forward(SendResultActivity.class);
                 LyqbLogger.log(txHash);
                 handlerCreate.sendEmptyMessage(SEND_SUCCESS);
             } catch (TransactionException e) {
@@ -432,6 +439,11 @@ public class SendActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
