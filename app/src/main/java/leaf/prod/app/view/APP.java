@@ -25,7 +25,7 @@ public class APP extends Application {
 
     {
 //        PlatformConfig.setWeixin("wx8303b66b243b4aa3", "c96e252e26a7f62f833d7c545ab3d098");
-        PlatformConfig.setWeixin("wx3b75d7fa32e78876", "1c1f169729282d3f14c4b5cacf3c8e2c");
+        PlatformConfig.setWeixin("wx408da040efe1505d", "5380342e5cb9ca73b5e9b3ebe29600a1");
         PlatformConfig.setQQZone("1106526050", "ldwhPFfveaNiOVUb");
         //        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
         PlatformConfig.setSinaWeibo("799587641", "09dfbfdc9cada2e8db0813bd298078c6", "http://sns.whalecloud.com");
