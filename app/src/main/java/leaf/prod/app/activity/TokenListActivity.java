@@ -1,6 +1,7 @@
 package leaf.prod.app.activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
@@ -18,7 +19,10 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.kyleduo.switchbutton.SwitchButton;
-import leaf.prod.walletsdk.model.response.data.Token;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.TokenListAdapter;
 import leaf.prod.app.manager.TokenDataManager;
@@ -26,10 +30,6 @@ import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.views.RecyclerViewBugLayoutManager;
 import leaf.prod.app.views.TitleView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import leaf.prod.walletsdk.model.response.data.Token;
 
 public class TokenListActivity extends BaseActivity {
@@ -117,15 +117,18 @@ public class TokenListActivity extends BaseActivity {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 SwitchButton aSwitch = view.findViewById(R.id.s_v);
+                String symbol = aSwitch.getTag().toString().toUpperCase();
                 if (aSwitch.isChecked()) {
                     aSwitch.setChecked(false);
-                    choose_token.remove(aSwitch.getTag().toString());
+                    choose_token.remove(symbol);
                 } else {
                     aSwitch.setChecked(true);
-                    choose_token.add(aSwitch.getTag().toString());
+                    if (!Arrays.asList("ETH", "WETH", "LRC").contains(symbol)) {
+                        choose_token.add(aSwitch.getTag().toString());
+                        mAdapter.setChoose_token(choose_token);
+                        SPUtils.setDataList(TokenListActivity.this, "choose_token", choose_token);
+                    }
                 }
-                mAdapter.setChoose_token(choose_token);
-                SPUtils.setDataList(TokenListActivity.this, "choose_token", choose_token);
             }
         });
     }

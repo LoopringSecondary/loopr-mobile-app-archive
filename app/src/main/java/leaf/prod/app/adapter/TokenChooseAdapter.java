@@ -6,10 +6,11 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import leaf.prod.walletsdk.model.response.data.Token;
-import leaf.prod.app.R;
-import leaf.prod.app.utils.SPUtils;
 
+import leaf.prod.app.R;
+import leaf.prod.app.manager.BalanceDataManager;
+import leaf.prod.app.utils.SPUtils;
+import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.Token;
 
 /**
@@ -23,13 +24,15 @@ public class TokenChooseAdapter extends BaseQuickAdapter<Token, BaseViewHolder> 
 
     @Override
     protected void convert(BaseViewHolder helper, Token item) {
+        BalanceDataManager balanceManager = BalanceDataManager.getInstance(mContext);
+        BalanceResult.Asset asset = balanceManager.getAssetBySymbol(item.getSymbol());
         if (SPUtils.get(mContext, "send_choose", "").equals(item.getSymbol())) {
             helper.setVisible(R.id.iv_checked, true);
         } else {
             helper.setVisible(R.id.iv_checked, false);
         }
         helper.setText(R.id.wallet_name, item.getSymbol());
-        helper.setText(R.id.wallet_amount, item.getSource());
+        helper.setText(R.id.wallet_amount, asset.getValueShown());
 
         if (item.getImageResId() == 0) {
             helper.setVisible(R.id.wallet_symbol, true);

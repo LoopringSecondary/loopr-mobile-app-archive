@@ -39,14 +39,12 @@
             android:layout_weight="1"
             android:background="@drawable/radius_bg_38"
             android:digits="@string/pwd_dig"
-            android:drawableStart="@mipmap/icon_search_small"
-            android:drawablePadding="8dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"
             android:hint="@string/search"
             android:textColorHint="@color/colorSixText"
-            android:inputType="textEmailAddress"
+            android:inputType="textCapCharacters"
             android:paddingStart="8dp"
             android:singleLine="true"
             android:textColor="@color/colorTitleTv"
@@ -63,9 +61,7 @@
             android:minWidth="60dp"
             android:text="@string/cancel"
             android:textSize="@dimen/normalText"/>
-
     </LinearLayout>
-
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

@@ -42,7 +42,7 @@ public class TokenDataManager {
 
     private TokenDataManager(Context context) {
         this.context = context;
-        this.loadTokensFromJson();
+        this.loadTokensFromLocal();
         this.loadTokensFromRelay();
     }
 
@@ -53,8 +53,8 @@ public class TokenDataManager {
         return tokenDataManager;
     }
 
-    // Generate whitelist of tokens through tokens json file
-    private void loadTokensFromJson() {
+    // Generate whitelist of tokens through tokens local json file
+    private void loadTokensFromLocal() {
         try {
             InputStream is = context.getAssets().open("json/tokens.json");
             int size = is.available();

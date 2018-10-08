@@ -7,6 +7,7 @@
 package leaf.prod.app.manager;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,6 +19,7 @@ import leaf.prod.app.utils.SPUtils;
 import leaf.prod.walletsdk.listener.BalanceListener;
 import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.MarketcapResult;
+import leaf.prod.walletsdk.model.response.data.Token;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -93,6 +95,17 @@ public class BalanceDataManager {
             if (asset.getSymbol().equalsIgnoreCase(symbol)) {
                 result = asset.getPrecision();
                 break;
+            }
+        }
+        return result;
+    }
+
+    public List<Token> getBalanceTokens() {
+        List<Token> result = new LinkedList<>();
+        for (BalanceResult.Asset asset : balance.getTokens()) {
+            if (asset.getBalance() != null && asset.getBalance().doubleValue() != 0) {
+                Token token = tokenManager.getTokenBySymbol(asset.getSymbol());
+                result.add(token);
             }
         }
         return result;
