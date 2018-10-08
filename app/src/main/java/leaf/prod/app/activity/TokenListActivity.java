@@ -125,10 +125,10 @@ public class TokenListActivity extends BaseActivity {
                     aSwitch.setChecked(true);
                     if (!Arrays.asList("ETH", "WETH", "LRC").contains(symbol)) {
                         choose_token.add(aSwitch.getTag().toString());
-                        mAdapter.setChoose_token(choose_token);
-                        SPUtils.setDataList(TokenListActivity.this, "choose_token", choose_token);
                     }
                 }
+                mAdapter.setChoose_token(choose_token);
+                SPUtils.setDataList(TokenListActivity.this, "choose_token", choose_token);
             }
         });
     }

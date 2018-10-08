@@ -129,17 +129,8 @@
                 android:id="@+id/app_name"
                 style="@style/WrapWrap"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/app_name"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/normalText"/>
-
-            <TextView
-                android:id="@+id/coin_name"
-                style="@style/WrapWrap"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:text="Receive ETH"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normalText"/>
 

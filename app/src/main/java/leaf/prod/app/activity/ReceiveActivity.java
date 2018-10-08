@@ -39,6 +39,7 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.TitleView;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -56,9 +57,6 @@ public class ReceiveActivity extends BaseActivity {
 
     @BindView(R.id.icon)
     ImageView icon;
-
-    @BindView(R.id.coin_name)
-    TextView coinName;
 
     @BindView(R.id.iv_code)
     ImageView ivCode;
@@ -150,7 +148,7 @@ public class ReceiveActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        appName.setText(getResources().getString(R.string.app_name));
+        appName.setText(WalletUtil.getCurrentWallet(this).getWalletname());
         coinAddress.setText((String) SPUtils.get(this, "address", ""));
     }
 
