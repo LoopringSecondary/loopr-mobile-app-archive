@@ -23,6 +23,7 @@ import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.DialogUtil;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.TitleView;
 
 public class SetWalletNameActivity extends BaseActivity {
@@ -77,15 +78,19 @@ public class SetWalletNameActivity extends BaseActivity {
 
     @OnClick(R.id.btn_unlock)
     public void onViewClicked() {
-
         if (TextUtils.isEmpty(walletName.getText().toString())) {
+            ToastUtils.toast("请输入钱包名称");
+            return;
+        }
+        WalletEntity newWallet = (WalletEntity) getIntent().getSerializableExtra("newWallet");
+        newWallet.setWalletname(walletName.getText().toString());
+        if (WalletUtil.isWalletExisted(this, newWallet)) {
             ToastUtils.toast("请输入钱包名称");
             return;
         }
 
         List<WalletEntity> list = SPUtils.getWalletDataList(this, "walletlist", WalletEntity.class);
-        WalletEntity newWallet = (WalletEntity) getIntent().getSerializableExtra("newWallet");
-        newWallet.setWalletname(walletName.getText().toString());
+
         list.add(newWallet);
         SPUtils.setDataList(this, "walletlist", list);
         DialogUtil.showWalletCreateResultDialog(this, v -> {

@@ -26,4 +26,17 @@ public class WalletUtil {
         }
         return result;
     }
+
+    public static boolean isWalletExisted(Context context, WalletEntity wallet) {
+        boolean result = false;
+        List<WalletEntity> wallets = SPUtils.getWalletDataList(context, "walletlist", WalletEntity.class);
+        for (WalletEntity walletEntity : wallets) {
+            if (walletEntity.getAddress().equalsIgnoreCase(wallet.getAddress()) ||
+                    walletEntity.getWalletname().equalsIgnoreCase(wallet.getWalletname())) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
 }

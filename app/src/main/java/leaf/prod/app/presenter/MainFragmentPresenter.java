@@ -17,11 +17,6 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 
-import leaf.prod.walletsdk.model.Network;
-import leaf.prod.walletsdk.model.response.data.BalanceResult;
-import leaf.prod.walletsdk.model.response.data.MarketcapResult;
-import leaf.prod.walletsdk.model.response.data.Token;
-import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.app.R;
 import leaf.prod.app.fragment.MainFragment;
 import leaf.prod.app.manager.BalanceDataManager;
@@ -33,7 +28,7 @@ import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.NetworkUtil;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
-
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.model.Network;
 import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.MarketcapResult;
@@ -199,6 +194,10 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
             address = (String) SPUtils.get(Objects.requireNonNull(context), "address", "");
         }
         return address;
+    }
+
+    public String getWalletName() {
+        return WalletUtil.getCurrentWallet(context).getWalletname();
     }
 
     public String getMoneyValue() {

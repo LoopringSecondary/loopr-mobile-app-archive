@@ -90,49 +90,29 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     SPUtils.put(getContext(), "pas", etPassword.getText().toString());
                     SPUtils.put(getContext(), "hasWallet", true);
                     SPUtils.put(getContext(), "address", "0x" + address);
-
                     WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, "");
+                    loopringService.notifyCreateWallet(address)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<String>() {
+                                @Override
+                                public void onCompleted() {
+                                    hideProgress();
+                                    getActivity().getIntent().putExtra("newWallet", newWallet);
+                                    getActivity().getIntent().setClass(getActivity(), SetWalletNameActivity.class);
+                                    getActivity().startActivity(getActivity().getIntent());
+                                }
 
-//                    List<WalletEntity> list = SPUtils.getWalletDataList(getContext(), "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
-//                    list.add(new WalletEntity("", filename, "0x" + address, ""));
-//                    SPUtils.setDataList(getContext(), "walletlist", list);
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-                            loopringService.notifyCreateWallet(address)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber<String>() {
-                                        @Override
-                                        public void onCompleted() {
-                                            hideProgress();
-//                                            AppManager.finishAll();
+                                @Override
+                                public void onError(Throwable e) {
+                                    ToastUtils.toast("创建失败，请重试");
+                                    hideProgress();
+                                }
 
-                                            getActivity().getIntent().putExtra("newWallet", newWallet);
-                                            getActivity().getIntent().setClass(getActivity(), SetWalletNameActivity.class);
-                                            getActivity().startActivity(getActivity().getIntent());
-//                                            DialogUtil.showWalletCreateResultDialog(getContext(), new View.OnClickListener() {
-//                                                @Override
-//                                                public void onClick(View v) {
-//                                                    DialogUtil.dialog.dismiss();
-//                                                    AppManager.finishAll();
-//                                                    getOperation().forward(MainActivity.class);
-//                                                }
-//                                            });
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            ToastUtils.toast("创建失败，请重试");
-                                            hideProgress();
-                                        }
-
-                                        @Override
-                                        public void onNext(String s) {
-                                        }
-                                    });
-//                        }
-//                    }).start();
+                                @Override
+                                public void onNext(String s) {
+                                }
+                            });
                     break;
                 case ERROR_ONE:
                     ToastUtils.toast("私钥错误");
@@ -259,21 +239,18 @@ public class ImportPrivateKeyFragment extends BaseFragment {
      */
     private void unlockWallet() {
         showProgress("加载中...");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    filename = KeystoreUtils.createFromPrivateKey(etPrivateKey.getText()
-                            .toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
-                    SPUtils.put(getContext(), "filename", filename);
-                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
-                } catch (KeystoreCreateException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_TWO);
-                    e.printStackTrace();
-                } catch (InvalidPrivateKeyException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_ONE);
-                    e.printStackTrace();
-                }
+        new Thread(() -> {
+            try {
+                filename = KeystoreUtils.createFromPrivateKey(etPrivateKey.getText()
+                        .toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
+                SPUtils.put(getContext(), "filename", filename);
+                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
+            } catch (KeystoreCreateException e) {
+                handlerCreate.sendEmptyMessage(ERROR_TWO);
+                e.printStackTrace();
+            } catch (InvalidPrivateKeyException e) {
+                handlerCreate.sendEmptyMessage(ERROR_ONE);
+                e.printStackTrace();
             }
         }).start();
     }

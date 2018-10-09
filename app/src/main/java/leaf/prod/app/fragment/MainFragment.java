@@ -23,6 +23,11 @@ import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.ActivityScanerCode;
 import leaf.prod.app.activity.ManageWalletActivity;
@@ -35,12 +40,6 @@ import leaf.prod.app.layout.ChildClickableFrameLayout;
 import leaf.prod.app.presenter.MainFragmentPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
-import leaf.prod.app.presenter.MainFragmentPresenter;
 
 /**
  *
@@ -170,6 +169,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        titleText.setText(presenter.getWalletName());
         walletAddress.setText(presenter.getAddress());
     }
 

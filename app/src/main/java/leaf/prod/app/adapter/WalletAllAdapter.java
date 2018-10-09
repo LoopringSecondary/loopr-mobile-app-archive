@@ -44,7 +44,7 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
         String image = String.format("icon_tx_%s", item.getType().getDescription().toLowerCase());
         int identifier = mContext.getResources().getIdentifier(image, "mipmap", mContext.getPackageName());
         helper.setImageResource(R.id.wallet_image, identifier);
-        helper.setText(R.id.set_wallet_name, DateUtil.timeStampToDateTime3(item.getCreateTime()));
+        helper.setText(R.id.wallet_name, DateUtil.timeStampToDateTime3(item.getCreateTime()));
         helper.setText(R.id.wallet_count, currency);
         setTxType(helper, item, valueShown);
         setTxStatus(helper, item);

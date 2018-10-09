@@ -45,7 +45,7 @@
 
 
         <TextView
-            android:id="@+id/set_wallet_name"
+            android:id="@+id/wallet_name"
             style="@style/WrapWrap"
             android:layout_below="@+id/ll"
             android:layout_centerVertical="true"

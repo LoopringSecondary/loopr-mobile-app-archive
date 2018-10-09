@@ -67,7 +67,7 @@ public class GenerateWalletActivity extends BaseActivity {
     @BindView(R.id.title)
     TitleView title;
 
-    @BindView(R.id.set_wallet_name)
+    @BindView(R.id.wallet_name)
     MaterialEditText walletName;
 
     @BindView(R.id.good)
@@ -265,10 +265,10 @@ public class GenerateWalletActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.set_wallet_name, R.id.btn_next, R.id.btn_confirm, R.id.btn_skip})
+    @OnClick({R.id.wallet_name, R.id.btn_next, R.id.btn_confirm, R.id.btn_skip})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.set_wallet_name:
+            case R.id.wallet_name:
                 break;
             case R.id.btn_next:
                 if (TextUtils.isEmpty(walletName.getText().toString())) {

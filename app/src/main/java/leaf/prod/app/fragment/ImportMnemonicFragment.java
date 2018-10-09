@@ -45,6 +45,7 @@ import leaf.prod.walletsdk.util.KeystoreUtils;
 import leaf.prod.walletsdk.util.MnemonicUtils;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  *
@@ -108,48 +109,30 @@ public class ImportMnemonicFragment extends BaseFragment {
                     SPUtils.put(getContext(), "pas", etPassword.getText().toString());
                     SPUtils.put(getContext(), "hasWallet", true);
                     SPUtils.put(getContext(), "address", "0x" + address);
-//                    List<WalletEntity> list = SPUtils.getWalletDataList(getContext(), "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
-                    WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, etMnemonic.getText().toString());
-//                    list.add(newWallet);
-//                    SPUtils.setDataList(getContext(), "walletlist", list);
+                    WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, etMnemonic.getText()
+                            .toString());
+                    loopringService.notifyCreateWallet(address)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<String>() {
+                                @Override
+                                public void onCompleted() {
+                                    hideProgress();
+                                    getActivity().getIntent().putExtra("newWallet", newWallet);
+                                    getActivity().getIntent().setClass(getActivity(), SetWalletNameActivity.class);
+                                    getActivity().startActivity(getActivity().getIntent());
+                                }
 
+                                @Override
+                                public void onError(Throwable e) {
+                                    ToastUtils.toast("创建失败，请重试");
+                                    hideProgress();
+                                }
 
-
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            LyqbLogger.log("22222222" + address);
-                            loopringService.notifyCreateWallet(address)
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber<String>() {
-                                        @Override
-                                        public void onCompleted() {
-                                            hideProgress();
-                                            getActivity().getIntent().putExtra("newWallet", newWallet);
-                                            getOperation().forward(SetWalletNameActivity.class);
-//                                            DialogUtil.showWalletCreateResultDialog(getContext(), new View.OnClickListener() {
-//                                                @Override
-//                                                public void onClick(View v) {
-//                                                    DialogUtil.dialog.dismiss();
-//                                                    AppManager.finishAll();
-//
-//                                                }
-//                                            });
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            ToastUtils.toast("创建失败，请重试");
-                                            hideProgress();
-                                        }
-
-                                        @Override
-                                        public void onNext(String s) {
-                                        }
-                                    });
-                        }
-                    }).start();
+                                @Override
+                                public void onNext(String s) {
+                                }
+                            });
                     break;
                 case ERROR_ONE:
                     ToastUtils.toast("钱包创建失败");
