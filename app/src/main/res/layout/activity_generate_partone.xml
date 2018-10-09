@@ -15,7 +15,7 @@
         android:layout_marginTop="20dp">
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/wallet_name"
+            android:id="@+id/set_wallet_name"
             style="@style/editTextStyle"
             android:layout_centerInParent="true"
             android:focusableInTouchMode="true"

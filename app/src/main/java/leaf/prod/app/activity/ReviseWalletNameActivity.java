@@ -24,7 +24,7 @@ public class ReviseWalletNameActivity extends BaseActivity {
     @BindView(R.id.title)
     TitleView title;
 
-    @BindView(R.id.wallet_name)
+    @BindView(R.id.set_wallet_name)
     MaterialEditText walletName;
 
     @BindView(R.id.ll_clear_records)

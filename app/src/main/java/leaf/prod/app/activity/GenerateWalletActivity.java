@@ -24,13 +24,11 @@ import org.json.JSONException;
 import org.web3j.crypto.Credentials;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.common.base.Joiner;
-import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
-import leaf.prod.walletsdk.exception.KeystoreCreateException;
-import leaf.prod.walletsdk.service.LoopringService;
-import leaf.prod.walletsdk.util.CredentialsUtils;
-import leaf.prod.walletsdk.util.KeystoreUtils;
-import leaf.prod.walletsdk.util.MnemonicUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.MnemonicWordAdapter;
 import leaf.prod.app.adapter.MnemonicWordHintAdapter;
@@ -45,10 +43,6 @@ import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.SpacesItemDecoration;
 import leaf.prod.app.views.TitleView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.service.LoopringService;
@@ -73,7 +67,7 @@ public class GenerateWalletActivity extends BaseActivity {
     @BindView(R.id.title)
     TitleView title;
 
-    @BindView(R.id.wallet_name)
+    @BindView(R.id.set_wallet_name)
     MaterialEditText walletName;
 
     @BindView(R.id.good)
@@ -271,10 +265,10 @@ public class GenerateWalletActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.wallet_name, R.id.btn_next, R.id.btn_confirm, R.id.btn_skip})
+    @OnClick({R.id.set_wallet_name, R.id.btn_next, R.id.btn_confirm, R.id.btn_skip})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.wallet_name:
+            case R.id.set_wallet_name:
                 break;
             case R.id.btn_next:
                 if (TextUtils.isEmpty(walletName.getText().toString())) {

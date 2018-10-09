@@ -22,7 +22,7 @@
             android:visibility="gone"/>
 
         <TextView
-            android:id="@+id/wallet_name"
+            android:id="@+id/set_wallet_name"
             style="@style/WrapWrap"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="18dp"
@@ -33,7 +33,7 @@
         <TextView
             android:id="@+id/wallet_count"
             style="@style/WrapWrap"
-            android:layout_below="@+id/wallet_name"
+            android:layout_below="@+id/set_wallet_name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:text="$37,013.79"

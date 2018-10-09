@@ -1,10 +1,12 @@
 package leaf.prod.app.model;
 
+import java.io.Serializable;
+
 /**
  * Created by niedengqiang on 2018/9/7.
  */
 
-public class WalletEntity {
+public class WalletEntity implements Serializable {
 
     private String walletname;
 

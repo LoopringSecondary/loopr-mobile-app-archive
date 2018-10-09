@@ -18,12 +18,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
-import leaf.prod.walletsdk.exception.IllegalCredentialException;
-import leaf.prod.walletsdk.exception.InvalidKeystoreException;
-import leaf.prod.walletsdk.exception.KeystoreCreateException;
-import leaf.prod.walletsdk.service.LoopringService;
-import leaf.prod.walletsdk.util.KeystoreUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.MainActivity;
 import leaf.prod.app.model.WalletEntity;
@@ -34,15 +34,11 @@ import leaf.prod.app.utils.DialogUtil;
 import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.util.KeystoreUtils;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -71,8 +67,8 @@ public class ImportKeystoreFragment extends BaseFragment {
     @BindView(R.id.et_password)
     MaterialEditText etPassword;
 
-    @BindView(R.id.btn_unlock)
-    Button btnUnlock;
+    @BindView(R.id.btn_next)
+    Button btnNext;
 
     private String address;//钱包地址
 
@@ -222,7 +218,7 @@ public class ImportKeystoreFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.btn_unlock)
+    @OnClick(R.id.btn_next)
     public void onViewClicked() {
         if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
             if (TextUtils.isEmpty(etKeystore.getText().toString())) {

@@ -1,7 +1,6 @@
 package leaf.prod.app.fragment;
 
 import java.io.IOException;
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -22,33 +21,28 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.web3j.crypto.Credentials;
+import com.rengwuxian.materialedittext.MaterialEditText;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+import leaf.prod.app.R;
+import leaf.prod.app.activity.SetWalletNameActivity;
+import leaf.prod.app.model.WalletEntity;
+import leaf.prod.app.model.eventbusData.MnemonicData;
+import leaf.prod.app.utils.ButtonClickUtil;
+import leaf.prod.app.utils.FileUtils;
+import leaf.prod.app.utils.LyqbLogger;
+import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.ToastUtils;
+import leaf.prod.app.views.wheelPicker.picker.OptionPicker;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.CredentialsUtils;
 import leaf.prod.walletsdk.util.KeystoreUtils;
 import leaf.prod.walletsdk.util.MnemonicUtils;
-import com.rengwuxian.materialedittext.MaterialEditText;
-import leaf.prod.app.R;
-import leaf.prod.app.activity.MainActivity;
-import leaf.prod.app.model.WalletEntity;
-import leaf.prod.app.model.eventbusData.MnemonicData;
-import leaf.prod.app.utils.AppManager;
-import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.app.utils.DialogUtil;
-import leaf.prod.app.utils.FileUtils;
-import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.app.views.wheelPicker.picker.OptionPicker;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
-import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
-import leaf.prod.walletsdk.exception.KeystoreCreateException;
-import leaf.prod.walletsdk.service.LoopringService;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -83,8 +77,8 @@ public class ImportMnemonicFragment extends BaseFragment {
     @BindView(R.id.et_password)
     MaterialEditText etPassword;
 
-    @BindView(R.id.btn_unlock)
-    Button btnUnlock;
+    @BindView(R.id.btn_next)
+    Button btnNext;
 
     @BindView(R.id.et_dpath)
     MaterialEditText etDpath;
@@ -114,9 +108,14 @@ public class ImportMnemonicFragment extends BaseFragment {
                     SPUtils.put(getContext(), "pas", etPassword.getText().toString());
                     SPUtils.put(getContext(), "hasWallet", true);
                     SPUtils.put(getContext(), "address", "0x" + address);
-                    List<WalletEntity> list = SPUtils.getWalletDataList(getContext(), "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
-                    list.add(new WalletEntity("", filename, "0x" + address, etMnemonic.getText().toString()));
-                    SPUtils.setDataList(getContext(), "walletlist", list);
+//                    List<WalletEntity> list = SPUtils.getWalletDataList(getContext(), "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
+                    WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, etMnemonic.getText().toString());
+//                    list.add(newWallet);
+//                    SPUtils.setDataList(getContext(), "walletlist", list);
+
+
+
+
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -127,14 +126,16 @@ public class ImportMnemonicFragment extends BaseFragment {
                                         @Override
                                         public void onCompleted() {
                                             hideProgress();
-                                            DialogUtil.showWalletCreateResultDialog(getContext(), new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    DialogUtil.dialog.dismiss();
-                                                    AppManager.finishAll();
-                                                    getOperation().forward(MainActivity.class);
-                                                }
-                                            });
+                                            getActivity().getIntent().putExtra("newWallet", newWallet);
+                                            getOperation().forward(SetWalletNameActivity.class);
+//                                            DialogUtil.showWalletCreateResultDialog(getContext(), new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//                                                    DialogUtil.dialog.dismiss();
+//                                                    AppManager.finishAll();
+//
+//                                                }
+//                                            });
                                         }
 
                                         @Override
@@ -242,13 +243,13 @@ public class ImportMnemonicFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.wallet_list, R.id.btn_unlock})
+    @OnClick({R.id.wallet_list, R.id.btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.wallet_list:
                 walletChoose();
                 break;
-            case R.id.btn_unlock:
+            case R.id.btn_next:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
                     if (TextUtils.isEmpty(etMnemonic.getText().toString())) {
                         ToastUtils.toast("请输入助记词");

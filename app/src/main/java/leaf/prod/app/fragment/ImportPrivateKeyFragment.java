@@ -1,7 +1,6 @@
 package leaf.prod.app.fragment;
 
 import java.io.IOException;
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -18,31 +17,27 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
-import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
-import leaf.prod.walletsdk.exception.KeystoreCreateException;
-import leaf.prod.walletsdk.service.LoopringService;
-import leaf.prod.walletsdk.util.KeystoreUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import leaf.prod.app.R;
-import leaf.prod.app.activity.MainActivity;
-import leaf.prod.app.model.WalletEntity;
-import leaf.prod.app.model.eventbusData.PrivateKeyData;
-import leaf.prod.app.utils.AppManager;
-import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.app.utils.DialogUtil;
-import leaf.prod.app.utils.FileUtils;
-import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.utils.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import leaf.prod.app.R;
+import leaf.prod.app.activity.SetWalletNameActivity;
+import leaf.prod.app.model.WalletEntity;
+import leaf.prod.app.model.eventbusData.PrivateKeyData;
+import leaf.prod.app.utils.ButtonClickUtil;
+import leaf.prod.app.utils.FileUtils;
+import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.util.KeystoreUtils;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  *
@@ -69,8 +64,8 @@ public class ImportPrivateKeyFragment extends BaseFragment {
     @BindView(R.id.et_repeat_password)
     MaterialEditText etRepeatPassword;
 
-    @BindView(R.id.btn_unlock)
-    Button btnUnlock;
+    @BindView(R.id.btn_next)
+    Button btnNext;
 
     @BindView(R.id.et_private_key)
     MaterialEditText etPrivateKey;
@@ -95,26 +90,35 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     SPUtils.put(getContext(), "pas", etPassword.getText().toString());
                     SPUtils.put(getContext(), "hasWallet", true);
                     SPUtils.put(getContext(), "address", "0x" + address);
-                    List<WalletEntity> list = SPUtils.getWalletDataList(getContext(), "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
-                    list.add(new WalletEntity("", filename, "0x" + address, ""));
-                    SPUtils.setDataList(getContext(), "walletlist", list);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
+
+                    WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, "");
+
+//                    List<WalletEntity> list = SPUtils.getWalletDataList(getContext(), "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
+//                    list.add(new WalletEntity("", filename, "0x" + address, ""));
+//                    SPUtils.setDataList(getContext(), "walletlist", list);
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
                             loopringService.notifyCreateWallet(address)
+                                    .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
                                         @Override
                                         public void onCompleted() {
                                             hideProgress();
-                                            DialogUtil.showWalletCreateResultDialog(getContext(), new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    DialogUtil.dialog.dismiss();
-                                                    AppManager.finishAll();
-                                                    getOperation().forward(MainActivity.class);
-                                                }
-                                            });
+//                                            AppManager.finishAll();
+
+                                            getActivity().getIntent().putExtra("newWallet", newWallet);
+                                            getActivity().getIntent().setClass(getActivity(), SetWalletNameActivity.class);
+                                            getActivity().startActivity(getActivity().getIntent());
+//                                            DialogUtil.showWalletCreateResultDialog(getContext(), new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//                                                    DialogUtil.dialog.dismiss();
+//                                                    AppManager.finishAll();
+//                                                    getOperation().forward(MainActivity.class);
+//                                                }
+//                                            });
                                         }
 
                                         @Override
@@ -127,8 +131,8 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                                         public void onNext(String s) {
                                         }
                                     });
-                        }
-                    }).start();
+//                        }
+//                    }).start();
                     break;
                 case ERROR_ONE:
                     ToastUtils.toast("私钥错误");
@@ -223,7 +227,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.btn_unlock)
+    @OnClick(R.id.btn_next)
     public void onViewClicked() {
         if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
             if (TextUtils.isEmpty(etPrivateKey.getText().toString())) {

@@ -11,8 +11,6 @@ import leaf.prod.app.R;
 import leaf.prod.app.manager.BalanceDataManager;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.walletsdk.model.response.data.BalanceResult;
-import leaf.prod.walletsdk.model.response.data.Token;
-
 /**
  *
  */
