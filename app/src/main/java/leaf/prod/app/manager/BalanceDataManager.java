@@ -26,6 +26,12 @@ import rx.schedulers.Schedulers;
 
 public class BalanceDataManager {
 
+    private static TokenDataManager tokenManager;
+
+    private static MarketcapDataManager priceManager;
+
+    private static BalanceDataManager balanceDataManager = null;
+
     private Context context;
 
     private BalanceResult balance;
@@ -36,18 +42,19 @@ public class BalanceDataManager {
 
     private String address;
 
-    private static TokenDataManager tokenManager;
-
-    private static MarketcapDataManager priceManager;
-
-    private static BalanceDataManager balanceDataManager = null;
-
     private BalanceDataManager(Context context) {
         this.context = context;
         this.balanceListener = new BalanceListener();
         tokenManager = TokenDataManager.getInstance(context);
         priceManager = MarketcapDataManager.getInstance(context);
         loadBalanceFromRelay();
+    }
+
+    public static BalanceDataManager getInstance(Context context) {
+        if (balanceDataManager == null) {
+            balanceDataManager = new BalanceDataManager(context);
+        }
+        return balanceDataManager;
     }
 
     private void loadBalanceFromRelay() {
@@ -57,13 +64,6 @@ public class BalanceDataManager {
                     .observeOn(AndroidSchedulers.mainThread());
         }
         balanceListener.queryByOwner(getAddress());
-    }
-
-    public static BalanceDataManager getInstance(Context context) {
-        if (balanceDataManager == null) {
-            balanceDataManager = new BalanceDataManager(context);
-        }
-        return balanceDataManager;
     }
 
     public BalanceResult getBalance() {

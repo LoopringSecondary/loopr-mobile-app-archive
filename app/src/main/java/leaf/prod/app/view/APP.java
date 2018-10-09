@@ -24,7 +24,7 @@ public class APP extends Application {
     String appVersion;
 
     {
-//        PlatformConfig.setWeixin("wx8303b66b243b4aa3", "c96e252e26a7f62f833d7c545ab3d098");
+        //        PlatformConfig.setWeixin("wx8303b66b243b4aa3", "c96e252e26a7f62f833d7c545ab3d098");
         PlatformConfig.setWeixin("wx408da040efe1505d", "5380342e5cb9ca73b5e9b3ebe29600a1");
         PlatformConfig.setQQZone("1106526050", "ldwhPFfveaNiOVUb");
         //        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");

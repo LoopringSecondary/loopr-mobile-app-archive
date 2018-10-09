@@ -8,16 +8,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.ViewPageAdapter;
 import leaf.prod.app.fragment.KeystoreFragment;
 import leaf.prod.app.fragment.QRCodeFragment;
 import leaf.prod.app.views.TitleView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import leaf.prod.app.fragment.KeystoreFragment;
-import leaf.prod.app.fragment.QRCodeFragment;
 
 public class ExportKeystoreDetailActivity extends BaseActivity {
 

@@ -15,6 +15,9 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import org.greenrobot.eventbus.EventBus;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.ViewPageAdapter;
 import leaf.prod.app.fragment.ImportKeystoreFragment;
@@ -26,12 +29,6 @@ import leaf.prod.app.model.eventbusData.PrivateKeyData;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.TitleView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import leaf.prod.app.fragment.ImportKeystoreFragment;
-import leaf.prod.app.fragment.ImportMnemonicFragment;
-import leaf.prod.app.fragment.ImportPrivateKeyFragment;
 
 public class ImportWalletActivity extends BaseActivity {
 

@@ -8,8 +8,6 @@ import android.view.View;
 import leaf.prod.app.views.wheelPicker.ConfirmPopup;
 import leaf.prod.app.views.wheelPicker.widget.WheelView;
 
-import leaf.prod.app.views.wheelPicker.widget.WheelView;
-
 /**
  * 滑轮选择器
  *

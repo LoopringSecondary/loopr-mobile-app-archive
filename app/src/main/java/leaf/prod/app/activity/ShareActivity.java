@@ -9,9 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import leaf.prod.app.R;
-import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.views.TitleView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -21,6 +18,9 @@ import com.umeng.socialize.media.UMWeb;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import leaf.prod.app.R;
+import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.views.TitleView;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -109,8 +109,7 @@ public class ShareActivity extends BaseActivity {
     public void initData() {
     }
 
-
-    @OnClick ({R.id.btn_share})
+    @OnClick({R.id.btn_share})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_share:

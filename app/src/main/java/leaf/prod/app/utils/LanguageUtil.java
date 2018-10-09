@@ -8,8 +8,6 @@ import android.util.DisplayMetrics;
 
 import leaf.prod.walletsdk.model.Language;
 
-import leaf.prod.walletsdk.model.Language;
-
 /**
  * 标题:    LanguageUtil
  * 版本:    V-1.0.0

@@ -12,14 +12,13 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.MnemonicWordAdapter;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.SpacesItemDecoration;
 import leaf.prod.app.views.TitleView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class BackupMnemonicActivity extends BaseActivity {
 

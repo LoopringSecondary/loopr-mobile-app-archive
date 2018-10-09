@@ -13,18 +13,14 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.web3j.crypto.Credentials;
-import leaf.prod.walletsdk.exception.IllegalCredentialException;
-import leaf.prod.walletsdk.exception.InvalidKeystoreException;
-import leaf.prod.walletsdk.util.CredentialsUtils;
-import leaf.prod.walletsdk.util.KeystoreUtils;
-import leaf.prod.app.R;
-import leaf.prod.app.utils.FileUtils;
-import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.app.views.TitleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import leaf.prod.app.R;
+import leaf.prod.app.utils.FileUtils;
+import leaf.prod.app.utils.ToastUtils;
+import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.util.CredentialsUtils;

@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.views.RangeSeekBar;
 import leaf.prod.app.views.TitleView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MarginSplitActivity extends BaseActivity {
 

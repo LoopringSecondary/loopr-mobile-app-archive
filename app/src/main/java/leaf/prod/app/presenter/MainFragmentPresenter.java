@@ -41,6 +41,12 @@ import rx.schedulers.Schedulers;
 
 public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
+    private static LoopringService loopringService;
+
+    private static Observable<MarketcapResult> marketcapObservable;
+
+    private static Observable<BalanceResult> balanceObservable;
+
     private Map<String, BalanceResult.Asset> tokenMap = new HashMap<>();
 
     private TokenDataManager tokenDataManager;
@@ -53,15 +59,16 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
     private String moneyValue;
 
-    private static LoopringService loopringService;
-
     private String address;
 
-    private static Observable<MarketcapResult> marketcapObservable;
-
-    private static Observable<BalanceResult> balanceObservable;
-
     private MainNetworkReceiver mainNetworkReceiver;
+
+    public MainFragmentPresenter(MainFragment view, Context context) {
+        super(view, context);
+        marketcapDataManager = MarketcapDataManager.getInstance(context);
+        tokenDataManager = TokenDataManager.getInstance(context);
+        balanceDataManager = BalanceDataManager.getInstance(context);
+    }
 
     public void initObservable() {
         LyqbLogger.log(getAddress());
@@ -152,13 +159,6 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         }
     }
 
-    public MainFragmentPresenter(MainFragment view, Context context) {
-        super(view, context);
-        marketcapDataManager = MarketcapDataManager.getInstance(context);
-        tokenDataManager = TokenDataManager.getInstance(context);
-        balanceDataManager = BalanceDataManager.getInstance(context);
-    }
-
     private void setTokenLegalPrice() {
         for (BalanceResult.Asset asset : balanceDataManager.getAssets()) {
             tokenMap.put(asset.getSymbol(), asset);
@@ -214,6 +214,15 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
         private MarketcapResult marketcapResult;
 
+        private CombineObservable() {
+        }
+
+        private CombineObservable(BalanceResult balanceResult, List<Token> tokenList, MarketcapResult marketcapResult) {
+            this.balanceResult = balanceResult;
+            this.tokenList = tokenList;
+            this.marketcapResult = marketcapResult;
+        }
+
         public static CombineObservable getInstance(BalanceResult balanceResult, List<Token> tokenList, MarketcapResult marketcapResult) {
             if (combineObservable == null) {
                 return new CombineObservable(balanceResult, tokenList, marketcapResult);
@@ -222,15 +231,6 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
             combineObservable.setMarketcapResult(marketcapResult);
             combineObservable.setTokenList(tokenList);
             return combineObservable;
-        }
-
-        private CombineObservable() {
-        }
-
-        private CombineObservable(BalanceResult balanceResult, List<Token> tokenList, MarketcapResult marketcapResult) {
-            this.balanceResult = balanceResult;
-            this.tokenList = tokenList;
-            this.marketcapResult = marketcapResult;
         }
 
         public BalanceResult getBalanceResult() {
@@ -260,21 +260,21 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
     private static class MainNetworkReceiver extends NetworkStateReceiver {
 
-        private MainFragmentPresenter presenter;
-
         private static boolean first = true;
 
         private static MainNetworkReceiver mainNetworkReceiver;
+
+        private MainFragmentPresenter presenter;
+
+        private MainNetworkReceiver(MainFragmentPresenter presenter) {
+            this.presenter = presenter;
+        }
 
         public static MainNetworkReceiver getInstance(MainFragmentPresenter presenter) {
             if (mainNetworkReceiver == null) {
                 return new MainNetworkReceiver(presenter);
             }
             return mainNetworkReceiver;
-        }
-
-        private MainNetworkReceiver(MainFragmentPresenter presenter) {
-            this.presenter = presenter;
         }
 
         @Override

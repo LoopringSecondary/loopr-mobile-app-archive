@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import leaf.prod.walletsdk.model.response.data.Transaction;
 
 import leaf.prod.app.R;
 import leaf.prod.app.manager.BalanceDataManager;
@@ -15,6 +14,7 @@ import leaf.prod.app.manager.TokenDataManager;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.DateUtil;
 import leaf.prod.app.utils.NumberUtils;
+import leaf.prod.walletsdk.model.response.data.Transaction;
 
 public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHolder> {
 

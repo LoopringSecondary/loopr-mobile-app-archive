@@ -8,8 +8,6 @@ import android.widget.Toast;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.app.view.Operation;
 
-import leaf.prod.app.presenter.BasePresenter;
-
 public abstract class BaseFragment extends LazyFragment {
 
     // Fragment的View

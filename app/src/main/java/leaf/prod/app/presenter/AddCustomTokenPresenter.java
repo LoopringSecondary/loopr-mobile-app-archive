@@ -74,7 +74,6 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
         String address = view.etTokenAddress.getText().toString();
         String symbol = view.etTokenSymbol.getText().toString();
         String decimals = view.etTokenDecimal.getText().toString();
-
         if (validateAddress(address) && validateSymbol(symbol) && validateDecimal(decimals)) {
             String owner = (String) SPUtils.get(context, "address", "");
             if (!address.startsWith("0x") && !address.startsWith("0X")) {

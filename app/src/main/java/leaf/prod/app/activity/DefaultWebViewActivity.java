@@ -15,12 +15,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
-import leaf.prod.app.R;
-import leaf.prod.app.views.TitleView;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import leaf.prod.app.R;
+import leaf.prod.app.views.TitleView;
 
 public class DefaultWebViewActivity extends BaseActivity {
 

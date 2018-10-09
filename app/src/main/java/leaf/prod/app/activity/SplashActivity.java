@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import leaf.prod.app.R;
-import leaf.prod.app.utils.SPUtils;
-
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import leaf.prod.app.R;
+import leaf.prod.app.utils.SPUtils;
 
 public class SplashActivity extends BaseActivity {
 

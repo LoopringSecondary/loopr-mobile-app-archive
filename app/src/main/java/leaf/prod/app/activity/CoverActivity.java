@@ -12,12 +12,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import leaf.prod.app.R;
-import leaf.prod.app.utils.AppManager;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import leaf.prod.app.R;
+import leaf.prod.app.utils.AppManager;
 
 public class CoverActivity extends BaseActivity {
 

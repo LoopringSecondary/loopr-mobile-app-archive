@@ -9,7 +9,6 @@ import android.util.Log;
 import leaf.prod.app.net.G;
 import leaf.prod.app.utils.AndroidUtils;
 import leaf.prod.app.utils.SPUtils;
-
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;

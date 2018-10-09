@@ -5,15 +5,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import leaf.prod.walletsdk.model.Currency;
-import leaf.prod.app.R;
-import leaf.prod.app.utils.CurrencyUtil;
-import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.views.TitleView;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import leaf.prod.app.R;
+import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.views.TitleView;
 
 public class CurrencyActivity extends BaseActivity {
 

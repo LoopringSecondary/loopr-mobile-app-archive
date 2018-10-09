@@ -9,15 +9,15 @@ import android.view.View;
 import android.widget.Button;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.ManageWalletListAdapter;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.views.TitleView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ManageWalletActivity extends BaseActivity {
 

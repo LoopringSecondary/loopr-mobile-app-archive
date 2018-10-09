@@ -41,9 +41,6 @@ import leaf.prod.app.presenter.MainFragmentPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
 
-/**
- *
- */
 public class MainFragment extends BaseFragment {
 
     public final static int BALANCE_SUCCESS = 1;

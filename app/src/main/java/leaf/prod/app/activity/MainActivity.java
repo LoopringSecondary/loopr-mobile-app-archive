@@ -13,6 +13,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.fragment.MainFragment;
 import leaf.prod.app.fragment.SettingFragment;
@@ -20,13 +23,6 @@ import leaf.prod.app.fragment.TradeFragment;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.SPUtils;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import leaf.prod.app.fragment.MainFragment;
-import leaf.prod.app.fragment.SettingFragment;
-import leaf.prod.app.fragment.TradeFragment;
 
 /**
  * Created by niedengqiang on 2018/8/13.

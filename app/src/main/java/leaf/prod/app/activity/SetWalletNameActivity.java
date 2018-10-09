@@ -88,9 +88,7 @@ public class SetWalletNameActivity extends BaseActivity {
             ToastUtils.toast("请输入钱包名称");
             return;
         }
-
         List<WalletEntity> list = SPUtils.getWalletDataList(this, "walletlist", WalletEntity.class);
-
         list.add(newWallet);
         SPUtils.setDataList(this, "walletlist", list);
         DialogUtil.showWalletCreateResultDialog(this, v -> {

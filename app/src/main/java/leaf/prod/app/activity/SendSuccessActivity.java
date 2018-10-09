@@ -15,6 +15,8 @@ import leaf.prod.app.views.TitleView;
 
 public class SendSuccessActivity extends BaseActivity {
 
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
     @BindView(R.id.token_amount)
     TextView tokenAmount;
 
@@ -26,8 +28,6 @@ public class SendSuccessActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
-
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

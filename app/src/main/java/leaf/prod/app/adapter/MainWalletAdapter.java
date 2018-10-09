@@ -6,13 +6,13 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import leaf.prod.walletsdk.model.response.data.BalanceResult;
-import leaf.prod.walletsdk.model.response.data.Token;
+
 import leaf.prod.app.R;
 import leaf.prod.app.manager.TokenDataManager;
+import leaf.prod.walletsdk.model.response.data.BalanceResult;
+import leaf.prod.walletsdk.model.response.data.Token;
 
 public class MainWalletAdapter extends BaseQuickAdapter<BalanceResult.Asset, BaseViewHolder> {
-
 
     public MainWalletAdapter(int layoutResId, @Nullable List<BalanceResult.Asset> data) {
         super(layoutResId, data);

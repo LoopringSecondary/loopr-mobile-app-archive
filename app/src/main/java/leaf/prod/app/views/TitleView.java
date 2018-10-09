@@ -13,11 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import leaf.prod.app.R;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import leaf.prod.app.R;
 
 public class TitleView extends FrameLayout implements View.OnClickListener {
 

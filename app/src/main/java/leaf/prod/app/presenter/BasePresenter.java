@@ -7,9 +7,6 @@ import android.content.Context;
 import leaf.prod.walletsdk.model.response.data.MarketcapResult;
 import leaf.prod.walletsdk.model.response.data.Token;
 
-import leaf.prod.walletsdk.model.response.data.MarketcapResult;
-import leaf.prod.walletsdk.model.response.data.Token;
-
 public class BasePresenter<V> {
 
     protected V view;
@@ -32,10 +29,9 @@ public class BasePresenter<V> {
     public boolean isViewAttached() {
         return view != null;
     }
-
-//    public Double getLegalPriceBySymbol(String symbol) {
-//        return getLegalPriceBySymbol(marketDataManager.getMarketcapResult(), symbol);
-//    }
+    //    public Double getLegalPriceBySymbol(String symbol) {
+    //        return getLegalPriceBySymbol(marketDataManager.getMarketcapResult(), symbol);
+    //    }
 
     public double getLegalPriceBySymbol(MarketcapResult marketcapResult, String symbol) {
         double result = 0.0;
@@ -47,10 +43,10 @@ public class BasePresenter<V> {
         }
         return result;
     }
-//
-//    public Token getTokenBySymbol(String symbol) {
-//        return getTokenBySymbol(marketDataManager.getTokens(), symbol);
-//    }
+    //
+    //    public Token getTokenBySymbol(String symbol) {
+    //        return getTokenBySymbol(marketDataManager.getTokens(), symbol);
+    //    }
 
     public Token getTokenBySymbol(List<Token> tokenList, String symbol) {
         Token result = null;
@@ -61,14 +57,14 @@ public class BasePresenter<V> {
         }
         return result;
     }
-//
-//    public Token getTokenByProtocol(String protocol) {
-//        Token result = null;
-//        for (Token token : marketDataManager.getTokens()) {
-//            if (token.getProtocol().equalsIgnoreCase(protocol)) {
-//                result = token;
-//            }
-//        }
-//        return result;
-//    }
+    //
+    //    public Token getTokenByProtocol(String protocol) {
+    //        Token result = null;
+    //        for (Token token : marketDataManager.getTokens()) {
+    //            if (token.getProtocol().equalsIgnoreCase(protocol)) {
+    //                result = token;
+    //            }
+    //        }
+    //        return result;
+    //    }
 }

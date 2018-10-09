@@ -33,7 +33,6 @@ public class TokenChooseAdapter extends BaseQuickAdapter<Token, BaseViewHolder> 
         }
         helper.setText(R.id.wallet_name, item.getSymbol());
         helper.setText(R.id.wallet_amount, asset.getValueShown());
-
         if (item.getImageResId() == 0) {
             helper.setVisible(R.id.wallet_symbol, true);
             helper.setVisible(R.id.wallet_image, false);

@@ -14,8 +14,6 @@ import leaf.prod.app.views.wheelPicker.entity.County;
 import leaf.prod.app.views.wheelPicker.entity.Province;
 import leaf.prod.app.views.wheelPicker.widget.WheelView;
 
-import leaf.prod.app.views.wheelPicker.widget.WheelView;
-
 /**
  * 地址选择器（包括省级、地级、县级）。
  * 地址数据见示例项目的“tokens/city.json”，来源于国家统计局官网（http://www.stats.gov.cn/tjsj/tjbz/xzqhdm）

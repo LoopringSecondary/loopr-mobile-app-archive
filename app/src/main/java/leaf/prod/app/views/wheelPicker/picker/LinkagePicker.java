@@ -14,8 +14,6 @@ import android.widget.LinearLayout;
 import leaf.prod.app.views.wheelPicker.LogUtils;
 import leaf.prod.app.views.wheelPicker.widget.WheelView;
 
-import leaf.prod.app.views.wheelPicker.widget.WheelView;
-
 /**
  * 两级、三级联动选择器。
  * 注：

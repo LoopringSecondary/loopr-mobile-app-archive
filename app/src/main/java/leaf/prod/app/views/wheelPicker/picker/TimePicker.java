@@ -17,8 +17,6 @@ import android.widget.TextView;
 import leaf.prod.app.views.wheelPicker.DateUtils;
 import leaf.prod.app.views.wheelPicker.widget.WheelView;
 
-import leaf.prod.app.views.wheelPicker.widget.WheelView;
-
 /**
  * 时间选择器
  *

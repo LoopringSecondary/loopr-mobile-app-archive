@@ -18,8 +18,6 @@ import leaf.prod.app.view.APP;
 import leaf.prod.app.view.Operation;
 import leaf.prod.app.views.swipeback.SwipeBackActivity;
 import leaf.prod.app.views.swipeback.SwipeBackLayout;
-
-import leaf.prod.app.presenter.BasePresenter;
 //import com.umeng.analytics.MobclickAgent;
 
 public abstract class BaseActivity extends SwipeBackActivity {

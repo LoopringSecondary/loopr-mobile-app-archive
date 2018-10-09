@@ -6,10 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import leaf.prod.app.R;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import leaf.prod.app.R;
 
 /**
  *

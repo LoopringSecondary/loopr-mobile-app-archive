@@ -19,8 +19,6 @@ import android.widget.TextView;
 import leaf.prod.app.views.wheelPicker.DateUtils;
 import leaf.prod.app.views.wheelPicker.widget.WheelView;
 
-import leaf.prod.app.views.wheelPicker.widget.WheelView;
-
 /**
  * 日期时间选择器，可同时选中日期及时间
  * 请参考{@link DatePicker}和{@link TimePicker}的实现

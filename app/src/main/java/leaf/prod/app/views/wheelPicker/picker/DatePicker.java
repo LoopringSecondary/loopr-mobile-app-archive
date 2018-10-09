@@ -20,8 +20,6 @@ import android.widget.TextView;
 import leaf.prod.app.views.wheelPicker.DateUtils;
 import leaf.prod.app.views.wheelPicker.widget.WheelView;
 
-import leaf.prod.app.views.wheelPicker.widget.WheelView;
-
 /**
  * 日期选择器
  *

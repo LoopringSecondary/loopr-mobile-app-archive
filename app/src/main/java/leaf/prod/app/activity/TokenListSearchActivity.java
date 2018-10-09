@@ -15,13 +15,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import leaf.prod.app.R;
-import leaf.prod.app.adapter.TokenListSearchAdapter;
-import leaf.prod.app.utils.MyViewUtils;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import leaf.prod.app.R;
+import leaf.prod.app.adapter.TokenListSearchAdapter;
+import leaf.prod.app.utils.MyViewUtils;
 
 public class TokenListSearchActivity extends BaseActivity {
 

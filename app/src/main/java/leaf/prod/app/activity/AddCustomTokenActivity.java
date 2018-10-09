@@ -21,9 +21,6 @@ import leaf.prod.app.views.TitleView;
 
 public class AddCustomTokenActivity extends BaseActivity {
 
-    @BindView(R.id.title)
-    TitleView title;
-
     @BindView(R.id.token_address)
     public MaterialEditText etTokenAddress;
 
@@ -32,6 +29,9 @@ public class AddCustomTokenActivity extends BaseActivity {
 
     @BindView(R.id.token_decimal)
     public MaterialEditText etTokenDecimal;
+
+    @BindView(R.id.title)
+    TitleView title;
 
     @BindView(R.id.add_btn)
     Button addButton;
@@ -83,5 +83,4 @@ public class AddCustomTokenActivity extends BaseActivity {
                 presenter.doAddCustomToken();
         }
     }
-
 }

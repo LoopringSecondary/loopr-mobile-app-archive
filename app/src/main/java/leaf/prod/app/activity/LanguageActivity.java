@@ -5,15 +5,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import leaf.prod.walletsdk.model.Language;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.LanguageUtil;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.views.TitleView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import leaf.prod.walletsdk.model.Language;
 
 public class LanguageActivity extends BaseActivity {

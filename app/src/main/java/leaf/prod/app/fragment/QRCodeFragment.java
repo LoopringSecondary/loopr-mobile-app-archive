@@ -13,14 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.json.JSONException;
-import leaf.prod.app.R;
-import leaf.prod.app.utils.FileUtils;
-import leaf.prod.app.utils.ToastUtils;
 import com.vondear.rxfeature.tool.RxQRCode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import leaf.prod.app.R;
+import leaf.prod.app.utils.FileUtils;
+import leaf.prod.app.utils.ToastUtils;
 
 /**
  *

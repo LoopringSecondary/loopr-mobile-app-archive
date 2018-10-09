@@ -13,8 +13,6 @@ import android.content.Context;
 
 import leaf.prod.walletsdk.model.Currency;
 
-import leaf.prod.walletsdk.model.Currency;
-
 public class CurrencyUtil {
 
     public static Currency getCurrency(Context context) {

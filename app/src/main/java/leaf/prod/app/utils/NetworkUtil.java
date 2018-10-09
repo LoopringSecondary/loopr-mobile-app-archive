@@ -6,8 +6,6 @@ import android.net.NetworkInfo;
 
 import leaf.prod.walletsdk.model.Network;
 
-import leaf.prod.walletsdk.model.Network;
-
 public class NetworkUtil {
 
     public static Network getNetWorkState(Context context) {

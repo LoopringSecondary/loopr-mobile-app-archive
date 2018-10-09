@@ -8,13 +8,18 @@ package leaf.prod.app.manager;
 
 import android.content.Context;
 
+import leaf.prod.app.utils.SPUtils;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.service.LoopringService;
-
-import leaf.prod.app.utils.SPUtils;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class PartnerDataManager {
+
+    public static final String BASE_URL = "https://upwallet.io";
+
+    public static final String LOOPRING_ADDRESS = "0x8E63Bb7Af326de3fc6e09F4c8D54A75c6e236abA";
+
+    private static PartnerDataManager partnerDataManager = null;
 
     private Context context;
 
@@ -24,22 +29,16 @@ public class PartnerDataManager {
 
     private LoopringService loopringService;
 
-    private static PartnerDataManager partnerDataManager = null;
-
-    public static final String BASE_URL = "https://upwallet.io";
-
-    public static final String LOOPRING_ADDRESS = "0x8E63Bb7Af326de3fc6e09F4c8D54A75c6e236abA";
+    private PartnerDataManager(Context context) {
+        this.context = context;
+        loopringService = new LoopringService();
+    }
 
     public static PartnerDataManager getInstance(Context context) {
         if (partnerDataManager == null) {
             partnerDataManager = new PartnerDataManager(context);
         }
         return partnerDataManager;
-    }
-
-    private PartnerDataManager(Context context) {
-        this.context = context;
-        loopringService = new LoopringService();
     }
 
     public void activatePartner() {

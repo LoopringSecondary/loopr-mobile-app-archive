@@ -11,16 +11,16 @@ import android.widget.LinearLayout;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.model.eventbusData.NameChangeData;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.TitleView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class WalletSafeActivity extends BaseActivity {
 

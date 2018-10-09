@@ -11,9 +11,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 
-import leaf.prod.app.R;
-
 import butterknife.ButterKnife;
+import leaf.prod.app.R;
 
 public class TokenView extends RelativeLayout {
 

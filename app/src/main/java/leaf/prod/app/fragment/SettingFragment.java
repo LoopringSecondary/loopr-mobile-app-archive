@@ -12,6 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.ContractVersionActivity;
 import leaf.prod.app.activity.CurrencyActivity;
@@ -22,11 +26,6 @@ import leaf.prod.app.activity.ManageWalletActivity;
 import leaf.prod.app.activity.MarginSplitActivity;
 import leaf.prod.app.activity.ShareActivity;
 import leaf.prod.app.utils.SPUtils;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  *

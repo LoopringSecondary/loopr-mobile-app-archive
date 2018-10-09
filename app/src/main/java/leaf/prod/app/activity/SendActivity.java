@@ -158,42 +158,6 @@ public class SendActivity extends BaseActivity {
 
     private EthTransactionManager ethTransactionManager;
 
-    @SuppressLint("HandlerLeak")
-    Handler handlerCreate = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case SEND_SUCCESS:
-                    hideProgress();
-                    ToastUtils.toast("发送成功");
-                    passwordDialog.dismiss();
-                    break;
-                case SEND_FAILED:
-                    hideProgress();
-                    ToastUtils.toast("转账失败，请重试" + errorMes);
-                    LyqbLogger.log(errorMes);
-                    break;
-                case ERROR_ONE:
-                    hideProgress();
-                    ToastUtils.toast("密码输入错误");
-                    break;
-                case ERROR_TWO:
-                    hideProgress();
-                    ToastUtils.toast("转账失败" + errorMes);
-                    break;
-                case ERROR_THREE:
-                    hideProgress();
-                    ToastUtils.toast("信息获取失败");
-                    break;
-                case ERROR_FOUR:
-                    hideProgress();
-                    ToastUtils.toast("keystore获取失败");
-                    break;
-            }
-        }
-    };
-
     /**
      * 邮费选择弹窗相关组件
      */
@@ -230,6 +194,42 @@ public class SendActivity extends BaseActivity {
      * 输入密码dialog
      */
     private AlertDialog passwordDialog;
+
+    @SuppressLint("HandlerLeak")
+    Handler handlerCreate = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SEND_SUCCESS:
+                    hideProgress();
+                    ToastUtils.toast("发送成功");
+                    passwordDialog.dismiss();
+                    break;
+                case SEND_FAILED:
+                    hideProgress();
+                    ToastUtils.toast("转账失败，请重试" + errorMes);
+                    LyqbLogger.log(errorMes);
+                    break;
+                case ERROR_ONE:
+                    hideProgress();
+                    ToastUtils.toast("密码输入错误");
+                    break;
+                case ERROR_TWO:
+                    hideProgress();
+                    ToastUtils.toast("转账失败" + errorMes);
+                    break;
+                case ERROR_THREE:
+                    hideProgress();
+                    ToastUtils.toast("信息获取失败");
+                    break;
+                case ERROR_FOUR:
+                    hideProgress();
+                    ToastUtils.toast("keystore获取失败");
+                    break;
+            }
+        }
+    };
 
     private Animation shakeAnimation;
 
@@ -393,7 +393,7 @@ public class SendActivity extends BaseActivity {
     }
 
     private void send(String password) {
-//        showProgress("加载中");
+        //        showProgress("加载中");
         if ((gasFee = gasDataManager.getGasAmountInETH("token_transfer")) > balanceManager.getAssetBySymbol("ETH")
                 .getValue()) {
             // 油费不足

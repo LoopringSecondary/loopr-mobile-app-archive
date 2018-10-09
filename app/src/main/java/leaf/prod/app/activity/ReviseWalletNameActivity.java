@@ -9,15 +9,15 @@ import android.widget.LinearLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.model.eventbusData.NameChangeData;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.TitleView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class ReviseWalletNameActivity extends BaseActivity {
 

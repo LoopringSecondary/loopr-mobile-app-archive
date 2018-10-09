@@ -45,6 +45,8 @@ import rx.schedulers.Schedulers;
 
 public class WalletDetailActivity extends BaseActivity {
 
+    private static final int PAGE_SIZE = 2000;
+
     @BindView(R.id.title)
     TitleView title;
 
@@ -90,8 +92,6 @@ public class WalletDetailActivity extends BaseActivity {
     private int txTotalCount;
 
     private int currentPageIndex = 1;
-
-    private static final int PAGE_SIZE = 2000;
 
     /**
      * @param context

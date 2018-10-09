@@ -95,7 +95,6 @@ public class SendListChooseActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {
             }
         });
-
     }
 
     @Override

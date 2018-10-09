@@ -20,21 +20,17 @@ import org.web3j.utils.Numeric;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import leaf.prod.walletsdk.service.LoopringService;
-
 import leaf.prod.app.utils.NumberUtils;
+import leaf.prod.walletsdk.service.LoopringService;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class GasDataManager {
 
-    static class GasLimit {
+    private static BalanceDataManager manager;
 
-        String type;
-
-        Integer gasLimit;
-    }
+    private static GasDataManager gasDataManager = null;
 
     private Context context;
 
@@ -47,10 +43,6 @@ public class GasDataManager {
     private Observable<BigDecimal> gasObservable;
 
     private LoopringService loopringService = new LoopringService();
-
-    private static BalanceDataManager manager;
-
-    private static GasDataManager gasDataManager = null;
 
     private GasDataManager(Context context) {
         this.context = context;
@@ -110,22 +102,6 @@ public class GasDataManager {
         return gasObservable;
     }
 
-    // ok
-    public void setCustomizeGasPriceString(String value) {
-        this.customizeGasPrice = Convert.toWei(value, Convert.Unit.WEI);
-    }
-
-    // ok
-    public void setCustomizeGasPriceInGWei(Double value) {
-        BigDecimal decimal = BigDecimal.valueOf(value);
-        this.customizeGasPrice = Convert.toWei(decimal, Convert.Unit.GWEI);
-    }
-
-    public void setCustomizeGasPriceInEth(Double value) {
-        BigDecimal decimal = BigDecimal.valueOf(value);
-        this.customizeGasPrice = Convert.toWei(decimal, Convert.Unit.ETHER);
-    }
-
     public BigDecimal getRecommendGasPriceInWei() {
         return this.recommendGasPrice;
     }
@@ -136,6 +112,11 @@ public class GasDataManager {
 
     public BigDecimal getCustomizeGasPriceInEth() {
         return Convert.fromWei(this.customizeGasPrice == null ? recommendGasPrice : customizeGasPrice, Convert.Unit.ETHER);
+    }
+
+    public void setCustomizeGasPriceInEth(Double value) {
+        BigDecimal decimal = BigDecimal.valueOf(value);
+        this.customizeGasPrice = Convert.toWei(decimal, Convert.Unit.ETHER);
     }
 
     public String getRecommendGasPriceString() {
@@ -152,10 +133,21 @@ public class GasDataManager {
         return Convert.fromWei(this.customizeGasPrice == null ? recommendGasPrice : customizeGasPrice, Convert.Unit.GWEI);
     }
 
+    // ok
+    public void setCustomizeGasPriceInGWei(Double value) {
+        BigDecimal decimal = BigDecimal.valueOf(value);
+        this.customizeGasPrice = Convert.toWei(decimal, Convert.Unit.GWEI);
+    }
+
     public String getCustomizeGasPriceString() {
         BigDecimal ether = Convert.fromWei(this.customizeGasPrice, Convert.Unit.ETHER);
         int precision = manager.getPrecisionBySymbol("ETH");
         return NumberUtils.format1(ether.doubleValue(), precision);
+    }
+
+    // ok
+    public void setCustomizeGasPriceString(String value) {
+        this.customizeGasPrice = Convert.toWei(value, Convert.Unit.WEI);
     }
 
     public double getGasPriceInWei() {
@@ -220,5 +212,12 @@ public class GasDataManager {
     @SuppressLint("DefaultLocale")
     public String description(String type) {
         return String.format("GasPrice: %s * GasLimit: %6d = %s ETH", getGasPriceString(), getGasLimitByType(type), getGasAmountString(type));
+    }
+
+    static class GasLimit {
+
+        String type;
+
+        Integer gasLimit;
     }
 }

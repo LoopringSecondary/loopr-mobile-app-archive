@@ -28,6 +28,8 @@ import rx.schedulers.Schedulers;
 
 public class TokenDataManager {
 
+    private static TokenDataManager tokenDataManager = null;
+
     private List<Token> tokens;
 
     private List<Token> whiteList;
@@ -37,8 +39,6 @@ public class TokenDataManager {
     private Observable<List<Token>> tokenObservable;
 
     private LoopringService loopringService = new LoopringService();
-
-    private static TokenDataManager tokenDataManager = null;
 
     private TokenDataManager(Context context) {
         this.context = context;

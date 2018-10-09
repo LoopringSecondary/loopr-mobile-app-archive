@@ -3,11 +3,10 @@ package leaf.prod.app.activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import leaf.prod.app.R;
-import leaf.prod.app.views.TitleView;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import leaf.prod.app.R;
+import leaf.prod.app.views.TitleView;
 
 public class ContractVersionActivity extends BaseActivity {
 

@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import leaf.prod.app.views.wheelPicker.widget.WheelView;
 
-import leaf.prod.app.views.wheelPicker.widget.WheelView;
-
 /**
  * 单项选择器
  */
