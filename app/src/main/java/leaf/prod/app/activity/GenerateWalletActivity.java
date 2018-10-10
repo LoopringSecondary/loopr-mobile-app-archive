@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.web3j.crypto.Credentials;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.common.base.Joiner;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -247,20 +246,17 @@ public class GenerateWalletActivity extends BaseActivity {
         recyclerView.addItemDecoration(new SpacesItemDecoration(8));
         recyclerView.setAdapter(mAdapter);
         final Joiner joiner = Joiner.on(" ");
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //选择助记词，进行验证
-                CheckBox checkBox = view.findViewById(R.id.mnemonic_word);
-                if (checkBox.isChecked()) {
-                    checkBox.setChecked(false);
-                    mneCheckedList.remove(listRandomMnemonic.get(position));
-                    confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
-                } else {
-                    checkBox.setChecked(true);
-                    mneCheckedList.add(listRandomMnemonic.get(position));
-                    confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
-                }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            //选择助记词，进行验证
+            CheckBox checkBox = view.findViewById(R.id.mnemonic_word);
+            if (checkBox.isChecked()) {
+                checkBox.setChecked(false);
+                mneCheckedList.remove(listRandomMnemonic.get(position));
+                confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
+            } else {
+                checkBox.setChecked(true);
+                mneCheckedList.add(listRandomMnemonic.get(position));
+                confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
             }
         });
     }

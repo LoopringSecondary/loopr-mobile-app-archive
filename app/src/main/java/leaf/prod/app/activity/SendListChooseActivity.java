@@ -49,8 +49,6 @@ public class SendListChooseActivity extends BaseActivity {
 
     private List<Token> listSearch = new ArrayList<>();
 
-    private boolean searchFlag = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_send_list);

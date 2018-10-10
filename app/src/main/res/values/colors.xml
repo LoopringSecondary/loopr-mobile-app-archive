@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#222222</color>
-    <color name="colorPrimaryDark">#222222</color>
-    <color name="colorAccent">#222222</color>
+    <color name="colorPrimary">#16162A</color>
+    <color name="colorPrimaryDark">#16162A</color>
+    <color name="colorAccent">#16162A</color>
     <color name="colorToken">#D4D4D4</color>
 
     <!-- 列表 -->
@@ -11,17 +11,17 @@
     <color name="colorNineText">#999999</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorFortyWhite">#40ffffff</color>
-    <color name="colorTitleBac">#222222</color>  <!-- 标题背景色 -->
+    <color name="colorTitleBac">#16162A</color>  <!-- 标题背景色 -->
     <color name="colorTitleTv">#ffffff</color>  <!-- 标题字体色 -->
-    <color name="colorLine">#222222</color>  <!-- 横线颜色 -->
-    <color name="colorStart">#CE4CE6</color>  <!-- 渐变启始色 -->
-    <color name="colorCenter">#DE4DCB</color>  <!-- 渐变中间色 -->
-    <color name="colorEnd">#FA4A6F</color>  <!-- 渐变底部色 -->
-    <color name="colorRed">#FA4A6F</color>  <!-- 全局red色 -->
-    <color name="colorGreen">#FF01B97F</color>  <!-- 全局green色 -->
-    <color name="colorBg">#383838</color>  <!-- 部分控件背景色 -->
-    <color name="colorBg2">#292929</color>  <!-- 部分控件背景色 -->
-    <color name="lineBac">#383838</color>  <!-- 间隔线颜色 -->
+    <color name="colorLine">#16162A</color>  <!-- 横线颜色 -->
+    <color name="colorStart">#EFC90C</color>  <!-- 渐变启始色 -->
+    <color name="colorCenter">#F7BE1B</color>  <!-- 渐变中间色 -->
+    <color name="colorEnd">#FFB528</color>  <!-- 渐变底部色 -->
+    <color name="colorRed">#DD5252</color>  <!-- 全局red色 -->
+    <color name="colorGreen">#4CCD64</color>  <!-- 全局green色 -->
+    <color name="colorBg">#2B2C47</color>  <!-- 部分控件背景色 -->
+    <color name="colorBg2">#21203A</color>  <!-- 部分控件背景色 -->
+    <color name="lineBac">#2B2C47</color>  <!-- 间隔线颜色 -->
     <color name="colorCursor">#ffffff</color>  <!-- 输入框游标背景色 -->
     <color name="colorLink">#126fdb</color>  <!-- 链接色 -->
     <color name="colorLinkHighlight">#88126fdb</color>  <!-- 链接高亮色 -->

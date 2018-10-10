@@ -27,6 +27,8 @@
             android:imeOptions="actionNext"
             android:maxLength="16"
             android:maxLines="1"
+            android:minWidth="40dp"
+            android:gravity="center_horizontal"
             android:textColorHint="@color/colorWhite"
             android:textCursorDrawable="@drawable/white_color_cursor"
             android:textSize="@dimen/normalText"

@@ -85,7 +85,7 @@ public class SetWalletNameActivity extends BaseActivity {
         WalletEntity newWallet = (WalletEntity) getIntent().getSerializableExtra("newWallet");
         newWallet.setWalletname(walletName.getText().toString());
         if (WalletUtil.isWalletExisted(this, newWallet)) {
-            ToastUtils.toast("请输入钱包名称");
+            ToastUtils.toast("钱包已存在，请确认信息后重新导入");
             return;
         }
         List<WalletEntity> list = SPUtils.getWalletDataList(this, "walletlist", WalletEntity.class);
