@@ -247,8 +247,13 @@ public class MainFragment extends BaseFragment {
             case R.id.ll_trade://trade 按钮
                 break;
             case R.id.right_btn:  //右上角添加按钮
-                llMenu.setVisibility(View.VISIBLE);
-                showMenu = true;
+                if (llMenu.getVisibility() == View.GONE) {
+                    llMenu.setVisibility(View.VISIBLE);
+                    showMenu = true;
+                } else {
+                    llMenu.setVisibility(View.GONE);
+                    showMenu = false;
+                }
                 break;
             case R.id.ll_main://主布局页面，主要实现点击关闭menu页面
                 llMenu.setVisibility(View.GONE);
@@ -274,19 +279,19 @@ public class MainFragment extends BaseFragment {
         /**
          * 处理二维码扫描结果
          */
-//        if (requestCode == REQUEST_CODE) {
-//            //处理扫描结果（在界面上显示）
-//            if (null != data) {
-//                Bundle bundle = data.getExtras();
-//                if (bundle == null) {
-//                    return;
-//                }
-//                String result = bundle.getString("result");
-//                LyqbLogger.log(result);
-//                getOperation().addParameter("send_address", result);
-//                getOperation().forward(SendActivity.class);
-//            }
-//        }
+        //        if (requestCode == REQUEST_CODE) {
+        //            //处理扫描结果（在界面上显示）
+        //            if (null != data) {
+        //                Bundle bundle = data.getExtras();
+        //                if (bundle == null) {
+        //                    return;
+        //                }
+        //                String result = bundle.getString("result");
+        //                LyqbLogger.log(result);
+        //                getOperation().addParameter("send_address", result);
+        //                getOperation().forward(SendActivity.class);
+        //            }
+        //        }
     }
 
     public MainWalletAdapter getmAdapter() {
