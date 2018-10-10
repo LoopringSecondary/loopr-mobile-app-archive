@@ -1,305 +1,324 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   android:id="@+id/refresh_layout"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   android:background="@color/colorLine">
-
-    <com.scwang.smartrefresh.header.WaterDropHeader
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="40dp"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorLine">
 
     <leaf.prod.app.layout.ChildClickableFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                         android:id="@+id/frame_layout"
-                                                         android:layout_width="match_parent"
-                                                         android:layout_height="match_parent"
-                                                         android:background="@color/colorPrimary"
-                                                         android:orientation="vertical">
+                                                    android:id="@+id/frame_layout"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:background="@color/colorPrimary"
+                                                    android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="44dp">
-
-            <TextView
-                android:id="@+id/title_text"
-                style="@style/Text.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/colorTitleTv"
-                android:textSize="18sp"/>
-
-            <ImageView
-                android:id="@+id/right_btn"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
-                android:src="@mipmap/icon_plus"/>
-        </RelativeLayout>
-
-
-        <LinearLayout
-            android:id="@+id/ll_main"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="94dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="10dp"
-                android:background="@mipmap/wallet_bg">
+                android:id="@+id/title_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <com.robinhood.ticker.TickerView
-                    android:id="@+id/wallet_count"
-                    style="@style/WrapWrap"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="24dp"
-                    android:gravity="center"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="32sp"
-                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/title_text"
+                    style="@style/Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/colorTitleTv"
+                    android:textSize="18sp"/>
 
-                <LinearLayout
-                    style="@style/MatchWrap.Horizontal"
-                    android:layout_below="@+id/wallet_count"
-                    android:layout_marginTop="11dp"
-                    android:gravity="center"
-                    android:paddingEnd="30dp"
-                    android:paddingStart="50dp">
-
-                    <TextView
-                        android:id="@+id/wallet_address"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="middle"
-                        android:singleLine="true"
-                        android:text="shadhwufh...sbadhasuhd"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/normal14Text"/>
-
-                    <ImageView
-                        android:id="@+id/wallet_qrcode"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginStart="3dp"
-                        android:src="@mipmap/icon_wallet_qrcode"/>
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/right_btn"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:src="@mipmap/icon_plus"/>
             </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="88dp"
-                android:layout_marginLeft="@dimen/margSide"
-                android:layout_marginRight="@dimen/margSide"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/ll_scan"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_bg_pressed"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@mipmap/icon_scan"/>
-
-                    <TextView
-                        android:id="@+id/wallet_scan_tv"
-                        style="@style/WrapWrap"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/scan"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/normal14Text"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_receive"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_bg_pressed"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@mipmap/icon_received"/>
-
-                    <TextView
-                        android:id="@+id/wallet_receive_tv"
-                        style="@style/WrapWrap"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/receive"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/normal14Text"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_send"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_bg_pressed"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@mipmap/icon_send"/>
-
-                    <TextView
-                        android:id="@+id/wallet_send_tv"
-                        style="@style/WrapWrap"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/send"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/normal14Text"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_trade"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_bg_pressed"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@mipmap/icon_trades"/>
-
-                    <TextView
-                        android:id="@+id/wallet_trades_tv"
-                        style="@style/WrapWrap"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/trade"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/normal14Text"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margSide"
-                android:layout_marginRight="@dimen/margSide"
-                android:layout_marginTop="16dp"/>
+                app:layout_constraintTop_toBottomOf="@id/title_layout">
 
-        </LinearLayout>
+                <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                    android:id="@+id/refresh_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorLine">
 
-        <LinearLayout
-            android:id="@+id/ll_menu"
-            android:layout_width="160dp"
-            android:layout_height="150dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/margSide"
-            android:layout_marginTop="94dp"
-            android:background="@color/colorBg2"
-            android:orientation="vertical"
-            android:visibility="gone">
+                    <com.scwang.smartrefresh.header.WaterDropHeader
+                        android:id="@+id/head"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="40dp"/>
 
-            <LinearLayout
-                android:id="@+id/menu_scan"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                    <LinearLayout
+                        android:id="@+id/ll_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/head">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="20dp"
-                    android:src="@mipmap/icon_scan"/>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@mipmap/wallet_bg">
 
-                <TextView
-                    style="@style/WrapWrap"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/scan"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/normal14Text"/>
-            </LinearLayout>
+                            <com.robinhood.ticker.TickerView
+                                android:id="@+id/wallet_count"
+                                style="@style/WrapWrap"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="24dp"
+                                android:gravity="center"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="32sp"
+                                android:textStyle="bold"/>
 
-            <LinearLayout
-                android:id="@+id/menu_add_assets"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                            <LinearLayout
+                                style="@style/MatchWrap.Horizontal"
+                                android:layout_below="@+id/wallet_count"
+                                android:layout_marginTop="11dp"
+                                android:gravity="center"
+                                android:paddingStart="50dp"
+                                android:paddingEnd="30dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="20dp"
-                    android:src="@mipmap/icon_plus"/>
+                                <TextView
+                                    android:id="@+id/wallet_address"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="middle"
+                                    android:singleLine="true"
+                                    android:text="shadhwufh...sbadhasuhd"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/normal14Text"/>
 
-                <TextView
-                    style="@style/WrapWrap"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/add_assets"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/normal14Text"/>
-            </LinearLayout>
+                                <ImageView
+                                    android:id="@+id/wallet_qrcode"
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_marginStart="3dp"
+                                    android:src="@mipmap/icon_wallet_qrcode"/>
+                            </LinearLayout>
+                        </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/menu_wallet"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="88dp"
+                            android:layout_marginLeft="@dimen/margSide"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginRight="@dimen/margSide"
+                            android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="20dp"
-                    android:src="@mipmap/icon_wallet_outline"/>
+                            <LinearLayout
+                                android:id="@+id/ll_scan"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_bg_pressed"
+                                android:clickable="true"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-                <TextView
-                    style="@style/WrapWrap"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/wallet"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/normal14Text"/>
-            </LinearLayout>
+                                <ImageView
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:src="@mipmap/icon_scan"/>
 
-        </LinearLayout>
+                                <TextView
+                                    android:id="@+id/wallet_scan_tv"
+                                    style="@style/WrapWrap"
+                                    android:layout_marginTop="8dp"
+                                    android:text="@string/scan"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/normal14Text"/>
+                            </LinearLayout>
 
-        <com.github.ybq.android.spinkit.SpinKitView
-            android:id="@+id/spin_kit"
-            style="@style/SpinKitView.Large.Circle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+                            <LinearLayout
+                                android:id="@+id/ll_receive"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="8dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_bg_pressed"
+                                android:clickable="true"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
+                                <ImageView
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:src="@mipmap/icon_received"/>
+
+                                <TextView
+                                    android:id="@+id/wallet_receive_tv"
+                                    style="@style/WrapWrap"
+                                    android:layout_marginTop="8dp"
+                                    android:text="@string/receive"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/normal14Text"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/ll_send"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="8dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_bg_pressed"
+                                android:clickable="true"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:src="@mipmap/icon_send"/>
+
+                                <TextView
+                                    android:id="@+id/wallet_send_tv"
+                                    style="@style/WrapWrap"
+                                    android:layout_marginTop="8dp"
+                                    android:text="@string/send"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/normal14Text"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/ll_trade"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="8dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_bg_pressed"
+                                android:clickable="true"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:src="@mipmap/icon_trades"/>
+
+                                <TextView
+                                    android:id="@+id/wallet_trades_tv"
+                                    style="@style/WrapWrap"
+                                    android:layout_marginTop="8dp"
+                                    android:text="@string/trade"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/normal14Text"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margSide"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginRight="@dimen/margSide"/>
+                    </LinearLayout>
+                </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_menu"
+                    android:layout_width="160dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="94dp"
+                    android:layout_marginEnd="@dimen/margSide"
+                    android:background="@color/colorBg2"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:id="@+id/menu_scan"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="20dp"
+                            android:src="@mipmap/icon_scan"/>
+
+                        <TextView
+                            style="@style/WrapWrap"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/scan"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/normal14Text"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/menu_add_assets"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="20dp"
+                            android:src="@mipmap/icon_plus"/>
+
+                        <TextView
+                            style="@style/WrapWrap"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/add_assets"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/normal14Text"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/menu_wallet"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="20dp"
+                            android:src="@mipmap/icon_wallet_outline"/>
+
+                        <TextView
+                            style="@style/WrapWrap"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/wallet"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/normal14Text"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/spin_kit"
+                    style="@style/SpinKitView.Large.Circle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
     </leaf.prod.app.layout.ChildClickableFrameLayout>
 
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>
