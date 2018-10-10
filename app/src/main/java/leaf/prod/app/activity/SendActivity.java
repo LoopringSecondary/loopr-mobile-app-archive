@@ -656,4 +656,9 @@ public class SendActivity extends BaseActivity {
             }
         }, 100);
     }
+
+    @Override
+    public void onBackPressed() {
+        getOperation().forward(MainActivity.class);
+    }
 }
