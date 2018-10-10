@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -618,6 +619,10 @@ public class SendActivity extends BaseActivity {
      * 钱包地址实时验证
      */
     private void initWalletAddress() {
+        if (!getIntent().getStringExtra("send_address").isEmpty()) {
+            walletAddress.setText(getIntent().getStringExtra("send_address"));
+            showKeyboard(moneyAmount);
+        }
         walletAddress.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -640,5 +645,15 @@ public class SendActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void showKeyboard(View view) {
+        getWindow().getDecorView().postDelayed(() -> {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (inputMethodManager != null) {
+                view.requestFocus();
+                inputMethodManager.showSoftInput(view, 0);
+            }
+        }, 100);
     }
 }

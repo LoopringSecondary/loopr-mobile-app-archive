@@ -30,7 +30,7 @@
             android:maxLength="16"
             android:maxLines="1"
             android:textColorHint="@color/colorWhite"
-            android:textCursorDrawable="@drawable/color_cursor"
+            android:textCursorDrawable="@drawable/white_color_cursor"
             android:textSize="@dimen/normalText"
             app:met_baseColor="@color/colorWhite"
             app:met_checkCharactersCountAtBeginning="false"

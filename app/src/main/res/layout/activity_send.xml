@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginLeft="@dimen/margSide"
-        android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="12dp"
+        android:layout_marginRight="@dimen/margSide"
         android:background="@drawable/button_bg2_pressed"
         android:clickable="true"
         android:orientation="vertical">
@@ -83,8 +83,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margSide"
-        android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="12dp"
+        android:layout_marginRight="@dimen/margSide"
         android:background="@drawable/radius_bg_38"
         android:clickable="true"
         android:orientation="vertical"
@@ -113,7 +113,7 @@
                 android:maxLength="100"
                 android:singleLine="true"
                 android:textColorHint="@color/black"
-                android:textCursorDrawable="@drawable/color_cursor"
+                android:textCursorDrawable="@drawable/black_color_cursor"
                 android:textSize="@dimen/normalText"
                 app:met_baseColor="@color/black"
                 app:met_checkCharactersCountAtBeginning="false"
@@ -135,8 +135,8 @@
             android:id="@+id/address_toast"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center_vertical"
             android:text="@string/input_valid_address"
             android:textColor="@color/colorRed"
@@ -165,7 +165,7 @@
                 android:inputType="number|numberDecimal"
                 android:singleLine="true"
                 android:textColorHint="@color/black"
-                android:textCursorDrawable="@drawable/color_cursor"
+                android:textCursorDrawable="@drawable/black_color_cursor"
                 android:textSize="@dimen/normalText"
                 app:met_baseColor="@color/black"
                 app:met_checkCharactersCountAtBeginning="false"
@@ -189,8 +189,8 @@
             android:id="@+id/amount_toast"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center_vertical"
             android:textColor="@color/colorNineText"
             android:textSize="@dimen/normal14Text"/>
@@ -200,6 +200,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="4dp"
+            app:isb_indicator_color="@color/colorCenter"
             app:isb_progress_value_float="true"
             app:isb_seek_smoothly="true"
             app:isb_show_indicator="circular_bubble"
@@ -216,7 +217,6 @@
             app:isb_ticks_count="5"
             app:isb_track_background_color="@color/colorNineText"
             app:isb_track_progress_color="@color/colorGreen"
-            app:isb_indicator_color="@color/colorCenter"
             app:isb_track_progress_size="3dp"/>
 
         <!--<RelativeLayout-->
@@ -283,8 +283,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
             android:gravity="bottom"
             android:orientation="horizontal">
 

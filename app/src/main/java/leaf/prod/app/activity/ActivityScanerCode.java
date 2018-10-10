@@ -426,25 +426,32 @@ public class ActivityScanerCode extends ActivityBase {
         height = tmp;
         PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData, width, height);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-        try {
-            rawResult = multiFormatReader.decodeWithState(bitmap);
-        } catch (ReaderException e) {
-            // continue
-        } finally {
-            multiFormatReader.reset();
-        }
-        if (rawResult != null) {
-            long end = System.currentTimeMillis();
-            Log.d(TAG, "Found barcode (" + (end - start) + " ms):\n" + rawResult.toString());
-            Message message = Message.obtain(handler, com.vondear.rxfeature.R.id.decode_succeeded, rawResult);
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("barcode_bitmap", source.renderCroppedGreyscaleBitmap());
-            message.setData(bundle);
-            //Log.d(TAG, "Sending decode succeeded message...");
-            message.sendToTarget();
-        } else {
-            Message message = Message.obtain(handler, com.vondear.rxfeature.R.id.decode_failed);
-            message.sendToTarget();
+        if (bitmap.getWidth() > 0 && bitmap.getHeight() > 0) {
+            try {
+                rawResult = multiFormatReader.decodeWithState(bitmap);
+            } catch (ReaderException e) {
+                // continue
+            } finally {
+                multiFormatReader.reset();
+            }
+            if (handler == null)
+                return;
+            if (rawResult != null) {
+                long end = System.currentTimeMillis();
+                Log.d(TAG, "Found barcode (" + (end - start) + " ms):\n" + rawResult.toString());
+                Message message = Message.obtain(handler, com.vondear.rxfeature.R.id.decode_succeeded, rawResult);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("barcode_bitmap", source.renderCroppedGreyscaleBitmap());
+                message.setData(bundle);
+                //Log.d(TAG, "Sending decode succeeded message...");
+                Intent intent = new Intent(this, SendActivity.class);
+                intent.putExtra("send_address", rawResult.toString());
+                startActivity(intent);
+//                message.sendToTarget();
+            } else {
+                Message message = Message.obtain(handler, com.vondear.rxfeature.R.id.decode_failed);
+                message.sendToTarget();
+            }
         }
     }
 

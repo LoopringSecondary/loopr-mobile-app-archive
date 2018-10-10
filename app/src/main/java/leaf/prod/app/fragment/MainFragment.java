@@ -39,7 +39,6 @@ import leaf.prod.app.adapter.MainWalletAdapter;
 import leaf.prod.app.layout.ChildClickableFrameLayout;
 import leaf.prod.app.presenter.MainFragmentPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.app.utils.LyqbLogger;
 
 public class MainFragment extends BaseFragment {
 
@@ -241,6 +240,7 @@ public class MainFragment extends BaseFragment {
                     llMenu.setVisibility(View.GONE);
                     showMenu = false;
                 } else {
+                    getOperation().addParameter("send_address", "");
                     getOperation().forward(SendActivity.class);
                 }
                 break;
@@ -274,17 +274,19 @@ public class MainFragment extends BaseFragment {
         /**
          * 处理二维码扫描结果
          */
-        if (requestCode == REQUEST_CODE) {
-            //处理扫描结果（在界面上显示）
-            if (null != data) {
-                Bundle bundle = data.getExtras();
-                if (bundle == null) {
-                    return;
-                }
-                String result = bundle.getString("result");
-                LyqbLogger.log(result);
-            }
-        }
+//        if (requestCode == REQUEST_CODE) {
+//            //处理扫描结果（在界面上显示）
+//            if (null != data) {
+//                Bundle bundle = data.getExtras();
+//                if (bundle == null) {
+//                    return;
+//                }
+//                String result = bundle.getString("result");
+//                LyqbLogger.log(result);
+//                getOperation().addParameter("send_address", result);
+//                getOperation().forward(SendActivity.class);
+//            }
+//        }
     }
 
     public MainWalletAdapter getmAdapter() {

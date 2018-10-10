@@ -213,7 +213,7 @@ public class ReceiveActivity extends BaseActivity {
         umImage.setDescription("钱包地址分享");//描述
         ShareAction shareAction = new ShareAction(ReceiveActivity.this);
         shareAction.setDisplayList(SHARE_MEDIA.QQ,
-                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA)//传入平台
+                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA, SHARE_MEDIA.FACEBOOK)//传入平台
                 .setCallback(umShareListener).withMedia(umImage).open();
     }
 
