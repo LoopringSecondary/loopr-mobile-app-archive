@@ -7,19 +7,9 @@
 
     <ImageView
         android:id="@+id/imageview"
-        android:layout_width="86dp"
-        android:layout_height="102dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="200dp"
-        android:src="@mipmap/icon_wallet_active"/>
-
-    <TextView
-        style="@style/WrapWrap"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:text="@string/app_name"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/normalText"/>
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:src="@mipmap/splash_bg"/>
 
 </LinearLayout>
