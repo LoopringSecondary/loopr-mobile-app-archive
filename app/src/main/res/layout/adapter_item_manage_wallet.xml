@@ -18,7 +18,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:src="@mipmap/icon_checked"
+            android:src="@mipmap/icon_checked_outline"
             android:visibility="gone"/>
 
         <TextView

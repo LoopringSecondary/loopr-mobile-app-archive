@@ -282,7 +282,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginStart="20dp"
-                        android:src="@mipmap/icon_plus"/>
+                        android:src="@mipmap/icon_plus_circle"/>
 
                     <TextView
                         style="@style/WrapWrap"
