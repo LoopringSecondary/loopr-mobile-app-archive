@@ -328,15 +328,12 @@ public class ActivityScanerCode extends ActivityBase {
                 Result rawResult = RxQrBarTool.decodeFromPhoto(photo);
                 try {
                     if (rawResult != null && WalletUtils.isValidAddress(rawResult.toString())) {
-                        Intent intent = new Intent(this, SendActivity.class);
-                        intent.putExtra("send_address", rawResult.toString());
-                        startActivity(intent);
-                        //                        if (mScanerListener == null) {
-                        //                            //                        initDialogResult(rawResult);
-                        //                            initActivityResult(rawResult);
-                        //                        } else {
-                        //                            mScanerListener.onSuccess("From to Picture", rawResult);
-                        //                        }
+                        if (mScanerListener == null) {
+                            //                        initDialogResult(rawResult);
+                            initActivityResult(rawResult);
+                        } else {
+                            mScanerListener.onSuccess("From to Picture", rawResult);
+                        }
                     } else {
                         if (mScanerListener == null) {
                             RxToast.error("图片识别失败.");
@@ -452,10 +449,7 @@ public class ActivityScanerCode extends ActivityBase {
                 bundle.putParcelable("barcode_bitmap", source.renderCroppedGreyscaleBitmap());
                 message.setData(bundle);
                 //Log.d(TAG, "Sending decode succeeded message...");
-                Intent intent = new Intent(this, SendActivity.class);
-                intent.putExtra("send_address", rawResult.toString());
-                startActivity(intent);
-                //                message.sendToTarget();
+                message.sendToTarget();
             } else {
                 Message message = Message.obtain(handler, com.vondear.rxfeature.R.id.decode_failed);
                 message.sendToTarget();
