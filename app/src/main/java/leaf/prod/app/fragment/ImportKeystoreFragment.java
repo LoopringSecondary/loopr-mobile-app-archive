@@ -159,6 +159,7 @@ public class ImportKeystoreFragment extends BaseFragment {
         // 布局导入
         layout = inflater.inflate(R.layout.fragment_import_keystore, container, false);
         unbinder = ButterKnife.bind(this, layout);
+        EventBus.getDefault().register(this);
         return layout;
     }
 
@@ -180,14 +181,8 @@ public class ImportKeystoreFragment extends BaseFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 
@@ -229,24 +224,21 @@ public class ImportKeystoreFragment extends BaseFragment {
      */
     private void unlockWallet() {
         showProgress("加载中...");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    filename = KeystoreUtils.createFromKeystoreJson(etKeystore.getText()
-                            .toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
-                    SPUtils.put(getContext(), "filename", filename);
-                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
-                } catch (InvalidKeystoreException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_TWO);
-                    e.printStackTrace();
-                } catch (IllegalCredentialException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_ONE);
-                    e.printStackTrace();
-                } catch (KeystoreCreateException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_ONE);
-                    e.printStackTrace();
-                }
+        new Thread(() -> {
+            try {
+                filename = KeystoreUtils.createFromKeystoreJson(etKeystore.getText()
+                        .toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
+                SPUtils.put(getContext(), "filename", filename);
+                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
+            } catch (InvalidKeystoreException e) {
+                handlerCreate.sendEmptyMessage(ERROR_TWO);
+                e.printStackTrace();
+            } catch (IllegalCredentialException e) {
+                handlerCreate.sendEmptyMessage(ERROR_ONE);
+                e.printStackTrace();
+            } catch (KeystoreCreateException e) {
+                handlerCreate.sendEmptyMessage(ERROR_ONE);
+                e.printStackTrace();
             }
         }).start();
     }

@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import org.web3j.crypto.WalletUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -327,7 +326,7 @@ public class ActivityScanerCode extends ActivityBase {
                 // 开始对图像资源解码
                 Result rawResult = RxQrBarTool.decodeFromPhoto(photo);
                 try {
-                    if (rawResult != null && WalletUtils.isValidAddress(rawResult.toString())) {
+                    if (rawResult != null) {
                         if (mScanerListener == null) {
                             //                        initDialogResult(rawResult);
                             initActivityResult(rawResult);

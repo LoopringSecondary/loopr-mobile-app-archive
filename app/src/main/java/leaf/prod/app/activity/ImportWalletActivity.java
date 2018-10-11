@@ -24,8 +24,6 @@ import leaf.prod.app.fragment.ImportKeystoreFragment;
 import leaf.prod.app.fragment.ImportMnemonicFragment;
 import leaf.prod.app.fragment.ImportPrivateKeyFragment;
 import leaf.prod.app.model.eventbusData.KeystoreData;
-import leaf.prod.app.model.eventbusData.MnemonicData;
-import leaf.prod.app.model.eventbusData.PrivateKeyData;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.TitleView;
@@ -107,13 +105,15 @@ public class ImportWalletActivity extends BaseActivity {
                 }
                 String result = bundle.getString("result");
                 LyqbLogger.log(result);
-                if (viewPager.getCurrentItem() == 0) {
-                    EventBus.getDefault().post(new MnemonicData(result));
-                } else if (viewPager.getCurrentItem() == 1) {
-                    EventBus.getDefault().post(new KeystoreData(result));
-                } else if (viewPager.getCurrentItem() == 2) {
-                    EventBus.getDefault().post(new PrivateKeyData(result));
-                }
+                viewPager.setCurrentItem(1);
+                EventBus.getDefault().post(new KeystoreData(result));
+                //                if (viewPager.getCurrentItem() == 0) {
+                //                    EventBus.getDefault().post(new MnemonicData(result));
+                //                } else if (viewPager.getCurrentItem() == 1) {
+                //                    EventBus.getDefault().post(new KeystoreData(result));
+                //                } else if (viewPager.getCurrentItem() == 2) {
+                //                    EventBus.getDefault().post(new PrivateKeyData(result));
+                //                }
             }
         }
     }
