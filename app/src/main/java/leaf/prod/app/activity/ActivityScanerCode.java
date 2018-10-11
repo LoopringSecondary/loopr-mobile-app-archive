@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import org.web3j.crypto.WalletUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -325,19 +326,26 @@ public class ActivityScanerCode extends ActivityBase {
                 Bitmap photo = MediaStore.Images.Media.getBitmap(resolver, originalUri);
                 // 开始对图像资源解码
                 Result rawResult = RxQrBarTool.decodeFromPhoto(photo);
-                if (rawResult != null) {
-                    if (mScanerListener == null) {
-                        //                        initDialogResult(rawResult);
-                        initActivityResult(rawResult);
+                try {
+                    if (rawResult != null && WalletUtils.isValidAddress(rawResult.toString())) {
+                        Intent intent = new Intent(this, SendActivity.class);
+                        intent.putExtra("send_address", rawResult.toString());
+                        startActivity(intent);
+                        //                        if (mScanerListener == null) {
+                        //                            //                        initDialogResult(rawResult);
+                        //                            initActivityResult(rawResult);
+                        //                        } else {
+                        //                            mScanerListener.onSuccess("From to Picture", rawResult);
+                        //                        }
                     } else {
-                        mScanerListener.onSuccess("From to Picture", rawResult);
+                        if (mScanerListener == null) {
+                            RxToast.error("图片识别失败.");
+                        } else {
+                            mScanerListener.onFail("From to Picture", "图片识别失败");
+                        }
                     }
-                } else {
-                    if (mScanerListener == null) {
-                        RxToast.error("图片识别失败.");
-                    } else {
-                        mScanerListener.onFail("From to Picture", "图片识别失败");
-                    }
+                } catch (Exception e) {
+                    Log.e("", e.toString());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -447,7 +455,7 @@ public class ActivityScanerCode extends ActivityBase {
                 Intent intent = new Intent(this, SendActivity.class);
                 intent.putExtra("send_address", rawResult.toString());
                 startActivity(intent);
-//                message.sendToTarget();
+                //                message.sendToTarget();
             } else {
                 Message message = Message.obtain(handler, com.vondear.rxfeature.R.id.decode_failed);
                 message.sendToTarget();
