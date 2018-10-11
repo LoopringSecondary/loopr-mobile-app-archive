@@ -254,7 +254,7 @@ public class SendActivity extends BaseActivity {
     @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.send));
-        title.clickLeftGoBack(getWContext());
+        title.clickLeftGoMain(getWContext());
     }
 
     @Override
@@ -319,6 +319,9 @@ public class SendActivity extends BaseActivity {
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
                     checkInfo();
                 }
+                break;
+            case R.id.left_btn:
+                getOperation().forward(MainActivity.class);
                 break;
         }
     }
@@ -479,11 +482,12 @@ public class SendActivity extends BaseActivity {
     }
 
     /**
-     * 邮费选择弹窗
+     * 油费选择弹窗
      *
      * @param context
      */
     public void showFeeDialog(Context context) {
+        showKeyboard(moneyAmount, false);
         if (feeDialog == null) {
             final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);//
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_fee, null);
@@ -621,7 +625,7 @@ public class SendActivity extends BaseActivity {
     private void initWalletAddress() {
         if (!getIntent().getStringExtra("send_address").isEmpty()) {
             walletAddress.setText(getIntent().getStringExtra("send_address"));
-            showKeyboard(moneyAmount);
+            showKeyboard(moneyAmount, true);
         }
         walletAddress.addTextChangedListener(new TextWatcher() {
             @Override
@@ -647,12 +651,15 @@ public class SendActivity extends BaseActivity {
         });
     }
 
-    private void showKeyboard(View view) {
+    private void showKeyboard(View view, boolean show) {
         getWindow().getDecorView().postDelayed(() -> {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             if (inputMethodManager != null) {
                 view.requestFocus();
-                inputMethodManager.showSoftInput(view, 0);
+                if (show)
+                    inputMethodManager.showSoftInput(view, 0);
+                else
+                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }, 100);
     }

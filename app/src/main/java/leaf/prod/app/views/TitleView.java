@@ -4,6 +4,7 @@ import java.lang.ref.WeakReference;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.MainActivity;
 
 public class TitleView extends FrameLayout implements View.OnClickListener {
 
@@ -95,6 +97,13 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
         mLeftBtn.setVisibility(View.VISIBLE);
         mLeftBtn.setImageResource(imgResource);
         mOnLeftButtonClickListener = button -> context.get().finish();
+    }
+
+    public void clickLeftGoMain(final WeakReference<Activity> context) {
+        mLeftBtn.setVisibility(View.VISIBLE);
+        mOnLeftButtonClickListener = button -> context.get()
+                .getApplication()
+                .startActivity(new Intent(context.get().getApplication(), MainActivity.class));
     }
 
     public void setMiddleButton(String str, OnMiddleButtonClickListener listener) {
