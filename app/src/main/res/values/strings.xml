@@ -112,4 +112,8 @@
     <string name="send_error_result">请确保有足够的油费完成转账！</string>
     <string name="you_need">您需要</string>
     <string name="facebook_app_id">295333837738573</string>
+
+    <string name="ddex">去中心化交易所</string>
+    <string name="p2p">P2P</string>
+    <string name="orders">订单</string>
 </resources>
