@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
+import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.WalletAllAdapter;
 import leaf.prod.app.manager.BalanceDataManager;
 import leaf.prod.app.manager.GasDataManager;
@@ -35,6 +36,7 @@ import leaf.prod.app.utils.DateUtil;
 import leaf.prod.app.utils.NumberUtils;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.TxType;
 import leaf.prod.walletsdk.model.response.data.Transaction;
 import leaf.prod.walletsdk.model.response.data.TransactionPageWrapper;
@@ -74,6 +76,8 @@ public class WalletDetailActivity extends BaseActivity {
     private String symbol;
 
     private WalletAllAdapter mAdapter;
+
+    private NoDataAdapter emptyAdapter;
 
     private LoopringService loopringService = new LoopringService();
 
@@ -151,7 +155,6 @@ public class WalletDetailActivity extends BaseActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);  //助记词提示列表
         mAdapter = new WalletAllAdapter(R.layout.adapter_item_wallet_all, null, symbol);
-        recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((adapter, view, position) -> showDetailDialog(mAdapter.getItem(position)));
         mAdapter.setOnLoadMoreListener(() -> {
             if (mAdapter.getData().size() >= txTotalCount) {
@@ -163,6 +166,7 @@ public class WalletDetailActivity extends BaseActivity {
                 mAdapter.loadMoreComplete();
             }
         }, recyclerView);
+        emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.transation);
         getTxsFromRelay();
     }
 
@@ -178,21 +182,23 @@ public class WalletDetailActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        refreshLayout.finishRefresh(false);
+                        recyclerView.setAdapter(emptyAdapter);
+                        emptyAdapter.refresh();
+                        refreshLayout.finishRefresh(true);
                     }
 
                     @Override
                     public void onNext(TransactionPageWrapper transactionPageWrapper) {
-                        // todo 添加错误处理
                         list.addAll(transactionPageWrapper.getData());
+                        recyclerView.setAdapter(mAdapter);
                         Collections.sort(list, (o1, o2) -> o1.getCreateTime() < o2.getCreateTime() ? 1 : -1);
                         mAdapter.setNewData(list);
                         currentPageIndex += 1;
                         txTotalCount = transactionPageWrapper.getTotal();
                         walletMoney.setText(balanceManager.getAssetBySymbol(symbol).getValueShown());
                         walletDollar.setText(balanceManager.getAssetBySymbol(symbol).getLegalShown());
-                        refreshLayout.finishRefresh(true);
                         unsubscribe();
+                        refreshLayout.finishRefresh(true);
                     }
                 });
     }

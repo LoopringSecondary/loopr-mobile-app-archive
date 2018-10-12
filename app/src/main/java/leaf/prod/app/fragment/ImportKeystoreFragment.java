@@ -97,9 +97,8 @@ public class ImportKeystoreFragment extends BaseFragment {
                                 @Override
                                 public void onCompleted() {
                                     hideProgress();
-                                    getActivity().getIntent().putExtra("newWallet", newWallet);
-                                    getActivity().getIntent().setClass(getActivity(), SetWalletNameActivity.class);
-                                    getActivity().startActivity(getActivity().getIntent());
+                                    getOperation().addParameter("newWallet", newWallet);
+                                    getOperation().forward(SetWalletNameActivity.class);
                                 }
 
                                 @Override

@@ -20,10 +20,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
+import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.TokenChooseAdapter;
 import leaf.prod.app.manager.BalanceDataManager;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.response.data.Token;
 
 public class SendListChooseActivity extends BaseActivity {
@@ -44,6 +46,8 @@ public class SendListChooseActivity extends BaseActivity {
     LinearLayout llSearch;
 
     private TokenChooseAdapter mAdapter;
+
+    private NoDataAdapter emptyAdapter;
 
     private List<Token> list;
 
@@ -104,15 +108,22 @@ public class SendListChooseActivity extends BaseActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         list = BalanceDataManager.getInstance(this).getBalanceTokens();
-        mAdapter = new TokenChooseAdapter(R.layout.adapter_item_token_choose, list);
-        recyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            SPUtils.put(SendListChooseActivity.this, "send_choose", list.get(position).getSymbol());
-            Intent intent = new Intent();
-            intent.putExtra("symbol", list.get(position).getSymbol());
-            setResult(1, intent);
-            finish();
-        });
+        if (list.isEmpty()) {
+            emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.asset);
+            recyclerView.setAdapter(emptyAdapter);
+            emptyAdapter.refresh();
+            title.hideRightImageButton();
+        } else {
+            mAdapter = new TokenChooseAdapter(R.layout.adapter_item_token_choose, list);
+            recyclerView.setAdapter(mAdapter);
+            mAdapter.setOnItemClickListener((adapter, view, position) -> {
+                SPUtils.put(SendListChooseActivity.this, "send_choose", list.get(position).getSymbol());
+                Intent intent = new Intent();
+                intent.putExtra("symbol", list.get(position).getSymbol());
+                setResult(1, intent);
+                finish();
+            });
+        }
     }
 
     @OnClick({R.id.cancel_text})

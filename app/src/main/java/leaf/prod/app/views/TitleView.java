@@ -128,6 +128,10 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
         mOnRightButtonClickListener = listener;
     }
 
+    public void hideRightImageButton() {
+        mRightbtn.setVisibility(View.INVISIBLE);
+    }
+
     public void setHeight(int height) {
         titleView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, height));
     }

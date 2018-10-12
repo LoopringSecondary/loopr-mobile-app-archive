@@ -110,8 +110,9 @@
     <string name="send_error_result">Your transfer has been submited! However, please make sure you have enough balance to complete the trade.</string>
     <string name="you_need">You Need</string>
     <string name="facebook_app_id">295333837738573</string>
-
     <string name="ddex">DDEX</string>
     <string name="p2p">P2P</string>
     <string name="orders">Orders</string>
+    <string name="no_data_asset">You do not have balace yet</string>
+    <string name="no_data_transaction">You do not have transaction record yet</string>
 </resources>

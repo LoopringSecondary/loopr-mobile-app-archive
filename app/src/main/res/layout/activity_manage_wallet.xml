@@ -3,8 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/colorPrimary"
-              android:orientation="vertical"
-    >
+              android:orientation="vertical">
 
     <leaf.prod.app.views.TitleView
         android:id="@+id/title"
@@ -35,7 +34,6 @@
             style="@style/SubmitBtnStyle"
             android:layout_width="0dp"
             android:layout_height="44dp"
-            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:text="@string/import_wallet"
             android:textAllCaps="false"
@@ -46,7 +44,6 @@
             style="@style/SubmitBtnStyle"
             android:layout_width="0dp"
             android:layout_height="44dp"
-            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:text="@string/generate_wallet"
             android:textAllCaps="false"
