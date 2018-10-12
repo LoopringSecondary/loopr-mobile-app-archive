@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -52,6 +51,8 @@ import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxtool.view.RxToast;
 import com.vondear.rxui.activity.ActivityBase;
 import com.vondear.rxui.view.dialog.RxDialogSure;
+
+import leaf.prod.app.utils.QRCodeUitl;
 
 import static android.content.ContentValues.TAG;
 
@@ -125,6 +126,11 @@ public class ActivityScanerCode extends ActivityBase {
     private MultiFormatReader multiFormatReader;
 
     /**
+     * 合法的二维码类型
+     */
+    private String restrictQRCodes;
+
+    /**
      * 设置扫描信息回调
      */
     public static void setScanerListener(OnRxScanerListener scanerListener) {
@@ -148,6 +154,7 @@ public class ActivityScanerCode extends ActivityBase {
         CameraManager.init(mContext);
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
+        restrictQRCodes = getIntent().getStringExtra("restrict");
     }
 
     private void initDecode() {
@@ -326,7 +333,7 @@ public class ActivityScanerCode extends ActivityBase {
                 // 开始对图像资源解码
                 Result rawResult = RxQrBarTool.decodeFromPhoto(photo);
                 try {
-                    if (rawResult != null) {
+                    if (rawResult != null && QRCodeUitl.isValidQRCode(rawResult.toString(), restrictQRCodes)) {
                         if (mScanerListener == null) {
                             //                        initDialogResult(rawResult);
                             initActivityResult(rawResult);
@@ -377,19 +384,11 @@ public class ActivityScanerCode extends ActivityBase {
             rxDialogSure.setTitle("扫描结果");
         }
         rxDialogSure.setContent(realContent);
-        rxDialogSure.setSureListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rxDialogSure.cancel();
-            }
-        });
-        rxDialogSure.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                if (handler != null) {
-                    // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
-                    handler.sendEmptyMessage(com.vondear.rxfeature.R.id.restart_preview);
-                }
+        rxDialogSure.setSureListener(v -> rxDialogSure.cancel());
+        rxDialogSure.setOnCancelListener(dialog -> {
+            if (handler != null) {
+                // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
+                handler.sendEmptyMessage(com.vondear.rxfeature.R.id.restart_preview);
             }
         });
         if (!rxDialogSure.isShowing()) {
@@ -440,7 +439,7 @@ public class ActivityScanerCode extends ActivityBase {
             }
             if (handler == null)
                 return;
-            if (rawResult != null) {
+            if (rawResult != null && QRCodeUitl.isValidQRCode(rawResult.toString(), restrictQRCodes)) {
                 long end = System.currentTimeMillis();
                 Log.d(TAG, "Found barcode (" + (end - start) + " ms):\n" + rawResult.toString());
                 Message message = Message.obtain(handler, com.vondear.rxfeature.R.id.decode_succeeded, rawResult);

@@ -1,6 +1,7 @@
 package leaf.prod.app.fragment;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.ActivityScanerCode;
+import leaf.prod.app.activity.ImportWalletActivity;
 import leaf.prod.app.activity.ManageWalletActivity;
 import leaf.prod.app.activity.ReceiveActivity;
 import leaf.prod.app.activity.SendActivity;
@@ -40,6 +42,7 @@ import leaf.prod.app.layout.ChildClickableFrameLayout;
 import leaf.prod.app.presenter.MainFragmentPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
+import leaf.prod.app.utils.QRCodeUitl;
 
 public class MainFragment extends BaseFragment {
 
@@ -289,8 +292,22 @@ public class MainFragment extends BaseFragment {
                 }
                 String result = bundle.getString("result");
                 LyqbLogger.log(result);
-                getOperation().addParameter("send_address", result);
-                getOperation().forward(SendActivity.class);
+                switch (Objects.requireNonNull(QRCodeUitl.getQRCodeType(result))) {
+                    case KEY_STORE:
+                        //                        Intent intent = new Intent(getContext(), ImportWalletActivity.class);
+                        //                        intent.putExtra("result", result);
+                        //                        startActivity(intent);
+                        getOperation().addParameter("result", result);
+                        getOperation().forward(ImportWalletActivity.class);
+                        break;
+                    case TRANSFER:
+                        getOperation().addParameter("send_address", result);
+                        getOperation().forward(SendActivity.class);
+                        break;
+                    case P2P_ORDER:
+                        // TODO 添加p2p跳转
+                        break;
+                }
             }
         }
     }

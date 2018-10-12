@@ -36,6 +36,7 @@ import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.KeystoreUtils;
+import leaf.prod.walletsdk.util.StringUtils;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -160,6 +161,9 @@ public class ImportKeystoreFragment extends BaseFragment {
         layout = inflater.inflate(R.layout.fragment_import_keystore, container, false);
         unbinder = ButterKnife.bind(this, layout);
         EventBus.getDefault().register(this);
+        if (getArguments() != null && !StringUtils.isEmpty(getArguments().getString("result"))) {
+            etKeystore.setText(getArguments().getString("result"));
+        }
         return layout;
     }
 
@@ -178,6 +182,11 @@ public class ImportKeystoreFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -233,10 +242,7 @@ public class ImportKeystoreFragment extends BaseFragment {
             } catch (InvalidKeystoreException e) {
                 handlerCreate.sendEmptyMessage(ERROR_TWO);
                 e.printStackTrace();
-            } catch (IllegalCredentialException e) {
-                handlerCreate.sendEmptyMessage(ERROR_ONE);
-                e.printStackTrace();
-            } catch (KeystoreCreateException e) {
+            } catch (IllegalCredentialException | KeystoreCreateException e) {
                 handlerCreate.sendEmptyMessage(ERROR_ONE);
                 e.printStackTrace();
             }

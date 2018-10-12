@@ -12,7 +12,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -24,9 +23,9 @@ import leaf.prod.app.fragment.ImportKeystoreFragment;
 import leaf.prod.app.fragment.ImportMnemonicFragment;
 import leaf.prod.app.fragment.ImportPrivateKeyFragment;
 import leaf.prod.app.model.eventbusData.KeystoreData;
-import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.util.StringUtils;
 
 public class ImportWalletActivity extends BaseActivity {
 
@@ -49,7 +48,7 @@ public class ImportWalletActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_import_wallet);
         ButterKnife.bind(this);
-        AppManager.getAppManager().addActivity(this);
+//        AppManager.getAppManager().addActivity(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
     }
@@ -65,12 +64,7 @@ public class ImportWalletActivity extends BaseActivity {
         }
         title.setBTitle(getResources().getString(R.string.import_wallet));
         title.clickLeftGoBack(getWContext());
-        title.setRightImageButton(R.mipmap.icon_scan, new TitleView.OnRightButtonClickListener() {
-            @Override
-            public void onClick(View button) {
-                startActivityForResult(new Intent(ImportWalletActivity.this, ActivityScanerCode.class), REQUEST_CODE);
-            }
-        });
+        title.setRightImageButton(R.mipmap.icon_scan, button -> startActivityForResult(new Intent(ImportWalletActivity.this, ActivityScanerCode.class), REQUEST_CODE));
     }
 
     @Override
@@ -88,6 +82,15 @@ public class ImportWalletActivity extends BaseActivity {
         mFragments.add(new ImportPrivateKeyFragment());
         viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), mFragments, mTitles));
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!StringUtils.isEmpty(getIntent().getStringExtra("result"))) {
+            viewPager.setCurrentItem(1);
+            EventBus.getDefault().post(new KeystoreData(getIntent().getStringExtra("result")));
+        }
     }
 
     @Override
