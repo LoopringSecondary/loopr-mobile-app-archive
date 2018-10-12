@@ -11,5 +11,17 @@ public class ResponseWrapper<T> {
 
     private T result;
 
-    private String error;
+    private Error error;
+
+    @Data
+    class Error {
+
+        private Long code;
+
+        private String message;
+    }
+
+    public String getError() {
+        return error.toString();
+    }
 }

@@ -183,6 +183,7 @@ public class WalletDetailActivity extends BaseActivity {
 
                     @Override
                     public void onNext(TransactionPageWrapper transactionPageWrapper) {
+                        // todo 添加错误处理
                         list.addAll(transactionPageWrapper.getData());
                         Collections.sort(list, (o1, o2) -> o1.getCreateTime() < o2.getCreateTime() ? 1 : -1);
                         mAdapter.setNewData(list);
