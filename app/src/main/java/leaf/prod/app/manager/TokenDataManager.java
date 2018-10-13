@@ -89,6 +89,10 @@ public class TokenDataManager {
         return this.tokens;
     }
 
+    public List<Token> getWhiteList() {
+        return this.whiteList;
+    }
+
     public Observable<List<Token>> getTokenObservable() {
         return tokenObservable;
     }
@@ -104,6 +108,7 @@ public class TokenDataManager {
         for (Token token : this.tokens) {
             if (token.getSymbol().equalsIgnoreCase(symbol)) {
                 result = token;
+                break;
             }
         }
         return result;
@@ -114,6 +119,7 @@ public class TokenDataManager {
         for (Token token : this.tokens) {
             if (token.getProtocol().equalsIgnoreCase(protocol)) {
                 result = token;
+                break;
             }
         }
         return result;

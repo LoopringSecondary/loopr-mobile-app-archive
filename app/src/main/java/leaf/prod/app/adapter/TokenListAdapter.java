@@ -13,16 +13,13 @@ import com.kyleduo.switchbutton.SwitchButton;
 import leaf.prod.app.R;
 import leaf.prod.walletsdk.model.response.data.Token;
 
-/**
- *
- */
 public class TokenListAdapter extends BaseQuickAdapter<Token, BaseViewHolder> {
 
-    private List<String> choose_token;
+    private List<String> chooseToken;
 
-    public TokenListAdapter(int layoutResId, @Nullable List<Token> data, List<String> choose_token) {
+    public TokenListAdapter(int layoutResId, @Nullable List<Token> data, List<String> chooseToken) {
         super(layoutResId, data);
-        this.choose_token = choose_token;
+        this.chooseToken = chooseToken;
     }
 
     @Override
@@ -43,16 +40,18 @@ public class TokenListAdapter extends BaseQuickAdapter<Token, BaseViewHolder> {
         if (Arrays.asList("ETH", "WETH", "LRC").contains(item.getSymbol())) {
             aSwitch.setVisibility(View.GONE);
         } else {
-            if (choose_token.contains(item.getSymbol()) && !aSwitch.isChecked()) {
+            if (chooseToken.contains(item.getSymbol()) && !aSwitch.isChecked()) {
                 aSwitch.setChecked(true);
-            } else if (!choose_token.contains(item.getSymbol()) && aSwitch.isChecked()) {
+            } else if (!chooseToken.contains(item.getSymbol()) && aSwitch.isChecked()) {
                 aSwitch.setChecked(false);
             }
             aSwitch.setVisibility(View.VISIBLE);
         }
     }
 
-    public void setChoose_token(List<String> choose_token) {
-        this.choose_token = choose_token;
+    public void setChooseToken(List<String> chooseToken) {
+        String[] array = chooseToken.toArray(new String[0]);
+        Arrays.sort(array, 3, array.length);
+        this.chooseToken = Arrays.asList(array);
     }
 }

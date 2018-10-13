@@ -49,7 +49,7 @@ public class TokenListActivity extends BaseActivity {
     @BindView(R.id.ll_search)
     LinearLayout llSearch;
 
-    List<String> choose_token;
+    List<String> chooseToken;
 
     private TokenListAdapter mAdapter;
 
@@ -102,12 +102,12 @@ public class TokenListActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        choose_token = SPUtils.getDataList(TokenListActivity.this, "choose_token");
-        LyqbLogger.log(choose_token.toString());
+        chooseToken = SPUtils.getDataList(TokenListActivity.this, "choose_token");
+        LyqbLogger.log(chooseToken.toString());
         RecyclerViewBugLayoutManager layoutManager = new RecyclerViewBugLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         list = TokenDataManager.getInstance(this).getTokens();
-        mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, list, choose_token);
+        mAdapter = new TokenListAdapter(R.layout.adapter_item_token_list, list, chooseToken);
         recyclerView.setAdapter(mAdapter);
         /**
          *代币选中状态
@@ -119,16 +119,18 @@ public class TokenListActivity extends BaseActivity {
                 SwitchButton aSwitch = view.findViewById(R.id.s_v);
                 String symbol = aSwitch.getTag().toString().toUpperCase();
                 if (aSwitch.isChecked()) {
-                    aSwitch.setChecked(false);
-                    choose_token.remove(symbol);
-                } else {
-                    aSwitch.setChecked(true);
                     if (!Arrays.asList("ETH", "WETH", "LRC").contains(symbol)) {
-                        choose_token.add(aSwitch.getTag().toString());
+                        aSwitch.toggle();
+                        chooseToken.remove(symbol);
+                    }
+                } else {
+                    if (!Arrays.asList("ETH", "WETH", "LRC").contains(symbol)) {
+                        aSwitch.toggle();
+                        chooseToken.add(symbol);
                     }
                 }
-                mAdapter.setChoose_token(choose_token);
-                SPUtils.setDataList(TokenListActivity.this, "choose_token", choose_token);
+                mAdapter.setChooseToken(chooseToken);
+                SPUtils.setDataList(TokenListActivity.this, "choose_token", chooseToken);
             }
         });
     }

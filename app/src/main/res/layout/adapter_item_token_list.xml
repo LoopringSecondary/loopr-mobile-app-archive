@@ -58,19 +58,6 @@
 
     </RelativeLayout>
 
-
-    <!--<ToggleButton-->
-    <!--android:id="@+id/toggle_button"-->
-    <!--android:layout_width="44dp"-->
-    <!--android:layout_height="22.7dp"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_centerVertical="true"-->
-    <!--android:layout_marginRight="20dp"-->
-    <!--android:background="@drawable/toggle_drawable_selector"-->
-    <!--android:checked="false"-->
-    <!--android:clickable="false"-->
-    <!--android:textOff="@null"-->
-    <!--android:textOn="@null"/>-->
     <com.kyleduo.switchbutton.SwitchButton
         android:id="@+id/s_v"
         android:layout_width="wrap_content"
@@ -81,8 +68,9 @@
         android:checked="false"
         android:clickable="false"
         android:switchMinWidth="20dp"
-        app:kswAnimationDuration="0"
-        tools:ignore="RelativeOverlap"/>
+        app:kswThumbColor="@color/white"
+        app:kswBackColor="@drawable/switch_bg"
+        app:kswAnimationDuration="300"/>
 
 </RelativeLayout>
 
