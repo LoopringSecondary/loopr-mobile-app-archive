@@ -294,9 +294,6 @@ public class MainFragment extends BaseFragment {
                 LyqbLogger.log(result);
                 switch (Objects.requireNonNull(QRCodeUitl.getQRCodeType(result))) {
                     case KEY_STORE:
-                        //                        Intent intent = new Intent(getContext(), ImportWalletActivity.class);
-                        //                        intent.putExtra("result", result);
-                        //                        startActivity(intent);
                         getOperation().addParameter("result", result);
                         getOperation().forward(ImportWalletActivity.class);
                         break;

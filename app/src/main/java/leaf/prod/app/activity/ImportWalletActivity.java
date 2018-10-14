@@ -23,6 +23,7 @@ import leaf.prod.app.fragment.ImportKeystoreFragment;
 import leaf.prod.app.fragment.ImportMnemonicFragment;
 import leaf.prod.app.fragment.ImportPrivateKeyFragment;
 import leaf.prod.app.model.eventbusData.KeystoreData;
+import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.util.StringUtils;
@@ -48,7 +49,7 @@ public class ImportWalletActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_import_wallet);
         ButterKnife.bind(this);
-//        AppManager.getAppManager().addActivity(this);
+        AppManager.getAppManager().addActivity(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
     }
@@ -82,14 +83,9 @@ public class ImportWalletActivity extends BaseActivity {
         mFragments.add(new ImportPrivateKeyFragment());
         viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), mFragments, mTitles));
         tabLayout.setupWithViewPager(viewPager);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         if (!StringUtils.isEmpty(getIntent().getStringExtra("result"))) {
             viewPager.setCurrentItem(1);
-            EventBus.getDefault().post(new KeystoreData(getIntent().getStringExtra("result")));
+            viewPager.post(() -> EventBus.getDefault().post(new KeystoreData(getIntent().getStringExtra("result"))));
         }
     }
 

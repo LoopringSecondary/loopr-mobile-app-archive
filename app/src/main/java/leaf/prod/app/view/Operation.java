@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import leaf.prod.app.R;
+import leaf.prod.app.utils.AppManager;
 
 /**
  * 基本的操作共通抽取
@@ -39,6 +40,7 @@ public class Operation {
         //		mContext.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         //右往左推效果
         mContext.overridePendingTransition(R.anim.translate_between_interface_right_in, R.anim.translate_between_interface_left_out);
+        AppManager.getAppManager().show();
     }
 
     public void forwardPopup(Class<? extends Activity> activity) {

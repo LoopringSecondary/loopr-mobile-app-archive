@@ -117,7 +117,7 @@
         <activity
             android:name=".activity.ImportWalletActivity"
             android:exported="true"
-            android:launchMode="singleTask"/>
+            android:launchMode="standard"/>
         <activity
             android:name=".activity.WalletDetailActivity"
             android:exported="true"
@@ -220,7 +220,7 @@
         <activity
             android:name=".activity.SetWalletNameActivity"
             android:exported="true"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait"/>
     </application>
 
