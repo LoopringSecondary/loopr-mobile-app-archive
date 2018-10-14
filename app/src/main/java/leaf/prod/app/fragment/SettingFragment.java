@@ -7,10 +7,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
+
+import com.kyleduo.switchbutton.SwitchButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,9 +36,6 @@ public class SettingFragment extends BaseFragment {
 
     @BindView(R.id.ll_share)
     LinearLayout llShare;
-
-    @BindView(R.id.address)
-    TextView address;
 
     @BindView(R.id.ll_manager_wallet)
     LinearLayout llManagerWallet;
@@ -66,9 +63,6 @@ public class SettingFragment extends BaseFragment {
 
     @BindView(R.id.ll_app_version)
     LinearLayout llAppVersion;
-
-    @BindView(R.id.toggle_button)
-    ToggleButton toggleButton;
 
     private MainActivity mainActivity;
 
@@ -98,16 +92,10 @@ public class SettingFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            }
-        });
     }
 
     @Override
     protected void initData() {
-        address.setText(getResources().getString(R.string.spread_address) + (String) SPUtils.get(getContext(), "address", ""));
     }
 
     @Override
@@ -133,6 +121,9 @@ public class SettingFragment extends BaseFragment {
                 getOperation().forward(LanguageActivity.class);
                 break;
             case R.id.ll_id_touch://触控id
+                SwitchButton aSwitch = view.findViewById(R.id.s_v);
+                aSwitch.toggle();
+                SPUtils.put(getContext(), "touch_id", aSwitch.isChecked());
                 break;
             case R.id.ll_contract_version://合约版本
                 getOperation().forward(ContractVersionActivity.class);

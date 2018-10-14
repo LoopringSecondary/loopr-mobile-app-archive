@@ -327,13 +327,9 @@ public class WalletDetailActivity extends BaseActivity {
                 getOperation().forward(ReceiveActivity.class);
                 break;
             case R.id.btn_send:
+                getOperation().addParameter("symbol", symbol);
                 getOperation().forward(SendActivity.class);
                 break;
         }
-    }
-
-    private void setWalletMoney(String text) {
-        if (walletMoney != null)
-            walletMoney.setText(text);
     }
 }

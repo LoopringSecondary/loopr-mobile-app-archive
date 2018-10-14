@@ -46,7 +46,7 @@
     <string name="setting">Settings</string>
     <string name="etherscan">Etherscan.io</string>
 
-    <string name="set_share">Share APP,harvest 20% of trading fee</string>
+    <string name="set_share">Share APP ,  harvest 20% of trading fee</string>
     <string name="set_manage_wallet">Manage Wallet</string>
     <string name="set_money_type">Currency</string>
     <string name="set_language">Language</string>

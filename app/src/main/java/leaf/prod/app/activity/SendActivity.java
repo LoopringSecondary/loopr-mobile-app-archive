@@ -3,7 +3,6 @@ package leaf.prod.app.activity;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Objects;
 
 import android.annotation.SuppressLint;
@@ -263,8 +262,8 @@ public class SendActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        updateBySymbol(null);
         address = (String) SPUtils.get(this, "address", "");
-        sendChoose = (String) SPUtils.get(this, "send_choose", "LRC");
         gasDataManager.getGasObservable().subscribe(gasPrice -> {
             LyqbLogger.log("gas: " + gasPrice);
             gasDataManager.setRecommendGasPrice(gasPrice);
@@ -273,18 +272,6 @@ public class SendActivity extends BaseActivity {
             transacitionFee.setText(new StringBuilder(gasEthValue.toString()).append(" ETH ≈ ")
                     .append(CurrencyUtil.format(this, gasEthValue * marketcapDataManager.getPriceBySymbol("ETH"))));
         });
-        List<BalanceResult.Asset> listAsset = BalanceDataManager.getInstance(this).getAssets();
-        String valueShow = "";
-        for (BalanceResult.Asset asset : listAsset) {
-            if (asset.getSymbol().equalsIgnoreCase(sendChoose)) {
-                setWalletImage(asset.getSymbol());
-                amountTotal = asset.getValue();
-                valueShow = asset.getValueShown();
-            }
-        }
-        sendWalletName.setText(sendChoose);
-        walletName2.setText(sendChoose);
-        sendWalletCount.setText(String.valueOf(valueShow + " " + sendChoose));
         shakeAnimation = AnimationUtils.loadAnimation(SendActivity.this, R.anim.shake_x);
     }
 
@@ -469,14 +456,7 @@ public class SendActivity extends BaseActivity {
             }
         } else if (requestCode == TOKEN_CODE) {
             if (resultCode == 1) {
-                String symbol = data.getStringExtra("symbol");
-                BalanceResult.Asset asset = balanceManager.getAssetBySymbol(symbol);
-                setWalletImage(asset.getSymbol());
-                sendWalletName.setText(symbol);
-                walletName2.setText(symbol);
-                amountTotal = asset.getValue();
-                sendWalletCount.setText(asset.getValueShown() + " " + symbol);
-                sendChoose = asset.getSymbol();
+                updateBySymbol(data);
             }
         }
     }
@@ -540,6 +520,20 @@ public class SendActivity extends BaseActivity {
                 .append((int) gasDataManager.getGasPriceInGwei())
                 .append(" Gwei)"));
         feeDialog.show();
+    }
+
+    private void updateBySymbol(Intent data) {
+        Intent intent = data == null ? getIntent() : data;
+        sendChoose = intent.getStringExtra("symbol");
+        if (sendChoose == null) {
+            sendChoose = (String) SPUtils.get(this, "send_choose", "ETH");
+        }
+        BalanceResult.Asset asset = balanceManager.getAssetBySymbol(sendChoose);
+        setWalletImage(sendChoose);
+        sendWalletName.setText(sendChoose);
+        walletName2.setText(sendChoose);
+        amountTotal = asset.getValue();
+        sendWalletCount.setText(asset.getValueShown() + " " + sendChoose);
     }
 
     private void setWalletImage(String symbol) {
@@ -623,7 +617,8 @@ public class SendActivity extends BaseActivity {
      * 钱包地址实时验证
      */
     private void initWalletAddress() {
-        if (!getIntent().getStringExtra("send_address").isEmpty()) {
+        String sendAddress = getIntent().getStringExtra("send_address");
+        if (sendAddress != null && !sendAddress.isEmpty()) {
             walletAddress.setText(getIntent().getStringExtra("send_address"));
             showKeyboard(moneyAmount, true);
         }

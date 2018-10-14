@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:background="@color/colorPrimary"
               android:orientation="vertical">
 
@@ -28,6 +29,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
 
             <LinearLayout
                 android:id="@+id/ll_share"
@@ -61,25 +66,17 @@
                         android:src="@mipmap/icon_next"/>
                 </LinearLayout>
 
-
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/itemHeight"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="@string/spread_address"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_14"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:background="@color/lineBac"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
                 android:background="@color/lineBac"/>
 
             <LinearLayout
@@ -224,15 +221,17 @@
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/font_14"/>
 
-                    <ToggleButton
-                        android:id="@+id/toggle_button"
-                        android:layout_width="44dp"
-                        android:layout_height="22.7dp"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/toggle_drawable_selector"
+                    <com.kyleduo.switchbutton.SwitchButton
+                        android:id="@+id/s_v"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:checked="false"
-                        android:textOff="@null"
-                        android:textOn="@null"/>
+                        android:clickable="false"
+                        android:switchMinWidth="20dp"
+                        app:kswThumbColor="@color/white"
+                        app:kswBackColor="@drawable/switch_bg"
+                        app:kswAnimationDuration="300"/>
 
                 </LinearLayout>
 
