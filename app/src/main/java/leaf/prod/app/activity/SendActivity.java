@@ -253,7 +253,7 @@ public class SendActivity extends BaseActivity {
     @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.send));
-        title.clickLeftGoMain(getWContext());
+        title.clickLeftGoBack(getWContext());
     }
 
     @Override
@@ -657,10 +657,5 @@ public class SendActivity extends BaseActivity {
                     inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }, 100);
-    }
-
-    @Override
-    public void onBackPressed() {
-        getOperation().forward(MainActivity.class);
     }
 }
