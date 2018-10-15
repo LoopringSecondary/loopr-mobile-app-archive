@@ -222,6 +222,11 @@
             android:exported="true"
             android:launchMode="standard"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.H5DexWebActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

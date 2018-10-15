@@ -5,10 +5,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.H5DexWebActivity;
 
 /**
  *
@@ -16,6 +20,15 @@ import leaf.prod.app.R;
 public class TradeFragment extends BaseFragment {
 
     Unbinder unbinder;
+
+    @BindView(R.id.ddex_layout)
+    LinearLayout llDex;
+
+    @BindView(R.id.p2p_layout)
+    LinearLayout llP2P;
+
+    @BindView(R.id.order_layout)
+    LinearLayout llOrder;
 
     @Nullable
     @Override
@@ -47,5 +60,18 @@ public class TradeFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick({R.id.ddex_layout, R.id.p2p_layout, R.id.order_layout})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ddex_layout:
+                getOperation().forward(H5DexWebActivity.class);
+                break;
+            case R.id.p2p_layout:
+                break;
+            case R.id.order_layout:
+                break;
+        }
     }
 }
