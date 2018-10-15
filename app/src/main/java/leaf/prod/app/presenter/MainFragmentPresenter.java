@@ -22,6 +22,7 @@ import leaf.prod.app.fragment.MainFragment;
 import leaf.prod.app.manager.BalanceDataManager;
 import leaf.prod.app.manager.MarketcapDataManager;
 import leaf.prod.app.manager.TokenDataManager;
+import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.receiver.NetworkStateReceiver;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.LyqbLogger;
@@ -179,10 +180,22 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         }
         moneyValue = CurrencyUtil.format(context, amount);
         SPUtils.put(this.context, "amount", moneyValue);
+        SPUtils.put(this.context, "amountValue", amount + "");
         listAsset = listChooseAsset;
         view.getmAdapter().setNewData(listChooseAsset);
         view.setWalletCount(moneyValue);
         view.getmAdapter().notifyDataSetChanged();
+        List<WalletEntity> walletEntityList = SPUtils.getWalletDataList(context, "walletlist", WalletEntity.class);
+        for (WalletEntity walletEntity : walletEntityList) {
+            if (walletEntity.getAddress().equals(address) && walletEntity.getAmount() != amount) {
+                int index = walletEntityList.indexOf(walletEntity);
+                walletEntity.setAmount(amount);
+                walletEntity.setAmountShow(moneyValue);
+                walletEntityList.set(index, walletEntity);
+                SPUtils.setDataList(context, "walletlist", walletEntityList);
+                break;
+            }
+        }
     }
 
     public List<BalanceResult.Asset> getListAsset() {

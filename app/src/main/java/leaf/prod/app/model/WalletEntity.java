@@ -2,6 +2,8 @@ package leaf.prod.app.model;
 
 import java.io.Serializable;
 
+import leaf.prod.walletsdk.model.Currency;
+
 /**
  * Created by niedengqiang on 2018/9/7.
  */
@@ -16,7 +18,11 @@ public class WalletEntity implements Serializable {
 
     private String mnemonic;
 
-    private String amount;
+    private double amount;
+
+    private Currency currency;
+
+    private String amountShow;
 
     private String pas;
 
@@ -59,12 +65,28 @@ public class WalletEntity implements Serializable {
         this.mnemonic = mnemonic;
     }
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public String getAmountShow() {
+        return amountShow;
+    }
+
+    public void setAmountShow(String amountShow) {
+        this.amountShow = amountShow;
     }
 
     public String getPas() {
@@ -77,6 +99,15 @@ public class WalletEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "WalletEntity{" + "walletname='" + walletname + '\'' + ", filename='" + filename + '\'' + ", address='" + address + '\'' + ", mnemonic='" + mnemonic + '\'' + ", amount='" + amount + '\'' + ", pas='" + pas + '\'' + '}';
+        return "WalletEntity{" +
+                "walletname='" + walletname + '\'' +
+                ", filename='" + filename + '\'' +
+                ", address='" + address + '\'' +
+                ", mnemonic='" + mnemonic + '\'' +
+                ", amount=" + amount +
+                ", currency=" + currency +
+                ", amountShow='" + amountShow + '\'' +
+                ", pas='" + pas + '\'' +
+                '}';
     }
 }

@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -58,28 +56,27 @@ public class ManageWalletActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         List<WalletEntity> list = SPUtils.getWalletDataList(ManageWalletActivity.this, "walletlist", WalletEntity.class);
         String amount = (String) SPUtils.get(this, "amount", "");
+        String amountValue = (String) SPUtils.get(this, "amountValue", "");
         String pas = (String) SPUtils.get(this, "pas", "");
         String address = (String) SPUtils.get(this, "address", "");
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getAddress().equals(address)) {
-                list.get(i).setAmount(amount);  //设置当前地址所拥有的币值
+                list.get(i).setAmountShow(amount);  //设置当前地址所拥有的币值
+                list.get(i).setAmount(Double.parseDouble(amountValue != null ? amountValue : "0"));  //设置当前地址所拥有的币值
                 list.get(i).setPas(pas);  //设置当前地址所拥有的pas
             }
         }
         SPUtils.setDataList(this, "walletlist", list);
         mAdapter = new ManageWalletListAdapter(R.layout.adapter_item_manage_wallet, list);
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                getOperation().addParameter("position", position);
-                getOperation().addParameter("filename", list.get(position).getFilename());
-                getOperation().addParameter("address", list.get(position).getAddress());
-                getOperation().addParameter("walletname", list.get(position).getWalletname());
-                getOperation().addParameter("mnemonic", list.get(position).getMnemonic());
-                getOperation().addParameter("pas", list.get(position).getPas());
-                getOperation().forward(WalletSafeActivity.class);
-            }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            getOperation().addParameter("position", position);
+            getOperation().addParameter("filename", list.get(position).getFilename());
+            getOperation().addParameter("address", list.get(position).getAddress());
+            getOperation().addParameter("walletname", list.get(position).getWalletname());
+            getOperation().addParameter("mnemonic", list.get(position).getMnemonic());
+            getOperation().addParameter("pas", list.get(position).getPas());
+            getOperation().forward(WalletSafeActivity.class);
         });
     }
 

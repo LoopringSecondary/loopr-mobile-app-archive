@@ -10,4 +10,6 @@ public class MarketcapParam {
 
     @NonNull
     private String currency;
+
+    private String token;
 }

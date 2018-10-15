@@ -100,7 +100,7 @@ public class NumberUtils {
         } else if (d > 1) {
             return Pattern.compile("(\\.\\d*)").matcher(s).replaceAll("").length() + 2;
         }
-        return 0;
+        return 4;
     }
 
     public static int integralLength(double d) {
