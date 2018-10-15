@@ -116,4 +116,6 @@
     <string name="no_data_asset">You do not have balace yet</string>
     <string name="no_data_transaction">You do not have transaction record yet</string>
     <string name="h5_dex">Loopring DEX</string>
+    <string name="confirm_clear_record">Are you sure you want to delete current wallet and clear records? </string>
+    <string name="hint">hint</string>
 </resources>

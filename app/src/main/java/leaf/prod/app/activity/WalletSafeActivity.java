@@ -2,6 +2,7 @@ package leaf.prod.app.activity;
 
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -57,6 +58,8 @@ public class WalletSafeActivity extends BaseActivity {
 
     private String pas;
 
+    private AlertDialog.Builder confirmClear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_wallet_safe);
@@ -110,26 +113,37 @@ public class WalletSafeActivity extends BaseActivity {
                 getOperation().forward(ExportMatchPasSafeActivity.class);
                 break;
             case R.id.ll_clear_records:
-                String addressUsed = (String) SPUtils.get(this, "address", "");//当前使用钱包的地址
-                List<WalletEntity> list = SPUtils.getWalletDataList(this, "walletlist", WalletEntity.class);
-                for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getAddress().equals(address)) {
-                        if (list.size() < 2) {
-                            ToastUtils.toast("当前只有一个钱包，不可以删除");
-                        } else {
-                            list.remove(i);
-                            SPUtils.setDataList(this, "walletlist", list);
-                            if (addressUsed.equals(address)) {
-                                SPUtils.put(this, "address", list.get(0).getAddress());
-                                SPUtils.put(this, "filename", list.get(0).getFilename());
-                                startActivity(new Intent(this, MainActivity.class));
-                            } else {
-                                finish();
+                if (confirmClear == null) {
+                    confirmClear = new AlertDialog.Builder(this);
+                    confirmClear.setPositiveButton(getResources().getString(R.string.confirm), (dialogInterface, i0) -> {
+                        String addressUsed = (String) SPUtils.get(this, "address", "");//当前使用钱包的地址
+                        List<WalletEntity> list = SPUtils.getWalletDataList(this, "walletlist", WalletEntity.class);
+                        for (int i = 0; i < list.size(); i++) {
+                            if (list.get(i).getAddress().equals(address)) {
+                                if (list.size() < 2) {
+                                    ToastUtils.toast("当前只有一个钱包，不可以删除");
+                                } else {
+                                    list.remove(i);
+                                    SPUtils.setDataList(this, "walletlist", list);
+                                    if (addressUsed.equals(address)) {
+                                        SPUtils.put(this, "address", list.get(0).getAddress());
+                                        SPUtils.put(this, "filename", list.get(0).getFilename());
+                                        startActivity(new Intent(this, MainActivity.class));
+                                    } else {
+                                        finish();
+                                    }
+                                    return;
+                                }
                             }
-                            return;
                         }
-                    }
+                    });
+                    confirmClear.setNegativeButton(getResources().getString(R.string.cancel), (dialogInterface, i) -> {
+                        dialogInterface.dismiss();
+                    });
+                    confirmClear.setMessage(getResources().getString(R.string.confirm_clear_record));
+                    confirmClear.setTitle(getResources().getString(R.string.hint));
                 }
+                confirmClear.show();
                 break;
             case R.id.btn_switch:
                 SPUtils.put(this, "address", address);

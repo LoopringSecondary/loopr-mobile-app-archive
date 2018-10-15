@@ -118,4 +118,6 @@
     <string name="no_data_asset">您还没有数字资产</string>
     <string name="no_data_transaction">您还没有收付帐记录</string>
     <string name="h5_dex">Loopring DEX</string>
+    <string name="confirm_clear_record">确定要删除当前钱包以及相关数据吗？</string>
+    <string name="hint">提示</string>
 </resources>
