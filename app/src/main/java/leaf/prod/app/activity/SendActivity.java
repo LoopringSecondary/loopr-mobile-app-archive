@@ -307,9 +307,6 @@ public class SendActivity extends BaseActivity {
                     checkInfo();
                 }
                 break;
-            case R.id.left_btn:
-                getOperation().forward(MainActivity.class);
-                break;
         }
     }
 

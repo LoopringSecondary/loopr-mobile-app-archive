@@ -7,9 +7,14 @@
 package leaf.prod.app.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.just.agentweb.AgentWeb;
@@ -19,22 +24,32 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.layout.WebLayout;
-import leaf.prod.app.manager.DexDataManager;
+import leaf.prod.app.presenter.H5DexPresenter;
+import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.listener.CallbackListener;
 
-public class H5DexWebActivity extends BaseActivity implements CallbackListener {
-
-    private AgentWeb mAgentWeb;
+public class H5DexWebActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
+
+    /**
+     * 输入密码dialog
+     */
+    private AlertDialog passwordDialog;
+
+    private AgentWeb mAgentWeb;
+
+    public String password;
+
+    private H5DexPresenter presenter;
 
     /**
      * 初始化P层
      */
     @Override
     protected void initPresenter() {
+        this.presenter = new H5DexPresenter(this, this);
     }
 
     /**
@@ -67,29 +82,58 @@ public class H5DexWebActivity extends BaseActivity implements CallbackListener {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.ll_web_view);
-        AgentWeb.PreAgentWeb preAgentWeb = AgentWeb.with(this)//
-                .setAgentWebParent(linearLayout, new LinearLayout.LayoutParams(-1, -1))//
-                .useDefaultIndicator()//
+        AgentWeb.PreAgentWeb preAgentWeb = AgentWeb.with(this)
+                .setAgentWebParent(linearLayout, new LinearLayout.LayoutParams(-1, -1))
+                .useDefaultIndicator()
                 .defaultProgressBarColor()
-                .setReceivedTitleCallback((view, title) -> {})
+                .setReceivedTitleCallback((view, title) -> {
+                })
                 .setWebChromeClient(new WebChromeClient())
                 .setWebViewClient(new WebViewClient())
                 .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
                 .setSecurityType(AgentWeb.SecurityType.strict)
                 .setWebLayout(new WebLayout(this))
-                .openParallelDownload()//打开并行下载 , 默认串行下载
+                .openParallelDownload() //打开并行下载 , 默认串行下载
                 .setNotifyIcon(R.mipmap.download) //下载图标
-                .setOpenOtherAppWays(DefaultWebClient.OpenOtherAppWays.DISALLOW)//打开其他应用时，弹窗咨询用户是否前往其他应用
+                .setOpenOtherAppWays(DefaultWebClient.OpenOtherAppWays.DISALLOW) //打开其他应用时，弹窗咨询用户是否前往其他应用
                 .interceptUnkownScheme() //拦截找不到相关页面的Scheme
-                .createAgentWeb()//
+                .createAgentWeb()
                 .ready();
         mAgentWeb = preAgentWeb.go("https://h5dex.loopr.io/#/auth/tpwallet");
-        mAgentWeb.getJsInterfaceHolder().addJavaObject("android", DexDataManager.getInstance(this).setCallbackListener(this));
+        mAgentWeb.getJsInterfaceHolder().addJavaObject("android", presenter);
     }
 
-    @Override
-    public void callback(String string) {
+    public void call(String string) {
         Log.d("CALL_BACK", "Javascript string = " + string);
         mAgentWeb.getLoader().loadUrl(string);
+    }
+
+    public void showPasswordDialog() {
+        if (passwordDialog == null) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
+            View view = LayoutInflater.from(this).inflate(R.layout.dialog_put_password, null);
+            builder.setView(view);
+            final EditText passwordInput = view.findViewById(R.id.password_input);
+            view.findViewById(R.id.cancel).setOnClickListener(v -> passwordDialog.dismiss());
+            view.findViewById(R.id.confirm).setOnClickListener(v -> {
+                if (TextUtils.isEmpty(passwordInput.getText().toString())) {
+                    ToastUtils.toast("请输入密码");
+                } else {
+                    presenter.sign(passwordInput.getText().toString());
+                }
+            });
+            builder.setCancelable(true);
+            passwordDialog = null;
+            passwordDialog = builder.create();
+            passwordDialog.setCancelable(true);
+            passwordDialog.setCanceledOnTouchOutside(true);
+        }
+        passwordDialog.show();
+    }
+
+    public void hidePasswordDialog() {
+        if (passwordDialog != null) {
+            passwordDialog.dismiss();
+        }
     }
 }
