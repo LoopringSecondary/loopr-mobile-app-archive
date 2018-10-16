@@ -17,7 +17,7 @@
     <string name="confirm_mnemonic_word">确认助记词</string>
     <string name="wallet_create_success">钱包创建成功!</string>
     <string name="got_it">确认</string>
-    <string name="et_mnemonic">Please use space to separate the mnemonic words</string>
+    <string name="et_mnemonic">请输入助记词，并以空格键隔开</string>
     <string name="mnemonic_password">助记词密码(可选)</string>
     <string name="keystore_password">Keystore密码</string>
     <string name="keystore_hint">请输入keystore</string>
@@ -121,4 +121,7 @@
     <string name="h5_dex">Loopring DEX</string>
     <string name="confirm_clear_record">确定要删除当前钱包以及相关数据吗？</string>
     <string name="hint">提示</string>
+    <string name="auth_finger_tip">请输入指纹信息解锁钱包</string>
+    <string name="auth_finger_no_match">抱歉，您输入的指纹并不匹配，剩余 %1d 次机会</string>
+    <string name="auth_finger_failed">抱歉，您输入5次错误，设备锁定</string>
 </resources>

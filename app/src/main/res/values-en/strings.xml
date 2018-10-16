@@ -17,7 +17,7 @@
     <string name="confirm_mnemonic_word">Confirm Mnemonic Word</string>
     <string name="wallet_create_success">Wallet Create Successull!</string>
     <string name="got_it">OK,Got it</string>
-    <string name="et_mnemonic">Please use space to separate the mnemonic words</string>
+    <string name="et_mnemonic">Please use space to separate the words</string>
     <string name="mnemonic_password">Mnemonic Password ( optional )</string>
     <string name="keystore_password">Keystore Password</string>
     <string name="keystore_hint">Please input keystore</string>
@@ -119,4 +119,8 @@
     <string name="h5_dex">Loopring DEX</string>
     <string name="confirm_clear_record">Are you sure you want to delete current wallet and clear records? </string>
     <string name="hint">hint</string>
+    <string name="auth_finger_tip">Unlock your wallet by fingerprint</string>
+    <string name="auth_finger_no_match">Sorry, your input fingerprint does not match, %1d chances left</string>
+    <string name="auth_finger_failed">Sorry, your device is locked for inputting error 5 times</string>
+
 </resources>

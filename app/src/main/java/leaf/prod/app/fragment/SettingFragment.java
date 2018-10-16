@@ -25,6 +25,7 @@ import leaf.prod.app.activity.MainActivity;
 import leaf.prod.app.activity.ManageWalletActivity;
 import leaf.prod.app.activity.MarginSplitActivity;
 import leaf.prod.app.activity.ShareActivity;
+import leaf.prod.app.utils.FingerprintUtil;
 import leaf.prod.app.utils.SPUtils;
 
 /**
@@ -92,6 +93,9 @@ public class SettingFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        if (!FingerprintUtil.isEnable(getContext())) {
+            llIdTouch.setVisibility(View.GONE);
+        }
     }
 
     @Override
