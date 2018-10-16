@@ -72,10 +72,10 @@ public class CoverActivity extends BaseActivity {
             case R.id.rl_generate:
                 getOperation().forward(GenerateWalletActivity.class);
                 break;
-            case R.id.icon:
-                finish();
-                getOperation().forward(MainActivity.class);
-                break;
+//            case R.id.icon:
+//                finish();
+//                getOperation().forward(MainActivity.class);
+//                break;
         }
     }
 

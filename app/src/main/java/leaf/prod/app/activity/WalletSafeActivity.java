@@ -20,7 +20,6 @@ import leaf.prod.app.R;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.model.eventbusData.NameChangeData;
 import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.TitleView;
 
 public class WalletSafeActivity extends BaseActivity {
@@ -118,23 +117,22 @@ public class WalletSafeActivity extends BaseActivity {
                     confirmClear.setPositiveButton(getResources().getString(R.string.confirm), (dialogInterface, i0) -> {
                         String addressUsed = (String) SPUtils.get(this, "address", "");//当前使用钱包的地址
                         List<WalletEntity> list = SPUtils.getWalletDataList(this, "walletlist", WalletEntity.class);
-                        for (int i = 0; i < list.size(); i++) {
-                            if (list.get(i).getAddress().equals(address)) {
-                                if (list.size() < 2) {
-                                    ToastUtils.toast("当前只有一个钱包，不可以删除");
+                        for (WalletEntity walletEntity : list) {
+                            if (walletEntity.getAddress().equals(address)) {
+                                list.remove(walletEntity);
+                                SPUtils.remove(this, "choose_token_" + address);
+                                SPUtils.setDataList(this, "walletlist", list);
+                                if (list.size() == 0) {
+                                    SPUtils.remove(this, "walletlist");
+                                    getOperation().forwardClearTop(CoverActivity.class);
                                 } else {
-                                    list.remove(i);
-                                    SPUtils.setDataList(this, "walletlist", list);
-                                    SPUtils.remove(this, "choose_token_" + address);
-                                    if (addressUsed.equals(address)) {
+                                    if (address.equals(addressUsed)) {
                                         SPUtils.put(this, "address", list.get(0).getAddress());
                                         SPUtils.put(this, "filename", list.get(0).getFilename());
-                                        startActivity(new Intent(this, MainActivity.class));
-                                    } else {
-                                        finish();
                                     }
-                                    return;
+                                    getOperation().forwardClearTop(MainActivity.class);
                                 }
+                                return;
                             }
                         }
                     });

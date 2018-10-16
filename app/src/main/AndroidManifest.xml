@@ -104,7 +104,7 @@
         <activity
             android:name=".activity.CoverActivity"
             android:exported="true"
-            android:launchMode="singleTask"/>
+            android:launchMode="standard"/>
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="locale|layoutDirection|keyboard"
