@@ -6,7 +6,9 @@
  */
 package leaf.prod.app.presenter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +65,8 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     private String address;
 
     private MainNetworkReceiver mainNetworkReceiver;
+
+    private List<String> fixedSymbols = Arrays.asList("ETH", "WETH", "LRC");
 
     public MainFragmentPresenter(MainFragment view, Context context) {
         super(view, context);
@@ -165,18 +169,44 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
             tokenMap.put(asset.getSymbol(), asset);
         }
         Collections.sort(balanceDataManager.getAssets(), (o1, o2) -> Double.compare(o2.getLegalValue(), o1.getLegalValue()));
-        List<BalanceResult.Asset> listChooseAsset = new ArrayList<>();
+        List<BalanceResult.Asset> listChooseAsset = new ArrayList<>(), positiveList = new ArrayList<>(), zeroList = new ArrayList<>();
         List<String> listChooseSymbol = SPUtils.getDataList(this.context, "choose_token");
         double amount = 0;
         for (String symbol : listChooseSymbol) {
             listChooseAsset.add(tokenMap.get(symbol));
-            amount += tokenMap.get(symbol).getLegalValue();
+            //            amount += tokenMap.get(symbol).getLegalValue();
         }
         for (BalanceResult.Asset asset : balanceDataManager.getAssets()) {
             if (!listChooseSymbol.contains(asset.getSymbol()) && asset.getLegalValue() != 0) {
                 listChooseAsset.add(asset);
-                amount += asset.getLegalValue();
+                //                amount += asset.getLegalValue();
             }
+        }
+        // 根据金额拆分列表
+        for (BalanceResult.Asset asset : listChooseAsset) {
+            if (Arrays.asList("ETH", "WETH", "LRC").contains(asset.getSymbol()))
+                 continue;
+            if (asset.getBalance().compareTo(BigDecimal.ZERO) > 0) {
+                positiveList.add(asset);
+            } else {
+                zeroList.add(asset);
+            }
+        }
+        Collections.sort(positiveList, (asset, t1) -> asset.getSymbol().compareTo(t1.getSymbol()));
+        Collections.sort(zeroList, (asset, t1) -> asset.getSymbol().compareTo(t1.getSymbol()));
+        listChooseAsset.clear();
+        for (String symbol : Arrays.asList("ETH", "WETH", "LRC")) {
+            BalanceResult.Asset asset = tokenMap.get(symbol);
+            listChooseAsset.add(asset);
+            amount += asset.getLegalValue();
+        }
+        for (BalanceResult.Asset asset : positiveList) {
+            listChooseAsset.add(asset);
+            amount += asset.getLegalValue();
+        }
+        for (BalanceResult.Asset asset : zeroList) {
+            listChooseAsset.add(asset);
+            amount += asset.getLegalValue();
         }
         moneyValue = CurrencyUtil.format(context, amount);
         SPUtils.put(this.context, "amount", moneyValue);
