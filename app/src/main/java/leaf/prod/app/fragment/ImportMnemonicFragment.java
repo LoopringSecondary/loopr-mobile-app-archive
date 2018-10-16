@@ -271,26 +271,20 @@ public class ImportMnemonicFragment extends BaseFragment {
      */
     private void unlockWallet() {
         showProgress("加载中...");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Credentials credentials = null;
-                try {
-                    credentials = MnemonicUtils.calculateCredentialsFromMnemonic(etMnemonic.getText()
-                            .toString(), dpath, etPassword.getText().toString());
-                    String privateKeyHexString = CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair()
-                            .getPrivateKey());
-                    filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, etPassword.getText()
-                            .toString(), FileUtils.getKeyStoreLocation(getContext()));
-                    SPUtils.put(getContext(), "filename", filename);
-                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
-                } catch (KeystoreCreateException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_ONE);
-                    e.printStackTrace();
-                } catch (InvalidPrivateKeyException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_ONE);
-                    e.printStackTrace();
-                }
+        new Thread(() -> {
+            Credentials credentials;
+            try {
+                credentials = MnemonicUtils.calculateCredentialsFromMnemonic(etMnemonic.getText()
+                        .toString().trim(), dpath, etPassword.getText().toString());
+                String privateKeyHexString = CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair()
+                        .getPrivateKey());
+                filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, etPassword.getText()
+                        .toString(), FileUtils.getKeyStoreLocation(getContext()));
+                SPUtils.put(getContext(), "filename", filename);
+                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
+            } catch (KeystoreCreateException | InvalidPrivateKeyException e) {
+                handlerCreate.sendEmptyMessage(ERROR_ONE);
+                e.printStackTrace();
             }
         }).start();
     }
@@ -303,35 +297,32 @@ public class ImportMnemonicFragment extends BaseFragment {
         picker.setOffset(1);
         picker.setSelectedIndex(0);
         picker.setTextSize(18);
-        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
-            @Override
-            public void onOptionPicked(int position, String option) {
-                LyqbLogger.log(position + "  ");
-                rlDpath.setVisibility(View.GONE);
-                if (position <= 6) {
-                    dpath = "m/44'/60'/0'/0";
-                } else if (position <= 7) {
-                    dpath = "m/44'/60'/0'";
-                } else if (position <= 8) {
-                    dpath = "m/44'/61'/0'/0";
-                } else if (position <= 9) {
-                    dpath = "m/44'/60'/160720'/0";
-                } else if (position <= 10) {
-                    dpath = "m/0'/0'/0";
-                } else if (position <= 11) {
-                    dpath = "m/44'/1'/0'/0";
-                } else if (position <= 12) {
-                    dpath = "m/44'/40'/0'/0";
-                } else if (position <= 13) {
-                    dpath = "m/44'/108'/0'/0";
-                } else if (position <= 14) {
-                    dpath = "m/44'/163'/0'/0";
-                } else if (position <= 15) {
-                    dpath = "";
-                    rlDpath.setVisibility(View.VISIBLE);
-                }
-                walletType.setText(option);
+        picker.setOnOptionPickListener((position, option) -> {
+            LyqbLogger.log(position + "  ");
+            rlDpath.setVisibility(View.GONE);
+            if (position <= 6) {
+                dpath = "m/44'/60'/0'/0";
+            } else if (position <= 7) {
+                dpath = "m/44'/60'/0'";
+            } else if (position <= 8) {
+                dpath = "m/44'/61'/0'/0";
+            } else if (position <= 9) {
+                dpath = "m/44'/60'/160720'/0";
+            } else if (position <= 10) {
+                dpath = "m/0'/0'/0";
+            } else if (position <= 11) {
+                dpath = "m/44'/1'/0'/0";
+            } else if (position <= 12) {
+                dpath = "m/44'/40'/0'/0";
+            } else if (position <= 13) {
+                dpath = "m/44'/108'/0'/0";
+            } else if (position <= 14) {
+                dpath = "m/44'/163'/0'/0";
+            } else if (position <= 15) {
+                dpath = "";
+                rlDpath.setVisibility(View.VISIBLE);
             }
+            walletType.setText(option);
         });
         picker.show();
     }

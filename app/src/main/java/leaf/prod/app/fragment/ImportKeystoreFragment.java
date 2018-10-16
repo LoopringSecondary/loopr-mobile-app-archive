@@ -237,7 +237,7 @@ public class ImportKeystoreFragment extends BaseFragment {
         new Thread(() -> {
             try {
                 filename = KeystoreUtils.createFromKeystoreJson(etKeystore.getText()
-                        .toString(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
+                        .toString().trim(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
                 SPUtils.put(getContext(), "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             } catch (InvalidKeystoreException e) {

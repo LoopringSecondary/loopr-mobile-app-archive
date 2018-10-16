@@ -141,6 +141,7 @@ public class ShareActivity extends BaseActivity {
     }
 
     private void uShare() {
+        // todo 生成分享app
         UMWeb umWeb = new UMWeb("https://m.zhaoyunlicai.com/weekPayNo");
         umWeb.setTitle("钱包地址分享");//标题
         umWeb.setThumb(new UMImage(ShareActivity.this, R.mipmap.icon_share));  //缩略图

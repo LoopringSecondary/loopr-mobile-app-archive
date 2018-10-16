@@ -5,7 +5,7 @@
     <string name="import_wallet">导入钱包</string>
     <string name="generate_wallet">创建钱包</string>
     <string name="next">下一步</string>
-    <string name="good">有益</string>
+    <string name="good">密码需大于等于6位</string>
     <string name="password">请输入密码</string>
     <string name="repeat_password">请再次输入密码</string>
     <string name="password_match_toast">输入密码不匹配</string>
@@ -23,7 +23,7 @@
     <string name="keystore_hint">请输入keystore</string>
     <string name="private_key_hint">请输入私钥</string>
     <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>
-    <string name="unlock">Unlock</string>
+    <string name="unlock">解锁</string>
     <string name="scan">扫描</string>
     <string name="receive_code">转入二维码</string>
     <string name="send">转出</string>

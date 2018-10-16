@@ -5,7 +5,7 @@
     <string name="import_wallet">Import Wallet</string>
     <string name="generate_wallet">Generate Wallet</string>
     <string name="next">Next</string>
-    <string name="good">Good</string>
+    <string name="good">Length of Password at least six</string>
     <string name="password">Password</string>
     <string name="repeat_password">Repeat Password</string>
     <string name="password_match_toast">Password doesn\'t match</string>

@@ -44,22 +44,22 @@
             android:gravity="center"
             android:visibility="gone">
 
-            <TextView
-                android:layout_width="5dp"
-                android:layout_height="10dp"
-                android:background="@color/colorGreen"/>
+            <!--<TextView-->
+                <!--android:layout_width="5dp"-->
+                <!--android:layout_height="10dp"-->
+                <!--android:background="@color/colorGreen"/>-->
 
-            <TextView
-                android:layout_width="5dp"
-                android:layout_height="10dp"
-                android:layout_marginLeft="3dp"
-                android:background="@color/colorGreen"/>
+            <!--<TextView-->
+                <!--android:layout_width="5dp"-->
+                <!--android:layout_height="10dp"-->
+                <!--android:layout_marginLeft="3dp"-->
+                <!--android:background="@color/colorGreen"/>-->
 
-            <TextView
-                android:layout_width="5dp"
-                android:layout_height="10dp"
-                android:layout_marginLeft="3dp"
-                android:background="@color/colorGreen"/>
+            <!--<TextView-->
+                <!--android:layout_width="5dp"-->
+                <!--android:layout_height="10dp"-->
+                <!--android:layout_marginLeft="3dp"-->
+                <!--android:background="@color/colorGreen"/>-->
 
             <TextView
                 android:id="@+id/good"
