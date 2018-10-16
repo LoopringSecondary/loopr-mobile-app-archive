@@ -238,7 +238,10 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     }
 
     public String getWalletName() {
-        return WalletUtil.getCurrentWallet(context).getWalletname();
+        WalletEntity walletEntity = WalletUtil.getCurrentWallet(context);
+        if (walletEntity == null)
+            return null;
+        return walletEntity.getWalletname();
     }
 
     public String getMoneyValue() {

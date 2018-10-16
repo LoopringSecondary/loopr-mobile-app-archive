@@ -31,6 +31,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.ActivityScanerCode;
+import leaf.prod.app.activity.CoverActivity;
 import leaf.prod.app.activity.ImportWalletActivity;
 import leaf.prod.app.activity.ManageWalletActivity;
 import leaf.prod.app.activity.ReceiveActivity;
@@ -169,8 +170,12 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        titleText.setText(presenter.getWalletName());
-        walletAddress.setText(presenter.getAddress());
+        if (presenter.getWalletName() == null) {
+            getOperation().forwardClearTop(CoverActivity.class);
+        } else {
+            titleText.setText(presenter.getWalletName());
+            walletAddress.setText(presenter.getAddress());
+        }
     }
 
     @Override
