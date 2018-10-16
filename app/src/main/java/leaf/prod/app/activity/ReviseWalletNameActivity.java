@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,18 +48,22 @@ public class ReviseWalletNameActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.wallet_name));
         title.clickLeftGoBack(getWContext());
-        title.setRightButton(getResources().getString(R.string.save), new TitleView.OnRightButtonClickListener() {
-            @Override
-            public void onClick(View button) {
-                if (TextUtils.isEmpty(walletName.getText().toString())) {
-                    ToastUtils.toast("请输入钱包名称");
-                    return;
-                } else {
-                    list.get(position).setWalletname(walletName.getText().toString());
-                    SPUtils.setDataList(ReviseWalletNameActivity.this, "walletlist", list);
-                    EventBus.getDefault().post(new NameChangeData(walletName.getText().toString()));
+        title.setRightText(getResources().getString(R.string.save), button -> {
+            if (TextUtils.isEmpty(walletName.getText().toString())) {
+                ToastUtils.toastError("请输入钱包名称");
+            } else if (getIntent().getStringExtra("walletname").equalsIgnoreCase(walletName.getText().toString())) {
+                finish();
+            } else {
+                for (WalletEntity walletEntity : list) {
+                    if (walletEntity.getWalletname().equalsIgnoreCase(walletName.getText().toString())) {
+                        ToastUtils.toastError("钱包名已被占用");
+                        return;
+                    }
                 }
-                //                SPUtils.put(ReviseWalletNameActivity.this, "walletname", walletName.getText().toString());
+                list.get(position).setWalletname(walletName.getText().toString());
+                SPUtils.setDataList(ReviseWalletNameActivity.this, "walletlist", list);
+                EventBus.getDefault().post(new NameChangeData(walletName.getText().toString()));
+                finish();
             }
         });
     }

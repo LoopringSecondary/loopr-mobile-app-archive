@@ -40,6 +40,9 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
     @BindView(R.id.right_btn)
     ImageView mRightbtn;
 
+    @BindView(R.id.right_text)
+    TextView mRightText;
+
     private OnLeftButtonClickListener mOnLeftButtonClickListener;
 
     private OnMiddleButtonClickListener mOnMiddleButtonClickListener;
@@ -118,7 +121,13 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
     }
 
     public void setRightButton(String str, OnRightButtonClickListener listener) {
-        mRightbtn.setVisibility(View.GONE);
+        mRightbtn.setVisibility(View.VISIBLE);
+        mOnRightButtonClickListener = listener;
+    }
+
+    public void setRightText(String str, OnRightButtonClickListener listener) {
+        mRightText.setText(str);
+        mRightText.setVisibility(View.VISIBLE);
         mOnRightButtonClickListener = listener;
     }
 
@@ -169,7 +178,7 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
         // mRightText.setTextColor(Color.rgb(0xff, 0xff, 0xff));
     }
 
-    @OnClick({R.id.left_btn, R.id.mid_btn, R.id.right_btn})
+    @OnClick({R.id.left_btn, R.id.mid_btn, R.id.right_btn, R.id.right_text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.left_btn:
@@ -181,6 +190,10 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
                     mOnMiddleButtonClickListener.onClick(view);
                 break;
             case R.id.right_btn:
+                if (mOnRightButtonClickListener != null)
+                    mOnRightButtonClickListener.onClick(view);
+                break;
+            case R.id.right_text:
                 if (mOnRightButtonClickListener != null)
                     mOnRightButtonClickListener.onClick(view);
                 break;

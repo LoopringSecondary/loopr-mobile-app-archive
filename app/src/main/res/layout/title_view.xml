@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/title_view"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
@@ -11,7 +12,7 @@
         android:background="@color/colorTitleBac"
         android:orientation="vertical"/>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:background="@color/colorTitleBac"
@@ -22,27 +23,31 @@
             style="@style/Text.Title_Button"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="@dimen/margSide"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/margSide"
             android:layout_weight="0.5"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
             android:scaleType="fitStart"
-            android:src="@mipmap/icon_back"/>
+            android:src="@mipmap/icon_back"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
         <TextView
             android:id="@+id/title_text"
             style="@style/Text.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
             android:text="标题"
             android:textColor="@color/colorTitleTv"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/mid_btn"
@@ -50,11 +55,14 @@
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            android:minWidth="30dip"
             android:layout_weight="0.25"
+            android:minWidth="30dip"
             android:src="@mipmap/ic_launcher"
             android:textColor="#ffffff"
-            android:visibility="invisible"/>
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/right_btn"
@@ -66,9 +74,26 @@
             android:minWidth="30dip"
             android:src="@mipmap/ic_launcher"
             android:textColor="#ffffff"
-            android:visibility="invisible"/>
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/right_text"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.25"
+            android:minWidth="30dip"
+            android:textColor="#ffffff"
+            android:visibility="gone"
+            android:layout_marginEnd="@dimen/margSide"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
 
 
 </LinearLayout>

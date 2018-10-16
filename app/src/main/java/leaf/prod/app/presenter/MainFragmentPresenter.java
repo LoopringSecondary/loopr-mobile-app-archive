@@ -66,8 +66,6 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
     private MainNetworkReceiver mainNetworkReceiver;
 
-    private List<String> fixedSymbols = Arrays.asList("ETH", "WETH", "LRC");
-
     public MainFragmentPresenter(MainFragment view, Context context) {
         super(view, context);
         marketcapDataManager = MarketcapDataManager.getInstance(context);
