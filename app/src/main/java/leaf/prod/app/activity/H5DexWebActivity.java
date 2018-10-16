@@ -117,7 +117,7 @@ public class H5DexWebActivity extends BaseActivity {
             view.findViewById(R.id.cancel).setOnClickListener(v -> passwordDialog.dismiss());
             view.findViewById(R.id.confirm).setOnClickListener(v -> {
                 if (TextUtils.isEmpty(passwordInput.getText().toString())) {
-                    ToastUtils.toast("请输入密码");
+                    ToastUtils.toast("请输入Keystore密码");
                 } else {
                     presenter.sign(passwordInput.getText().toString());
                 }

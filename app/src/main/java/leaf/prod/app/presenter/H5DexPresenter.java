@@ -6,6 +6,8 @@
  */
 package leaf.prod.app.presenter;
 
+import java.math.BigInteger;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
@@ -17,7 +19,9 @@ import android.webkit.JavascriptInterface;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.Sign;
+import org.web3j.crypto.TransactionEncoder;
 import org.web3j.utils.Numeric;
 
 import leaf.prod.app.activity.H5DexWebActivity;
@@ -33,6 +37,8 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
     private boolean isSignMessage = false;
 
     private String signMessage;
+
+    private JSONObject signTx;
 
     private String content;
 
@@ -81,28 +87,37 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
     @JavascriptInterface
     public void callApi(String content) {
         Log.d("agentweb", "content:" + content);
-        this.content = content;
         try {
+            this.content = content;
             JSONObject jsonObject = new JSONObject(content);
             String method = jsonObject.getString(KEY_METHOD);
-            if (TextUtils.isEmpty(method))
+            if (TextUtils.isEmpty(method)) {
                 return;
-            if (method.equals(FUNCTION_GET_ACCOUNT)) {
-                getAddress();
-                send();
-            } else if (method.equals(FUNCTION_GET_LANGUAGE)) {
-                getLanguage();
-                send();
-            } else if (method.equals(FUNCTION_GWT_CURRENCY)) {
-                getCurrency();
-                send();
-            } else if (method.equals(FUNCTION_MESSAGE_SIGN)) {
-                isSignMessage = true;
-                JSONObject data = jsonObject.getJSONObject(KEY_DATA);
-                signMessage = data.getString("message");
-                view.showPasswordDialog();
-            } else if (FUCTION_TRANSACTION_SIGN.equals(method)) {
-                isSignMessage = false;
+            }
+            switch (method) {
+                case FUNCTION_GET_ACCOUNT:
+                    getAddress();
+                    send();
+                    break;
+                case FUNCTION_GET_LANGUAGE:
+                    getLanguage();
+                    send();
+                    break;
+                case FUNCTION_GWT_CURRENCY:
+                    getCurrency();
+                    send();
+                    break;
+                case FUNCTION_MESSAGE_SIGN:
+                    isSignMessage = true;
+                    JSONObject data = jsonObject.getJSONObject(KEY_DATA);
+                    signMessage = data.getString("message");
+                    view.showPasswordDialog();
+                    break;
+                case FUCTION_TRANSACTION_SIGN:
+                    isSignMessage = false;
+                    signTx = jsonObject.getJSONObject(KEY_DATA);
+                    view.showPasswordDialog();
+                    break;
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -130,6 +145,27 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
     }
 
     private void signTransaction(String password) {
+        try {
+            String keystore = FileUtils.getKeystoreFromSD(context);
+            Credentials credentials = KeystoreUtils.unlock(password, keystore);
+
+            BigInteger nonce = Numeric.toBigInt(signTx.getString("nonce"));
+            BigInteger gasPrice = Numeric.toBigInt(signTx.getString("gasPrice"));
+            BigInteger gasLimit = Numeric.toBigInt(signTx.getString("gasLimit"));
+            String to = signTx.getString("to");
+            BigInteger value = Numeric.toBigInt(signTx.getString("value"));
+            String data = signTx.getString("data");
+            byte chainId = (byte) signTx.getInt("chainId");
+            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, to, value, data);
+
+            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, chainId, credentials);
+            result = Numeric.toHexString(signedMessage);
+            handlerCreate.sendEmptyMessage(SUCCESS);
+            send();
+        } catch (Exception e) {
+            handlerCreate.sendEmptyMessage(ERROR);
+            e.printStackTrace();
+        }
     }
 
     private void signMessage(String password) {
