@@ -113,10 +113,10 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
                 .source(this.symbol.toLowerCase())
                 .build();
         tokenManager.addToken(token);
-        List<String> tokenChosen = SPUtils.getDataList(context, "choose_token");
+        List<String> tokenChosen = SPUtils.getDataList(context, "choose_token_" + address);
         if (!tokenChosen.contains(this.symbol)) {
             tokenChosen.add(this.symbol);
         }
-        SPUtils.setDataList(context, "choose_token", tokenChosen);
+        SPUtils.setDataList(context, "choose_token_" + address, tokenChosen);
     }
 }

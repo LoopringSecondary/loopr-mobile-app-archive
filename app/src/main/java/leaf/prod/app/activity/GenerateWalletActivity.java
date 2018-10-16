@@ -164,39 +164,33 @@ public class GenerateWalletActivity extends BaseActivity {
                     List<WalletEntity> list = SPUtils.getWalletDataList(GenerateWalletActivity.this, "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
                     list.add(new WalletEntity(walletName.getText().toString(), filename, "0x" + address, mnemonic));
                     SPUtils.setDataList(GenerateWalletActivity.this, "walletlist", list);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            LyqbLogger.log(address);
-                            loopringService.notifyCreateWallet(address)
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber<String>() {
-                                        @Override
-                                        public void onCompleted() {
-                                            hideProgress();
-                                            DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    DialogUtil.dialog.dismiss();
-                                                    finish();
-                                                    AppManager.finishAll();
-                                                    //                                                    startActivity(new Intent(GenerateWalletActivity.this,MainActivity.class));
-                                                    getOperation().forwardClearTop(MainActivity.class);
-                                                }
-                                            });
-                                        }
+                    new Thread(() -> {
+                        LyqbLogger.log(address);
+                        loopringService.notifyCreateWallet(address)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<String>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        hideProgress();
+                                        DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, v -> {
+                                            DialogUtil.dialog.dismiss();
+                                            finish();
+                                            AppManager.finishAll();
+                                            //                                                    startActivity(new Intent(GenerateWalletActivity.this,MainActivity.class));
+                                            getOperation().forwardClearTop(MainActivity.class);
+                                        });
+                                    }
 
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            ToastUtils.toast("创建失败，请重试");
-                                            hideProgress();
-                                        }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        ToastUtils.toast("创建失败，请重试");
+                                        hideProgress();
+                                    }
 
-                                        @Override
-                                        public void onNext(String s) {
-                                        }
-                                    });
-                        }
+                                    @Override
+                                    public void onNext(String s) {
+                                    }
+                                });
                     }).start();
                     break;
                 case ERROR_ONE:
@@ -297,12 +291,7 @@ public class GenerateWalletActivity extends BaseActivity {
                                 listRandomMnemonic.add(arrayMne[i]);
                             }
                             mHintAdapter.setNewData(listMnemonic);
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    FileUtils.keepFile(GenerateWalletActivity.this, "mnemonic.txt", mnemonic);
-                                }
-                            }).start();
+                            new Thread(() -> FileUtils.keepFile(GenerateWalletActivity.this, "mnemonic.txt", mnemonic)).start();
                             //                            SPUtils.setDataList(this, "mnemonic", listMnemonic);
                             mHintAdapter.notifyDataSetChanged();
                             generatePartone.setVisibility(View.GONE);
@@ -346,31 +335,28 @@ public class GenerateWalletActivity extends BaseActivity {
      */
     private void startThread() {
         showProgress("加载中...");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Credentials credentials = MnemonicUtils.calculateCredentialsFromMnemonic(mnemonic, "m/44'/60'/0'/0", "");
-                String privateKeyHexString = CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair()
-                        .getPrivateKey());
-                String pas = repeatPassword.getText().toString();
-                try {
-                    filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, pas, FileUtils.getKeyStoreLocation(GenerateWalletActivity.this));
-                    LyqbLogger.log(filename);
-                    SPUtils.put(GenerateWalletActivity.this, "filename", filename);
-                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
-                } catch (InvalidPrivateKeyException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_THREE);
-                    e.printStackTrace();
-                } catch (KeystoreCreateException e) {
-                    handlerCreate.sendEmptyMessage(ERROR_THREE);
-                    e.printStackTrace();
-                }
-                //                WalletDetail walletDetail = createWallet();//生成助记词
-                //                filename = walletDetail.getFilename();
-                //                LyqbLogger.log(filename);
-                //                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
-                //                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
+        new Thread(() -> {
+            Credentials credentials = MnemonicUtils.calculateCredentialsFromMnemonic(mnemonic, "m/44'/60'/0'/0", "");
+            String privateKeyHexString = CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair()
+                    .getPrivateKey());
+            String pas = repeatPassword.getText().toString();
+            try {
+                filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, pas, FileUtils.getKeyStoreLocation(GenerateWalletActivity.this));
+                LyqbLogger.log(filename);
+                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
+                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
+            } catch (InvalidPrivateKeyException e) {
+                handlerCreate.sendEmptyMessage(ERROR_THREE);
+                e.printStackTrace();
+            } catch (KeystoreCreateException e) {
+                handlerCreate.sendEmptyMessage(ERROR_THREE);
+                e.printStackTrace();
             }
+            //                WalletDetail walletDetail = createWallet();//生成助记词
+            //                filename = walletDetail.getFilename();
+            //                LyqbLogger.log(filename);
+            //                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
+            //                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
         }).start();
     }
 

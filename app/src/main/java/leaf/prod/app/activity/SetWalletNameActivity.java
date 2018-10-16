@@ -49,7 +49,7 @@ public class SetWalletNameActivity extends BaseActivity {
      */
     @Override
     public void initTitle() {
-        title.setBTitle("设置钱包名称");
+        title.setBTitle(getResources().getString(R.string.set_wallet_name));
         title.clickLeftGoBack(getWContext());
     }
 

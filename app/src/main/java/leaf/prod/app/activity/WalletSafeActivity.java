@@ -125,6 +125,7 @@ public class WalletSafeActivity extends BaseActivity {
                                 } else {
                                     list.remove(i);
                                     SPUtils.setDataList(this, "walletlist", list);
+                                    SPUtils.remove(this, "choose_token_" + address);
                                     if (addressUsed.equals(address)) {
                                         SPUtils.put(this, "address", list.get(0).getAddress());
                                         SPUtils.put(this, "filename", list.get(0).getFilename());

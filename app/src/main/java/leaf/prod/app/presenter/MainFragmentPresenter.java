@@ -170,22 +170,20 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         }
         Collections.sort(balanceDataManager.getAssets(), (o1, o2) -> Double.compare(o2.getLegalValue(), o1.getLegalValue()));
         List<BalanceResult.Asset> listChooseAsset = new ArrayList<>(), positiveList = new ArrayList<>(), zeroList = new ArrayList<>();
-        List<String> listChooseSymbol = SPUtils.getDataList(this.context, "choose_token");
+        List<String> listChooseSymbol = SPUtils.getDataList(this.context, "choose_token_" + address);
         double amount = 0;
         for (String symbol : listChooseSymbol) {
             listChooseAsset.add(tokenMap.get(symbol));
-            //            amount += tokenMap.get(symbol).getLegalValue();
         }
         for (BalanceResult.Asset asset : balanceDataManager.getAssets()) {
             if (!listChooseSymbol.contains(asset.getSymbol()) && asset.getLegalValue() != 0) {
                 listChooseAsset.add(asset);
-                //                amount += asset.getLegalValue();
             }
         }
         // 根据金额拆分列表
         for (BalanceResult.Asset asset : listChooseAsset) {
             if (Arrays.asList("ETH", "WETH", "LRC").contains(asset.getSymbol()))
-                 continue;
+                continue;
             if (asset.getBalance().compareTo(BigDecimal.ZERO) > 0) {
                 positiveList.add(asset);
             } else {
