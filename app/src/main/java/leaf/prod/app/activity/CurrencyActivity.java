@@ -18,7 +18,6 @@ import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.Currency;
-import leaf.prod.walletsdk.model.response.data.MarketcapResult;
 import leaf.prod.walletsdk.service.LoopringService;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -99,16 +98,13 @@ public class CurrencyActivity extends BaseActivity {
     }
 
     private void updateWalletList(Currency currency) {
-        loopringService.getMarketcap(currency.getText())
+        loopringService.getPriceQuoteByToken(currency.getText(), "ETH")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(marketcapResult -> {
                     double price = 0;
-                    for (MarketcapResult.Token token : marketcapResult.getTokens()) {
-                        if (token.getSymbol().equals("ETH")) {
-                            price = token.getPrice();
-                            break;
-                        }
+                    if (marketcapResult.getTokens() != null && marketcapResult.getTokens().size() > 0) {
+                        price = marketcapResult.getTokens().get(0).getPrice();
                     }
                     List<WalletEntity> walletEntityList = SPUtils.getWalletDataList(this, "walletlist", WalletEntity.class), result = new ArrayList();
                     for (WalletEntity walletEntity : walletEntityList) {

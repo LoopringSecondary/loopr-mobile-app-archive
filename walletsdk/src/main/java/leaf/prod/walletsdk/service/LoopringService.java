@@ -96,6 +96,14 @@ public class LoopringService {
         return rpcDelegate.getMarketcap(request).map(ResponseWrapper::getResult);
     }
 
+    public Observable<MarketcapResult> getPriceQuoteByToken(String currency, String token) {
+        RequestWrapper request = new RequestWrapper("loopring_getPriceQuoteByToken", MarketcapParam.builder()
+                .currency(currency)
+                .token(token)
+                .build());
+        return rpcDelegate.getMarketcap(request).map(ResponseWrapper::getResult);
+    }
+
     public Observable<String> notifyTransactionSubmitted(String txHash, String nonce, String to, String valueInHex, String gasPriceInHex, String gasLimitInHex, String dataInHex, String from) {
         NotifyTransactionSubmitParam notifyTransactionSubmitParam = NotifyTransactionSubmitParam.builder()
                 .hash(txHash)
