@@ -25,6 +25,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.SetWalletNameActivity;
+import leaf.prod.app.model.ImportWalletType;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.model.eventbusData.KeystoreData;
 import leaf.prod.app.utils.ButtonClickUtil;
@@ -89,6 +90,7 @@ public class ImportKeystoreFragment extends BaseFragment {
                     SPUtils.put(getContext(), "pas", etPassword.getText().toString());
                     SPUtils.put(getContext(), "hasWallet", true);
                     SPUtils.put(getContext(), "address", "0x" + address);
+                    SPUtils.put(getContext(), "create_method_0x" + address, ImportWalletType.KEY_STORE.name());
                     WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, "");
                     loopringService.notifyCreateWallet(address)
                             .subscribeOn(Schedulers.io())
