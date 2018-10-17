@@ -32,9 +32,7 @@ import org.json.JSONException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.warkiz.widget.IndicatorSeekBar;
-import com.warkiz.widget.OnSeekChangeListener;
-import com.warkiz.widget.SeekParams;
+import com.xw.repo.BubbleSeekBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -119,7 +117,7 @@ public class SendActivity extends BaseActivity {
     TextView amountToast;
 
     @BindView(R.id.seekBar)
-    IndicatorSeekBar seekBar;
+    BubbleSeekBar seekBar;
 
     @BindView(R.id.transacition_fee)
     TextView transacitionFee;
@@ -171,7 +169,7 @@ public class SendActivity extends BaseActivity {
 
     private TextView recommendGas;
 
-    private IndicatorSeekBar gasSeekBar;
+    private BubbleSeekBar gasSeekBar;
 
     /**
      * 确认转出弹窗相关组件
@@ -194,6 +192,11 @@ public class SendActivity extends BaseActivity {
      * 输入密码dialog
      */
     private AlertDialog passwordDialog;
+
+    /**
+     * seekbar和edittext联动标志位
+     */
+    private boolean moneyAmountChange = false;
 
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
@@ -474,10 +477,15 @@ public class SendActivity extends BaseActivity {
             cancel = view.findViewById(R.id.cancel);
             recommendGas = view.findViewById(R.id.recommend_gas);
             gasSeekBar = view.findViewById(R.id.gasSeekBar);
-            gasSeekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            gasSeekBar.getConfigBuilder()
+                    .min(1)
+                    .max(Float.parseFloat(NumberUtils.format1(gasDataManager.getRecommendGasPriceInGWei()
+                            .multiply(new BigDecimal(2))
+                            .doubleValue(), 1))).build();
+            gasSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
                 @Override
-                public void onSeeking(SeekParams seekParams) {
-                    gasDataManager.setCustomizeGasPriceInGWei((double) seekParams.progressFloat);
+                public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+                    gasDataManager.setCustomizeGasPriceInGWei((double) progressFloat);
                     gasEthValue = Double.parseDouble(gasDataManager.getGasAmountInETH(String.valueOf(gasDataManager.getGasLimitByType("token_transfer")), String
                             .valueOf(gasDataManager.getCustomizeGasPriceInWei())));
                     tvAmount.setText(new StringBuilder(gasEthValue.toString()).append(" ETH ≈ ")
@@ -489,11 +497,11 @@ public class SendActivity extends BaseActivity {
                 }
 
                 @Override
-                public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+                public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
                 }
 
                 @Override
-                public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
                 }
             });
             recommendGas.setOnClickListener(view1 -> gasSeekBar.post(() -> gasSeekBar.setProgress(gasDataManager.getRecommendGasPriceInGWei()
@@ -506,10 +514,6 @@ public class SendActivity extends BaseActivity {
             feeDialog.setOnDismissListener(dialogInterface -> transacitionFee.setText(tvAmount.getText()));
             Objects.requireNonNull(feeDialog.getWindow()).setGravity(Gravity.BOTTOM);
         }
-        gasSeekBar.setMin(1);
-        gasSeekBar.setMax(Float.parseFloat(NumberUtils.format1(gasDataManager.getRecommendGasPriceInGWei()
-                .multiply(new BigDecimal(2))
-                .doubleValue(), 1)));
         gasSeekBar.setProgress((float) gasDataManager.getGasPriceInGwei());
         tvAmount.setText(transacitionFee.getText());
         tvWalletInfo.setText(new StringBuilder("Gas limit(").append(gasDataManager.getGasLimitByType("token_transfer"))
@@ -552,24 +556,37 @@ public class SendActivity extends BaseActivity {
     private void initSeekbar() {
         moneyAmount.post(() -> moneyAmount.setText(""));
         seekBar.setProgress(0);
-        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+        seekBar.setCustomSectionTextArray((sectionCount, array) -> {
+            array.clear();
+            array.put(0, "0%");
+            array.put(1, "25%");
+            array.put(2, "50%");
+            array.put(3, "75%");
+            array.put(4, "100%");
+            return array;
+        });
+        seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
-            public void onSeeking(SeekParams seekParams) {
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+                LyqbLogger.debug(seekBar.getConfigBuilder().getThumbRadiusOnDragging() + "");
+                if (moneyAmountChange) {
+                    moneyAmountChange = false;
+                    return;
+                }
                 int precision = balanceManager.getPrecisionBySymbol(sendChoose);
                 moneyAmount.setText(NumberUtils.format1(balanceManager.getAssetBySymbol(sendChoose)
-                        .getValue() * seekParams.progressFloat / 100, precision));
-                amountToast.setText(CurrencyUtil.getCurrency(getBaseContext())
-                        .getSymbol() + NumberUtils.format1(balanceManager.getAssetBySymbol(sendChoose)
-                        .getLegalValue() * seekParams.progressFloat / 100, precision));
+                        .getValue() * progressFloat / 100, precision));
+                amountToast.setText(CurrencyUtil.format(getApplicationContext(), balanceManager.getAssetBySymbol(sendChoose)
+                        .getLegalValue() * progressFloat / 100));
                 Selection.setSelection(moneyAmount.getText(), moneyAmount.getText().length());
             }
 
             @Override
-            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
             }
 
             @Override
-            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
             }
         });
     }
@@ -591,21 +608,20 @@ public class SendActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable == null || editable.toString().isEmpty())
-                    return;
-                double currentAmount = Double.parseDouble(editable.toString());
+                double currentAmount = (editable != null && !editable.toString()
+                        .isEmpty()) ? Double.parseDouble(editable.toString()) : 0;
+                moneyAmountChange = true;
                 if (currentAmount > amountTotal) {
                     amountToast.setText(getResources().getText(R.string.input_valid_amount));
                     amountToast.setTextColor(getResources().getColor(R.color.colorRed));
                     amountToast.startAnimation(shakeAnimation);
+                    seekBar.setProgress(100);
                 } else {
-                    int precision = balanceManager.getPrecisionBySymbol(sendChoose);
-                    amountToast.setText(CurrencyUtil.getCurrency(getApplicationContext())
-                            .getSymbol() + NumberUtils.format1(currentAmount * marketcapDataManager
-                            .getPriceBySymbol(sendChoose), precision));
+                    amountToast.setText(CurrencyUtil.format(getApplicationContext(), currentAmount * marketcapDataManager
+                            .getPriceBySymbol(sendChoose)));
                     amountToast.setTextColor(getResources().getColor(R.color.colorNineText));
+                    seekBar.setProgress((float) (currentAmount / amountTotal * 100));
                 }
-                // TODO 拖动条随金额变化
             }
         });
     }
@@ -630,9 +646,12 @@ public class SendActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable == null || editable.toString().isEmpty())
-                    return;
-                if (!WalletUtils.isValidAddress(editable.toString().trim())) {
+                if (editable == null || editable.toString().isEmpty()) {
+                    addressToast.setTextColor(getResources().getColor(R.color.colorNineText));
+                    addressToast.setText(getResources().getText(R.string.address_confirm));
+                    addressToast.setVisibility(View.VISIBLE);
+                } else if (!WalletUtils.isValidAddress(editable.toString().trim())) {
+                    addressToast.setTextColor(getResources().getColor(R.color.colorRed));
                     addressToast.setText(getResources().getText(R.string.input_valid_address));
                     addressToast.startAnimation(shakeAnimation);
                     addressToast.setVisibility(View.VISIBLE);

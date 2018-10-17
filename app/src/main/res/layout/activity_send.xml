@@ -138,10 +138,9 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:gravity="center_vertical"
-            android:text="@string/input_valid_address"
-            android:textColor="@color/colorRed"
-            android:textSize="@dimen/normal14Text"
-            android:visibility="invisible"/>
+            android:text="@string/address_confirm"
+            android:textColor="@color/colorNineText"
+            android:textSize="@dimen/normal14Text"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -195,29 +194,23 @@
             android:textColor="@color/colorNineText"
             android:textSize="@dimen/normal14Text"/>
 
-        <com.warkiz.widget.IndicatorSeekBar
+        <com.xw.repo.BubbleSeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="4dp"
-            app:isb_indicator_color="@color/colorCenter"
-            app:isb_progress_value_float="true"
-            app:isb_seek_smoothly="true"
-            app:isb_show_indicator="circular_bubble"
-            app:isb_show_thumb_text="false"
-            app:isb_show_tick_marks_type="oval"
-            app:isb_show_tick_texts="true"
-            app:isb_thumb_adjust_auto="false"
-            app:isb_thumb_color="@color/colorGreen"
-            app:isb_thumb_size="20dp"
-            app:isb_tick_marks_color="@color/colorGreen"
-            app:isb_tick_marks_size="7dp"
-            app:isb_tick_texts_array="@array/markArray"
-            app:isb_tick_texts_color="@color/colorNineText"
-            app:isb_ticks_count="5"
-            app:isb_track_background_color="@color/colorNineText"
-            app:isb_track_progress_color="@color/colorGreen"
-            app:isb_track_progress_size="3dp"/>
+            app:bsb_bubble_color="@color/colorCenter"
+            app:bsb_is_float_type="true"
+            app:bsb_second_track_color="@color/colorGreen"
+            app:bsb_section_count="4"
+            app:bsb_section_text_position="below_section_mark"
+            app:bsb_seek_step_section="true"
+            app:bsb_show_section_mark="true"
+            app:bsb_thumb_color="@color/colorGreen"
+            app:bsb_thumb_radius="8dp"
+            app:bsb_touch_to_seek="true"
+            app:bsb_track_color="@color/colorNineText"
+            />
 
         <!--<RelativeLayout-->
         <!--android:layout_width="match_parent"-->

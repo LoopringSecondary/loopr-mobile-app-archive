@@ -95,7 +95,7 @@ dependencies {
     implementation 'com.robinhood.ticker:ticker:2.0.0'
     implementation 'com.github.ybq:Android-SpinKit:1.1.0'
     implementation 'com.kyleduo.switchbutton:library:2.0.0'
-    implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.0'
+    implementation 'com.xw.repo:bubbleseekbar:3.16'
     // agent web for combine dex
     implementation 'com.just.agentweb:agentweb:3.0.0-rc'
     // support for fingerprint
