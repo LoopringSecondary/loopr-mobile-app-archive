@@ -96,14 +96,9 @@ dependencies {
     implementation 'com.github.ybq:Android-SpinKit:1.1.0'
     implementation 'com.kyleduo.switchbutton:library:2.0.0'
     implementation 'com.xw.repo:bubbleseekbar:3.16'
-    // agent web for combine dex
-    implementation 'com.just.agentweb:agentweb:3.0.0-rc'
-    // support for fingerprint
-    implementation 'com.wei.android.lib:fingerprintidentify:1.2.1'
     // umeng统计
     implementation 'com.umeng.sdk:common:1.5.3'
     implementation 'com.umeng.sdk:analytics:7.5.3'
-    implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.0'
     // agent web for combine dex only compatible with version: 3.0.0-rc
     implementation 'com.just.agentweb:agentweb:3.0.0-rc'
 }

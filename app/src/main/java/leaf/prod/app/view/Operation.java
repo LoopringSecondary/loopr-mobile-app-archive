@@ -36,9 +36,6 @@ public class Operation {
     public void forward(Class<? extends Activity> activity) {
         mIntent.setClass(mContext, activity);
         mContext.startActivity(mIntent);
-        //淡入淡出
-        //		mContext.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        //右往左推效果
         mContext.overridePendingTransition(R.anim.translate_between_interface_right_in, R.anim.translate_between_interface_left_out);
         AppManager.getAppManager().show();
     }
@@ -46,10 +43,8 @@ public class Operation {
     public void forwardPopup(Class<? extends Activity> activity) {
         mIntent.setClass(mContext, activity);
         mContext.startActivity(mIntent);
-        //淡入淡出
-        //		mContext.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        //右往左推效果
-        mContext.overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+        mContext.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_enter);
+        AppManager.getAppManager().show();
     }
 
     /**
@@ -62,9 +57,6 @@ public class Operation {
         mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         mContext.startActivity(mIntent);
-        //淡入淡出
-        //		mContext.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        //右往左推效果
         mContext.overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
     }
 

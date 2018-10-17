@@ -44,14 +44,12 @@ public abstract class BaseActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //		setTranslucentStatus();
         mSwipeBackLayout = getSwipeBackLayout();
         // 设置滑动方向，可设置EDGE_LEFT, EDGE_RIGHT, EDGE_ALL, EDGE_BOTTOM
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         //将当前Activity压入栈
         context = new WeakReference<Activity>(this);
         mBaseOperation = new Operation(this);
-        //		MobclickAgent.setCatchUncaughtExceptions(false);
         initPresenter();
         initTitle();
         initView();
@@ -168,14 +166,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
                 progressDialog.setMessage(message);
                 progressDialog.setCancelable(cancelable);
                 progressDialog.show();
-                //				final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this,R.style.MyDialog);
-                //				View view= LayoutInflater.from(this).inflate(R.layout.progress_lottle,null);
-                //				builder.setView(view);
-                //				builder.setCancelable(false);
-                //				progressDialog = builder.create();
-                //				progressDialog.show();
             } else {
-                //				progressDialog.setMessage(message);
                 progressDialog.setCancelable(cancelable);
             }
         } catch (Exception e) {
