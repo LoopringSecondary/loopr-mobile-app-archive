@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.umeng.analytics.MobclickAgent;
+
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.app.utils.SystemStatusManager;
@@ -63,11 +65,13 @@ public abstract class BaseActivity extends SwipeBackActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

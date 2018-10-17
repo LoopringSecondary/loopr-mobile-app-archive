@@ -100,4 +100,7 @@ dependencies {
     implementation 'com.just.agentweb:agentweb:3.0.0-rc'
     // support for fingerprint
     implementation 'com.wei.android.lib:fingerprintidentify:1.2.1'
+    // umeng统计
+    implementation 'com.umeng.sdk:common:1.5.3'
+    implementation 'com.umeng.sdk:analytics:7.5.3'
 }

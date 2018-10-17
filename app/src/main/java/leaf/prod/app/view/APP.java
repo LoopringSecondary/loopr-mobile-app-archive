@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -54,6 +55,11 @@ public class APP extends Application {
          * umeng分享
          * */
         UMShareAPI.get(this);
+        /**
+         * umeng统计
+         */
+        // TODO: 2018/10/17 应用企业化, 申请secretkey，否则不能推送
+        UMConfigure.init(this, "5bc69f03f1f5569916000271", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
         Config.DEBUG = true;
         SDK.initSDK();
     }
