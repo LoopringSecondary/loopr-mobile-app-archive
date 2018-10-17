@@ -22,6 +22,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/auth_image"
             android:layout_width="@dimen/dp30"
             android:layout_height="@dimen/dp30"
             android:layout_gravity="center"

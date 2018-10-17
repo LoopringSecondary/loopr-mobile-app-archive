@@ -16,10 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
-    <uses-permission android:name="com.fingerprints.service.ACCESS_FINGERPRINT_MANAGER"/>
-    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
 
     <application
         android:name=".view.APP"
@@ -49,7 +46,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:launchMode="singleTask"
-            android:theme="@style/SwipeBackLayout"></activity>
+            android:theme="@style/SwipeBackLayout"/>
         <activity
             android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
             android:launchMode="singleTask"

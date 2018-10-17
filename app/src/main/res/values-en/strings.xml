@@ -119,8 +119,8 @@
     <string name="h5_dex">Loopring DEX</string>
     <string name="confirm_clear_record">Are you sure you want to delete current wallet and clear records? </string>
     <string name="hint">hint</string>
-    <string name="auth_finger_tip">Unlock your wallet by fingerprint</string>
+    <string name="auth_finger_tip">Phone is ready for reading your fingerprint…</string>
     <string name="auth_finger_no_match">Sorry, your input fingerprint does not match, %1d chances left</string>
-    <string name="auth_finger_failed">Sorry, your device is locked for inputting error 5 times</string>
+    <string name="auth_finger_failed">Sorry, your device is locked for 1 minute cause inputting error 5 times</string>
 
 </resources>

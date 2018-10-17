@@ -7,14 +7,17 @@
 package leaf.prod.app.utils;
 
 import android.content.Context;
-
-import com.wei.android.lib.fingerprintidentify.FingerprintIdentify;
+import android.os.Build;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
 public class FingerprintUtil {
 
     public static boolean isEnable(Context context) {
-        FingerprintIdentify fingerprintIdentify = new FingerprintIdentify(context, exception -> {
-        });
-        return fingerprintIdentify.isFingerprintEnable();
+        boolean result = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            FingerprintManagerCompat manager = FingerprintManagerCompat.from(context);
+            result = manager.isHardwareDetected() && manager.hasEnrolledFingerprints();
+        }
+        return result;
     }
 }

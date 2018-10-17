@@ -103,4 +103,7 @@ dependencies {
     // umeng统计
     implementation 'com.umeng.sdk:common:1.5.3'
     implementation 'com.umeng.sdk:analytics:7.5.3'
+    implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.0'
+    // agent web for combine dex only compatible with version: 3.0.0-rc
+    implementation 'com.just.agentweb:agentweb:3.0.0-rc'
 }

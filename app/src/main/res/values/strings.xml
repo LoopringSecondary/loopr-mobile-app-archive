@@ -121,7 +121,7 @@
     <string name="h5_dex">Loopring DEX</string>
     <string name="confirm_clear_record">确定要删除当前钱包以及相关数据吗？</string>
     <string name="hint">提示</string>
-    <string name="auth_finger_tip">请输入指纹信息解锁钱包</string>
-    <string name="auth_finger_no_match">抱歉，您输入的指纹并不匹配，剩余 %1d 次机会</string>
-    <string name="auth_finger_failed">抱歉，您输入5次错误，设备锁定</string>
+    <string name="auth_finger_tip">请轻触感应器验证指纹</string>
+    <string name="auth_finger_no_match">抱歉，输入的指纹并不匹配，剩余 %1d 次机会</string>
+    <string name="auth_finger_failed">抱歉，输入错误次数过多，设备锁定1分钟</string>
 </resources>
