@@ -65,6 +65,9 @@ public class SettingFragment extends BaseFragment {
     @BindView(R.id.ll_app_version)
     LinearLayout llAppVersion;
 
+    @BindView(R.id.s_v)
+    SwitchButton aSwitch;
+
     private MainActivity mainActivity;
 
     @Nullable
@@ -95,6 +98,9 @@ public class SettingFragment extends BaseFragment {
     protected void initView() {
         if (!FingerprintUtil.isEnable(getContext())) {
             llIdTouch.setVisibility(View.GONE);
+        } else {
+            boolean isFingerEnable = (boolean) SPUtils.get(getContext(), "touch_id", aSwitch.isChecked());
+            aSwitch.setCheckedImmediately(isFingerEnable);
         }
     }
 
@@ -125,7 +131,6 @@ public class SettingFragment extends BaseFragment {
                 getOperation().forward(LanguageActivity.class);
                 break;
             case R.id.ll_id_touch://触控id
-                SwitchButton aSwitch = view.findViewById(R.id.s_v);
                 aSwitch.toggle();
                 SPUtils.put(getContext(), "touch_id", aSwitch.isChecked());
                 break;
