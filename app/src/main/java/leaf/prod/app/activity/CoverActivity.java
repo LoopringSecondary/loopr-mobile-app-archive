@@ -9,8 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,17 +19,11 @@ import leaf.prod.app.utils.AppManager;
 
 public class CoverActivity extends BaseActivity {
 
-    @BindView(R.id.tv_import)
-    TextView tvImport;
+    @BindView(R.id.ll_import)
+    LinearLayout rlImport;
 
-    @BindView(R.id.rl_import)
-    RelativeLayout rlImport;
-
-    @BindView(R.id.tv_generate)
-    TextView tvGenerate;
-
-    @BindView(R.id.rl_generate)
-    RelativeLayout rlGenerate;
+    @BindView(R.id.ll_generate)
+    LinearLayout rlGenerate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,19 +56,15 @@ public class CoverActivity extends BaseActivity {
     protected void initPresenter() {
     }
 
-    @OnClick({R.id.rl_import, R.id.rl_generate, R.id.icon})
+    @OnClick({R.id.ll_import, R.id.ll_generate})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.rl_import:
+            case R.id.ll_import:
                 getOperation().forward(ImportWalletActivity.class);
                 break;
-            case R.id.rl_generate:
+            case R.id.ll_generate:
                 getOperation().forward(GenerateWalletActivity.class);
                 break;
-//            case R.id.icon:
-//                finish();
-//                getOperation().forward(MainActivity.class);
-//                break;
         }
     }
 
@@ -109,6 +98,9 @@ public class CoverActivity extends BaseActivity {
             list.add(Manifest.permission.SET_DEBUG_APP);
         }
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.SYSTEM_ALERT_WINDOW)) {
+            list.add(Manifest.permission.SYSTEM_ALERT_WINDOW);
+        }
+        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT)) {
             list.add(Manifest.permission.SYSTEM_ALERT_WINDOW);
         }
         if (list.size() > 0) {
