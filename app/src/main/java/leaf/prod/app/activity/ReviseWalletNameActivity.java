@@ -50,13 +50,13 @@ public class ReviseWalletNameActivity extends BaseActivity {
         title.clickLeftGoBack(getWContext());
         title.setRightText(getResources().getString(R.string.save), button -> {
             if (TextUtils.isEmpty(walletName.getText().toString())) {
-                ToastUtils.toastError("请输入钱包名称");
+                ToastUtils.toastError(getResources().getString(R.string.wallet_name_hint));
             } else if (getIntent().getStringExtra("walletname").equalsIgnoreCase(walletName.getText().toString())) {
                 finish();
             } else {
                 for (WalletEntity walletEntity : list) {
                     if (walletEntity.getWalletname().equalsIgnoreCase(walletName.getText().toString())) {
-                        ToastUtils.toastError("钱包名已被占用");
+                        ToastUtils.toastError(getResources().getString(R.string.wallet_name_existed));
                         return;
                     }
                 }

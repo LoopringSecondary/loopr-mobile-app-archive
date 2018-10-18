@@ -16,6 +16,7 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -274,7 +275,7 @@ public class SendActivity extends BaseActivity {
                     .toString(), gasDataManager.getGasPriceString()));
             transacitionFee.setText(new StringBuilder(gasEthValue.toString()).append(" ETH ≈ ")
                     .append(CurrencyUtil.format(this, gasEthValue * marketcapDataManager.getPriceBySymbol("ETH"))));
-        });
+        }, error -> Log.e("Send", error.getMessage()));
         shakeAnimation = AnimationUtils.loadAnimation(SendActivity.this, R.anim.shake_x);
     }
 
@@ -318,7 +319,6 @@ public class SendActivity extends BaseActivity {
         if (TextUtils.isEmpty(walletAddress.getText().toString()) || !WalletUtils.isValidAddress(walletAddress.getText()
                 .toString()
                 .trim())) {
-            Animation shakeAnimation = AnimationUtils.loadAnimation(SendActivity.this, R.anim.shake_x);
             addressToast.setVisibility(View.VISIBLE);
             addressToast.startAnimation(shakeAnimation);
             return;

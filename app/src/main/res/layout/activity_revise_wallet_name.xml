@@ -23,7 +23,7 @@
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/wallet_name"
             style="@style/editTextStyle"
-            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
             android:focusableInTouchMode="true"
             android:hint="@string/wallet_name"
             android:imeOptions="actionNext"

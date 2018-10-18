@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vondear.rxtool.view.RxToast;
+
 import leaf.prod.app.R;
 import leaf.prod.app.view.APP;
 
@@ -44,13 +46,15 @@ public class ToastUtils {
         toast(params);
     }
 
+    @SuppressLint("CheckResult")
     public static void toastError(String content) {
-        toast(content, errorIconResId, Toast.LENGTH_SHORT);
+        RxToast.error(content);
+//        toast(content, errorIconResId, Toast.LENGTH_SHORT);
     }
 
-    public static void toastError(int textResId) {
-        toast(APP.getInstance().getString(textResId), errorIconResId, Toast.LENGTH_SHORT);
-    }
+//    public static void toastError(int textResId) {
+//        toast(APP.getInstance().getString(textResId), errorIconResId, Toast.LENGTH_SHORT);
+//    }
 
     public static void toastSuccess(String content) {
         toast(content, successIconResId, Toast.LENGTH_SHORT);

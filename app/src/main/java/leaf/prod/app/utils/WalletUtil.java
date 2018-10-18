@@ -31,12 +31,17 @@ public class WalletUtil {
         boolean result = false;
         List<WalletEntity> wallets = SPUtils.getWalletDataList(context, "walletlist", WalletEntity.class);
         for (WalletEntity walletEntity : wallets) {
-            if (walletEntity.getAddress().equalsIgnoreCase(wallet.getAddress()) ||
+            if ((!walletEntity.getAddress().isEmpty() && walletEntity.getAddress()
+                    .equalsIgnoreCase(wallet.getAddress())) ||
                     walletEntity.getWalletname().equalsIgnoreCase(wallet.getWalletname())) {
                 result = true;
                 break;
             }
         }
         return result;
+    }
+
+    public static boolean isWalletExisted(Context context, String walletName) {
+        return isWalletExisted(context, new WalletEntity(walletName));
     }
 }

@@ -14,6 +14,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -24,6 +26,7 @@ import org.json.JSONException;
 import org.web3j.crypto.Credentials;
 import com.google.common.base.Joiner;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +43,7 @@ import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.MyViewUtils;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.SpacesItemDecoration;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
@@ -69,8 +73,8 @@ public class GenerateWalletActivity extends BaseActivity {
     @BindView(R.id.wallet_name)
     MaterialEditText walletName;
 
-    @BindView(R.id.good)
-    TextView good;
+    @BindView(R.id.password_hint)
+    TextView passwordHint;
 
     @BindView(R.id.password)
     MaterialEditText password;
@@ -80,18 +84,14 @@ public class GenerateWalletActivity extends BaseActivity {
 
     @BindView(R.id.btn_next)
     Button btnNext;
-
-    @BindView(R.id.password_match)
-    TextView passwordMatch;
+    //    @BindView(R.id.password_match)
+    //    TextView passwordMatch;
 
     @BindView(R.id.generate_partone)
     LinearLayout generatePartone;
 
     @BindView(R.id.generate_parttwo)
     LinearLayout generateParttwo;
-
-    @BindView(R.id.ll_password)
-    LinearLayout llPassword;
 
     @BindView(R.id.backup_mnemonic)
     TextView backupMnemonic;
@@ -148,6 +148,8 @@ public class GenerateWalletActivity extends BaseActivity {
 
     private LoopringService loopringService = new LoopringService();
 
+    private Animation shakeAnimation;
+
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
@@ -183,7 +185,7 @@ public class GenerateWalletActivity extends BaseActivity {
 
                                     @Override
                                     public void onError(Throwable e) {
-                                        ToastUtils.toast("创建失败，请重试");
+                                        RxToast.error("创建失败，请重试");
                                         hideProgress();
                                     }
 
@@ -195,11 +197,11 @@ public class GenerateWalletActivity extends BaseActivity {
                     break;
                 case ERROR_ONE:
                     hideProgress();
-                    ToastUtils.toast("本地文件读取失败，请重试");
+                    RxToast.error("本地文件读取失败，请重试");
                     break;
                 case ERROR_TWO:
                     hideProgress();
-                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    RxToast.error("本地文件JSON解析失败，请重试");
                     break;
             }
         }
@@ -253,6 +255,7 @@ public class GenerateWalletActivity extends BaseActivity {
                 confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
             }
         });
+        shakeAnimation = AnimationUtils.loadAnimation(GenerateWalletActivity.this, R.anim.shake_x);
     }
 
     @OnClick({R.id.wallet_name, R.id.btn_next, R.id.btn_confirm, R.id.btn_skip})
@@ -261,22 +264,25 @@ public class GenerateWalletActivity extends BaseActivity {
             case R.id.wallet_name:
                 break;
             case R.id.btn_next:
-                if (TextUtils.isEmpty(walletName.getText().toString())) {
-                    ToastUtils.toast("请输入钱包名称");
-                    return;
-                }
                 if (nextStatus.equals("start")) {
-                    nextStatus = "password";
-                    SPUtils.put(this, "walletname", walletName.getText().toString());
-                    walletName.setVisibility(View.GONE);
-                    llPassword.setVisibility(View.VISIBLE);
-                    password.setVisibility(View.VISIBLE);
+                    if (TextUtils.isEmpty(walletName.getText().toString().trim())) {
+                        setPasswordHint(getResources().getColor(R.color.colorRed), getResources().getString(R.string.wallet_name_hint), true, View.VISIBLE);
+                    } else if (WalletUtil.isWalletExisted(this, walletName.getText().toString().trim())) {
+                        setPasswordHint(getResources().getColor(R.color.colorRed), getResources().getString(R.string.wallet_name_existed), true, View.VISIBLE);
+                    } else {
+                        nextStatus = "password";
+                        SPUtils.put(this, "walletname", walletName.getText().toString());
+                        setPasswordHint(getResources().getColor(R.color.colorNineText), getResources().getString(R.string.good), false, View.VISIBLE);
+                        passwordHint.setTextColor(getResources().getColor(R.color.colorNineText));
+                        walletName.setVisibility(View.GONE);
+                        password.setVisibility(View.VISIBLE);
+                    }
                 } else if (nextStatus.equals("password")) {
                     if (password.length() < 6) {
-                        ToastUtils.toast("请输入6位以上密码");
+                        setPasswordHint(getResources().getColor(R.color.colorRed), getResources().getString(R.string.good), true, View.VISIBLE);
                     } else {
                         nextStatus = "match";
-                        llPassword.setVisibility(View.GONE);
+                        passwordHint.setVisibility(View.GONE);
                         password.setVisibility(View.GONE);
                         repeatPassword.setVisibility(View.VISIBLE);
                     }
@@ -296,12 +302,11 @@ public class GenerateWalletActivity extends BaseActivity {
                             mHintAdapter.notifyDataSetChanged();
                             generatePartone.setVisibility(View.GONE);
                             generateParttwo.setVisibility(View.VISIBLE);
-                            passwordMatch.setVisibility(View.VISIBLE);
                             MyViewUtils.hideSoftInput(this, repeatPassword);
                         }
                     } else {
-                        ToastUtils.toast("两次输入密码不一致");
-                        passwordMatch.setVisibility(View.VISIBLE);
+                        setPasswordHint(getResources().getColor(R.color.colorRed), getResources().getString(R.string.password_match_toast), true, View.VISIBLE);
+                        passwordHint.startAnimation(shakeAnimation);
                         MyViewUtils.hideSoftInput(this, repeatPassword);
                     }
                 }
@@ -327,6 +332,15 @@ public class GenerateWalletActivity extends BaseActivity {
                     startThread();
                 }
                 break;
+        }
+    }
+
+    private void setPasswordHint(int color, String content, boolean animate, int visible) {
+        passwordHint.setTextColor(color);
+        passwordHint.setText(content);
+        passwordHint.setVisibility(View.VISIBLE);
+        if (animate) {
+            passwordHint.setAnimation(shakeAnimation);
         }
     }
 

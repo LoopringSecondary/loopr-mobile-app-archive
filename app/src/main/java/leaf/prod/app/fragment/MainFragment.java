@@ -165,7 +165,6 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void initPresenter() {
         this.presenter = new MainFragmentPresenter(this, this.getContext());
-        presenter.initNetworkListener();
     }
 
     @Override

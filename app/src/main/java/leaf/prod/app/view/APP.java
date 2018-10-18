@@ -59,7 +59,20 @@ public class APP extends Application {
          * umeng统计
          */
         // TODO: 2018/10/17 应用企业化, 申请secretkey，否则不能推送
-        UMConfigure.init(this, "5bc69f03f1f5569916000271", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+        UMConfigure.init(this, "5bc69f03f1f5569916000271", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "l4pdsyhzabhj5bipej3iimmw6ospj5ux");
+        /**
+         * umeng推送
+         */
+//        PushAgent.getInstance(this).register(new IUmengRegisterCallback() {
+//            @Override
+//            public void onSuccess(String s) {
+//                LyqbLogger.log("umeng push: " + s);
+//            }
+//
+//            @Override
+//            public void onFailure(String s, String s1) {
+//            }
+//        });
         Config.DEBUG = true;
         SDK.initSDK();
     }

@@ -26,6 +26,10 @@ public class WalletEntity implements Serializable {
 
     private String pas;
 
+    public WalletEntity(String walletname) {
+        this.walletname = walletname;
+    }
+
     public WalletEntity(String walletname, String filename, String address, String mnemonic) {
         this.walletname = walletname;
         this.filename = filename;

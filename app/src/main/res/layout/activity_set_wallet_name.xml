@@ -53,4 +53,19 @@
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"/>
 
+    <LinearLayout
+        style="@style/MatchWrap.Horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/password_hint"
+            style="@style/WrapWrap"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:text="@string/good"
+            android:textColor="@color/colorRed"
+            android:textSize="@dimen/normal14Text"
+            android:visibility="gone"/>
+    </LinearLayout>
 </LinearLayout>

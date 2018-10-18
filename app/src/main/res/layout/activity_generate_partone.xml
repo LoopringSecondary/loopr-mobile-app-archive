@@ -4,8 +4,8 @@
               android:id="@+id/generate_partone"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:focusableInTouchMode="true"
               android:background="@color/colorPrimary"
+              android:focusableInTouchMode="true"
               android:orientation="vertical"
     >
 
@@ -20,12 +20,12 @@
             style="@style/editTextStyle"
             android:layout_centerInParent="true"
             android:focusableInTouchMode="true"
+            android:gravity="center_horizontal"
             android:hint="@string/wallet_name"
             android:imeOptions="actionNext"
             android:maxLength="16"
             android:maxLines="1"
             android:minWidth="40dp"
-            android:gravity="center_horizontal"
             android:textColorHint="@color/colorWhite"
             android:textCursorDrawable="@drawable/white_color_cursor"
             android:textSize="@dimen/normalText"
@@ -35,43 +35,9 @@
             app:met_helperTextColor="@color/colorWhite"
             app:met_hideUnderline="true"
             app:met_primaryColor="@color/colorWhite"/>
+
         <requestFocus/>
 
-        <LinearLayout
-            android:id="@+id/ll_password"
-            style="@style/MatchWrap.Horizontal"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <!--<TextView-->
-                <!--android:layout_width="5dp"-->
-                <!--android:layout_height="10dp"-->
-                <!--android:background="@color/colorGreen"/>-->
-
-            <!--<TextView-->
-                <!--android:layout_width="5dp"-->
-                <!--android:layout_height="10dp"-->
-                <!--android:layout_marginLeft="3dp"-->
-                <!--android:background="@color/colorGreen"/>-->
-
-            <!--<TextView-->
-                <!--android:layout_width="5dp"-->
-                <!--android:layout_height="10dp"-->
-                <!--android:layout_marginLeft="3dp"-->
-                <!--android:background="@color/colorGreen"/>-->
-
-            <TextView
-                android:id="@+id/good"
-                style="@style/WrapWrap"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="@string/good"
-                android:textColor="@color/colorGreen"
-                android:textSize="@dimen/normal14Text"/>
-
-        </LinearLayout>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/password"
@@ -79,13 +45,13 @@
             android:layout_centerInParent="true"
             android:digits="@string/pwd_dig"
             android:focusableInTouchMode="true"
+            android:gravity="center_horizontal"
             android:hint="@string/password"
             android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:maxLength="16"
             android:maxLines="1"
             android:minWidth="40dp"
-            android:gravity="center_horizontal"
             android:textColorHint="@color/colorWhite"
             android:textCursorDrawable="@drawable/white_color_cursor"
             android:textSize="@dimen/normalText"
@@ -103,13 +69,13 @@
             android:layout_centerInParent="true"
             android:digits="@string/pwd_dig"
             android:focusableInTouchMode="true"
+            android:gravity="center_horizontal"
             android:hint="@string/repeat_password"
             android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:maxLength="16"
             android:maxLines="1"
             android:minWidth="40dp"
-            android:gravity="center_horizontal"
             android:textColorHint="@color/colorWhite"
             android:textCursorDrawable="@drawable/white_color_cursor"
             android:textSize="@dimen/normalText"
@@ -120,10 +86,7 @@
             app:met_helperTextColor="@color/colorWhite"
             app:met_hideUnderline="true"
             app:met_primaryColor="@color/colorWhite"/>
-
-
     </RelativeLayout>
-
 
     <Button
         android:id="@+id/btn_next"
@@ -136,14 +99,20 @@
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"/>
 
-    <TextView
-        android:id="@+id/password_match"
-        style="@style/WrapWrap"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:text="@string/password_match_toast"
-        android:textColor="@color/colorEnd"
-        android:textSize="@dimen/normal14Text"
-        android:visibility="gone"/>
+    <LinearLayout
+        android:id="@+id/ll_password"
+        style="@style/MatchWrap.Horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
 
+        <TextView
+            android:id="@+id/password_hint"
+            style="@style/WrapWrap"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:text="@string/good"
+            android:textColor="@color/colorNineText"
+            android:textSize="@dimen/normal14Text"
+            android:visibility="gone"/>
+    </LinearLayout>
 </LinearLayout>
