@@ -2,14 +2,14 @@ package leaf.prod.app.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
+
+import com.xw.repo.BubbleSeekBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.views.RangeSeekBar;
 import leaf.prod.app.views.TitleView;
 
 public class MarginSplitActivity extends BaseActivity {
@@ -18,7 +18,7 @@ public class MarginSplitActivity extends BaseActivity {
     TitleView title;
 
     @BindView(R.id.seekBar)
-    RangeSeekBar seekBar;
+    BubbleSeekBar seekBar;
 
     @BindView(R.id.tv_margin)
     TextView tvMargin;
@@ -30,6 +30,7 @@ public class MarginSplitActivity extends BaseActivity {
         setContentView(R.layout.activity_margin_split);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
+        mSwipeBackLayout.setEnableGesture(false);
     }
 
     @Override
@@ -40,12 +41,9 @@ public class MarginSplitActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.set_margin_split));
         title.clickLeftGoBack(getWContext());
-        title.setRightButton("保存", new TitleView.OnRightButtonClickListener() {
-            @Override
-            public void onClick(View button) {
-                SPUtils.put(MarginSplitActivity.this, "margin", value);
-                finish();
-            }
+        title.setRightText(getResources().getString(R.string.save), button -> {
+            SPUtils.put(MarginSplitActivity.this, "margin", value);
+            finish();
         });
     }
 
@@ -53,17 +51,25 @@ public class MarginSplitActivity extends BaseActivity {
     @Override
     public void initView() {
         value = (int) SPUtils.get(MarginSplitActivity.this, "margin", 0);
-        seekBar.setValue(value);
+        seekBar.setProgress(value);
         tvMargin.setText("差价分成" + value + "%");
     }
 
     @Override
     public void initData() {
-        seekBar.setOnRangeChangedListener(new RangeSeekBar.OnRangeChangedListener() {
+        seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
-            public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {
-                value = (int) min;
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+                value = (int) bubbleSeekBar.getMin();
                 tvMargin.setText("差价分成" + value + "%");
+            }
+
+            @Override
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+            }
+
+            @Override
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
             }
         });
     }

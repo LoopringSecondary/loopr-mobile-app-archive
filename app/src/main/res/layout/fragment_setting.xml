@@ -293,6 +293,7 @@
                 android:layout_height="@dimen/itemHeight"
                 android:background="@drawable/button_bg3_pressed"
                 android:clickable="true"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -332,6 +333,7 @@
                 android:layout_height="@dimen/itemHeight"
                 android:background="@drawable/button_bg3_pressed"
                 android:clickable="true"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <LinearLayout

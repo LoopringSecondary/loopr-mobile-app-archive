@@ -197,7 +197,7 @@
         <com.xw.repo.BubbleSeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             app:bsb_bubble_color="@color/colorCenter"
             app:bsb_is_float_type="true"
@@ -207,7 +207,7 @@
             app:bsb_seek_step_section="true"
             app:bsb_show_section_mark="true"
             app:bsb_thumb_color="@color/colorGreen"
-            app:bsb_thumb_radius="8dp"
+            app:bsb_thumb_radius="7dp"
             app:bsb_touch_to_seek="true"
             app:bsb_track_color="@color/colorNineText"
             />
