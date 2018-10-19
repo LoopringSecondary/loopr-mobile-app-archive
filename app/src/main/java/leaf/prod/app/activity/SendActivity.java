@@ -43,6 +43,7 @@ import leaf.prod.app.manager.BalanceDataManager;
 import leaf.prod.app.manager.GasDataManager;
 import leaf.prod.app.manager.MarketcapDataManager;
 import leaf.prod.app.manager.TokenDataManager;
+import leaf.prod.app.manager.TransactionDataManager;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.FileUtils;
@@ -412,6 +413,8 @@ public class SendActivity extends BaseActivity {
                             .transfer(gasDataManager.getCustomizeGasPriceInWei().toBigInteger(), walletAddress.getText()
                                     .toString(), values);
                 }
+                TransactionDataManager manager = TransactionDataManager.getInstance(SendActivity.this);
+                manager.queryByHash(txHash);
                 LyqbLogger.log(txHash);
                 handlerCreate.sendEmptyMessage(SEND_SUCCESS);
             } catch (TransactionException e) {

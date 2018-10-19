@@ -56,7 +56,7 @@ public class ManageWalletActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        list = SPUtils.getWalletDataList(ManageWalletActivity.this, "walletlist", WalletEntity.class);
+        list = SPUtils.getDataList(ManageWalletActivity.this, "walletlist", WalletEntity.class);
         String amount = (String) SPUtils.get(this, "amount", "");
         String amountValue = (String) SPUtils.get(this, "amountValue", "");
         String pas = (String) SPUtils.get(this, "pas", "");
@@ -97,7 +97,7 @@ public class ManageWalletActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        list = SPUtils.getWalletDataList(ManageWalletActivity.this, "walletlist", WalletEntity.class);
+        list = SPUtils.getDataList(ManageWalletActivity.this, "walletlist", WalletEntity.class);
         mAdapter.setNewData(list);
     }
 

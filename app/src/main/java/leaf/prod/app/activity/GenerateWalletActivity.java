@@ -163,7 +163,7 @@ public class GenerateWalletActivity extends BaseActivity {
                     SPUtils.put(GenerateWalletActivity.this, "pas", password.getText().toString());
                     SPUtils.put(GenerateWalletActivity.this, "hasWallet", true);
                     SPUtils.put(GenerateWalletActivity.this, "address", "0x" + address);
-                    List<WalletEntity> list = SPUtils.getWalletDataList(GenerateWalletActivity.this, "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
+                    List<WalletEntity> list = SPUtils.getDataList(GenerateWalletActivity.this, "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
                     list.add(new WalletEntity(walletName.getText().toString(), filename, "0x" + address, mnemonic));
                     SPUtils.setDataList(GenerateWalletActivity.this, "walletlist", list);
                     new Thread(() -> {

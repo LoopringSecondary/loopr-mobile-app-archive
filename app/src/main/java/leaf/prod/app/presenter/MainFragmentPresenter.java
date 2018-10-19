@@ -158,7 +158,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         }
         Collections.sort(balanceDataManager.getAssets(), (o1, o2) -> Double.compare(o2.getLegalValue(), o1.getLegalValue()));
         List<BalanceResult.Asset> listChooseAsset = new ArrayList<>(), positiveList = new ArrayList<>(), zeroList = new ArrayList<>();
-        List<String> listChooseSymbol = SPUtils.getDataList(this.context, "choose_token_" + address);
+        List<String> listChooseSymbol = SPUtils.getTokenList(this.context, "choose_token_" + address);
         double amount = 0;
         for (String symbol : listChooseSymbol) {
             listChooseAsset.add(tokenMap.get(symbol));
@@ -201,7 +201,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         view.getmAdapter().setNewData(listChooseAsset);
         view.setWalletCount(moneyValue);
         view.getmAdapter().notifyDataSetChanged();
-        List<WalletEntity> walletEntityList = SPUtils.getWalletDataList(context, "walletlist", WalletEntity.class);
+        List<WalletEntity> walletEntityList = SPUtils.getDataList(context, "walletlist", WalletEntity.class);
         for (WalletEntity walletEntity : walletEntityList) {
             if (walletEntity.getAddress().equals(address) && walletEntity.getAmount() != amount) {
                 int index = walletEntityList.indexOf(walletEntity);

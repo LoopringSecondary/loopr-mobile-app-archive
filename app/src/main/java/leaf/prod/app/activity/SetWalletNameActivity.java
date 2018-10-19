@@ -107,5 +107,16 @@ public class SetWalletNameActivity extends BaseActivity {
                 getOperation().forward(MainActivity.class);
             });
         }
+<<<<<<< HEAD
+=======
+        List<WalletEntity> list = SPUtils.getDataList(this, "walletlist", WalletEntity.class);
+        list.add(newWallet);
+        SPUtils.setDataList(this, "walletlist", list);
+        DialogUtil.showWalletCreateResultDialog(this, v -> {
+            DialogUtil.dialog.dismiss();
+            AppManager.finishAll();
+            getOperation().forward(MainActivity.class);
+        });
+>>>>>>> new notification feature
     }
 }

@@ -15,7 +15,7 @@ public class PendingTxResult {
 
     private long updateTime;
 
-    private String hash;
+    private String txHash;
 
     private long blockNumber;
 

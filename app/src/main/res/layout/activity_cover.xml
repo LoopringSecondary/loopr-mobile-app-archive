@@ -45,7 +45,7 @@
             <ImageView
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:src="@mipmap/icon_seperate"/>
+                android:src="@mipmap/icon_seperator"/>
         </LinearLayout>
 
         <LinearLayout

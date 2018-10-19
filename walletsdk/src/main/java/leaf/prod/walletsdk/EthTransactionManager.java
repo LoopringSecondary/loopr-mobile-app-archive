@@ -5,7 +5,6 @@ import java.math.BigInteger;
 
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.tx.RawTransactionManager;
-import leaf.prod.walletsdk.exception.TransactionException;
 
 import leaf.prod.walletsdk.exception.TransactionException;
 
@@ -58,7 +57,6 @@ public class EthTransactionManager {
             throw new TransactionException(ethSendTransaction.getError().getMessage());
         }
         String transactionHash = ethSendTransaction.getTransactionHash();
-//        EventAdvisor.notifyTransaction(transactionHash, true);
         EventAdvisor.notifyTransaction(transactionHash);
         return transactionHash;
     }

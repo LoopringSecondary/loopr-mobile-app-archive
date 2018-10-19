@@ -16,7 +16,7 @@ public class WalletUtil {
 
     public static WalletEntity getCurrentWallet(Context context) {
         WalletEntity result = null;
-        List<WalletEntity> wallets = SPUtils.getWalletDataList(context, "walletlist", WalletEntity.class);
+        List<WalletEntity> wallets = SPUtils.getDataList(context, "walletlist", WalletEntity.class);
         String owner = (String) SPUtils.get(context, "address", "");
         for (WalletEntity walletEntity : wallets) {
             if (walletEntity.getAddress().equalsIgnoreCase(owner)) {
@@ -29,7 +29,7 @@ public class WalletUtil {
 
     public static boolean isWalletExisted(Context context, WalletEntity wallet) {
         boolean result = false;
-        List<WalletEntity> wallets = SPUtils.getWalletDataList(context, "walletlist", WalletEntity.class);
+        List<WalletEntity> wallets = SPUtils.getDataList(context, "walletlist", WalletEntity.class);
         for (WalletEntity walletEntity : wallets) {
             if ((!walletEntity.getAddress().isEmpty() && walletEntity.getAddress()
                     .equalsIgnoreCase(wallet.getAddress())) ||

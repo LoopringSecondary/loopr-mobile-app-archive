@@ -42,7 +42,7 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
         socket.emit("transaction_req", json);
     }
 
-    public void queryByOwnerAndSymbol(String owner, String symbol, int pageIndex, int pageSize) {
+    public void queryBySymbol(String owner, String symbol, int pageIndex, int pageSize) {
         Assert.hasText(owner, "owner can not be null");
         Assert.hasText(owner, "symbol can not be null");
         TransactionParam param = TransactionParam.builder()
@@ -54,7 +54,7 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
         send(param);
     }
 
-    public void queryByOwnerAndSymbolAndStatus(String owner, String symbol, String status, int pageIndex, int pageSize) {
+    public void queryBySymbolAndStatus(String owner, String symbol, String status, int pageIndex, int pageSize) {
         Assert.hasText(owner);
         Assert.hasText(symbol);
         Assert.hasText(status);
@@ -68,7 +68,7 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
         send(param);
     }
 
-    public void queryByOwnerAndSymbolAndTxType(String owner, String symbol, String txType, int pageIndex, int pageSize) {
+    public void queryBySymbolAndTxType(String owner, String symbol, String txType, int pageIndex, int pageSize) {
         TransactionParam param = TransactionParam.builder()
                 .owner(owner)
                 .symbol(symbol)
@@ -79,7 +79,7 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
         send(param);
     }
 
-    public void queryByOwnerAndSymbolAndStatusAndTxType(String owner, String symbol, String status, String txType, int pageIndex, int pageSize) {
+    public void queryBySymbolAndStatusAndTxType(String owner, String symbol, String status, String txType, int pageIndex, int pageSize) {
         TransactionParam param = TransactionParam.builder()
                 .owner(owner)
                 .symbol(symbol)
@@ -91,9 +91,11 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
         send(param);
     }
 
-    public void queryByTxHash(String txHash) {
+    public void queryByTxHash(String owner, String txHash) {
+        Assert.hasText(owner, "owner can not be null");
         Assert.hasText(txHash, "txHash can not be null");
         TransactionParam param = TransactionParam.builder()
+                .owner(owner)
                 .txHash(txHash)
                 .build();
         send(param);

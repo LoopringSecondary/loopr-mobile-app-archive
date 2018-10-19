@@ -14,10 +14,6 @@ public abstract class AbstractListener<R, P> {
 
     Gson gson = new Gson();
 
-    //    public AbstractListener(Socket socket) {
-    //        this.socket = socket;
-    //        registerEventHandler();
-    //    }
     AbstractListener() {
         this.socket = SDK.getSocketClient();
         registerEventHandler();

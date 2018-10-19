@@ -102,7 +102,7 @@ public class TokenListActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        chooseToken = SPUtils.getDataList(TokenListActivity.this, "choose_token_" + SPUtils.get(this, "address", ""));
+        chooseToken = SPUtils.getTokenList(TokenListActivity.this, "choose_token_" + SPUtils.get(this, "address", ""));
         LyqbLogger.log(chooseToken.toString());
         RecyclerViewBugLayoutManager layoutManager = new RecyclerViewBugLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);

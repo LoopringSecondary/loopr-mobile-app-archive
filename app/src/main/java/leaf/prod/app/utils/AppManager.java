@@ -135,4 +135,25 @@ public class AppManager {
         } catch (Exception ignored) {
         }
     }
+
+    /**
+     * Check whether the app launched
+     *
+     * @param context     context
+     * @param packageName package name
+     * @return true if the app is running.
+     */
+    public static boolean isAppAlive(Context context, String packageName) {
+        ActivityManager activityManager =
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        assert activityManager != null;
+        List<ActivityManager.RunningAppProcessInfo> processInfos
+                = activityManager.getRunningAppProcesses();
+        for (int i = 0; i < processInfos.size(); i++) {
+            if (processInfos.get(i).processName.equals(packageName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

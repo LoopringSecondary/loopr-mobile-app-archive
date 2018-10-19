@@ -129,7 +129,7 @@ public class WalletSafeActivity extends BaseActivity {
                     confirmClear = new AlertDialog.Builder(this);
                     confirmClear.setPositiveButton(getResources().getString(R.string.confirm), (dialogInterface, i0) -> {
                         String addressUsed = (String) SPUtils.get(this, "address", "");//当前使用钱包的地址
-                        List<WalletEntity> list = SPUtils.getWalletDataList(this, "walletlist", WalletEntity.class);
+                        List<WalletEntity> list = SPUtils.getDataList(this, "walletlist", WalletEntity.class);
                         for (WalletEntity walletEntity : list) {
                             if (walletEntity.getAddress().equals(address)) {
                                 list.remove(walletEntity);

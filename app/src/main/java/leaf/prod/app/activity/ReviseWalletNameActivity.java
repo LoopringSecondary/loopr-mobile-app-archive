@@ -70,7 +70,7 @@ public class ReviseWalletNameActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        list = SPUtils.getWalletDataList(this, "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
+        list = SPUtils.getDataList(this, "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
         position = getIntent().getIntExtra("position", 0);
         walletName.setText(getIntent().getStringExtra("walletname"));
     }

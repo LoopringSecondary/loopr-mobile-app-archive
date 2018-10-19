@@ -106,7 +106,7 @@ public class CurrencyActivity extends BaseActivity {
                     if (marketcapResult.getTokens() != null && marketcapResult.getTokens().size() > 0) {
                         price = marketcapResult.getTokens().get(0).getPrice();
                     }
-                    List<WalletEntity> walletEntityList = SPUtils.getWalletDataList(this, "walletlist", WalletEntity.class), result = new ArrayList();
+                    List<WalletEntity> walletEntityList = SPUtils.getDataList(this, "walletlist", WalletEntity.class), result = new ArrayList();
                     for (WalletEntity walletEntity : walletEntityList) {
                         walletEntity.setAmount(walletEntity.getAmount() / marketcapDataManager.getPriceBySymbol("ETH") * price);
                         walletEntity.setAmountShow(CurrencyUtil.format(this, walletEntity.getAmount()));

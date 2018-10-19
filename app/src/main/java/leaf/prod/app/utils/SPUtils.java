@@ -165,7 +165,7 @@ public class SPUtils {
      * @param tag
      * @return
      */
-    public static <T> List<T> getDataList(Context context, String tag) {
+    public static <T> List<T> getTokenList(Context context, String tag) {
         SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         List<T> datalist = new ArrayList<T>();
         String strJson = sp.getString(tag, null);
@@ -187,7 +187,7 @@ public class SPUtils {
      * @param tag
      * @return
      */
-    public static <T> List<T> getWalletDataList(Context context, String tag, Class<T> cls) {
+    public static <T> List<T> getDataList(Context context, String tag, Class<T> cls) {
         SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         List<T> datalist = new ArrayList<T>();
         String strJson = sp.getString(tag, null);
@@ -195,11 +195,10 @@ public class SPUtils {
             return datalist;
         }
         Gson gson = new Gson();
-        JsonArray arry = new JsonParser().parse(strJson).getAsJsonArray();
-        for (JsonElement jsonElement : arry) {
+        JsonArray array = new JsonParser().parse(strJson).getAsJsonArray();
+        for (JsonElement jsonElement : array) {
             datalist.add(gson.fromJson(jsonElement, cls));
         }
-        //		datalist = gson.fromJson(strJson, new TypeToken<List<T>>() {}.getType());
         return datalist;
     }
 
