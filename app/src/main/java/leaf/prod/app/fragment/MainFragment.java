@@ -149,7 +149,7 @@ public class MainFragment extends BaseFragment {
         walletCount.setCharacterLists(TickerUtils.provideNumberList());
         frameLayout.setChildClickable(false);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
-            presenter.handleNetworkError();
+//            presenter.handleNetworkError();
             frameLayout.setChildClickable(false);
             presenter.initObservable();
         });
@@ -329,5 +329,9 @@ public class MainFragment extends BaseFragment {
             refreshLayout.finishRefresh(true);
         if (progressBar != null)
             progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    public void refresh() {
+        presenter.initObservable();
     }
 }

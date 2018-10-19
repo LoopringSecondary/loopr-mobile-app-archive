@@ -1,5 +1,10 @@
 package leaf.prod.app.view;
 
+import java.lang.reflect.Field;
+import java.util.Map;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -63,16 +68,16 @@ public class APP extends Application {
         /**
          * umeng推送
          */
-//        PushAgent.getInstance(this).register(new IUmengRegisterCallback() {
-//            @Override
-//            public void onSuccess(String s) {
-//                LyqbLogger.log("umeng push: " + s);
-//            }
-//
-//            @Override
-//            public void onFailure(String s, String s1) {
-//            }
-//        });
+        //        PushAgent.getInstance(this).register(new IUmengRegisterCallback() {
+        //            @Override
+        //            public void onSuccess(String s) {
+        //                LyqbLogger.log("umeng push: " + s);
+        //            }
+        //
+        //            @Override
+        //            public void onFailure(String s, String s1) {
+        //            }
+        //        });
         Config.DEBUG = true;
         SDK.initSDK();
     }
@@ -108,5 +113,29 @@ public class APP extends Application {
             res.updateConfiguration(newConfig, res.getDisplayMetrics());
         }
         return res;
+    }
+
+    public static Activity getCurrentActivity() {
+        try {
+            @SuppressLint("PrivateApi") Class activityThreadClass = Class.forName("android.app.ActivityThread");
+            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(
+                    null);
+            Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
+            activitiesField.setAccessible(true);
+            Map activities = (Map) activitiesField.get(activityThread);
+            for (Object activityRecord : activities.values()) {
+                Class activityRecordClass = activityRecord.getClass();
+                Field pausedField = activityRecordClass.getDeclaredField("paused");
+                pausedField.setAccessible(true);
+                if (!pausedField.getBoolean(activityRecord)) {
+                    Field activityField = activityRecordClass.getDeclaredField("activity");
+                    activityField.setAccessible(true);
+                    return (Activity) activityField.get(activityRecord);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

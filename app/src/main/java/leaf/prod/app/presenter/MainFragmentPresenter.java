@@ -16,23 +16,16 @@ import java.util.Map;
 import java.util.Objects;
 
 import android.content.Context;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 
-import leaf.prod.app.R;
 import leaf.prod.app.fragment.MainFragment;
 import leaf.prod.app.manager.BalanceDataManager;
 import leaf.prod.app.manager.MarketcapDataManager;
 import leaf.prod.app.manager.TokenDataManager;
 import leaf.prod.app.model.WalletEntity;
-import leaf.prod.app.receiver.NetworkStateReceiver;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.app.utils.NetworkUtil;
 import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.utils.WalletUtil;
-import leaf.prod.walletsdk.model.Network;
 import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.MarketcapResult;
 import leaf.prod.walletsdk.model.response.data.Token;
@@ -63,8 +56,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     private String moneyValue;
 
     private String address;
-
-    private MainNetworkReceiver mainNetworkReceiver;
+    //    private MainNetworkReceiver mainNetworkReceiver;
 
     public MainFragmentPresenter(MainFragment view, Context context) {
         super(view, context);
@@ -74,7 +66,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     }
 
     public void initObservable() {
-        LyqbLogger.log(getAddress());
+        LyqbLogger.log("initObservable: " + getAddress());
         if (loopringService == null)
             loopringService = new LoopringService();
         Observable.zip(loopringService.getBalance(getAddress())
@@ -94,7 +86,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
                     @Override
                     public void onError(Throwable e) {
-                        handleNetworkError();
+                        //                        handleNetworkError();
                     }
 
                     @Override
@@ -134,19 +126,17 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
             });
         }
     }
-
-    public void initNetworkListener() {
-        mainNetworkReceiver = MainNetworkReceiver.getInstance(this);
-        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        context.registerReceiver(mainNetworkReceiver, intentFilter);
-    }
-
-    public void handleNetworkError() {
-        if (NetworkUtil.getNetWorkState(context) == Network.NETWORK_NONE) {
-            ToastUtils.toast(context.getResources().getString(R.string.network_error));
-            view.finishRefresh();
-        }
-    }
+    //    public void initNetworkListener() {
+    //        mainNetworkReceiver = MainNetworkReceiver.getInstance(this);
+    //        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+    //        context.registerReceiver(mainNetworkReceiver, intentFilter);
+    //    }
+    //    public void handleNetworkError() {
+    //        if (NetworkUtil.getNetWorkState(context) == Network.NETWORK_NONE) {
+    //            ToastUtils.toastError(context.getResources().getString(R.string.network_error));
+    //            view.finishRefresh();
+    //        }
+    //    }
 
     public void destroy() {
         if (marketcapObservable != null) {
@@ -157,9 +147,9 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
             balanceObservable.unsubscribeOn(Schedulers.io());
             balanceObservable = null;
         }
-        if (mainNetworkReceiver != null) {
-            context.unregisterReceiver(mainNetworkReceiver);
-        }
+        //        if (mainNetworkReceiver != null) {
+        //            context.unregisterReceiver(mainNetworkReceiver);
+        //        }
     }
 
     private void setTokenLegalPrice() {
@@ -299,43 +289,42 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
             this.marketcapResult = marketcapResult;
         }
     }
-
-    private static class MainNetworkReceiver extends NetworkStateReceiver {
-
-        private static boolean first = true;
-
-        private static MainNetworkReceiver mainNetworkReceiver;
-
-        private MainFragmentPresenter presenter;
-
-        private MainNetworkReceiver(MainFragmentPresenter presenter) {
-            this.presenter = presenter;
-        }
-
-        public static MainNetworkReceiver getInstance(MainFragmentPresenter presenter) {
-            if (mainNetworkReceiver == null) {
-                return new MainNetworkReceiver(presenter);
-            }
-            return mainNetworkReceiver;
-        }
-
-        @Override
-        public void doNetWorkNone() {
-            ToastUtils.toast(presenter.context.getResources().getString(R.string.network_error));
-        }
-
-        @Override
-        public void doNetWorkWifi() {
-            if (first) {
-                first = false;
-                return;
-            }
-            presenter.initObservable();
-        }
-
-        @Override
-        public void doNetWorkMobile() {
-            doNetWorkWifi();
-        }
-    }
+    //    private static class MainNetworkReceiver extends NetworkStateReceiver {
+    //
+    //        private static boolean first = true;
+    //
+    //        private static MainNetworkReceiver mainNetworkReceiver;
+    //
+    //        private MainFragmentPresenter presenter;
+    //
+    //        private MainNetworkReceiver(MainFragmentPresenter presenter) {
+    //            this.presenter = presenter;
+    //        }
+    //
+    //        public static MainNetworkReceiver getInstance(MainFragmentPresenter presenter) {
+    //            if (mainNetworkReceiver == null) {
+    //                return new MainNetworkReceiver(presenter);
+    //            }
+    //            return mainNetworkReceiver;
+    //        }
+    //
+    //        @Override
+    //        public void doNetWorkNone() {
+    //            ToastUtils.toast(presenter.context.getResources().getString(R.string.network_error));
+    //        }
+    //
+    //        @Override
+    //        public void doNetWorkWifi() {
+    //            if (first) {
+    //                first = false;
+    //                return;
+    //            }
+    //            presenter.initObservable();
+    //        }
+    //
+    //        @Override
+    //        public void doNetWorkMobile() {
+    //            doNetWorkWifi();
+    //        }
+    //    }
 }

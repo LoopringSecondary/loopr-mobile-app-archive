@@ -1,13 +1,22 @@
 package leaf.prod.app.activity;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -15,6 +24,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.BasePresenter;
+import leaf.prod.app.receiver.NetworkStateReceiver;
 import leaf.prod.app.utils.SystemStatusManager;
 import leaf.prod.app.view.APP;
 import leaf.prod.app.view.Operation;
@@ -41,6 +51,10 @@ public abstract class BaseActivity extends SwipeBackActivity {
     //	private AlertDialog progressDialog;
     private ProgressDialog progressDialog;
 
+    private MainNetworkReceiver mainNetworkReceiver;
+
+    private static Map<String, Dialog> networkDialogMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +68,8 @@ public abstract class BaseActivity extends SwipeBackActivity {
         initTitle();
         initView();
         initData();
+        initNetworkListener();
+        showNetworkDialog(this.getLocalClassName(), false);
     }
 
     protected WeakReference<Activity> getWContext() {
@@ -108,6 +124,41 @@ public abstract class BaseActivity extends SwipeBackActivity {
      * 初始化数据
      */
     public abstract void initData();
+
+    private void initNetworkListener() {
+        mainNetworkReceiver = MainNetworkReceiver.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(mainNetworkReceiver, intentFilter);
+    }
+
+    public void showNetworkDialog(String key, boolean show) {
+        if (networkDialogMap == null) {
+            networkDialogMap = new HashMap<>();
+        }
+        if (networkDialogMap.get(key) == null) {
+            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.TopHintDialog);
+            View view = LayoutInflater.from(this).inflate(R.layout.dialog_network_status, null);
+            builder.setView(view);
+            Dialog networkDialog = builder.create();
+            networkDialog.setCancelable(false);
+            Window window = networkDialog.getWindow();
+            assert window != null;
+            window.setGravity(Gravity.TOP);
+            window.setWindowAnimations(R.style.Animation_TopHint);
+            window.getDecorView().setPadding(0, 0, 0, 0);
+            WindowManager.LayoutParams lp = window.getAttributes();
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            window.setAttributes(lp);
+            networkDialogMap.put(key, networkDialog);
+        }
+        if (show) {
+            networkDialogMap.get(key).show();
+        } else {
+            networkDialogMap.get(key).hide();
+            this.onResume();
+        }
+    }
 
     /**
      * 设置状态栏背景状态
@@ -188,5 +239,57 @@ public abstract class BaseActivity extends SwipeBackActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (networkDialogMap != null && networkDialogMap.get(this.getLocalClassName()) != null) {
+            networkDialogMap.get(this.getLocalClassName()).cancel();
+            networkDialogMap.put(this.getLocalClassName(), null);
+        }
+        if (mainNetworkReceiver != null) {
+            this.unregisterReceiver(mainNetworkReceiver);
+        }
+    }
+
+    private static class MainNetworkReceiver extends NetworkStateReceiver {
+
+        private static boolean network_status = true;
+
+        private static MainNetworkReceiver mainNetworkReceiver;
+
+        private Context context;
+
+        private MainNetworkReceiver(Context context) {
+            this.context = context;
+        }
+
+        public static MainNetworkReceiver getInstance(Context context) {
+            if (mainNetworkReceiver == null) {
+                return new MainNetworkReceiver(context);
+            }
+            return mainNetworkReceiver;
+        }
+
+        @Override
+        public void doNetWorkNone() {
+            network_status = false;
+            Activity activity = APP.getCurrentActivity();
+            if (activity != null) {
+                ((BaseActivity) context).showNetworkDialog(activity.getLocalClassName(), true);
+            }
+        }
+
+        @Override
+        public void doNetWorkWifi() {
+            if (network_status)
+                return;
+            Activity activity = APP.getCurrentActivity();
+            if (activity != null) {
+                ((BaseActivity) context).showNetworkDialog(activity.getLocalClassName(), false);
+            }
+            network_status = true;
+        }
+
+        @Override
+        public void doNetWorkMobile() {
+            doNetWorkWifi();
+        }
     }
 }

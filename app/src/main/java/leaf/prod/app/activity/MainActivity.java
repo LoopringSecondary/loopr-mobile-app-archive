@@ -205,6 +205,10 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         if ((Boolean) SPUtils.get(this, "isRecreate", false)) {//判断是否是更改语言设置后，执行了系统的recreate()方法,
             recreate();//判断是否是更改语言设置后，执行了系统的recreate()方法,
+        } else {
+            if (Fragment1 != null && Fragment1.isVisible()) {
+                ((MainFragment) Fragment1).refresh();
+            }
         }
     }
 

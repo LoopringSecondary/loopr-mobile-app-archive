@@ -6,11 +6,13 @@
     <color name="colorToken">#D4D4D4</color>
 
     <!-- 列表 -->
+    <color name="transparent">#50000000</color>
     <color name="colorThreeText">#333333</color>
     <color name="colorSixText">#666666</color>
     <color name="colorNineText">#999999</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorFortyWhite">#40ffffff</color>
+    <color name="colorThirtyRed">#EED5D2</color>  <!-- 全局red色 -->
     <color name="colorTitleBac">#16162A</color>  <!-- 标题背景色 -->
     <color name="colorTitleTv">#ffffff</color>  <!-- 标题字体色 -->
     <color name="colorLine">#16162A</color>  <!-- 横线颜色 -->
