@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -70,6 +71,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
         initData();
         initNetworkListener();
         showNetworkDialog(this.getLocalClassName(), false);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     protected WeakReference<Activity> getWContext() {
