@@ -74,8 +74,6 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
-        cancellationSignal = new CancellationSignal();
-        fingerprintManager = FingerprintManagerCompat.from(this);
     }
 
     @Override
@@ -88,6 +86,8 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        cancellationSignal = new CancellationSignal();
+        fingerprintManager = FingerprintManagerCompat.from(this);
         boolean needFinger = (boolean) SPUtils.get(this, "touch_id", false);
         if (FingerprintUtil.isEnable(this) && needFinger) {
             fingerTip.setVisibility(View.INVISIBLE);
@@ -99,7 +99,7 @@ public class SplashActivity extends BaseActivity {
             llFingerAuth.setVisibility(View.GONE);
             mHandler.sendEmptyMessageDelayed(1, 1000);
         }
-        onViewClicked();
+        handleClick();
     }
 
     @Override
@@ -108,6 +108,10 @@ public class SplashActivity extends BaseActivity {
 
     @OnClick(R.id.ll_finger_auth)
     public void onViewClicked() {
+        handleClick();
+    }
+
+    private void handleClick() {
         if (isAuthFailed) {
             fingerTip.setVisibility(View.VISIBLE);
             fingerTip.setText(getText(R.string.auth_finger_failed));
@@ -129,7 +133,7 @@ public class SplashActivity extends BaseActivity {
         @Override
         public void onAuthenticationError(int errMsgId, CharSequence errString) {
             super.onAuthenticationError(errMsgId, errString);
-            if (count == 0 || errMsgId == 9) {
+            if (count == 0 || errMsgId == 7) {
                 isAuthFailed = true;
                 fingerTip.setText(getString(R.string.auth_finger_failed));
             } else {
