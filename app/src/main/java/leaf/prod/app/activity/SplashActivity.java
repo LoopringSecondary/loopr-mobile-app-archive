@@ -99,6 +99,7 @@ public class SplashActivity extends BaseActivity {
             llFingerAuth.setVisibility(View.GONE);
             mHandler.sendEmptyMessageDelayed(1, 1000);
         }
+        onViewClicked();
     }
 
     @Override
