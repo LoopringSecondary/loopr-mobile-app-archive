@@ -623,7 +623,7 @@ public class SendActivity extends BaseActivity {
                     amountToast.setText(CurrencyUtil.format(getApplicationContext(), currentAmount * marketcapDataManager
                             .getPriceBySymbol(sendChoose)));
                     amountToast.setTextColor(getResources().getColor(R.color.colorNineText));
-                    seekBar.setProgress((float) (currentAmount / amountTotal * 100));
+                    seekBar.setProgress((float) (amountTotal != 0 ? currentAmount / amountTotal * 100 : 0));
                 }
             }
         });
