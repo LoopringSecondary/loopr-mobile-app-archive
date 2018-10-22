@@ -9,9 +9,11 @@ package leaf.prod.app.manager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 
@@ -143,6 +145,9 @@ public class TokenDataManager {
     // support for main fragment presenter
     public void mergeTokens(List<Token> tokens) {
         synchronized (this) {
+            List<String> chooseList = SPUtils.getTokenList(context, "choose_token_" + SPUtils.get(context, "address", ""));
+            List<Token> tTokens = new ArrayList<>();
+            Map<String, Token> map = new HashMap<>();
             for (Token token : tokens) {
                 addToken(token);
             }
@@ -150,13 +155,26 @@ public class TokenDataManager {
                 String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
                 int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
                 token.setImageResId(identifier);
+                map.put(token.getSymbol(), token);
             }
-            Collections.sort(tokens, new Comparator<Token>() {
-                @Override
-                public int compare(Token t1, Token t2) {
-                    return t1.getSymbol().compareTo(t2.getSymbol());
+            Collections.sort(this.tokens, (t1, t2) -> t1.getSymbol().compareTo(t2.getSymbol()));
+            tTokens.add(map.get("ETH"));
+            tTokens.add(map.get("WETH"));
+            tTokens.add(map.get("LRC"));
+            if (chooseList != null) {
+                Collections.sort(chooseList, String::compareTo);
+                for (String symbol : chooseList) {
+                    if (!tTokens.contains(map.get(symbol))) {
+                        tTokens.add(map.get(symbol));
+                    }
                 }
-            });
+            }
+            for (Token token : this.tokens) {
+                if (!tTokens.contains(token)) {
+                    tTokens.add(token);
+                }
+            }
+            this.tokens = tTokens;
         }
     }
 }

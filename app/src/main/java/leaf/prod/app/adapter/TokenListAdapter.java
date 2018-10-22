@@ -41,9 +41,9 @@ public class TokenListAdapter extends BaseQuickAdapter<Token, BaseViewHolder> {
             aSwitch.setVisibility(View.GONE);
         } else {
             if (chooseToken.contains(item.getSymbol()) && !aSwitch.isChecked()) {
-                aSwitch.setChecked(true);
+                aSwitch.setCheckedImmediately(true);
             } else if (!chooseToken.contains(item.getSymbol()) && aSwitch.isChecked()) {
-                aSwitch.setChecked(false);
+                aSwitch.setCheckedImmediately(false);
             }
             aSwitch.setVisibility(View.VISIBLE);
         }
