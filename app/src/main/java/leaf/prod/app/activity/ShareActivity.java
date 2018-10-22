@@ -13,12 +13,12 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMWeb;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
+import leaf.prod.app.utils.QRCodeUitl;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.views.TitleView;
 import permissions.dispatcher.NeedsPermission;
@@ -142,13 +142,14 @@ public class ShareActivity extends BaseActivity {
 
     private void uShare() {
         // todo 生成分享app
-        UMWeb umWeb = new UMWeb("https://m.zhaoyunlicai.com/weekPayNo");
-        umWeb.setTitle("钱包地址分享");//标题
-        umWeb.setThumb(new UMImage(ShareActivity.this, R.mipmap.icon_share));  //缩略图
-        umWeb.setDescription("钱包地址分享");//描述
+//        UMWeb umWeb = new UMWeb("https://m.zhaoyunlicai.com/weekPayNo");
+        UMImage umImage = new UMImage(getApplicationContext(), QRCodeUitl.createQRCodeBitmap("https://mr.baidu.com/2ev3wfk?f=cp", 300));
+        umImage.setTitle("钱包地址分享");//标题
+//        umImage.setThumb(new UMImage(ShareActivity.this, R.mipmap.icon_share));  //缩略图
+        umImage.setDescription("钱包地址分享");//描述
         ShareAction shareAction = new ShareAction(ShareActivity.this);
         shareAction.setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA, SHARE_MEDIA.FACEBOOK)//传入平台
-                .setCallback(umShareListener).withMedia(umWeb).open();
+                .setCallback(umShareListener).withMedia(umImage).open();
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")
