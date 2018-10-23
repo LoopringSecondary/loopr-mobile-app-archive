@@ -85,7 +85,7 @@ public class H5DexWebActivity extends BaseActivity {
                 .interceptUnkownScheme() //拦截找不到相关页面的Scheme
                 .createAgentWeb()
                 .ready();
-        mAgentWeb = preAgentWeb.go("http://10.137.107.193:8000/#/auth/tpwallet");
+        mAgentWeb = preAgentWeb.go("https://h5dex.loopr.io/#/auth/tpwallet");
         mAgentWeb.getJsInterfaceHolder().addJavaObject("android", presenter);
     }
 
