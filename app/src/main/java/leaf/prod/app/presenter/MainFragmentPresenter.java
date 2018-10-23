@@ -20,6 +20,7 @@ import android.content.Context;
 import leaf.prod.app.fragment.MainFragment;
 import leaf.prod.app.manager.BalanceDataManager;
 import leaf.prod.app.manager.MarketcapDataManager;
+import leaf.prod.app.manager.PartnerDataManager;
 import leaf.prod.app.manager.TokenDataManager;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.utils.CurrencyUtil;
@@ -51,6 +52,8 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
     private BalanceDataManager balanceDataManager;
 
+    private PartnerDataManager partnerDataManager;
+
     private List<BalanceResult.Asset> listAsset = new ArrayList<>(); //  返回的token列表
 
     private String moneyValue;
@@ -63,6 +66,9 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         marketcapDataManager = MarketcapDataManager.getInstance(context);
         tokenDataManager = TokenDataManager.getInstance(context);
         balanceDataManager = BalanceDataManager.getInstance(context);
+        partnerDataManager = PartnerDataManager.getInstance(context);
+        partnerDataManager.activatePartner();
+        partnerDataManager.createPartner();
     }
 
     public void initObservable() {

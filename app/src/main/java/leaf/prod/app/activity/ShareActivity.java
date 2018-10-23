@@ -1,11 +1,17 @@
 package leaf.prod.app.activity;
 
+import java.io.ByteArrayOutputStream;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +46,15 @@ public class ShareActivity extends BaseActivity {
 
     @BindView(R.id.btn_share)
     Button shareButton;
+
+    @BindView(R.id.share_p2p_view)
+    ImageView shareP2PView;
+
+    @BindView(R.id.share_p2p_qrcode)
+    ImageView shareP2PQrcode;
+
+    @BindView(R.id.share_p2p_layout)
+    ScrollView scrollView;
 
     private UMShareListener umShareListener = new UMShareListener() {
         /**
@@ -103,6 +118,8 @@ public class ShareActivity extends BaseActivity {
     @Override
     public void initView() {
         address.setText((String) SPUtils.get(this, "address", ""));
+        Bitmap bitmap = QRCodeUitl.createQRCodeBitmap("https://mr.baidu.com/2ev3wfk?f=cp", 300);
+        shareP2PQrcode.setImageBitmap(bitmap);
     }
 
     @Override
@@ -142,14 +159,29 @@ public class ShareActivity extends BaseActivity {
 
     private void uShare() {
         // todo 生成分享app
-//        UMWeb umWeb = new UMWeb("https://m.zhaoyunlicai.com/weekPayNo");
-        UMImage umImage = new UMImage(getApplicationContext(), QRCodeUitl.createQRCodeBitmap("https://mr.baidu.com/2ev3wfk?f=cp", 300));
-        umImage.setTitle("钱包地址分享");//标题
-//        umImage.setThumb(new UMImage(ShareActivity.this, R.mipmap.icon_share));  //缩略图
-        umImage.setDescription("钱包地址分享");//描述
+        //        UMWeb umWeb = new UMWeb("https://m.zhaoyunlicai.com/weekPayNo");
+        //        UMImage umImage = new UMImage(getApplicationContext(), QRCodeUitl.createQRCodeBitmap("https://mr.baidu.com/2ev3wfk?f=cp", 300));
+        UMImage umImage = new UMImage(getApplicationContext(), getBitmap());
+        umImage.setTitle("下载地址分享");//标题
+        //        umImage.setThumb(new UMImage(ShareActivity.this, R.mipmap.icon_share));  //缩略图
+        umImage.setDescription("下载地址分享");//描述
         ShareAction shareAction = new ShareAction(ShareActivity.this);
-        shareAction.setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA, SHARE_MEDIA.FACEBOOK)//传入平台
+        shareAction.setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.FACEBOOK)//传入平台
                 .setCallback(umShareListener).withMedia(umImage).open();
+    }
+
+    public Bitmap getBitmap() {
+        int h = 0;
+        for (int i = 0; i < scrollView.getChildCount(); i++) {
+            h += scrollView.getChildAt(i).getHeight();
+        }
+        Bitmap bitmap = Bitmap.createBitmap(scrollView.getWidth(), h,
+                Bitmap.Config.ARGB_8888);
+        final Canvas c = new Canvas(bitmap);
+        scrollView.draw(c);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return bitmap;
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")

@@ -18,7 +18,7 @@
     <string name="wallet_create_success">钱包创建成功!</string>
     <string name="got_it">确认</string>
     <string name="et_mnemonic">请输入助记词，并以空格键隔开</string>
-    <string name="mnemonic_password">助记词密码(可选)</string>
+    <string name="mnemonic_password">助记词密码</string>
     <string name="keystore_password">Keystore密码</string>
     <string name="keystore_hint">请输入keystore</string>
     <string name="private_key_hint">请输入私钥</string>
