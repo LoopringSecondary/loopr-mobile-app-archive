@@ -15,12 +15,22 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
+    signingConfigs {
+        debug {
+            storeFile file('../walletKey')
+            storePassword "123456"
+            keyAlias "qq"
+            keyPassword "123456"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            signingConfig signingConfigs.debug
             jniDebuggable false
             renderscriptDebuggable false
             minifyEnabled false
