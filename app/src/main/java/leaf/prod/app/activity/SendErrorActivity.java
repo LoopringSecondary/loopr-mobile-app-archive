@@ -1,6 +1,7 @@
 package leaf.prod.app.activity;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,6 +10,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.util.StringUtils;
 
 public class SendErrorActivity extends BaseActivity {
 
@@ -17,6 +19,9 @@ public class SendErrorActivity extends BaseActivity {
 
     @BindView(R.id.gas_fee)
     TextView gasFee;
+
+    @BindView(R.id.gas_layout)
+    ConstraintLayout gasLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,15 @@ public class SendErrorActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        gasFee.setText(getIntent().getStringExtra("tokenAmount"));
+        if (!StringUtils.isEmpty(getIntent().getStringExtra("tokenAmount"))) {
+            gasFee.setText(getIntent().getStringExtra("tokenAmount"));
+            gasLayout.setVisibility(View.VISIBLE);
+        } else if (!StringUtils.isEmpty(getIntent().getStringExtra("error"))) {
+            gasFee.setText(getIntent().getStringExtra("error"));
+            gasLayout.setVisibility(View.INVISIBLE);
+        } else {
+            gasLayout.setVisibility(View.INVISIBLE);
+        }
     }
 
     @OnClick({R.id.btn_return})

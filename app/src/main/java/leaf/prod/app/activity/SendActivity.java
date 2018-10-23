@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vondear.rxtool.view.RxToast;
 import com.xw.repo.BubbleSeekBar;
 
 import butterknife.BindView;
@@ -208,29 +209,33 @@ public class SendActivity extends BaseActivity {
             switch (msg.what) {
                 case SEND_SUCCESS:
                     hideProgress();
-                    ToastUtils.toast("发送成功");
+                    //                    ToastUtils.toast("发送成功");
+                    getOperation().addParameter("tokenAmount", "-" + moneyAmount.getText() + " " + sendChoose);
+                    getOperation().addParameter("address", walletAddress.getText().toString());
+                    getOperation().forwardClearTop(SendSuccessActivity.class);
                     passwordDialog.dismiss();
                     break;
-                case SEND_FAILED:
-                    hideProgress();
-                    ToastUtils.toast("转账失败，请重试" + errorMes);
-                    LyqbLogger.log(errorMes);
-                    break;
+                //                case SEND_FAILED:
+                //                    hideProgress();
+                //                    ToastUtils.toast("转账失败，请重试" + errorMes);
+                //                    LyqbLogger.log(errorMes);
+                //                    break;
                 case ERROR_ONE:
                     hideProgress();
-                    ToastUtils.toast("密码输入错误");
+                    RxToast.error("密码输入错误");
                     break;
-                case ERROR_TWO:
+                case ERROR_TWO | SEND_FAILED:
                     hideProgress();
-                    ToastUtils.toast("转账失败" + errorMes);
+                    getOperation().addParameter("error", "转账失败，请重试");
+                    getOperation().forwardClearTop(SendErrorActivity.class);
                     break;
                 case ERROR_THREE:
                     hideProgress();
-                    ToastUtils.toast("信息获取失败");
+                    RxToast.error("信息获取失败");
                     break;
                 case ERROR_FOUR:
                     hideProgress();
-                    ToastUtils.toast("keystore获取失败");
+                    RxToast.error("keystore获取失败");
                     break;
             }
         }
@@ -386,18 +391,14 @@ public class SendActivity extends BaseActivity {
 
     private void send(String password) {
         //        showProgress("加载中");
-        if ((gasFee = gasDataManager.getGasAmountInETH("token_transfer")) > balanceManager.getAssetBySymbol("ETH")
-                .getValue()) {
-            // 油费不足
-            getOperation().addParameter("tokenAmount", gasFee + " ETH");
-            getOperation().forward(SendErrorActivity.class);
-        } else {
-            getOperation().addParameter("tokenAmount", "-" + moneyAmount.getText() + " " + sendChoose);
-            getOperation().addParameter("address", walletAddress.getText().toString());
-            getOperation().forwardClearTop(SendSuccessActivity.class);
-        }
         new Thread(() -> {
             try {
+                if ((gasFee = gasDataManager.getGasAmountInETH("token_transfer")) > balanceManager.getAssetBySymbol("ETH")
+                        .getValue()) {
+                    // 油费不足
+                    getOperation().addParameter("tokenAmount", gasFee + " ETH");
+                    getOperation().forwardClearTop(SendErrorActivity.class);
+                }
                 String keystore = FileUtils.getKeystoreFromSD(SendActivity.this);
                 Credentials credentials = KeystoreUtils.unlock(password, keystore);
                 BigInteger values = UnitConverter.ethToWei(moneyAmount.getText().toString()); //转账金额
@@ -422,7 +423,7 @@ public class SendActivity extends BaseActivity {
                 handlerCreate.sendEmptyMessage(SEND_FAILED);
                 e.printStackTrace();
             } catch (InvalidKeystoreException | IllegalCredentialException e) {
-                handlerCreate.sendEmptyMessage(ERROR_THREE);
+                handlerCreate.sendEmptyMessage(ERROR_ONE);
                 e.printStackTrace();
             } catch (JSONException | IOException e) {
                 handlerCreate.sendEmptyMessage(ERROR_FOUR);
