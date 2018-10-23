@@ -107,6 +107,7 @@ public class H5DexWebActivity extends BaseActivity {
         setContentView(R.layout.activity_h5_dex);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
+        mSwipeBackLayout.setEnableGesture(false);
     }
 
     public void call(String string) {
