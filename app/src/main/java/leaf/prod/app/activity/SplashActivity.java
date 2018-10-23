@@ -129,7 +129,7 @@ public class SplashActivity extends BaseActivity {
 
     private class FingerCallBack extends FingerprintManagerCompat.AuthenticationCallback {
 
-        //多次识别失败,并且，不能短时间内调用指纹验证
+        // 多次识别失败, 并且，不能短时间内调用指纹验证
         @Override
         public void onAuthenticationError(int errMsgId, CharSequence errString) {
             super.onAuthenticationError(errMsgId, errString);
@@ -154,6 +154,7 @@ public class SplashActivity extends BaseActivity {
         @Override
         public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
             super.onAuthenticationSucceeded(result);
+            cancellationSignal.cancel();
             mHandler.sendEmptyMessageDelayed(1, 1000);
         }
 
