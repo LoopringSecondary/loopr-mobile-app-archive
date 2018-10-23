@@ -30,11 +30,11 @@ import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.LanguageUtil;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
+import leaf.prod.walletsdk.model.H5ScanType;
 import leaf.prod.walletsdk.util.KeystoreUtils;
+import leaf.prod.walletsdk.util.StringUtils;
 
 public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
-
-    private boolean isSignMessage = false;
 
     private String signMessage;
 
@@ -43,6 +43,12 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
     private String content;
 
     private String result;
+
+    public String scanContent;
+
+    private boolean isSignMessage = false;
+
+    public H5ScanType type = H5ScanType.OTHER;
 
     public static final int SUCCESS = 1;
 
@@ -148,7 +154,6 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
         try {
             String keystore = FileUtils.getKeystoreFromSD(context);
             Credentials credentials = KeystoreUtils.unlock(password, keystore);
-
             BigInteger nonce = Numeric.toBigInt(signTx.getString("nonce"));
             BigInteger gasPrice = Numeric.toBigInt(signTx.getString("gasPrice"));
             BigInteger gasLimit = Numeric.toBigInt(signTx.getString("gasLimit"));
@@ -157,7 +162,6 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
             String data = signTx.getString("data");
             byte chainId = (byte) signTx.getInt("chainId");
             RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, to, value, data);
-
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, chainId, credentials);
             result = Numeric.toHexString(signedMessage);
             handlerCreate.sendEmptyMessage(SUCCESS);
@@ -190,18 +194,46 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
         }
     }
 
-    private void send() {
+    private void sendP2PMessage() {
+        try {
+            JSONObject object = new JSONObject();
+            object.put("result", StringUtils.trimAllWhitespace(scanContent));
+            String cmd = "javascript:handleP2POrder(" + object.toString() + ")";
+            if (view != null) {
+                view.call(cmd);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void postProcess() {
         try {
             JSONObject jsonObject = new JSONObject(content);
             String method = jsonObject.getString(KEY_METHOD);
+            if (method.equalsIgnoreCase(FUNCTION_GWT_CURRENCY)) {
+                switch (type) {
+                    case P2P_ORDER:
+                        sendP2PMessage();
+                        break;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void send() {
+        try {
+            JSONObject jsonObject = new JSONObject(content);
             String callback = jsonObject.getString(KEY_CALLBACK);
             JSONObject object = new JSONObject();
             object.put("result", result);
             String cmd = "javascript:" + callback + "(" + object.toString() + ")";
-            Log.e("agentweb", method + " cmd:" + cmd);
             if (view != null) {
                 view.call(cmd);
             }
+            postProcess();
         } catch (JSONException e) {
             e.printStackTrace();
         }

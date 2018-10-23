@@ -32,6 +32,7 @@ import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.ActivityScanerCode;
 import leaf.prod.app.activity.CoverActivity;
+import leaf.prod.app.activity.H5DexWebActivity;
 import leaf.prod.app.activity.ImportWalletActivity;
 import leaf.prod.app.activity.ManageWalletActivity;
 import leaf.prod.app.activity.ReceiveActivity;
@@ -306,7 +307,8 @@ public class MainFragment extends BaseFragment {
                         getOperation().forward(SendActivity.class);
                         break;
                     case P2P_ORDER:
-                        // TODO 添加p2p跳转
+                        getOperation().addParameter("p2p_order", result);
+                        getOperation().forward(H5DexWebActivity.class);
                         break;
                 }
             }

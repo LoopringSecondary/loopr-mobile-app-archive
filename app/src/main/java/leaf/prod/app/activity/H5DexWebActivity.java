@@ -27,6 +27,7 @@ import leaf.prod.app.layout.WebLayout;
 import leaf.prod.app.presenter.H5DexPresenter;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.model.H5ScanType;
 
 public class H5DexWebActivity extends BaseActivity {
 
@@ -66,21 +67,6 @@ public class H5DexWebActivity extends BaseActivity {
      */
     @Override
     public void initView() {
-    }
-
-    /**
-     * 0
-     * 初始化数据
-     */
-    @Override
-    public void initData() {
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_h5_dex);
-        ButterKnife.bind(this);
-        super.onCreate(savedInstanceState);
         LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.ll_web_view);
         AgentWeb.PreAgentWeb preAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(linearLayout, new LinearLayout.LayoutParams(-1, -1))
@@ -99,8 +85,28 @@ public class H5DexWebActivity extends BaseActivity {
                 .interceptUnkownScheme() //拦截找不到相关页面的Scheme
                 .createAgentWeb()
                 .ready();
-        mAgentWeb = preAgentWeb.go("https://h5dex.loopr.io/#/auth/tpwallet");
+        mAgentWeb = preAgentWeb.go("http://10.137.107.193:8000/#/auth/tpwallet");
         mAgentWeb.getJsInterfaceHolder().addJavaObject("android", presenter);
+    }
+
+    /**
+     * 0
+     * 初始化数据
+     */
+    @Override
+    public void initData() {
+        String p2pOrder = getIntent().getStringExtra("p2p_order");
+        if (p2pOrder != null && !p2pOrder.isEmpty()) {
+            presenter.type = H5ScanType.P2P_ORDER;
+            presenter.scanContent = p2pOrder;
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_h5_dex);
+        ButterKnife.bind(this);
+        super.onCreate(savedInstanceState);
     }
 
     public void call(String string) {

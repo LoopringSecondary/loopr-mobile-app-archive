@@ -6,6 +6,9 @@ import android.graphics.Bitmap;
 
 import org.web3j.crypto.WalletUtils;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -14,12 +17,6 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 import leaf.prod.walletsdk.util.StringUtils;
 
-/**
- * Created with IntelliJ IDEA.
- * User: laiyanyan chenwang34@creditease.cn
- * Time: 2018-10-12 上午10:42
- * Cooperation: CreditEase©2017 普信恒业科技发展(北京)有限公司
- */
 public class QRCodeUitl {
 
     public enum QRCodeType {
@@ -62,7 +59,10 @@ public class QRCodeUitl {
      * @return
      */
     public static boolean isP2POrder(String content) {
-        return false;
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(content).getAsJsonObject();
+        JsonElement type = jsonObject.get("type");
+        return type.getAsString().equalsIgnoreCase("P2P");
     }
 
     /**
