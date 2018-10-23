@@ -1,13 +1,11 @@
 package leaf.prod.walletsdk;
 
 import leaf.prod.walletsdk.api.EthereumApi;
-import leaf.prod.walletsdk.listener.TransactionListener;
 import leaf.prod.walletsdk.service.LoopringService;
 
 public class EventAdvisor {
     private static LoopringService loopringApi = new LoopringService();
     private static EthereumApi ethereumApi = new EthereumApi();
-    private  static TransactionListener listener = new TransactionListener();
 
     public static void notifyTransaction(String txHash) {
         ethereumApi.getTransactionByHashObservable(txHash).toSingle()

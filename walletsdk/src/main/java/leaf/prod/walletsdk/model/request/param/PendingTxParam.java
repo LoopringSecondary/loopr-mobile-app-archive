@@ -1,7 +1,5 @@
 package leaf.prod.walletsdk.model.request.param;
 
-import java.util.List;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -14,5 +12,5 @@ public class PendingTxParam {
     private String owner;
 
     @NonNull
-    private List<String> hashes;
+    private String[] trxHashes;
 }

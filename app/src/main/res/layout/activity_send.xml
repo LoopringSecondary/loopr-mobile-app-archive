@@ -249,7 +249,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="3dp"
                 android:gravity="center_vertical"
-                android:text="@string/transacition_fee"
+                android:text="@string/transaction_fee"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normal14Text"/>
 

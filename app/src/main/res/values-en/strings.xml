@@ -80,11 +80,11 @@
     <string name="input_valid_address">Please input a valid address</string>
     <string name="input_valid_amount">Please input a valid amount</string>
     <string name="insufficient_balance">insufficient balance</string>
-    <string name="transacition_fee">Transacition Fee</string>
+    <string name="transaction_fee">Transacition Fee</string>
     <string name="dialog_fee_title">Set Gas</string>
     <string name="dialog_fee_recom">Recommend Price</string>
     <string name="gas_limit">Gas Limit</string>
-    <string name="gas_pricae">Gas Price</string>
+    <string name="gas_price">Gas Price</string>
     <string name="tokens">Tokens</string>
     <string name="match_password">Please Match Passsword!</string>
     <string name="share_title">Up Wallet Share</string>
@@ -92,6 +92,7 @@
     <string name="spread_address">My income add:</string>
     <string name="send_confirmation">Send Confirmation</string>
     <string name="send_result">Send Result</string>
+    <string name="transaction_success">Transaction Confirm Successful</string>
     <string name="to">To</string>
     <string name="from">From</string>
     <string name="address">Address</string>

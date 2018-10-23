@@ -11,11 +11,12 @@ import java.util.List;
 
 import android.content.Context;
 
+import leaf.prod.app.utils.NotificationUtil;
 import leaf.prod.app.utils.SPUtils;
-import leaf.prod.walletsdk.listener.PendingTxListener;
-import leaf.prod.walletsdk.model.response.data.PendingTxResult;
+import leaf.prod.walletsdk.listener.TransactionStatusListener;
+import leaf.prod.walletsdk.model.TxStatus;
+import leaf.prod.walletsdk.model.response.data.Transaction;
 import rx.Observable;
-import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -23,9 +24,7 @@ public class TransactionDataManager {
 
     private Context context;
 
-    private Observable<PendingTxResult[]> txObservable;
-
-    private PendingTxListener listener;
+    private TransactionStatusListener listener;
 
     // stores pending tx hashes to nofity
     private List<String> txHashes;
@@ -34,7 +33,7 @@ public class TransactionDataManager {
 
     private TransactionDataManager(Context context) {
         this.context = context;
-        this.listener = new PendingTxListener();
+        this.listener = new TransactionStatusListener();
         this.initTxObservable();
     }
 
@@ -46,49 +45,41 @@ public class TransactionDataManager {
     }
 
     private void initTxObservable() {
-        txObservable = listener.start()
+        Observable<Transaction[]> txObservable = listener.start()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-
-        this.txObservable.subscribe(new Observer<PendingTxResult[]>() {
-
-            @Override
-            public void onCompleted() {
-                System.out.println(1111);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                System.out.println(1111);
-            }
-
-            @Override
-            public void onNext(PendingTxResult[] pendingTxResult) {
-                if (pendingTxResult != null) {
-                    for (PendingTxResult tx : pendingTxResult) {
-                        String hash = tx.getTxHash();
-                        // txhashes stores lowercased hash string
-                        if (txHashes.contains(hash.toLowerCase())) {
-                            txHashes.remove(hash);
-                        }
-                        if (txHashes.isEmpty()) {
-                            listener.stop();
-                        }
+        txObservable.subscribe(transactions -> {
+            if (transactions != null) {
+                for (Transaction tx : transactions) {
+                    String hash = tx.getTxHash();
+                    txHashes = SPUtils.getDataList(context, "pending_tx", String.class);
+                    // txHashes stores lowercase pending hash string
+                    if (txHashes.contains(hash.toLowerCase()) && tx.getStatus() == TxStatus.SUCCESS) {
+                        txHashes.remove(hash);
+                        SPUtils.setDataList(context, "pending_tx", txHashes);
+                        NotificationUtil.normal(context, tx);
+                    }
+                    if (txHashes.isEmpty()) {
+                        SPUtils.remove(context, "pending_tx");
+                        listener.stop();
                     }
                 }
             }
         });
     }
 
-
     public void queryByHash(String txHash) {
         txHashes = SPUtils.getDataList(context, "pending_tx", String.class);
         if (txHashes == null) {
             txHashes = new ArrayList<>();
         }
-        // always add lower case hash string
-        txHashes.add(txHash.toLowerCase());
+        // always store lower case hash string
+        if (!txHashes.contains(txHash.toLowerCase())) {
+            txHashes.add(txHash.toLowerCase());
+            SPUtils.setDataList(context, "pending_tx", txHashes);
+        }
         String owner = (String) SPUtils.get(context, "address", "");
-        listener.queryByOwner(owner);
+        String[] hashArray = txHashes.toArray(new String[txHashes.size()]);
+        listener.queryByHashes(owner, hashArray);
     }
 }

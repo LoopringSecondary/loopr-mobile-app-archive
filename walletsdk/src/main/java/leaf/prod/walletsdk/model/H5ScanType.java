@@ -8,8 +8,7 @@ package leaf.prod.walletsdk.model;
 
 public enum H5ScanType {
 
-    P2P_ORDER("p2p_order"),
-    OTHER("other");
+    P2P_ORDER("p2p_order"), OTHER("other");
 
     private final String description;
 

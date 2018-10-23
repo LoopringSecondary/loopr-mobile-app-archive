@@ -1,49 +1,55 @@
 package leaf.prod.app.utils;
 
-public class NotificationUtil {
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
 
-    public final static int ID_FOR_NORMAL = 1;
+import leaf.prod.app.R;
+import leaf.prod.app.activity.MainActivity;
+import leaf.prod.walletsdk.model.response.data.Transaction;
+
+public class NotificationUtil {
 
     /**
      * show normal notification
      *
      * @param context      context
-     * @param isSound      Set the sound to play.  if no, it will play on the default stream.
-     * @param isShowLock   show when mobile locks screen
-     * @param isHeads      heads up dialog
-     * @param isAutoCancel cancel notification while click
-     * @param isOnly       only show one notification
+     * @param tx           transaction to notify.
      */
-//    public static void normal(Context context, boolean isSound, boolean isShowLock, boolean isHeads, boolean isAutoCancel, boolean isOnly) {
-//        String title = "This is normal title";
-//        String text = "This is normal message";
-//        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_share_logo);
-//        Intent intent = new Intent(Intent.ACTION_MAIN);
-//        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-//        intent.setClass(context, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-//        builder.setLargeIcon(largeIcon)
-//                .setSmallIcon(R.drawable.cry)
-//                .setTicker(context.getString(R.string.app_name))
-//                .setWhen(System.currentTimeMillis())
-//                .setContentTitle(title)
-//                .setContentText(text)
-//                .setAutoCancel(isAutoCancel)
-//                .setContentIntent(pendingIntent);
-//        if (isSound) {
-//            builder.setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.message));
-//        } else {
-//            builder.setDefaults(Notification.DEFAULT_ALL);
-//        }
-//        if (isShowLock) {
-//            builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-//        }
-//        builder.setPriority(isHeads ? NotificationCompat.PRIORITY_MAX : NotificationCompat.PRIORITY_DEFAULT);
-//        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//        if (notificationManager != null) {
-//            notificationManager.notify(isOnly ? ID_FOR_NORMAL : (int) System.currentTimeMillis(), builder.build());
-//        }
-//    }
+    public static void normal(Context context, Transaction tx) {
+        String title = context.getString(R.string.transaction_success);
+        String text = tx.getTxHash();
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_share_logo);
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setClass(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+
+        String image = String.format("icon_tx_%s", tx.getType().getDescription().toLowerCase());
+        int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
+
+        builder.setLargeIcon(largeIcon)
+                .setSmallIcon(identifier)
+                .setTicker(context.getString(R.string.app_name))
+                .setWhen(System.currentTimeMillis())
+                .setContentTitle(title)
+                .setContentText(text)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
+        builder.setDefaults(Notification.DEFAULT_ALL);
+        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+        builder.setPriority(NotificationCompat.PRIORITY_MAX);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            notificationManager.notify((int) System.currentTimeMillis(), builder.build());
+        }
+    }
 }

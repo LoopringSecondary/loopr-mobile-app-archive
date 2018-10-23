@@ -82,11 +82,11 @@
     <string name="input_valid_address">请输入合法地址</string>
     <string name="input_valid_amount">请输入有效的数据</string>
     <string name="insufficient_balance">可用余额不足</string>
-    <string name="transacition_fee">交易费</string>
+    <string name="transaction_fee">交易费</string>
     <string name="dialog_fee_title">设置油费</string>
     <string name="dialog_fee_recom">推荐油价</string>
     <string name="gas_limit">Gas Limit</string>
-    <string name="gas_pricae">Gas Price</string>
+    <string name="gas_price">Gas Price</string>
     <string name="tokens">代币</string>
     <string name="match_password">请验证密码</string>
     <string name="share_title">Up Wallet 推广</string>
@@ -94,6 +94,7 @@
     <string name="spread_address">我的推广地址是:</string>
     <string name="send_confirmation">转出确认</string>
     <string name="send_result">转出结果</string>
+    <string name="transaction_success">交易确认成功</string>
     <string name="to">转到</string>
     <string name="from">转账地址</string>
     <string name="address">地址</string>
