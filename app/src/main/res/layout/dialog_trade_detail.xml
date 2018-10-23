@@ -27,14 +27,39 @@
 
         </RelativeLayout>
 
-        <View
+        <RelativeLayout
+            android:id="@+id/tx_approve_layout"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lineBac"/>
+            android:layout_height="45dp"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
+
+            <TextView
+                android:id="@+id/tx_approve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margSide"
+                android:gravity="center"
+                android:text="授权撮合交易"
+                android:textColor="@color/colorNineText"
+                android:textSize="@dimen/normal14Text"/>
+        </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/tx_received_layout"
             android:layout_width="match_parent"
             android:layout_height="45dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,14 +82,14 @@
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lineBac"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,14 +112,14 @@
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lineBac"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -111,25 +136,26 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/margSide"
                 android:layout_marginStart="100dp"
-                android:ellipsize="middle"
-                android:singleLine="true"
+                android:layout_marginEnd="@dimen/margSide"
                 android:clickable="true"
+                android:ellipsize="middle"
                 android:focusable="true"
+                android:singleLine="true"
                 android:textColor="@drawable/link_state_color"
                 android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lineBac"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp">
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -146,25 +172,25 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/margSide"
                 android:layout_marginStart="100dp"
-                android:ellipsize="middle"
-                android:singleLine="true"
+                android:layout_marginEnd="@dimen/margSide"
                 android:clickable="true"
+                android:ellipsize="middle"
                 android:focusable="true"
+                android:singleLine="true"
                 android:textColor="@drawable/link_state_color"
                 android:textSize="@dimen/normal14Text"/>
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lineBac"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,8 +207,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/margSide"
                 android:layout_marginStart="100dp"
+                android:layout_marginEnd="@dimen/margSide"
                 android:ellipsize="middle"
                 android:singleLine="true"
                 android:textColor="@color/colorWhite"
@@ -190,14 +216,14 @@
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lineBac"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
 
             <TextView
                 android:layout_width="wrap_content"

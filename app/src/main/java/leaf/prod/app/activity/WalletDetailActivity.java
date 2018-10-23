@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.robinhood.ticker.TickerUtils;
@@ -114,6 +115,12 @@ public class WalletDetailActivity extends BaseActivity {
 
     private TextView txDate;
 
+    private TextView txApprove;
+
+    private RelativeLayout txApproveLayout;
+
+    private RelativeLayout txReceivedLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         balanceManager = BalanceDataManager.getInstance(this);
@@ -208,6 +215,10 @@ public class WalletDetailActivity extends BaseActivity {
             final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.DialogTheme);//
             View view = LayoutInflater.from(this).inflate(R.layout.dialog_trade_detail, null);
             builder.setView(view);
+            builder.setCancelable(true);
+            txApprove = view.findViewById(R.id.tx_approve);
+            txApproveLayout = view.findViewById(R.id.tx_approve_layout);
+            txReceivedLayout = view.findViewById(R.id.tx_received_layout);
             txAmount = view.findViewById(R.id.tx_detail_amount);
             txStatus = view.findViewById(R.id.tx_detail_status);
             txAddress = view.findViewById(R.id.tx_detail_address);
@@ -220,6 +231,14 @@ public class WalletDetailActivity extends BaseActivity {
             dialog.setCanceledOnTouchOutside(true);
             Window window = dialog.getWindow();
             window.setGravity(Gravity.BOTTOM);
+        }
+        if (tx.getType() == TxType.APPROVE) {
+            txApprove.setText(getResources().getString(R.string.approve_details).replace("?", symbol));
+            txApproveLayout.setVisibility(View.VISIBLE);
+            txReceivedLayout.setVisibility(View.GONE);
+        } else {
+            txApproveLayout.setVisibility(View.GONE);
+            txReceivedLayout.setVisibility(View.VISIBLE);
         }
         setAmount(tx);
         setStatus(tx);
