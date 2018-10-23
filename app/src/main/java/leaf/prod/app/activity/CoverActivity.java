@@ -82,15 +82,15 @@ public class CoverActivity extends BaseActivity {
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)) {
             list.add(Manifest.permission.READ_CONTACTS);
         }
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)) {
-            list.add(Manifest.permission.CALL_PHONE);
-        }
+//        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)) {
+//            list.add(Manifest.permission.CALL_PHONE);
+//        }
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.READ_LOGS)) {
             list.add(Manifest.permission.READ_LOGS);
         }
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)) {
-            list.add(Manifest.permission.READ_PHONE_STATE);
-        }
+//        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)) {
+//            list.add(Manifest.permission.READ_PHONE_STATE);
+//        }
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
