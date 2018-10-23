@@ -333,8 +333,8 @@ public class ActivityScanerCode extends ActivityBase {
                 // 使用ContentProvider通过URI获取原始图片
                 Bitmap photo = MediaStore.Images.Media.getBitmap(resolver, originalUri);
                 // 开始对图像资源解码
-                Result rawResult = RxQrBarTool.decodeFromPhoto(photo);
                 try {
+                    Result rawResult = RxQrBarTool.decodeFromPhoto(photo);
                     if (rawResult != null && QRCodeUitl.isValidQRCode(rawResult.toString(), restrictQRCodes)) {
                         if (mScanerListener == null) {
                             //                        initDialogResult(rawResult);
@@ -344,12 +344,13 @@ public class ActivityScanerCode extends ActivityBase {
                         }
                     } else {
                         if (mScanerListener == null) {
-                            RxToast.error("图片识别失败.");
+                            RxToast.error("图片识别失败");
                         } else {
                             mScanerListener.onFail("From to Picture", "图片识别失败");
                         }
                     }
                 } catch (Exception e) {
+                    RxToast.error("图片识别失败");
                     Log.e("", e.toString());
                 }
             } catch (IOException e) {

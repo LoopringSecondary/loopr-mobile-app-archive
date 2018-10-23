@@ -59,10 +59,14 @@ public class QRCodeUitl {
      * @return
      */
     public static boolean isP2POrder(String content) {
-        JsonParser parser = new JsonParser();
-        JsonObject jsonObject = parser.parse(content).getAsJsonObject();
-        JsonElement type = jsonObject.get("type");
-        return type.getAsString().equalsIgnoreCase("P2P");
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(content).getAsJsonObject();
+            JsonElement type = jsonObject.get("type");
+            return type.getAsString().equalsIgnoreCase("P2P");
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
