@@ -26,11 +26,13 @@ import com.umeng.analytics.MobclickAgent;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.app.receiver.NetworkStateReceiver;
+import leaf.prod.app.utils.NetworkUtil;
 import leaf.prod.app.utils.SystemStatusManager;
 import leaf.prod.app.view.APP;
 import leaf.prod.app.view.Operation;
 import leaf.prod.app.views.swipeback.SwipeBackActivity;
 import leaf.prod.app.views.swipeback.SwipeBackLayout;
+import leaf.prod.walletsdk.model.Network;
 //import com.umeng.analytics.MobclickAgent;
 
 public abstract class BaseActivity extends SwipeBackActivity {
@@ -82,6 +84,12 @@ public abstract class BaseActivity extends SwipeBackActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        Dialog dialog = networkDialogMap.get(this.getLocalClassName());
+        if (NetworkUtil.getNetWorkState(this) != Network.NETWORK_NONE && dialog != null && dialog.isShowing()) {
+            dialog.hide();
+        } else if (NetworkUtil.getNetWorkState(this) == Network.NETWORK_NONE && dialog != null && !dialog.isShowing()) {
+            dialog.show();
+        }
     }
 
     @Override
