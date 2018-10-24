@@ -1,7 +1,9 @@
 package leaf.prod.app.activity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import android.os.Bundle;
@@ -34,6 +36,7 @@ import leaf.prod.app.manager.MarketcapDataManager;
 import leaf.prod.app.manager.TokenDataManager;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.DateUtil;
+import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.NumberUtils;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.views.TitleView;
@@ -49,6 +52,8 @@ import rx.schedulers.Schedulers;
 public class WalletDetailActivity extends BaseActivity {
 
     private static final int PAGE_SIZE = 2000;
+
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @BindView(R.id.title)
     TitleView title;
@@ -200,6 +205,10 @@ public class WalletDetailActivity extends BaseActivity {
                         recyclerView.setAdapter(mAdapter);
                         Collections.sort(list, (o1, o2) -> o1.getCreateTime() < o2.getCreateTime() ? 1 : -1);
                         mAdapter.setNewData(list);
+                        if (list != null && list.size() > 0) {
+                            LyqbLogger.log(list.get(0).getTxHash() + " " + sdf.format(new Date(list.get(0)
+                                    .getCreateTime() * 1000)));
+                        }
                         currentPageIndex += 1;
                         txTotalCount = transactionPageWrapper.getTotal();
                         walletMoney.setText(balanceManager.getAssetBySymbol(symbol).getValueShown());

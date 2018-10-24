@@ -572,7 +572,6 @@ public class SendActivity extends BaseActivity {
         seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                LyqbLogger.debug(seekBar.getConfigBuilder().getThumbRadiusOnDragging() + "");
                 if (moneyAmountChange) {
                     moneyAmountChange = false;
                     return;

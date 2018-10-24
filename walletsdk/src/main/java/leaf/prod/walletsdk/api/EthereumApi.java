@@ -8,9 +8,8 @@ import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthEstimateGas;
 import org.web3j.protocol.core.methods.response.EthGasPrice;
 import org.web3j.protocol.core.methods.response.EthTransaction;
-import leaf.prod.walletsdk.SDK;
-import leaf.prod.walletsdk.exception.RpcException;
 
+import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.exception.RpcException;
 import rx.Observable;
 

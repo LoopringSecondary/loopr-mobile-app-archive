@@ -21,7 +21,6 @@ import leaf.prod.app.fragment.MainFragment;
 import leaf.prod.app.fragment.SettingFragment;
 import leaf.prod.app.fragment.TradeFragment;
 import leaf.prod.app.utils.AppManager;
-import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.SPUtils;
 
 /**
@@ -219,7 +218,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        LyqbLogger.log("22222222");
         index = 0;
         setTabSelect(0);
         SPUtils.put(this, "isNewintent", true);
