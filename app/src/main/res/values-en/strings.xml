@@ -34,6 +34,7 @@
     <string name="sell">Sell</string>
     <string name="approve">Authorization token to trade</string>
     <string name="approve_details">Authorization ? token to trade</string>
+    <string name="eth_notify">Ethereum notification</string>
     <string name="cancelled">Cancel Order</string>
     <string name="convert_eth">Convert to ETH</string>
     <string name="convert_weth">Convert to WETH</string>

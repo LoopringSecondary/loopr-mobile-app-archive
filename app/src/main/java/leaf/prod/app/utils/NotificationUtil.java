@@ -1,6 +1,7 @@
 package leaf.prod.app.utils;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -16,11 +17,15 @@ import leaf.prod.walletsdk.model.response.data.Transaction;
 
 public class NotificationUtil {
 
+    private static final int NOTIFY_ID = 1;
+
+    private static final String CHANNEL_ID = "my_channel_01";
+
     /**
      * show normal notification
      *
-     * @param context      context
-     * @param tx           transaction to notify.
+     * @param context context
+     * @param tx      transaction to notify.
      */
     public static void normal(Context context, Transaction tx) {
         String title = context.getString(R.string.transaction_success);
@@ -31,11 +36,9 @@ public class NotificationUtil {
         intent.setClass(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-
         String image = String.format("icon_tx_%s", tx.getType().getDescription().toLowerCase());
         int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
-
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
         builder.setLargeIcon(largeIcon)
                 .setSmallIcon(identifier)
                 .setTicker(context.getString(R.string.app_name))
@@ -49,7 +52,13 @@ public class NotificationUtil {
         builder.setPriority(NotificationCompat.PRIORITY_MAX);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager != null) {
-            notificationManager.notify((int) System.currentTimeMillis(), builder.build());
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                CharSequence name = context.getString(R.string.eth_notify);
+                NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                notificationManager.createNotificationChannel(mChannel);
+            }
+            notificationManager.notify(NOTIFY_ID, builder.build());
         }
     }
 }
