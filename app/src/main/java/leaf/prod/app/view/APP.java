@@ -27,8 +27,6 @@ public class APP extends Application {
 
     private static APP mInstance;
 
-    String appVersion;
-
     static {
         //        PlatformConfig.setWeixin("wx8303b66b243b4aa3", "c96e252e26a7f62f833d7c545ab3d098");
         PlatformConfig.setWeixin("wx408da040efe1505d", "5380342e5cb9ca73b5e9b3ebe29600a1");
@@ -37,8 +35,34 @@ public class APP extends Application {
         PlatformConfig.setSinaWeibo("799587641", "09dfbfdc9cada2e8db0813bd298078c6", "http://sns.whalecloud.com");
     }
 
+    String appVersion;
+
     public static APP getInstance() {
         return mInstance;
+    }
+
+    public static Activity getCurrentActivity() {
+        try {
+            @SuppressLint("PrivateApi") Class activityThreadClass = Class.forName("android.app.ActivityThread");
+            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(
+                    null);
+            Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
+            activitiesField.setAccessible(true);
+            Map activities = (Map) activitiesField.get(activityThread);
+            for (Object activityRecord : activities.values()) {
+                Class activityRecordClass = activityRecord.getClass();
+                Field pausedField = activityRecordClass.getDeclaredField("paused");
+                pausedField.setAccessible(true);
+                if (!pausedField.getBoolean(activityRecord)) {
+                    Field activityField = activityRecordClass.getDeclaredField("activity");
+                    activityField.setAccessible(true);
+                    return (Activity) activityField.get(activityRecord);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -113,29 +137,5 @@ public class APP extends Application {
             res.updateConfiguration(newConfig, res.getDisplayMetrics());
         }
         return res;
-    }
-
-    public static Activity getCurrentActivity() {
-        try {
-            @SuppressLint("PrivateApi") Class activityThreadClass = Class.forName("android.app.ActivityThread");
-            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(
-                    null);
-            Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
-            activitiesField.setAccessible(true);
-            Map activities = (Map) activitiesField.get(activityThread);
-            for (Object activityRecord : activities.values()) {
-                Class activityRecordClass = activityRecord.getClass();
-                Field pausedField = activityRecordClass.getDeclaredField("paused");
-                pausedField.setAccessible(true);
-                if (!pausedField.getBoolean(activityRecord)) {
-                    Field activityField = activityRecordClass.getDeclaredField("activity");
-                    activityField.setAccessible(true);
-                    return (Activity) activityField.get(activityRecord);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

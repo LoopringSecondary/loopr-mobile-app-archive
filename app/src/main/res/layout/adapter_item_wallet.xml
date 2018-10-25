@@ -21,13 +21,13 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_centerVertical="true"
-        android:background="@drawable/stroke_token_bg"
         android:layout_marginStart="20dp"
-        android:textColor="@color/colorToken"
-        android:textStyle="bold"
+        android:background="@drawable/stroke_token_bg"
         android:gravity="center"
-        android:visibility="invisible"
-        android:textSize="12sp"/>
+        android:textColor="@color/colorToken"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="invisible"/>
 
     <RelativeLayout
         style="@style/WrapMatch"
@@ -94,7 +94,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
         android:src="@mipmap/icon_next"/>
-
 
 
 </RelativeLayout>

@@ -42,8 +42,6 @@ public class SplashActivity extends BaseActivity {
 
     private FingerprintManagerCompat fingerprintManager;
 
-    private CancellationSignal cancellationSignal;
-
     @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
         @Override
@@ -68,6 +66,8 @@ public class SplashActivity extends BaseActivity {
             }
         }
     };
+
+    private CancellationSignal cancellationSignal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

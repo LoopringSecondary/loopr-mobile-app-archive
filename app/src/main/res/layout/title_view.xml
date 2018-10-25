@@ -26,8 +26,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margSide"
             android:layout_weight="0.5"
-            android:paddingTop="14dp"
             android:paddingBottom="14dp"
+            android:paddingTop="14dp"
             android:scaleType="fitStart"
             android:src="@mipmap/icon_back"
             app:layout_constraintLeft_toLeftOf="parent"/>

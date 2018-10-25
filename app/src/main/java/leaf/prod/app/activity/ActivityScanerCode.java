@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Vector;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import android.Manifest;
 import android.app.Activity;
@@ -27,35 +26,28 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.dtr.zbar.build.ZBarDecoder;
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
-import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
-import com.google.zxing.common.HybridBinarizer;
 import com.vondear.rxfeature.module.scaner.CameraManager;
 import com.vondear.rxfeature.module.scaner.OnRxScanerListener;
-import com.vondear.rxfeature.module.scaner.PlanarYUVLuminanceSource;
 import com.vondear.rxfeature.module.scaner.decoding.InactivityTimer;
 import com.vondear.rxfeature.tool.RxQrBarTool;
 import com.vondear.rxtool.RxAnimationTool;
 import com.vondear.rxtool.RxBarTool;
 import com.vondear.rxtool.RxBeepTool;
-import com.vondear.rxtool.RxConstants;
-import com.vondear.rxtool.RxDataTool;
 import com.vondear.rxtool.RxPhotoTool;
-import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxtool.view.RxToast;
 import com.vondear.rxui.activity.ActivityBase;
 import com.vondear.rxui.view.dialog.RxDialogSure;
+import com.zbar.lib.ZbarManager;
 
+import leaf.prod.app.R;
 import leaf.prod.app.utils.QRCodeUitl;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * @author vondear
@@ -84,15 +76,19 @@ public class ActivityScanerCode extends ActivityBase {
      */
     private RelativeLayout mCropLayout = null;
 
+    private int x = 0;
+
+    private int y = 0;
+
     /**
      * 扫描边界的宽度
      */
-    private int mCropWidth = 0;
+    private int cropWidth = 0;
 
     /**
      * 扫描边界的高度
      */
-    private int mCropHeight = 0;
+    private int cropHeight = 0;
 
     /**
      * 是否有预览
@@ -110,16 +106,6 @@ public class ActivityScanerCode extends ActivityBase {
     private boolean mFlashing = true;
 
     /**
-     * 生成二维码 & 条形码 布局
-     */
-    private LinearLayout mLlScanHelp;
-
-    /**
-     * 闪光灯 按钮
-     */
-    private ImageView mIvLight;
-
-    /**
      * 扫描结果显示框
      */
     private RxDialogSure rxDialogSure;
@@ -130,13 +116,6 @@ public class ActivityScanerCode extends ActivityBase {
      * 合法的二维码类型
      */
     private String restrictQRCodes;
-
-    /**
-     * 设置扫描信息回调
-     */
-    public static void setScanerListener(OnRxScanerListener scanerListener) {
-        mScanerListener = scanerListener;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -243,10 +222,8 @@ public class ActivityScanerCode extends ActivityBase {
     }
 
     private void initView() {
-        mIvLight = findViewById(com.vondear.rxfeature.R.id.top_mask);
         mContainer = findViewById(com.vondear.rxfeature.R.id.capture_containter);
         mCropLayout = findViewById(com.vondear.rxfeature.R.id.capture_crop_layout);
-        mLlScanHelp = findViewById(com.vondear.rxfeature.R.id.ll_scan_help);
     }
 
     private void initPermission() {
@@ -262,22 +239,36 @@ public class ActivityScanerCode extends ActivityBase {
         RxAnimationTool.ScaleUpDowm(mQrLineView);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
     public int getCropWidth() {
-        return mCropWidth;
+        return cropWidth;
     }
 
     public void setCropWidth(int cropWidth) {
-        mCropWidth = cropWidth;
-        CameraManager.FRAME_WIDTH = mCropWidth;
+        this.cropWidth = cropWidth;
     }
 
     public int getCropHeight() {
-        return mCropHeight;
+        return cropHeight;
     }
 
     public void setCropHeight(int cropHeight) {
-        this.mCropHeight = cropHeight;
-        CameraManager.FRAME_HEIGHT = mCropHeight;
+        this.cropHeight = cropHeight;
     }
 
     public void btn(View view) {
@@ -307,13 +298,21 @@ public class ActivityScanerCode extends ActivityBase {
         try {
             CameraManager.get().openDriver(surfaceHolder);
             Point point = CameraManager.get().getCameraResolution();
-            AtomicInteger width = new AtomicInteger(point.y);
-            AtomicInteger height = new AtomicInteger(point.x);
-            int cropWidth = mCropLayout.getWidth() * width.get() / mContainer.getWidth();
-            int cropHeight = mCropLayout.getHeight() * height.get() / mContainer.getHeight();
+            int width = point.y;
+            int height = point.x;
+            int x = mCropLayout.getLeft() * width / mContainer.getWidth();
+            int y = mCropLayout.getTop() * height / mContainer.getHeight();
+            int cropWidth = mCropLayout.getWidth() * width
+                    / mContainer.getWidth();
+            int cropHeight = mCropLayout.getHeight() * height
+                    / mContainer.getHeight();
+            setX(x);
+            setY(y);
             setCropWidth(cropWidth);
             setCropHeight(cropHeight);
-        } catch (IOException | RuntimeException ioe) {
+        } catch (IOException ioe) {
+            return;
+        } catch (RuntimeException e) {
             return;
         }
         if (handler == null) {
@@ -338,7 +337,7 @@ public class ActivityScanerCode extends ActivityBase {
                     if (rawResult != null && QRCodeUitl.isValidQRCode(rawResult.toString(), restrictQRCodes)) {
                         if (mScanerListener == null) {
                             //                        initDialogResult(rawResult);
-                            initActivityResult(rawResult);
+                            initActivityResult(rawResult.getText());
                         } else {
                             mScanerListener.onSuccess("From to Picture", rawResult);
                         }
@@ -363,97 +362,61 @@ public class ActivityScanerCode extends ActivityBase {
     /**
      * 将结果返回到跳转的activity
      */
-    private void initActivityResult(Result result) {
+    private void initActivityResult(String result) {
         Intent intent = new Intent();
-        intent.putExtra("result", result.getText());
+        intent.putExtra("result", result);
         setResult(RESULT_OK, intent);
         finish();
-        //        RxToast.error(result.getText());
-        //        LyqbLogger.log(result.getText());
     }
 
-    private void initDialogResult(Result result) {
-        BarcodeFormat type = result.getBarcodeFormat();
-        String realContent = result.getText();
-        if (rxDialogSure == null) {
-            //提示弹窗
-            rxDialogSure = new RxDialogSure(mContext);
-        }
-        if (BarcodeFormat.QR_CODE.equals(type)) {
-            rxDialogSure.setTitle("二维码扫描结果");
-        } else if (BarcodeFormat.EAN_13.equals(type)) {
-            rxDialogSure.setTitle("条形码扫描结果");
-        } else {
-            rxDialogSure.setTitle("扫描结果");
-        }
-        rxDialogSure.setContent(realContent);
-        rxDialogSure.setSureListener(v -> rxDialogSure.cancel());
-        rxDialogSure.setOnCancelListener(dialog -> {
-            if (handler != null) {
-                // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
-                handler.sendEmptyMessage(com.vondear.rxfeature.R.id.restart_preview);
-            }
-        });
-        if (!rxDialogSure.isShowing()) {
-            rxDialogSure.show();
-        }
-        RxSPTool.putContent(mContext, RxConstants.SP_SCAN_CODE, RxDataTool.stringToInt(RxSPTool.getContent(mContext, RxConstants.SP_SCAN_CODE)) + 1 + "");
-    }
     //==============================================================================================解析结果 及 后续处理 end
 
-    public void handleDecode(Result result) {
+    public void handleDecode(String result) {
         inactivityTimer.onActivity();
         //扫描成功之后的振动与声音提示
         RxBeepTool.playBeep(mContext, vibrate);
-        String result1 = result.getText();
-        Log.v("二维码/条形码 扫描结果", result1);
+        String content = result.replaceFirst(".*?:", "");
+        Log.v("二维码/条形码 扫描结果", content);
         if (mScanerListener == null) {
             RxToast.success("扫描成功");
-            //            initDialogResult(result);
-            initActivityResult(result);
-        } else {
-            mScanerListener.onSuccess("From to Camera", result);
+            initActivityResult(content);
         }
     }
 
     private void decode(byte[] data, int width, int height) {
-        long start = System.currentTimeMillis();
-        Result rawResult = null;
-        //modify here
         byte[] rotatedData = new byte[data.length];
         for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+            for (int x = 0; x < width; x++)
                 rotatedData[x * height + height - y - 1] = data[x + y * width];
-            }
         }
-        // Here we are swapping, that's the difference to #11
         int tmp = width;
         width = height;
         height = tmp;
-        PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData, width, height);
-        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-        if (bitmap.getWidth() > 0 && bitmap.getHeight() > 0) {
-            try {
-                rawResult = multiFormatReader.decodeWithState(bitmap);
-            } catch (ReaderException e) {
-                // continue
-            } finally {
-                multiFormatReader.reset();
+
+        ZbarManager manager = new ZbarManager();
+        String result = manager.decode(rotatedData, width, height, true,
+                x, y, cropWidth, cropHeight);
+        ZBarDecoder zBarDecoder = new ZBarDecoder();
+        String result_line = zBarDecoder.decodeRaw(rotatedData,width,height);
+        if (result != null) {
+            if (null != handler) {
+                Message msg = new Message();
+                msg.obj = "二维码:" + result;
+                msg.what = R.id.decode_succeeded;
+                handler.sendMessage(msg);
             }
-            if (handler == null)
-                return;
-            if (rawResult != null && QRCodeUitl.isValidQRCode(rawResult.toString(), restrictQRCodes)) {
-                long end = System.currentTimeMillis();
-                Log.d(TAG, "Found barcode (" + (end - start) + " ms):\n" + rawResult.toString());
-                Message message = Message.obtain(handler, com.vondear.rxfeature.R.id.decode_succeeded, rawResult);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("barcode_bitmap", source.renderCroppedGreyscaleBitmap());
-                message.setData(bundle);
-                //Log.d(TAG, "Sending decode succeeded message...");
-                message.sendToTarget();
+        } else {
+            if (result_line != null) {
+                if (null != handler) {
+                    Message msg = new Message();
+                    msg.obj = "条形码:" + result_line;
+                    msg.what = R.id.decode_succeeded;
+                    handler.sendMessage(msg);
+                }
             } else {
-                Message message = Message.obtain(handler, com.vondear.rxfeature.R.id.decode_failed);
-                message.sendToTarget();
+                if (null != handler) {
+                    handler.sendEmptyMessage(R.id.decode_failed);
+                }
             }
         }
     }
@@ -489,7 +452,7 @@ public class ActivityScanerCode extends ActivityBase {
                 restartPreviewAndDecode();
             } else if (message.what == com.vondear.rxfeature.R.id.decode_succeeded) {
                 state = State.SUCCESS;
-                handleDecode((Result) message.obj);// 解析成功，回调
+                handleDecode((String) message.obj);// 解析成功，回调
             } else if (message.what == com.vondear.rxfeature.R.id.decode_failed) {
                 state = State.PREVIEW;
                 CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), com.vondear.rxfeature.R.id.decode);

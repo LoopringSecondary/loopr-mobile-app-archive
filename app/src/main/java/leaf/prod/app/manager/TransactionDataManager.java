@@ -22,14 +22,14 @@ import rx.schedulers.Schedulers;
 
 public class TransactionDataManager {
 
+    private static TransactionDataManager instance = null;
+
     private Context context;
 
     private TransactionStatusListener listener;
 
     // stores pending tx hashes to nofity
     private List<String> txHashes;
-
-    private static TransactionDataManager instance = null;
 
     private TransactionDataManager(Context context) {
         this.context = context;

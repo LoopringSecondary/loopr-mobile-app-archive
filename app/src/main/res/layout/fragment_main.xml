@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/colorLine">
@@ -74,8 +73,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:layout_marginLeft="8dp"
-                        android:layout_marginTop="10dp"
                         android:layout_marginRight="8dp"
+                        android:layout_marginTop="10dp"
                         android:background="@mipmap/wallet_bg">
 
                         <com.robinhood.ticker.TickerView
@@ -93,8 +92,8 @@
                             android:layout_below="@+id/wallet_count"
                             android:layout_marginTop="11dp"
                             android:gravity="center"
-                            android:paddingStart="50dp"
-                            android:paddingEnd="30dp">
+                            android:paddingEnd="30dp"
+                            android:paddingStart="50dp">
 
                             <TextView
                                 android:id="@+id/wallet_address"
@@ -119,8 +118,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="88dp"
                         android:layout_marginLeft="@dimen/margSide"
-                        android:layout_marginTop="8dp"
                         android:layout_marginRight="@dimen/margSide"
+                        android:layout_marginTop="8dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -227,10 +226,10 @@
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/margSide"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginRight="@dimen/margSide"
                         android:layout_marginBottom="16dp"
+                        android:layout_marginLeft="@dimen/margSide"
+                        android:layout_marginRight="@dimen/margSide"
+                        android:layout_marginTop="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"/>
                 </LinearLayout>
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
@@ -240,8 +239,8 @@
                 android:layout_width="160dp"
                 android:layout_height="150dp"
                 android:layout_gravity="end"
-                android:layout_marginTop="94dp"
                 android:layout_marginEnd="@dimen/margSide"
+                android:layout_marginTop="94dp"
                 android:background="@drawable/button_bg_pressed"
                 android:elevation="4dp"
                 android:orientation="vertical"

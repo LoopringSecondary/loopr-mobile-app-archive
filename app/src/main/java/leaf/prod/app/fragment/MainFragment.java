@@ -150,7 +150,7 @@ public class MainFragment extends BaseFragment {
         walletCount.setCharacterLists(TickerUtils.provideNumberList());
         frameLayout.setChildClickable(false);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
-//            presenter.handleNetworkError();
+            //            presenter.handleNetworkError();
             frameLayout.setChildClickable(false);
             presenter.initObservable();
         });

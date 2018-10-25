@@ -19,10 +19,6 @@ import leaf.prod.walletsdk.util.StringUtils;
 
 public class QRCodeUitl {
 
-    public enum QRCodeType {
-        KEY_STORE, TRANSFER, P2P_ORDER;
-    }
-
     /**
      * 判断二维码是否是keystore
      *
@@ -120,5 +116,9 @@ public class QRCodeUitl {
         if (isP2POrder(content))
             return QRCodeType.P2P_ORDER;
         return null;
+    }
+
+    public enum QRCodeType {
+        KEY_STORE, TRANSFER, P2P_ORDER;
     }
 }

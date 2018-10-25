@@ -43,11 +43,11 @@
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"
             android:hint="@string/search"
-            android:textColorHint="@color/colorSixText"
             android:inputType="textCapCharacters"
             android:paddingStart="8dp"
             android:singleLine="true"
             android:textColor="@color/colorTitleTv"
+            android:textColorHint="@color/colorSixText"
             android:textCursorDrawable="@drawable/white_color_cursor"
             android:textSize="@dimen/normal14Text"/>
 

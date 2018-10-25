@@ -148,8 +148,6 @@ public class GenerateWalletActivity extends BaseActivity {
 
     private LoopringService loopringService = new LoopringService();
 
-    private Animation shakeAnimation;
-
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
@@ -206,6 +204,8 @@ public class GenerateWalletActivity extends BaseActivity {
             }
         }
     };
+
+    private Animation shakeAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

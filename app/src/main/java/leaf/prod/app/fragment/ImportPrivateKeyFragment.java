@@ -243,7 +243,8 @@ public class ImportPrivateKeyFragment extends BaseFragment {
         new Thread(() -> {
             try {
                 filename = KeystoreUtils.createFromPrivateKey(etPrivateKey.getText()
-                        .toString().trim(), etPassword.getText().toString(), FileUtils.getKeyStoreLocation(getContext()));
+                        .toString().trim(), etPassword.getText()
+                        .toString(), FileUtils.getKeyStoreLocation(getContext()));
                 SPUtils.put(getContext(), "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             } catch (KeystoreCreateException e) {

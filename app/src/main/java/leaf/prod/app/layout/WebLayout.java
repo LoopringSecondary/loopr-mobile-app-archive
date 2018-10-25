@@ -14,6 +14,7 @@ import leaf.prod.app.R;
 public class WebLayout implements IWebLayout {
 
     private Activity mActivity;
+
     private WebView mWebView = null;
 
     public WebLayout(Activity activity) {

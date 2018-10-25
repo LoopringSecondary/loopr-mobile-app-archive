@@ -196,11 +196,6 @@ public class SendActivity extends BaseActivity {
      */
     private AlertDialog passwordDialog;
 
-    /**
-     * seekbar和edittext联动标志位
-     */
-    private boolean moneyAmountChange = false;
-
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
@@ -229,6 +224,11 @@ public class SendActivity extends BaseActivity {
             }
         }
     };
+
+    /**
+     * seekbar和edittext联动标志位
+     */
+    private boolean moneyAmountChange = false;
 
     private Animation shakeAnimation;
 

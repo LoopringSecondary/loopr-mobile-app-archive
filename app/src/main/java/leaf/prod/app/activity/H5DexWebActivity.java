@@ -31,6 +31,8 @@ import leaf.prod.walletsdk.model.H5ScanType;
 
 public class H5DexWebActivity extends BaseActivity {
 
+    public String password;
+
     @BindView(R.id.title)
     TitleView title;
 
@@ -40,8 +42,6 @@ public class H5DexWebActivity extends BaseActivity {
     private AlertDialog passwordDialog;
 
     private AgentWeb mAgentWeb;
-
-    public String password;
 
     private H5DexPresenter presenter;
 

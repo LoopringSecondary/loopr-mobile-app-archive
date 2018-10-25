@@ -2,7 +2,6 @@ package leaf.prod.app.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

@@ -22,9 +22,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/normalText"
             android:layout_marginLeft="@dimen/margSide"
             android:text="@string/network_error"
-            android:textColor="@color/colorWhite"/>
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/normalText"/>
     </LinearLayout>
 </RelativeLayout>

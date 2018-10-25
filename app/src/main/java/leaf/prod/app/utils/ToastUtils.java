@@ -49,12 +49,11 @@ public class ToastUtils {
     @SuppressLint("CheckResult")
     public static void toastError(String content) {
         RxToast.error(content);
-//        toast(content, errorIconResId, Toast.LENGTH_SHORT);
+        //        toast(content, errorIconResId, Toast.LENGTH_SHORT);
     }
-
-//    public static void toastError(int textResId) {
-//        toast(APP.getInstance().getString(textResId), errorIconResId, Toast.LENGTH_SHORT);
-//    }
+    //    public static void toastError(int textResId) {
+    //        toast(APP.getInstance().getString(textResId), errorIconResId, Toast.LENGTH_SHORT);
+    //    }
 
     public static void toastSuccess(String content) {
         toast(content, successIconResId, Toast.LENGTH_SHORT);

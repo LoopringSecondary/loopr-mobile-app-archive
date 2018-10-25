@@ -37,6 +37,8 @@ import leaf.prod.walletsdk.model.Network;
 
 public abstract class BaseActivity extends SwipeBackActivity {
 
+    private static Map<String, Dialog> networkDialogMap;
+
     public SwipeBackLayout mSwipeBackLayout;
 
     public BasePresenter presenter;
@@ -55,8 +57,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
     private ProgressDialog progressDialog;
 
     private MainNetworkReceiver mainNetworkReceiver;
-
-    private static Map<String, Dialog> networkDialogMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

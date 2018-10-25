@@ -36,20 +36,6 @@ import leaf.prod.walletsdk.util.StringUtils;
 
 public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
 
-    private String signMessage;
-
-    private JSONObject signTx;
-
-    private String content;
-
-    private String result;
-
-    public String scanContent;
-
-    private boolean isSignMessage = false;
-
-    public H5ScanType type = H5ScanType.OTHER;
-
     public static final int SUCCESS = 1;
 
     public static final int ERROR = 2;
@@ -70,9 +56,9 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
 
     private static final String FUCTION_TRANSACTION_SIGN = "transaction.sign";
 
-    public H5DexPresenter(H5DexWebActivity view, Context context) {
-        super(view, context);
-    }
+    public String scanContent;
+
+    public H5ScanType type = H5ScanType.OTHER;
 
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
@@ -89,6 +75,20 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
             }
         }
     };
+
+    private String signMessage;
+
+    private JSONObject signTx;
+
+    private String content;
+
+    private String result;
+
+    private boolean isSignMessage = false;
+
+    public H5DexPresenter(H5DexWebActivity view, Context context) {
+        super(view, context);
+    }
 
     @JavascriptInterface
     public void callApi(String content) {
