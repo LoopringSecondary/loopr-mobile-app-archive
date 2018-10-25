@@ -2,8 +2,6 @@ package leaf.prod.app.activity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import android.os.Bundle;
@@ -36,7 +34,6 @@ import leaf.prod.app.manager.MarketcapDataManager;
 import leaf.prod.app.manager.TokenDataManager;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.DateUtil;
-import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.NumberUtils;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.views.TitleView;
@@ -51,7 +48,7 @@ import rx.schedulers.Schedulers;
 
 public class WalletDetailActivity extends BaseActivity {
 
-    private static final int PAGE_SIZE = 2000;
+    private static final int PAGE_SIZE = 20;
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -135,9 +132,7 @@ public class WalletDetailActivity extends BaseActivity {
         walletMoney.setCharacterLists(TickerUtils.provideNumberList());
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
-        refreshLayout.setOnRefreshListener(refreshLayout -> {
-            getTxsFromRelay();
-        });
+        refreshLayout.setOnRefreshListener(refreshLayout -> getTxsFromRelay(currentPageIndex = 1));
     }
 
     @Override
@@ -168,22 +163,22 @@ public class WalletDetailActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);  //助记词提示列表
         mAdapter = new WalletAllAdapter(R.layout.adapter_item_wallet_all, null, symbol);
         mAdapter.setOnItemClickListener((adapter, view, position) -> showDetailDialog(mAdapter.getItem(position)));
+        recyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(() -> {
             if (mAdapter.getData().size() >= txTotalCount) {
                 //数据全部加载完毕
                 mAdapter.loadMoreEnd();
             } else {
                 //成功获取更多数据
-                getTxsFromRelay();
-                mAdapter.loadMoreComplete();
+                getTxsFromRelay(currentPageIndex++);
             }
         }, recyclerView);
         emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.transation);
-        getTxsFromRelay();
+        getTxsFromRelay(currentPageIndex = 1);
     }
 
-    private void getTxsFromRelay() {
-        loopringService.getTransactions(address, symbol, currentPageIndex, PAGE_SIZE)
+    private void getTxsFromRelay(int page) {
+        loopringService.getTransactions(address, symbol, page, PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<TransactionPageWrapper>() {
@@ -197,24 +192,23 @@ public class WalletDetailActivity extends BaseActivity {
                         recyclerView.setAdapter(emptyAdapter);
                         emptyAdapter.refresh();
                         refreshLayout.finishRefresh(true);
+                        mAdapter.loadMoreFail();
+                        unsubscribe();
                     }
 
                     @Override
                     public void onNext(TransactionPageWrapper transactionPageWrapper) {
-                        list.addAll(transactionPageWrapper.getData());
-                        recyclerView.setAdapter(mAdapter);
-                        Collections.sort(list, (o1, o2) -> o1.getCreateTime() < o2.getCreateTime() ? 1 : -1);
-                        mAdapter.setNewData(list);
-                        if (list != null && list.size() > 0) {
-                            LyqbLogger.log(list.get(0).getTxHash() + " " + sdf.format(new Date(list.get(0)
-                                    .getCreateTime() * 1000)));
-                        }
-                        currentPageIndex += 1;
                         txTotalCount = transactionPageWrapper.getTotal();
+                        if (page == 1) {
+                            mAdapter.setNewData(transactionPageWrapper.getData());
+                        } else {
+                            mAdapter.addData(transactionPageWrapper.getData());
+                        }
                         walletMoney.setText(balanceManager.getAssetBySymbol(symbol).getValueShown());
                         walletDollar.setText(balanceManager.getAssetBySymbol(symbol).getLegalShown());
-                        unsubscribe();
                         refreshLayout.finishRefresh(true);
+                        mAdapter.loadMoreComplete();
+                        unsubscribe();
                     }
                 });
     }

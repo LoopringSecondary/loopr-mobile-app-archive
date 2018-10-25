@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.util.Log;
 
+import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.core.methods.response.Transaction;
 import org.web3j.utils.Numeric;
 import com.google.common.collect.Maps;
@@ -14,6 +15,7 @@ import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
 import leaf.prod.walletsdk.model.Partner;
+import leaf.prod.walletsdk.model.TransactionSignature;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.param.AddTokenParam;
 import leaf.prod.walletsdk.model.request.param.BalanceParam;
@@ -123,6 +125,26 @@ public class LoopringService {
         return observable.map(ResponseWrapper::getResult);
     }
 
+    public Observable<String> notifyTransactionSubmitted(RawTransaction rawTransaction, String from, String txHash, TransactionSignature signature) {
+        NotifyTransactionSubmitParam notifyTransactionSubmitParam = NotifyTransactionSubmitParam.builder()
+                .hash(txHash)
+                .nonce(Numeric.toHexStringWithPrefix(rawTransaction.getNonce()))
+                .to(rawTransaction.getTo())
+                .value(Numeric.toHexStringWithPrefix(rawTransaction.getValue()))
+                .gasPrice(Numeric.toHexStringWithPrefix(rawTransaction.getGasPrice()))
+                .gas(Numeric.toHexStringWithPrefix(rawTransaction.getGasLimit()))
+                .input("")
+                .from(from)
+//                .r(signature.getR())
+//                .v(signature.getV())
+//                .s(signature.getS())
+                .build();
+        Log.d("======", new Gson().toJson(notifyTransactionSubmitParam));
+        RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", notifyTransactionSubmitParam);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyTransactionSubmitted(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
     public Observable<String> notifyTransactionSubmitted(String txHash, Transaction transaction) {
         NotifyTransactionSubmitParam param = NotifyTransactionSubmitParam.builder()
                 .hash(txHash)
@@ -137,7 +159,7 @@ public class LoopringService {
                 .r(transaction.getR())
                 .s(transaction.getS())
                 .build();
-        Log.d("======", new Gson().toJson(transaction));
+        Log.d("======", new Gson().toJson(param));
         RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", param);
         Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyTransactionSubmitted(request);
         return observable.map(ResponseWrapper::getResult);

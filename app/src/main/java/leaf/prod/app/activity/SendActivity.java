@@ -209,33 +209,22 @@ public class SendActivity extends BaseActivity {
             switch (msg.what) {
                 case SEND_SUCCESS:
                     hideProgress();
-                    //                    ToastUtils.toast("发送成功");
                     getOperation().addParameter("tokenAmount", "-" + moneyAmount.getText() + " " + sendChoose);
                     getOperation().addParameter("address", walletAddress.getText().toString());
                     getOperation().forwardClearTop(SendSuccessActivity.class);
                     passwordDialog.dismiss();
                     break;
-                //                case SEND_FAILED:
-                //                    hideProgress();
-                //                    ToastUtils.toast("转账失败，请重试" + errorMes);
-                //                    LyqbLogger.log(errorMes);
-                //                    break;
+                case ERROR_THREE:
+                case ERROR_FOUR:
                 case ERROR_ONE:
                     hideProgress();
-                    RxToast.error("密码输入错误");
+                    RxToast.error(getResources().getString(R.string.keystore_psw_error));
                     break;
-                case ERROR_TWO | SEND_FAILED:
+                case SEND_FAILED:
+                case ERROR_TWO:
                     hideProgress();
-                    getOperation().addParameter("error", "转账失败，请重试");
+                    getOperation().addParameter("error", getResources().getString(R.string.transfer_error));
                     getOperation().forwardClearTop(SendErrorActivity.class);
-                    break;
-                case ERROR_THREE:
-                    hideProgress();
-                    RxToast.error("信息获取失败");
-                    break;
-                case ERROR_FOUR:
-                    hideProgress();
-                    RxToast.error("keystore获取失败");
                     break;
             }
         }
@@ -390,7 +379,7 @@ public class SendActivity extends BaseActivity {
     }
 
     private void send(String password) {
-        //        showProgress("加载中");
+        showProgress(getResources().getString(R.string.loading_default_messsage));
         new Thread(() -> {
             try {
                 if ((gasFee = gasDataManager.getGasAmountInETH("token_transfer")) > balanceManager.getAssetBySymbol("ETH")
@@ -407,7 +396,8 @@ public class SendActivity extends BaseActivity {
                 String txHash;
                 if (sendChoose.equals("ETH")) {
                     txHash = transfer.eth()
-                            .send(gasDataManager.getCustomizeGasPriceInWei().toBigInteger(), walletAddress.getText()
+                            .send(credentials, address, gasDataManager.getCustomizeGasPriceInWei()
+                                    .toBigInteger(), walletAddress.getText()
                                     .toString(), values);
                 } else {
                     txHash = transfer.erc20(tokenDataManager.getTokenBySymbol(sendChoose).getProtocol())

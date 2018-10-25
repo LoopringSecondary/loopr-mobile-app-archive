@@ -23,6 +23,9 @@ public class SendErrorActivity extends BaseActivity {
     @BindView(R.id.gas_layout)
     ConstraintLayout gasLayout;
 
+    @BindView(R.id.send_error_text)
+    TextView sendErrorText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_send_error);
@@ -50,7 +53,7 @@ public class SendErrorActivity extends BaseActivity {
             gasFee.setText(getIntent().getStringExtra("tokenAmount"));
             gasLayout.setVisibility(View.VISIBLE);
         } else if (!StringUtils.isEmpty(getIntent().getStringExtra("error"))) {
-            gasFee.setText(getIntent().getStringExtra("error"));
+            sendErrorText.setText(getIntent().getStringExtra("error"));
             gasLayout.setVisibility(View.INVISIBLE);
         } else {
             gasLayout.setVisibility(View.INVISIBLE);
