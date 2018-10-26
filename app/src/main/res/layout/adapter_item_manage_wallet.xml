@@ -16,8 +16,8 @@
             android:layout_width="27dp"
             android:layout_height="27dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
             android:src="@mipmap/icon_checked_outline"
             android:visibility="gone"/>
 
@@ -43,7 +43,7 @@
         <LinearLayout
             style="@style/MatchWrap.Horizontal"
             android:layout_below="@+id/wallet_count"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_horizontal">
 
             <TextView
