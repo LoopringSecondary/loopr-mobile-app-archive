@@ -86,7 +86,8 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
                 helper.setVisible(R.id.wallet_count, false);
                 break;
             case CANCEL:
-                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.cancel));
+            case CUTOFF:
+                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.cancel_order));
                 helper.setVisible(R.id.wallet_money, false);
                 helper.setVisible(R.id.wallet_count, false);
                 break;

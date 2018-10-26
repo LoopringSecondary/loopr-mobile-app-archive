@@ -31,10 +31,10 @@ public enum TxType {
     CONVERT_OUTCOME("Convert"),
 
     @SerializedName("cancel_order")
-    CANCEL("Cancel"),
+    CANCEL("Cancel_Order"),
 
     @SerializedName("cutoff")
-    CUTOFF("Cancel"),
+    CUTOFF("Cancel_Order"),
 
     @SerializedName("unsupported_contract")
     UNSUPPORTED("Other"),

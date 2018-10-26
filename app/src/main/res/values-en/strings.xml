@@ -13,6 +13,7 @@
     <string name="mnemonic_hint">Revealing your mnemonic phrases on web sites is highly dangerous. If the site is compromised or you accidentally visit a phishing website, your assets in all associated addresses can be stolen.</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="cancel_order">Cancel Order</string>
     <string name="skip">skip</string>
     <string name="confirm_mnemonic_word">Confirm Mnemonic Word</string>
     <string name="wallet_create_success">Wallet Create Successull!</string>

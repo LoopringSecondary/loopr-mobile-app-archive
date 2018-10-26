@@ -278,6 +278,8 @@ public class WalletDetailActivity extends BaseActivity {
                     valueShown = "+" + valueShown + " " + tx.getSymbol();
                     txAmount.setTextColor(this.getResources().getColor(R.color.colorGreen));
                     break;
+                    default:
+
             }
             result = valueShown + " ≈ " + currency;
         }
