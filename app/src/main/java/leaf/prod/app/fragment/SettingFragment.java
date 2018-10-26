@@ -25,6 +25,7 @@ import leaf.prod.app.activity.MainActivity;
 import leaf.prod.app.activity.ManageWalletActivity;
 import leaf.prod.app.activity.MarginSplitActivity;
 import leaf.prod.app.activity.ShareActivity;
+import leaf.prod.app.utils.AndroidUtils;
 import leaf.prod.app.utils.FingerprintUtil;
 import leaf.prod.app.utils.SPUtils;
 
@@ -102,6 +103,7 @@ public class SettingFragment extends BaseFragment {
             boolean isFingerEnable = (boolean) SPUtils.get(getContext(), "touch_id", aSwitch.isChecked());
             aSwitch.setCheckedImmediately(isFingerEnable);
         }
+        appVersion.setText(AndroidUtils.getVersionName(getContext()));
     }
 
     @Override
