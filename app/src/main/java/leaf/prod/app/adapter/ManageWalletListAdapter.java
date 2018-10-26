@@ -26,7 +26,7 @@ public class ManageWalletListAdapter extends BaseQuickAdapter<WalletEntity, Base
         //        helper.setText(R.id.wallet_count, (String) SPUtils.get(mContext,"amount","$392.27"));
         //        helper.setText(R.id.wallet_address, (String) SPUtils.get(mContext,"address","address"));
         helper.setText(R.id.wallet_name, item.getWalletname());
-        helper.setText(R.id.wallet_count, item.getAmountShow() + " ETH");
+        helper.setText(R.id.wallet_count, item.getAmountShow());
         helper.setText(R.id.wallet_address, item.getAddress());
         if (item.getAddress().equals((String) SPUtils.get(mContext, "address", ""))) {
             helper.setVisible(R.id.icon_status, true);
