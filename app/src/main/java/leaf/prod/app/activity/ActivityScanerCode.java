@@ -401,7 +401,6 @@ public class ActivityScanerCode extends ActivityBase {
             return;
         if (result != null) {
             if (!QRCodeUitl.isValidQRCode(result, restrictQRCodes)) {
-                RxToast.error("图片识别失败");
                 handler.sendEmptyMessage(R.id.decode_failed);
             } else {
                 Message msg = new Message();
@@ -411,7 +410,6 @@ public class ActivityScanerCode extends ActivityBase {
             }
         } else if (result_line != null) {
             if (!QRCodeUitl.isValidQRCode(result_line, restrictQRCodes)) {
-                RxToast.error("图片识别失败");
                 handler.sendEmptyMessage(R.id.decode_failed);
             } else {
                 Message msg = new Message();
