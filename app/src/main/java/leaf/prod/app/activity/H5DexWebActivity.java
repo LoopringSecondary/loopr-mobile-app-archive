@@ -45,6 +45,8 @@ public class H5DexWebActivity extends BaseActivity {
 
     private H5DexPresenter presenter;
 
+    private String url;
+
     /**
      * 初始化P层
      */
@@ -85,7 +87,8 @@ public class H5DexWebActivity extends BaseActivity {
                 .interceptUnkownScheme() //拦截找不到相关页面的Scheme
                 .createAgentWeb()
                 .ready();
-        mAgentWeb = preAgentWeb.go("https://h5dex.loopr.io/#/auth/tpwallet");
+        url = getIntent().getStringExtra("url");
+        mAgentWeb = preAgentWeb.go(url);
         mAgentWeb.getJsInterfaceHolder().addJavaObject("android", presenter);
     }
 

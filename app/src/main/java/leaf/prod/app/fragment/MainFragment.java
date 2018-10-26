@@ -254,6 +254,8 @@ public class MainFragment extends BaseFragment {
                 }
                 break;
             case R.id.ll_trade://trade 按钮
+                getOperation().addParameter("url", "http://embeddex.upwallet.io/#/face2face");
+                getOperation().forward(H5DexWebActivity.class);
                 break;
             case R.id.right_btn:  //右上角添加按钮
                 if (llMenu.getVisibility() == View.GONE) {
@@ -308,6 +310,7 @@ public class MainFragment extends BaseFragment {
                         break;
                     case P2P_ORDER:
                         getOperation().addParameter("p2p_order", result);
+                        getOperation().addParameter("url", "http://embeddex.upwallet.io/#/face2face");
                         getOperation().forward(H5DexWebActivity.class);
                         break;
                 }

@@ -1,6 +1,5 @@
 package leaf.prod.app.activity;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +48,6 @@ import rx.schedulers.Schedulers;
 public class WalletDetailActivity extends BaseActivity {
 
     private static final int PAGE_SIZE = 20;
-
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @BindView(R.id.title)
     TitleView title;

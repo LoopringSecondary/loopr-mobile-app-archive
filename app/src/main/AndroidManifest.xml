@@ -69,10 +69,8 @@
             android:theme="@style/SwipeBackLayout">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
-
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-
                 <data android:scheme="1107846749"/>
             </intent-filter>
         </activity>

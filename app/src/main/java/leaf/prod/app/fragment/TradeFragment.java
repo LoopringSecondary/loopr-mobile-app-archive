@@ -66,9 +66,12 @@ public class TradeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ddex_layout:
+                getOperation().addParameter("url", "http://embeddex.upwallet.io/#/auth/tpwallet");
                 getOperation().forward(H5DexWebActivity.class);
                 break;
             case R.id.p2p_layout:
+                getOperation().addParameter("url", "http://embeddex.upwallet.io/#/face2face");
+                getOperation().forward(H5DexWebActivity.class);
                 break;
             case R.id.order_layout:
                 break;
