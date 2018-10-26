@@ -34,6 +34,7 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.MnemonicWordAdapter;
 import leaf.prod.app.adapter.MnemonicWordHintAdapter;
+import leaf.prod.app.model.ImportWalletType;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.ButtonClickUtil;
@@ -162,7 +163,8 @@ public class GenerateWalletActivity extends BaseActivity {
                     SPUtils.put(GenerateWalletActivity.this, "hasWallet", true);
                     SPUtils.put(GenerateWalletActivity.this, "address", "0x" + address);
                     List<WalletEntity> list = SPUtils.getDataList(GenerateWalletActivity.this, "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
-                    list.add(new WalletEntity(walletName.getText().toString(), filename, "0x" + address, mnemonic));
+                    list.add(new WalletEntity(walletName.getText()
+                            .toString(), filename, "0x" + address, mnemonic, ImportWalletType.KEY_STORE));
                     SPUtils.setDataList(GenerateWalletActivity.this, "walletlist", list);
                     new Thread(() -> {
                         LyqbLogger.log(address);

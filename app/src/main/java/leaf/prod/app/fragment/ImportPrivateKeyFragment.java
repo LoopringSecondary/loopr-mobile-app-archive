@@ -91,8 +91,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                     SPUtils.put(getContext(), "pas", etPassword.getText().toString());
                     SPUtils.put(getContext(), "hasWallet", true);
                     SPUtils.put(getContext(), "address", "0x" + address);
-                    SPUtils.put(getContext(), "create_method_0x" + address, ImportWalletType.PRIVATE_KEY.name());
-                    WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, "");
+                    WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, "", ImportWalletType.PRIVATE_KEY);
                     loopringService.notifyCreateWallet(address)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())

@@ -17,7 +17,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.model.ImportWalletType;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.model.eventbusData.NameChangeData;
 import leaf.prod.app.utils.SPUtils;
@@ -82,17 +81,19 @@ public class WalletSafeActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        ImportWalletType importWalletType = ImportWalletType.valueOf((String) SPUtils.get(this, "create_method_" + address, "ERROR"));
-        switch (importWalletType) {
-            case MNEMONIC:
-                llBackupMnemonic.setVisibility(View.VISIBLE);
-                break;
-            case KEY_STORE:
-                llExportKeystore.setVisibility(View.VISIBLE);
-                break;
-            case PRIVATE_KEY:
-                llExportKeystore.setVisibility(View.VISIBLE);
-                break;
+        WalletEntity walletEntity = getSelectedWallet();
+        if (walletEntity != null && walletEntity.getWalletType() != null) {
+            switch (walletEntity.getWalletType()) {
+                case MNEMONIC:
+                    llBackupMnemonic.setVisibility(View.VISIBLE);
+                    break;
+                case KEY_STORE:
+                    llExportKeystore.setVisibility(View.VISIBLE);
+                    break;
+                case PRIVATE_KEY:
+                    llExportKeystore.setVisibility(View.VISIBLE);
+                    break;
+            }
         }
     }
 
@@ -137,7 +138,6 @@ public class WalletSafeActivity extends BaseActivity {
                                 SPUtils.setDataList(this, "walletlist", list);
                                 if (list.size() == 0) {
                                     SPUtils.remove(this, "walletlist");
-                                    SPUtils.remove(this, "create_method_" + address);
                                     getOperation().forwardClearTop(CoverActivity.class);
                                 } else {
                                     if (address.equals(addressUsed)) {
@@ -165,6 +165,16 @@ public class WalletSafeActivity extends BaseActivity {
                 finish();
                 break;
         }
+    }
+
+    private WalletEntity getSelectedWallet() {
+        List<WalletEntity> list = SPUtils.getDataList(this, "walletlist", WalletEntity.class);
+        for (WalletEntity walletEntity : list) {
+            if (walletEntity.getAddress().equals(address)) {
+                return walletEntity;
+            }
+        }
+        return null;
     }
 
     @Override

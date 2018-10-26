@@ -130,6 +130,6 @@
     <string name="auth_finger_tip">请轻触感应器验证指纹</string>
     <string name="auth_finger_no_match">抱歉，输入的指纹并不匹配，剩余 %1d 次机会</string>
     <string name="auth_finger_failed">抱歉，输入错误次数过多，设备锁定1分钟</string>
-    <string name="keystore_psw_error">Keystore或者密码错误</string>
+    <string name="keystore_psw_error">密码错误</string>
     <string name="transfer_error">转账失败，请重试</string>
 </resources>
