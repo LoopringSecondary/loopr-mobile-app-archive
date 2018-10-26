@@ -10,6 +10,7 @@ import java.util.List;
 
 import android.content.Context;
 
+import leaf.prod.app.model.ImportWalletType;
 import leaf.prod.app.model.WalletEntity;
 
 public class WalletUtil {
@@ -43,5 +44,17 @@ public class WalletUtil {
 
     public static boolean isWalletExisted(Context context, String walletName) {
         return isWalletExisted(context, new WalletEntity(walletName));
+    }
+
+    public static void initWalletType(Context context) {
+        List<WalletEntity> wallets = SPUtils.getDataList(context, "walletlist", WalletEntity.class);
+        if (wallets != null) {
+            for (WalletEntity walletEntity : wallets) {
+                if (walletEntity.getWalletType() == null) {
+                    String type = (String) SPUtils.get(context, "create_method_" + SPUtils.get(context, "address", ""), "");
+                    walletEntity.setWalletType(ImportWalletType.valueOf(type));
+                }
+            }
+        }
     }
 }

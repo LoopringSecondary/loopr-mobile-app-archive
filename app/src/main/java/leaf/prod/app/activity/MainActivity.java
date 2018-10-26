@@ -22,6 +22,7 @@ import leaf.prod.app.fragment.SettingFragment;
 import leaf.prod.app.fragment.TradeFragment;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.WalletUtil;
 
 /**
  * Created by niedengqiang on 2018/8/13.
@@ -96,6 +97,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        WalletUtil.initWalletType(this);
     }
 
     @Override
