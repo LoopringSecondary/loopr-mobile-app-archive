@@ -52,6 +52,7 @@ import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.NumberUtils;
+import leaf.prod.app.utils.QRCodeUitl;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.utils.WalletUtil;
@@ -299,7 +300,9 @@ public class SendActivity extends BaseActivity {
                 break;
             case R.id.iv_scan:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-                    startActivityForResult(new Intent(this, ActivityScanerCode.class), REQUEST_CODE);
+                    Intent intent = new Intent(this, ActivityScanerCode.class);
+                    intent.putExtra("restrict", QRCodeUitl.QRCodeType.TRANSFER.name());
+                    startActivityForResult(intent, REQUEST_CODE);
                 }
                 break;
             case R.id.ll_show_fee:
