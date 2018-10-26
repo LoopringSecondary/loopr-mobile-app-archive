@@ -337,6 +337,7 @@ public class ActivityScanerCode extends ActivityBase {
                     if (rawResult != null && QRCodeUitl.isValidQRCode(rawResult.toString(), restrictQRCodes)) {
                         if (mScanerListener == null) {
                             //                        initDialogResult(rawResult);
+                            RxBeepTool.playBeep(mContext, vibrate);
                             initActivityResult(rawResult.getText());
                         } else {
                             mScanerListener.onSuccess("From to Picture", rawResult);
@@ -368,7 +369,6 @@ public class ActivityScanerCode extends ActivityBase {
         setResult(RESULT_OK, intent);
         finish();
     }
-
     //==============================================================================================解析结果 及 后续处理 end
 
     public void handleDecode(String result) {
@@ -392,32 +392,35 @@ public class ActivityScanerCode extends ActivityBase {
         int tmp = width;
         width = height;
         height = tmp;
-
         ZbarManager manager = new ZbarManager();
         String result = manager.decode(rotatedData, width, height, true,
                 x, y, cropWidth, cropHeight);
         ZBarDecoder zBarDecoder = new ZBarDecoder();
-        String result_line = zBarDecoder.decodeRaw(rotatedData,width,height);
+        String result_line = zBarDecoder.decodeRaw(rotatedData, width, height);
+        if (handler == null)
+            return;
         if (result != null) {
-            if (null != handler) {
+            if (!QRCodeUitl.isValidQRCode(result, restrictQRCodes)) {
+                RxToast.error("图片识别失败");
+                handler.sendEmptyMessage(R.id.decode_failed);
+            } else {
                 Message msg = new Message();
                 msg.obj = "二维码:" + result;
                 msg.what = R.id.decode_succeeded;
                 handler.sendMessage(msg);
             }
-        } else {
-            if (result_line != null) {
-                if (null != handler) {
-                    Message msg = new Message();
-                    msg.obj = "条形码:" + result_line;
-                    msg.what = R.id.decode_succeeded;
-                    handler.sendMessage(msg);
-                }
+        } else if (result_line != null) {
+            if (!QRCodeUitl.isValidQRCode(result_line, restrictQRCodes)) {
+                RxToast.error("图片识别失败");
+                handler.sendEmptyMessage(R.id.decode_failed);
             } else {
-                if (null != handler) {
-                    handler.sendEmptyMessage(R.id.decode_failed);
-                }
+                Message msg = new Message();
+                msg.obj = "条形码:" + result_line;
+                msg.what = R.id.decode_succeeded;
+                handler.sendMessage(msg);
             }
+        } else {
+            handler.sendEmptyMessage(R.id.decode_failed);
         }
     }
 
