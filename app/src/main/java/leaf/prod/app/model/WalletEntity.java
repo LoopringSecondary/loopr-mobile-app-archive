@@ -26,15 +26,20 @@ public class WalletEntity implements Serializable {
 
     private String pas;
 
+    private String dPath;
+
+    private ImportWalletType walletType;
+
     public WalletEntity(String walletname) {
         this.walletname = walletname;
     }
 
-    public WalletEntity(String walletname, String filename, String address, String mnemonic) {
+    public WalletEntity(String walletname, String filename, String address, String mnemonic, ImportWalletType walletType) {
         this.walletname = walletname;
         this.filename = filename;
         this.address = address;
         this.mnemonic = mnemonic;
+        this.walletType = walletType;
     }
 
     public String getWalletname() {
@@ -101,6 +106,22 @@ public class WalletEntity implements Serializable {
         this.pas = pas;
     }
 
+    public String getdPath() {
+        return dPath;
+    }
+
+    public void setdPath(String dPath) {
+        this.dPath = dPath;
+    }
+
+    public ImportWalletType getWalletType() {
+        return walletType;
+    }
+
+    public void setWalletType(ImportWalletType walletType) {
+        this.walletType = walletType;
+    }
+
     @Override
     public String toString() {
         return "WalletEntity{" +
@@ -112,6 +133,8 @@ public class WalletEntity implements Serializable {
                 ", currency=" + currency +
                 ", amountShow='" + amountShow + '\'' +
                 ", pas='" + pas + '\'' +
+                ", dPath='" + dPath + '\'' +
+                ", walletType=" + walletType +
                 '}';
     }
 }
