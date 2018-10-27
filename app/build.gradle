@@ -47,8 +47,14 @@ android {
     }
     sourceSets {
         main {
-            jniLibs.srcDirs = ['jniLibs']
+            jniLibs.srcDirs = ['libs']
         }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs' //this way we can find the .aar file in libs folder
     }
 }
 
@@ -120,5 +126,5 @@ dependencies {
 //    implementation 'com.umeng.sdk:push:4.2.0'
     // agent web for combine dex only compatible with version: 3.0.0-rc
     implementation 'com.just.agentweb:agentweb:3.0.0-rc'
-
+    implementation(name: 'RxTools-library', ext: 'aar')
 }
