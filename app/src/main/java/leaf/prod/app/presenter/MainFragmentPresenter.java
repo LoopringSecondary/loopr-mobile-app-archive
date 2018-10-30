@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import android.content.Context;
 
@@ -59,7 +58,6 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
     private String moneyValue;
 
     private String address;
-    //    private MainNetworkReceiver mainNetworkReceiver;
 
     public MainFragmentPresenter(MainFragment view, Context context) {
         super(view, context);
@@ -132,17 +130,6 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
             });
         }
     }
-    //    public void initNetworkListener() {
-    //        mainNetworkReceiver = MainNetworkReceiver.getInstance(this);
-    //        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-    //        context.registerReceiver(mainNetworkReceiver, intentFilter);
-    //    }
-    //    public void handleNetworkError() {
-    //        if (NetworkUtil.getNetWorkState(context) == Network.NETWORK_NONE) {
-    //            ToastUtils.toastError(context.getResources().getString(R.string.network_error));
-    //            view.finishRefresh();
-    //        }
-    //    }
 
     public void destroy() {
         if (marketcapObservable != null) {
@@ -153,9 +140,6 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
             balanceObservable.unsubscribeOn(Schedulers.io());
             balanceObservable = null;
         }
-        //        if (mainNetworkReceiver != null) {
-        //            context.unregisterReceiver(mainNetworkReceiver);
-        //        }
     }
 
     private void setTokenLegalPrice() {
@@ -164,7 +148,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         }
         Collections.sort(balanceDataManager.getAssets(), (o1, o2) -> Double.compare(o2.getLegalValue(), o1.getLegalValue()));
         List<BalanceResult.Asset> listChooseAsset = new ArrayList<>(), positiveList = new ArrayList<>(), zeroList = new ArrayList<>();
-        List<String> listChooseSymbol = SPUtils.getTokenList(this.context, "choose_token_" + address);
+        List<String> listChooseSymbol = WalletUtil.getChooseTokens(context);
         double amount = 0;
         for (String symbol : listChooseSymbol) {
             listChooseAsset.add(tokenMap.get(symbol));
@@ -207,17 +191,13 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         view.getmAdapter().setNewData(listChooseAsset);
         view.setWalletCount(moneyValue);
         view.getmAdapter().notifyDataSetChanged();
-        List<WalletEntity> walletEntityList = SPUtils.getDataList(context, "walletlist", WalletEntity.class);
-        for (WalletEntity walletEntity : walletEntityList) {
-            if (walletEntity.getAddress().equals(address) && walletEntity.getAmount() != amount) {
-                int index = walletEntityList.indexOf(walletEntity);
-                walletEntity.setAmount(amount);
-                walletEntity.setAmountShow(moneyValue);
-                walletEntityList.set(index, walletEntity);
-                SPUtils.setDataList(context, "walletlist", walletEntityList);
-                break;
-            }
-        }
+        /**
+         * 更新钱包信息
+         */
+        WalletEntity myWallet = WalletUtil.getCurrentWallet(context);
+        myWallet.setAmount(amount);
+        myWallet.setAmountShow(moneyValue);
+        WalletUtil.updateWallet(context, myWallet);
     }
 
     public List<BalanceResult.Asset> getListAsset() {
@@ -226,7 +206,8 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
     public String getAddress() {
         if (address == null) {
-            address = (String) SPUtils.get(Objects.requireNonNull(context), "address", "");
+            WalletEntity wallet = WalletUtil.getCurrentWallet(context);
+            return wallet != null ? wallet.getAddress() : "";
         }
         return address;
     }
@@ -295,42 +276,4 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
             this.marketcapResult = marketcapResult;
         }
     }
-    //    private static class MainNetworkReceiver extends NetworkStateReceiver {
-    //
-    //        private static boolean first = true;
-    //
-    //        private static MainNetworkReceiver mainNetworkReceiver;
-    //
-    //        private MainFragmentPresenter presenter;
-    //
-    //        private MainNetworkReceiver(MainFragmentPresenter presenter) {
-    //            this.presenter = presenter;
-    //        }
-    //
-    //        public static MainNetworkReceiver getInstance(MainFragmentPresenter presenter) {
-    //            if (mainNetworkReceiver == null) {
-    //                return new MainNetworkReceiver(presenter);
-    //            }
-    //            return mainNetworkReceiver;
-    //        }
-    //
-    //        @Override
-    //        public void doNetWorkNone() {
-    //            ToastUtils.toast(presenter.context.getResources().getString(R.string.network_error));
-    //        }
-    //
-    //        @Override
-    //        public void doNetWorkWifi() {
-    //            if (first) {
-    //                first = false;
-    //                return;
-    //            }
-    //            presenter.initObservable();
-    //        }
-    //
-    //        @Override
-    //        public void doNetWorkMobile() {
-    //            doNetWorkWifi();
-    //        }
-    //    }
 }

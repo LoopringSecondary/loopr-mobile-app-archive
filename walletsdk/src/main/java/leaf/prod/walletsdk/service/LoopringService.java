@@ -3,13 +3,10 @@ package leaf.prod.walletsdk.service;
 import java.math.BigInteger;
 import java.util.List;
 
-import android.util.Log;
-
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.core.methods.response.Transaction;
 import org.web3j.utils.Numeric;
 import com.google.common.collect.Maps;
-import com.google.gson.Gson;
 
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
@@ -135,11 +132,7 @@ public class LoopringService {
                 .gas(Numeric.toHexStringWithPrefix(rawTransaction.getGasLimit()))
                 .input("")
                 .from(from)
-//                .r(signature.getR())
-//                .v(signature.getV())
-//                .s(signature.getS())
                 .build();
-        Log.d("======", new Gson().toJson(notifyTransactionSubmitParam));
         RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", notifyTransactionSubmitParam);
         Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyTransactionSubmitted(request);
         return observable.map(ResponseWrapper::getResult);
@@ -159,7 +152,6 @@ public class LoopringService {
                 .r(transaction.getR())
                 .s(transaction.getS())
                 .build();
-        Log.d("======", new Gson().toJson(param));
         RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", param);
         Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyTransactionSubmitted(request);
         return observable.map(ResponseWrapper::getResult);

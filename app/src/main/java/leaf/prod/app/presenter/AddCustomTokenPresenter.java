@@ -15,9 +15,10 @@ import org.web3j.crypto.WalletUtils;
 
 import leaf.prod.app.activity.AddCustomTokenActivity;
 import leaf.prod.app.manager.TokenDataManager;
+import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.utils.NumberUtils;
-import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.service.LoopringService;
 import rx.Subscriber;
@@ -75,7 +76,7 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
         String symbol = view.etTokenSymbol.getText().toString();
         String decimals = view.etTokenDecimal.getText().toString();
         if (validateAddress(address) && validateSymbol(symbol) && validateDecimal(decimals)) {
-            String owner = (String) SPUtils.get(context, "address", "");
+            String owner = WalletUtil.getCurrentAddress(context);
             if (!address.startsWith("0x") && !address.startsWith("0X")) {
                 this.address = "0x" + address;
             } else {
@@ -113,10 +114,12 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
                 .source(this.symbol.toLowerCase())
                 .build();
         tokenManager.addToken(token);
-        List<String> tokenChosen = SPUtils.getTokenList(context, "choose_token_" + address);
-        if (!tokenChosen.contains(this.symbol)) {
+        WalletEntity wallet = WalletUtil.getCurrentWallet(context);
+        List<String> tokenChosen = wallet.getChooseTokenList();
+        if (tokenChosen != null && !tokenChosen.contains(this.symbol)) {
             tokenChosen.add(this.symbol);
         }
-        SPUtils.setDataList(context, "choose_token_" + address, tokenChosen);
+        wallet.setChooseTokenList(tokenChosen);
+        WalletUtil.updateWallet(context, wallet);
     }
 }

@@ -35,9 +35,9 @@ public class FileUtils {
      */
     public static String getFileFromSD(Context context) throws IOException, JSONException {
         FileInputStream isr = null;
-        //            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+        //            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + WalletUtil.getCurrentFileName(context));
         isr = new FileInputStream(context.getFilesDir()
-                .getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+                .getAbsolutePath() + "/keystore/" + WalletUtil.getCurrentFileName(context));
         BufferedReader br = new BufferedReader(new InputStreamReader(isr));
         String line;
         StringBuilder builder = new StringBuilder();
@@ -58,7 +58,7 @@ public class FileUtils {
      */
     public static File getKeystoreFile(Context context) {
         File file = new File(context.getFilesDir()
-                .getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+                .getAbsolutePath() + "/keystore/" + WalletUtil.getCurrentFileName(context));
         return file;
     }
 
@@ -67,9 +67,9 @@ public class FileUtils {
      */
     public static String getKeystoreFromSD(Context context) throws IOException, JSONException {
         FileInputStream isr = null;
-        //            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+        //            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + WalletUtil.getCurrentFileName(context));
         isr = new FileInputStream(context.getFilesDir()
-                .getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+                .getAbsolutePath() + "/keystore/" + WalletUtil.getCurrentFileName(context));
         BufferedReader br = new BufferedReader(new InputStreamReader(isr));
         String line;
         StringBuilder builder = new StringBuilder();
@@ -89,7 +89,7 @@ public class FileUtils {
      */
     public static String getKeystoreFromSD(Context context, String filename) throws IOException, JSONException {
         FileInputStream isr = null;
-        //            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+        //            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + WalletUtil.getCurrentFileName(context));
         isr = new FileInputStream(context.getFilesDir().getAbsolutePath() + "/keystore/" + filename);
         BufferedReader br = new BufferedReader(new InputStreamReader(isr));
         String line;
@@ -126,7 +126,7 @@ public class FileUtils {
      */
     public static String[] getFile(Context context, String fileName) throws IOException, JSONException {
         FileInputStream isr = null;
-        //            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + (String) SPUtils.get(context, "filename", ""));
+        //            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + WalletUtil.getCurrentFileName(context));
         isr = new FileInputStream(context.getFilesDir().getAbsolutePath() + "/keystore/" + fileName);
         BufferedReader br = new BufferedReader(new InputStreamReader(isr));
         String text = br.readLine();

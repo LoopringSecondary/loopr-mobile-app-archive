@@ -41,6 +41,7 @@ import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.DialogUtil;
 import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
+import leaf.prod.app.utils.MD5Utils;
 import leaf.prod.app.utils.MyViewUtils;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
@@ -159,13 +160,9 @@ public class GenerateWalletActivity extends BaseActivity {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    SPUtils.put(GenerateWalletActivity.this, "pas", password.getText().toString());
-                    SPUtils.put(GenerateWalletActivity.this, "hasWallet", true);
-                    SPUtils.put(GenerateWalletActivity.this, "address", "0x" + address);
-                    List<WalletEntity> list = SPUtils.getDataList(GenerateWalletActivity.this, "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
-                    list.add(new WalletEntity(walletName.getText()
-                            .toString(), filename, "0x" + address, mnemonic, ImportWalletType.KEY_STORE));
-                    SPUtils.setDataList(GenerateWalletActivity.this, "walletlist", list);
+                    //                    SPUtils.put(GenerateWalletActivity.this, "pas", password.getText().toString());
+                    //                    SPUtils.put(GenerateWalletActivity.this, "hasWallet", true);
+                    //                    SPUtils.put(GenerateWalletActivity.this, "address", "0x" + address);
                     new Thread(() -> {
                         LyqbLogger.log(address);
                         loopringService.notifyCreateWallet(address)
@@ -173,6 +170,9 @@ public class GenerateWalletActivity extends BaseActivity {
                                 .subscribe(new Subscriber<String>() {
                                     @Override
                                     public void onCompleted() {
+                                        WalletUtil.addWallet(GenerateWalletActivity.this, new WalletEntity(walletName.getText()
+                                                .toString(), filename, "0x" + address, mnemonic, MD5Utils.md5(password.getText()
+                                                .toString()), "", ImportWalletType.KEY_STORE));
                                         hideProgress();
                                         DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, v -> {
                                             DialogUtil.dialog.dismiss();
@@ -300,7 +300,6 @@ public class GenerateWalletActivity extends BaseActivity {
                             }
                             mHintAdapter.setNewData(listMnemonic);
                             new Thread(() -> FileUtils.keepFile(GenerateWalletActivity.this, "mnemonic.txt", mnemonic)).start();
-                            //                            SPUtils.setDataList(this, "mnemonic", listMnemonic);
                             mHintAdapter.notifyDataSetChanged();
                             generatePartone.setVisibility(View.GONE);
                             generateParttwo.setVisibility(View.VISIBLE);
@@ -359,12 +358,9 @@ public class GenerateWalletActivity extends BaseActivity {
             try {
                 filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, pas, FileUtils.getKeyStoreLocation(GenerateWalletActivity.this));
                 LyqbLogger.log(filename);
-                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
+//                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
-            } catch (InvalidPrivateKeyException e) {
-                handlerCreate.sendEmptyMessage(ERROR_THREE);
-                e.printStackTrace();
-            } catch (KeystoreCreateException e) {
+            } catch (InvalidPrivateKeyException | KeystoreCreateException e) {
                 handlerCreate.sendEmptyMessage(ERROR_THREE);
                 e.printStackTrace();
             }

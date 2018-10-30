@@ -13,6 +13,7 @@ import android.content.Context;
 
 import leaf.prod.app.utils.NotificationUtil;
 import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.listener.TransactionStatusListener;
 import leaf.prod.walletsdk.model.TxStatus;
 import leaf.prod.walletsdk.model.response.data.Transaction;
@@ -78,7 +79,7 @@ public class TransactionDataManager {
             txHashes.add(txHash.toLowerCase());
             SPUtils.setDataList(context, "pending_tx", txHashes);
         }
-        String owner = (String) SPUtils.get(context, "address", "");
+        String owner = WalletUtil.getCurrentAddress(context);
         String[] hashArray = txHashes.toArray(new String[txHashes.size()]);
         listener.queryByHashes(owner, hashArray);
     }

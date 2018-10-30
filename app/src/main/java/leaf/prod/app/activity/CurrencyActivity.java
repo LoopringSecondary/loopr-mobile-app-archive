@@ -1,6 +1,5 @@
 package leaf.prod.app.activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import leaf.prod.app.manager.MarketcapDataManager;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.service.LoopringService;
@@ -106,13 +106,14 @@ public class CurrencyActivity extends BaseActivity {
                     if (marketcapResult.getTokens() != null && marketcapResult.getTokens().size() > 0) {
                         price = marketcapResult.getTokens().get(0).getPrice();
                     }
-                    List<WalletEntity> walletEntityList = SPUtils.getDataList(this, "walletlist", WalletEntity.class), result = new ArrayList();
-                    for (WalletEntity walletEntity : walletEntityList) {
-                        walletEntity.setAmount(walletEntity.getAmount() / marketcapDataManager.getPriceBySymbol("ETH") * price);
-                        walletEntity.setAmountShow(CurrencyUtil.format(this, walletEntity.getAmount()));
-                        result.add(walletEntity);
+                    List<WalletEntity> wallets = WalletUtil.getWalletList(this);
+                    for (WalletEntity wallet : wallets) {
+                        wallets.get(wallets.indexOf(wallet))
+                                .setAmount(wallet.getAmount() / marketcapDataManager.getPriceBySymbol("ETH") * price);
+                        wallets.get(wallets.indexOf(wallet))
+                                .setAmountShow(CurrencyUtil.format(this, wallet.getAmount()));
                     }
-                    SPUtils.setDataList(this, "walletlist", result);
+                    WalletUtil.setWalletList(this, wallets);
                 });
     }
 }

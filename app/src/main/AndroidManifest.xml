@@ -69,8 +69,10 @@
             android:theme="@style/SwipeBackLayout">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
+
                 <data android:scheme="1107846749"/>
             </intent-filter>
         </activity>
@@ -224,6 +226,11 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.H5DexWebActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ActivityThirdLogin"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>

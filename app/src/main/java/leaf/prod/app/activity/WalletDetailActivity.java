@@ -34,7 +34,7 @@ import leaf.prod.app.manager.TokenDataManager;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.DateUtil;
 import leaf.prod.app.utils.NumberUtils;
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.TxType;
@@ -155,7 +155,7 @@ public class WalletDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        address = (String) SPUtils.get(this, "address", "");
+        address = WalletUtil.getCurrentAddress(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);  //助记词提示列表
         mAdapter = new WalletAllAdapter(R.layout.adapter_item_wallet_all, null, symbol);
@@ -278,8 +278,7 @@ public class WalletDetailActivity extends BaseActivity {
                     valueShown = "+" + valueShown + " " + tx.getSymbol();
                     txAmount.setTextColor(this.getResources().getColor(R.color.colorGreen));
                     break;
-                    default:
-
+                default:
             }
             result = valueShown + " ≈ " + currency;
         }
