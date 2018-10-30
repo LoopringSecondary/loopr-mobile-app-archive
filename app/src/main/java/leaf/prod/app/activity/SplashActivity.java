@@ -18,8 +18,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
+import leaf.prod.app.model.ThirdLoginUser;
 import leaf.prod.app.utils.FingerprintUtil;
 import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.ThirdUserUtil;
 
 public class SplashActivity extends BaseActivity {
 
@@ -49,10 +51,12 @@ public class SplashActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    if ((boolean) SPUtils.get(SplashActivity.this, "hasWallet", false)) {
+                    ThirdLoginUser thirdLoginUser = ThirdUserUtil.getThirdLoginUserBean(SplashActivity.this);
+                    if (thirdLoginUser != null) {
+                        // 第三方登录过
                         getOperation().forwardPopup(MainActivity.class);
                     } else {
-                        getOperation().forwardPopup(CoverActivity.class);
+                        getOperation().forwardPopup(ActivityThirdLogin.class);
                     }
                     finish();
                     break;
@@ -167,7 +171,9 @@ public class SplashActivity extends BaseActivity {
                 fingerTip.setTextColor(getResources().getColor(R.color.colorRed));
                 count--;
             }
-            fingerImage.startAnimation(animation);
+            if (animation != null) {
+                fingerImage.startAnimation(animation);
+            }
         }
     }
 }

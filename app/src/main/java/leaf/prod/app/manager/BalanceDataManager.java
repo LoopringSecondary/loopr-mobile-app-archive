@@ -9,13 +9,12 @@ package leaf.prod.app.manager;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 import android.content.Context;
 
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.NumberUtils;
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.listener.BalanceListener;
 import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.MarketcapResult;
@@ -140,7 +139,8 @@ public class BalanceDataManager {
 
     public String getAddress() {
         if (address == null)
-            address = (String) SPUtils.get(Objects.requireNonNull(context), "address", "");
+            //            address = (String) SPUtils.get(Objects.requireNonNull(context), "address", "");
+            address = WalletUtil.getCurrentAddress(context);
         return address;
     }
 }

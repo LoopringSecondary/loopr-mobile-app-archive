@@ -28,8 +28,8 @@ import leaf.prod.app.activity.H5DexWebActivity;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.LanguageUtil;
-import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.model.H5ScanType;
 import leaf.prod.walletsdk.util.KeystoreUtils;
 import leaf.prod.walletsdk.util.StringUtils;
@@ -131,7 +131,7 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
     }
 
     private void getAddress() {
-        result = (String) SPUtils.get(context, "address", "");
+        result = WalletUtil.getCurrentAddress(context);
     }
 
     private void getCurrency() {

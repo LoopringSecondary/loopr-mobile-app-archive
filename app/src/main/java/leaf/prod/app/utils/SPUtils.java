@@ -51,7 +51,7 @@ public class SPUtils {
         } else if (object instanceof Long) {
             editor.putLong(key, (Long) object);
         } else {
-            editor.putString(key, object.toString());
+            editor.putString(key, new Gson().toJson(object));
         }
         SharedPreferencesCompat.commit(editor);
     }
@@ -200,6 +200,25 @@ public class SPUtils {
             datalist.add(gson.fromJson(jsonElement, cls));
         }
         return datalist;
+    }
+
+    /**
+     * 获取bean
+     *
+     * @param context
+     * @param tag
+     * @param cls
+     * @param <T>
+     * @return
+     */
+    public static <T> T getBean(Context context, String tag, Class<T> cls) {
+        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        String json = sp.getString(tag, null);
+        if (json != null && !json.isEmpty()) {
+            Gson gson = new Gson();
+            return gson.fromJson(json, cls);
+        }
+        return null;
     }
 
     /**

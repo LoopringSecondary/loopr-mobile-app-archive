@@ -8,14 +8,14 @@ import android.widget.LinearLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.model.eventbusData.NameChangeData;
-import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.utils.ToastUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.TitleView;
 
 public class ReviseWalletNameActivity extends BaseActivity {
@@ -29,9 +29,9 @@ public class ReviseWalletNameActivity extends BaseActivity {
     @BindView(R.id.ll_clear_records)
     LinearLayout llClearRecords;
 
-    private int position;
-
     private List<WalletEntity> list;
+
+    private WalletEntity selectedWallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,18 +50,17 @@ public class ReviseWalletNameActivity extends BaseActivity {
         title.clickLeftGoBack(getWContext());
         title.setRightText(getResources().getString(R.string.save), button -> {
             if (TextUtils.isEmpty(walletName.getText().toString())) {
-                ToastUtils.toastError(getResources().getString(R.string.wallet_name_hint));
-            } else if (getIntent().getStringExtra("walletname").equalsIgnoreCase(walletName.getText().toString())) {
+                RxToast.error(getResources().getString(R.string.wallet_name_hint));
+            } else if (selectedWallet.getWalletname().equalsIgnoreCase(walletName.getText().toString())) {
                 finish();
+            } else if (WalletUtil.isWalletExisted(this, walletName.getText().toString())) {
+                RxToast.error(getResources().getString(R.string.wallet_name_existed));
             } else {
-                for (WalletEntity walletEntity : list) {
-                    if (walletEntity.getWalletname().equalsIgnoreCase(walletName.getText().toString())) {
-                        ToastUtils.toastError(getResources().getString(R.string.wallet_name_existed));
-                        return;
-                    }
-                }
-                list.get(position).setWalletname(walletName.getText().toString());
-                SPUtils.setDataList(ReviseWalletNameActivity.this, "walletlist", list);
+                /**
+                 * 更新钱包配置
+                 */
+                selectedWallet.setWalletname(walletName.getText().toString());
+                WalletUtil.updateWallet(this, selectedWallet);
                 EventBus.getDefault().post(new NameChangeData(walletName.getText().toString()));
                 finish();
             }
@@ -70,9 +69,9 @@ public class ReviseWalletNameActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        list = SPUtils.getDataList(this, "walletlist", WalletEntity.class);//多钱包，将钱包信息存在本地
-        position = getIntent().getIntExtra("position", 0);
-        walletName.setText(getIntent().getStringExtra("walletname"));
+        selectedWallet = (WalletEntity) getIntent().getSerializableExtra("selectedWallet");
+        list = WalletUtil.getWalletList(this);
+        walletName.setText(selectedWallet.getWalletname());
     }
 
     @Override

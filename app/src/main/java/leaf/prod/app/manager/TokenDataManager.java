@@ -21,7 +21,7 @@ import org.web3j.utils.Convert;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.service.LoopringService;
 import rx.Observable;
@@ -78,7 +78,7 @@ public class TokenDataManager {
     }
 
     private void loadTokensFromRelay() {
-        String owner = (String) SPUtils.get(context, "address", "");
+        String owner = WalletUtil.getCurrentAddress(context);
         if (this.tokenObservable == null) {
             this.tokenObservable = loopringService
                     .getCustomToken(owner)
@@ -145,7 +145,7 @@ public class TokenDataManager {
     // support for main fragment presenter
     public void mergeTokens(List<Token> tokens) {
         synchronized (this) {
-            List<String> chooseList = SPUtils.getTokenList(context, "choose_token_" + SPUtils.get(context, "address", ""));
+            List<String> chooseList = WalletUtil.getChooseTokens(context);
             List<Token> tTokens = new ArrayList<>();
             Map<String, Token> map = new HashMap<>();
             for (Token token : tokens) {

@@ -9,7 +9,7 @@ package leaf.prod.app.manager;
 import android.content.Context;
 
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.service.LoopringService;
 import rx.Observable;
@@ -59,7 +59,8 @@ public class PartnerDataManager {
 
     public void createPartner() {
         if (this.createPartnerObservable == null) {
-            String owner = (String) SPUtils.get(context, "address", "");
+            //            String owner = (String) SPUtils.get(context, "address", "");
+            String owner = WalletUtil.getCurrentAddress(context);
             this.createPartnerObservable = loopringService.createPartner(owner);
             this.createPartnerObservable.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

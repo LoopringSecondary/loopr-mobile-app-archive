@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import leaf.prod.app.R;
 import leaf.prod.app.model.WalletEntity;
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.WalletUtil;
 
 /**
  *
@@ -22,13 +22,10 @@ public class ManageWalletListAdapter extends BaseQuickAdapter<WalletEntity, Base
 
     @Override
     protected void convert(BaseViewHolder helper, WalletEntity item) {
-        //        helper.setText(R.id.wallet_name, (String) SPUtils.get(mContext,"walletname","name"));
-        //        helper.setText(R.id.wallet_count, (String) SPUtils.get(mContext,"amount","$392.27"));
-        //        helper.setText(R.id.wallet_address, (String) SPUtils.get(mContext,"address","address"));
         helper.setText(R.id.wallet_name, item.getWalletname());
         helper.setText(R.id.wallet_count, item.getAmountShow());
         helper.setText(R.id.wallet_address, item.getAddress());
-        if (item.getAddress().equals((String) SPUtils.get(mContext, "address", ""))) {
+        if (item.getAddress().equals(WalletUtil.getCurrentAddress(mContext))) {
             helper.setVisible(R.id.icon_status, true);
         } else {
             helper.setVisible(R.id.icon_status, false);

@@ -19,7 +19,7 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.model.eventbusData.NameChangeData;
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.TitleView;
 
 public class WalletSafeActivity extends BaseActivity {
@@ -45,19 +45,9 @@ public class WalletSafeActivity extends BaseActivity {
     @BindView(R.id.btn_switch)
     Button btnSwitch;
 
-    private int position;
-
-    private String filename;
-
-    private String address;
-
-    private String walletname;
-
-    private String mnemonic;
-
-    private String pas;
-
     private AlertDialog.Builder confirmClear;
+
+    private WalletEntity selectedWallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,21 +59,15 @@ public class WalletSafeActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-        position = getIntent().getIntExtra("position", 0);
-        filename = getIntent().getStringExtra("filename");
-        address = getIntent().getStringExtra("address");
-        walletname = getIntent().getStringExtra("walletname");
-        mnemonic = getIntent().getStringExtra("mnemonic");
-        pas = getIntent().getStringExtra("pas");
-        title.setBTitle(walletname);
+        selectedWallet = (WalletEntity) getIntent().getSerializableExtra("selectedWallet");
+        title.setBTitle(selectedWallet.getWalletname());
         title.clickLeftGoBack(getWContext());
     }
 
     @Override
     public void initView() {
-        WalletEntity walletEntity = getSelectedWallet();
-        if (walletEntity != null && walletEntity.getWalletType() != null) {
-            switch (walletEntity.getWalletType()) {
+        if (selectedWallet != null && selectedWallet.getWalletType() != null) {
+            switch (selectedWallet.getWalletType()) {
                 case MNEMONIC:
                     llBackupMnemonic.setVisibility(View.VISIBLE);
                     break;
@@ -103,12 +87,7 @@ public class WalletSafeActivity extends BaseActivity {
 
     @OnClick({R.id.ll_wallet_name, R.id.ll_backup_mnemonic, R.id.ll_export_private_key, R.id.ll_export_keystore, R.id.ll_clear_records, R.id.btn_switch})
     public void onViewClicked(View view) {
-        getOperation().addParameter("position", position);
-        getOperation().addParameter("filename", filename);
-        getOperation().addParameter("address", address);
-        getOperation().addParameter("walletname", walletname);
-        getOperation().addParameter("mnemonic", mnemonic);
-        getOperation().addParameter("pas", pas);
+        getOperation().addParameter("selectedWallet", selectedWallet);
         switch (view.getId()) {
             case R.id.ll_wallet_name:
                 getOperation().forward(ReviseWalletNameActivity.class);
@@ -129,25 +108,16 @@ public class WalletSafeActivity extends BaseActivity {
                 if (confirmClear == null) {
                     confirmClear = new AlertDialog.Builder(this);
                     confirmClear.setPositiveButton(getResources().getString(R.string.confirm), (dialogInterface, i0) -> {
-                        String addressUsed = (String) SPUtils.get(this, "address", "");//当前使用钱包的地址
-                        List<WalletEntity> list = SPUtils.getDataList(this, "walletlist", WalletEntity.class);
-                        for (WalletEntity walletEntity : list) {
-                            if (walletEntity.getAddress().equals(address)) {
-                                list.remove(walletEntity);
-                                SPUtils.remove(this, "choose_token_" + address);
-                                SPUtils.setDataList(this, "walletlist", list);
-                                if (list.size() == 0) {
-                                    SPUtils.remove(this, "walletlist");
-                                    getOperation().forwardClearTop(CoverActivity.class);
-                                } else {
-                                    if (address.equals(addressUsed)) {
-                                        SPUtils.put(this, "address", list.get(0).getAddress());
-                                        SPUtils.put(this, "filename", list.get(0).getFilename());
-                                    }
-                                    getOperation().forwardClearTop(MainActivity.class);
-                                }
-                                return;
+                        String addressUsed = WalletUtil.getCurrentAddress(this); //当前使用钱包的地址
+                        WalletUtil.removeWallet(this, selectedWallet.getAddress());
+                        List<WalletEntity> wallets = WalletUtil.getWalletList(this);
+                        if (wallets == null) {
+                            getOperation().forwardClearTop(CoverActivity.class);
+                        } else {
+                            if (selectedWallet.getAddress().equals(addressUsed)) {
+                                WalletUtil.setCurrentWallet(this, wallets.get(0));
                             }
+                            getOperation().forwardClearTop(MainActivity.class);
                         }
                     });
                     confirmClear.setNegativeButton(getResources().getString(R.string.cancel), (dialogInterface, i) -> {
@@ -159,22 +129,11 @@ public class WalletSafeActivity extends BaseActivity {
                 confirmClear.show();
                 break;
             case R.id.btn_switch:
-                SPUtils.put(this, "address", address);
-                SPUtils.put(this, "filename", filename);
+                WalletUtil.setCurrentWallet(this, selectedWallet);
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
                 break;
         }
-    }
-
-    private WalletEntity getSelectedWallet() {
-        List<WalletEntity> list = SPUtils.getDataList(this, "walletlist", WalletEntity.class);
-        for (WalletEntity walletEntity : list) {
-            if (walletEntity.getAddress().equals(address)) {
-                return walletEntity;
-            }
-        }
-        return null;
     }
 
     @Override
@@ -199,7 +158,8 @@ public class WalletSafeActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(NameChangeData event) {
-        walletname = event.getName();
-        title.setBTitle(walletname);
+        selectedWallet.setWalletname(event.getName());
+        WalletUtil.updateWallet(this, selectedWallet);
+        title.setBTitle(event.getName());
     }
 }

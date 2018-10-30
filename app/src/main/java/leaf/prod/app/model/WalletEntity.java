@@ -1,6 +1,9 @@
 package leaf.prod.app.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import leaf.prod.walletsdk.model.Currency;
 
@@ -24,22 +27,37 @@ public class WalletEntity implements Serializable {
 
     private String amountShow;
 
-    private String pas;
+    private String pas;  // md5
+    // add
 
+    /**
+     * 录入的钱包类型
+     */
     private String dPath;
 
+    /**
+     * 录入的方式：助记词、keystore、privatekey
+     */
     private ImportWalletType walletType;
+
+    /**
+     * 钱包的自选token
+     */
+    private List<String> chooseTokenList;
 
     public WalletEntity(String walletname) {
         this.walletname = walletname;
     }
 
-    public WalletEntity(String walletname, String filename, String address, String mnemonic, ImportWalletType walletType) {
+    public WalletEntity(String walletname, String filename, String address, String mnemonic, String pas, String dPath, ImportWalletType walletType) {
         this.walletname = walletname;
         this.filename = filename;
         this.address = address;
         this.mnemonic = mnemonic;
+        this.pas = pas;
+        this.dPath = dPath;
         this.walletType = walletType;
+        this.chooseTokenList = Arrays.asList("ETH", "WETH", "LRC");
     }
 
     public String getWalletname() {
@@ -122,6 +140,29 @@ public class WalletEntity implements Serializable {
         this.walletType = walletType;
     }
 
+    public List<String> getChooseTokenList() {
+        return chooseTokenList;
+    }
+
+    public void setChooseTokenList(List<String> chooseTokenList) {
+        this.chooseTokenList = chooseTokenList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        WalletEntity that = (WalletEntity) o;
+        return Objects.equals(address, that.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(address);
+    }
+
     @Override
     public String toString() {
         return "WalletEntity{" +
@@ -135,6 +176,7 @@ public class WalletEntity implements Serializable {
                 ", pas='" + pas + '\'' +
                 ", dPath='" + dPath + '\'' +
                 ", walletType=" + walletType +
+                ", chooseTokenList=" + chooseTokenList +
                 '}';
     }
 }

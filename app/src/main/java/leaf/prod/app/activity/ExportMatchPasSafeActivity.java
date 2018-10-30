@@ -5,12 +5,14 @@ import android.text.TextUtils;
 import android.widget.Button;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.utils.ToastUtils;
+import leaf.prod.app.model.WalletEntity;
+import leaf.prod.app.utils.MD5Utils;
 import leaf.prod.app.views.TitleView;
 
 public class ExportMatchPasSafeActivity extends BaseActivity {
@@ -26,17 +28,7 @@ public class ExportMatchPasSafeActivity extends BaseActivity {
 
     private int type;  //密码验证类型，1为备份助记词验证密码  2为导出私钥验证密码  3为导出keystore验证密码
 
-    private int position;
-
-    private String filename;
-
-    private String address;
-
-    private String walletname;
-
-    private String mnemonic;
-
-    private String pas;
+    private WalletEntity selectedWallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,36 +54,30 @@ public class ExportMatchPasSafeActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        position = getIntent().getIntExtra("position", 0);
-        filename = getIntent().getStringExtra("filename");
-        address = getIntent().getStringExtra("address");
-        walletname = getIntent().getStringExtra("walletname");
-        mnemonic = getIntent().getStringExtra("mnemonic");
-        pas = getIntent().getStringExtra("pas");
+        selectedWallet = (WalletEntity) getIntent().getSerializableExtra("selectedWallet");
     }
 
     @OnClick(R.id.btn_confirm)
     public void onViewClicked() {
         if (TextUtils.isEmpty(etPassword.getText().toString())) {
-            ToastUtils.toast("请输入密码");
+            RxToast.error(getResources().getString(R.string.put_password));
             return;
         }
-        if (!etPassword.getText().toString().equals(pas)) {
-            ToastUtils.toast("您输入的密码不对");
+        if (!selectedWallet.getPas().equals(MD5Utils.md5(etPassword.getText().toString()))) {
+            RxToast.error(getResources().getString(R.string.keystore_psw_error));
             return;
         }
         if (type == 1) {
-            getOperation().addParameter("position", position);
-            getOperation().addParameter("mnemonic", mnemonic);
+            getOperation().addParameter("mnemonic", selectedWallet.getMnemonic());
             getOperation().forward(BackupMnemonicActivity.class);
         } else if (type == 2) {
-            getOperation().addParameter("filename", filename);
-            getOperation().addParameter("address", address);
+            getOperation().addParameter("filename", selectedWallet.getFilename());
+            getOperation().addParameter("address", selectedWallet.getAddress());
             getOperation().addParameter("password", etPassword.getText().toString());
             getOperation().forward(ExportPrivateKeyActivity.class);
         } else if (type == 3) {
-            getOperation().addParameter("filename", filename);
-            getOperation().addParameter("address", address);
+            getOperation().addParameter("filename", selectedWallet.getFilename());
+            getOperation().addParameter("address", selectedWallet.getAddress());
             getOperation().forward(ExportKeystoreDetailActivity.class);
         }
     }

@@ -37,7 +37,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.TitleView;
@@ -146,12 +145,12 @@ public class ReceiveActivity extends BaseActivity {
     @Override
     public void initView() {
         appName.setText(WalletUtil.getCurrentWallet(this).getWalletname());
-        coinAddress.setText((String) SPUtils.get(this, "address", ""));
+        coinAddress.setText(WalletUtil.getCurrentAddress(this));
     }
 
     @Override
     public void initData() {
-        String str = (String) SPUtils.get(this, "address", "");
+        String str = WalletUtil.getCurrentAddress(this);
         coinAddress.setText(str);
         walletAddress.setText(str);
         //二维码生成方式一  推荐此方法

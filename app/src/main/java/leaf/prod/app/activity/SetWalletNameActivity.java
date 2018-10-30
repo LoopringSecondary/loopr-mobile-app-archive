@@ -6,8 +6,6 @@
  */
 package leaf.prod.app.activity;
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,7 +23,6 @@ import leaf.prod.app.R;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.DialogUtil;
-import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.TitleView;
 
@@ -98,9 +95,7 @@ public class SetWalletNameActivity extends BaseActivity {
         } else {
             WalletEntity newWallet = (WalletEntity) getIntent().getSerializableExtra("newWallet");
             newWallet.setWalletname(walletName.getText().toString());
-            List<WalletEntity> list = SPUtils.getDataList(this, "walletlist", WalletEntity.class);
-            list.add(newWallet);
-            SPUtils.setDataList(this, "walletlist", list);
+            WalletUtil.addWallet(this, newWallet);
             DialogUtil.showWalletCreateResultDialog(this, v -> {
                 DialogUtil.dialog.dismiss();
                 AppManager.finishAll();

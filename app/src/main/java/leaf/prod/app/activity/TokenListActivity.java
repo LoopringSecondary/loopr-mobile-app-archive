@@ -26,8 +26,9 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.TokenListAdapter;
 import leaf.prod.app.manager.TokenDataManager;
+import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.RecyclerViewBugLayoutManager;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.response.data.Token;
@@ -74,6 +75,12 @@ public class TokenListActivity extends BaseActivity {
         title.clickLeftGoBack(getWContext());
         title.setMiddleImageButton(R.mipmap.icon_plus, button -> getOperation().forward(AddCustomTokenActivity.class));
         title.setRightImageButton(R.mipmap.icon_search, button -> llSearch.setVisibility(View.VISIBLE));
+        title.setLeftButton(button -> {
+            WalletEntity wallet = WalletUtil.getCurrentWallet(TokenListActivity.this);
+            wallet.setChooseTokenList(chooseToken);
+            WalletUtil.updateWallet(TokenListActivity.this, wallet);
+            finish();
+        });
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -102,7 +109,7 @@ public class TokenListActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        chooseToken = SPUtils.getTokenList(TokenListActivity.this, "choose_token_" + SPUtils.get(this, "address", ""));
+        chooseToken = WalletUtil.getChooseTokens(this);
         LyqbLogger.log(chooseToken.toString());
         RecyclerViewBugLayoutManager layoutManager = new RecyclerViewBugLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -130,7 +137,6 @@ public class TokenListActivity extends BaseActivity {
                     }
                 }
                 mAdapter.setChooseToken(chooseToken);
-                SPUtils.setDataList(TokenListActivity.this, "choose_token_" + SPUtils.get(TokenListActivity.this, "address", ""), chooseToken);
             }
         });
     }

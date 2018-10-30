@@ -35,7 +35,7 @@ import leaf.prod.app.model.eventbusData.MnemonicData;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.app.utils.MD5Utils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.wheelPicker.picker.OptionPicker;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
@@ -107,12 +107,12 @@ public class ImportMnemonicFragment extends BaseFragment {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    SPUtils.put(getContext(), "pas", etPassword.getText().toString());
-                    SPUtils.put(getContext(), "hasWallet", true);
-                    SPUtils.put(getContext(), "address", "0x" + address);
+                    //                    SPUtils.put(getContext(), "pas", etPassword.getText().toString());
+                    //                    SPUtils.put(getContext(), "hasWallet", true);
+                    //                    SPUtils.put(getContext(), "address", "0x" + address);
                     WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, etMnemonic.getText()
-                            .toString(), ImportWalletType.MNEMONIC);
-                    newWallet.setdPath(dpath);
+                            .toString(), MD5Utils.md5(etPassword.getText()
+                            .toString()), dpath, ImportWalletType.MNEMONIC);
                     loopringService.notifyCreateWallet(address)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -280,7 +280,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                         .getPrivateKey());
                 filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, etPassword.getText()
                         .toString(), FileUtils.getKeyStoreLocation(getContext()));
-                SPUtils.put(getContext(), "filename", filename);
+//                SPUtils.put(getContext(), "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             } catch (KeystoreCreateException | InvalidPrivateKeyException e) {
                 handlerCreate.sendEmptyMessage(ERROR_ONE);

@@ -243,7 +243,7 @@ public class SendActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
-        LyqbLogger.log((String) SPUtils.get(this, "filename", ""));
+        LyqbLogger.log(WalletUtil.getCurrentFileName(this));
     }
 
     @Override
@@ -267,7 +267,7 @@ public class SendActivity extends BaseActivity {
     @Override
     public void initData() {
         updateBySymbol(null);
-        address = (String) SPUtils.get(this, "address", "");
+        address = WalletUtil.getCurrentAddress(this);
         gasDataManager.getGasObservable().subscribe(gasPrice -> {
             LyqbLogger.log("gas: " + gasPrice);
             gasDataManager.setRecommendGasPrice(gasPrice);
