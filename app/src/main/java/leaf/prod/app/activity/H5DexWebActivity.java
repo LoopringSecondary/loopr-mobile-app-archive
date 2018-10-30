@@ -89,6 +89,8 @@ public class H5DexWebActivity extends BaseActivity {
                 .ready();
         url = getIntent().getStringExtra("url");
         mAgentWeb = preAgentWeb.go(url);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setMinimumFontSize(1);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setMinimumLogicalFontSize(1);
         mAgentWeb.getJsInterfaceHolder().addJavaObject("android", presenter);
     }
 
