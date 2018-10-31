@@ -39,7 +39,8 @@
     <string name="cancelled">取消订单</string>
     <string name="convert_eth">转换为 ETH</string>
     <string name="convert_weth">转换为 WETH</string>
-    <string name="other">不支持的交易类型</string>
+    <string name="not_supported">不支持的交易类型</string>
+    <string name="other">其他交易类型</string>
     <string name="trade">交易</string>
     <string name="copy_address">复制地址</string>
     <string name="save_address">保存地址</string>
