@@ -12,13 +12,13 @@ import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.service.LoopringService;
-import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class PartnerDataManager {
 
-    public static final String BASE_URL = "https://mr.baidu.com/2ev3wfk?f=cp";
+    public static final String BASE_URL = "https://upwallet.io";
 
     public static final String LOOPRING_ADDRESS = "0x8E63Bb7Af326de3fc6e09F4c8D54A75c6e236abA";
 
@@ -31,10 +31,6 @@ public class PartnerDataManager {
     private Partner partnerFrom;
 
     private LoopringService loopringService;
-
-    private Observable<Partner> createPartnerObservable;
-
-    private Observable<Partner> activatePartnerObservable;
 
     private PartnerDataManager(Context context) {
         this.context = context;
@@ -49,23 +45,48 @@ public class PartnerDataManager {
     }
 
     public void activatePartner() {
-        if (this.activatePartnerObservable == null) {
-            activatePartnerObservable = loopringService.activateInvitation();
-            activatePartnerObservable.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(partner -> partnerFrom = partner, error -> LyqbLogger.debug(error.getMessage()));
-        }
+        loopringService.activateInvitation().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Partner>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LyqbLogger.debug(e.getMessage());
+                        unsubscribe();
+                    }
+
+                    @Override
+                    public void onNext(Partner partner) {
+                        partnerFrom = partner;
+                        unsubscribe();
+                    }
+                });
     }
 
     public void createPartner() {
-        if (this.createPartnerObservable == null) {
-            //            String owner = (String) SPUtils.get(context, "address", "");
-            String owner = WalletUtil.getCurrentAddress(context);
-            this.createPartnerObservable = loopringService.createPartner(owner);
-            this.createPartnerObservable.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(partner -> partnerTo = partner, error -> LyqbLogger.debug(error.getMessage()));
-        }
+        String owner = WalletUtil.getCurrentAddress(context);
+        loopringService.createPartner(owner).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Partner>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LyqbLogger.debug(e.getMessage());
+                        unsubscribe();
+                    }
+
+                    @Override
+                    public void onNext(Partner partner) {
+                        partnerTo = partner;
+                        unsubscribe();
+                    }
+                });
     }
 
     public String getWalletAddress() {
@@ -79,7 +100,7 @@ public class PartnerDataManager {
     public String generateUrl() {
         String result = BASE_URL;
         if (partnerTo != null) {
-            result += "?cityPartner=" + partnerTo.getPartner();
+            result += "?cityPartner=" + partnerTo.getCityPartner();
         }
         return result;
     }

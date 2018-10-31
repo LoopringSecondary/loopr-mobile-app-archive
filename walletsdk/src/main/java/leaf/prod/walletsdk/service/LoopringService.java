@@ -158,7 +158,7 @@ public class LoopringService {
     }
 
     public Observable<Partner> createPartner(String owner) {
-        RequestWrapper request = new RequestWrapper("loopring_createCityPartner", PartnerParam.builder().owner(owner));
+        RequestWrapper request = new RequestWrapper("loopring_createCityPartner", PartnerParam.builder().walletAddress(owner));
         return rpcDelegate.createPartner(request).map(ResponseWrapper::getResult);
     }
 

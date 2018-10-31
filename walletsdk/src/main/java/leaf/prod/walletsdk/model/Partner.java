@@ -12,5 +12,5 @@ import lombok.Data;
 public class Partner {
 
     private String walletAddress;
-    private String partner;
+    private String cityPartner;
 }
