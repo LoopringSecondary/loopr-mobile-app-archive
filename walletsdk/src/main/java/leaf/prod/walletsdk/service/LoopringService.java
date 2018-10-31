@@ -163,7 +163,7 @@ public class LoopringService {
     }
 
     public Observable<Partner> activateInvitation() {
-        Observable<ResponseWrapper<Partner>> observable = rpcDelegate.activateInvitation(null);
+        Observable<ResponseWrapper<Partner>> observable = rpcDelegate.activateInvitation();
         return observable.map(ResponseWrapper::getResult);
     }
 
