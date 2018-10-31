@@ -12,5 +12,5 @@ import lombok.Data;
 @Data
 @Builder
 public class PartnerParam {
-    private String owner;
+    private String walletAddress;
 }
