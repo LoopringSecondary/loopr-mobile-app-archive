@@ -12,9 +12,6 @@ import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.MarketcapResult;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.model.response.data.TransactionPageWrapper;
-
-import leaf.prod.walletsdk.model.request.RequestWrapper;
-import leaf.prod.walletsdk.model.response.ResponseWrapper;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -67,7 +64,7 @@ public interface RpcDelegate {
     Observable<ResponseWrapper<Partner>> createPartner(@Body RequestWrapper request);
 
     @POST(Default.PARTNER_ACTIVATE)
-    Observable<ResponseWrapper<Partner>> activateInvitation();
+    Observable<ResponseWrapper<Partner>> activateInvitation(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
     Observable<ResponseWrapper<String>> addCustomToken(@Body RequestWrapper request);

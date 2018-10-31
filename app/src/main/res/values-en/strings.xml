@@ -39,7 +39,8 @@
     <string name="cancelled">Cancel Order</string>
     <string name="convert_eth">Convert to ETH</string>
     <string name="convert_weth">Convert to WETH</string>
-    <string name="other">Unsupported Transaction Type</string>
+    <string name="not_supported">Unsupported Transaction Type</string>
+    <string name="other">Other Transaction Type</string>
     <string name="trade">Trade</string>
     <string name="copy_address">Copy Address</string>
     <string name="save_address">Save to Album</string>

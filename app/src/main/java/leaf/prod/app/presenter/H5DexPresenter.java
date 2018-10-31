@@ -25,6 +25,7 @@ import org.web3j.crypto.TransactionEncoder;
 import org.web3j.utils.Numeric;
 
 import leaf.prod.app.activity.H5DexWebActivity;
+import leaf.prod.app.manager.PartnerDataManager;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.LanguageUtil;
@@ -48,9 +49,11 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
 
     private static final String FUNCTION_GET_ACCOUNT = "user.getCurrentAccount";
 
+    private static final String FUNCTION_GET_REWARD = "user.getRewardAddress";
+
     private static final String FUNCTION_GET_LANGUAGE = "device.getCurrentLanguage";
 
-    private static final String FUNCTION_GWT_CURRENCY = "device.getCurrentCurrency";
+    private static final String FUNCTION_GET_CURRENCY = "device.getCurrentCurrency";
 
     private static final String FUNCTION_MESSAGE_SIGN = "message.sign";
 
@@ -86,8 +89,11 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
 
     private boolean isSignMessage = false;
 
+    private PartnerDataManager partnerManager;
+
     public H5DexPresenter(H5DexWebActivity view, Context context) {
         super(view, context);
+        partnerManager = PartnerDataManager.getInstance(context);
     }
 
     @JavascriptInterface
@@ -105,11 +111,15 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
                     getAddress();
                     send();
                     break;
+                case FUNCTION_GET_REWARD:
+                    getRewardAddress();
+                    send();
+                    break;
                 case FUNCTION_GET_LANGUAGE:
                     getLanguage();
                     send();
                     break;
-                case FUNCTION_GWT_CURRENCY:
+                case FUNCTION_GET_CURRENCY:
                     getCurrency();
                     send();
                     break;
@@ -132,6 +142,10 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
 
     private void getAddress() {
         result = WalletUtil.getCurrentAddress(context);
+    }
+
+    private void getRewardAddress() {
+        result = partnerManager.getWalletAddress();
     }
 
     private void getCurrency() {
@@ -211,7 +225,7 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
         try {
             JSONObject jsonObject = new JSONObject(content);
             String method = jsonObject.getString(KEY_METHOD);
-            if (method.equalsIgnoreCase(FUNCTION_GWT_CURRENCY)) {
+            if (method.equalsIgnoreCase(FUNCTION_GET_CURRENCY)) {
                 switch (type) {
                     case P2P_ORDER:
                         sendP2PMessage();

@@ -14,6 +14,7 @@ import leaf.prod.app.manager.TokenDataManager;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.DateUtil;
 import leaf.prod.app.utils.NumberUtils;
+import leaf.prod.walletsdk.model.TxType;
 import leaf.prod.walletsdk.model.response.data.Transaction;
 
 public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHolder> {
@@ -41,6 +42,9 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
         String valueShown = NumberUtils.format1(value, precision);
         Double price = priceManager.getPriceBySymbol(item.getSymbol());
         String currency = CurrencyUtil.format(mContext, price * value);
+        if (item.getType() == null) {
+            item.setType(TxType.OTHER);
+        }
         String image = String.format("icon_tx_%s", item.getType().getDescription().toLowerCase());
         int identifier = mContext.getResources().getIdentifier(image, "mipmap", mContext.getPackageName());
         helper.setImageResource(R.id.wallet_image, identifier);
@@ -98,12 +102,15 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
                 this.updateOutcome(helper, item, value);
                 break;
             case UNSUPPORTED:
-                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.other));
+                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.not_supported));
                 helper.setVisible(R.id.wallet_money, false);
                 helper.setVisible(R.id.wallet_count, false);
                 break;
             default:
-                System.out.println(item.getType());
+                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.other));
+                helper.setVisible(R.id.wallet_money, false);
+                helper.setVisible(R.id.wallet_count, false);
+                break;
         }
     }
 
