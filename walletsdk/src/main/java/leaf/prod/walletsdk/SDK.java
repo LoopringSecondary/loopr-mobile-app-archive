@@ -7,9 +7,6 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.ChainId;
-import leaf.prod.walletsdk.exception.SdkInitializeException;
-import leaf.prod.walletsdk.exception.UninitializedException;
-import leaf.prod.walletsdk.util.StringUtils;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -30,6 +27,8 @@ public class SDK {
 
     private static String ETH_BASE = "https://relay1.loopring.io/eth";
 
+    private static String THIRD_LOGIN_BASE = "https://www.loopring.mobi/api/v1/users";
+
     private static Web3j web3j = null;
 
     public static String relayBase() {
@@ -38,6 +37,10 @@ public class SDK {
 
     public static String ethBase() {
         return ETH_BASE;
+    }
+
+    public static String thirdLoginBase() {
+        return THIRD_LOGIN_BASE;
     }
 
     public static OkHttpClient getOkHttpClient() {
@@ -86,4 +89,6 @@ public class SDK {
         }
         return web3j;
     }
+
+
 }

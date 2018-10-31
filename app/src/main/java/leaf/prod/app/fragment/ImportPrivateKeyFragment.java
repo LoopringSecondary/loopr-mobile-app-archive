@@ -141,7 +141,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
             public void run() {
                 Message msg = handlerCreate.obtainMessage();
                 try {
-                    address = FileUtils.getFileFromSD(getContext());
+                    address = FileUtils.getFileFromSD(getContext(), filename);
                     msg.obj = address;
                     msg.what = CREATE_SUCCESS;
                     handlerCreate.sendMessage(msg);

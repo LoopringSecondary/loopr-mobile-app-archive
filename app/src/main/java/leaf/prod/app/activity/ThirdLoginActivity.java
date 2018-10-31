@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.model.ThirdLoginUser;
 import leaf.prod.app.utils.ThirdUserUtil;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.service.ThirdLoginService;
 
 /**
@@ -61,7 +62,11 @@ public class ThirdLoginActivity extends BaseActivity {
                 public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                     // todo 第三方登录信息存入数据库
                     ThirdUserUtil.initThirdLogin(ThirdLoginActivity.this, new ThirdLoginUser(map.get("uid"), new Gson().toJson(map), null));
-                    getOperation().forward(MainActivity.class);
+                    if (WalletUtil.hasWallet(ThirdLoginActivity.this)) {
+                        getOperation().forward(MainActivity.class);
+                    } else {
+                        getOperation().forwardClearTop(CoverActivity.class);
+                    }
                     finish();
                 }
 
@@ -76,7 +81,11 @@ public class ThirdLoginActivity extends BaseActivity {
             });
         });
         skipLogin.setOnClickListener(view -> {
-            getOperation().forward(MainActivity.class);
+            if (WalletUtil.hasWallet(ThirdLoginActivity.this)) {
+                getOperation().forward(MainActivity.class);
+            } else {
+                getOperation().forwardClearTop(CoverActivity.class);
+            }
             finish();
         });
     }

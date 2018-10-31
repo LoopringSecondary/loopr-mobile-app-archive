@@ -43,7 +43,7 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
     }
 
     public void queryBySymbol(String owner, String symbol, int pageIndex, int pageSize) {
-        Assert.hasText(owner, "owner can not be null");
+        Assert.hasText(owner, "walletAddress can not be null");
         Assert.hasText(owner, "symbol can not be null");
         TransactionParam param = TransactionParam.builder()
                 .owner(owner)
@@ -92,7 +92,7 @@ public class TransactionListener extends AbstractListener<TransactionPageWrapper
     }
 
     public void queryByTxHash(String owner, String txHash) {
-        Assert.hasText(owner, "owner can not be null");
+        Assert.hasText(owner, "walletAddress can not be null");
         Assert.hasText(txHash, "txHash can not be null");
         TransactionParam param = TransactionParam.builder()
                 .owner(owner)

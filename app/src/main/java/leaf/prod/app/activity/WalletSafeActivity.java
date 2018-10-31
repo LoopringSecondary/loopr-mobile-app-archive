@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
+import leaf.prod.app.manager.PartnerDataManager;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.model.eventbusData.NameChangeData;
 import leaf.prod.app.utils.WalletUtil;
@@ -48,6 +49,8 @@ public class WalletSafeActivity extends BaseActivity {
     private AlertDialog.Builder confirmClear;
 
     private WalletEntity selectedWallet;
+
+    private PartnerDataManager partnerDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,7 @@ public class WalletSafeActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        partnerDataManager = PartnerDataManager.getInstance(this);
     }
 
     @OnClick({R.id.ll_wallet_name, R.id.ll_backup_mnemonic, R.id.ll_export_private_key, R.id.ll_export_keystore, R.id.ll_clear_records, R.id.btn_switch})
@@ -130,6 +134,8 @@ public class WalletSafeActivity extends BaseActivity {
                 break;
             case R.id.btn_switch:
                 WalletUtil.setCurrentWallet(this, selectedWallet);
+                partnerDataManager.createPartner();
+                partnerDataManager.activatePartner();
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
                 break;

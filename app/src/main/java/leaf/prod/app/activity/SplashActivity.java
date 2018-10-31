@@ -22,6 +22,7 @@ import leaf.prod.app.model.ThirdLoginUser;
 import leaf.prod.app.utils.FingerprintUtil;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ThirdUserUtil;
+import leaf.prod.app.utils.WalletUtil;
 
 public class SplashActivity extends BaseActivity {
 
@@ -52,11 +53,11 @@ public class SplashActivity extends BaseActivity {
             switch (msg.what) {
                 case 1:
                     ThirdLoginUser thirdLoginUser = ThirdUserUtil.getThirdLoginUserBean(SplashActivity.this);
-                    if (thirdLoginUser != null) {
-                        // 第三方登录过
-                        getOperation().forwardPopup(MainActivity.class);
+                    if (thirdLoginUser != null || WalletUtil.hasWallet(SplashActivity.this)) {
+                        // 第三方登录过 or skip
+                        getOperation().forwardClearTop(MainActivity.class);
                     } else {
-                        getOperation().forwardPopup(ActivityThirdLogin.class);
+                        getOperation().forwardClearTop(ThirdLoginActivity.class);
                     }
                     finish();
                     break;
