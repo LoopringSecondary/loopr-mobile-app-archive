@@ -100,7 +100,7 @@ public class PartnerDataManager {
     public String generateUrl() {
         String result = BASE_URL;
         if (partnerTo != null) {
-            result += "?cityPartner=" + partnerTo.getCityPartner();
+            result += "?cityPartner=" + partnerTo.getPartner();
         }
         return result;
     }
