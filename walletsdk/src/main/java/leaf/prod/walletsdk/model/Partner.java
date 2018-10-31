@@ -6,16 +6,12 @@
  */
 package leaf.prod.walletsdk.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import lombok.Data;
 
 @Data
 public class Partner {
 
-    @SerializedName("walletAddress")
     private String walletAddress;
 
-    @SerializedName("cityPartner")
-    private String partner;
+    private String cityPartner;
 }
