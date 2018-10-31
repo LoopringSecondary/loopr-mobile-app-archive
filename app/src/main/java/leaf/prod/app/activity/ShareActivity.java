@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
+import leaf.prod.app.manager.PartnerDataManager;
 import leaf.prod.app.utils.QRCodeUitl;
 import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.TitleView;
@@ -55,6 +56,8 @@ public class ShareActivity extends BaseActivity {
 
     @BindView(R.id.share_p2p_layout)
     ScrollView scrollView;
+
+    private PartnerDataManager partnerDataManager;
 
     private UMShareListener umShareListener = new UMShareListener() {
         /**
@@ -118,7 +121,7 @@ public class ShareActivity extends BaseActivity {
     @Override
     public void initView() {
         address.setText(WalletUtil.getCurrentAddress(this));
-        Bitmap bitmap = QRCodeUitl.createQRCodeBitmap("https://mr.baidu.com/2ev3wfk?f=cp", 300);
+        Bitmap bitmap = QRCodeUitl.createQRCodeBitmap(PartnerDataManager.getInstance(this).generateUrl(), 300);
         shareP2PQrcode.setImageBitmap(bitmap);
     }
 
