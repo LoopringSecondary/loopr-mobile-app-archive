@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.model.ThirdLoginUser;
 import leaf.prod.app.utils.AppManager;
+import leaf.prod.app.utils.PermissionUtils;
 import leaf.prod.app.utils.ThirdUserUtil;
 import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.service.ThirdLoginService;
@@ -105,5 +106,6 @@ public class ThirdLoginActivity extends BaseActivity {
         AppManager.getAppManager().addActivity(this);
         super.onCreate(bundle);
         mSwipeBackLayout.setEnableGesture(false);
+        PermissionUtils.initPermissions(this);
     }
 }
