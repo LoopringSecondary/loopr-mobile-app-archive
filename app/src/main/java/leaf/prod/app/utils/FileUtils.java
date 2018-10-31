@@ -33,11 +33,11 @@ public class FileUtils {
     /**
      * 获取keystore文件中的address
      */
-    public static String getFileFromSD(Context context) throws IOException, JSONException {
+    public static String getFileFromSD(Context context, String filename) throws IOException, JSONException {
         FileInputStream isr = null;
         //            isr = new FileInputStream(context.getDir("myFile", Context.MODE_PRIVATE).getAbsolutePath() + "/keystore/" + WalletUtil.getCurrentFileName(context));
         isr = new FileInputStream(context.getFilesDir()
-                .getAbsolutePath() + "/keystore/" + WalletUtil.getCurrentFileName(context));
+                .getAbsolutePath() + "/keystore/" + filename);
         BufferedReader br = new BufferedReader(new InputStreamReader(isr));
         String line;
         StringBuilder builder = new StringBuilder();

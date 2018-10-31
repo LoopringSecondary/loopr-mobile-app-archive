@@ -20,9 +20,9 @@ public class WalletUtil {
     public static WalletEntity getCurrentWallet(Context context) {
         //        WalletEntity result = null;
         //        List<WalletEntity> wallets = SPUtils.getDataList(context, "walletlist", WalletEntity.class);
-        //        String owner = (String) SPUtils.get(context, "address", "");
+        //        String walletAddress = (String) SPUtils.get(context, "address", "");
         //        for (WalletEntity walletEntity : wallets) {
-        //            if (walletEntity.getAddress().equalsIgnoreCase(owner)) {
+        //            if (walletEntity.getAddress().equalsIgnoreCase(walletAddress)) {
         //                result = walletEntity;
         //                break;
         //            }
@@ -138,5 +138,9 @@ public class WalletUtil {
 
     public static void setCurrentWallet(Context context, WalletEntity wallet) {
         SPUtils.put(context, "currentWallet", wallet);
+    }
+
+    public static boolean hasWallet(Context context) {
+        return SPUtils.getDataList(context, "walletlist", WalletEntity.class).size() > 0;
     }
 }

@@ -421,7 +421,7 @@ public class GenerateWalletActivity extends BaseActivity {
             public void run() {
                 Message msg = handlerCreate.obtainMessage();
                 try {
-                    address = FileUtils.getFileFromSD(GenerateWalletActivity.this);
+                    address = FileUtils.getFileFromSD(GenerateWalletActivity.this, filename);
                 } catch (IOException e) {
                     handlerCreate.sendEmptyMessage(ERROR_ONE);
                     e.printStackTrace();

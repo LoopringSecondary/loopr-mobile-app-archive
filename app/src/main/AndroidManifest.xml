@@ -230,7 +230,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.ActivityThirdLogin"
+            android:name=".activity.ThirdLoginActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
