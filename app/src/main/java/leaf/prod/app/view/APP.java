@@ -19,7 +19,6 @@ import com.umeng.socialize.UMShareAPI;
 import com.vondear.rxtool.RxTool;
 
 import leaf.prod.app.utils.AndroidUtils;
-import leaf.prod.app.utils.LanguageUtil;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.walletsdk.SDK;
 
@@ -72,14 +71,6 @@ public class APP extends Application {
         appVersion = AndroidUtils.getVersionName(this);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         mInstance = this;
-        /*
-         * 通过language的状态来判断是否设置了显示英文还是中文，1为英文，2为中文,0为未设置，显示系统默认
-         */
-        if ((int) SPUtils.get(this, "language", 0) == 1) {
-            LanguageUtil.changeLanguage(this, "en");
-        } else if ((int) SPUtils.get(this, "language", 0) == 2) {
-            LanguageUtil.changeLanguage(this, "zh");
-        }
         /**
          * umeng分享
          * */
