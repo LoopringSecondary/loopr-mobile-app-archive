@@ -396,7 +396,7 @@ public class SendActivity extends BaseActivity {
                     getOperation().forwardClearTop(SendErrorActivity.class);
                 }
                 WalletEntity walletEntity = WalletUtil.getCurrentWallet(this);
-                Credentials credentials = null;
+                Credentials credentials;
                 if (walletEntity != null && walletEntity.getWalletType() != null && walletEntity.getWalletType() == ImportWalletType.MNEMONIC) {
                     LyqbLogger.log(walletEntity.toString());
                     credentials = MnemonicUtils.calculateCredentialsFromMnemonic(walletEntity.getMnemonic(), walletEntity
@@ -416,7 +416,9 @@ public class SendActivity extends BaseActivity {
                                     .toString(), values);
                 } else {
                     txHash = transfer.erc20(tokenDataManager.getTokenBySymbol(sendChoose).getProtocol())
-                            .transfer(gasDataManager.getCustomizeGasPriceInWei().toBigInteger(), walletAddress.getText()
+                            .transfer(credentials, tokenDataManager.getTokenBySymbol(sendChoose)
+                                    .getProtocol(), gasDataManager.getCustomizeGasPriceInWei()
+                                    .toBigInteger(), walletAddress.getText()
                                     .toString(), values);
                 }
                 TransactionDataManager manager = TransactionDataManager.getInstance(SendActivity.this);
