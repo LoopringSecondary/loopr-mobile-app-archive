@@ -121,8 +121,6 @@ public class ShareActivity extends BaseActivity {
     @Override
     public void initView() {
         address.setText(WalletUtil.getCurrentAddress(this));
-        Bitmap bitmap = QRCodeUitl.createQRCodeBitmap(PartnerDataManager.getInstance(this).generateUrl(), 300);
-        shareP2PQrcode.setImageBitmap(bitmap);
     }
 
     @Override
@@ -164,6 +162,8 @@ public class ShareActivity extends BaseActivity {
         // todo 生成分享app
         //        UMWeb umWeb = new UMWeb("https://m.zhaoyunlicai.com/weekPayNo");
         //        UMImage umImage = new UMImage(getApplicationContext(), QRCodeUitl.createQRCodeBitmap("https://mr.baidu.com/2ev3wfk?f=cp", 300));
+        Bitmap bitmap = QRCodeUitl.createQRCodeBitmap(PartnerDataManager.getInstance(this).generateUrl(), 300);
+        shareP2PQrcode.setImageBitmap(bitmap);
         UMImage umImage = new UMImage(getApplicationContext(), getBitmap());
         umImage.setTitle("下载地址分享");//标题
         //        umImage.setThumb(new UMImage(ShareActivity.this, R.mipmap.icon_share));  //缩略图
