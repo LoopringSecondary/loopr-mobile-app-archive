@@ -24,6 +24,7 @@
     <string name="keystore_hint">Please input keystore</string>
     <string name="wallet_name_hint">Please input wallet name</string>
     <string name="wallet_name_existed">Wallet name has been used</string>
+    <string name="wallet_existed">Wallet has existed</string>
     <string name="private_key_hint">Please input your private key</string>
     <string name="unlock">Unlock</string>
     <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>

@@ -25,6 +25,7 @@
     <string name="private_key_hint">请输入私钥</string>
     <string name="wallet_name_hint">请输入钱包名称</string>
     <string name="wallet_name_existed">该钱包名已使用</string>
+    <string name="wallet_existed">该钱包已存在</string>
     <string name="pwd_dig">0123456789qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJMIKLOP</string>
     <string name="unlock">解锁</string>
     <string name="scan">扫描</string>

@@ -22,6 +22,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.web3j.crypto.Credentials;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +38,7 @@ import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.MD5Utils;
 import leaf.prod.app.utils.ToastUtils;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.app.views.wheelPicker.picker.OptionPicker;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
@@ -120,8 +122,12 @@ public class ImportMnemonicFragment extends BaseFragment {
                                 @Override
                                 public void onCompleted() {
                                     hideProgress();
-                                    getOperation().addParameter("newWallet", newWallet);
-                                    getOperation().forward(SetWalletNameActivity.class);
+                                    if (WalletUtil.isWalletExisted(getContext(), newWallet)) {
+                                        RxToast.error(getResources().getString(R.string.wallet_existed));
+                                    } else {
+                                        getOperation().addParameter("newWallet", newWallet);
+                                        getOperation().forward(SetWalletNameActivity.class);
+                                    }
                                 }
 
                                 @Override
@@ -280,7 +286,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                         .getPrivateKey());
                 filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, etPassword.getText()
                         .toString(), FileUtils.getKeyStoreLocation(getContext()));
-//                SPUtils.put(getContext(), "filename", filename);
+                //                SPUtils.put(getContext(), "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             } catch (KeystoreCreateException | InvalidPrivateKeyException e) {
                 handlerCreate.sendEmptyMessage(ERROR_ONE);
