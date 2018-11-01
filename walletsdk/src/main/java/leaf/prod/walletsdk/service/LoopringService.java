@@ -130,7 +130,7 @@ public class LoopringService {
                 .value(Numeric.toHexStringWithPrefix(rawTransaction.getValue()))
                 .gasPrice(Numeric.toHexStringWithPrefix(rawTransaction.getGasPrice()))
                 .gas(Numeric.toHexStringWithPrefix(rawTransaction.getGasLimit()))
-                .input("")
+                .input(rawTransaction.getData())
                 .from(from)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", notifyTransactionSubmitParam);
@@ -158,7 +158,8 @@ public class LoopringService {
     }
 
     public Observable<Partner> createPartner(String owner) {
-        RequestWrapper request = new RequestWrapper("loopring_createCityPartner", PartnerParam.builder().walletAddress(owner));
+        RequestWrapper request = new RequestWrapper("loopring_createCityPartner", PartnerParam.builder()
+                .walletAddress(owner));
         return rpcDelegate.createPartner(request).map(ResponseWrapper::getResult);
     }
 
