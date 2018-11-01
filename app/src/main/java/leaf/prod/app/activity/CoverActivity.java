@@ -16,7 +16,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.AppManager;
-import leaf.prod.app.utils.ThirdUserUtil;
 
 public class CoverActivity extends BaseActivity {
 
@@ -112,8 +111,8 @@ public class CoverActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (ThirdUserUtil.getThirdLoginUserBean(CoverActivity.this) == null) {
-            getOperation().forwardClearTop(ThirdLoginActivity.class);
-        }
+//        if (ThirdUserUtil.getThirdLoginUserBean(CoverActivity.this) == null) {
+//            getOperation().forwardClearTop(ThirdLoginActivity.class);
+//        }
     }
 }

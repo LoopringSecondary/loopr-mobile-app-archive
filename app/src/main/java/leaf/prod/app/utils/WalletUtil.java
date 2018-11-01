@@ -11,7 +11,6 @@ import java.util.List;
 
 import android.content.Context;
 
-import leaf.prod.app.model.ThirdLoginUser;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.walletsdk.util.StringUtils;
 
@@ -67,11 +66,12 @@ public class WalletUtil {
             SPUtils.remove(context, "walletlist");
         }
         SPUtils.setDataList(context, "walletlist", list);
-        ThirdLoginUser thirdLoginUser = ThirdUserUtil.getThirdLoginUserBean(context);
-        if (thirdLoginUser != null) {
-            // 同步更新第三方登录相关信息
-            ThirdUserUtil.updateWalletList(context, list);
-        }
+        // todo 同步更新第三方登录
+        //        ThirdLoginUser thirdLoginUser = ThirdUserUtil.getThirdLoginUserBean(context);
+        //        if (thirdLoginUser != null) {
+        //            // 同步更新第三方登录相关信息
+        //            ThirdUserUtil.updateWalletList(context, list);
+        //        }
     }
 
     public static boolean isWalletExisted(Context context, WalletEntity wallet) {
