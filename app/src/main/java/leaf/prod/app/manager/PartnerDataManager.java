@@ -102,6 +102,7 @@ public class PartnerDataManager {
         if (partnerTo != null) {
             result += "?cityPartner=" + partnerTo.getCityPartner();
         }
+        LyqbLogger.log(result);
         return result;
     }
 }

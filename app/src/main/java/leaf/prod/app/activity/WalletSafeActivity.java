@@ -115,7 +115,7 @@ public class WalletSafeActivity extends BaseActivity {
                         String addressUsed = WalletUtil.getCurrentAddress(this); //当前使用钱包的地址
                         WalletUtil.removeWallet(this, selectedWallet.getAddress());
                         List<WalletEntity> wallets = WalletUtil.getWalletList(this);
-                        if (wallets == null) {
+                        if (wallets == null || wallets.size() == 0) {
                             getOperation().forwardClearTop(CoverActivity.class);
                         } else {
                             if (selectedWallet.getAddress().equals(addressUsed)) {
