@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">路印钱包</string>
+    <string name="app_name">UP Wallet</string>
     <string name="wallet_name">钱包名称</string>
     <string name="set_wallet_name">设置钱包名称</string>
     <string name="import_wallet">导入钱包</string>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Loopring Wallet</string>
+    <string name="app_name">UP Wallet</string>
     <string name="wallet_name">Wallet Name</string>
     <string name="set_wallet_name">Set Wallet Name</string>
     <string name="import_wallet">Import Wallet</string>
