@@ -21,7 +21,7 @@ public class ThirdLogin implements Serializable {
     @SerializedName("created_at")
     private String createAt;
 
-    private ThirdLoginUser language; // todo test
+    private String language;
 
     private String currency;
 
@@ -31,9 +31,9 @@ public class ThirdLogin implements Serializable {
 
     public ThirdLogin(String accountToken, String language, String currency, ThirdLoginUser config) {
         this.accountToken = accountToken;
-        this.language = config;
+        this.language = language;
         this.currency = currency;
-//        this.config = config;
+        this.config = config;
     }
 
     public String getUpdatedAt() {
@@ -60,11 +60,11 @@ public class ThirdLogin implements Serializable {
         this.createAt = createAt;
     }
 
-    public ThirdLoginUser getLanguage() {
+    public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(ThirdLoginUser language) {
+    public void setLanguage(String language) {
         this.language = language;
     }
 
