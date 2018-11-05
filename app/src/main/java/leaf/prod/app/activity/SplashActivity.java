@@ -57,7 +57,7 @@ public class SplashActivity extends BaseActivity {
                         // 第三方登录过 or skip
                         getOperation().forwardClearTop(MainActivity.class);
                     } else {
-                        getOperation().forwardClearTop(CoverActivity.class);
+                        getOperation().forwardClearTop(ThirdLoginActivity.class);
                     }
                     finish();
                     break;

@@ -65,8 +65,8 @@ public class ThirdLoginActivity extends BaseActivity {
                     // todo 第三方登录信息存入数据库
                     ThirdUserUtil.initThirdLogin(ThirdLoginActivity.this, new ThirdLoginUser(map.get("uid"), new Gson().toJson(map), null));
                     if (WalletUtil.hasWallet(ThirdLoginActivity.this)) {
-                        finish();
-                        getOperation().forwardClearTop(MainActivity.class);
+                        getOperation().forward(MainActivity.class);
+                        // todo 有钱包的情况，让用户选择历史钱包
                     } else {
                         finish();
                         getOperation().forwardClearTop(CoverActivity.class);

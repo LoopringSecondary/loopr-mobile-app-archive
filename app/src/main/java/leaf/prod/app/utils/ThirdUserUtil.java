@@ -4,8 +4,12 @@ import java.util.List;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+
 import leaf.prod.app.model.ThirdLoginUser;
 import leaf.prod.app.model.WalletEntity;
+import leaf.prod.walletsdk.service.ThirdLoginService;
+import leaf.prod.walletsdk.util.StringUtils;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,6 +20,8 @@ import leaf.prod.app.model.WalletEntity;
 public class ThirdUserUtil {
 
     private static String THIRD_LOGIN = "third_login";
+
+    private static ThirdLoginService thirdLoginService = new ThirdLoginService();
 
     public static ThirdLoginUser getThirdLoginUserBean(Context context) {
         return SPUtils.getBean(context, THIRD_LOGIN + "_" + SPUtils.get(context, THIRD_LOGIN, ""), ThirdLoginUser.class);
@@ -36,6 +42,16 @@ public class ThirdUserUtil {
             thirdLoginUser.setWalletList(walletEntityList);
             // todo db
             SPUtils.put(context, THIRD_LOGIN + "_" + thirdLoginUser.getUserId(), thirdLoginUser);
+        }
+    }
+
+    public static void push2Db(Context context) {
+        String uid = (String) SPUtils.get(context, THIRD_LOGIN, "");
+        if (!StringUtils.isEmpty(uid)) {
+            ThirdLoginUser thirdLoginUser = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, ThirdLoginUser.class);
+            thirdLoginUser.setWalletList(WalletUtil.getWalletList(context));
+            LyqbLogger.debug(new Gson().toJson(thirdLoginUser));
+            thirdLoginService.addUser(new Gson().toJson(thirdLoginUser));
         }
     }
 }
