@@ -321,6 +321,8 @@ public class SendActivity extends BaseActivity {
         if (TextUtils.isEmpty(walletAddress.getText().toString()) || !WalletUtils.isValidAddress(walletAddress.getText()
                 .toString()
                 .trim())) {
+            addressToast.setText(getResources().getText(R.string.input_valid_address));
+            addressToast.setTextColor(getResources().getColor(R.color.colorRed));
             addressToast.setVisibility(View.VISIBLE);
             addressToast.startAnimation(shakeAnimation);
             return;
