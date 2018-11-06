@@ -32,7 +32,7 @@ public class AppManager {
     }
 
     public static void finishAll() {
-        for (Activity activity : activities) {
+        for (Activity activity : activityStack) {
             if (!activity.isFinishing()) {
                 activity.finish();
             }
