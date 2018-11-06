@@ -55,6 +55,8 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
 
     private static final String FUNCTION_GET_CURRENCY = "device.getCurrentCurrency";
 
+    private static final String FUCTION_P2P_SHARE = "device.share";
+
     private static final String FUNCTION_MESSAGE_SIGN = "message.sign";
 
     private static final String FUCTION_TRANSACTION_SIGN = "transaction.sign";
@@ -82,6 +84,8 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
     private String signMessage;
 
     private JSONObject signTx;
+
+    private JSONObject p2pOrder;
 
     private String content;
 
@@ -134,10 +138,18 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
                     signTx = jsonObject.getJSONObject(KEY_DATA);
                     view.showPasswordDialog();
                     break;
+                case FUCTION_P2P_SHARE:
+                    p2pOrder = jsonObject.getJSONObject(KEY_DATA);
+                    handleP2POrder();
+                    break;
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void handleP2POrder() {
+        view.handleP2PShare(p2pOrder);
     }
 
     private void getAddress() {
