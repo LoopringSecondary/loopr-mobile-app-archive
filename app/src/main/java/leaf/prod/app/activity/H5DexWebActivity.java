@@ -6,7 +6,10 @@
  */
 package leaf.prod.app.activity;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,16 +18,28 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.vondear.rxfeature.tool.RxQRCode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.layout.WebLayout;
 import leaf.prod.app.presenter.H5DexPresenter;
+import leaf.prod.app.utils.DateUtil;
+import leaf.prod.app.utils.NumberUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.H5ScanType;
@@ -35,6 +50,33 @@ public class H5DexWebActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
+
+    @BindView(R.id.ll_share_view)
+    public ConstraintLayout clShareView;
+
+    @BindView(R.id.qrcode_image)
+    public ImageView qrCodeImage;
+
+    @BindView(R.id.sell_info)
+    public TextView sellInfo;
+
+    @BindView(R.id.buy_info)
+    public TextView buyInfo;
+
+    @BindView(R.id.valid_until)
+    public TextView validUntil;
+
+    @BindView(R.id.price_A_buy)
+    public TextView priceABuy;
+
+    @BindView(R.id.price_A_sell)
+    public TextView priceASell;
+
+    @BindView(R.id.price_B_buy)
+    public TextView priceBBuy;
+
+    @BindView(R.id.price_B_sell)
+    public TextView priceBSell;
 
     /**
      * 输入密码dialog
@@ -107,6 +149,47 @@ public class H5DexWebActivity extends BaseActivity {
         }
     }
 
+    private UMShareListener umShareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+        }
+
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Toast.makeText(H5DexWebActivity.this, "成功了", Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            if (t.getMessage().contains("2008")) {//错误码
+                Toast.makeText(H5DexWebActivity.this, "分享失败:没有安装该应用", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(H5DexWebActivity.this, "分享失败:" + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_h5_dex);
@@ -147,5 +230,49 @@ public class H5DexWebActivity extends BaseActivity {
         if (passwordDialog != null) {
             passwordDialog.dismiss();
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void handleP2PShare(JSONObject p2pOrder) {
+        runOnUiThread(() -> {
+            try {
+                JSONObject orderDetail = p2pOrder.getJSONObject("extra");
+                RxQRCode.createQRCode(p2pOrder.getString("content"), qrCodeImage);
+                sellInfo.setText(orderDetail.getString("amountS") + orderDetail.getString("tokenS"));
+                buyInfo.setText(orderDetail.getString("amountB") + orderDetail.getString("tokenB"));
+                String date = DateUtil.formatDateTime(orderDetail.getLong("validUntil"), "MM-dd HH:mm");
+                validUntil.setText(date);
+                double amountB = orderDetail.getDouble("amountB");
+                double amountS = orderDetail.getDouble("amountS");
+                double priceBuy = amountB / amountS;
+                double priceSell = amountS / amountB;
+                priceABuy.setText("1 " + orderDetail.getString("tokenB"));
+                priceASell.setText(NumberUtils.format1(priceSell, 4) + " " + orderDetail.getString("tokenS"));
+                priceBSell.setText("1 " + orderDetail.getString("tokenS"));
+                priceBBuy.setText(NumberUtils.format1(priceBuy, 4) + " " + orderDetail.getString("tokenB"));
+                uShare();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void uShare() {
+        UMImage umImage = new UMImage(getApplicationContext(), getBitmap(clShareView));
+        umImage.setTitle("钱包地址分享");
+        umImage.setDescription("钱包地址分享");
+        ShareAction shareAction = new ShareAction(H5DexWebActivity.this);
+        shareAction.setDisplayList(SHARE_MEDIA.QQ,
+                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.FACEBOOK)
+                .setCallback(umShareListener).withMedia(umImage).open();
+    }
+
+    // 根据 layout 生成bitmap
+    public Bitmap getBitmap(ConstraintLayout layout) {
+        layout.setDrawingCacheEnabled(true);
+        layout.buildDrawingCache();
+        Bitmap bmp = Bitmap.createBitmap(layout.getDrawingCache());
+        layout.setDrawingCacheEnabled(false);
+        return bmp;
     }
 }

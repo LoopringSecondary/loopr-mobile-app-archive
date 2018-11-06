@@ -93,7 +93,7 @@ public class ReceiveActivity extends BaseActivity {
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(ReceiveActivity.this, "成功了", Toast.LENGTH_LONG).show();
+            Toast.makeText(ReceiveActivity.this, "分享成功！", Toast.LENGTH_LONG).show();
         }
 
         /**
@@ -186,9 +186,7 @@ public class ReceiveActivity extends BaseActivity {
     // 多个权限
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void showWrite() {
-        //leaf.prod.app
         uShare();
-        //        ToastUtils.toast("jinlaile ");
     }
 
     // 用户拒绝授权回调（可选）
