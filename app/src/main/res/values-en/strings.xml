@@ -132,4 +132,6 @@
     <string name="auth_finger_failed">Sorry, your device is locked for 1 minute cause inputting error 5 times</string>
     <string name="keystore_psw_error">Password error</string>
     <string name="transfer_error">Transfer error, please try again</string>
+    <string name="loopring_order">Loopring Order</string>
+    <string name="expiry_date">Expiry Date</string>
 </resources>

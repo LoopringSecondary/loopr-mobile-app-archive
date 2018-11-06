@@ -134,4 +134,6 @@
     <string name="auth_finger_failed">抱歉，输入错误次数过多，设备锁定1分钟</string>
     <string name="keystore_psw_error">密码错误</string>
     <string name="transfer_error">转账失败，请重试</string>
+    <string name="loopring_order">路印订单</string>
+    <string name="expiry_date">有效期</string>
 </resources>
