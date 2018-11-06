@@ -99,7 +99,7 @@ public class SetWalletNameActivity extends BaseActivity {
             DialogUtil.showWalletCreateResultDialog(this, v -> {
                 DialogUtil.dialog.dismiss();
                 AppManager.finishAll();
-                getOperation().forward(MainActivity.class);
+                getOperation().forwardClearTop(MainActivity.class);
             });
         }
     }

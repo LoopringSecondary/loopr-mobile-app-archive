@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.model.ThirdLoginUser;
+import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.ThirdUserUtil;
 import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.service.ThirdLoginService;
@@ -63,8 +64,10 @@ public class ThirdLoginActivity extends BaseActivity {
                     // todo 第三方登录信息存入数据库
                     ThirdUserUtil.initThirdLogin(ThirdLoginActivity.this, new ThirdLoginUser(map.get("uid"), new Gson().toJson(map), null));
                     if (WalletUtil.hasWallet(ThirdLoginActivity.this)) {
-                        getOperation().forward(MainActivity.class);
+                        finish();
+                        getOperation().forwardClearTop(MainActivity.class);
                     } else {
+                        finish();
                         getOperation().forwardClearTop(CoverActivity.class);
                     }
                     finish();
@@ -82,7 +85,8 @@ public class ThirdLoginActivity extends BaseActivity {
         });
         skipLogin.setOnClickListener(view -> {
             if (WalletUtil.hasWallet(ThirdLoginActivity.this)) {
-                getOperation().forward(MainActivity.class);
+                AppManager.finishAll();
+                getOperation().forwardClearTop(MainActivity.class);
             } else {
                 getOperation().forwardClearTop(CoverActivity.class);
             }
@@ -98,6 +102,7 @@ public class ThirdLoginActivity extends BaseActivity {
     protected void onCreate(Bundle bundle) {
         setContentView(R.layout.activity_third_login);
         ButterKnife.bind(this);
+        AppManager.getAppManager().addActivity(this);
         super.onCreate(bundle);
         mSwipeBackLayout.setEnableGesture(false);
     }
