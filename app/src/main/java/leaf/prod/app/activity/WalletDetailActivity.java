@@ -233,7 +233,11 @@ public class WalletDetailActivity extends BaseActivity {
             window.setGravity(Gravity.BOTTOM);
         }
         if (tx.getType() == TxType.APPROVE) {
-            txApprove.setText(getResources().getString(R.string.approve_details).replace("?", symbol));
+            txApprove.setText(getResources().getString(R.string.approve_details, symbol));
+            txApproveLayout.setVisibility(View.VISIBLE);
+            txReceivedLayout.setVisibility(View.GONE);
+        } else if (tx.getType() == TxType.OTHER) {
+            txApprove.setText(getResources().getString(R.string.other));
             txApproveLayout.setVisibility(View.VISIBLE);
             txReceivedLayout.setVisibility(View.GONE);
         } else {

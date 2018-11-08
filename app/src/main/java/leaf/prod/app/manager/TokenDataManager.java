@@ -138,8 +138,12 @@ public class TokenDataManager {
     }
 
     public Double getDoubleFromWei(String symbol, String valueInWei) {
-        BigDecimal bigDecimal = Convert.toWei(valueInWei, Convert.Unit.WEI);
-        return getDoubleFromWei(symbol, bigDecimal);
+        try {
+            BigDecimal bigDecimal = Convert.toWei(valueInWei, Convert.Unit.WEI);
+            return getDoubleFromWei(symbol, bigDecimal);
+        } catch (Exception e) {
+            return 0d;
+        }
     }
 
     // support for main fragment presenter
