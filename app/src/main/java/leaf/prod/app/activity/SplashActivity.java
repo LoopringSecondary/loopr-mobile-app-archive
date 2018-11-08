@@ -18,10 +18,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.model.ThirdLoginUser;
 import leaf.prod.app.utils.FingerprintUtil;
 import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.utils.ThirdUserUtil;
+import leaf.prod.app.utils.ThirdLoginUtil;
 import leaf.prod.app.utils.WalletUtil;
 
 public class SplashActivity extends BaseActivity {
@@ -52,12 +51,18 @@ public class SplashActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    ThirdLoginUser thirdLoginUser = ThirdUserUtil.getThirdLoginUserBean(SplashActivity.this);
-                    if (thirdLoginUser != null || WalletUtil.hasWallet(SplashActivity.this)) {
-                        // 第三方登录过 or skip
-                        getOperation().forwardClearTop(MainActivity.class);
+                    if (WalletUtil.hasWallet(SplashActivity.this)) {
+                        if (!ThirdLoginUtil.isThirdLogin(SplashActivity.this)) {
+                            getOperation().forwardClearTop(ThirdLoginActivity.class);
+                        } else {
+                            getOperation().forwardClearTop(MainActivity.class);
+                        }
                     } else {
-                        getOperation().forwardClearTop(ThirdLoginActivity.class);
+                        if (!ThirdLoginUtil.isThirdLogin(SplashActivity.this) && !ThirdLoginUtil.isSkip(SplashActivity.this)) {
+                            getOperation().forwardClearTop(ThirdLoginActivity.class);
+                        } else {
+                            getOperation().forwardClearTop(CoverActivity.class);
+                        }
                     }
                     finish();
                     break;
@@ -79,6 +84,7 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
+        ThirdLoginUtil.updateRemote(this);
     }
 
     @Override

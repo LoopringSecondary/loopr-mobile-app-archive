@@ -23,7 +23,6 @@ import leaf.prod.app.fragment.TradeFragment;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.LanguageUtil;
 import leaf.prod.app.utils.SPUtils;
-import leaf.prod.walletsdk.model.Language;
 
 /**
  * Created by niedengqiang on 2018/8/13.
@@ -97,11 +96,8 @@ public class MainActivity extends BaseActivity {
         /*
          * 通过language的状态来判断是否设置了显示英文还是中文，1为英文，2为中文,0为未设置，显示系统默认
          */
-        if ((int) SPUtils.get(this, "language", 0) == 1 && LanguageUtil.getLanguage(this) != Language.en_US) {
-            LanguageUtil.changeLanguage(this, "en");
-            recreate();
-        } else if ((int) SPUtils.get(this, "language", 0) == 2 && LanguageUtil.getLanguage(this) != Language.zh_CN) {
-            LanguageUtil.changeLanguage(this, "zh");
+        if (LanguageUtil.getLanguage(this) != LanguageUtil.getSettingLanguage(this)) {
+            LanguageUtil.changeLanguage(this, LanguageUtil.getSettingLanguage(this));
             recreate();
         }
     }

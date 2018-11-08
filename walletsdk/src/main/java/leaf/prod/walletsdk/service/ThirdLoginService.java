@@ -1,11 +1,17 @@
 package leaf.prod.walletsdk.service;
 
+import java.io.IOException;
+
+import android.util.Log;
+
 import leaf.prod.walletsdk.SDK;
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,28 +23,51 @@ public class ThirdLoginService {
 
     private OkHttpClient okHttpClient;
 
+    private static String webUrl = "http://10.137.107.159:5000/api/v1/users";
+
     public ThirdLoginService() {
         this.okHttpClient = SDK.getOkHttpClient();
     }
 
     public Call getUser(String accountToken) {
         return okHttpClient.newCall(new Request.Builder().addHeader("application/json", "Content-Type")
-                .url("https://www.loopring.mobi/api/v1/users?account_token=" + accountToken)
+                .url(webUrl + "?account_token=" + accountToken)
                 .get()
                 .build());
     }
 
-    public Call addUser(String json) {
-        return okHttpClient.newCall(new Request.Builder().addHeader("application/json", "Content-Type")
-                .url("https://www.loopring.mobi/api/v1/users")
+    public void addUser(String json) {
+        Log.e("======", json);
+        okHttpClient.newCall(new Request.Builder().addHeader("application/json", "Content-Type")
+                .url(webUrl)
                 .post(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json))
-                .build());
+                .build()).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("addUser: ", e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.d("addUser: ", response.body().string());
+            }
+        });
     }
 
-    public Call deleteUser(String uid) {
-        return okHttpClient.newCall(new Request.Builder().addHeader("application/json", "Content-Type")
-                .url("https://www.loopring.mobi/api/v1/users")
+    public void deleteUser(String uid) {
+        okHttpClient.newCall(new Request.Builder().addHeader("application/json", "Content-Type")
+                .url(webUrl)
                 .delete(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "{\"account_token\": \"" + uid + "\"}"))
-                .build());
+                .build()).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("deleteUser: ", e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.d("deleteUser: ", response.body().string());
+            }
+        });
     }
 }

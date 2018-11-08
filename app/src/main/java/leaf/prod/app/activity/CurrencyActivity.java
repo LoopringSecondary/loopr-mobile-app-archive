@@ -82,14 +82,14 @@ public class CurrencyActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.ll_cny:
                 SPUtils.put(this, "isRecreate", true);
-                SPUtils.put(this, "coin", "CNY");  //保存货币显示，
+                CurrencyUtil.setCurrency(this, Currency.CNY);
                 updateWalletList(Currency.CNY);
                 ivCnyCheck.setVisibility(View.VISIBLE);
                 ivUsdCheck.setVisibility(View.GONE);
                 break;
             case R.id.ll_usd:
                 SPUtils.put(this, "isRecreate", true);
-                SPUtils.put(this, "coin", "USD");
+                CurrencyUtil.setCurrency(this, Currency.USD);
                 updateWalletList(Currency.USD);
                 ivCnyCheck.setVisibility(View.GONE);
                 ivUsdCheck.setVisibility(View.VISIBLE);

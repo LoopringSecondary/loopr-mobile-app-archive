@@ -76,22 +76,20 @@ public class LanguageActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.ll_english:
                 SPUtils.put(this, "isRecreate", true);//通知mainactivity更改语言设置标志
-                SPUtils.put(this, "language", 1);  //语言显示，1为英语显示，2为汉语显示
                 ivEnglishCheck.setVisibility(View.VISIBLE);
                 ivChineseCheck.setVisibility(View.GONE);
                 /**
                  * 显示英文
                  * */
-                LanguageUtil.changeLanguage(this, "en");
+                LanguageUtil.changeLanguage(this, Language.en_US);
                 recreate();
                 break;
             case R.id.ll_chinese:
                 SPUtils.put(this, "isRecreate", true);//mainactivity更改语言设置标志
-                SPUtils.put(this, "language", 2);//语言显示，1为英语显示，2为汉语显示
                 ivEnglishCheck.setVisibility(View.GONE);
                 ivChineseCheck.setVisibility(View.VISIBLE);
                 //显示中文
-                LanguageUtil.changeLanguage(this, "zh");
+                LanguageUtil.changeLanguage(this, Language.zh_CN);
                 recreate();
                 break;
         }
