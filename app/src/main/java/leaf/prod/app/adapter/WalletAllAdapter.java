@@ -14,6 +14,7 @@ import leaf.prod.app.manager.TokenDataManager;
 import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.DateUtil;
 import leaf.prod.app.utils.NumberUtils;
+import leaf.prod.walletsdk.model.TxStatus;
 import leaf.prod.walletsdk.model.TxType;
 import leaf.prod.walletsdk.model.response.data.Transaction;
 
@@ -37,19 +38,28 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
 
     @Override
     protected void convert(BaseViewHolder helper, Transaction item) {
-        int precision = balanceManager.getPrecisionBySymbol(item.getSymbol());
-        Double value = tokenManager.getDoubleFromWei(item.getSymbol(), item.getValue());
-        String valueShown = NumberUtils.format1(value, precision);
-        Double price = priceManager.getPriceBySymbol(item.getSymbol());
-        String currency = CurrencyUtil.format(mContext, price * value);
-        if (item.getType() == null) {
+        String valueShown = "";
+        try {
+            int precision = balanceManager.getPrecisionBySymbol(item.getSymbol());
+            Double value = tokenManager.getDoubleFromWei(item.getSymbol(), item.getValue());
+            valueShown = NumberUtils.format1(value, precision);
+            Double price = priceManager.getPriceBySymbol(item.getSymbol());
+            String currency = CurrencyUtil.format(mContext, price * value);
+            if (item.getType() == null) {
+                item.setType(TxType.OTHER);
+            }
+            String image = String.format("icon_tx_%s", item.getType().getDescription().toLowerCase());
+            int identifier = mContext.getResources().getIdentifier(image, "mipmap", mContext.getPackageName());
+            helper.setImageResource(R.id.wallet_image, identifier);
+            helper.setText(R.id.wallet_name, DateUtil.timeStampToDateTime3(item.getCreateTime()));
+            helper.setText(R.id.wallet_count, currency);
+            setTxType(helper, item, valueShown);
+            setTxStatus(helper, item);
+        } catch (Exception e) {
+            item.setValue("0");
             item.setType(TxType.OTHER);
+            item.setStatus(TxStatus.FAILED);
         }
-        String image = String.format("icon_tx_%s", item.getType().getDescription().toLowerCase());
-        int identifier = mContext.getResources().getIdentifier(image, "mipmap", mContext.getPackageName());
-        helper.setImageResource(R.id.wallet_image, identifier);
-        helper.setText(R.id.wallet_name, DateUtil.timeStampToDateTime3(item.getCreateTime()));
-        helper.setText(R.id.wallet_count, currency);
         setTxType(helper, item, valueShown);
         setTxStatus(helper, item);
     }
