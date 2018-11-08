@@ -35,7 +35,7 @@
     <string name="buy">买入</string>
     <string name="sell">卖出</string>
     <string name="approve">授权进行交易</string>
-    <string name="approve_details">授权?进行交易</string>
+    <string name="approve_details">授权%s进行交易</string>
     <string name="eth_notify">以太坊交易确认通知</string>
     <string name="cancelled">取消订单</string>
     <string name="convert_eth">转换为 ETH</string>
