@@ -1,7 +1,9 @@
 package leaf.prod.app.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -21,18 +23,14 @@ public class ThirdLogin implements Serializable {
     @SerializedName("created_at")
     private String createAt;
 
-    private String language;
-
-    private String currency;
-
     private Integer id;
 
-    private ThirdLoginUser config;
+    private String config;
 
-    public ThirdLogin(String accountToken, String language, String currency, ThirdLoginUser config) {
+    private Boolean success;
+
+    public ThirdLogin(String accountToken, String config) {
         this.accountToken = accountToken;
-        this.language = language;
-        this.currency = currency;
         this.config = config;
     }
 
@@ -60,22 +58,6 @@ public class ThirdLogin implements Serializable {
         this.createAt = createAt;
     }
 
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -84,12 +66,44 @@ public class ThirdLogin implements Serializable {
         this.id = id;
     }
 
-    public ThirdLoginUser getConfig() {
+    public String getConfig() {
         return config;
     }
 
-    public void setConfig(ThirdLoginUser config) {
+    public ThirdLoginUser getThirdLoginUser() {
+        try {
+            return new Gson().fromJson(this.config, ThirdLoginUser.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setConfig(String config) {
         this.config = config;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        ThirdLogin that = (ThirdLogin) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(config, that.config);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, config);
     }
 
     @Override
@@ -98,10 +112,9 @@ public class ThirdLogin implements Serializable {
                 "updatedAt='" + updatedAt + '\'' +
                 ", accountToken='" + accountToken + '\'' +
                 ", createAt='" + createAt + '\'' +
-                ", language='" + language + '\'' +
-                ", currency='" + currency + '\'' +
                 ", id=" + id +
                 ", config='" + config + '\'' +
+                ", success=" + success +
                 '}';
     }
 }

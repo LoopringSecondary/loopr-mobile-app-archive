@@ -13,13 +13,16 @@ public class ThirdLoginUser {
 
     private String userId;
 
-    private String userInfo;
+    private String language;
+
+    private String currency;
 
     private List<WalletInfo> walletList;
 
-    public ThirdLoginUser(String userId, String userInfo, List<WalletInfo> walletList) {
+    public ThirdLoginUser(String userId, String language, String currency, List<WalletInfo> walletList) {
         this.userId = userId;
-        this.userInfo = userInfo;
+        this.language = language;
+        this.currency = currency;
         this.walletList = walletList;
     }
 
@@ -35,16 +38,24 @@ public class ThirdLoginUser {
         this.userId = userId;
     }
 
-    public String getUserInfo() {
-        return userInfo;
-    }
-
-    public void setUserInfo(String userInfo) {
-        this.userInfo = userInfo;
-    }
-
     public List<WalletInfo> getWalletList() {
         return walletList;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public void setWalletList(List<WalletEntity> walletList) {
@@ -64,19 +75,21 @@ public class ThirdLoginUser {
         if (o == null || getClass() != o.getClass())
             return false;
         ThirdLoginUser that = (ThirdLoginUser) o;
-        return Objects.equals(walletList, that.walletList);
+        return Objects.equals(userId, that.userId) &&
+                Objects.equals(language, that.language) &&
+                Objects.equals(currency, that.currency) &&
+                Objects.equals(walletList, that.walletList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(walletList);
+        return Objects.hash(userId, language, currency, walletList);
     }
 
     @Override
     public String toString() {
         return "ThirdLoginUser{" +
                 "userId='" + userId + '\'' +
-                ", userInfo='" + userInfo + '\'' +
                 ", walletList=" + walletList +
                 '}';
     }

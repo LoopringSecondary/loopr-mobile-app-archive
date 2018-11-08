@@ -9,6 +9,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.AppManager;
+import leaf.prod.app.utils.LanguageUtil;
 
 public class CoverActivity extends BaseActivity {
 
@@ -37,6 +38,10 @@ public class CoverActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        if (LanguageUtil.getLanguage(this) != LanguageUtil.getSettingLanguage(this)) {
+            LanguageUtil.changeLanguage(this, LanguageUtil.getSettingLanguage(this));
+            recreate();
+        }
     }
 
     @Override
@@ -62,7 +67,7 @@ public class CoverActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-//        if (ThirdUserUtil.getThirdLoginUserBean(CoverActivity.this) == null) {
+//        if (ThirdLoginUtil.getThirdLoginUserBean(CoverActivity.this) == null) {
 //            getOperation().forwardClearTop(ThirdLoginActivity.class);
 //        }
     }

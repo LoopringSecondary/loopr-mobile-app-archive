@@ -40,4 +40,9 @@ public class CurrencyUtil {
         NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
         return formatter.format(value);
     }
+
+    public static void setCurrency(Context context, Currency currency) {
+        SPUtils.put(context, "coin", currency.getText());
+        ThirdLoginUtil.updateLocal(context, null, currency);
+    }
 }

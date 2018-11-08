@@ -66,12 +66,6 @@ public class WalletUtil {
             SPUtils.remove(context, "walletlist");
         }
         SPUtils.setDataList(context, "walletlist", list);
-        // todo 同步更新第三方登录
-        //        ThirdLoginUser thirdLoginUser = ThirdUserUtil.getThirdLoginUserBean(context);
-        //        if (thirdLoginUser != null) {
-        //            // 同步更新第三方登录相关信息
-        //            ThirdUserUtil.updateWalletList(context, list);
-        //        }
     }
 
     public static boolean isWalletExisted(Context context, WalletEntity wallet) {

@@ -9,6 +9,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.support.annotation.CallSuper;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
@@ -83,6 +84,12 @@ public class APP extends Application {
 
         Config.DEBUG = true;
         SDK.initSDK();
+    }
+
+    @CallSuper
+    public void onTerminate() {
+        super.onTerminate();
+        SPUtils.put(this, "test", "======================");
     }
 
     @Override

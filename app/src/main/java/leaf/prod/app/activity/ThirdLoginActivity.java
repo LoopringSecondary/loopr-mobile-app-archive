@@ -3,11 +3,11 @@ package leaf.prod.app.activity;
 import java.util.Map;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -17,8 +17,10 @@ import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.model.ThirdLoginUser;
 import leaf.prod.app.utils.AppManager;
+import leaf.prod.app.utils.CurrencyUtil;
+import leaf.prod.app.utils.LanguageUtil;
 import leaf.prod.app.utils.PermissionUtils;
-import leaf.prod.app.utils.ThirdUserUtil;
+import leaf.prod.app.utils.ThirdLoginUtil;
 import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.service.ThirdLoginService;
 
@@ -50,7 +52,10 @@ public class ThirdLoginActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        hintText.setText("第三方授权登录，系统可以保存您的APP配置，\n防止删除或者更新APP后丢失。您也可以选择跳过。");
+        if (getIntent().getStringExtra("skip") != null) {
+            skipLogin.setVisibility(View.INVISIBLE);
+        }
+        hintText.setText(getResources().getString(R.string.third_part_hint));
         weixinLogin.setOnClickListener(view -> {
             /**
              * umeng第三方登录
@@ -62,13 +67,13 @@ public class ThirdLoginActivity extends BaseActivity {
 
                 @Override
                 public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                    // todo 第三方登录信息存入数据库
-                    ThirdUserUtil.initThirdLogin(ThirdLoginActivity.this, new ThirdLoginUser(map.get("uid"), new Gson().toJson(map), null));
+                    ThirdLoginUtil.initThirdLogin(ThirdLoginActivity.this, new ThirdLoginUser(map.get("openid"), LanguageUtil
+                            .getSettingLanguage(ThirdLoginActivity.this)
+                            .name(), CurrencyUtil.getCurrency(ThirdLoginActivity.this).name(), null));
                     if (WalletUtil.hasWallet(ThirdLoginActivity.this)) {
                         getOperation().forward(MainActivity.class);
                         // todo 有钱包的情况，让用户选择历史钱包
                     } else {
-                        finish();
                         getOperation().forwardClearTop(CoverActivity.class);
                     }
                     finish();
@@ -85,13 +90,13 @@ public class ThirdLoginActivity extends BaseActivity {
             });
         });
         skipLogin.setOnClickListener(view -> {
+            ThirdLoginUtil.skip(ThirdLoginActivity.this);
             if (WalletUtil.hasWallet(ThirdLoginActivity.this)) {
                 AppManager.finishAll();
                 getOperation().forwardClearTop(MainActivity.class);
             } else {
                 getOperation().forwardClearTop(CoverActivity.class);
             }
-            finish();
         });
     }
 

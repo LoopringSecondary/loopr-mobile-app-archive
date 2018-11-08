@@ -59,6 +59,8 @@
     <string name="set_money_type">Currency</string>
     <string name="set_language">Language</string>
     <string name="set_itouch">Touch ID</string>
+    <string name="third_part_login">Login</string>
+    <string name="third_part_logout">Logout</string>
     <string name="set_contract_version">Contract Version</string>
     <string name="set_lrc_proportion">LRC Fee Ratio</string>
     <string name="set_margin_split">Margin Split</string>
@@ -126,7 +128,7 @@
     <string name="no_data_transaction">You do not have transaction record yet</string>
     <string name="h5_dex">Loopring DEX</string>
     <string name="confirm_clear_record">Are you sure you want to delete current wallet and clear records? </string>
-    <string name="hint">hint</string>
+    <string name="hint">Hint</string>
     <string name="auth_finger_tip">Phone is ready for reading your fingerprint…</string>
     <string name="auth_finger_no_match">Sorry, your input fingerprint does not match, %1d chances left</string>
     <string name="auth_finger_failed">Sorry, your device is locked for 1 minute cause inputting error 5 times</string>
@@ -134,4 +136,7 @@
     <string name="transfer_error">Transfer error, please try again</string>
     <string name="loopring_order">Loopring Order</string>
     <string name="expiry_date">Expiry Date</string>
+    <string name="logout_hint">If you choose logout at all of the prompts it will delete the settings from your phone</string>
+    <string name="third_part_authorization">third party authorization</string>
+    <string name="third_part_hint">It will keep your settings when you login.</string>
 </resources>

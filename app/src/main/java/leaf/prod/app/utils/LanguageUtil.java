@@ -14,15 +14,19 @@ import leaf.prod.walletsdk.model.Language;
  */
 public class LanguageUtil {
 
-    public static void changeLanguage(Context context, String type) {
+    public static void changeLanguage(Context context, Language language) {
         Configuration configuration = context.getResources().getConfiguration();
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        switch (type) {
-            case "zh":
+        switch (language) {
+            case zh_CN:
                 configuration.locale = Locale.SIMPLIFIED_CHINESE;
+                SPUtils.put(context, "language", 2);
+                ThirdLoginUtil.updateLocal(context, Language.zh_CN, null);
                 break;
-            case "en":
+            case en_US:
                 configuration.locale = Locale.US;
+                SPUtils.put(context, "language", 1);
+                ThirdLoginUtil.updateLocal(context, Language.en_US, null);
                 break;
         }
         context.getResources().updateConfiguration(configuration, displayMetrics);
@@ -38,6 +42,20 @@ public class LanguageUtil {
             return Language.en_US;
         } else {
             return Language.zh_CN;
+        }
+    }
+
+    public static Language getSettingLanguage(Context context) {
+        /*
+         * 通过language的状态来判断是否设置了显示英文还是中文，1为英文，2为中文,0为未设置，显示系统默认
+         */
+        switch ((int) SPUtils.get(context, "language", 0)) {
+            case 1:
+                return Language.en_US;
+            case 2:
+                return Language.zh_CN;
+            default:
+                return getLanguage(context);
         }
     }
 }
