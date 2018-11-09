@@ -87,6 +87,7 @@
     <string name="enter_the_amount">请输入额度</string>
     <string name="input_valid_address">请输入合法地址</string>
     <string name="input_valid_amount">请输入有效的数据</string>
+    <string name="available_balance">可用余额为%s</string>
     <string name="insufficient_balance">可用余额不足</string>
     <string name="transaction_fee">交易费</string>
     <string name="dialog_fee_title">设置油费</string>
