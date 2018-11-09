@@ -169,7 +169,7 @@ public class ThirdLoginUtil {
     public static void deleteThirdLogin(Context context) {
         String uid = (String) SPUtils.get(context, THIRD_LOGIN, "");
         SPUtils.remove(context, THIRD_LOGIN + "_" + uid);
-        SPUtils.remove(context, THIRD_LOGIN);
+        skip(context);
         thirdLoginService.deleteUser(uid);
     }
 }
