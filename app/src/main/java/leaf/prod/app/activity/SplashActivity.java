@@ -52,7 +52,7 @@ public class SplashActivity extends BaseActivity {
             switch (msg.what) {
                 case 1:
                     if (WalletUtil.hasWallet(SplashActivity.this)) {
-                        if (!ThirdLoginUtil.isThirdLogin(SplashActivity.this)) {
+                        if (!ThirdLoginUtil.isThirdLogin(SplashActivity.this) && !ThirdLoginUtil.isSkip(SplashActivity.this)) {
                             getOperation().forwardClearTop(ThirdLoginActivity.class);
                         } else {
                             getOperation().forwardClearTop(MainActivity.class);
@@ -64,7 +64,6 @@ public class SplashActivity extends BaseActivity {
                             getOperation().forwardClearTop(CoverActivity.class);
                         }
                     }
-                    finish();
                     break;
                 case 2:
                     count = 4;

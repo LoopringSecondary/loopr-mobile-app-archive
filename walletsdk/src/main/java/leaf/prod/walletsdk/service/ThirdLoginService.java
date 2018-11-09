@@ -23,7 +23,7 @@ public class ThirdLoginService {
 
     private OkHttpClient okHttpClient;
 
-    private static String webUrl = "http://10.137.107.159:5000/api/v1/users";
+    private static String webUrl = "https://www.loopring.mobi/api/v1/users";
 
     public ThirdLoginService() {
         this.okHttpClient = SDK.getOkHttpClient();
