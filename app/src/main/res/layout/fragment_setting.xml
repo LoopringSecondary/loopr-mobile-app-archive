@@ -235,12 +235,6 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="@dimen/margSide"
-                    android:background="@color/lineBac"/>
-
             </LinearLayout>
 
             <View
@@ -286,11 +280,6 @@
                         android:src="@mipmap/icon_next"/>
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="@dimen/margSide"
-                    android:background="@color/lineBac"/>
             </LinearLayout>
 
             <LinearLayout
