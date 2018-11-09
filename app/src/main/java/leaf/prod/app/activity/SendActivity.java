@@ -262,6 +262,8 @@ public class SendActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        initSeekbar();
+        initMoneyAmount();
     }
 
     @Override
@@ -282,8 +284,6 @@ public class SendActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        initSeekbar();
-        initMoneyAmount();
         initWalletAddress();
     }
 
