@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_marginLeft="@dimen/margSide"
-        android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="21dp"
+        android:layout_marginRight="@dimen/margSide"
         android:background="@drawable/radius_bg_38"
         android:focusable="true"
         android:focusableInTouchMode="true">
@@ -22,8 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
             android:background="@null"
             android:hint="@string/et_mnemonic"
             android:imeOptions="actionNext"
@@ -47,8 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="@dimen/margSide"
-        android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="21dp"
+        android:layout_marginRight="@dimen/margSide"
         android:background="@drawable/radius_bg_38"
         android:clickable="true">
 
@@ -81,8 +81,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="@dimen/margSide"
-        android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="21dp"
+        android:layout_marginRight="@dimen/margSide"
         android:background="@drawable/radius_bg_38"
         android:visibility="gone">
 
@@ -120,8 +120,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="@dimen/margSide"
-        android:layout_marginRight="@dimen/margSide"
         android:layout_marginTop="21dp"
+        android:layout_marginRight="@dimen/margSide"
         android:background="@drawable/radius_bg_38">
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -133,7 +133,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@null"
-            android:digits="@string/pwd_dig"
             android:focusableInTouchMode="true"
             android:hint="@string/mnemonic_password"
             android:imeOptions="actionNext"
@@ -150,8 +149,6 @@
             app:met_helperTextColor="@color/colorWhite"
             app:met_hideUnderline="true"
             app:met_primaryColor="@color/colorWhite"/>
-
-
     </RelativeLayout>
 
 
