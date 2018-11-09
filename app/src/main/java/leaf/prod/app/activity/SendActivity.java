@@ -327,8 +327,12 @@ public class SendActivity extends BaseActivity {
             addressToast.startAnimation(shakeAnimation);
             return;
         }
-        if (TextUtils.isEmpty(amount) || (amountSend = Double.parseDouble(amount)) > amountTotal) {
-            amountToast.setText(getResources().getText(R.string.input_valid_amount));
+        if (TextUtils.isEmpty(amount) || (amountSend = Double.parseDouble(amount)) > amountTotal || amountSend == 0) {
+            if (TextUtils.isEmpty(amount) || amountSend == 0) {
+                amountToast.setText(getResources().getString(R.string.input_valid_amount));
+            } else {
+                amountToast.setText(getResources().getString(R.string.available_balance, sendWalletCount.getText()));
+            }
             amountToast.setTextColor(getResources().getColor(R.color.colorRed));
             amountToast.setVisibility(View.VISIBLE);
             amountToast.startAnimation(shakeAnimation);
@@ -624,7 +628,7 @@ public class SendActivity extends BaseActivity {
                         .isEmpty()) ? Double.parseDouble(editable.toString()) : 0;
                 moneyAmountChange = true;
                 if (currentAmount > amountTotal) {
-                    amountToast.setText(getResources().getText(R.string.input_valid_amount));
+                    amountToast.setText(getResources().getString(R.string.available_balance, sendWalletCount.getText()));
                     amountToast.setTextColor(getResources().getColor(R.color.colorRed));
                     amountToast.startAnimation(shakeAnimation);
                     seekBar.setProgress(100);
