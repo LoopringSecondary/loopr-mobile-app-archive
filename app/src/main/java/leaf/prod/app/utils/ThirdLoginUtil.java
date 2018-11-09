@@ -5,6 +5,7 @@ import java.io.IOException;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.model.ThirdLogin;
 import leaf.prod.app.model.ThirdLoginResp;
@@ -31,22 +32,6 @@ public class ThirdLoginUtil {
 
     private static Gson gson = new Gson();
 
-    public static ThirdLogin getThirdLogin(Context context, String uid) {
-        ThirdLogin thirdLogin = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, ThirdLogin.class);
-        if (thirdLogin == null) {
-            try {
-                thirdLogin = gson.fromJson(thirdLoginService.getUser(uid)
-                        .execute()
-                        .body()
-                        .string(), ThirdLogin.class);
-                SPUtils.put(context, THIRD_LOGIN + "_" + uid, thirdLogin);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return thirdLogin;
-    }
-
     public static String getUserId(Context context) {
         return (String) SPUtils.get(context, THIRD_LOGIN, "");
     }
@@ -65,6 +50,12 @@ public class ThirdLoginUtil {
         SPUtils.put(context, THIRD_LOGIN, "-");
     }
 
+    /**
+     * 点击第三方微信登录
+     *
+     * @param context
+     * @param thirdLoginUser
+     */
     public static void initThirdLogin(Context context, ThirdLoginUser thirdLoginUser) {
         if (thirdLoginUser == null)
             return;
@@ -73,7 +64,7 @@ public class ThirdLoginUtil {
         thirdLoginService.getUser(thirdLoginUser.getUserId()).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                LyqbLogger.debug(e.getMessage());
+                RxToast.error("登录失败，请稍后重试");
             }
 
             @Override
@@ -111,6 +102,13 @@ public class ThirdLoginUtil {
         });
     }
 
+    /**
+     * 配置更改后保存本地
+     *
+     * @param context
+     * @param language
+     * @param currency
+     */
     public static void updateLocal(Context context, Language language, Currency currency) {
         if (isThirdLogin(context)) {
             String uid = getUserId(context);
@@ -123,6 +121,11 @@ public class ThirdLoginUtil {
         }
     }
 
+    /**
+     * 打开app时同步云端
+     *
+     * @param context
+     */
     public static void updateRemote(Context context) {
         if (isThirdLogin(context)) {
             String uid = getUserId(context);
@@ -158,7 +161,12 @@ public class ThirdLoginUtil {
         }
     }
 
-    public static void delete(Context context) {
+    /**
+     * 删除所有第三方登录相关
+     *
+     * @param context
+     */
+    public static void deleteThirdLogin(Context context) {
         String uid = (String) SPUtils.get(context, THIRD_LOGIN, "");
         SPUtils.remove(context, THIRD_LOGIN + "_" + uid);
         SPUtils.remove(context, THIRD_LOGIN);

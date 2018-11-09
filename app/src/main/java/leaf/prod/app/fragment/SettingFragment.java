@@ -125,7 +125,7 @@ public class SettingFragment extends BaseFragment {
         if (confirmThirdLogin == null) {
             confirmThirdLogin = new AlertDialog.Builder(getContext());
             confirmThirdLogin.setPositiveButton(getResources().getString(R.string.confirm), (dialogInterface, i0) -> {
-                ThirdLoginUtil.delete(getContext());
+                ThirdLoginUtil.deleteThirdLogin(getContext());
                 btnLogin.setText(getResources().getString(R.string.third_part_login));
             });
             confirmThirdLogin.setNegativeButton(getResources().getString(R.string.cancel), (dialogInterface, i) -> {
