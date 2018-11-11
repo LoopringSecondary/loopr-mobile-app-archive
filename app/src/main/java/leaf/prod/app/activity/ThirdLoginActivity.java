@@ -69,7 +69,7 @@ public class ThirdLoginActivity extends BaseActivity {
                 public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                     ThirdLoginUtil.initThirdLogin(ThirdLoginActivity.this, new ThirdLoginUser(map.get("openid"), LanguageUtil
                             .getSettingLanguage(ThirdLoginActivity.this)
-                            .name(), CurrencyUtil.getCurrency(ThirdLoginActivity.this).name(), null));
+                            .getText(), CurrencyUtil.getCurrency(ThirdLoginActivity.this).name(), null));
                     if (WalletUtil.hasWallet(ThirdLoginActivity.this)) {
                         getOperation().forward(MainActivity.class);
                         // todo 有钱包的情况，让用户选择历史钱包
