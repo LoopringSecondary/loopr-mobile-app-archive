@@ -74,7 +74,7 @@ public class ThirdLoginActivity extends BaseActivity {
                         getOperation().forward(MainActivity.class);
                         // todo 有钱包的情况，让用户选择历史钱包
                     } else {
-                        getOperation().forwardClearTop(CoverActivity.class);
+                        getOperation().forward(CoverActivity.class);
                     }
                     finish();
                 }
@@ -92,7 +92,7 @@ public class ThirdLoginActivity extends BaseActivity {
         skipLogin.setOnClickListener(view -> {
             ThirdLoginUtil.skip(ThirdLoginActivity.this);
             if (WalletUtil.hasWallet(ThirdLoginActivity.this)) {
-                AppManager.finishAll();
+                AppManager.getAppManager().finishAllActivity();
                 getOperation().forwardClearTop(MainActivity.class);
             } else {
                 getOperation().forwardClearTop(CoverActivity.class);

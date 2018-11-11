@@ -23,22 +23,6 @@ public class AppManager {
     private AppManager() {
     }
 
-    public static void addA2ctivity(Activity activity) {
-        activities.add(activity);
-    }
-
-    public static void removeActivity(Activity activity) {
-        activities.remove(activity);
-    }
-
-    public static void finishAll() {
-        for (Activity activity : activityStack) {
-            if (!activity.isFinishing()) {
-                activity.finish();
-            }
-        }
-    }
-
     /**
      * 单一实例
      */
@@ -114,7 +98,7 @@ public class AppManager {
      * 结束指定的Activity
      */
     public void finishActivity(Activity activity) {
-        if (activity != null) {
+        if (activity != null && activityStack != null) {
             activityStack.remove(activity);
             activity.finish();
             activity = null;
@@ -125,9 +109,11 @@ public class AppManager {
      * 结束指定类名的Activity
      */
     public void finishActivity(Class<?> cls) {
-        for (Activity activity : activityStack) {
-            if (activity.getClass().equals(cls)) {
-                finishActivity(activity);
+        if (activityStack != null && activityStack.size() > 0) {
+            for (Activity activity : activityStack) {
+                if (activity.getClass().equals(cls)) {
+                    finishActivity(activity);
+                }
             }
         }
     }
@@ -136,12 +122,14 @@ public class AppManager {
      * 结束所有Activity
      */
     public void finishAllActivity() {
-        for (int i = 0, size = activityStack.size(); i < size; i++) {
-            if (null != activityStack.get(i)) {
-                activityStack.get(i).finish();
+        if (activityStack != null && activityStack.size() > 0) {
+            for (int i = 0, size = activityStack.size(); i < size; i++) {
+                if (null != activityStack.get(i)) {
+                    activityStack.get(i).finish();
+                }
             }
+            activityStack.clear();
         }
-        activityStack.clear();
     }
 
     /**

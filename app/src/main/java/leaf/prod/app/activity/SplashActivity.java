@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
+import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.FingerprintUtil;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ThirdLoginUtil;
@@ -53,15 +54,16 @@ public class SplashActivity extends BaseActivity {
                 case 1:
                     if (WalletUtil.hasWallet(SplashActivity.this)) {
                         if (!ThirdLoginUtil.isThirdLogin(SplashActivity.this) && !ThirdLoginUtil.isSkip(SplashActivity.this)) {
-                            getOperation().forwardClearTop(ThirdLoginActivity.class);
+                            getOperation().forward(ThirdLoginActivity.class);
                         } else {
-                            getOperation().forwardClearTop(MainActivity.class);
+                            AppManager.getAppManager().finishAllActivity();
+                            getOperation().forward(MainActivity.class);
                         }
                     } else {
                         if (!ThirdLoginUtil.isThirdLogin(SplashActivity.this) && !ThirdLoginUtil.isSkip(SplashActivity.this)) {
-                            getOperation().forwardClearTop(ThirdLoginActivity.class);
+                            getOperation().forward(ThirdLoginActivity.class);
                         } else {
-                            getOperation().forwardClearTop(CoverActivity.class);
+                            getOperation().forward(CoverActivity.class);
                         }
                     }
                     break;
@@ -84,6 +86,7 @@ public class SplashActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         ThirdLoginUtil.updateRemote(this);
+        AppManager.getAppManager().addActivity(this);
     }
 
     @Override

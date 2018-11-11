@@ -177,7 +177,7 @@ public class GenerateWalletActivity extends BaseActivity {
                                         DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, v -> {
                                             DialogUtil.dialog.dismiss();
                                             finish();
-                                            AppManager.finishAll();
+                                            AppManager.getAppManager().finishAllActivity();
                                             //                                                    startActivity(new Intent(GenerateWalletActivity.this,MainActivity.class));
                                             getOperation().forwardClearTop(MainActivity.class);
                                         });
