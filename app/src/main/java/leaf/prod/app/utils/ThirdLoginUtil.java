@@ -84,7 +84,7 @@ public class ThirdLoginUtil {
                     if (remoteThirdLoginUser != null) {
                         // 初始化本地数据
                         SPUtils.put(context, THIRD_LOGIN + "_" + thirdLoginUser.getUserId(), remoteThirdLoginUser);
-                        LanguageUtil.changeLanguage(context, Language.valueOf(remoteThirdLoginUser.getLanguage()));
+                        LanguageUtil.changeLanguage(context, Language.getLanguage(remoteThirdLoginUser.getLanguage()));
                         CurrencyUtil.setCurrency(context, Currency.valueOf(remoteThirdLoginUser.getCurrency()));
                     } else {
                         // 初始化本地和线上
@@ -114,7 +114,7 @@ public class ThirdLoginUtil {
             String uid = getUserId(context);
             ThirdLoginUser thirdLoginUser = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, ThirdLoginUser.class);
             if (thirdLoginUser != null) {
-                thirdLoginUser.setLanguage(language != null ? language.name() : thirdLoginUser.getLanguage());
+                thirdLoginUser.setLanguage(language != null ? language.getText() : thirdLoginUser.getLanguage());
                 thirdLoginUser.setCurrency(currency != null ? currency.name() : thirdLoginUser.getCurrency());
                 SPUtils.put(context, THIRD_LOGIN + "_" + uid, thirdLoginUser);
             }

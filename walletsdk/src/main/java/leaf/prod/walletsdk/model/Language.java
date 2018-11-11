@@ -7,8 +7,9 @@
 package leaf.prod.walletsdk.model;
 
 public enum Language {
-    zh_CN("zh_CN"),
-    en_US("en_US");
+    zh_CN("zh-Hans"),
+    en_US("en"),
+    zh_Hant("zh-Hant");
 
     private final String text;
 
@@ -18,5 +19,14 @@ public enum Language {
 
     public String getText() {
         return text;
+    }
+
+    public static Language getLanguage(String text) {
+        for (Language language : Language.values()) {
+            if (language.getText().equals(text)) {
+                return language;
+            }
+        }
+        return Language.zh_CN;
     }
 }
