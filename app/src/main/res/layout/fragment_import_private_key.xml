@@ -96,7 +96,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@null"
-            android:digits="@string/pwd_dig"
             android:focusableInTouchMode="true"
             android:hint="@string/repeat_password"
             android:imeOptions="actionNext"
