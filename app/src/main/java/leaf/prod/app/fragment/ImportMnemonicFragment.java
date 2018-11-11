@@ -67,6 +67,8 @@ public class ImportMnemonicFragment extends BaseFragment {
 
     public final static int ERROR_FOUR = 6;
 
+    public final static int ERROR_FIVE = 7;
+
     Unbinder unbinder;
 
     @BindView(R.id.et_mnemonic)
@@ -109,9 +111,6 @@ public class ImportMnemonicFragment extends BaseFragment {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    //                    SPUtils.put(getContext(), "pas", etPassword.getText().toString());
-                    //                    SPUtils.put(getContext(), "hasWallet", true);
-                    //                    SPUtils.put(getContext(), "address", "0x" + address);
                     WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, etMnemonic.getText()
                             .toString(), MD5Utils.md5(etPassword.getText()
                             .toString()), dpath, ImportWalletType.MNEMONIC);
@@ -132,7 +131,7 @@ public class ImportMnemonicFragment extends BaseFragment {
 
                                 @Override
                                 public void onError(Throwable e) {
-                                    ToastUtils.toast("创建失败，请重试");
+                                    ToastUtils.toast(getResources().getString(R.string.add_wallet_error));
                                     hideProgress();
                                 }
 
@@ -142,18 +141,19 @@ public class ImportMnemonicFragment extends BaseFragment {
                             });
                     break;
                 case ERROR_ONE:
-                    ToastUtils.toast("钱包创建失败");
+                    RxToast.error(getResources().getString(R.string.add_wallet_error));
                     hideProgress();
                     break;
                 case ERROR_TWO:
                     break;
                 case ERROR_THREE:
-                    hideProgress();
-                    ToastUtils.toast("本地文件读取失败，请重试");
-                    break;
                 case ERROR_FOUR:
                     hideProgress();
-                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    RxToast.error(getResources().getString(R.string.local_file_error));
+                    break;
+                case ERROR_FIVE:
+                    hideProgress();
+                    RxToast.error(getResources().getString(R.string.mnemonic_invalid));
                     break;
             }
         }
@@ -242,24 +242,24 @@ public class ImportMnemonicFragment extends BaseFragment {
             case R.id.btn_next:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
                     if (TextUtils.isEmpty(etMnemonic.getText().toString())) {
-                        ToastUtils.toast("请输入助记词");
+                        ToastUtils.toast(getResources().getString(R.string.input_mnemonic));
                         return;
                     }
                     if (TextUtils.isEmpty(etPassword.getText().toString())) {
-                        ToastUtils.toast("请输入密码");
+                        ToastUtils.toast(getResources().getString(R.string.password));
                         return;
                     }
                     if (etPassword.getText().toString().length() < 6) {
-                        ToastUtils.toast("请输入6位以上密码");
+                        ToastUtils.toast(getResources().getString(R.string.good));
                         return;
                     }
                     if (TextUtils.isEmpty(walletType.getText().toString())) {
-                        ToastUtils.toast("请选择钱包类型");
+                        ToastUtils.toast(getResources().getString(R.string.wallet_type));
                         return;
                     }
                     if (walletType.getText().toString().equals("其它")) {
                         if (TextUtils.isEmpty(etDpath.getText().toString())) {
-                            ToastUtils.toast("请输入dpath");
+                            ToastUtils.toast(getResources().getString(R.string.input_dpath));
                             return;
                         }
                         dpath = etDpath.getText().toString();
@@ -290,6 +290,9 @@ public class ImportMnemonicFragment extends BaseFragment {
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             } catch (KeystoreCreateException | InvalidPrivateKeyException e) {
                 handlerCreate.sendEmptyMessage(ERROR_ONE);
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                handlerCreate.sendEmptyMessage(ERROR_FIVE);
                 e.printStackTrace();
             }
         }).start();

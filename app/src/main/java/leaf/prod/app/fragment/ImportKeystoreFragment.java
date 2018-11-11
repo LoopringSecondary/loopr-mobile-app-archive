@@ -32,7 +32,6 @@ import leaf.prod.app.model.eventbusData.KeystoreData;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.MD5Utils;
-import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
@@ -89,9 +88,6 @@ public class ImportKeystoreFragment extends BaseFragment {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    //                    SPUtils.put(getContext(), "pas", etPassword.getText().toString());
-                    //                    SPUtils.put(getContext(), "hasWallet", true);
-                    //                    SPUtils.put(getContext(), "address", "0x" + address);
                     WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, "", MD5Utils.md5(etPassword.getText()
                             .toString()), "", ImportWalletType.KEY_STORE);
                     loopringService.notifyCreateWallet(address)
@@ -111,7 +107,7 @@ public class ImportKeystoreFragment extends BaseFragment {
 
                                 @Override
                                 public void onError(Throwable e) {
-                                    ToastUtils.toast("创建失败，请重试");
+                                    RxToast.error(getResources().getString(R.string.add_wallet_error));
                                     hideProgress();
                                 }
 
@@ -121,20 +117,17 @@ public class ImportKeystoreFragment extends BaseFragment {
                             });
                     break;
                 case ERROR_ONE:
-                    ToastUtils.toast("钱包创建失败");
+                    RxToast.error(getResources().getString(R.string.add_wallet_error));
                     hideProgress();
                     break;
                 case ERROR_TWO:
-                    ToastUtils.toast("身份验证失败");
+                    RxToast.error(getResources().getString(R.string.id_error));
                     hideProgress();
                     break;
                 case ERROR_THREE:
-                    hideProgress();
-                    ToastUtils.toast("本地文件读取失败，请重试");
-                    break;
                 case ERROR_FOUR:
                     hideProgress();
-                    ToastUtils.toast("本地文件JSON解析失败，请重试");
+                    RxToast.error(getResources().getString(R.string.local_file_error));
                     break;
             }
         }
@@ -220,15 +213,15 @@ public class ImportKeystoreFragment extends BaseFragment {
     public void onViewClicked() {
         if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
             if (TextUtils.isEmpty(etKeystore.getText().toString())) {
-                ToastUtils.toast("请输入keystore文件");
+                RxToast.error(getResources().getString(R.string.keystore_hint));
                 return;
             }
             if (etPassword.getText().toString().length() < 6) {
-                ToastUtils.toast("请输入6位以上密码");
+                RxToast.error(getResources().getString(R.string.good));
                 return;
             }
             if (TextUtils.isEmpty(etPassword.getText().toString())) {
-                ToastUtils.toast("请输入keystore密码");
+                RxToast.error(getResources().getString(R.string.put_password));
                 return;
             }
             unlockWallet();
@@ -245,7 +238,6 @@ public class ImportKeystoreFragment extends BaseFragment {
                 filename = KeystoreUtils.createFromKeystoreJson(etKeystore.getText()
                         .toString().trim(), etPassword.getText()
                         .toString(), FileUtils.getKeyStoreLocation(getContext()));
-                //                SPUtils.put(getContext(), "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             } catch (InvalidKeystoreException e) {
                 handlerCreate.sendEmptyMessage(ERROR_TWO);

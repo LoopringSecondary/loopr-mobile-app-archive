@@ -140,4 +140,10 @@
     <string name="logout_hint">If you choose logout at all of the prompts it will delete the settings from your phone</string>
     <string name="third_part_authorization">third party authorization</string>
     <string name="third_part_hint">It will keep your settings when you login.</string>
+    <string name="input_mnemonic">Please input mnemonic</string>
+    <string name="input_dpath">Please input dpath</string>
+    <string name="add_wallet_error">Add new wallet error</string>
+    <string name="id_error">Identification error</string>
+    <string name="local_file_error">Reading or parsing local file error，retry it</string>
+    <string name="mnemonic_invalid">Invalid mnemonic</string>
 </resources>
