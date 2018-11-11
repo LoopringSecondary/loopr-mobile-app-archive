@@ -16,6 +16,7 @@ import org.bitcoinj.crypto.DeterministicHierarchy;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.crypto.HDKeyDerivation;
 import org.bitcoinj.crypto.HDUtils;
+import org.bitcoinj.crypto.MnemonicCode;
 import org.spongycastle.crypto.digests.SHA512Digest;
 import org.spongycastle.crypto.generators.PKCS5S2ParametersGenerator;
 import org.spongycastle.crypto.params.KeyParameter;
@@ -39,6 +40,8 @@ public final class MnemonicUtils {
     private static final List<String> WORD_LIST = populateWordList();
 
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom();
+
+    private static MnemonicCode mnemonicCode;
 
     public static String randomMnemonic() {
         byte[] initialEntropy = new byte[16];
@@ -116,6 +119,18 @@ public final class MnemonicUtils {
     private static void validateMnemonic(String mnemonic) {
         if (mnemonic == null || mnemonic.trim().isEmpty()) {
             throw new IllegalArgumentException("Mnemonic is required to generate a seed");
+        }
+        if (mnemonicCode == null) {
+            try {
+                mnemonicCode = new MnemonicCode();
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Mnemonic is invalid");
+            }
+        }
+        try {
+            mnemonicCode.check(Arrays.asList(mnemonic.split("\\s+")));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Mnemonic is invalid");
         }
     }
 
