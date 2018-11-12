@@ -131,12 +131,20 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
                     isSignMessage = true;
                     JSONObject data = jsonObject.getJSONObject(KEY_DATA);
                     signMessage = data.getString("message");
-                    view.showPasswordDialog();
+                    if (WalletUtil.needPassword(context)) {
+                        view.showPasswordDialog();
+                    } else {
+                        sign("");
+                    }
                     break;
                 case FUCTION_TRANSACTION_SIGN:
                     isSignMessage = false;
                     signTx = jsonObject.getJSONObject(KEY_DATA);
-                    view.showPasswordDialog();
+                    if (WalletUtil.needPassword(context)) {
+                        view.showPasswordDialog();
+                    } else {
+                        sign("");
+                    }
                     break;
                 case FUCTION_P2P_SHARE:
                     p2pOrder = jsonObject.getJSONObject(KEY_DATA);

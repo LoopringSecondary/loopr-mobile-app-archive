@@ -212,7 +212,9 @@ public class SendActivity extends BaseActivity {
                     getOperation().addParameter("tokenAmount", "-" + moneyAmount.getText() + " " + sendChoose);
                     getOperation().addParameter("address", walletAddress.getText().toString());
                     getOperation().forwardClearTop(SendSuccessActivity.class);
-                    passwordDialog.dismiss();
+                    if (passwordDialog != null && passwordDialog.isShowing()) {
+                        passwordDialog.dismiss();
+                    }
                     break;
                 case ERROR_THREE:
                 case ERROR_FOUR:
@@ -353,7 +355,11 @@ public class SendActivity extends BaseActivity {
             confirm = view.findViewById(R.id.btn_confirm);
             confirm.setOnClickListener(v -> {
                 confirmDialog.dismiss();
-                showPasswordDialog();
+                if (WalletUtil.needPassword(context)) {
+                    showPasswordDialog();
+                } else {
+                    send("");
+                }
             });
             builder.setCancelable(true);
             confirmDialog = null;

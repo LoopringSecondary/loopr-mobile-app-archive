@@ -5,6 +5,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.vondear.rxtool.view.RxToast;
@@ -51,33 +52,7 @@ public class AuthorityLoginPresenter extends BasePresenter<AuthorityLoginActivit
             passwordView.findViewById(R.id.cancel).setOnClickListener(v -> passwordDialog.dismiss());
             passwordView.findViewById(R.id.confirm).setOnClickListener(v -> {
                 try {
-                    ScanLoginReq scanLoginReq = getScanLoginReq(loginInfo);
-                    if (scanLoginReq != null) {
-                        ScanLoginInfo.LoginSign loginSign = SignUtils.genSignMessage(KeystoreUtils.unlock(passwordInput
-                                .getText()
-                                .toString()
-                                .trim(), FileUtils.getKeystoreFromSD(context)), String.valueOf(System.currentTimeMillis() / 1000));
-                        loopringService.notifyScanLogin(loginSign, WalletUtil.getCurrentAddress(context), scanLoginReq.getValue())
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
-                            @Override
-                            public void onCompleted() {
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                passwordInput.setText("");
-                                RxToast.error(context.getResources().getString(R.string.authority_login_error));
-                            }
-
-                            @Override
-                            public void onNext(String s) {
-                                RxToast.success(context.getResources().getString(R.string.authority_login_success));
-                                view.finish();
-                                view.getOperation().forward(MainActivity.class);
-                            }
-                        });
-                    }
+                    sign(loginInfo, passwordInput.getText().toString().trim());
                 } catch (Exception e) {
                     passwordInput.setText("");
                     RxToast.error(context.getResources().getString(R.string.authority_login_error));
@@ -89,6 +64,43 @@ public class AuthorityLoginPresenter extends BasePresenter<AuthorityLoginActivit
             passwordDialog.setCanceledOnTouchOutside(true);
         }
         passwordDialog.show();
+    }
+
+    public void sign(String loginInfo, String password) {
+        try {
+            ScanLoginReq scanLoginReq = getScanLoginReq(loginInfo);
+            if (scanLoginReq != null) {
+                ScanLoginInfo.LoginSign loginSign = SignUtils.genSignMessage(KeystoreUtils.unlock(password, FileUtils.getKeystoreFromSD(context)), String
+                        .valueOf(System.currentTimeMillis() / 1000));
+                loopringService.notifyScanLogin(loginSign, WalletUtil.getCurrentAddress(context), scanLoginReq.getValue())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (passwordDialog != null) {
+                            ((TextView) passwordDialog.findViewById(R.id.password_input)).setText("");
+                        }
+                        RxToast.error(context.getResources().getString(R.string.authority_login_error));
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        RxToast.success(context.getResources().getString(R.string.authority_login_success));
+                        view.finish();
+                        view.getOperation().forward(MainActivity.class);
+                    }
+                });
+            }
+        } catch (Exception e) {
+            if (passwordDialog != null) {
+                ((TextView) passwordDialog.findViewById(R.id.password_input)).setText("");
+            }
+            RxToast.error(context.getResources().getString(R.string.authority_login_error));
+        }
     }
 
     private ScanLoginReq getScanLoginReq(String loginInfo) {
