@@ -23,15 +23,12 @@ public class AuthorityWebActivity extends BaseActivity {
 
     private AuthorityWebPresenter authorityLoginPresenter;
 
-    private QRCodeType type;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_authority_web);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
-        this.type = QRCodeType.valueOf(getIntent().getStringExtra("qrcode_type"));
     }
 
     @Override
@@ -53,7 +50,9 @@ public class AuthorityWebActivity extends BaseActivity {
 
     @Override
     protected void initPresenter() {
-        authorityLoginPresenter = new AuthorityWebPresenter(this, this);
+        String info = getIntent().getStringExtra("qrcode_info");
+        QRCodeType type = QRCodeType.valueOf(getIntent().getStringExtra("qrcode_type"));
+        authorityLoginPresenter = new AuthorityWebPresenter(this, this, info, type);
     }
 
     @OnClick({R.id.return_btn, R.id.authority_btn})
@@ -66,9 +65,9 @@ public class AuthorityWebActivity extends BaseActivity {
             case R.id.authority_btn:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
                     if (WalletUtil.needPassword(this)) {
-                        authorityLoginPresenter.showPasswordDialog(getIntent().getStringExtra("login_info"));
+                        authorityLoginPresenter.showPasswordDialog(info, type);
                     } else {
-                        authorityLoginPresenter.sign(getIntent().getStringExtra("login_info"), "");
+                        authorityLoginPresenter.sign(info, "", type);
                     }
                 }
                 break;

@@ -424,8 +424,7 @@ public class SendActivity extends BaseActivity {
                 if (sendChoose.equals("ETH")) {
                     txHash = transfer.eth()
                             .send(credentials, address, gasDataManager.getCustomizeGasPriceInWei()
-                                    .toBigInteger(), walletAddress.getText()
-                                    .toString(), values);
+                                    .toBigInteger(), walletAddress.getText().toString(), values);
                 } else {
                     txHash = transfer.erc20(tokenDataManager.getTokenBySymbol(sendChoose).getProtocol())
                             .transfer(credentials, tokenDataManager.getTokenBySymbol(sendChoose)

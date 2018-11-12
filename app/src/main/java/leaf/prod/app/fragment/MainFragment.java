@@ -317,27 +317,27 @@ public class MainFragment extends BaseFragment {
                         getOperation().mIntent.removeExtra("p2p_order");
                         break;
                     case LOGIN:
-                        getOperation().addParameter("login_info", result);
+                        getOperation().addParameter("qrcode_info", result);
                         getOperation().addParameter("qrcode_type", QRCodeType.LOGIN.name());
                         getOperation().forward(AuthorityWebActivity.class);
                         break;
                     case APPROVE:
-                        getOperation().addParameter("login_info", result);
+                        getOperation().addParameter("qrcode_info", result);
                         getOperation().addParameter("qrcode_type", QRCodeType.APPROVE.name());
                         getOperation().forward(AuthorityWebActivity.class);
                         break;
                     case CONVERT:
-                        getOperation().addParameter("login_info", result);
+                        getOperation().addParameter("qrcode_info", result);
                         getOperation().addParameter("qrcode_type", QRCodeType.CONVERT.name());
                         getOperation().forward(AuthorityWebActivity.class);
                         break;
                     case ORDER:
-                        getOperation().addParameter("login_info", result);
+                        getOperation().addParameter("qrcode_info", result);
                         getOperation().addParameter("qrcode_type", QRCodeType.ORDER.name());
                         getOperation().forward(AuthorityWebActivity.class);
                         break;
                     case CANCEL_ORDER:
-                        getOperation().addParameter("login_info", result);
+                        getOperation().addParameter("qrcode_info", result);
                         getOperation().addParameter("qrcode_type", QRCodeType.CANCEL_ORDER.name());
                         getOperation().forward(AuthorityWebActivity.class);
                         break;
