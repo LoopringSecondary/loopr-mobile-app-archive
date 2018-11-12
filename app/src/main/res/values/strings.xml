@@ -148,4 +148,5 @@
     <string name="id_error">身份验证失败</string>
     <string name="local_file_error">本地文件读取或解析失败，请重试</string>
     <string name="mnemonic_invalid">助记词不合法</string>
+    <string name="authority">授权</string>
 </resources>

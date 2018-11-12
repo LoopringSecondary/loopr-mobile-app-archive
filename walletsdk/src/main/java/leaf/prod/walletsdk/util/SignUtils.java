@@ -20,4 +20,18 @@ public class SignUtils {
         String r = Numeric.toHexString(signatureData.getR());
         return new TransactionSignature(v, r, s);
     }
+
+    public static TransactionSignature genSignMessage(String keystore, String signMessage, String password) throws Exception {
+        Credentials credentials = KeystoreUtils.unlock(password, keystore);
+        byte[] hash = Numeric.hexStringToByteArray(signMessage);
+        byte[] prefix = ("\u0019Ethereum Signed Message:\n" + hash.length).getBytes();
+        byte[] finalBytes = new byte[prefix.length + hash.length];
+        System.arraycopy(prefix, 0, finalBytes, 0, prefix.length);
+        System.arraycopy(hash, 0, finalBytes, prefix.length, hash.length);
+        Sign.SignatureData sig = Sign.signMessage(finalBytes, credentials.getEcKeyPair());
+        String r = Numeric.toHexString(sig.getR());
+        String s = Numeric.toHexStringNoPrefix(sig.getS());
+        String v = String.format("%02x", sig.getV());
+        return new TransactionSignature(v, r, s);
+    }
 }

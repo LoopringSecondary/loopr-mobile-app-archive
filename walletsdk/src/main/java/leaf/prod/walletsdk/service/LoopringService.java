@@ -27,6 +27,7 @@ import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.MarketcapResult;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.model.response.data.TransactionPageWrapper;
+import leaf.prod.walletsdk.pojo.loopring.response.data.ScanLoginInfo;
 import rx.Observable;
 
 public class LoopringService {
@@ -154,6 +155,12 @@ public class LoopringService {
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", param);
         Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyTransactionSubmitted(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<String> notifyScanLogin(ScanLoginInfo scanLoginInfo) {
+        RequestWrapper request = new RequestWrapper("loopring_notifyScanLogin", scanLoginInfo);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyScanLogin(request);
         return observable.map(ResponseWrapper::getResult);
     }
 
