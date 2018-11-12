@@ -31,7 +31,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.ActivityScanerCode;
-import leaf.prod.app.activity.AuthorityLoginActivity;
+import leaf.prod.app.activity.AuthorityWebActivity;
 import leaf.prod.app.activity.CoverActivity;
 import leaf.prod.app.activity.H5DexWebActivity;
 import leaf.prod.app.activity.ImportWalletActivity;
@@ -46,6 +46,7 @@ import leaf.prod.app.presenter.MainFragmentPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.QRCodeUitl;
+import leaf.prod.walletsdk.model.QRCodeType;
 
 public class MainFragment extends BaseFragment {
 
@@ -316,7 +317,28 @@ public class MainFragment extends BaseFragment {
                         break;
                     case LOGIN:
                         getOperation().addParameter("login_info", result);
-                        getOperation().forward(AuthorityLoginActivity.class);
+                        getOperation().addParameter("qrcode_type", QRCodeType.LOGIN.name());
+                        getOperation().forward(AuthorityWebActivity.class);
+                        break;
+                    case APPROVE:
+                        getOperation().addParameter("login_info", result);
+                        getOperation().addParameter("qrcode_type", QRCodeType.APPROVE.name());
+                        getOperation().forward(AuthorityWebActivity.class);
+                        break;
+                    case CONVERT:
+                        getOperation().addParameter("login_info", result);
+                        getOperation().addParameter("qrcode_type", QRCodeType.CONVERT.name());
+                        getOperation().forward(AuthorityWebActivity.class);
+                        break;
+                    case ORDER:
+                        getOperation().addParameter("login_info", result);
+                        getOperation().addParameter("qrcode_type", QRCodeType.ORDER.name());
+                        getOperation().forward(AuthorityWebActivity.class);
+                        break;
+                    case CANCEL_ORDER:
+                        getOperation().addParameter("login_info", result);
+                        getOperation().addParameter("qrcode_type", QRCodeType.CANCEL_ORDER.name());
+                        getOperation().forward(AuthorityWebActivity.class);
                         break;
                 }
             }

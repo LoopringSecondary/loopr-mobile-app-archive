@@ -235,7 +235,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.AuthorityLoginActivity"
+            android:name=".activity.AuthorityWebActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>

@@ -8,11 +8,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.presenter.AuthorityLoginPresenter;
-import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.app.presenter.AuthorityWebPresenter;
+import leaf.prod.walletsdk.model.QRCodeType;
 
-public class AuthorityLoginActivity extends BaseActivity {
+public class AuthorityWebActivity extends BaseActivity {
 
     @BindView(R.id.return_btn)
     Button returnBtn;
@@ -20,14 +19,17 @@ public class AuthorityLoginActivity extends BaseActivity {
     @BindView(R.id.authority_btn)
     Button authorityBtn;
 
-    private AuthorityLoginPresenter authorityLoginPresenter;
+    private AuthorityWebPresenter authorityLoginPresenter;
+
+    private QRCodeType type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_authority_login);
+        setContentView(R.layout.activity_authority_web);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
+        this.type = QRCodeType.valueOf(getIntent().getStringExtra("qrcode_type"));
     }
 
     @Override
@@ -49,7 +51,7 @@ public class AuthorityLoginActivity extends BaseActivity {
 
     @Override
     protected void initPresenter() {
-        authorityLoginPresenter = new AuthorityLoginPresenter(this, this);
+        authorityLoginPresenter = new AuthorityWebPresenter(this, this);
     }
 
     @OnClick({R.id.return_btn, R.id.authority_btn})
