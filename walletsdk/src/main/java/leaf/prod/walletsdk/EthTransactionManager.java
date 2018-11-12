@@ -68,7 +68,6 @@ public class EthTransactionManager {
                         unsubscribe();
                     }
                 });
-        //        EventAdvisor.notifyTransaction(transactionHash);
         return transactionHash;
     }
 

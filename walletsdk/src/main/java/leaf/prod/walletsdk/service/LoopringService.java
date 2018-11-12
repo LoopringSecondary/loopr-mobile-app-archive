@@ -3,13 +3,10 @@ package leaf.prod.walletsdk.service;
 import java.math.BigInteger;
 import java.util.List;
 
-import android.util.Log;
-
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.core.methods.response.Transaction;
 import org.web3j.utils.Numeric;
 import com.google.common.collect.Maps;
-import com.google.gson.Gson;
 
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
@@ -19,8 +16,11 @@ import leaf.prod.walletsdk.model.TransactionSignature;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.param.AddTokenParam;
 import leaf.prod.walletsdk.model.request.param.BalanceParam;
+import leaf.prod.walletsdk.model.request.param.GetSignParam;
 import leaf.prod.walletsdk.model.request.param.MarketcapParam;
 import leaf.prod.walletsdk.model.request.param.NonceParam;
+import leaf.prod.walletsdk.model.request.param.NotifyScanParam;
+import leaf.prod.walletsdk.model.request.param.NotifyStatusParam;
 import leaf.prod.walletsdk.model.request.param.NotifyTransactionSubmitParam;
 import leaf.prod.walletsdk.model.request.param.PartnerParam;
 import leaf.prod.walletsdk.model.request.param.TransactionParam;
@@ -30,7 +30,6 @@ import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.MarketcapResult;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.model.response.data.TransactionPageWrapper;
-import leaf.prod.walletsdk.pojo.loopring.response.data.ScanLoginInfo;
 import rx.Observable;
 
 public class LoopringService {
@@ -161,11 +160,25 @@ public class LoopringService {
         return observable.map(ResponseWrapper::getResult);
     }
 
-    public Observable<String> notifyScanLogin(ScanLoginInfo.LoginSign loginSign, String owner, String uuid) {
+    public Observable<String> notifyScanLogin(NotifyScanParam.LoginSign loginSign, String owner, String uuid) {
         loginSign.setOwner(owner);
-        ScanLoginInfo scanLoginInfo = ScanLoginInfo.builder().owner(owner).uuid(uuid).sign(loginSign).build();
-        RequestWrapper request = new RequestWrapper("loopring_notifyScanLogin", scanLoginInfo);
+        NotifyScanParam notifyScanParam = NotifyScanParam.builder().owner(owner).uuid(uuid).sign(loginSign).build();
+        RequestWrapper request = new RequestWrapper("loopring_notifyScanLogin", notifyScanParam);
         Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyScanLogin(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<String> notifyStatus(NotifyStatusParam.NotifyBody body, String owner) {
+        NotifyStatusParam notifyStatusParam = NotifyStatusParam.builder().owner(owner).body(body).build();
+        RequestWrapper request = new RequestWrapper("loopring_notifyCirculr", notifyStatusParam);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyStatus(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<String> getSignMessage(String hash) {
+        GetSignParam getSignParam = GetSignParam.builder().key(hash).build();
+        RequestWrapper request = new RequestWrapper("loopring_getTempStore", getSignParam);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.getSignMessage(request);
         return observable.map(ResponseWrapper::getResult);
     }
 

@@ -1,19 +1,19 @@
-package leaf.prod.walletsdk.pojo.loopring.response.data;
+/**
+ * Created with IntelliJ IDEA.
+ * User: laiyanyan
+ * Time: 2018-11-12 12:16 PM
+ * Cooperation: loopring.org 路印协议基金会
+ */
+package leaf.prod.walletsdk.model.request.param;
 
 import java.math.BigInteger;
 
 import lombok.Builder;
 import lombok.Data;
 
-/**
- * Created with IntelliJ IDEA.
- * User: laiyanyan wangchen@loopring.org
- * Time: 2018-11-12 12:16 PM
- * Cooperation: loopring.org 路印协议基金会
- */
 @Data
 @Builder
-public class ScanLoginInfo {
+public class NotifyScanParam {
 
     private String owner;
 

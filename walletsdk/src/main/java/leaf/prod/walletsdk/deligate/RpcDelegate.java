@@ -64,6 +64,12 @@ public interface RpcDelegate {
     Observable<ResponseWrapper<String>> notifyScanLogin(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<String>> notifyStatus(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<String>> getSignMessage(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
     Observable<ResponseWrapper<Partner>> createPartner(@Body RequestWrapper request);
 
     @POST(Default.PARTNER_ACTIVATE)
