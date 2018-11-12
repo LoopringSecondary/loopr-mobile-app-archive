@@ -11,22 +11,13 @@ import java.util.List;
 
 import android.content.Context;
 
+import leaf.prod.app.model.ImportWalletType;
 import leaf.prod.app.model.WalletEntity;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class WalletUtil {
 
     public static WalletEntity getCurrentWallet(Context context) {
-        //        WalletEntity result = null;
-        //        List<WalletEntity> wallets = SPUtils.getDataList(context, "walletlist", WalletEntity.class);
-        //        String walletAddress = (String) SPUtils.get(context, "address", "");
-        //        for (WalletEntity walletEntity : wallets) {
-        //            if (walletEntity.getAddress().equalsIgnoreCase(walletAddress)) {
-        //                result = walletEntity;
-        //                break;
-        //            }
-        //        }
-        //        return result;
         return SPUtils.getBean(context, "currentWallet", WalletEntity.class);
     }
 
@@ -136,5 +127,12 @@ public class WalletUtil {
 
     public static boolean hasWallet(Context context) {
         return SPUtils.getDataList(context, "walletlist", WalletEntity.class).size() > 0;
+    }
+
+    public static boolean needPassword(Context context) {
+        WalletEntity walletEntity = getCurrentWallet(context);
+        if (walletEntity.getWalletType() != ImportWalletType.MNEMONIC || !StringUtils.isEmpty(walletEntity.getPas()))
+            return true;
+        return false;
     }
 }

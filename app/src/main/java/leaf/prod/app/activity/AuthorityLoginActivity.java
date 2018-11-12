@@ -9,6 +9,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.AuthorityLoginPresenter;
+import leaf.prod.app.utils.ButtonClickUtil;
+import leaf.prod.app.utils.WalletUtil;
 
 public class AuthorityLoginActivity extends BaseActivity {
 
@@ -58,7 +60,13 @@ public class AuthorityLoginActivity extends BaseActivity {
                 getOperation().forward(MainActivity.class);
                 break;
             case R.id.authority_btn:
-                authorityLoginPresenter.showPasswordDialog(getIntent().getStringExtra("login_info"));
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
+                    if (WalletUtil.needPassword(this)) {
+                        authorityLoginPresenter.showPasswordDialog(getIntent().getStringExtra("login_info"));
+                    } else {
+                        authorityLoginPresenter.sign(getIntent().getStringExtra("login_info"), "");
+                    }
+                }
                 break;
         }
     }

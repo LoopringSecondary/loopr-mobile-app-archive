@@ -224,7 +224,6 @@ public class ImportMnemonicFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        //        looprHttpService = new LooprHttpService(G.RELAY_URL);
     }
 
     @Override
@@ -243,14 +242,6 @@ public class ImportMnemonicFragment extends BaseFragment {
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
                     if (TextUtils.isEmpty(etMnemonic.getText().toString())) {
                         ToastUtils.toast(getResources().getString(R.string.input_mnemonic));
-                        return;
-                    }
-                    if (TextUtils.isEmpty(etPassword.getText().toString())) {
-                        ToastUtils.toast(getResources().getString(R.string.password));
-                        return;
-                    }
-                    if (etPassword.getText().toString().length() < 6) {
-                        ToastUtils.toast(getResources().getString(R.string.good));
                         return;
                     }
                     if (TextUtils.isEmpty(walletType.getText().toString())) {
