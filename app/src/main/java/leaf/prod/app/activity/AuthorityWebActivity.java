@@ -9,6 +9,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.AuthorityWebPresenter;
+import leaf.prod.app.utils.ButtonClickUtil;
+import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.model.QRCodeType;
 
 public class AuthorityWebActivity extends BaseActivity {
