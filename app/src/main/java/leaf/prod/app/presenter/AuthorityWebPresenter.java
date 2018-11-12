@@ -1,3 +1,9 @@
+/**
+ * Created with IntelliJ IDEA.
+ * User: laiyanyan
+ * Time: 2018-11-12 11:45 AM
+ * Cooperation: loopring.org 路印协议基金会
+ */
 package leaf.prod.app.presenter;
 
 import android.content.Context;
@@ -11,7 +17,7 @@ import com.google.gson.Gson;
 import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
-import leaf.prod.app.activity.AuthorityLoginActivity;
+import leaf.prod.app.activity.AuthorityWebActivity;
 import leaf.prod.app.activity.MainActivity;
 import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.QRCodeUitl;
@@ -25,13 +31,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created with IntelliJ IDEA.
- * User: laiyanyan
- * Time: 2018-11-12 11:45 AM
- * Cooperation: loopring.org 路印协议基金会
- */
-public class AuthorityLoginPresenter extends BasePresenter<AuthorityLoginActivity> {
+public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
 
     private AlertDialog passwordDialog;
 
@@ -39,7 +39,7 @@ public class AuthorityLoginPresenter extends BasePresenter<AuthorityLoginActivit
 
     private static Gson gson = new Gson();
 
-    public AuthorityLoginPresenter(AuthorityLoginActivity view, Context context) {
+    public AuthorityWebPresenter(AuthorityWebActivity view, Context context) {
         super(view, context);
     }
 

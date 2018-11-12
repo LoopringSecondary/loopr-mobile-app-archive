@@ -15,7 +15,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import leaf.prod.walletsdk.pojo.loopring.request.param.ScanLoginReq;
+import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class QRCodeUitl {
@@ -51,6 +51,17 @@ public class QRCodeUitl {
         return WalletUtils.isValidAddress(content);
     }
 
+    private static boolean isContentOf(String content, String type) {
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(content).getAsJsonObject();
+            JsonElement jsonType = jsonObject.get("type");
+            return jsonType.getAsString().equalsIgnoreCase(type);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     /**
      * 判断二维码是否是P2P订单
      *
@@ -58,14 +69,7 @@ public class QRCodeUitl {
      * @return
      */
     public static boolean isP2POrder(String content) {
-        try {
-            JsonParser parser = new JsonParser();
-            JsonObject jsonObject = parser.parse(content).getAsJsonObject();
-            JsonElement type = jsonObject.get("type");
-            return type.getAsString().equalsIgnoreCase("P2P");
-        } catch (Exception e) {
-            return false;
-        }
+        return isContentOf(content, "P2P");
     }
 
     /**
@@ -76,13 +80,51 @@ public class QRCodeUitl {
      * @return
      */
     public static boolean isLogin(String content) {
-        try {
-            ScanLoginReq scanLoginReq = gson.fromJson(content, ScanLoginReq.class);
-            return scanLoginReq != null && !StringUtils.isEmpty(scanLoginReq.getType()) && scanLoginReq.getType()
-                    .equals("UUID");
-        } catch (Exception e) {
-            return false;
-        }
+        return isContentOf(content, "UUID");
+    }
+
+    /**
+     * 判断二维码是不是授权信息
+     * ex: {"type":"approve","value":"xxx"}
+     *
+     * @param content
+     * @return
+     */
+    public static boolean isApprove(String content) {
+        return isContentOf(content, "APPROVE");
+    }
+
+    /**
+     * 判断二维码是不是转换信息
+     * ex: {"type":"CONVERT","value":"xxx"}
+     *
+     * @param content
+     * @return
+     */
+    public static boolean isConvert(String content) {
+        return isContentOf(content, "CONVERT");
+    }
+
+    /**
+     * 判断二维码是不是下单信息
+     * ex: {"type":"SIGN","value":"xxx"}
+     *
+     * @param content
+     * @return
+     */
+    public static boolean isOrder(String content) {
+        return isContentOf(content, "SIGN");
+    }
+
+    /**
+     * 判断二维码是不是取消订单信息
+     * ex: {"type":"CANCEL_ORDER","value":"xxx"}
+     *
+     * @param content
+     * @return
+     */
+    public static boolean isCancelOrder(String content) {
+        return isContentOf(content, "CANCEL_ORDER");
     }
 
     /**
@@ -137,11 +179,14 @@ public class QRCodeUitl {
             return QRCodeType.P2P_ORDER;
         if (isLogin(content))
             return QRCodeType.LOGIN;
+        if (isApprove(content))
+            return QRCodeType.APPROVE;
+        if (isOrder(content))
+            return QRCodeType.ORDER;
+        if (isConvert(content))
+            return QRCodeType.CONVERT;
+        if (isCancelOrder(content))
+            return QRCodeType.CANCEL_ORDER;
         return null;
-    }
-
-
-    public enum QRCodeType {
-        KEY_STORE, TRANSFER, P2P_ORDER, LOGIN
     }
 }
