@@ -1,5 +1,8 @@
 package leaf.prod.walletsdk.pojo.loopring.response.data;
 
+import java.math.BigInteger;
+
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -9,6 +12,7 @@ import lombok.Data;
  * Cooperation: loopring.org 路印协议基金会
  */
 @Data
+@Builder
 public class ScanLoginInfo {
 
     private String owner;
@@ -18,11 +22,12 @@ public class ScanLoginInfo {
     private LoginSign sign;
 
     @Data
-    static class LoginSign {
+    @Builder
+    public static class LoginSign {
 
-        private Long timestamp;
+        private String timestamp;
 
-        private String v;
+        private BigInteger v;
 
         private String r;
 

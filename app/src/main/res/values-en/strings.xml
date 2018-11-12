@@ -147,4 +147,6 @@
     <string name="local_file_error">Reading or parsing local file error，retry it</string>
     <string name="mnemonic_invalid">Invalid mnemonic</string>
     <string name="authority">Authority</string>
+    <string name="authority_login_success">Authority success</string>
+    <string name="authority_login_error">Authority error</string>
 </resources>
