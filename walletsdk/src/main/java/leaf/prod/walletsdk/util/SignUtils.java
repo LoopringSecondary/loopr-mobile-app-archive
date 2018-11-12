@@ -3,12 +3,14 @@ package leaf.prod.walletsdk.util;
 import java.math.BigInteger;
 
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.Hash;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.Sign;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.utils.Numeric;
 
 import leaf.prod.walletsdk.model.TransactionSignature;
+import leaf.prod.walletsdk.pojo.loopring.response.data.ScanLoginInfo;
 
 public class SignUtils {
 
@@ -21,17 +23,18 @@ public class SignUtils {
         return new TransactionSignature(v, r, s);
     }
 
-    public static TransactionSignature genSignMessage(String keystore, String signMessage, String password) throws Exception {
-        Credentials credentials = KeystoreUtils.unlock(password, keystore);
-        byte[] hash = Numeric.hexStringToByteArray(signMessage);
+    public static ScanLoginInfo.LoginSign genSignMessage(Credentials credentials, String signMessage) {
+        byte[] hash = Hash.sha3(signMessage.getBytes());
         byte[] prefix = ("\u0019Ethereum Signed Message:\n" + hash.length).getBytes();
         byte[] finalBytes = new byte[prefix.length + hash.length];
         System.arraycopy(prefix, 0, finalBytes, 0, prefix.length);
         System.arraycopy(hash, 0, finalBytes, prefix.length, hash.length);
         Sign.SignatureData sig = Sign.signMessage(finalBytes, credentials.getEcKeyPair());
-        String r = Numeric.toHexString(sig.getR());
-        String s = Numeric.toHexStringNoPrefix(sig.getS());
-        String v = String.format("%02x", sig.getV());
-        return new TransactionSignature(v, r, s);
+        return ScanLoginInfo.LoginSign.builder()
+                .r(Numeric.toHexStringNoPrefix(sig.getR()))
+                .s(Numeric.toHexStringNoPrefix(sig.getS()))
+                .v(BigInteger.valueOf(sig.getV()))
+                .timestamp(signMessage)
+                .build();
     }
 }

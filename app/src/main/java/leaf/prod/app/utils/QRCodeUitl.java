@@ -78,7 +78,8 @@ public class QRCodeUitl {
     public static boolean isLogin(String content) {
         try {
             ScanLoginReq scanLoginReq = gson.fromJson(content, ScanLoginReq.class);
-            return scanLoginReq != null && !StringUtils.isEmpty(scanLoginReq.getType()) && scanLoginReq.getType().equals("UUID");
+            return scanLoginReq != null && !StringUtils.isEmpty(scanLoginReq.getType()) && scanLoginReq.getType()
+                    .equals("UUID");
         } catch (Exception e) {
             return false;
         }
@@ -138,6 +139,7 @@ public class QRCodeUitl {
             return QRCodeType.LOGIN;
         return null;
     }
+
 
     public enum QRCodeType {
         KEY_STORE, TRANSFER, P2P_ORDER, LOGIN

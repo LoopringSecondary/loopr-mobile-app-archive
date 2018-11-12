@@ -3,10 +3,13 @@ package leaf.prod.walletsdk.service;
 import java.math.BigInteger;
 import java.util.List;
 
+import android.util.Log;
+
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.core.methods.response.Transaction;
 import org.web3j.utils.Numeric;
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
 
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
@@ -158,7 +161,9 @@ public class LoopringService {
         return observable.map(ResponseWrapper::getResult);
     }
 
-    public Observable<String> notifyScanLogin(ScanLoginInfo scanLoginInfo) {
+    public Observable<String> notifyScanLogin(ScanLoginInfo.LoginSign loginSign, String owner, String uuid) {
+        loginSign.setOwner(owner);
+        ScanLoginInfo scanLoginInfo = ScanLoginInfo.builder().owner(owner).uuid(uuid).sign(loginSign).build();
         RequestWrapper request = new RequestWrapper("loopring_notifyScanLogin", scanLoginInfo);
         Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyScanLogin(request);
         return observable.map(ResponseWrapper::getResult);
