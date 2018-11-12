@@ -15,9 +15,12 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import leaf.prod.walletsdk.pojo.loopring.request.param.ScanLoginReq;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class QRCodeUitl {
+
+    private static Gson gson = new Gson();
 
     /**
      * 判断二维码是否是keystore
@@ -29,7 +32,7 @@ public class QRCodeUitl {
         if (StringUtils.isEmpty(content) || !content.contains("ciphertext"))
             return false;
         try {
-            new Gson().fromJson(content, Object.class);
+            gson.fromJson(content, Object.class);
             return true;
         } catch (Exception e) {
             return false;
@@ -60,6 +63,22 @@ public class QRCodeUitl {
             JsonObject jsonObject = parser.parse(content).getAsJsonObject();
             JsonElement type = jsonObject.get("type");
             return type.getAsString().equalsIgnoreCase("P2P");
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 判断二维码是不是登录信息
+     * ex: {"type":"UUID","value":"xxx"}
+     *
+     * @param content
+     * @return
+     */
+    public static boolean isLogin(String content) {
+        try {
+            ScanLoginReq scanLoginReq = gson.fromJson(content, ScanLoginReq.class);
+            return scanLoginReq != null && !StringUtils.isEmpty(scanLoginReq.getType()) && scanLoginReq.getType().equals("UUID");
         } catch (Exception e) {
             return false;
         }
@@ -115,10 +134,12 @@ public class QRCodeUitl {
             return QRCodeType.TRANSFER;
         if (isP2POrder(content))
             return QRCodeType.P2P_ORDER;
+        if (isLogin(content))
+            return QRCodeType.LOGIN;
         return null;
     }
 
     public enum QRCodeType {
-        KEY_STORE, TRANSFER, P2P_ORDER;
+        KEY_STORE, TRANSFER, P2P_ORDER, LOGIN
     }
 }

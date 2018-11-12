@@ -31,6 +31,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.ActivityScanerCode;
+import leaf.prod.app.activity.AuthorityLoginActivity;
 import leaf.prod.app.activity.CoverActivity;
 import leaf.prod.app.activity.H5DexWebActivity;
 import leaf.prod.app.activity.ImportWalletActivity;
@@ -312,6 +313,10 @@ public class MainFragment extends BaseFragment {
                         getOperation().addParameter("p2p_order", result);
                         getOperation().addParameter("url", "http://embeddex.upwallet.io/#/face2face");
                         getOperation().forward(H5DexWebActivity.class);
+                        break;
+                    case LOGIN:
+                        getOperation().addParameter("login_info", result);
+                        getOperation().forward(AuthorityLoginActivity.class);
                         break;
                 }
             }
