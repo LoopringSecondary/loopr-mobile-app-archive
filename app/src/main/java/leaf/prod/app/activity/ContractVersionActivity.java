@@ -21,6 +21,8 @@ public class ContractVersionActivity extends BaseActivity {
         setContentView(R.layout.activity_contract_version);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
+
+        tvContractVersion.setText("0x8d8812b72d1e4ffCeC158D25f56748b7d67c1e78");
     }
 
     @Override
