@@ -631,7 +631,8 @@ public class SendActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 double currentAmount = (editable != null && !editable.toString()
-                        .isEmpty()) ? Double.parseDouble(editable.toString()) : 0;
+                        .isEmpty()) ? Double.parseDouble(editable.toString()
+                        .equals(".") ? "0" : editable.toString()) : 0;
                 moneyAmountChange = true;
                 if (currentAmount > amountTotal) {
                     amountToast.setText(getResources().getString(R.string.available_balance, sendWalletCount.getText()));
