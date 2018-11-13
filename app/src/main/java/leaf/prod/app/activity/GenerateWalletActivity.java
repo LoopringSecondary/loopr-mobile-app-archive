@@ -16,6 +16,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -357,6 +358,7 @@ public class GenerateWalletActivity extends BaseActivity {
                             mHintAdapter.notifyDataSetChanged();
                             generatePartone.setVisibility(View.GONE);
                             generateParttwo.setVisibility(View.VISIBLE);
+                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
                             MyViewUtils.hideSoftInput(this, repeatPassword);
                         }
                     } else {
