@@ -9,10 +9,9 @@
               android:orientation="vertical"
     >
 
-    <RelativeLayout
-        android:layout_width="345dp"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp">
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -29,6 +28,10 @@
             android:textColorHint="@color/colorWhite"
             android:textCursorDrawable="@drawable/white_color_cursor"
             android:textSize="@dimen/normalText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:met_baseColor="@color/colorWhite"
             app:met_checkCharactersCountAtBeginning="false"
             app:met_floatingLabel="none"
@@ -37,7 +40,6 @@
             app:met_primaryColor="@color/colorWhite"/>
 
         <requestFocus/>
-
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/password"
@@ -55,6 +57,10 @@
             android:textCursorDrawable="@drawable/white_color_cursor"
             android:textSize="@dimen/normalText"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:met_baseColor="@color/colorWhite"
             app:met_checkCharactersCountAtBeginning="false"
             app:met_floatingLabel="none"
@@ -78,13 +84,66 @@
             android:textCursorDrawable="@drawable/white_color_cursor"
             android:textSize="@dimen/normalText"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:met_baseColor="@color/colorWhite"
             app:met_checkCharactersCountAtBeginning="false"
             app:met_floatingLabel="none"
             app:met_helperTextColor="@color/colorWhite"
             app:met_hideUnderline="true"
             app:met_primaryColor="@color/colorWhite"/>
-    </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/password_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/level1"
+                    android:layout_width="5dp"
+                    android:layout_height="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/colorRed"/>
+
+                <View
+                    android:id="@+id/level2"
+                    android:layout_width="5dp"
+                    android:layout_height="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/colorCenter"/>
+
+                <View
+                    android:id="@+id/level3"
+                    android:layout_width="5dp"
+                    android:layout_height="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/colorGreen"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/level_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="强"
+                android:textColor="@color/colorNineText"/>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <Button
         android:id="@+id/btn_next"

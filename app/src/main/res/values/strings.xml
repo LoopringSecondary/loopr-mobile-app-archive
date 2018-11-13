@@ -151,4 +151,7 @@
     <string name="authority">授权</string>
     <string name="authority_login_success">授权登录成功</string>
     <string name="authority_login_error">授权登录失败</string>
+    <string name="weak">弱</string>
+    <string name="middle">中</string>
+    <string name="strong">强</string>
 </resources>
