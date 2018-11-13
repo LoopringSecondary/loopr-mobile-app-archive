@@ -52,7 +52,6 @@ import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.NumberUtils;
-import leaf.prod.app.utils.QRCodeUitl;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.utils.WalletUtil;
@@ -63,6 +62,7 @@ import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.exception.TransactionException;
+import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.service.LoopringService;
@@ -303,7 +303,7 @@ public class SendActivity extends BaseActivity {
             case R.id.iv_scan:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
                     Intent intent = new Intent(this, ActivityScanerCode.class);
-                    intent.putExtra("restrict", QRCodeUitl.QRCodeType.TRANSFER.name());
+                    intent.putExtra("restrict", QRCodeType.TRANSFER.name());
                     startActivityForResult(intent, REQUEST_CODE);
                 }
                 break;

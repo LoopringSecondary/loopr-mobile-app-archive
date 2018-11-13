@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.AppManager;
+import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.FingerprintUtil;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ThirdLoginUtil;
@@ -117,6 +118,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        FileUtils.removeFile(this, "mnemonic.txt");
     }
 
     @OnClick(R.id.ll_finger_auth)

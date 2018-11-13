@@ -25,8 +25,8 @@ import leaf.prod.app.fragment.ImportPrivateKeyFragment;
 import leaf.prod.app.model.eventbusData.KeystoreData;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.app.utils.QRCodeUitl;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class ImportWalletActivity extends BaseActivity {
@@ -68,7 +68,7 @@ public class ImportWalletActivity extends BaseActivity {
         title.clickLeftGoBack(getWContext());
         title.setRightImageButton(R.mipmap.icon_scan, button -> {
             Intent intent = new Intent(ImportWalletActivity.this, ActivityScanerCode.class);
-            intent.putExtra("restrict", QRCodeUitl.QRCodeType.KEY_STORE.name());
+            intent.putExtra("restrict", QRCodeType.KEY_STORE.name());
             startActivityForResult(intent, REQUEST_CODE);
         });
     }

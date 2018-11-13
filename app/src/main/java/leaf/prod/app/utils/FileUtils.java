@@ -135,4 +135,22 @@ public class FileUtils {
         isr.close();
         return s;
     }
+
+    /**
+     * 删除文件
+     *
+     * @param context
+     * @param fileName
+     */
+    public static void removeFile(Context context, String fileName) {
+        boolean delete = (boolean) SPUtils.get(context, "delete_mnemonic", false);
+        if (!delete) {
+            String dir = context.getFilesDir().getAbsolutePath() + "/keystore/" + fileName;
+            File mFile = new File(dir);
+            if (mFile.exists()) {
+                mFile.delete();
+            }
+            SPUtils.put(context, "delete_mnemonic", true);
+        }
+    }
 }
