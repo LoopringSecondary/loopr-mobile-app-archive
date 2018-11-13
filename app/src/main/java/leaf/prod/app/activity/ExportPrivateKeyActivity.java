@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -73,6 +74,7 @@ public class ExportPrivateKeyActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_export_private_key);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
