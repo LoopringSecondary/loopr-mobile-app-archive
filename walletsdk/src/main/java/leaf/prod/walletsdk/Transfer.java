@@ -6,10 +6,8 @@ import java.math.BigInteger;
 import org.web3j.crypto.Credentials;
 import org.web3j.tx.RawTransactionManager;
 import org.web3j.utils.Numeric;
-import leaf.prod.walletsdk.api.EthereumApi;
-import leaf.prod.walletsdk.exception.RpcException;
-import leaf.prod.walletsdk.service.LoopringService;
 
+import leaf.prod.walletsdk.api.EthereumApi;
 import leaf.prod.walletsdk.exception.RpcException;
 import leaf.prod.walletsdk.service.LoopringService;
 
@@ -26,8 +24,8 @@ public class Transfer {
         ethereumApi = new EthereumApi();
     }
 
-    public Erc20TransactionManager erc20(String contractAddress) {
-        return new Erc20TransactionManager(contractAddress, transactionManager);
+    public Erc20TransactionManager erc20(String contractAddress, BigInteger gasPrice, BigInteger gasLimit) {
+        return new Erc20TransactionManager(contractAddress, gasPrice, gasLimit, transactionManager);
     }
 
     public EthTransactionManager eth() {

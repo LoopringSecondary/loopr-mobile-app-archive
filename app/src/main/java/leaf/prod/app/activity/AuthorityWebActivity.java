@@ -65,7 +65,7 @@ public class AuthorityWebActivity extends BaseActivity {
             case R.id.authority_btn:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
                     if (WalletUtil.needPassword(this)) {
-                        authorityLoginPresenter.showPasswordDialog(info, type);
+                        authorityLoginPresenter.showPasswordDialog();
                     } else {
                         authorityLoginPresenter.sign(info, "", type);
                     }
