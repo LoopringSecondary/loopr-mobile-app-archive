@@ -12,7 +12,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -43,6 +45,7 @@ import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.MD5Utils;
 import leaf.prod.app.utils.MyViewUtils;
+import leaf.prod.app.utils.PasswordUtils;
 import leaf.prod.app.utils.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.utils.WalletUtil;
@@ -128,6 +131,21 @@ public class GenerateWalletActivity extends BaseActivity {
     @BindView(R.id.btn_skip)
     Button btnSkip;
 
+    @BindView(R.id.password_level)
+    LinearLayout pswLevel;
+
+    @BindView(R.id.level1)
+    View level1;
+
+    @BindView(R.id.level2)
+    View level2;
+
+    @BindView(R.id.level3)
+    View level3;
+
+    @BindView(R.id.level_text)
+    TextView levelText;
+
     List<String> mneCheckedList = new LinkedList<>();//选中的助记词
 
     List<String> listMnemonic = new ArrayList<>();  //正确顺序的助记词列表
@@ -160,9 +178,6 @@ public class GenerateWalletActivity extends BaseActivity {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    //                    SPUtils.put(GenerateWalletActivity.this, "pas", password.getText().toString());
-                    //                    SPUtils.put(GenerateWalletActivity.this, "hasWallet", true);
-                    //                    SPUtils.put(GenerateWalletActivity.this, "address", "0x" + address);
                     new Thread(() -> {
                         LyqbLogger.log(address);
                         loopringService.notifyCreateWallet(address)
@@ -229,6 +244,45 @@ public class GenerateWalletActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable == null || editable.toString().length() == 0) {
+                    pswLevel.setVisibility(View.INVISIBLE);
+                } else {
+                    int level = PasswordUtils.checkPasswordLevel(password.getText().toString());
+                    switch (level) {
+                        case 1:
+                            level1.setBackgroundColor(getResources().getColor(R.color.colorRed));
+                            level2.setBackgroundColor(getResources().getColor(R.color.colorNineText));
+                            level3.setBackgroundColor(getResources().getColor(R.color.colorNineText));
+                            levelText.setText(getResources().getString(R.string.weak));
+                            break;
+                        case 2:
+                            level1.setBackgroundColor(getResources().getColor(R.color.colorCenter));
+                            level2.setBackgroundColor(getResources().getColor(R.color.colorCenter));
+                            level3.setBackgroundColor(getResources().getColor(R.color.colorNineText));
+                            levelText.setText(getResources().getString(R.string.middle));
+                            break;
+                        case 3:
+                            level1.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                            level2.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                            level3.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                            levelText.setText(getResources().getString(R.string.strong));
+                            break;
+                    }
+                    pswLevel.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     @Override
@@ -262,6 +316,7 @@ public class GenerateWalletActivity extends BaseActivity {
 
     @OnClick({R.id.wallet_name, R.id.btn_next, R.id.btn_confirm, R.id.btn_skip})
     public void onViewClicked(View view) {
+        pswLevel.setVisibility(View.INVISIBLE);
         switch (view.getId()) {
             case R.id.wallet_name:
                 break;

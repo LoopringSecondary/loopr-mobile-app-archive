@@ -149,4 +149,7 @@
     <string name="authority">Authority</string>
     <string name="authority_login_success">Authority success</string>
     <string name="authority_login_error">Authority error</string>
+    <string name="weak">weak</string>
+    <string name="middle">middle</string>
+    <string name="strong">strong</string>
 </resources>
