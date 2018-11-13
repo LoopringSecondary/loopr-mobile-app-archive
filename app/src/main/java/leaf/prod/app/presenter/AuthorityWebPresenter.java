@@ -6,6 +6,9 @@
  */
 package leaf.prod.app.presenter;
 
+import java.io.IOException;
+import java.math.BigInteger;
+
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -13,9 +16,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.web3j.crypto.RawTransaction;
+import org.web3j.crypto.Credentials;
+import org.web3j.tx.RawTransactionManager;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vondear.rxtool.view.RxToast;
@@ -23,10 +26,12 @@ import com.vondear.rxtool.view.RxToast;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.AuthorityWebActivity;
 import leaf.prod.app.activity.MainActivity;
-import leaf.prod.app.activity.SendActivity;
+import leaf.prod.app.model.ImportWalletType;
+import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.utils.FileUtils;
+import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.WalletUtil;
-import leaf.prod.walletsdk.EthTransactionManager;
+import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.ScanWebQRCode;
 import leaf.prod.walletsdk.model.SignStatus;
@@ -34,6 +39,7 @@ import leaf.prod.walletsdk.model.request.param.NotifyScanParam;
 import leaf.prod.walletsdk.model.request.param.NotifyStatusParam;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.KeystoreUtils;
+import leaf.prod.walletsdk.util.MnemonicUtils;
 import leaf.prod.walletsdk.util.SignUtils;
 import rx.Observable;
 import rx.Subscriber;
@@ -53,13 +59,15 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
 
     private QRCodeType type;
 
+    private Credentials credentials;
+
     public AuthorityWebPresenter(AuthorityWebActivity view, Context context, String info, QRCodeType type) {
         super(view, context);
         this.type = type;
         this.value = gson.fromJson(info, ScanWebQRCode.class).getValue();
     }
 
-    public void showPasswordDialog(QRCodeType type) {
+    public void showPasswordDialog() {
         if (passwordDialog == null) {
             final AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);
             View passwordView = LayoutInflater.from(context).inflate(R.layout.dialog_put_password, null);
@@ -68,7 +76,9 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
             passwordView.findViewById(R.id.cancel).setOnClickListener(v -> passwordDialog.dismiss());
             passwordView.findViewById(R.id.confirm).setOnClickListener(v -> {
                 try {
-                    authorize(passwordInput.getText().toString().trim(), type);
+                    String password = passwordInput.getText().toString().trim();
+                    generateCredentials(password);
+                    handle();
                 } catch (Exception e) {
                     passwordInput.setText("");
                     RxToast.error(context.getResources().getString(R.string.authority_login_error));
@@ -82,30 +92,45 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
         passwordDialog.show();
     }
 
-    public void authorize(String password, QRCodeType type) {
+    private void generateCredentials(String password) {
+        try {
+            WalletEntity walletEntity = WalletUtil.getCurrentWallet(context);
+            if (walletEntity != null && walletEntity.getWalletType() != null && walletEntity.getWalletType() == ImportWalletType.MNEMONIC) {
+                LyqbLogger.log(walletEntity.toString());
+                credentials = MnemonicUtils.calculateCredentialsFromMnemonic(walletEntity.getMnemonic(), walletEntity.getdPath(), password);
+            } else {
+                String keystore = FileUtils.getKeystoreFromSD(context);
+                credentials = KeystoreUtils.unlock(password, keystore);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void handle() {
         switch (type) {
             case LOGIN:
-                authorizeLogin(password);
+                handleLogin();
                 break;
             case APPROVE:
-                authorizeApprove(password);
+                handleApprove();
                 break;
             case CONVERT:
-                authorizeConvert(password);
+                handleConvert();
                 break;
             case ORDER:
-                authorizeOrder(password);
+                handleOrder();
                 break;
             case CANCEL_ORDER:
-                authorizeCancelOrder(password);
+                handleCancel();
                 break;
         }
     }
 
-    private void authorizeApprove(String password) {
+    private void handleApprove() {
     }
 
-    private void authorizeConvert(String password) {
+    private void handleConvert() {
         if (value != null) {
             NotifyStatusParam.NotifyBody body = NotifyStatusParam.NotifyBody.builder()
                     .hash(value)
@@ -115,58 +140,62 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
             loopringService.notifyStatus(body, owner)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .flatMap((Func1<String, Observable<String>>)
-                            result -> loopringService.getSignMessage(value))
+                    .flatMap((Func1<String, Observable<String>>) result -> loopringService.getSignMessage(value))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(result -> {
-                        JsonParser parser = new JsonParser();
-                        JsonObject jsonObject = parser.parse(result).getAsJsonObject();
-                        JsonElement jsonType = jsonObject.get("tx");
-                        EthTransactionManager.send
-
-
-                    });
+                    .subscribe(this::signAndSendRawTx);
         }
     }
 
-    private RawTransaction constuctTx(JsonElement) {
-
-    }
-
-
-    private void authorizeOrder(String password) {
-    }
-
-    private void authorizeCancelOrder(String password) {
-    }
-
-    public void authorizeLogin(String password) {
+    private void signAndSendRawTx(String rawTx) {
         try {
-            NotifyScanParam.LoginSign loginSign = SignUtils.genSignMessage(KeystoreUtils.unlock(password, FileUtils.getKeystoreFromSD(context)), String
-                    .valueOf(System.currentTimeMillis() / 1000));
+            JsonParser parser = new JsonParser();
+            JsonObject json = parser.parse(rawTx).getAsJsonObject().getAsJsonObject("tx").getAsJsonObject();
+            BigInteger gasPrice = json.get("gasPrice").getAsBigInteger();
+            BigInteger gasLimit = json.get("gasLimit").getAsBigInteger();
+            String to = json.get("to").getAsString();
+            String data = json.get("data").getAsString();
+            BigInteger value = json.get("value").getAsBigInteger();
+            RawTransactionManager transactionManager = new RawTransactionManager(SDK.getWeb3j(), credentials, SDK.CHAIN_ID);
+            transactionManager.sendTransaction(gasPrice, gasLimit, to, data, value);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleOrder() {
+    }
+
+    private void handleCancel() {
+    }
+
+    public void handleLogin() {
+        try {
+            String timeStamp = String.valueOf(System.currentTimeMillis() / 1000);
+            NotifyScanParam.LoginSign loginSign = SignUtils.genSignMessage(credentials, timeStamp);
             loopringService.notifyScanLogin(loginSign, WalletUtil.getCurrentAddress(context), value)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
-                @Override
-                public void onCompleted() {
-                }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<String>() {
+                        @Override
+                        public void onCompleted() {
+                        }
 
-                @Override
-                public void onError(Throwable e) {
-                    if (passwordDialog != null) {
-                        ((TextView) passwordDialog.findViewById(R.id.password_input)).setText("");
-                    }
-                    RxToast.error(context.getResources().getString(R.string.authority_login_error));
-                }
+                        @Override
+                        public void onError(Throwable e) {
+                            if (passwordDialog != null) {
+                                ((TextView) passwordDialog.findViewById(R.id.password_input)).setText("");
+                            }
+                            RxToast.error(context.getResources().getString(R.string.authority_login_error));
+                        }
 
-                @Override
-                public void onNext(String s) {
-                    RxToast.success(context.getResources().getString(R.string.authority_login_success));
-                    view.finish();
-                    view.getOperation().forward(MainActivity.class);
-                }
-            });
+                        @Override
+                        public void onNext(String s) {
+                            RxToast.success(context.getResources().getString(R.string.authority_login_success));
+                            view.finish();
+                            view.getOperation().forward(MainActivity.class);
+                        }
+                    });
         } catch (Exception e) {
             if (passwordDialog != null) {
                 ((TextView) passwordDialog.findViewById(R.id.password_input)).setText("");

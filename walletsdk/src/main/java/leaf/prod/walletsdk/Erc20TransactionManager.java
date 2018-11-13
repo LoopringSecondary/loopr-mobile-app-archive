@@ -17,7 +17,6 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.tx.Contract;
 import org.web3j.tx.TransactionManager;
 
 import leaf.prod.walletsdk.api.Erc20Contract;
@@ -28,18 +27,13 @@ import rx.schedulers.Schedulers;
 
 public class Erc20TransactionManager {
 
-    private static final BigInteger gasPrice = Contract.GAS_PRICE; //22000000000
-
-    //    private static final BigInteger gasLimit = Contract.GAS_LIMIT; //4300000
-    private static final BigInteger gasLimit = BigInteger.valueOf(100000); //weth转账最低limit
-
     private Web3j web3j = SDK.getWeb3j();
 
     private Erc20Contract erc20Contract;
 
     private LoopringService loopringService = new LoopringService();
 
-    public Erc20TransactionManager(String contractAddress, TransactionManager transactionManager) {
+    public Erc20TransactionManager(String contractAddress, BigInteger gasPrice, BigInteger gasLimit, TransactionManager transactionManager) {
         this.erc20Contract = Erc20Contract.load(contractAddress, SDK.getWeb3j(), transactionManager, gasPrice, gasLimit);
     }
 
@@ -67,7 +61,7 @@ public class Erc20TransactionManager {
         return erc20Contract.balanceOf(owner).send();
     }
 
-    public String transfer(Credentials credentials, String contractAddress, BigInteger gasPrice, String to, BigInteger value) throws Exception {
+    public String transfer(Credentials credentials, String contractAddress, BigInteger gasPrice, BigInteger gasLimit, String to, BigInteger value) throws Exception {
         erc20Contract.setGasPrice(gasPrice);
         TransactionReceipt transactionReceipt = erc20Contract.transfer(to, value).send();
         String transactionHash = transactionReceipt.getTransactionHash();

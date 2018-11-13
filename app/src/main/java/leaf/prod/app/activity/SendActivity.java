@@ -419,18 +419,18 @@ public class SendActivity extends BaseActivity {
                 }
                 BigInteger values = UnitConverter.ethToWei(moneyAmount.getText().toString()); //转账金额
                 //调用transaction方法
-                Transfer transfer = new Transfer(credentials);
                 String txHash;
+                Transfer transfer = new Transfer(credentials);
+                BigInteger gasLimit, gasPrice = gasDataManager.getCustomizeGasPriceInWei().toBigInteger();
                 if (sendChoose.equals("ETH")) {
+                    gasLimit = gasDataManager.getGasLimitByType("eth_transfer");
                     txHash = transfer.eth()
-                            .send(credentials, address, gasDataManager.getCustomizeGasPriceInWei()
-                                    .toBigInteger(), walletAddress.getText().toString(), values);
+                            .send(credentials, address, gasPrice, gasLimit, walletAddress.getText().toString(), values);
                 } else {
-                    txHash = transfer.erc20(tokenDataManager.getTokenBySymbol(sendChoose).getProtocol())
+                    gasLimit = gasDataManager.getGasLimitByType("token_transfer");
+                    txHash = transfer.erc20(tokenDataManager.getTokenBySymbol(sendChoose).getProtocol(), gasPrice, gasLimit)
                             .transfer(credentials, tokenDataManager.getTokenBySymbol(sendChoose)
-                                    .getProtocol(), gasDataManager.getCustomizeGasPriceInWei()
-                                    .toBigInteger(), walletAddress.getText()
-                                    .toString(), values);
+                                    .getProtocol(), gasPrice, gasLimit, walletAddress.getText().toString(), values);
                 }
                 TransactionDataManager manager = TransactionDataManager.getInstance(SendActivity.this);
                 manager.queryByHash(txHash);
@@ -503,7 +503,8 @@ public class SendActivity extends BaseActivity {
                     .min(1)
                     .max(Float.parseFloat(NumberUtils.format1(gasDataManager.getRecommendGasPriceInGWei()
                             .multiply(new BigDecimal(2))
-                            .doubleValue(), 1))).build();
+                            .doubleValue(), 1)))
+                    .build();
             gasSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
                 @Override
                 public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {

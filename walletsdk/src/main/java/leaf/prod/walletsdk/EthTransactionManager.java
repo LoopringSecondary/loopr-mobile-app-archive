@@ -35,11 +35,11 @@ public class EthTransactionManager {
         this.transactionManager = transactionManager;
     }
 
-    public String send(Credentials credentials, String address, BigInteger gasPrice, String to, BigInteger weiValue) throws TransactionException, IOException {
-        return send(credentials, address, gasPrice, to, "0x", weiValue);
+    public String send(Credentials credentials, String address, BigInteger gasPrice, BigInteger gasLimit, String to, BigInteger weiValue) throws TransactionException, IOException {
+        return send(credentials, address, gasPrice, gasLimit, to, "0x", weiValue);
     }
 
-    public String send(Credentials credentials, String address, BigInteger gasPrice, String to, String data, BigInteger weiValue) throws IOException, TransactionException {
+    public String send(Credentials credentials, String address, BigInteger gasPrice, BigInteger gasLimit, String to, String data, BigInteger weiValue) throws IOException, TransactionException {
         EthSendTransaction ethSendTransaction = transactionManager.sendTransaction(gasPrice, gasLimit, to, data, weiValue);
         if (ethSendTransaction.hasError()) {
             throw new TransactionException(ethSendTransaction.getError().getMessage());

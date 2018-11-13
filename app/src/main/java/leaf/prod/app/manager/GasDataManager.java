@@ -170,8 +170,8 @@ public class GasDataManager {
         return NumberUtils.format1(gasPrice, precision);
     }
 
-    public Integer getGasLimitByType(String type) {
-        Integer result = null;
+    public BigInteger getGasLimitByType(String type) {
+        BigInteger result = null;
         for (GasLimit gasLimit : gasLimits) {
             if (gasLimit.type.equalsIgnoreCase(type)) {
                 result = gasLimit.gasLimit;
@@ -184,8 +184,8 @@ public class GasDataManager {
         Double result = null;
         if (getGasLimitByType(type) != null) {
             Double price = getGasPriceInWei();
-            Integer limit = getGasLimitByType(type);
-            result = price * limit;
+            BigInteger limit = getGasLimitByType(type);
+            result = price * limit.intValue();
         }
         return Convert.fromWei(new BigDecimal(result), Convert.Unit.ETHER).doubleValue();
     }
@@ -202,7 +202,7 @@ public class GasDataManager {
     public String getGasAmountString(String type) {
         String result = null;
         if (getGasLimitByType(type) != null) {
-            Double amount = getGasPriceInWei() * getGasLimitByType(type);
+            Double amount = getGasPriceInWei() * getGasLimitByType(type).intValue();
             int precision = manager.getPrecisionBySymbol("ETH");
             result = NumberUtils.format1(amount, precision);
         }
@@ -218,6 +218,6 @@ public class GasDataManager {
 
         String type;
 
-        Integer gasLimit;
+        BigInteger gasLimit;
     }
 }
