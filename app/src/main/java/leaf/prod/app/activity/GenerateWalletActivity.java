@@ -299,7 +299,6 @@ public class GenerateWalletActivity extends BaseActivity {
                                 listRandomMnemonic.add(arrayMne[i]);
                             }
                             mHintAdapter.setNewData(listMnemonic);
-                            new Thread(() -> FileUtils.keepFile(GenerateWalletActivity.this, "mnemonic.txt", mnemonic)).start();
                             mHintAdapter.notifyDataSetChanged();
                             generatePartone.setVisibility(View.GONE);
                             generateParttwo.setVisibility(View.VISIBLE);
@@ -358,7 +357,7 @@ public class GenerateWalletActivity extends BaseActivity {
             try {
                 filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, pas, FileUtils.getKeyStoreLocation(GenerateWalletActivity.this));
                 LyqbLogger.log(filename);
-//                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
+                //                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             } catch (InvalidPrivateKeyException | KeystoreCreateException e) {
                 handlerCreate.sendEmptyMessage(ERROR_THREE);
