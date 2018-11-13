@@ -60,7 +60,7 @@
         <activity
             android:name=".apshare.ShareEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/SwipeBackLayout"/>
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -72,7 +72,7 @@
 
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-
+                UMConfigure
                 <data android:scheme="1107846749"/>
             </intent-filter>
         </activity>
@@ -83,7 +83,7 @@
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
+            android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
             android:name="com.umeng.facebook.FacebookActivity"
@@ -94,149 +94,149 @@
         <provider
             android:name="com.umeng.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider295333837738573"
-            android:exported="true"/>
+            android:exported="false"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
 
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.CoverActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="standard"/>
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="locale|layoutDirection|keyboard"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.GenerateWalletActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.ImportWalletActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="standard"/>
         <activity
             android:name=".activity.WalletDetailActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.ReceiveActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.TokenListActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.TokenListSearchActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.ActivityScanerCode"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.ShareActivity"
             android:configChanges="locale|layoutDirection|keyboard"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.ManageWalletActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.CurrencyActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.LanguageActivity"
             android:configChanges="locale|layoutDirection|keyboard"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.ContractVersionActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.LRCFeeRatioActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.MarginSplitActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.WalletSafeActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.ReviseWalletNameActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.BackupMnemonicActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.ExportMatchPasSafeActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.ExportPrivateKeyActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.ExportKeystoreDetailActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.SendActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.SendSuccessActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.SendErrorActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.SendListChooseActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.DefaultWebViewActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activity.AddCustomTokenActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.SetWalletNameActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="standard"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.H5DexWebActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.ThirdLoginActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.AuthorityWebActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
     </application>
