@@ -314,6 +314,7 @@ public class MainFragment extends BaseFragment {
                         getOperation().addParameter("p2p_order", result);
                         getOperation().addParameter("url", "http://embeddex.upwallet.io/#/auth/tpwallet?to=/face2face");
                         getOperation().forward(H5DexWebActivity.class);
+                        getOperation().mIntent.removeExtra("p2p_order");
                         break;
                     case LOGIN:
                         getOperation().addParameter("login_info", result);

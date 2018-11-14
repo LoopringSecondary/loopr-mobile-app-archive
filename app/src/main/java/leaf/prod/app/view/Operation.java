@@ -19,7 +19,7 @@ public class Operation {
     /**
      * 激活Activity组件意图
      **/
-    private Intent mIntent = new Intent();
+    public Intent mIntent = new Intent();
 
     /***上下文**/
     private Activity mContext = null;
