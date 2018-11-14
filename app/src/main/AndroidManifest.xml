@@ -45,7 +45,7 @@
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/SwipeBackLayout"/>
         <activity
@@ -60,7 +60,7 @@
         <activity
             android:name=".apshare.ShareEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/SwipeBackLayout"/>
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -72,7 +72,6 @@
 
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                UMConfigure
                 <data android:scheme="1107846749"/>
             </intent-filter>
         </activity>
@@ -83,7 +82,7 @@
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false"
+            android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
             android:name="com.umeng.facebook.FacebookActivity"
@@ -94,7 +93,7 @@
         <provider
             android:name="com.umeng.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider295333837738573"
-            android:exported="false"/>
+            android:exported="true"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
@@ -226,17 +225,17 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.H5DexWebActivity"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.ThirdLoginActivity"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.AuthorityWebActivity"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
     </application>
