@@ -38,6 +38,7 @@
     <string name="approve_details">授权%s进行交易</string>
     <string name="eth_notify">以太坊交易确认通知</string>
     <string name="cancelled">取消订单</string>
+    <string name="convert">转换</string>
     <string name="convert_eth">转换为 ETH</string>
     <string name="convert_weth">转换为 WETH</string>
     <string name="not_supported">不支持的交易类型</string>
@@ -154,4 +155,5 @@
     <string name="weak">弱</string>
     <string name="middle">中</string>
     <string name="strong">强</string>
+    <string name="max">最大值</string>
 </resources>
