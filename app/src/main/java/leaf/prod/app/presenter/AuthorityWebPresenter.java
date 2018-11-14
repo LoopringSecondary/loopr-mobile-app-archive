@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import org.web3j.crypto.Credentials;
 import org.web3j.tx.RawTransactionManager;
+import org.web3j.utils.Numeric;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -76,8 +77,7 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
             passwordView.findViewById(R.id.cancel).setOnClickListener(v -> passwordDialog.dismiss());
             passwordView.findViewById(R.id.confirm).setOnClickListener(v -> {
                 try {
-                    String password = passwordInput.getText().toString().trim();
-                    generateCredentials(password);
+                    generateCredentials(passwordInput.getText().toString().trim());
                     handle();
                 } catch (Exception e) {
                     passwordInput.setText("");
@@ -127,39 +127,73 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
         }
     }
 
+    private NotifyStatusParam.NotifyBody getStatus(SignStatus status) {
+        return NotifyStatusParam.NotifyBody.builder()
+                .hash(value)
+                .status(status.name())
+                .build();
+    }
+
     private void handleApprove() {
     }
 
     private void handleConvert() {
         if (value != null) {
-            NotifyStatusParam.NotifyBody body = NotifyStatusParam.NotifyBody.builder()
-                    .hash(value)
-                    .status(SignStatus.received.name())
-                    .build();
+            NotifyStatusParam.NotifyBody received = getStatus(SignStatus.received);
             String owner = WalletUtil.getCurrentAddress(context);
-            loopringService.notifyStatus(body, owner)
+            loopringService.notifyStatus(received, owner)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(Schedulers.io())
                     .flatMap((Func1<String, Observable<String>>) result -> loopringService.getSignMessage(value))
                     .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.io())
+                    .flatMap((Func1<String, Observable<String>>) rawTx -> {
+                        signAndSendRawTx(rawTx);
+                        return loopringService.notifyStatus(getStatus(SignStatus.accept), owner);})
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::signAndSendRawTx);
+                    .subscribe(new Subscriber<String>() {
+                        @Override
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (passwordDialog != null) {
+                                ((TextView) passwordDialog.findViewById(R.id.password_input)).setText("");
+                            }
+                            RxToast.error(context.getResources().getString(R.string.authority_login_error));
+                        }
+
+                        @Override
+                        public void onNext(String s) {
+                            RxToast.success(context.getResources().getString(R.string.authority_login_success));
+                            view.finish();
+                            view.getOperation().forward(MainActivity.class);
+                        }
+                    });
         }
     }
+
+
 
     private void signAndSendRawTx(String rawTx) {
         try {
             JsonParser parser = new JsonParser();
-            JsonObject json = parser.parse(rawTx).getAsJsonObject().getAsJsonObject("tx").getAsJsonObject();
-            BigInteger gasPrice = json.get("gasPrice").getAsBigInteger();
-            BigInteger gasLimit = json.get("gasLimit").getAsBigInteger();
+            JsonObject json = parser.parse(rawTx).getAsJsonObject().getAsJsonObject("tx");
+            BigInteger gasPrice = Numeric.toBigInt(json.get("gasPrice").getAsString());
+            BigInteger gasLimit = Numeric.toBigInt(json.get("gasLimit").getAsString());
             String to = json.get("to").getAsString();
             String data = json.get("data").getAsString();
-            BigInteger value = json.get("value").getAsBigInteger();
+            BigInteger value = Numeric.toBigInt(json.get("value").getAsString());
+
             RawTransactionManager transactionManager = new RawTransactionManager(SDK.getWeb3j(), credentials, SDK.CHAIN_ID);
             transactionManager.sendTransaction(gasPrice, gasLimit, to, data, value);
         } catch (IOException e) {
-            e.printStackTrace();
+            if (passwordDialog != null) {
+                ((TextView) passwordDialog.findViewById(R.id.password_input)).setText("");
+            }
+            RxToast.error(context.getResources().getString(R.string.authority_login_error));
         }
     }
 
