@@ -67,7 +67,7 @@ public class AuthorityWebActivity extends BaseActivity {
                     if (WalletUtil.needPassword(this)) {
                         authorityLoginPresenter.showPasswordDialog();
                     } else {
-//                        authorityLoginPresenter.sign(info, "", type);
+                        authorityLoginPresenter.handle();
                     }
                 }
                 break;
