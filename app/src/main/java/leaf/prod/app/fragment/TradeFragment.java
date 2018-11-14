@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.ConvertActivity;
 import leaf.prod.app.activity.H5DexWebActivity;
 
 /**
@@ -62,7 +63,7 @@ public class TradeFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.ddex_layout, R.id.p2p_layout, R.id.order_layout})
+    @OnClick({R.id.ddex_layout, R.id.p2p_layout, R.id.weth_wrap_layout, R.id.order_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ddex_layout:
@@ -72,6 +73,9 @@ public class TradeFragment extends BaseFragment {
             case R.id.p2p_layout:
                 getOperation().addParameter("url", "http://embeddex.upwallet.io/#/auth/tpwallet?to=/face2face");
                 getOperation().forward(H5DexWebActivity.class);
+                break;
+            case R.id.weth_wrap_layout:
+                getOperation().forward(ConvertActivity.class);
                 break;
             case R.id.order_layout:
                 break;

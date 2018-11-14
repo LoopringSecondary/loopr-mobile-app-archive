@@ -38,6 +38,7 @@
     <string name="approve_details">Authorization %s token to trade</string>
     <string name="eth_notify">Ethereum notification</string>
     <string name="cancelled">Cancel Order</string>
+    <string name="convert">Convert</string>
     <string name="convert_eth">Convert to ETH</string>
     <string name="convert_weth">Convert to WETH</string>
     <string name="not_supported">Unsupported Transaction Type</string>
@@ -149,7 +150,8 @@
     <string name="authority">Authority</string>
     <string name="authority_login_success">Authority success</string>
     <string name="authority_login_error">Authority error</string>
-    <string name="weak">weak</string>
-    <string name="middle">middle</string>
-    <string name="strong">strong</string>
+    <string name="weak">Weak</string>
+    <string name="middle">Middle</string>
+    <string name="strong">Strong</string>
+    <string name="max">Max</string>
 </resources>

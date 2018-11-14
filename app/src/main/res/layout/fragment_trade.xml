@@ -102,7 +102,7 @@
         <LinearLayout
             android:id="@+id/weth_wrap_layout"
             android:layout_width="0dp"
-            android:layout_height="120dp"
+            android:layout_height="104dp"
             android:layout_marginEnd="6dp"
             android:layout_marginStart="@dimen/margSide"
             android:layout_weight="1"
@@ -111,7 +111,6 @@
             android:elevation="4dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="gone"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/order_layout">
@@ -132,7 +131,7 @@
         <LinearLayout
             android:id="@+id/order_layout"
             android:layout_width="0dp"
-            android:layout_height="120dp"
+            android:layout_height="104dp"
             android:layout_marginEnd="@dimen/margSide"
             android:layout_marginStart="6dp"
             android:layout_weight="1"
@@ -141,7 +140,7 @@
             android:elevation="4dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toRightOf="@id/weth_wrap_layout"
             app:layout_constraintRight_toRightOf="parent">
