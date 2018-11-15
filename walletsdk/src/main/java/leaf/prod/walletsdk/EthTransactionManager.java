@@ -2,9 +2,14 @@ package leaf.prod.walletsdk;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Collections;
 
 import android.util.Log;
 
+import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
@@ -23,7 +28,9 @@ import rx.schedulers.Schedulers;
 
 public class EthTransactionManager {
 
-    private static final BigInteger gasLimit = BigInteger.valueOf(22000);
+    private BigInteger gasPrice;
+
+    private BigInteger gasLimit;
 
     private Web3j web3j = SDK.getWeb3j();
 
@@ -31,22 +38,26 @@ public class EthTransactionManager {
 
     private LoopringService loopringService = new LoopringService();
 
-    public EthTransactionManager(RawTransactionManager transactionManager) {
+    private static final String WETH_CONTRACT = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
+
+    public EthTransactionManager(BigInteger gasPrice, BigInteger gasLimit, RawTransactionManager transactionManager) {
+        this.gasPrice = gasPrice;
+        this.gasLimit = gasLimit;
         this.transactionManager = transactionManager;
     }
 
-    public String send(Credentials credentials, String address, BigInteger gasPrice, BigInteger gasLimit, String to, BigInteger weiValue) throws TransactionException, IOException {
-        return send(credentials, address, gasPrice, gasLimit, to, "0x", weiValue);
+    public String send(Credentials credentials, String address, String to, BigInteger weiValue) throws TransactionException, IOException {
+        return send(credentials, address, to, weiValue, "0x");
     }
 
-    public String send(Credentials credentials, String address, BigInteger gasPrice, BigInteger gasLimit, String to, String data, BigInteger weiValue) throws IOException, TransactionException {
+    public String send(Credentials credentials, String address, String to, BigInteger weiValue, String data) throws IOException, TransactionException {
         EthSendTransaction ethSendTransaction = transactionManager.sendTransaction(gasPrice, gasLimit, to, data, weiValue);
         if (ethSendTransaction.hasError()) {
             throw new TransactionException(ethSendTransaction.getError().getMessage());
         }
         // notify relay
         String transactionHash = ethSendTransaction.getTransactionHash();
-        RawTransaction rawTransaction = getRawTransaction(credentials, gasPrice, gasLimit, to, data, weiValue);
+        RawTransaction rawTransaction = getRawTransaction(credentials, to, data, weiValue);
         TransactionSignature transactionSignature = SignUtils.getSignature(credentials, rawTransaction);
         loopringService.notifyTransactionSubmitted(rawTransaction, address, transactionHash, transactionSignature)
                 .subscribeOn(Schedulers.io())
@@ -71,7 +82,22 @@ public class EthTransactionManager {
         return transactionHash;
     }
 
-    public RawTransaction getRawTransaction(Credentials credentials, BigInteger gasPrice, BigInteger gasLimit, String to, String data, BigInteger value) throws IOException {
+    // convert eth -> weth
+    public void deposit(Credentials credentials, String walletAddress, BigInteger valueInWei) throws IOException, TransactionException {
+        Function function = new Function("deposit", Collections.emptyList(), Collections.emptyList());
+        String data = FunctionEncoder.encode(function);
+        send(credentials, walletAddress, WETH_CONTRACT, valueInWei, data);
+    }
+
+    // convert weth -> eth
+    public void withDraw(Credentials credentials, String walletAddress, BigInteger valueInWei) throws IOException, TransactionException {
+        Function function = new Function("withdraw", Arrays.asList(new Uint256(valueInWei)), Collections.emptyList());
+        String data = FunctionEncoder.encode(function);
+        //Credentials credentials, String address, String to, String data, BigInteger weiValue)
+        send(credentials, walletAddress, WETH_CONTRACT, BigInteger.ZERO, data);
+    }
+
+    public RawTransaction getRawTransaction(Credentials credentials, String to, String data, BigInteger value) throws IOException {
         EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(
                 credentials.getAddress(), DefaultBlockParameterName.PENDING).send();
         return RawTransaction.createTransaction(

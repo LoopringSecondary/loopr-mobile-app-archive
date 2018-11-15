@@ -424,13 +424,13 @@ public class SendActivity extends BaseActivity {
                 BigInteger gasLimit, gasPrice = gasDataManager.getCustomizeGasPriceInWei().toBigInteger();
                 if (sendChoose.equals("ETH")) {
                     gasLimit = gasDataManager.getGasLimitByType("eth_transfer");
-                    txHash = transfer.eth()
-                            .send(credentials, address, gasPrice, gasLimit, walletAddress.getText().toString(), values);
+                    txHash = transfer.eth(gasPrice, gasLimit)
+                            .send(credentials, address, walletAddress.getText().toString(), values);
                 } else {
                     gasLimit = gasDataManager.getGasLimitByType("token_transfer");
                     txHash = transfer.erc20(tokenDataManager.getTokenBySymbol(sendChoose).getProtocol(), gasPrice, gasLimit)
                             .transfer(credentials, tokenDataManager.getTokenBySymbol(sendChoose)
-                                    .getProtocol(), gasPrice, gasLimit, walletAddress.getText().toString(), values);
+                                    .getProtocol(), walletAddress.getText().toString(), values);
                 }
                 TransactionDataManager manager = TransactionDataManager.getInstance(SendActivity.this);
                 manager.queryByHash(txHash);
