@@ -9,6 +9,7 @@ package leaf.prod.app.manager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -144,6 +145,11 @@ public class TokenDataManager {
         } catch (Exception e) {
             return 0d;
         }
+    }
+
+    public BigInteger getWeiFromDouble(String symbol, String doubleValue) {
+        Token token = getTokenBySymbol(symbol);
+        return new BigDecimal(doubleValue).multiply(token.getDecimals()).toBigInteger();
     }
 
     // support for main fragment presenter
