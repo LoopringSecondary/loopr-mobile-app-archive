@@ -111,7 +111,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, etMnemonic.getText()
+                    WalletEntity newWallet = new WalletEntity("", filename, address, etMnemonic.getText()
                             .toString(), MD5Utils.md5(etPassword.getText()
                             .toString()), dpath, ImportWalletType.MNEMONIC);
                     loopringService.notifyCreateWallet(address)

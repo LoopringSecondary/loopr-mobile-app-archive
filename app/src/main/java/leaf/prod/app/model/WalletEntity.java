@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import leaf.prod.walletsdk.model.Currency;
+import leaf.prod.walletsdk.util.StringUtils;
 
 /**
  * Created by niedengqiang on 2018/9/7.
@@ -52,7 +53,9 @@ public class WalletEntity implements Serializable {
     public WalletEntity(String walletname, String filename, String address, String mnemonic, String pas, String dPath, ImportWalletType walletType) {
         this.walletname = walletname;
         this.filename = filename;
-        this.address = address;
+        if (!StringUtils.isEmpty(address)) {
+            this.address = address.toLowerCase().startsWith("0x") ? address : "0x" + address;
+        }
         this.mnemonic = mnemonic;
         this.pas = pas;
         this.dPath = dPath;
