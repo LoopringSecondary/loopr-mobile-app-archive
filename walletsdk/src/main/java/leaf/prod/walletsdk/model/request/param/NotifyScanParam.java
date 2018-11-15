@@ -19,11 +19,11 @@ public class NotifyScanParam {
 
     private String uuid;
 
-    private LoginSign sign;
+    private SignParam sign;
 
     @Data
     @Builder
-    public static class LoginSign {
+    public static class SignParam {
 
         private String timestamp;
 
