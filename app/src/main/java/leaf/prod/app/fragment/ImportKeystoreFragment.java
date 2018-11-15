@@ -88,7 +88,7 @@ public class ImportKeystoreFragment extends BaseFragment {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    WalletEntity newWallet = new WalletEntity("", filename, "0x" + address, "", MD5Utils.md5(etPassword.getText()
+                    WalletEntity newWallet = new WalletEntity("", filename, address, "", MD5Utils.md5(etPassword.getText()
                             .toString()), "", ImportWalletType.KEY_STORE);
                     loopringService.notifyCreateWallet(address)
                             .subscribeOn(Schedulers.io())
