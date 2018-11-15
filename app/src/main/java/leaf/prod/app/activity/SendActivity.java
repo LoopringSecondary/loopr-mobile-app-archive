@@ -63,7 +63,6 @@ import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.service.LoopringService;
-import leaf.prod.walletsdk.util.UnitConverter;
 
 public class SendActivity extends BaseActivity {
 
@@ -412,7 +411,8 @@ public class SendActivity extends BaseActivity {
                 //                    String keystore = FileUtils.getKeystoreFromSD(SendActivity.this);
                 //                    credentials = KeystoreUtils.unlock(password, keystore);
                 //                }
-                BigInteger values = UnitConverter.ethToWei(moneyAmount.getText().toString()); //转账金额
+                //                BigInteger values = UnitConverter.ethToWei(moneyAmount.getText().toString()); //转账金额
+                BigInteger values = tokenDataManager.getWeiFromDouble(sendChoose, moneyAmount.getText().toString());
                 //调用transaction方法
                 String txHash;
                 Transfer transfer = new Transfer(credentials);
