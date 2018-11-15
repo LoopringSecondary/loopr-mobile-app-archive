@@ -31,9 +31,15 @@ public class Erc20TransactionManager {
 
     private Erc20Contract erc20Contract;
 
+    private BigInteger gasPrice;
+
+    private BigInteger gasLimit;
+
     private LoopringService loopringService = new LoopringService();
 
     public Erc20TransactionManager(String contractAddress, BigInteger gasPrice, BigInteger gasLimit, TransactionManager transactionManager) {
+        this.gasPrice = gasPrice;
+        this.gasLimit = gasLimit;
         this.erc20Contract = Erc20Contract.load(contractAddress, SDK.getWeb3j(), transactionManager, gasPrice, gasLimit);
     }
 
@@ -61,11 +67,11 @@ public class Erc20TransactionManager {
         return erc20Contract.balanceOf(owner).send();
     }
 
-    public String transfer(Credentials credentials, String contractAddress, BigInteger gasPrice, BigInteger gasLimit, String to, BigInteger value) throws Exception {
+    public String transfer(Credentials credentials, String contractAddress, String to, BigInteger value) throws Exception {
         erc20Contract.setGasPrice(gasPrice);
         TransactionReceipt transactionReceipt = erc20Contract.transfer(to, value).send();
         String transactionHash = transactionReceipt.getTransactionHash();
-        RawTransaction rawTransaction = getRawTransaction(credentials, to, contractAddress, gasPrice, gasLimit, value);
+        RawTransaction rawTransaction = getRawTransaction(credentials, to, contractAddress, value);
         loopringService.notifyTransactionSubmitted(rawTransaction, to, transactionHash, null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -89,7 +95,7 @@ public class Erc20TransactionManager {
         return transactionHash;
     }
 
-    public RawTransaction getRawTransaction(Credentials credentials, String to, String contractAddress, BigInteger gasPrice, BigInteger gasLimit, BigInteger value) throws IOException {
+    public RawTransaction getRawTransaction(Credentials credentials, String to, String contractAddress, BigInteger value) throws IOException {
         Function function = new Function("transfer",
                 Arrays.asList(new Address(to), new Uint256(value)),
                 Collections.emptyList());

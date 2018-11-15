@@ -28,8 +28,8 @@ public class Transfer {
         return new Erc20TransactionManager(contractAddress, gasPrice, gasLimit, transactionManager);
     }
 
-    public EthTransactionManager eth() {
-        return new EthTransactionManager(transactionManager);
+    public EthTransactionManager eth(BigInteger gasPrice, BigInteger gasLimit) {
+        return new EthTransactionManager(gasPrice, gasLimit, transactionManager);
     }
 
     public BigInteger getSuggestGasPriceFromLoopring() {
