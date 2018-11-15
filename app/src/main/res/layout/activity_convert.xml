@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"/>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
@@ -33,18 +34,28 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/first_token_img"
+                    android:id="@+id/first_token_img1"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/icon_token_eth"/>
+                    android:src="@mipmap/icon_token_eth"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/first_token_img2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:alpha="0"
+                    android:src="@mipmap/icon_token_weth"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
 
                 <TextView
                     android:id="@+id/first_token_tx"
@@ -54,22 +65,34 @@
                     android:text="ETH"
                     android:textColor="@color/colorNineText"
                     android:textSize="12dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/first_token_img1"/>
 
-            </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
 
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/second_token_img"
+                    android:id="@+id/second_token_img1"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/icon_token_weth"/>
+                    android:src="@mipmap/icon_token_weth"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/second_token_img2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:alpha="0"
+                    android:src="@mipmap/icon_token_eth"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
 
                 <TextView
                     android:id="@+id/second_token_tx"
@@ -79,9 +102,12 @@
                     android:text="WETH"
                     android:textColor="@color/colorNineText"
                     android:textSize="12dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/second_token_img1"/>
 
-            </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -113,6 +139,7 @@
                     android:cursorVisible="true"
                     android:focusableInTouchMode="true"
                     android:imeOptions="actionNext"
+                    android:inputType="number|numberDecimal"
                     android:maxLength="100"
                     android:singleLine="true"
                     android:text="0"
@@ -156,6 +183,7 @@
                     android:editable="false"
                     android:focusableInTouchMode="true"
                     android:imeOptions="actionNext"
+                    android:inputType="number|numberDecimal"
                     android:maxLength="100"
                     android:singleLine="true"
                     android:text="0"
@@ -189,7 +217,7 @@
                 android:layout_weight="1"
                 android:text="@string/available_balance"
                 android:textColor="@color/colorNineText"
-                android:textSize="@dimen/normal14Text"/>
+                android:textSize="@dimen/mainTabText"/>
 
             <TextView
                 android:id="@+id/max"
@@ -197,7 +225,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/max"
                 android:textColor="@color/colorCenter"
-                android:textSize="@dimen/normal14Text"/>
+                android:textSize="@dimen/mainTabText"/>
         </LinearLayout>
 
         <LinearLayout
@@ -266,4 +294,33 @@
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/content_layout">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2dp"
+            android:text="@string/convert_des"
+            android:textColor="@color/colorSixText"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="2dp"
+            android:text="@string/convert_tip"
+            android:textColor="@color/colorSixText"
+            android:textSize="10sp"/>
+
+    </LinearLayout>
 </LinearLayout>

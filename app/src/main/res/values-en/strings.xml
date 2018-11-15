@@ -154,4 +154,6 @@
     <string name="middle">Middle</string>
     <string name="strong">Strong</string>
     <string name="max">Max</string>
+    <string name="convert_des">● What is WETH? WETH is "wrapped ETH". ETH needs to be "wrapped" to be tradable against ERC20 tokens on DEXs. The value of WETH is always 1:1 with ETH, guaranteed by Ethereum.</string>
+    <string name="convert_tip">● We will preserve 0.01 ETH for gas fee for your subsequent transaction</string>
 </resources>

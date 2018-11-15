@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.util.StringUtils;
 
 public class SendSuccessActivity extends BaseActivity {
 
@@ -28,6 +30,9 @@ public class SendSuccessActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
+
+    @BindView(R.id.send_addr_layout)
+    ConstraintLayout sendAddrLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,13 @@ public class SendSuccessActivity extends BaseActivity {
     @Override
     public void initView() {
         tokenAmount.setText(getIntent().getStringExtra("tokenAmount"));
-        toAddress.setText(getIntent().getStringExtra("address"));
+        String address = getIntent().getStringExtra("address");
+        if (StringUtils.isEmpty(address)) {
+            sendAddrLayout.setVisibility(View.GONE);
+        } else {
+            toAddress.setText(getIntent().getStringExtra("address"));
+            sendAddrLayout.setVisibility(View.VISIBLE);
+        }
         time.setText(sdf.format(new Date()));
     }
 
