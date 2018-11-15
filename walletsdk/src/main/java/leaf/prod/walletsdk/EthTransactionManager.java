@@ -93,7 +93,6 @@ public class EthTransactionManager {
     public void withDraw(Credentials credentials, String walletAddress, BigInteger valueInWei) throws IOException, TransactionException {
         Function function = new Function("withdraw", Arrays.asList(new Uint256(valueInWei)), Collections.emptyList());
         String data = FunctionEncoder.encode(function);
-        //Credentials credentials, String address, String to, String data, BigInteger weiValue)
         send(credentials, walletAddress, WETH_CONTRACT, BigInteger.ZERO, data);
     }
 

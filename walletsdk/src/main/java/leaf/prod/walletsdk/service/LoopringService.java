@@ -11,11 +11,13 @@ import com.google.common.collect.Maps;
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
+import leaf.prod.walletsdk.model.CancelOrder;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.model.TransactionSignature;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.param.AddTokenParam;
 import leaf.prod.walletsdk.model.request.param.BalanceParam;
+import leaf.prod.walletsdk.model.request.param.CancelOrderParam;
 import leaf.prod.walletsdk.model.request.param.GetSignParam;
 import leaf.prod.walletsdk.model.request.param.MarketcapParam;
 import leaf.prod.walletsdk.model.request.param.NonceParam;
@@ -160,9 +162,8 @@ public class LoopringService {
         return observable.map(ResponseWrapper::getResult);
     }
 
-    public Observable<String> notifyScanLogin(NotifyScanParam.LoginSign loginSign, String owner, String uuid) {
-        loginSign.setOwner(owner);
-        NotifyScanParam notifyScanParam = NotifyScanParam.builder().owner(owner).uuid(uuid).sign(loginSign).build();
+    public Observable<String> notifyScanLogin(NotifyScanParam.SignParam signParam, String owner, String uuid) {
+        NotifyScanParam notifyScanParam = NotifyScanParam.builder().owner(owner).uuid(uuid).sign(signParam).build();
         RequestWrapper request = new RequestWrapper("loopring_notifyScanLogin", notifyScanParam);
         Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyScanLogin(request);
         return observable.map(ResponseWrapper::getResult);
@@ -212,6 +213,20 @@ public class LoopringService {
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getCustomTokens", param);
         Observable<ResponseWrapper<List<Token>>> observable = rpcDelegate.getCustomToken(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<String> cancelOrderFlex(CancelOrder cancelOrder, NotifyScanParam.SignParam signParam) {
+        CancelOrderParam cancelParam = CancelOrderParam.builder()
+                .type(cancelOrder.getType().name())
+                .cutoff(cancelOrder.getCutoff())
+                .tokenB(cancelOrder.getTokenB())
+                .tokenS(cancelOrder.getTokenS())
+                .orderHash(cancelOrder.getOrderHash())
+                .sign(signParam)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_flexCancelOrder", cancelParam);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.cancelOrderFlex(request);
         return observable.map(ResponseWrapper::getResult);
     }
 }

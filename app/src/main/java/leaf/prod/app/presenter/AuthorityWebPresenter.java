@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.Sign;
 import org.web3j.tx.RawTransactionManager;
 import org.web3j.utils.Numeric;
 import com.google.gson.Gson;
@@ -33,6 +34,7 @@ import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.SDK;
+import leaf.prod.walletsdk.model.CancelOrder;
 import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.ScanWebQRCode;
 import leaf.prod.walletsdk.model.SignStatus;
@@ -62,9 +64,12 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
 
     private Credentials credentials;
 
+    private String owner;
+
     public AuthorityWebPresenter(AuthorityWebActivity view, Context context, String info, QRCodeType type) {
         super(view, context);
         this.type = type;
+        this.owner = WalletUtil.getCurrentAddress(context);
         this.value = gson.fromJson(info, ScanWebQRCode.class).getValue();
     }
 
@@ -134,13 +139,22 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
                 .build();
     }
 
+    private NotifyScanParam.SignParam getSignParam() {
+        String timeStamp = String.valueOf(System.currentTimeMillis() / 1000);
+        Sign.SignatureData sig = SignUtils.genSignMessage(credentials, timeStamp);
+        return NotifyScanParam.SignParam.builder().timestamp(timeStamp).owner(owner)
+                .r(Numeric.toHexStringNoPrefix(sig.getR()))
+                .s(Numeric.toHexStringNoPrefix(sig.getS()))
+                .v(BigInteger.valueOf(sig.getV()))
+                .build();
+    }
+
     private void handleApprove() {
     }
 
     private void handleConvert() {
         if (value != null) {
             NotifyStatusParam.NotifyBody received = getStatus(SignStatus.received);
-            String owner = WalletUtil.getCurrentAddress(context);
             loopringService.notifyStatus(received, owner)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
@@ -149,7 +163,8 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
                     .observeOn(Schedulers.io())
                     .flatMap((Func1<String, Observable<String>>) rawTx -> {
                         signAndSendRawTx(rawTx);
-                        return loopringService.notifyStatus(getStatus(SignStatus.accept), owner);})
+                        return loopringService.notifyStatus(getStatus(SignStatus.accept), owner);
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<String>() {
@@ -175,7 +190,54 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
         }
     }
 
+    private void handleOrder() {
+    }
 
+    private void handleCancel() {
+        if (value != null) {
+            NotifyStatusParam.NotifyBody received = getStatus(SignStatus.received);
+            loopringService.notifyStatus(received, owner)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.io())
+                    .flatMap((Func1<String, Observable<String>>) result -> loopringService.getSignMessage(value))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.io())
+                    .flatMap((Func1<String, Observable<String>>) this::signAndCancel)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.io())
+                    .flatMap((Func1<String, Observable<String>>) result -> loopringService.notifyStatus(getStatus(SignStatus.accept), owner))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<String>() {
+                        @Override
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (passwordDialog != null) {
+                                ((TextView) passwordDialog.findViewById(R.id.password_input)).setText("");
+                            }
+                            RxToast.error(context.getResources().getString(R.string.authority_login_error));
+                        }
+
+                        @Override
+                        public void onNext(String s) {
+                            RxToast.success(context.getResources().getString(R.string.authority_login_success));
+                            view.finish();
+                            view.getOperation().forward(MainActivity.class);
+                        }
+                    });
+        }
+    }
+
+    private Observable<String> signAndCancel(String cancel) {
+        CancelOrder cancelOrder = gson.fromJson(cancel, CancelOrder.class);
+        if (cancelOrder.isValid()) {
+            return loopringService.cancelOrderFlex(cancelOrder, getSignParam());
+        }
+        return null;
+    }
 
     private void signAndSendRawTx(String rawTx) {
         try {
@@ -186,7 +248,6 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
             String to = json.get("to").getAsString();
             String data = json.get("data").getAsString();
             BigInteger value = Numeric.toBigInt(json.get("value").getAsString());
-
             RawTransactionManager transactionManager = new RawTransactionManager(SDK.getWeb3j(), credentials, SDK.CHAIN_ID);
             transactionManager.sendTransaction(gasPrice, gasLimit, to, data, value);
         } catch (IOException e) {
@@ -197,17 +258,9 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
         }
     }
 
-    private void handleOrder() {
-    }
-
-    private void handleCancel() {
-    }
-
     public void handleLogin() {
         try {
-            String timeStamp = String.valueOf(System.currentTimeMillis() / 1000);
-            NotifyScanParam.LoginSign loginSign = SignUtils.genSignMessage(credentials, timeStamp);
-            loopringService.notifyScanLogin(loginSign, WalletUtil.getCurrentAddress(context), value)
+            loopringService.notifyScanLogin(getSignParam(), owner, value)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<String>() {

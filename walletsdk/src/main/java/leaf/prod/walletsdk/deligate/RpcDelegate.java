@@ -80,4 +80,7 @@ public interface RpcDelegate {
 
     @POST(Default.RELAY_RPC_URL)
     Observable<ResponseWrapper<List<Token>>> getCustomToken(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<String>> cancelOrderFlex(@Body RequestWrapper request);
 }
