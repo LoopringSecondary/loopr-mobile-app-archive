@@ -45,11 +45,8 @@ import leaf.prod.app.manager.GasDataManager;
 import leaf.prod.app.manager.MarketcapDataManager;
 import leaf.prod.app.manager.TokenDataManager;
 import leaf.prod.app.manager.TransactionDataManager;
-import leaf.prod.app.model.ImportWalletType;
-import leaf.prod.app.model.WalletEntity;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.CurrencyUtil;
-import leaf.prod.app.utils.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.NumberUtils;
 import leaf.prod.app.utils.SPUtils;
@@ -66,8 +63,6 @@ import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.service.LoopringService;
-import leaf.prod.walletsdk.util.KeystoreUtils;
-import leaf.prod.walletsdk.util.MnemonicUtils;
 import leaf.prod.walletsdk.util.UnitConverter;
 
 public class SendActivity extends BaseActivity {
@@ -407,16 +402,16 @@ public class SendActivity extends BaseActivity {
                     getOperation().addParameter("tokenAmount", gasFee + " ETH");
                     getOperation().forwardClearTop(SendErrorActivity.class);
                 }
-                WalletEntity walletEntity = WalletUtil.getCurrentWallet(this);
-                Credentials credentials;
-                if (walletEntity != null && walletEntity.getWalletType() != null && walletEntity.getWalletType() == ImportWalletType.MNEMONIC) {
-                    LyqbLogger.log(walletEntity.toString());
-                    credentials = MnemonicUtils.calculateCredentialsFromMnemonic(walletEntity.getMnemonic(), walletEntity
-                            .getdPath(), password);
-                } else {
-                    String keystore = FileUtils.getKeystoreFromSD(SendActivity.this);
-                    credentials = KeystoreUtils.unlock(password, keystore);
-                }
+                Credentials credentials = WalletUtil.getCredential(this, password);
+                //                WalletEntity walletEntity = WalletUtil.getCurrentWallet(this);
+                //                if (walletEntity != null && walletEntity.getWalletType() != null && walletEntity.getWalletType() == ImportWalletType.MNEMONIC) {
+                //                    LyqbLogger.log(walletEntity.toString());
+                //                    credentials = MnemonicUtils.calculateCredentialsFromMnemonic(walletEntity.getMnemonic(), walletEntity
+                //                            .getdPath(), password);
+                //                } else {
+                //                    String keystore = FileUtils.getKeystoreFromSD(SendActivity.this);
+                //                    credentials = KeystoreUtils.unlock(password, keystore);
+                //                }
                 BigInteger values = UnitConverter.ethToWei(moneyAmount.getText().toString()); //转账金额
                 //调用transaction方法
                 String txHash;
@@ -428,7 +423,8 @@ public class SendActivity extends BaseActivity {
                             .send(credentials, address, walletAddress.getText().toString(), values);
                 } else {
                     gasLimit = gasDataManager.getGasLimitByType("token_transfer");
-                    txHash = transfer.erc20(tokenDataManager.getTokenBySymbol(sendChoose).getProtocol(), gasPrice, gasLimit)
+                    txHash = transfer.erc20(tokenDataManager.getTokenBySymbol(sendChoose)
+                            .getProtocol(), gasPrice, gasLimit)
                             .transfer(credentials, tokenDataManager.getTokenBySymbol(sendChoose)
                                     .getProtocol(), walletAddress.getText().toString(), values);
                 }

@@ -6,13 +6,21 @@
  */
 package leaf.prod.app.utils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 
+import org.json.JSONException;
+import org.web3j.crypto.Credentials;
+
 import leaf.prod.app.model.ImportWalletType;
 import leaf.prod.app.model.WalletEntity;
+import leaf.prod.walletsdk.exception.IllegalCredentialException;
+import leaf.prod.walletsdk.exception.InvalidKeystoreException;
+import leaf.prod.walletsdk.util.KeystoreUtils;
+import leaf.prod.walletsdk.util.MnemonicUtils;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class WalletUtil {
@@ -134,5 +142,19 @@ public class WalletUtil {
         if (walletEntity.getWalletType() != ImportWalletType.MNEMONIC || !StringUtils.isEmpty(walletEntity.getPas()))
             return true;
         return false;
+    }
+
+    public static Credentials getCredential(Context context, String password) throws IOException, JSONException, InvalidKeystoreException, IllegalCredentialException {
+        WalletEntity walletEntity = getCurrentWallet(context);
+        Credentials credentials;
+        if (walletEntity != null && walletEntity.getWalletType() != null && walletEntity.getWalletType() == ImportWalletType.MNEMONIC) {
+            LyqbLogger.log(walletEntity.toString());
+            credentials = MnemonicUtils.calculateCredentialsFromMnemonic(walletEntity.getMnemonic(), walletEntity
+                    .getdPath(), password);
+        } else {
+            String keystore = FileUtils.getKeystoreFromSD(context);
+            credentials = KeystoreUtils.unlock(password, keystore);
+        }
+        return credentials;
     }
 }

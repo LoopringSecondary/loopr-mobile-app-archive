@@ -156,4 +156,6 @@
     <string name="middle">中</string>
     <string name="strong">强</string>
     <string name="max">最大值</string>
+    <string name="convert_des">● 什么是WETH? WETH之于ETH, 正如硬币之于等额的纸币。某些场合, 贩卖机只能接受硬币, 因此需要转换。以太坊协议保证: WETH和ETH之间的转换比率为 1 : 1, 且永不改变。</string>
+    <string name="convert_tip">● 我们为您保留 0.01 ETH 作为油费以保证后续可以发送交易</string>
 </resources>
