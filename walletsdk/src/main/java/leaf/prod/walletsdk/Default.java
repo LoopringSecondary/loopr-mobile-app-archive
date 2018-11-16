@@ -13,5 +13,8 @@ public final class Default {
 
     public static final String DEFAULT_DPATH = "m/44'/60'/0'/0";
 
+    // used in submit order interface: mark order device
+    public static final String SOURCE_ID = "UP Wallet Android";
+
     public static final String PARTNER_ACTIVATE = "https://relay1.loopr.io/city_partner/activate_customer";
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
+import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.response.ResponseWrapper;
@@ -82,5 +83,25 @@ public interface RpcDelegate {
     Observable<ResponseWrapper<List<Token>>> getCustomToken(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<List<Order>>> getOrders(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<String>> loopring_getFrozenLRCFee(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<String>> getEstimatedAllocatedAllowance(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<String>> sumitOrder(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<String>> sumitOrderForP2P(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
     Observable<ResponseWrapper<String>> cancelOrderFlex(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<ResponseWrapper<String>> sumitRing(@Body RequestWrapper request);
+
+
 }

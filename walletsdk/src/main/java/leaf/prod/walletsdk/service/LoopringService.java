@@ -10,12 +10,19 @@ import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
 import leaf.prod.walletsdk.model.CancelOrder;
+import leaf.prod.walletsdk.model.Order;
+import leaf.prod.walletsdk.model.OrderStatus;
+import leaf.prod.walletsdk.model.OrderType;
+import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.model.TransactionSignature;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.param.AddTokenParam;
 import leaf.prod.walletsdk.model.request.param.BalanceParam;
 import leaf.prod.walletsdk.model.request.param.CancelOrderParam;
+import leaf.prod.walletsdk.model.request.param.GetAllowanceParam;
+import leaf.prod.walletsdk.model.request.param.GetFrozenParam;
+import leaf.prod.walletsdk.model.request.param.GetOrdersParam;
 import leaf.prod.walletsdk.model.request.param.GetSignParam;
 import leaf.prod.walletsdk.model.request.param.MarketcapParam;
 import leaf.prod.walletsdk.model.request.param.NonceParam;
@@ -23,6 +30,9 @@ import leaf.prod.walletsdk.model.request.param.NotifyScanParam;
 import leaf.prod.walletsdk.model.request.param.NotifyStatusParam;
 import leaf.prod.walletsdk.model.request.param.NotifyTransactionSubmitParam;
 import leaf.prod.walletsdk.model.request.param.PartnerParam;
+import leaf.prod.walletsdk.model.request.param.SubmitOrderP2PParam;
+import leaf.prod.walletsdk.model.request.param.SubmitOrderParam;
+import leaf.prod.walletsdk.model.request.param.SubmitRingParam;
 import leaf.prod.walletsdk.model.request.param.TransactionParam;
 import leaf.prod.walletsdk.model.request.param.UnlockWallet;
 import leaf.prod.walletsdk.model.response.ResponseWrapper;
@@ -176,6 +186,120 @@ public class LoopringService {
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getCustomTokens", param);
         Observable<ResponseWrapper<List<Token>>> observable = rpcDelegate.getCustomToken(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    // 订单相关接口
+    public Observable<List<Order>> getOrders(String owner, String orderHash, OrderStatus status, String market,
+                                             String side, OrderType type, int pageIndex, int pageSize) {
+        GetOrdersParam param = GetOrdersParam.builder()
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .owner(owner)
+                .side(side)
+                .orderHash(orderHash)
+                .status(status.name())
+                .orderType(type.name())
+                .market(market)
+                .pageIndex(pageIndex)
+                .pageSize(pageSize)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_getOrders", param);
+        Observable<ResponseWrapper<List<Order>>> observable = rpcDelegate.getOrders(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<String> getEstimatedAllocatedAllowance(String owner, String symbol) {
+        GetAllowanceParam param = GetAllowanceParam.builder()
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .owner(owner)
+                .token(symbol)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_getEstimatedAllocatedAllowance", param);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.getEstimatedAllocatedAllowance(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<String> getFrozenLRCFee(String owner) {
+        GetFrozenParam param = GetFrozenParam.builder()
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .owner(owner)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_getFrozenLRCFee", param);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.loopring_getFrozenLRCFee(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    // support for MARKET order submit
+    public Observable<String> submitOrder(OriginOrder order) {
+        SubmitOrderParam param = SubmitOrderParam.builder()
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .protocol(Default.PROTOCOL_ADDRESS)
+                .sourceId(Default.SOURCE_ID)
+                .owner(order.getOwner())
+                .walletAddress(order.getWalletAddress())
+                .tokenB(order.getTokenBuy())
+                .tokenS(order.getTokenSell())
+                .amountB(order.getAmountBuy())
+                .amountS(order.getAmountSell())
+                .authAddr(order.getAuthAddr())
+                .authPrivateKey(order.getAuthPrivateKey())
+                .validSince(order.getValidSince())
+                .validUntil(order.getValidUntil())
+                .lrcFee(order.getLrcFee())
+                .buyNoMoreThanAmountB(order.getBuyNoMoreThanAmountB())
+                .marginSplitPercentage(order.getMarginSplitPercentage())
+                .powNonce(order.getPowNonce())
+                .orderType(order.getOrderType().name())
+                .v(order.getV())
+                .r(order.getR())
+                .s(order.getS())
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_submitOrder", param);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.sumitOrder(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    // support for P2P TAKER order submit
+    public Observable<String> submitOrderForP2P(OriginOrder order, String makerOrderHash) {
+        SubmitOrderP2PParam param = SubmitOrderP2PParam.builder()
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .protocol(Default.PROTOCOL_ADDRESS)
+                .sourceId(Default.SOURCE_ID)
+                .owner(order.getOwner())
+                .walletAddress(order.getWalletAddress())
+                .tokenB(order.getTokenBuy())
+                .tokenS(order.getTokenSell())
+                .amountB(order.getAmountBuy())
+                .amountS(order.getAmountSell())
+                .authAddr(order.getAuthAddr())
+                .authPrivateKey(order.getAuthPrivateKey())
+                .validSince(order.getValidSince())
+                .validUntil(order.getValidUntil())
+                .lrcFee(order.getLrcFee())
+                .buyNoMoreThanAmountB(order.getBuyNoMoreThanAmountB())
+                .marginSplitPercentage(order.getMarginSplitPercentage())
+                .powNonce(order.getPowNonce())
+                .orderType(order.getOrderType().name())
+                .makerOrderHash(makerOrderHash)
+                .v(order.getV())
+                .r(order.getR())
+                .s(order.getS())
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_submitOrderForP2P", param);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.sumitOrderForP2P(request);
+        return observable.map(ResponseWrapper::getResult);
+    }
+
+    public Observable<String> submitRing(String makerOrderHash, String takerOrderHash, String rawTx) {
+        SubmitRingParam param = SubmitRingParam.builder()
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .protocol(Default.PROTOCOL_ADDRESS)
+                .makerOrderHash(makerOrderHash)
+                .takerOrderHash(takerOrderHash)
+                .rawTx(rawTx)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_submitRingForP2P", param);
+        Observable<ResponseWrapper<String>> observable = rpcDelegate.sumitRing(request);
         return observable.map(ResponseWrapper::getResult);
     }
 
