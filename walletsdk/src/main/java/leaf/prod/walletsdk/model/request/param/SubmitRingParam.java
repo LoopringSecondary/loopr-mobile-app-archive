@@ -11,17 +11,15 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CancelOrderParam {
+public class SubmitRingParam {
 
-    private String orderHash;
+    private String delegateAddress;
 
-    private String type;
+    private String protocol;
 
-    private Integer cutoff;
+    private String makerOrderHash;
 
-    private String tokenS;
+    private String takerOrderHash;
 
-    private String tokenB;
-
-    private NotifyScanParam.SignParam sign;
+    private String rawTx;
 }

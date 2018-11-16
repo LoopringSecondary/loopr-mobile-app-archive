@@ -1,31 +1,35 @@
 /**
  * Created with IntelliJ IDEA.
  * User: kenshin wangchen@loopring.org
- * Time: 2018-11-16 11:18 AM
+ * Time: 2018-11-12 6:09 PM
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.walletsdk.model;
+package leaf.prod.walletsdk.model.request.param;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class OriginOrder {
+public class SubmitOrderP2PParam {
 
-    private String delegate;
+    private String delegateAddress;
+
+    private String protocol;
+
+    private String sourceId;
 
     private String owner;
 
     private String market;
 
-    private String tokenBuy;
+    private String tokenB;
 
-    private String tokenSell;
+    private String tokenS;
 
-    private Double amountBuy;
+    private Double amountB;
 
-    private Double amountSell;
+    private Double amountS;
 
     private Integer validSince;
 
@@ -47,9 +51,11 @@ public class OriginOrder {
 
     private Integer marginSplitPercentage;
 
-    private OrderType orderType;
+    private String orderType;
 
-    private P2PType p2pType;
+    private String p2pType;
+
+    private String makerOrderHash;
 
     private Integer powNonce;
 
