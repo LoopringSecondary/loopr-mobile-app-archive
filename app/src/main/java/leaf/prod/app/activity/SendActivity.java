@@ -377,7 +377,7 @@ public class SendActivity extends BaseActivity {
             view.findViewById(R.id.cancel).setOnClickListener(v -> passwordDialog.dismiss());
             view.findViewById(R.id.confirm).setOnClickListener(v -> {
                 if (TextUtils.isEmpty(passwordInput.getText().toString())) {
-                    ToastUtils.toast("请输入密码");
+                    ToastUtils.toast(view.getResources().getString(R.string.put_password));
                 } else {
                     send(passwordInput.getText().toString());
                 }
