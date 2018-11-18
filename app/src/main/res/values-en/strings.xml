@@ -71,6 +71,7 @@
     <string name="usd">USD</string>
     <string name="slow">slow</string>
     <string name="quick">quick</string>
+
     <string name="export_private_key">Export Private Key</string>
     <string name="export_keystore">Export Keystore</string>
     <string name="clear_records">Clear Records of this Wallet</string>
@@ -81,6 +82,8 @@
     <string name="keystore">Keystore</string>
     <string name="private_key">Private Key</string>
     <string name="qr_code">QR Code</string>
+    <string name="align_qr_code">Align QR code within frame to scan</string>
+    <string name="bar_code">Bar Code</string>
     <string name="address_confirm">Please confirm the address before sending</string>
     <string name="enter_the_address">Enter The Address</string>
     <string name="enter_the_amount">Enter The Amount</string>
@@ -135,6 +138,7 @@
     <string name="auth_finger_no_match">Sorry, your input fingerprint does not match, %1d chances left</string>
     <string name="auth_finger_failed">Sorry, your device is locked for 1 minute cause inputting error 5 times</string>
     <string name="keystore_psw_error">Password error</string>
+    <string name="h5dex_psw_error">Password error</string>
     <string name="transfer_error">Transfer error, please try again</string>
     <string name="loopring_order">Loopring Order</string>
     <string name="expiry_date">Expiry Date</string>
