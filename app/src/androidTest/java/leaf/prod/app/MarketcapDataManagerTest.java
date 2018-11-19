@@ -5,7 +5,7 @@ import android.support.test.InstrumentationRegistry;
 
 import org.junit.Test;
 
-import leaf.prod.app.manager.MarketcapDataManager;
+import leaf.prod.walletsdk.manager.MarketcapDataManager;
 
 import static org.junit.Assert.assertTrue;
 
