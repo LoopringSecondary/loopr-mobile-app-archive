@@ -1,4 +1,4 @@
-package leaf.prod.app.utils;
+package leaf.prod.walletsdk.util;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
