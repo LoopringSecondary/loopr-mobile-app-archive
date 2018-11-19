@@ -4,7 +4,7 @@
  * Time: 2018-10-08 上午12:39
  * Cooperation: CreditEase©2017 普信恒业科技发展(北京)有限公司
  */
-package leaf.prod.app.utils;
+package leaf.prod.walletsdk.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,13 +15,10 @@ import android.content.Context;
 import org.json.JSONException;
 import org.web3j.crypto.Credentials;
 
-import leaf.prod.app.model.ImportWalletType;
-import leaf.prod.app.model.WalletEntity;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
-import leaf.prod.walletsdk.util.KeystoreUtils;
-import leaf.prod.walletsdk.util.MnemonicUtils;
-import leaf.prod.walletsdk.util.StringUtils;
+import leaf.prod.walletsdk.model.ImportWalletType;
+import leaf.prod.walletsdk.model.WalletEntity;
 
 public class WalletUtil {
 
@@ -148,7 +145,6 @@ public class WalletUtil {
         WalletEntity walletEntity = getCurrentWallet(context);
         Credentials credentials;
         if (walletEntity != null && walletEntity.getWalletType() != null && walletEntity.getWalletType() == ImportWalletType.MNEMONIC) {
-            LyqbLogger.log(walletEntity.toString());
             credentials = MnemonicUtils.calculateCredentialsFromMnemonic(walletEntity.getMnemonic(), walletEntity
                     .getdPath(), password);
         } else {

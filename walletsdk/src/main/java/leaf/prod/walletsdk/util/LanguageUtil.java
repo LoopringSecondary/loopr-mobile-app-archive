@@ -1,4 +1,4 @@
-package leaf.prod.app.utils;
+package leaf.prod.walletsdk.util;
 
 import java.util.Locale;
 
@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 
 import leaf.prod.walletsdk.model.Language;
+import leaf.prod.walletsdk.util.SPUtils;
 
 /**
  * 标题:    LanguageUtil

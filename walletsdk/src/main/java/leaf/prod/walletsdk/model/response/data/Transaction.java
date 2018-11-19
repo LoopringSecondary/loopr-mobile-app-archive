@@ -1,13 +1,13 @@
 package leaf.prod.walletsdk.model.response.data;
 
-import leaf.prod.walletsdk.model.TxStatus;
-import leaf.prod.walletsdk.model.TxType;
+import java.io.Serializable;
 
+import leaf.prod.walletsdk.model.TxStatus;
 import leaf.prod.walletsdk.model.TxType;
 import lombok.Data;
 
 @Data
-public class Transaction {
+public class Transaction implements Serializable {
 
     private String from;
 

@@ -72,7 +72,7 @@ public class Erc20TransactionManager {
         TransactionReceipt transactionReceipt = erc20Contract.transfer(to, value).send();
         String transactionHash = transactionReceipt.getTransactionHash();
         RawTransaction rawTransaction = getRawTransaction(credentials, to, contractAddress, value);
-        loopringService.notifyTransactionSubmitted(rawTransaction, to, transactionHash, null)
+        loopringService.notifyTransactionSubmitted(rawTransaction, to, transactionHash)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {

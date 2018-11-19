@@ -1,4 +1,4 @@
-package leaf.prod.app.utils;
+package leaf.prod.walletsdk.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -48,8 +48,6 @@ public class FileUtils {
         isr.close();
         JSONObject testjson = new JSONObject(builder.toString());//builder读取了JSON中的数据。
         //            SPUtils.put(context, "address", "0x"+ testjson.getString("address"));
-        LyqbLogger.log(testjson.toString());
-        LyqbLogger.log(testjson.getString("address"));
         return testjson.getString("address");
     }
 
@@ -79,8 +77,6 @@ public class FileUtils {
         br.close();
         isr.close();
         JSONObject testjson = new JSONObject(builder.toString());//builder读取了JSON中的数据。
-        LyqbLogger.log(testjson.toString());
-        LyqbLogger.log(testjson.getString("address"));
         return testjson.toString();
     }
 
@@ -100,8 +96,6 @@ public class FileUtils {
         br.close();
         isr.close();
         JSONObject testjson = new JSONObject(builder.toString());//builder读取了JSON中的数据。
-        LyqbLogger.log(testjson.toString());
-        LyqbLogger.log(testjson.getString("address"));
         return testjson.toString();
     }
 

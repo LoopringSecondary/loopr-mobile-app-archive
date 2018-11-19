@@ -8,12 +8,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import leaf.prod.app.R;
-import leaf.prod.app.manager.BalanceDataManager;
-import leaf.prod.app.manager.MarketcapDataManager;
-import leaf.prod.app.manager.TokenDataManager;
-import leaf.prod.app.utils.CurrencyUtil;
+import leaf.prod.walletsdk.manager.BalanceDataManager;
+import leaf.prod.walletsdk.manager.MarketcapDataManager;
+import leaf.prod.walletsdk.manager.TokenDataManager;
+import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.app.utils.DateUtil;
-import leaf.prod.app.utils.NumberUtils;
+import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.model.TxStatus;
 import leaf.prod.walletsdk.model.TxType;
 import leaf.prod.walletsdk.model.response.data.Transaction;

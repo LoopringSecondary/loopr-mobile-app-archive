@@ -9,7 +9,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.AppManager;
-import leaf.prod.app.utils.LanguageUtil;
+import leaf.prod.walletsdk.util.LanguageUtil;
 
 public class CoverActivity extends BaseActivity {
 

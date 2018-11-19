@@ -4,7 +4,7 @@
  * Time: 2018-09-13 下午1:55
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.app.manager;
+package leaf.prod.walletsdk.manager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +22,7 @@ import org.web3j.utils.Convert;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.service.LoopringService;
 import rx.Observable;
@@ -186,5 +186,9 @@ public class TokenDataManager {
             }
             this.tokens = tTokens;
         }
+    }
+
+    public static Token getToken(String protocol) {
+        return tokenDataManager.getTokenByProtocol(protocol);
     }
 }

@@ -15,7 +15,6 @@ import leaf.prod.walletsdk.model.OrderStatus;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.Partner;
-import leaf.prod.walletsdk.model.TransactionSignature;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.param.AddTokenParam;
 import leaf.prod.walletsdk.model.request.param.BalanceParam;
@@ -119,7 +118,7 @@ public class LoopringService {
         return rpcDelegate.getMarketcap(request).map(ResponseWrapper::getResult);
     }
 
-    public Observable<String> notifyTransactionSubmitted(RawTransaction rawTransaction, String from, String txHash, TransactionSignature signature) {
+    public Observable<String> notifyTransactionSubmitted(RawTransaction rawTransaction, String from, String txHash) {
         NotifyTransactionSubmitParam notifyTransactionSubmitParam = NotifyTransactionSubmitParam.builder()
                 .hash(txHash)
                 .nonce(Numeric.toHexStringWithPrefix(rawTransaction.getNonce()))

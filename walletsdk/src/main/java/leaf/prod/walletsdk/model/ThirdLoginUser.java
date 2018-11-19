@@ -1,4 +1,4 @@
-package leaf.prod.app.model;
+package leaf.prod.walletsdk.model;
 
 import java.util.ArrayList;
 import java.util.List;

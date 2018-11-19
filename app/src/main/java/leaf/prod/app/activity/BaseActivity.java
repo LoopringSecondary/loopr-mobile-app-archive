@@ -26,6 +26,7 @@ import com.umeng.analytics.MobclickAgent;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.app.receiver.NetworkStateReceiver;
+import leaf.prod.app.receiver.NotificationReceiver;
 import leaf.prod.app.utils.NetworkUtil;
 import leaf.prod.app.utils.SystemStatusManager;
 import leaf.prod.app.view.APP;
@@ -57,6 +58,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
     private ProgressDialog progressDialog;
 
     private MainNetworkReceiver mainNetworkReceiver;
+    private NotificationReceiver notificationReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
         initTitle();
         initView();
         initData();
-        initNetworkListener();
+        initListener();
         showNetworkDialog(this.getLocalClassName(), false);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
@@ -135,10 +137,14 @@ public abstract class BaseActivity extends SwipeBackActivity {
      */
     public abstract void initData();
 
-    private void initNetworkListener() {
+    private void initListener() {
         mainNetworkReceiver = MainNetworkReceiver.getInstance(this);
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         this.registerReceiver(mainNetworkReceiver, intentFilter);
+
+        notificationReceiver = NotificationReceiver.getInstance(this);
+        intentFilter = new IntentFilter("leaf.prod.app.receiver.NotificationReceiver");
+        this.registerReceiver(notificationReceiver, intentFilter);
     }
 
     public void showNetworkDialog(String key, boolean show) {
@@ -255,6 +261,9 @@ public abstract class BaseActivity extends SwipeBackActivity {
         }
         if (mainNetworkReceiver != null) {
             this.unregisterReceiver(mainNetworkReceiver);
+        }
+        if (notificationReceiver != null) {
+            this.unregisterReceiver(notificationReceiver);
         }
     }
 

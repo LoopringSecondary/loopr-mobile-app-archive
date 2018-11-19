@@ -15,13 +15,13 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
-import leaf.prod.app.model.ThirdLoginUser;
+import leaf.prod.walletsdk.model.ThirdLoginUser;
 import leaf.prod.app.utils.AppManager;
-import leaf.prod.app.utils.CurrencyUtil;
-import leaf.prod.app.utils.LanguageUtil;
+import leaf.prod.walletsdk.util.CurrencyUtil;
+import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.app.utils.PermissionUtils;
-import leaf.prod.app.utils.ThirdLoginUtil;
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.walletsdk.util.ThirdLoginUtil;
+import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.service.ThirdLoginService;
 
 /**

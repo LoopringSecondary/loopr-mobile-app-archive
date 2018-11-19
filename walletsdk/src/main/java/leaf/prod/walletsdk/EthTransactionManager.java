@@ -19,9 +19,7 @@ import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.tx.RawTransactionManager;
 
 import leaf.prod.walletsdk.exception.TransactionException;
-import leaf.prod.walletsdk.model.TransactionSignature;
 import leaf.prod.walletsdk.service.LoopringService;
-import leaf.prod.walletsdk.util.SignUtils;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -37,8 +35,6 @@ public class EthTransactionManager {
     private RawTransactionManager transactionManager;
 
     private LoopringService loopringService = new LoopringService();
-
-    private static final String WETH_CONTRACT = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
 
     public EthTransactionManager(BigInteger gasPrice, BigInteger gasLimit, RawTransactionManager transactionManager) {
         this.gasPrice = gasPrice;
@@ -58,8 +54,7 @@ public class EthTransactionManager {
         // notify relay
         String transactionHash = ethSendTransaction.getTransactionHash();
         RawTransaction rawTransaction = getRawTransaction(credentials, to, data, weiValue);
-        TransactionSignature transactionSignature = SignUtils.getSignature(credentials, rawTransaction);
-        loopringService.notifyTransactionSubmitted(rawTransaction, address, transactionHash, transactionSignature)
+        loopringService.notifyTransactionSubmitted(rawTransaction, address, transactionHash)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
@@ -86,14 +81,14 @@ public class EthTransactionManager {
     public void deposit(Credentials credentials, String walletAddress, BigInteger valueInWei) throws IOException, TransactionException {
         Function function = new Function("deposit", Collections.emptyList(), Collections.emptyList());
         String data = FunctionEncoder.encode(function);
-        send(credentials, walletAddress, WETH_CONTRACT, valueInWei, data);
+        send(credentials, walletAddress, Default.WETH_CONTRACT, valueInWei, data);
     }
 
     // convert weth -> eth
     public void withDraw(Credentials credentials, String walletAddress, BigInteger valueInWei) throws IOException, TransactionException {
         Function function = new Function("withdraw", Arrays.asList(new Uint256(valueInWei)), Collections.emptyList());
         String data = FunctionEncoder.encode(function);
-        send(credentials, walletAddress, WETH_CONTRACT, BigInteger.ZERO, data);
+        send(credentials, walletAddress, Default.WETH_CONTRACT, BigInteger.ZERO, data);
     }
 
     public RawTransaction getRawTransaction(Credentials credentials, String to, String data, BigInteger value) throws IOException {

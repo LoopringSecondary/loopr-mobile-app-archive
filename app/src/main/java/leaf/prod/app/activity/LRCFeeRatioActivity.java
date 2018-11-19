@@ -9,7 +9,7 @@ import com.xw.repo.BubbleSeekBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.app.views.TitleView;
 
 public class LRCFeeRatioActivity extends BaseActivity {

@@ -4,7 +4,7 @@
  * Time: 2018-09-17 下午3:14
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.app.manager;
+package leaf.prod.walletsdk.manager;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -12,13 +12,13 @@ import java.util.List;
 
 import android.content.Context;
 
-import leaf.prod.app.utils.CurrencyUtil;
-import leaf.prod.app.utils.NumberUtils;
-import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.listener.BalanceListener;
 import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import leaf.prod.walletsdk.model.response.data.MarketcapResult;
 import leaf.prod.walletsdk.model.response.data.Token;
+import leaf.prod.walletsdk.util.CurrencyUtil;
+import leaf.prod.walletsdk.util.NumberUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

@@ -14,11 +14,11 @@ import android.content.Context;
 import org.web3j.crypto.WalletUtils;
 
 import leaf.prod.app.activity.AddCustomTokenActivity;
-import leaf.prod.app.manager.TokenDataManager;
-import leaf.prod.app.model.WalletEntity;
-import leaf.prod.app.utils.NumberUtils;
+import leaf.prod.walletsdk.manager.TokenDataManager;
+import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.model.response.data.Token;
 import leaf.prod.walletsdk.service.LoopringService;
 import rx.Subscriber;

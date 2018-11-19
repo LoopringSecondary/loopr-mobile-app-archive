@@ -26,12 +26,12 @@ import java.math.BigInteger;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.H5DexWebActivity;
-import leaf.prod.app.manager.PartnerDataManager;
-import leaf.prod.app.utils.CurrencyUtil;
-import leaf.prod.app.utils.FileUtils;
-import leaf.prod.app.utils.LanguageUtil;
+import leaf.prod.walletsdk.manager.PartnerDataManager;
+import leaf.prod.walletsdk.util.CurrencyUtil;
+import leaf.prod.walletsdk.util.FileUtils;
+import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.model.H5ScanType;
 import leaf.prod.walletsdk.util.KeystoreUtils;
 import leaf.prod.walletsdk.util.StringUtils;
