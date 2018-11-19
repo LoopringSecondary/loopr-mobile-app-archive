@@ -235,6 +235,7 @@ public class SendActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // FIXME: W/System.err: at leaf.prod.app.activity.SendActivity.onCreate(SendActivity.java:238)
         setContentView(R.layout.activity_send);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
