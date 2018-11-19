@@ -7,5 +7,5 @@
 package leaf.prod.walletsdk.model;
 
 public enum P2PType {
-    maker, taker, unknown
+    MAKER, TAKER, UNKNOWN
 }

@@ -27,15 +27,15 @@ public class SubmitOrderP2PParam {
 
     private String tokenS;
 
-    private Double amountB;
+    private String amountB;
 
-    private Double amountS;
+    private String amountS;
 
-    private Integer validSince;
+    private String validSince;
 
-    private Integer validUntil;
+    private String validUntil;
 
-    private Double lrcFee;
+    private String lrcFee;
 
     private Boolean buyNoMoreThanAmountB;
 
