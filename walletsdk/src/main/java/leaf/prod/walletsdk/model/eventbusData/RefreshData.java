@@ -1,4 +1,4 @@
-package leaf.prod.app.model.eventbusData;
+package leaf.prod.walletsdk.model.eventbusData;
 
 /**
  * Created by niedengqiang on 2018/8/21.

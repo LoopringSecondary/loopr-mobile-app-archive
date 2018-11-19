@@ -4,7 +4,7 @@
  * Time: 2018-09-11 下午6:01
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.app.utils;
+package leaf.prod.walletsdk.util;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -12,6 +12,7 @@ import java.util.Locale;
 import android.content.Context;
 
 import leaf.prod.walletsdk.model.Currency;
+import leaf.prod.walletsdk.util.SPUtils;
 
 public class CurrencyUtil {
 

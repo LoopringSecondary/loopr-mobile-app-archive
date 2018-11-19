@@ -30,8 +30,8 @@ import leaf.prod.app.activity.ShareActivity;
 import leaf.prod.app.activity.ThirdLoginActivity;
 import leaf.prod.app.utils.AndroidUtils;
 import leaf.prod.app.utils.FingerprintUtil;
-import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.utils.ThirdLoginUtil;
+import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.ThirdLoginUtil;
 
 /**
  *

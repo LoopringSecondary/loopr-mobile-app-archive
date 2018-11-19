@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.utils.FileUtils;
+import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;

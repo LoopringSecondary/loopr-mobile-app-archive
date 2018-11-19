@@ -19,11 +19,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.AppManager;
-import leaf.prod.app.utils.FileUtils;
+import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.app.utils.FingerprintUtil;
-import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.utils.ThirdLoginUtil;
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.ThirdLoginUtil;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class SplashActivity extends BaseActivity {
 

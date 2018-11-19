@@ -9,8 +9,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.utils.LanguageUtil;
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.walletsdk.util.LanguageUtil;
+import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.Language;
 

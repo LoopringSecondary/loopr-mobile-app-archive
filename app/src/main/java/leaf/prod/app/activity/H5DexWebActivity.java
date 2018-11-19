@@ -39,7 +39,7 @@ import leaf.prod.app.R;
 import leaf.prod.app.layout.WebLayout;
 import leaf.prod.app.presenter.H5DexPresenter;
 import leaf.prod.app.utils.DateUtil;
-import leaf.prod.app.utils.NumberUtils;
+import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.H5ScanType;

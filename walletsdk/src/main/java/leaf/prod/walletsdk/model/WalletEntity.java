@@ -1,11 +1,10 @@
-package leaf.prod.app.model;
+package leaf.prod.walletsdk.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.util.StringUtils;
 
 /**

@@ -13,9 +13,9 @@ import com.vondear.rxtool.view.RxToast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
-import leaf.prod.app.model.WalletEntity;
-import leaf.prod.app.model.eventbusData.NameChangeData;
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.model.eventbusData.NameChangeData;
+import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.TitleView;
 
 public class ReviseWalletNameActivity extends BaseActivity {

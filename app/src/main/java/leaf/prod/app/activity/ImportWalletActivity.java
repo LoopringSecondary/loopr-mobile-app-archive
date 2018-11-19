@@ -22,7 +22,7 @@ import leaf.prod.app.adapter.ViewPageAdapter;
 import leaf.prod.app.fragment.ImportKeystoreFragment;
 import leaf.prod.app.fragment.ImportMnemonicFragment;
 import leaf.prod.app.fragment.ImportPrivateKeyFragment;
-import leaf.prod.app.model.eventbusData.KeystoreData;
+import leaf.prod.walletsdk.model.eventbusData.KeystoreData;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.TitleView;

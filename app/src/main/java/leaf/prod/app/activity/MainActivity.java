@@ -21,8 +21,8 @@ import leaf.prod.app.fragment.MainFragment;
 import leaf.prod.app.fragment.SettingFragment;
 import leaf.prod.app.fragment.TradeFragment;
 import leaf.prod.app.utils.AppManager;
-import leaf.prod.app.utils.LanguageUtil;
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.walletsdk.util.LanguageUtil;
+import leaf.prod.walletsdk.util.SPUtils;
 
 /**
  * Created by niedengqiang on 2018/8/13.

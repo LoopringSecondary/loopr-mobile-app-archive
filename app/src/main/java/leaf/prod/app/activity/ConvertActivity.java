@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.ConvertPresenter;
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.util.StringUtils;
 

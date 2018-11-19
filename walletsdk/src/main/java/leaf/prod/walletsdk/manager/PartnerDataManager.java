@@ -4,12 +4,11 @@
  * Time: 2018-09-25 上午10:37
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.app.manager;
+package leaf.prod.walletsdk.manager;
 
 import android.content.Context;
 
-import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.service.LoopringService;
 import rx.Subscriber;
@@ -54,7 +53,6 @@ public class PartnerDataManager {
 
                     @Override
                     public void onError(Throwable e) {
-                        LyqbLogger.debug(e.getMessage());
                         unsubscribe();
                     }
 
@@ -77,7 +75,6 @@ public class PartnerDataManager {
 
                     @Override
                     public void onError(Throwable e) {
-                        LyqbLogger.debug(e.getMessage());
                         unsubscribe();
                     }
 
@@ -102,7 +99,6 @@ public class PartnerDataManager {
         if (partnerTo != null) {
             result += "?cityPartner=" + partnerTo.getCityPartner();
         }
-        LyqbLogger.log(result);
         return result;
     }
 }

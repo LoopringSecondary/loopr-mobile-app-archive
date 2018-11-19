@@ -13,8 +13,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.ManageWalletListAdapter;
-import leaf.prod.app.model.WalletEntity;
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.TitleView;
 
 public class ManageWalletActivity extends BaseActivity {

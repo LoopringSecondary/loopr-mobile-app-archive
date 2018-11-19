@@ -1,12 +1,12 @@
-package leaf.prod.app.manager;
+package leaf.prod.walletsdk.manager;
 
 import android.content.Context;
 
-import leaf.prod.app.utils.CurrencyUtil;
 import leaf.prod.walletsdk.listener.MarketcapListener;
 import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.model.request.param.MarketcapParam;
 import leaf.prod.walletsdk.model.response.data.MarketcapResult;
+import leaf.prod.walletsdk.util.CurrencyUtil;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

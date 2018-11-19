@@ -21,6 +21,8 @@ import org.web3j.crypto.Sign;
 import org.web3j.tx.RawTransactionManager;
 import org.web3j.utils.Numeric;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vondear.rxtool.view.RxToast;
@@ -28,11 +30,11 @@ import com.vondear.rxtool.view.RxToast;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.AuthorityWebActivity;
 import leaf.prod.app.activity.MainActivity;
-import leaf.prod.app.model.ImportWalletType;
-import leaf.prod.app.model.WalletEntity;
-import leaf.prod.app.utils.FileUtils;
+import leaf.prod.walletsdk.model.ImportWalletType;
+import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.model.CancelOrder;
 import leaf.prod.walletsdk.model.QRCodeType;
@@ -150,6 +152,7 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
     }
 
     private void handleApprove() {
+
     }
 
     private void handleConvert() {
@@ -190,7 +193,75 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
         }
     }
 
+    private void signAndSendRawTx(String rawTx) {
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject json = parser.parse(rawTx).getAsJsonObject().getAsJsonObject("tx");
+            BigInteger gasPrice = Numeric.toBigInt(json.get("gasPrice").getAsString());
+            BigInteger gasLimit = Numeric.toBigInt(json.get("gasLimit").getAsString());
+            String to = json.get("to").getAsString();
+            String data = json.get("data").getAsString();
+            BigInteger value = Numeric.toBigInt(json.get("value").getAsString());
+            RawTransactionManager transactionManager = new RawTransactionManager(SDK.getWeb3j(), credentials, SDK.CHAIN_ID);
+            transactionManager.sendTransaction(gasPrice, gasLimit, to, data, value);
+        } catch (IOException e) {
+            if (passwordDialog != null) {
+                ((TextView) passwordDialog.findViewById(R.id.password_input)).setText("");
+            }
+            RxToast.error(context.getResources().getString(R.string.authority_login_error));
+        }
+    }
+
     private void handleOrder() {
+        if (value != null) {
+            NotifyStatusParam.NotifyBody received = getStatus(SignStatus.received);
+            loopringService.notifyStatus(received, owner)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.io())
+                    .flatMap((Func1<String, Observable<String>>) result -> loopringService.getSignMessage(value))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.io())
+                    .flatMap((Func1<String, Observable<String>>) rawTx -> {
+                        signAndSubmitOrder(rawTx);
+                        return loopringService.notifyStatus(getStatus(SignStatus.accept), owner);
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<String>() {
+                        @Override
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (passwordDialog != null) {
+                                ((TextView) passwordDialog.findViewById(R.id.password_input)).setText("");
+                            }
+                            RxToast.error(context.getResources().getString(R.string.authority_login_error));
+                        }
+
+                        @Override
+                        public void onNext(String s) {
+                            RxToast.success(context.getResources().getString(R.string.authority_login_success));
+                            view.finish();
+                            view.getOperation().forward(MainActivity.class);
+                        }
+                    });
+        }
+    }
+
+    private void signAndSubmitOrder(String order) {
+        JsonParser parser = new JsonParser();
+        JsonArray jsonArray = parser.parse(order).getAsJsonArray();
+        for (JsonElement subJson : jsonArray) {
+            String type = subJson.getAsJsonObject().get("type").getAsString();
+            JsonObject data = subJson.getAsJsonObject().get("data").getAsJsonObject();
+            if (type.equals("order")) {
+                System.out.println(111);
+            } else {
+                System.out.println(111);
+            }
+        }
     }
 
     private void handleCancel() {
@@ -237,25 +308,6 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
             return loopringService.cancelOrderFlex(cancelOrder, getSignParam());
         }
         return null;
-    }
-
-    private void signAndSendRawTx(String rawTx) {
-        try {
-            JsonParser parser = new JsonParser();
-            JsonObject json = parser.parse(rawTx).getAsJsonObject().getAsJsonObject("tx");
-            BigInteger gasPrice = Numeric.toBigInt(json.get("gasPrice").getAsString());
-            BigInteger gasLimit = Numeric.toBigInt(json.get("gasLimit").getAsString());
-            String to = json.get("to").getAsString();
-            String data = json.get("data").getAsString();
-            BigInteger value = Numeric.toBigInt(json.get("value").getAsString());
-            RawTransactionManager transactionManager = new RawTransactionManager(SDK.getWeb3j(), credentials, SDK.CHAIN_ID);
-            transactionManager.sendTransaction(gasPrice, gasLimit, to, data, value);
-        } catch (IOException e) {
-            if (passwordDialog != null) {
-                ((TextView) passwordDialog.findViewById(R.id.password_input)).setText("");
-            }
-            RxToast.error(context.getResources().getString(R.string.authority_login_error));
-        }
     }
 
     public void handleLogin() {

@@ -38,7 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.app.utils.WalletUtil;
+import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.TitleView;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;

@@ -20,7 +20,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.vondear.rxtool.RxTool;
 
 import leaf.prod.app.utils.AndroidUtils;
-import leaf.prod.app.utils.SPUtils;
+import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.SDK;
 
 public class APP extends Application {

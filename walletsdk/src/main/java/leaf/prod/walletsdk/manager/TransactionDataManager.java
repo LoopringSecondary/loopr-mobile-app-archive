@@ -4,19 +4,19 @@
  * Time: 2018-10-18 6:51 PM
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.app.manager;
+package leaf.prod.walletsdk.manager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 
-import leaf.prod.app.utils.NotificationUtil;
-import leaf.prod.app.utils.SPUtils;
-import leaf.prod.app.utils.WalletUtil;
 import leaf.prod.walletsdk.listener.TransactionStatusListener;
 import leaf.prod.walletsdk.model.TxStatus;
 import leaf.prod.walletsdk.model.response.data.Transaction;
+import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -58,7 +58,10 @@ public class TransactionDataManager {
                     if (txHashes.contains(hash.toLowerCase()) && tx.getStatus() == TxStatus.SUCCESS) {
                         txHashes.remove(hash);
                         SPUtils.setDataList(context, "pending_tx", txHashes);
-                        NotificationUtil.normal(context, tx);
+                        Intent intent = new Intent();
+                        intent.setAction("leaf.prod.app.receiver.NotificationReceiver");
+                        intent.putExtra("pending_tx", tx);
+                        context.sendBroadcast(intent);
                     }
                     if (txHashes.isEmpty()) {
                         SPUtils.remove(context, "pending_tx");

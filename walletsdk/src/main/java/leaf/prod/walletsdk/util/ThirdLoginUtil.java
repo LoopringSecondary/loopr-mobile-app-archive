@@ -1,19 +1,17 @@
-package leaf.prod.app.utils;
+package leaf.prod.walletsdk.util;
 
 import java.io.IOException;
 
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.vondear.rxtool.view.RxToast;
 
-import leaf.prod.app.model.ThirdLogin;
-import leaf.prod.app.model.ThirdLoginResp;
-import leaf.prod.app.model.ThirdLoginUser;
 import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.model.Language;
+import leaf.prod.walletsdk.model.ThirdLogin;
+import leaf.prod.walletsdk.model.ThirdLoginResp;
+import leaf.prod.walletsdk.model.ThirdLoginUser;
 import leaf.prod.walletsdk.service.ThirdLoginService;
-import leaf.prod.walletsdk.util.StringUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -64,7 +62,7 @@ public class ThirdLoginUtil {
         thirdLoginService.getUser(thirdLoginUser.getUserId()).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                RxToast.error("登录失败，请稍后重试");
+
             }
 
             @Override
@@ -142,7 +140,6 @@ public class ThirdLoginUtil {
                         ThirdLogin remoteThirdLogin = null;
                         try {
                             String re = response.body().string();
-                            LyqbLogger.log(re);
                             ThirdLoginResp thirdLoginResp = gson.fromJson(re, ThirdLoginResp.class);
                             if (thirdLoginResp.getSuccess() != null && thirdLoginResp.getSuccess()) {
                                 remoteThirdLogin = gson.fromJson(thirdLoginResp.getMessage(), ThirdLogin.class);
