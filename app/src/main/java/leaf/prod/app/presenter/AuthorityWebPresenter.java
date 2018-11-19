@@ -31,6 +31,7 @@ import leaf.prod.app.R;
 import leaf.prod.app.activity.AuthorityWebActivity;
 import leaf.prod.app.activity.MainActivity;
 import leaf.prod.walletsdk.model.ImportWalletType;
+import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.WalletEntity;
 import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
@@ -143,7 +144,7 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
 
     private NotifyScanParam.SignParam getSignParam() {
         String timeStamp = String.valueOf(System.currentTimeMillis() / 1000);
-        Sign.SignatureData sig = SignUtils.genSignMessage(credentials, timeStamp);
+        Sign.SignatureData sig = SignUtils.genSignMessage(credentials, timeStamp).getSig();
         return NotifyScanParam.SignParam.builder().timestamp(timeStamp).owner(owner)
                 .r(Numeric.toHexStringNoPrefix(sig.getR()))
                 .s(Numeric.toHexStringNoPrefix(sig.getS()))
@@ -257,6 +258,7 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
             String type = subJson.getAsJsonObject().get("type").getAsString();
             JsonObject data = subJson.getAsJsonObject().get("data").getAsJsonObject();
             if (type.equals("order")) {
+                OriginOrder originOrder = OriginOrder.createOriginOrder(data);
                 System.out.println(111);
             } else {
                 System.out.println(111);

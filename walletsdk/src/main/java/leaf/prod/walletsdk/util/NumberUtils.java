@@ -3,6 +3,7 @@ package leaf.prod.walletsdk.util;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -446,6 +447,12 @@ public class NumberUtils {
         BigDecimal b1 = new BigDecimal(Double.toString(value1));
         BigDecimal b2 = new BigDecimal(Double.toString(value2));
         return b1.add(b2).doubleValue();
+    }
+
+    public static byte[] append(byte[] a1, byte[] a2) {
+        byte[] a3 = Arrays.copyOf(a1, a1.length + a2.length);
+        System.arraycopy(a2, 0, a3, a1.length, a2.length);
+        return a3;
     }
 
     /**

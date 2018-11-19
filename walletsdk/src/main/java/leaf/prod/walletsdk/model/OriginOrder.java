@@ -8,11 +8,9 @@ package leaf.prod.walletsdk.model;
 
 import com.google.gson.JsonObject;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class OriginOrder {
 
     private String delegate;
@@ -21,19 +19,19 @@ public class OriginOrder {
 
     private String market;
 
-    private String tokenBuy;
+    private String tokenBuy; // token protocol
 
-    private String tokenSell;
+    private String tokenSell; // token protocol
 
-    private Double amountBuy;
+    private String amountBuy; // big integer hex string
 
-    private Double amountSell;
+    private String amountSell; // big integer hex string
 
-    private Integer validSince;
+    private String validSince; // hex string
 
-    private Integer validUntil;
+    private String validUntil; // hex string
 
-    private Double lrcFee;
+    private String lrcFee; // big integer hex string
 
     private Boolean buyNoMoreThanAmountB;
 
@@ -61,30 +59,38 @@ public class OriginOrder {
 
     private String s;
 
-    public OriginOrder createOriginOrder(JsonObject json) {
-        this.delegate = json.get("delegateAddress").getAsString();
-        this.owner = json.get("owner").getAsString();
-        this.owner = json.get("owner").getAsString();
+    private OriginOrder() { }
 
+    public static OriginOrder createOriginOrder(JsonObject json) {
+        OriginOrder order = new OriginOrder();
+        order.delegate = json.get("delegateAddress").getAsString();
+        order.owner = json.get("owner").getAsString();
+        order.tokenBuy = json.get("tokenB").getAsString();
+        order.tokenSell = json.get("tokenS").getAsString();
+        order.amountBuy = json.get("amountB").getAsString();
+        order.amountSell = json.get("amountS").getAsString();
+        order.validSince = json.get("validSince").getAsString();
+        order.validUntil = json.get("validUntil").getAsString();
+        order.lrcFee = json.get("lrcFee").getAsString();
+        order.buyNoMoreThanAmountB = json.get("buyNoMoreThanAmountB").getAsBoolean();
+        order.walletAddress = json.get("walletAddress").getAsString();
+        order.authPrivateKey = json.get("authPrivateKey").getAsString();
+        order.authAddr = json.get("authAddr").getAsString();
+        order.marginSplitPercentage = json.get("marginSplitPercentage").getAsInt();
+        order.getType(json);
+        order.powNonce = 1;
+        return order;
+    }
 
-//        TokenDataManager.getToken()
-
-//        this.tokenBuy = json.get("owner").getAsString();
-//        this.tokenSell = json.get("owner").getAsString();
-//        this.amountBuy = json.get("owner").getAsString();
-//        this.amountSell = json.get("owner").getAsString();
-//        this.validSince = json.get("owner").getAsString();
-//        this.validUntil = json.get("owner").getAsString();
-//        this.lrcFee = json.get("owner").getAsString();
-//        this.buyNoMoreThanAmountB = json.get("owner").getAsString();
-//        this.walletAddress = json.get("owner").getAsString();
-//        this.authPrivateKey = json.get("owner").getAsString();
-//        this.authAddr = json.get("owner").getAsString();
-//        this.marginSplitPercentage = json.get("owner").getAsString();
-//        this.orderType = json.get("owner").getAsString();
-//        this.p2pType = json.get("owner").getAsString();
-//        this.powNonce = json.get("owner").getAsString();
-        return null;
+    private void getType(JsonObject json) {
+        String p2pType = json.get("p2pSide").getAsString();
+        String orderType = json.get("orderType").getAsString();
+        this.p2pType = p2pType == null ? P2PType.UNKNOWN : P2PType.valueOf(p2pType);
+        this.orderType = orderType == null ? OrderType.UNKONWN : OrderType.valueOf(orderType);
+        if (this.orderType == OrderType.P2P) {
+            this.side = this.p2pType == P2PType.MAKER ? "sell" : "buy";
+        } else {
+            this.side = json.get("side").getAsString();
+        }
     }
 }
-// {"owner":"0x59845c6007df15a5ffd5fee0111d219d764f8536","delegateAddress":"0x17233e07c67d086464fD408148c3ABB56245FA64","protocol":"0x8d8812b72d1e4ffCeC158D25f56748b7d67c1e78","tokenB":"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2","tokenS":"0xef68e7c694f40c8202821edf525de3782458639f","amountB":"0xda475abf00000","amountS":"0x8ac7230489e80000","lrcFee":"0x103caccd13350000","validSince":"0x5bf22c90","validUntil":"0x5bf37e10","marginSplitPercentage":50,"buyNoMoreThanAmountB":false,"walletAddress":"0x56447c02767ba621f103c0f3dbf564dbcacf284b","orderType":"market_order","authAddr":"0x18e3cba14d305acaae3138bf16f3a324c730b532","authPrivateKey":"400e0a078b1d63875586c9f2f2c1949e674f64ac0c553af661e9ce4ca9ff33ab"}
