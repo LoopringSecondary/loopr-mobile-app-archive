@@ -6,6 +6,7 @@ package leaf.prod.walletsdk.model.eventbusData;
 
 public class KeystoreData {
 
+
     private String keystory;
 
     public KeystoreData(String keystory) {
