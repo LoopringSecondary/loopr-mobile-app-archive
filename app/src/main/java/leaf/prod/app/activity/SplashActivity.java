@@ -14,13 +14,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.AppManager;
-import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.app.utils.FingerprintUtil;
+import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.ThirdLoginUtil;
 import leaf.prod.walletsdk.util.WalletUtil;
@@ -35,6 +37,9 @@ public class SplashActivity extends BaseActivity {
 
     @BindView(R.id.auth_tip)
     TextView fingerTip;
+
+    @BindView(R.id.ae_image)
+    LottieAnimationView aeImage;
 
     private int count = 4;
 
@@ -111,9 +116,14 @@ public class SplashActivity extends BaseActivity {
             animation.setInterpolator(new CycleInterpolator(7));
         } else {
             llFingerAuth.setVisibility(View.GONE);
-            mHandler.sendEmptyMessageDelayed(1, 1000);
+            mHandler.sendEmptyMessageDelayed(1, 2000);
         }
         handleClick();
+        mHandler.postDelayed(() -> {
+            if (FingerprintUtil.isEnable(SplashActivity.this) && needFinger) {
+                llFingerAuth.animate().alpha(1f).setDuration(300);
+            }
+        }, 2000);
     }
 
     @Override
