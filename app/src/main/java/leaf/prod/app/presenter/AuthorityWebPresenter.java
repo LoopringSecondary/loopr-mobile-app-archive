@@ -30,23 +30,17 @@ import com.vondear.rxtool.view.RxToast;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.AuthorityWebActivity;
 import leaf.prod.app.activity.MainActivity;
-import leaf.prod.walletsdk.model.ImportWalletType;
-import leaf.prod.walletsdk.model.OriginOrder;
-import leaf.prod.walletsdk.model.WalletEntity;
-import leaf.prod.walletsdk.util.FileUtils;
-import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.model.CancelOrder;
+import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.ScanWebQRCode;
 import leaf.prod.walletsdk.model.SignStatus;
 import leaf.prod.walletsdk.model.request.param.NotifyScanParam;
 import leaf.prod.walletsdk.model.request.param.NotifyStatusParam;
 import leaf.prod.walletsdk.service.LoopringService;
-import leaf.prod.walletsdk.util.KeystoreUtils;
-import leaf.prod.walletsdk.util.MnemonicUtils;
 import leaf.prod.walletsdk.util.SignUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -85,8 +79,8 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
             passwordView.findViewById(R.id.cancel).setOnClickListener(v -> passwordDialog.dismiss());
             passwordView.findViewById(R.id.confirm).setOnClickListener(v -> {
                 try {
-                    generateCredentials(passwordInput.getText().toString().trim());
-                    handle();
+                    credentials = WalletUtil.getCredential(context, passwordInput.getText().toString());
+                    handle(credentials);
                 } catch (Exception e) {
                     passwordInput.setText("");
                     RxToast.error(context.getResources().getString(R.string.authority_login_error));
@@ -100,22 +94,8 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
         passwordDialog.show();
     }
 
-    private void generateCredentials(String password) {
-        try {
-            WalletEntity walletEntity = WalletUtil.getCurrentWallet(context);
-            if (walletEntity != null && walletEntity.getWalletType() != null && walletEntity.getWalletType() == ImportWalletType.MNEMONIC) {
-                LyqbLogger.log(walletEntity.toString());
-                credentials = MnemonicUtils.calculateCredentialsFromMnemonic(walletEntity.getMnemonic(), walletEntity.getdPath(), password);
-            } else {
-                String keystore = FileUtils.getKeystoreFromSD(context);
-                credentials = KeystoreUtils.unlock(password, keystore);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void handle() {
+    public void handle(Credentials credentials) {
+        this.credentials = credentials;
         switch (type) {
             case LOGIN:
                 handleLogin();
@@ -153,7 +133,6 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
     }
 
     private void handleApprove() {
-
     }
 
     private void handleConvert() {

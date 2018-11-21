@@ -6,6 +6,8 @@
  */
 package leaf.prod.app.activity;
 
+import java.util.Objects;
+
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -32,17 +34,18 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.vondear.rxfeature.tool.RxQRCode;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.layout.WebLayout;
 import leaf.prod.app.presenter.H5DexPresenter;
-import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.H5ScanType;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class H5DexWebActivity extends BaseActivity {
 
@@ -212,9 +215,13 @@ public class H5DexWebActivity extends BaseActivity {
             view.findViewById(R.id.cancel).setOnClickListener(v -> passwordDialog.dismiss());
             view.findViewById(R.id.confirm).setOnClickListener(v -> {
                 if (TextUtils.isEmpty(passwordInput.getText().toString())) {
-                    ToastUtils.toast("请输入Keystore密码");
+                    RxToast.error(view.getContext().getResources().getString(R.string.put_password));
                 } else {
-                    presenter.sign(passwordInput.getText().toString());
+                    try {
+                        presenter.sign(WalletUtil.getCredential(this, passwordInput.getText().toString()));
+                    } catch (Exception e) {
+                        RxToast.error(getResources().getString(R.string.keystore_psw_error));
+                    }
                 }
             });
             builder.setCancelable(true);
@@ -222,6 +229,8 @@ public class H5DexWebActivity extends BaseActivity {
             passwordDialog = builder.create();
             passwordDialog.setCancelable(true);
             passwordDialog.setCanceledOnTouchOutside(true);
+        } else {
+            ((EditText) Objects.requireNonNull(passwordDialog.findViewById(R.id.password_input))).setText("");
         }
         passwordDialog.show();
     }

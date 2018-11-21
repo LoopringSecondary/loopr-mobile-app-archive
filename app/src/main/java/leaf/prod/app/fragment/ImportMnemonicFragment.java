@@ -36,7 +36,7 @@ import leaf.prod.walletsdk.model.eventbusData.MnemonicData;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.app.utils.MD5Utils;
+import leaf.prod.walletsdk.util.MD5Utils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.wheelPicker.picker.OptionPicker;
@@ -113,7 +113,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
                     WalletEntity newWallet = new WalletEntity("", filename, address, etMnemonic.getText()
                             .toString(), MD5Utils.md5(etPassword.getText()
-                            .toString()), dpath, ImportWalletType.MNEMONIC);
+                            .toString()), dpath, walletType.getText().toString(), ImportWalletType.MNEMONIC);
                     loopringService.notifyCreateWallet(address)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -271,12 +271,12 @@ public class ImportMnemonicFragment extends BaseFragment {
         new Thread(() -> {
             Credentials credentials;
             try {
+                String psw = !"Imtoken".equals(walletType.getText().toString()) ? etPassword.getText().toString() : "";
                 credentials = MnemonicUtils.calculateCredentialsFromMnemonic(etMnemonic.getText()
-                        .toString().trim(), dpath, etPassword.getText().toString());
+                        .toString().trim(), dpath, psw);
                 String privateKeyHexString = CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair()
                         .getPrivateKey());
-                filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, etPassword.getText()
-                        .toString(), FileUtils.getKeyStoreLocation(getContext()));
+                filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, psw, FileUtils.getKeyStoreLocation(getContext()));
                 //                SPUtils.put(getContext(), "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             } catch (KeystoreCreateException | InvalidPrivateKeyException e) {

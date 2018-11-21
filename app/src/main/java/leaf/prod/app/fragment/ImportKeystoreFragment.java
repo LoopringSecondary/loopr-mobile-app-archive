@@ -31,7 +31,7 @@ import leaf.prod.walletsdk.model.WalletEntity;
 import leaf.prod.walletsdk.model.eventbusData.KeystoreData;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.walletsdk.util.FileUtils;
-import leaf.prod.app.utils.MD5Utils;
+import leaf.prod.walletsdk.util.MD5Utils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
@@ -89,7 +89,7 @@ public class ImportKeystoreFragment extends BaseFragment {
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
                     WalletEntity newWallet = new WalletEntity("", filename, address, "", MD5Utils.md5(etPassword.getText()
-                            .toString()), "", ImportWalletType.KEY_STORE);
+                            .toString()), "", "", ImportWalletType.KEY_STORE);
                     loopringService.notifyCreateWallet(address)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())

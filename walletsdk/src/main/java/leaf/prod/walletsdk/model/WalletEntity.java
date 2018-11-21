@@ -35,6 +35,8 @@ public class WalletEntity implements Serializable {
      */
     private String dPath;
 
+    private String walletFrom;
+
     /**
      * 录入的方式：助记词、keystore、privatekey
      */
@@ -49,7 +51,7 @@ public class WalletEntity implements Serializable {
         this.walletname = walletname;
     }
 
-    public WalletEntity(String walletname, String filename, String address, String mnemonic, String pas, String dPath, ImportWalletType walletType) {
+    public WalletEntity(String walletname, String filename, String address, String mnemonic, String pas, String dPath, String walletFrom, ImportWalletType walletType) {
         this.walletname = walletname;
         this.filename = filename;
         if (!StringUtils.isEmpty(address)) {
@@ -58,6 +60,7 @@ public class WalletEntity implements Serializable {
         this.mnemonic = mnemonic;
         this.pas = pas;
         this.dPath = dPath;
+        this.walletFrom = walletFrom;
         this.walletType = walletType;
         this.chooseTokenList = Arrays.asList("ETH", "WETH", "LRC");
     }
@@ -134,6 +137,14 @@ public class WalletEntity implements Serializable {
         this.dPath = dPath;
     }
 
+    public String getWalletFrom() {
+        return walletFrom;
+    }
+
+    public void setWalletFrom(String walletFrom) {
+        this.walletFrom = walletFrom;
+    }
+
     public ImportWalletType getWalletType() {
         return walletType;
     }
@@ -177,6 +188,7 @@ public class WalletEntity implements Serializable {
                 ", amountShow='" + amountShow + '\'' +
                 ", pas='" + pas + '\'' +
                 ", dPath='" + dPath + '\'' +
+                ", walletFrom='" + walletFrom + '\'' +
                 ", walletType=" + walletType +
                 ", chooseTokenList=" + chooseTokenList +
                 '}';

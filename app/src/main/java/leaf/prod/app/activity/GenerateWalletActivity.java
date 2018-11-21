@@ -44,7 +44,7 @@ import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.DialogUtil;
 import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.app.utils.MD5Utils;
+import leaf.prod.walletsdk.util.MD5Utils;
 import leaf.prod.app.utils.MyViewUtils;
 import leaf.prod.app.utils.PasswordUtils;
 import leaf.prod.walletsdk.util.SPUtils;
@@ -188,7 +188,7 @@ public class GenerateWalletActivity extends BaseActivity {
                                     public void onCompleted() {
                                         WalletUtil.addWallet(GenerateWalletActivity.this, new WalletEntity(walletName.getText()
                                                 .toString(), filename, "0x" + address, mnemonic, MD5Utils.md5(password.getText()
-                                                .toString()), "", ImportWalletType.KEY_STORE));
+                                                .toString()), "", "", ImportWalletType.KEY_STORE));
                                         hideProgress();
                                         DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, v -> {
                                             DialogUtil.dialog.dismiss();
