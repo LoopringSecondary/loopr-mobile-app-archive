@@ -37,7 +37,6 @@ public class ThirdLoginService {
     }
 
     public void addUser(String json) {
-        Log.e("======", json);
         okHttpClient.newCall(new Request.Builder().addHeader("application/json", "Content-Type")
                 .url(webUrl)
                 .post(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json))

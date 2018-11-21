@@ -26,6 +26,7 @@ public class CoverActivity extends BaseActivity {
         AppManager.getAppManager().addActivity(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
+        leaf.prod.app.utils.UpgradeUtil.showUpdateHint(this);
     }
 
     @Override
