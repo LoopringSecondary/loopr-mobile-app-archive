@@ -254,7 +254,8 @@ public class ConvertPresenter extends BasePresenter<ConvertActivity> {
      */
     public double getMaxValue() {
         BalanceResult.Asset firstAsset = balanceDataManager.getAssetBySymbol(firstToken);
-        return firstToken.equals("ETH") ? firstAsset.getValue() - 0.01 : firstAsset.getValue();
+        return firstToken.equals("ETH") ? ((firstAsset.getValue() - 0.01) > 0 ? firstAsset.getValue() - 0.01 : 0) : firstAsset
+                .getValue();
     }
 
     public String getMaxShow() {

@@ -4,14 +4,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.vondear.rxtool.view.RxToast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.AuthorityWebPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.model.QRCodeType;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class AuthorityWebActivity extends BaseActivity {
 
@@ -64,10 +66,14 @@ public class AuthorityWebActivity extends BaseActivity {
                 break;
             case R.id.authority_btn:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-                    if (WalletUtil.needPassword(this)) {
-                        authorityLoginPresenter.showPasswordDialog();
-                    } else {
-                        authorityLoginPresenter.handle();
+                    try {
+                        if (WalletUtil.needPassword(this)) {
+                            authorityLoginPresenter.showPasswordDialog();
+                        } else {
+                            authorityLoginPresenter.handle(WalletUtil.getCredential(this, ""));
+                        }
+                    } catch (Exception e) {
+                        RxToast.error(getResources().getString(R.string.authority_login_error));
                     }
                 }
                 break;

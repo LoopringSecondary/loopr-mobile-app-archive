@@ -143,14 +143,12 @@ public class WalletUtil {
 
     public static Credentials getCredential(Context context, String password) throws IOException, JSONException, InvalidKeystoreException, IllegalCredentialException {
         WalletEntity walletEntity = getCurrentWallet(context);
-        Credentials credentials;
-        if (walletEntity != null && walletEntity.getWalletType() != null && walletEntity.getWalletType() == ImportWalletType.MNEMONIC) {
-            credentials = MnemonicUtils.calculateCredentialsFromMnemonic(walletEntity.getMnemonic(), walletEntity
-                    .getdPath(), password);
-        } else {
-            String keystore = FileUtils.getKeystoreFromSD(context);
-            credentials = KeystoreUtils.unlock(password, keystore);
+        if (!StringUtils.isEmpty(password) && !StringUtils.isEmpty(walletEntity.getPas()) && ImportWalletType.MNEMONIC == walletEntity
+                .getWalletType() && !MD5Utils.md5(password).equals(walletEntity.getPas())) {
+            throw new InvalidKeystoreException();
         }
-        return credentials;
+        password = "Imtoken".equals(walletEntity.getWalletFrom()) && ImportWalletType.MNEMONIC == walletEntity.getWalletType() ? "" : password;
+        String keystore = FileUtils.getKeystoreFromSD(context);
+        return KeystoreUtils.unlock(password, keystore);
     }
 }

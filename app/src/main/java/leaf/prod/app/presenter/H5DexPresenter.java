@@ -6,6 +6,8 @@
  */
 package leaf.prod.app.presenter;
 
+import java.math.BigInteger;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
@@ -21,20 +23,17 @@ import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.Sign;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.utils.Numeric;
-
-import java.math.BigInteger;
+import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.H5DexWebActivity;
-import leaf.prod.walletsdk.manager.PartnerDataManager;
-import leaf.prod.walletsdk.util.CurrencyUtil;
-import leaf.prod.walletsdk.util.FileUtils;
-import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.walletsdk.util.WalletUtil;
+import leaf.prod.walletsdk.manager.PartnerDataManager;
 import leaf.prod.walletsdk.model.H5ScanType;
-import leaf.prod.walletsdk.util.KeystoreUtils;
+import leaf.prod.walletsdk.util.CurrencyUtil;
+import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.StringUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
 
@@ -135,7 +134,11 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
                     if (WalletUtil.needPassword(context)) {
                         view.showPasswordDialog();
                     } else {
-                        sign("");
+                        try {
+                            sign(WalletUtil.getCredential(context, ""));
+                        } catch (Exception e) {
+                            RxToast.error(context.getResources().getString(R.string.keystore_psw_error));
+                        }
                     }
                     break;
                 case FUCTION_TRANSACTION_SIGN:
@@ -144,7 +147,11 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
                     if (WalletUtil.needPassword(context)) {
                         view.showPasswordDialog();
                     } else {
-                        sign("");
+                        try {
+                            sign(WalletUtil.getCredential(context, ""));
+                        } catch (Exception e) {
+                            RxToast.error(context.getResources().getString(R.string.keystore_psw_error));
+                        }
                     }
                     break;
                 case FUCTION_P2P_SHARE:
@@ -177,18 +184,16 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
         result = LanguageUtil.getLanguage(context).getText();
     }
 
-    public void sign(String password) {
+    public void sign(Credentials credentials) {
         if (isSignMessage) {
-            signMessage(password);
+            signMessage(credentials);
         } else {
-            signTransaction(password);
+            signTransaction(credentials);
         }
     }
 
-    private void signTransaction(String password) {
+    private void signTransaction(Credentials credentials) {
         try {
-            String keystore = FileUtils.getKeystoreFromSD(context);
-            Credentials credentials = KeystoreUtils.unlock(password, keystore);
             BigInteger nonce = Numeric.toBigInt(signTx.getString("nonce"));
             BigInteger gasPrice = Numeric.toBigInt(signTx.getString("gasPrice"));
             BigInteger gasLimit = Numeric.toBigInt(signTx.getString("gasLimit"));
@@ -207,10 +212,8 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
         }
     }
 
-    private void signMessage(String password) {
+    private void signMessage(Credentials credentials) {
         try {
-            String keystore = FileUtils.getKeystoreFromSD(context);
-            Credentials credentials = KeystoreUtils.unlock(password, keystore);
             byte[] hash = Numeric.hexStringToByteArray(signMessage);
             byte[] prefix = ("\u0019Ethereum Signed Message:\n" + hash.length).getBytes();
             byte[] finalBytes = new byte[prefix.length + hash.length];

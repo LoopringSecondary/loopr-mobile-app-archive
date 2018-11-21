@@ -401,16 +401,6 @@ public class SendActivity extends BaseActivity {
                     getOperation().forwardClearTop(SendErrorActivity.class);
                 }
                 Credentials credentials = WalletUtil.getCredential(this, password);
-                //                WalletEntity walletEntity = WalletUtil.getCurrentWallet(this);
-                //                if (walletEntity != null && walletEntity.getWalletType() != null && walletEntity.getWalletType() == ImportWalletType.MNEMONIC) {
-                //                    LyqbLogger.log(walletEntity.toString());
-                //                    credentials = MnemonicUtils.calculateCredentialsFromMnemonic(walletEntity.getMnemonic(), walletEntity
-                //                            .getdPath(), password);
-                //                } else {
-                //                    String keystore = FileUtils.getKeystoreFromSD(SendActivity.this);
-                //                    credentials = KeystoreUtils.unlock(password, keystore);
-                //                }
-                //                BigInteger values = UnitConverter.ethToWei(moneyAmount.getText().toString()); //转账金额
                 BigInteger values = tokenDataManager.getWeiFromDouble(sendChoose, moneyAmount.getText().toString());
                 //调用transaction方法
                 String txHash;
