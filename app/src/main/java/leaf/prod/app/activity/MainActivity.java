@@ -81,11 +81,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
 //        leaf.prod.app.utils.UpgradeUtil.showUpdateHint(this);
-        try {
-            WalletUtil.getRandomWallet(this);
-        } catch (Exception e) {
-
-        }
     }
 
     @Override
