@@ -17,7 +17,10 @@ import org.web3j.crypto.Credentials;
 
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
+import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
+import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.model.ImportWalletType;
+import leaf.prod.walletsdk.model.RandomWallet;
 import leaf.prod.walletsdk.model.WalletEntity;
 
 public class WalletUtil {
@@ -152,4 +155,26 @@ public class WalletUtil {
         return KeystoreUtils.unlock(password, keystore);
     }
 
+    /**
+     * 生成随机钱包 
+     *
+     * @param context
+     * @return
+     * @throws InvalidPrivateKeyException
+     * @throws KeystoreCreateException
+     * @throws IOException
+     * @throws JSONException
+     */
+    public static RandomWallet getRandomWallet(Context context) throws InvalidPrivateKeyException, KeystoreCreateException, IOException, JSONException {
+        String mnemonic = MnemonicUtils.randomMnemonic();
+        Credentials credentials = MnemonicUtils.calculateCredentialsFromMnemonic(mnemonic, "m/44'/60'/0'/0", "");
+        String privateKeyHexString = CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair().getPrivateKey());
+        String filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, PasswordUtils.getRandomPassword(20), FileUtils
+                .getKeyStoreLocation(context));
+        String address = FileUtils.getFileFromSD(context, filename);
+        return RandomWallet.builder()
+                .address(address.startsWith("0x") ? address : "0x" + address)
+                .privateKey(privateKeyHexString)
+                .build();
+    }
 }

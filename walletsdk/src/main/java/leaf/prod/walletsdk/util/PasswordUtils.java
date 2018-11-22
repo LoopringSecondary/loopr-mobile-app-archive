@@ -4,9 +4,16 @@
  * Time: 2018-11-13 3:33 PM
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.app.utils;
+package leaf.prod.walletsdk.util;
+
+import java.util.Random;
 
 public class PasswordUtils {
+
+    private static final char[] encodeTable = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+            'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+            'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1',
+            '2', '3', '4', '5', '6', '7', '8', '9', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')'};
 
     /**
      * 判断密码强弱
@@ -30,5 +37,16 @@ public class PasswordUtils {
             return 3;
         }
         return 1;
+    }
+
+    public static String getRandomPassword(int len) {
+        if (len == 0)
+            return "";
+        StringBuilder returnStr = new StringBuilder();
+        Random rd = new Random();
+        for (int i = 0; i < len; i++) {
+            returnStr.append(encodeTable[rd.nextInt(encodeTable.length) - 1]);
+        }
+        return returnStr.toString();
     }
 }
