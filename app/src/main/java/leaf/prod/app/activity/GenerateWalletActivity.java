@@ -46,7 +46,7 @@ import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.util.MD5Utils;
 import leaf.prod.app.utils.MyViewUtils;
-import leaf.prod.app.utils.PasswordUtils;
+import leaf.prod.walletsdk.util.PasswordUtils;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
