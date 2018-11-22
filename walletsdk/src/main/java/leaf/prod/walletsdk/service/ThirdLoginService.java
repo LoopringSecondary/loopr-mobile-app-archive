@@ -30,14 +30,14 @@ public class ThirdLoginService {
     }
 
     public Call getUser(String accountToken) {
-        return okHttpClient.newCall(new Request.Builder().addHeader("application/json", "Content-Type")
+        return okHttpClient.newCall(new Request.Builder().addHeader("Content-Type", "application/json")
                 .url(webUrl + "?account_token=" + accountToken)
                 .get()
                 .build());
     }
 
     public void addUser(String json) {
-        okHttpClient.newCall(new Request.Builder().addHeader("application/json", "Content-Type")
+        okHttpClient.newCall(new Request.Builder().addHeader("Content-Type", "application/json")
                 .url(webUrl)
                 .post(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json))
                 .build()).enqueue(new Callback() {
@@ -54,7 +54,7 @@ public class ThirdLoginService {
     }
 
     public void deleteUser(String uid) {
-        okHttpClient.newCall(new Request.Builder().addHeader("application/json", "Content-Type")
+        okHttpClient.newCall(new Request.Builder().addHeader("Content-Type", "application/json")
                 .url(webUrl)
                 .delete(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "{\"account_token\": \"" + uid + "\"}"))
                 .build()).enqueue(new Callback() {

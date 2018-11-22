@@ -30,6 +30,7 @@ import leaf.prod.app.activity.ShareActivity;
 import leaf.prod.app.activity.ThirdLoginActivity;
 import leaf.prod.app.utils.AndroidUtils;
 import leaf.prod.app.utils.FingerprintUtil;
+import leaf.prod.app.utils.UpgradeUtil;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.ThirdLoginUtil;
 
@@ -75,6 +76,9 @@ public class SettingFragment extends BaseFragment {
 
     @BindView(R.id.btn_login)
     Button btnLogin;
+
+    @BindView(R.id.new_version)
+    TextView newVerson;
 
     private MainActivity mainActivity;
 
@@ -135,6 +139,10 @@ public class SettingFragment extends BaseFragment {
             confirmThirdLogin.setTitle(getResources().getString(R.string.hint));
         }
         appVersion.setText(AndroidUtils.getVersionName(getContext()));
+        if (!UpgradeUtil.getNewVersion(getContext()).isEmpty()) {
+            newVerson.setVisibility(View.VISIBLE);
+            llAppVersion.setOnClickListener(view -> UpgradeUtil.showUpdateHint(getContext(), true));
+        }
     }
 
     @Override

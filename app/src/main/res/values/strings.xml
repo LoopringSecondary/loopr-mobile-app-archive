@@ -65,7 +65,7 @@
     <string name="set_contract_version">合约版本</string>
     <string name="set_lrc_proportion">LRC费用比例</string>
     <string name="set_margin_split">差价分成</string>
-    <string name="set_app_version">应用版本</string>
+    <string name="set_app_version">检查新版本</string>
 
     <string name="cny">人民币</string>
     <string name="usd">美元</string>
@@ -164,5 +164,5 @@
     <string name="upgrade_title">升级提示</string>
     <string name="upgrade_tips">检测到新版本 %s, 建议升级</string>
     <string name="upgrade_confirm">立即升级</string>
-    <string name="upgrade_cancel">暂不升级</string>
+    <string name="upgrade_cancel">忽略</string>
 </resources>

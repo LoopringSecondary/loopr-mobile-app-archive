@@ -1,9 +1,5 @@
 package leaf.prod.walletsdk.model.response.data;
 
-import java.util.List;
-
-import com.google.gson.annotations.SerializedName;
-
 import lombok.Data;
 
 /**
@@ -15,17 +11,17 @@ import lombok.Data;
 @Data
 public class VersionResult {
 
-    private Integer count;
+    private Integer id;
 
-    @SerializedName("app_versions")
-    private List<AppVersion> appVersions;
+    private Long createdAt;
 
-    @Data
-    public static class AppVersion {
+    private Long updatedAt;
 
-        @SerializedName("must_update")
-        private Boolean mustUpdate;
+    private String version;
 
-        private String version;
-    }
+    private String description;
+
+    private String baiduUri;
+
+    private String googleUri;
 }
