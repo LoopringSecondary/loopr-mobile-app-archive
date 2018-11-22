@@ -151,4 +151,5 @@ public class WalletUtil {
         String keystore = FileUtils.getKeystoreFromSD(context);
         return KeystoreUtils.unlock(password, keystore);
     }
+
 }

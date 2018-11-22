@@ -188,7 +188,7 @@ public class GenerateWalletActivity extends BaseActivity {
                                     public void onCompleted() {
                                         WalletUtil.addWallet(GenerateWalletActivity.this, new WalletEntity(walletName.getText()
                                                 .toString(), filename, "0x" + address, mnemonic, MD5Utils.md5(password.getText()
-                                                .toString()), "", "", ImportWalletType.KEY_STORE));
+                                                .toString()), "", "", ImportWalletType.ALL));
                                         hideProgress();
                                         DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, v -> {
                                             DialogUtil.dialog.dismiss();
