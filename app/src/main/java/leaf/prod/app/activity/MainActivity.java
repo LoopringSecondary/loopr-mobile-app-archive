@@ -21,9 +21,9 @@ import leaf.prod.app.fragment.MainFragment;
 import leaf.prod.app.fragment.SettingFragment;
 import leaf.prod.app.fragment.TradeFragment;
 import leaf.prod.app.utils.AppManager;
+import leaf.prod.app.utils.UpgradeUtil;
 import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.SPUtils;
-import leaf.prod.walletsdk.util.WalletUtil;
 
 /**
  * Created by niedengqiang on 2018/8/13.
@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity {
         AppManager.getAppManager().addActivity(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
-//        leaf.prod.app.utils.UpgradeUtil.showUpdateHint(this);
+        UpgradeUtil.showUpdateHint(this, false);
     }
 
     @Override

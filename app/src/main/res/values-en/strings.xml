@@ -65,7 +65,7 @@
     <string name="set_contract_version">Contract Version</string>
     <string name="set_lrc_proportion">LRC Fee Ratio</string>
     <string name="set_margin_split">Margin Split</string>
-    <string name="set_app_version">App Version</string>
+    <string name="set_app_version">Check New Version</string>
 
     <string name="cny">CNY</string>
     <string name="usd">USD</string>
@@ -164,5 +164,5 @@
     <string name="upgrade_title">Upgrade</string>
     <string name="upgrade_tips">New version %s</string>
     <string name="upgrade_confirm">Confirm</string>
-    <string name="upgrade_cancel">Cancel</string>
+    <string name="upgrade_cancel">Ignore</string>
 </resources>

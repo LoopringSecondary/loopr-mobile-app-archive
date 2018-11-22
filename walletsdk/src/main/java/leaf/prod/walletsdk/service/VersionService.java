@@ -1,5 +1,7 @@
 package leaf.prod.walletsdk.service;
 
+import android.util.Log;
+
 import leaf.prod.walletsdk.SDK;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -15,16 +17,22 @@ public class VersionService {
 
     private OkHttpClient okHttpClient;
 
-    private static String webUrl = "https://www.loopring.mobi/api/v1/app_versions";
+    //    private static String webUrl = "https://www.loopring.mobi/api/v1/app_versions";
+    private static String webUrl = "http://10.137.107.120:8081/api/v1";
 
     public VersionService() {
         this.okHttpClient = SDK.getOkHttpClient();
     }
 
     public Call getNewVersion() {
-        return okHttpClient.newCall(new Request.Builder().addHeader("application/json", "Content-Type")
-                .url(webUrl)
-                .get()
-                .build());
+        try {
+            return okHttpClient.newCall(new Request.Builder().addHeader("Content-Type", "application/json")
+                    .url(webUrl + "/version/android/getLatest")
+                    .get()
+                    .build());
+        } catch (Exception e) {
+            Log.e("", e.getMessage());
+            return null;
+        }
     }
 }

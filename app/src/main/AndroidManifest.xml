@@ -18,7 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <application
         android:name=".view.APP"
@@ -246,6 +246,17 @@
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
-    </application>
 
+        <receiver
+            android:name="leaf.prod.app.receiver.ApkInstallReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>
