@@ -76,8 +76,10 @@ public class WalletSafeActivity extends BaseActivity {
                     break;
                 case KEY_STORE:
                     llExportKeystore.setVisibility(View.VISIBLE);
+                    llExportPrivateKey.setVisibility(View.VISIBLE);
                     break;
                 case PRIVATE_KEY:
+                    llExportKeystore.setVisibility(View.VISIBLE);
                     llExportPrivateKey.setVisibility(View.VISIBLE);
                     break;
                 case ALL:
