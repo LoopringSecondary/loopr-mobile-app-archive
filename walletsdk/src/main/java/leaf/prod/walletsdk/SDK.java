@@ -28,6 +28,7 @@ public class SDK {
     private static String ETH_BASE = "https://relay1.loopring.io/eth";
 
     private static String APP_SERVICE_BASE = "https://www.loopring.mobi";
+//    private static String APP_SERVICE_BASE = "http://10.137.107.120:5000";
 
     private static Web3j web3j = null;
 
