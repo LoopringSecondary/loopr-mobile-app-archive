@@ -13,7 +13,7 @@ import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.TxStatus;
 import leaf.prod.walletsdk.model.TxType;
-import leaf.prod.walletsdk.model.response.data.Transaction;
+import leaf.prod.walletsdk.model.response.relay.Transaction;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;

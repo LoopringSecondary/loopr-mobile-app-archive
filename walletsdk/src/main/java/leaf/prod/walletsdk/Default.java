@@ -7,6 +7,8 @@ public final class Default {
     //    public static final String ETH_RPC_URL = "https://relay1.loopr.io/eth";
     //    public static final BigInteger GAS_LIMIT = new BigInteger("21000");
 
+    public static final String APP_RPC_VERSION_URL = "rpc/v1/version";
+
     public static final String DELEGATE_ADDRESS = "0x17233e07c67d086464fD408148c3ABB56245FA64";
 
     public static final String PROTOCOL_ADDRESS = "0x8d8812b72d1e4ffCeC158D25f56748b7d67c1e78";

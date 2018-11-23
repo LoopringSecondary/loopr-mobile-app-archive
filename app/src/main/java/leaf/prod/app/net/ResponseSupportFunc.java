@@ -1,16 +1,16 @@
 package leaf.prod.app.net;
 
-import leaf.prod.walletsdk.model.response.ResponseWrapper;
+import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import rx.functions.Func1;
 
 /**
  * Title:ServerResponseFunc
  */
 
-public class ResponseSupportFunc<T> implements Func1<ResponseWrapper<T>, T> {
+public class ResponseSupportFunc<T> implements Func1<RelayResponseWrapper<T>, T> {
 
     @Override
-    public T call(ResponseWrapper<T> baseResponse) {
+    public T call(RelayResponseWrapper<T> baseResponse) {
         //对返回码进行判断，如果不是000000，则证明服务器端返回错误信息了，便根据跟服务器约定好的错误码去解析异常
         //		ZgqbLogger.log(baseResponse.getSuccess());
         if (!G.TRUE.equals(baseResponse.getError())) {

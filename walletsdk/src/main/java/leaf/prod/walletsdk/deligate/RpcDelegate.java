@@ -8,11 +8,13 @@ import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
-import leaf.prod.walletsdk.model.response.ResponseWrapper;
-import leaf.prod.walletsdk.model.response.data.BalanceResult;
-import leaf.prod.walletsdk.model.response.data.MarketcapResult;
-import leaf.prod.walletsdk.model.response.data.Token;
-import leaf.prod.walletsdk.model.response.data.TransactionPageWrapper;
+import leaf.prod.walletsdk.model.request.param.VersionParam;
+import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
+import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
+import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -38,70 +40,71 @@ public interface RpcDelegate {
     Observable<Map> send(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<BalanceResult>> getBalance(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<BalanceResult>> getBalance(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<TransactionPageWrapper>> getTransactions(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<TransactionPageWrapper>> getTransactions(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> getNonce(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> getNonce(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> estimateGasPrice(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> estimateGasPrice(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> unlockWallet(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> unlockWallet(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<List<Token>>> getSupportedTokens(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<List<Token>>> getSupportedTokens(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<MarketcapResult>> getMarketcap(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<MarketcapResult>> getMarketcap(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> notifyTransactionSubmitted(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> notifyTransactionSubmitted(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> notifyScanLogin(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> notifyScanLogin(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> notifyStatus(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> notifyStatus(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> getSignMessage(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> getSignMessage(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<Partner>> createPartner(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<Partner>> createPartner(@Body RequestWrapper request);
 
     @POST(Default.PARTNER_ACTIVATE)
-    Observable<ResponseWrapper<Partner>> activateInvitation();
+    Observable<RelayResponseWrapper<Partner>> activateInvitation();
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> addCustomToken(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> addCustomToken(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<List<Token>>> getCustomToken(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<List<Token>>> getCustomToken(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<List<Order>>> getOrders(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<List<Order>>> getOrders(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> loopring_getFrozenLRCFee(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> loopring_getFrozenLRCFee(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> getEstimatedAllocatedAllowance(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> getEstimatedAllocatedAllowance(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> sumitOrder(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> sumitOrder(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> sumitOrderForP2P(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> sumitOrderForP2P(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> cancelOrderFlex(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> cancelOrderFlex(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<ResponseWrapper<String>> sumitRing(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> sumitRing(@Body RequestWrapper request);
 
-
+    @POST(Default.APP_RPC_VERSION_URL)
+    void getLatestVersion(@Body VersionParam request, Callback cb);
 }

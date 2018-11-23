@@ -2,7 +2,7 @@ package leaf.prod.walletsdk.listener;
 
 import com.google.gson.JsonElement;
 import leaf.prod.walletsdk.model.request.param.TransactionParam;
-import leaf.prod.walletsdk.model.response.data.TransactionPageWrapper;
+import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
 import leaf.prod.walletsdk.util.Assert;
 
 import rx.Observable;

@@ -19,7 +19,7 @@ import leaf.prod.walletsdk.model.WalletEntity;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
-import leaf.prod.walletsdk.model.response.data.Token;
+import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.service.LoopringService;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

@@ -5,10 +5,8 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import leaf.prod.walletsdk.listener.BalanceListener;
-import leaf.prod.walletsdk.model.response.data.BalanceResult;
+import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 
-import leaf.prod.walletsdk.listener.BalanceListener;
-import leaf.prod.walletsdk.model.response.data.BalanceResult;
 import rx.Observable;
 
 @RunWith(AndroidJUnit4.class)

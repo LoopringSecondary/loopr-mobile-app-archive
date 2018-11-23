@@ -14,7 +14,7 @@ import android.support.v4.app.NotificationCompat;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.MainActivity;
-import leaf.prod.walletsdk.model.response.data.Transaction;
+import leaf.prod.walletsdk.model.response.relay.Transaction;
 
 public class NotificationReceiver extends BroadcastReceiver {
 

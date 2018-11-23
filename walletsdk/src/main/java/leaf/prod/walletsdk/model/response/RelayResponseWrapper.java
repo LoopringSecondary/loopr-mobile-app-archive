@@ -3,7 +3,7 @@ package leaf.prod.walletsdk.model.response;
 import lombok.Data;
 
 @Data
-public class ResponseWrapper<T> {
+public class RelayResponseWrapper<T> {
 
     private String id;
 

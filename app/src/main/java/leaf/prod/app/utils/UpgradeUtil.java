@@ -18,8 +18,8 @@ import com.google.gson.reflect.TypeToken;
 
 import leaf.prod.app.R;
 import leaf.prod.app.receiver.ApkInstallReceiver;
-import leaf.prod.walletsdk.model.response.ResponseWrapper2;
-import leaf.prod.walletsdk.model.response.data.VersionResult;
+import leaf.prod.walletsdk.model.response.AppResponseWrapper;
+import leaf.prod.walletsdk.model.response.app.VersionResp;
 import leaf.prod.walletsdk.service.VersionService;
 import leaf.prod.walletsdk.util.SPUtils;
 import okhttp3.Call;
@@ -48,7 +48,7 @@ public class UpgradeUtil {
             downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         }
         if (!updateHint || force) {
-            versionService.getNewVersion().enqueue(new Callback() {
+            versionService.getNewVersion(null, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     LyqbLogger.log(e.getMessage());
@@ -57,9 +57,9 @@ public class UpgradeUtil {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
-                    VersionResult versionResult = null;
+                    VersionResp versionResult = null;
                     try {
-                        ResponseWrapper2<VersionResult> responseWrapper2 = new Gson().fromJson(result, new TypeToken<ResponseWrapper2<VersionResult>>() {
+                        AppResponseWrapper<VersionResp> responseWrapper2 = new Gson().fromJson(result, new TypeToken<AppResponseWrapper<VersionResp>>() {
                         }.getType());
                         versionResult = responseWrapper2 != null && responseWrapper2.getSuccess() ? responseWrapper2.getMessage() : null;
                         if (!force) {
@@ -74,7 +74,7 @@ public class UpgradeUtil {
                     if (versionResult != null && !AndroidUtils.getVersionName(context)
                             .equals(versionResult.getVersion())) {
                         AlertDialog.Builder updateDialog = new AlertDialog.Builder(context);
-                        VersionResult finalVersionResult = versionResult;
+                        VersionResp finalVersionResult = versionResult;
                         updateDialog.setPositiveButton(context.getResources()
                                 .getString(R.string.upgrade_confirm), (dialogInterface, i0) -> {
                             updateHint = true;
