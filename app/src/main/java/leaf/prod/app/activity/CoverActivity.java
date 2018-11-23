@@ -9,7 +9,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.AppManager;
-import leaf.prod.app.utils.UpgradeUtil;
 import leaf.prod.walletsdk.util.LanguageUtil;
 
 public class CoverActivity extends BaseActivity {
@@ -27,7 +26,6 @@ public class CoverActivity extends BaseActivity {
         AppManager.getAppManager().addActivity(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
-        UpgradeUtil.showUpdateHint(this, false);
     }
 
     @Override
