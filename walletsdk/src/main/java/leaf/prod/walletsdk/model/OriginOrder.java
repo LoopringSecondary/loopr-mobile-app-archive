@@ -8,9 +8,13 @@ package leaf.prod.walletsdk.model;
 
 import com.google.gson.JsonObject;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
+@AllArgsConstructor
 public class OriginOrder {
 
     private String delegate;
