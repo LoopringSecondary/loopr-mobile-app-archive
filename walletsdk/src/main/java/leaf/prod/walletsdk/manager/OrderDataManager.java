@@ -29,7 +29,7 @@ public abstract class OrderDataManager {
         return order;
     }
 
-    public byte[] encodeOrder(OriginOrder order) {
+    private byte[] encodeOrder(OriginOrder order) {
         byte[] array = Numeric.hexStringToByteArray(order.getDelegate());
         array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getOwner()));
         array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getOwner()));
