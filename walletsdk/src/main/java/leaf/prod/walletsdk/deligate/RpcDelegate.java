@@ -7,6 +7,7 @@ import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.Partner;
+import leaf.prod.walletsdk.model.ThirdLogin;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
@@ -16,11 +17,15 @@ import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 public interface RpcDelegate {
@@ -105,6 +110,15 @@ public interface RpcDelegate {
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<String>> sumitRing(@Body RequestWrapper request);
 
-    @POST(Default.APP_RPC_VERSION_URL + "/version/android/getLatest")
-    retrofit2.Call<AppResponseWrapper<VersionResp>> getLatestVersion();
+    @GET(Default.APP_RPC_VERSION_URL + "/version/android/getLatest")
+    Call<AppResponseWrapper<VersionResp>> getLatestVersion();
+
+    @GET(Default.APP_RPC_VERSION_URL + "/user/getUser")
+    Call<AppResponseWrapper<ThirdLogin>> getUser(@Query("accountToken") String accountToken);
+
+    @POST(Default.APP_RPC_VERSION_URL + "/user/addUser")
+    Call<AppResponseWrapper<String>> addUser(@Body ThirdLogin thirdLogin);
+
+    @DELETE(Default.APP_RPC_VERSION_URL + "/user/deleteUser")
+    Call<AppResponseWrapper<String>> deleteUser(@Query("accountToken") String accountToken);
 }

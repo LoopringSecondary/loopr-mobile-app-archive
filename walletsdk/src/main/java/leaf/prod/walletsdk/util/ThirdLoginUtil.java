@@ -1,20 +1,19 @@
 package leaf.prod.walletsdk.util;
 
-import java.io.IOException;
-
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
 import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.ThirdLogin;
-import leaf.prod.walletsdk.model.response.app.ThirdLoginResp;
 import leaf.prod.walletsdk.model.ThirdLoginUser;
+import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.service.ThirdLoginService;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created with IntelliJ IDEA.
@@ -59,22 +58,13 @@ public class ThirdLoginUtil {
             return;
         ThirdLogin newThirdLogin = new ThirdLogin(thirdLoginUser.getUserId(), gson.toJson(thirdLoginUser));
         ThirdLoginUser localThirdLoginUser = SPUtils.getBean(context, THIRD_LOGIN + "_" + thirdLoginUser.getUserId(), ThirdLoginUser.class);
-        thirdLoginService.getUser(thirdLoginUser.getUserId()).enqueue(new Callback() {
+        thirdLoginService.getUser(thirdLoginUser.getUserId(), new Callback<AppResponseWrapper<ThirdLogin>>() {
             @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<AppResponseWrapper<ThirdLogin>> call, Response<AppResponseWrapper<ThirdLogin>> response) {
                 ThirdLoginUser remoteThirdLoginUser = null;
                 try {
-                    String re = response.body().string();
-                    ThirdLoginResp thirdLoginResp = gson.fromJson(re, ThirdLoginResp.class);
-                    if (thirdLoginResp.getSuccess() != null && thirdLoginResp.getSuccess()) {
-                        ThirdLogin remoteThirdLogin = gson.fromJson(thirdLoginResp.getMessage(), ThirdLogin.class);
-                        remoteThirdLoginUser = remoteThirdLogin != null ? remoteThirdLogin.getThirdLoginUser() : null;
-                    }
+                    ThirdLogin remoteThirdLogin = response.body().getMessage();
+                    remoteThirdLoginUser = remoteThirdLogin != null ? remoteThirdLogin.getThirdLoginUser() : null;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -86,16 +76,21 @@ public class ThirdLoginUtil {
                         CurrencyUtil.setCurrency(context, Currency.valueOf(remoteThirdLoginUser.getCurrency()));
                     } else {
                         // 初始化本地和线上
-                        thirdLoginService.addUser(gson.toJson(newThirdLogin));
+                        thirdLoginService.addUser(newThirdLogin);
                         SPUtils.put(context, THIRD_LOGIN + "_" + thirdLoginUser.getUserId(), thirdLoginUser);
                     }
                 } else {
                     // 更新线上数据
                     if (!localThirdLoginUser.equals(remoteThirdLoginUser)) {
-                        thirdLoginService.addUser(gson.toJson(new ThirdLogin(localThirdLoginUser.getUserId(), gson.toJson(localThirdLoginUser))));
+                        thirdLoginService.addUser(new ThirdLogin(localThirdLoginUser.getUserId(), gson.toJson(localThirdLoginUser)));
                     }
                 }
                 SPUtils.put(context, THIRD_LOGIN, thirdLoginUser.getUserId());
+            }
+
+            @Override
+            public void onFailure(Call<AppResponseWrapper<ThirdLogin>> call, Throwable t) {
+                Log.e("", t.getMessage());
             }
         });
     }
@@ -129,29 +124,29 @@ public class ThirdLoginUtil {
             String uid = getUserId(context);
             ThirdLoginUser thirdLoginUser = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, ThirdLoginUser.class);
             if (thirdLoginUser != null) {
-                thirdLoginService.getUser(uid).enqueue(new Callback() {
+                thirdLoginService.getUser(uid, new Callback<AppResponseWrapper<ThirdLogin>>() {
                     @Override
-                    public void onFailure(Call call, IOException e) {
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) {
+                    public void onResponse(Call<AppResponseWrapper<ThirdLogin>> call, Response<AppResponseWrapper<ThirdLogin>> response) {
                         ThirdLoginUser remoteThirdLoginUser = null;
                         ThirdLogin remoteThirdLogin = null;
                         try {
-                            String re = response.body().string();
-                            ThirdLoginResp thirdLoginResp = gson.fromJson(re, ThirdLoginResp.class);
-                            if (thirdLoginResp.getSuccess() != null && thirdLoginResp.getSuccess()) {
-                                remoteThirdLogin = gson.fromJson(thirdLoginResp.getMessage(), ThirdLogin.class);
-                                remoteThirdLoginUser = remoteThirdLogin != null ? remoteThirdLogin.getThirdLoginUser() : null;
-                            }
+                            remoteThirdLogin = response.body().getMessage();
+                            remoteThirdLoginUser = remoteThirdLogin != null ? remoteThirdLogin.getThirdLoginUser() : null;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        if (!thirdLoginUser.equals(remoteThirdLoginUser)) {
+                        if (remoteThirdLoginUser == null) {
+                            String uid = (String) SPUtils.get(context, THIRD_LOGIN, "");
+                            SPUtils.remove(context, THIRD_LOGIN + "_" + uid);
+                            skip(context);
+                        } else if (!thirdLoginUser.equals(remoteThirdLoginUser)) {
                             remoteThirdLogin.setConfig(gson.toJson(thirdLoginUser));
-                            thirdLoginService.addUser(gson.toJson(remoteThirdLogin));
+                            thirdLoginService.addUser(remoteThirdLogin);
                         }
+                    }
+
+                    @Override
+                    public void onFailure(Call<AppResponseWrapper<ThirdLogin>> call, Throwable t) {
                     }
                 });
             }
