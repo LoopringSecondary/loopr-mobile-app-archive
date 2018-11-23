@@ -1,7 +1,5 @@
 package leaf.prod.app.utils;
 
-import java.io.IOException;
-
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -10,11 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Looper;
 import android.support.v7.app.AlertDialog;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import leaf.prod.app.R;
 import leaf.prod.app.receiver.ApkInstallReceiver;
@@ -22,9 +16,9 @@ import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.model.response.app.VersionResp;
 import leaf.prod.walletsdk.service.VersionService;
 import leaf.prod.walletsdk.util.SPUtils;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created with IntelliJ IDEA.
@@ -48,52 +42,39 @@ public class UpgradeUtil {
             downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         }
         if (!updateHint || force) {
-            versionService.getNewVersion(null, new Callback() {
+            versionService.getNewVersion(new Callback<AppResponseWrapper<VersionResp>>() {
                 @Override
-                public void onFailure(Call call, IOException e) {
-                    LyqbLogger.log(e.getMessage());
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String result = response.body().string();
-                    VersionResp versionResult = null;
+                public void onResponse(Call<AppResponseWrapper<VersionResp>> call, Response<AppResponseWrapper<VersionResp>> response) {
                     try {
-                        AppResponseWrapper<VersionResp> responseWrapper2 = new Gson().fromJson(result, new TypeToken<AppResponseWrapper<VersionResp>>() {
-                        }.getType());
-                        versionResult = responseWrapper2 != null && responseWrapper2.getSuccess() ? responseWrapper2.getMessage() : null;
-                        if (!force) {
-                            String ignoreVersion = (String) SPUtils.get(context, "ignoreVersion", "");
-                            if (!ignoreVersion.isEmpty() && ignoreVersion.equals(versionResult.getVersion())) {
-                                return;
-                            }
+                        VersionResp versionResult = response.body().getMessage();
+                        if (versionResult != null && !AndroidUtils.getVersionName(context)
+                                .equals(versionResult.getVersion())) {
+                            AlertDialog.Builder updateDialog = new AlertDialog.Builder(context);
+                            VersionResp finalVersionResult = versionResult;
+                            updateDialog.setPositiveButton(context.getResources()
+                                    .getString(R.string.upgrade_confirm), (dialogInterface, i0) -> {
+                                updateHint = true;
+                                downloadApk(context, finalVersionResult.getBaiduUri());
+                                dialogInterface.dismiss();
+                            });
+                            updateDialog.setNegativeButton(context.getResources()
+                                    .getString(R.string.upgrade_cancel), (dialogInterface, i) -> {
+                                updateHint = true;
+                                SPUtils.put(context, "ignoreVersion", finalVersionResult.getVersion());
+                                dialogInterface.dismiss();
+                            });
+                            updateDialog.setMessage(context.getResources()
+                                    .getString(R.string.upgrade_tips, versionResult.getVersion()));
+                            updateDialog.setTitle(context.getResources().getString(R.string.upgrade_title));
+                            updateDialog.show();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if (versionResult != null && !AndroidUtils.getVersionName(context)
-                            .equals(versionResult.getVersion())) {
-                        AlertDialog.Builder updateDialog = new AlertDialog.Builder(context);
-                        VersionResp finalVersionResult = versionResult;
-                        updateDialog.setPositiveButton(context.getResources()
-                                .getString(R.string.upgrade_confirm), (dialogInterface, i0) -> {
-                            updateHint = true;
-                            downloadApk(context, finalVersionResult.getBaiduUri());
-                            dialogInterface.dismiss();
-                        });
-                        updateDialog.setNegativeButton(context.getResources()
-                                .getString(R.string.upgrade_cancel), (dialogInterface, i) -> {
-                            updateHint = true;
-                            SPUtils.put(context, "ignoreVersion", finalVersionResult.getVersion());
-                            dialogInterface.dismiss();
-                        });
-                        updateDialog.setMessage(context.getResources()
-                                .getString(R.string.upgrade_tips, versionResult.getVersion()));
-                        updateDialog.setTitle(context.getResources().getString(R.string.upgrade_title));
-                        Looper.prepare();
-                        updateDialog.show();
-                        Looper.loop();
-                    }
+                }
+
+                @Override
+                public void onFailure(Call<AppResponseWrapper<VersionResp>> call, Throwable t) {
                 }
             });
         }
