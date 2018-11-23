@@ -112,6 +112,5 @@ public class ThirdLoginActivity extends BaseActivity {
         super.onCreate(bundle);
         mSwipeBackLayout.setEnableGesture(false);
         PermissionUtils.initPermissions(this);
-//        UpgradeUtil.showUpdateHint(this);
     }
 }

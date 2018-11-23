@@ -41,7 +41,7 @@ public class UpgradeUtil {
         if (downloadManager == null) {
             downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         }
-        if (!updateHint || force) {
+        if (!updateHint && getNewVersion(context).isEmpty() || force) {
             versionService.getNewVersion(new Callback<AppResponseWrapper<VersionResp>>() {
                 @Override
                 public void onResponse(Call<AppResponseWrapper<VersionResp>> call, Response<AppResponseWrapper<VersionResp>> response) {
