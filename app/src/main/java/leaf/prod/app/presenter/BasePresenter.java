@@ -4,8 +4,8 @@ import java.util.List;
 
 import android.content.Context;
 
-import leaf.prod.walletsdk.model.response.data.MarketcapResult;
-import leaf.prod.walletsdk.model.response.data.Token;
+import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
+import leaf.prod.walletsdk.model.response.relay.Token;
 
 public class BasePresenter<V> {
 

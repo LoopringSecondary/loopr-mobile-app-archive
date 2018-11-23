@@ -63,8 +63,8 @@ import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.exception.TransactionException;
 import leaf.prod.walletsdk.model.QRCodeType;
-import leaf.prod.walletsdk.model.response.data.BalanceResult;
-import leaf.prod.walletsdk.model.response.data.Token;
+import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.service.LoopringService;
 
 public class SendActivity extends BaseActivity {

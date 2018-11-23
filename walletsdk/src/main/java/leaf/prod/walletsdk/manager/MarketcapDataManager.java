@@ -5,7 +5,7 @@ import android.content.Context;
 import leaf.prod.walletsdk.listener.MarketcapListener;
 import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.model.request.param.MarketcapParam;
-import leaf.prod.walletsdk.model.response.data.MarketcapResult;
+import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;

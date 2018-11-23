@@ -5,7 +5,7 @@ import android.util.Log;
 import com.google.gson.JsonElement;
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.model.request.param.BalanceParam;
-import leaf.prod.walletsdk.model.response.data.BalanceResult;
+import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;

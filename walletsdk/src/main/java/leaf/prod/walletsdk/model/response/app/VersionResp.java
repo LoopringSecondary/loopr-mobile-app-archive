@@ -1,15 +1,15 @@
-package leaf.prod.walletsdk.model.response.data;
+/**
+ * Created with IntelliJ IDEA.
+ * User: kenshin wangchen@loopring.org
+ * Time: 2018-11-23 2:38 PM
+ * Cooperation: loopring.org 路印协议基金会
+ */
+package leaf.prod.walletsdk.model.response.app;
 
 import lombok.Data;
 
-/**
- * Created with IntelliJ IDEA.
- * User: laiyanyan
- * Time: 2018-11-16 2:40 PM
- * Cooperation: loopring.org 路印协议基金会
- */
 @Data
-public class VersionResult {
+public class VersionResp {
 
     private Integer id;
 

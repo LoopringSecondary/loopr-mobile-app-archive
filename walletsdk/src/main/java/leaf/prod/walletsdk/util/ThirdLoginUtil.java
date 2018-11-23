@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.ThirdLogin;
-import leaf.prod.walletsdk.model.ThirdLoginResp;
+import leaf.prod.walletsdk.model.response.app.ThirdLoginResp;
 import leaf.prod.walletsdk.model.ThirdLoginUser;
 import leaf.prod.walletsdk.service.ThirdLoginService;
 import okhttp3.Call;

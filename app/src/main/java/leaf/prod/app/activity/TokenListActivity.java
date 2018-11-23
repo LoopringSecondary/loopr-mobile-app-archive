@@ -31,7 +31,7 @@ import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.RecyclerViewBugLayoutManager;
 import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.model.response.data.Token;
+import leaf.prod.walletsdk.model.response.relay.Token;
 
 public class TokenListActivity extends BaseActivity {
 

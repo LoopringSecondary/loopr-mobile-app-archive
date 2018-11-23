@@ -27,7 +27,7 @@ public class SDK {
 
     private static String ETH_BASE = "https://relay1.loopring.io/eth";
 
-    private static String THIRD_LOGIN_BASE = "https://www.loopring.mobi/api/v1/users";
+    private static String APP_SERVICE_BASE = "https://www.loopring.mobi";
 
     private static Web3j web3j = null;
 
@@ -39,8 +39,8 @@ public class SDK {
         return ETH_BASE;
     }
 
-    public static String thirdLoginBase() {
-        return THIRD_LOGIN_BASE;
+    public static String appServiceBase() {
+        return APP_SERVICE_BASE;
     }
 
     public static OkHttpClient getOkHttpClient() {

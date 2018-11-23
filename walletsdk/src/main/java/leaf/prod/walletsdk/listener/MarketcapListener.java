@@ -3,11 +3,8 @@ package leaf.prod.walletsdk.listener;
 import android.util.Log;
 
 import leaf.prod.walletsdk.model.request.param.MarketcapParam;
-import leaf.prod.walletsdk.model.response.data.MarketcapResult;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 
-import leaf.prod.walletsdk.model.request.param.MarketcapParam;
-import leaf.prod.walletsdk.model.response.data.MarketcapResult;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 

@@ -1,4 +1,4 @@
-package leaf.prod.walletsdk.model.response.data;
+package leaf.prod.walletsdk.model.response.relay;
 
 import java.math.BigDecimal;
 import java.util.Objects;

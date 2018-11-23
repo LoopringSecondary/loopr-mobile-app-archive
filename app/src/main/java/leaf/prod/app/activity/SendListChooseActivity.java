@@ -26,7 +26,7 @@ import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.NoDataType;
-import leaf.prod.walletsdk.model.response.data.Token;
+import leaf.prod.walletsdk.model.response.relay.Token;
 
 public class SendListChooseActivity extends BaseActivity {
 

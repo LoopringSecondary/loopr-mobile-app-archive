@@ -47,7 +47,7 @@ import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
-import leaf.prod.walletsdk.model.response.data.BalanceResult;
+import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.util.UnitConverter;
 
 public class ConvertPresenter extends BasePresenter<ConvertActivity> {

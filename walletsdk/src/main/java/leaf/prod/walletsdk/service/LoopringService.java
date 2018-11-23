@@ -34,11 +34,11 @@ import leaf.prod.walletsdk.model.request.param.SubmitOrderParam;
 import leaf.prod.walletsdk.model.request.param.SubmitRingParam;
 import leaf.prod.walletsdk.model.request.param.TransactionParam;
 import leaf.prod.walletsdk.model.request.param.UnlockWallet;
-import leaf.prod.walletsdk.model.response.ResponseWrapper;
-import leaf.prod.walletsdk.model.response.data.BalanceResult;
-import leaf.prod.walletsdk.model.response.data.MarketcapResult;
-import leaf.prod.walletsdk.model.response.data.Token;
-import leaf.prod.walletsdk.model.response.data.TransactionPageWrapper;
+import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
+import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
+import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
 import rx.Observable;
 
 public class LoopringService {
@@ -55,12 +55,12 @@ public class LoopringService {
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getNonce", nonceParamParam);
-        return rpcDelegate.getNonce(request).map(ResponseWrapper::getResult);
+        return rpcDelegate.getNonce(request).map(RelayResponseWrapper::getResult);
     }
 
     public Observable<String> getEstimateGasPrice() {
         RequestWrapper request = new RequestWrapper("loopring_getEstimateGasPrice", Maps.newHashMap());
-        return rpcDelegate.estimateGasPrice(request).map(ResponseWrapper::getResult);
+        return rpcDelegate.estimateGasPrice(request).map(RelayResponseWrapper::getResult);
     }
 
     public Observable<String> notifyCreateWallet(String owner) {
@@ -68,8 +68,8 @@ public class LoopringService {
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_unlockWallet", unlockWallet);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.unlockWallet(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.unlockWallet(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<BalanceResult> getBalance(String owner) {
@@ -78,7 +78,7 @@ public class LoopringService {
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getBalance", param);
-        return rpcDelegate.getBalance(request).map(ResponseWrapper::getResult);
+        return rpcDelegate.getBalance(request).map(RelayResponseWrapper::getResult);
     }
 
     public Observable<TransactionPageWrapper> getTransactions(String owner, String symbol, int pageIndex, int pageSize) {
@@ -89,8 +89,8 @@ public class LoopringService {
                 .pageSize(pageSize)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getTransactions", param);
-        Observable<ResponseWrapper<TransactionPageWrapper>> observable = rpcDelegate.getTransactions(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<TransactionPageWrapper>> observable = rpcDelegate.getTransactions(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     /**
@@ -99,15 +99,15 @@ public class LoopringService {
     @Deprecated
     public Observable<List<Token>> getSupportedToken() {
         RequestWrapper request = new RequestWrapper("loopring_getSupportedTokens", Maps.newHashMap());
-        Observable<ResponseWrapper<List<Token>>> observable = rpcDelegate.getSupportedTokens(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<List<Token>>> observable = rpcDelegate.getSupportedTokens(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<MarketcapResult> getMarketcap(String currency) {
         RequestWrapper request = new RequestWrapper("loopring_getPriceQuote", MarketcapParam.builder()
                 .currency(currency)
                 .build());
-        return rpcDelegate.getMarketcap(request).map(ResponseWrapper::getResult);
+        return rpcDelegate.getMarketcap(request).map(RelayResponseWrapper::getResult);
     }
 
     public Observable<MarketcapResult> getPriceQuoteByToken(String currency, String token) {
@@ -115,7 +115,7 @@ public class LoopringService {
                 .currency(currency)
                 .token(token)
                 .build());
-        return rpcDelegate.getMarketcap(request).map(ResponseWrapper::getResult);
+        return rpcDelegate.getMarketcap(request).map(RelayResponseWrapper::getResult);
     }
 
     public Observable<String> notifyTransactionSubmitted(RawTransaction rawTransaction, String from, String txHash) {
@@ -130,40 +130,40 @@ public class LoopringService {
                 .from(from)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_notifyTransactionSubmitted", notifyTransactionSubmitParam);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyTransactionSubmitted(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.notifyTransactionSubmitted(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<String> notifyScanLogin(NotifyScanParam.SignParam signParam, String owner, String uuid) {
         NotifyScanParam notifyScanParam = NotifyScanParam.builder().owner(owner).uuid(uuid).sign(signParam).build();
         RequestWrapper request = new RequestWrapper("loopring_notifyScanLogin", notifyScanParam);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyScanLogin(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.notifyScanLogin(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<String> notifyStatus(NotifyStatusParam.NotifyBody body, String owner) {
         NotifyStatusParam notifyStatusParam = NotifyStatusParam.builder().owner(owner).body(body).build();
         RequestWrapper request = new RequestWrapper("loopring_notifyCirculr", notifyStatusParam);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.notifyStatus(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.notifyStatus(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<String> getSignMessage(String hash) {
         GetSignParam getSignParam = GetSignParam.builder().key(hash).build();
         RequestWrapper request = new RequestWrapper("loopring_getTempStore", getSignParam);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.getSignMessage(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.getSignMessage(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<Partner> createPartner(String owner) {
         RequestWrapper request = new RequestWrapper("loopring_createCityPartner", PartnerParam.builder()
                 .walletAddress(owner));
-        return rpcDelegate.createPartner(request).map(ResponseWrapper::getResult);
+        return rpcDelegate.createPartner(request).map(RelayResponseWrapper::getResult);
     }
 
     public Observable<Partner> activateInvitation() {
-        Observable<ResponseWrapper<Partner>> observable = rpcDelegate.activateInvitation();
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<Partner>> observable = rpcDelegate.activateInvitation();
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<String> addCustomToken(String owner, String address, String symbol, String decimals) {
@@ -174,8 +174,8 @@ public class LoopringService {
                 .decimals(decimals)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_addCustomToken", param);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.addCustomToken(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.addCustomToken(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<List<Token>> getCustomToken(String owner) {
@@ -184,8 +184,8 @@ public class LoopringService {
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getCustomTokens", param);
-        Observable<ResponseWrapper<List<Token>>> observable = rpcDelegate.getCustomToken(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<List<Token>>> observable = rpcDelegate.getCustomToken(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     // 订单相关接口
@@ -203,8 +203,8 @@ public class LoopringService {
                 .pageSize(pageSize)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getOrders", param);
-        Observable<ResponseWrapper<List<Order>>> observable = rpcDelegate.getOrders(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<List<Order>>> observable = rpcDelegate.getOrders(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<String> getEstimatedAllocatedAllowance(String owner, String symbol) {
@@ -214,8 +214,8 @@ public class LoopringService {
                 .token(symbol)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getEstimatedAllocatedAllowance", param);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.getEstimatedAllocatedAllowance(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.getEstimatedAllocatedAllowance(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<String> getFrozenLRCFee(String owner) {
@@ -224,8 +224,8 @@ public class LoopringService {
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getFrozenLRCFee", param);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.loopring_getFrozenLRCFee(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.loopring_getFrozenLRCFee(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     // support for MARKET order submit
@@ -254,8 +254,8 @@ public class LoopringService {
                 .s(order.getS())
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_submitOrder", param);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.sumitOrder(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.sumitOrder(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     // support for P2P TAKER order submit
@@ -285,8 +285,8 @@ public class LoopringService {
                 .s(order.getS())
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_submitOrderForP2P", param);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.sumitOrderForP2P(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.sumitOrderForP2P(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<String> submitRing(String makerOrderHash, String takerOrderHash, String rawTx) {
@@ -298,8 +298,8 @@ public class LoopringService {
                 .rawTx(rawTx)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_submitRingForP2P", param);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.sumitRing(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.sumitRing(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<String> cancelOrderFlex(CancelOrder cancelOrder, NotifyScanParam.SignParam signParam) {
@@ -312,7 +312,7 @@ public class LoopringService {
                 .sign(signParam)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_flexCancelOrder", cancelParam);
-        Observable<ResponseWrapper<String>> observable = rpcDelegate.cancelOrderFlex(request);
-        return observable.map(ResponseWrapper::getResult);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.cancelOrderFlex(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 }
