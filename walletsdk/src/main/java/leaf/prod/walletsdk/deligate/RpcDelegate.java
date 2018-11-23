@@ -8,13 +8,13 @@ import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
-import leaf.prod.walletsdk.model.request.param.VersionParam;
+import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
+import leaf.prod.walletsdk.model.response.app.VersionResp;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -105,6 +105,6 @@ public interface RpcDelegate {
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<String>> sumitRing(@Body RequestWrapper request);
 
-    @POST(Default.APP_RPC_VERSION_URL)
-    void getLatestVersion(@Body VersionParam request, Callback cb);
+    @POST(Default.APP_RPC_VERSION_URL + "/version/android/getLatest")
+    retrofit2.Call<AppResponseWrapper<VersionResp>> getLatestVersion();
 }
