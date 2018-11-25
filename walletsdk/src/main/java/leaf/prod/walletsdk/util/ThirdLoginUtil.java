@@ -164,4 +164,18 @@ public class ThirdLoginUtil {
         skip(context);
         thirdLoginService.deleteUser(uid);
     }
+
+    /**
+     * 清空脏数据
+     *
+     * @param context
+     */
+    public static void clearDritData(Context context) {
+        if (((String) SPUtils.get(context, "dirt_data", "")).isEmpty()) {
+            String uid = (String) SPUtils.get(context, THIRD_LOGIN, "");
+            SPUtils.remove(context, THIRD_LOGIN + "_" + uid);
+            SPUtils.remove(context, THIRD_LOGIN);
+            SPUtils.put(context, "dirt_data", "true");
+        }
+    }
 }
