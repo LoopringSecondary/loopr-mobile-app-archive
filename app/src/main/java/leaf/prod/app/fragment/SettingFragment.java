@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kyleduo.switchbutton.SwitchButton;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,8 +32,12 @@ import leaf.prod.app.activity.ThirdLoginActivity;
 import leaf.prod.app.utils.AndroidUtils;
 import leaf.prod.app.utils.FingerprintUtil;
 import leaf.prod.app.utils.UpgradeUtil;
+import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.ThirdLoginUtil;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  *
@@ -129,8 +134,24 @@ public class SettingFragment extends BaseFragment {
         if (confirmThirdLogin == null) {
             confirmThirdLogin = new AlertDialog.Builder(getContext());
             confirmThirdLogin.setPositiveButton(getResources().getString(R.string.confirm), (dialogInterface, i0) -> {
-                ThirdLoginUtil.deleteThirdLogin(getContext());
-                btnLogin.setText(getResources().getString(R.string.third_part_login));
+                ThirdLoginUtil.deleteThirdLogin(getContext(), new Callback<AppResponseWrapper<String>>() {
+                    @Override
+                    public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
+                        AppResponseWrapper<String> wrapper = response.body();
+                        if (wrapper != null && wrapper.getSuccess()) {
+                            ThirdLoginUtil.skip(getContext());
+                            RxToast.info(getResources().getString(R.string.third_logout_success));
+                            btnLogin.setText(getResources().getString(R.string.third_part_login));
+                        } else {
+                            RxToast.error(getResources().getString(R.string.third_logout_error));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<AppResponseWrapper<String>> call, Throwable t) {
+                        RxToast.error(getResources().getString(R.string.third_logout_error));
+                    }
+                });
             });
             confirmThirdLogin.setNegativeButton(getResources().getString(R.string.cancel), (dialogInterface, i) -> {
                 dialogInterface.dismiss();

@@ -61,7 +61,11 @@
     <string name="set_language">Language</string>
     <string name="set_itouch">Touch ID</string>
     <string name="third_part_login">Login</string>
+    <string name="third_login_error">Login failed, please retry it later on</string>
+    <string name="third_login_success">Login successfully</string>
     <string name="third_part_logout">Logout</string>
+    <string name="third_logout_error">Logout failed, please retry it later on</string>
+    <string name="third_logout_success">Logout successfully</string>
     <string name="set_contract_version">Contract Version</string>
     <string name="set_lrc_proportion">LRC Fee Ratio</string>
     <string name="set_margin_split">Margin Split</string>

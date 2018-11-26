@@ -114,11 +114,11 @@ public interface RpcDelegate {
     Call<AppResponseWrapper<VersionResp>> getLatestVersion();
 
     @GET(Default.APP_RPC_VERSION_URL + "/user/getUser")
-    Call<AppResponseWrapper<ThirdLogin>> getUser(@Query("accountToken") String accountToken);
+    Call<AppResponseWrapper<ThirdLogin>> getUser(@Query("account_token") String accountToken);
 
     @POST(Default.APP_RPC_VERSION_URL + "/user/addUser")
     Call<AppResponseWrapper<String>> addUser(@Body ThirdLogin thirdLogin);
 
     @DELETE(Default.APP_RPC_VERSION_URL + "/user/deleteUser")
-    Call<AppResponseWrapper<String>> deleteUser(@Query("accountToken") String accountToken);
+    Call<AppResponseWrapper<String>> deleteUser(@Query("account_token") String accountToken);
 }

@@ -7,7 +7,6 @@ import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 
 import leaf.prod.walletsdk.model.Language;
-import leaf.prod.walletsdk.util.SPUtils;
 
 /**
  * 标题:    LanguageUtil

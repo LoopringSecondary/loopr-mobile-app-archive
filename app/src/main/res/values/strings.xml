@@ -61,7 +61,11 @@
     <string name="set_language">语言</string>
     <string name="set_itouch">触控ID</string>
     <string name="third_part_login">第三方登录</string>
+    <string name="third_login_error">第三方登录失败，请稍后重试</string>
+    <string name="third_login_success">第三方登录成功</string>
     <string name="third_part_logout">退出登录</string>
+    <string name="third_logout_error">退出登录失败，请稍后重试</string>
+    <string name="third_logout_success">退出登录成功</string>
     <string name="set_contract_version">合约版本</string>
     <string name="set_lrc_proportion">LRC费用比例</string>
     <string name="set_margin_split">差价分成</string>
