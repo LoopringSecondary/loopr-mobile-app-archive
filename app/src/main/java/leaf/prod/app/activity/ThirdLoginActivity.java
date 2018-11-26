@@ -11,18 +11,22 @@ import android.widget.Toast;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
-import leaf.prod.walletsdk.model.ThirdLoginUser;
 import leaf.prod.app.utils.AppManager;
+import leaf.prod.app.utils.PermissionUtils;
+import leaf.prod.walletsdk.model.ThirdLoginUser;
+import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.LanguageUtil;
-import leaf.prod.app.utils.PermissionUtils;
 import leaf.prod.walletsdk.util.ThirdLoginUtil;
 import leaf.prod.walletsdk.util.WalletUtil;
-import leaf.prod.walletsdk.service.ThirdLoginService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,8 +43,6 @@ public class ThirdLoginActivity extends BaseActivity {
 
     @BindView(R.id.hint_text)
     TextView hintText;
-
-    private ThirdLoginService thirdLoginService;
 
     @Override
     protected void initPresenter() {
@@ -67,9 +69,28 @@ public class ThirdLoginActivity extends BaseActivity {
 
                 @Override
                 public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                    ThirdLoginUtil.initThirdLogin(ThirdLoginActivity.this, new ThirdLoginUser(map.get("openid"), LanguageUtil
+                    String uid = map.get("openid");
+                    ThirdLoginUtil.initThirdLogin(ThirdLoginActivity.this, new ThirdLoginUser(uid, LanguageUtil
                             .getSettingLanguage(ThirdLoginActivity.this)
-                            .getText(), CurrencyUtil.getCurrency(ThirdLoginActivity.this).name(), null));
+                            .getText(), CurrencyUtil.getCurrency(ThirdLoginActivity.this)
+                            .name(), null), new Callback<AppResponseWrapper<String>>() {
+                        @Override
+                        public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
+                            AppResponseWrapper wrapper = response.body();
+                            if (wrapper != null && wrapper.getSuccess()) {
+                                RxToast.info(getResources().getString(R.string.third_login_success));
+                            } else {
+                                ThirdLoginUtil.clearLocal(ThirdLoginActivity.this, uid);
+                                RxToast.error(getResources().getString(R.string.third_login_error));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AppResponseWrapper<String>> call, Throwable t) {
+                            ThirdLoginUtil.clearLocal(ThirdLoginActivity.this, uid);
+                            RxToast.error(getResources().getString(R.string.third_login_error));
+                        }
+                    });
                     if (WalletUtil.hasWallet(ThirdLoginActivity.this)) {
                         getOperation().forward(MainActivity.class);
                         // todo 有钱包的情况，让用户选择历史钱包
@@ -102,7 +123,6 @@ public class ThirdLoginActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        thirdLoginService = new ThirdLoginService();
     }
 
     protected void onCreate(Bundle bundle) {
