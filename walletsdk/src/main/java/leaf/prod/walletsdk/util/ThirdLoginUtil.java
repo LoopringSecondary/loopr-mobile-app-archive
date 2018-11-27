@@ -69,9 +69,43 @@ public class ThirdLoginUtil {
     public static void initThirdLogin(Context context, ThirdLoginUser thirdLoginUser, Callback<AppResponseWrapper<String>> callback) {
         if (thirdLoginUser == null)
             return;
-        ThirdLogin thirdLogin = new ThirdLogin(thirdLoginUser.getUserId(), gson.toJson(thirdLoginUser));
-        saveLocal(context, thirdLoginUser);
-        thirdLoginService.addUser(thirdLogin, callback);
+        ThirdLogin newThirdLogin = new ThirdLogin(thirdLoginUser.getUserId(), gson.toJson(thirdLoginUser));
+        ThirdLoginUser localThirdLoginUser = SPUtils.getBean(context, THIRD_LOGIN + "_" + thirdLoginUser.getUserId(), ThirdLoginUser.class);
+        thirdLoginService.getUser(thirdLoginUser.getUserId(), new Callback<AppResponseWrapper<ThirdLogin>>() {
+            @Override
+            public void onResponse(Call<AppResponseWrapper<ThirdLogin>> call, Response<AppResponseWrapper<ThirdLogin>> response) {
+                ThirdLoginUser remoteThirdLoginUser = null;
+                try {
+                    ThirdLogin remoteThirdLogin = response.body().getMessage();
+                    remoteThirdLoginUser = remoteThirdLogin != null ? remoteThirdLogin.getThirdLoginUser() : null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (localThirdLoginUser == null) {
+                    if (remoteThirdLoginUser != null) {
+                        // 初始化本地数据
+                        SPUtils.put(context, THIRD_LOGIN + "_" + thirdLoginUser.getUserId(), remoteThirdLoginUser);
+                        LanguageUtil.changeLanguage(context, Language.getLanguage(remoteThirdLoginUser.getLanguage()));
+                        CurrencyUtil.setCurrency(context, Currency.valueOf(remoteThirdLoginUser.getCurrency()));
+                    } else {
+                        // 初始化本地和线上
+                        thirdLoginService.addUser(newThirdLogin, callback);
+                        SPUtils.put(context, THIRD_LOGIN + "_" + thirdLoginUser.getUserId(), thirdLoginUser);
+                    }
+                } else {
+                    // 更新线上数据
+                    if (!localThirdLoginUser.equals(remoteThirdLoginUser)) {
+                        thirdLoginService.addUser(new ThirdLogin(localThirdLoginUser.getUserId(), gson.toJson(localThirdLoginUser)), callback);
+                    }
+                }
+                SPUtils.put(context, THIRD_LOGIN, thirdLoginUser.getUserId());
+            }
+
+            @Override
+            public void onFailure(Call<AppResponseWrapper<ThirdLogin>> call, Throwable t) {
+                Log.e("", t.getMessage());
+            }
+        });
     }
 
     /**
