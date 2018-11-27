@@ -79,6 +79,10 @@ public class ThirdLoginUtil {
             if (CurrencyUtil.getCurrency(context) != Currency.valueOf(thirdLoginUser.getCurrency())) {
                 CurrencyUtil.setCurrency(context, Currency.valueOf(thirdLoginUser.getCurrency()));
             }
+        } else {
+            if (LanguageUtil.getLanguage(context) != LanguageUtil.getSettingLanguage(context)) {
+                LanguageUtil.changeLanguage(context, LanguageUtil.getSettingLanguage(context));
+            }
         }
     }
 

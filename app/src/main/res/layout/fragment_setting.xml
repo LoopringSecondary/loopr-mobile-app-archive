@@ -189,11 +189,7 @@
                         android:src="@mipmap/icon_next"/>
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="@dimen/margSide"
-                    android:background="@color/lineBac"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -203,6 +199,12 @@
                 android:background="@drawable/button_bg3_pressed"
                 android:clickable="true"
                 android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/margSide"
+                    android:background="@color/lineBac"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -406,8 +408,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginTop="12dp"
                             android:layout_marginBottom="12dp"
-                            android:gravity="center_vertical"
                             android:background="@drawable/new_hint"
+                            android:gravity="center_vertical"
                             android:text="NEW"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhite"

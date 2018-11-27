@@ -66,8 +66,8 @@ public class CoverActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-//        if (ThirdLoginUtil.getThirdLoginUserBean(CoverActivity.this) == null) {
-//            getOperation().forwardClearTop(ThirdLoginActivity.class);
-//        }
+        //        if (ThirdLoginUtil.getThirdLoginUserBean(CoverActivity.this) == null) {
+        //            getOperation().forwardClearTop(ThirdLoginActivity.class);
+        //        }
     }
 }
