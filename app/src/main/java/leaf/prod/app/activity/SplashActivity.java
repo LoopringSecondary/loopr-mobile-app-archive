@@ -62,6 +62,7 @@ public class SplashActivity extends BaseActivity {
                         if (!ThirdLoginUtil.isThirdLogin(SplashActivity.this) && !ThirdLoginUtil.isSkip(SplashActivity.this)) {
                             getOperation().forward(ThirdLoginActivity.class);
                         } else {
+                            ThirdLoginUtil.initLocalConf(SplashActivity.this);
                             AppManager.getAppManager().finishAllActivity();
                             getOperation().forward(MainActivity.class);
                         }
@@ -69,6 +70,7 @@ public class SplashActivity extends BaseActivity {
                         if (!ThirdLoginUtil.isThirdLogin(SplashActivity.this) && !ThirdLoginUtil.isSkip(SplashActivity.this)) {
                             getOperation().forward(ThirdLoginActivity.class);
                         } else {
+                            ThirdLoginUtil.initLocalConf(SplashActivity.this);
                             getOperation().forward(CoverActivity.class);
                         }
                     }

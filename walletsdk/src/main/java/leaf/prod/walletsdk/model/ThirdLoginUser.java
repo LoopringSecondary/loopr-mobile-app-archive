@@ -90,6 +90,8 @@ public class ThirdLoginUser {
     public String toString() {
         return "ThirdLoginUser{" +
                 "userId='" + userId + '\'' +
+                ", language='" + language + '\'' +
+                ", currency='" + currency + '\'' +
                 ", walletList=" + walletList +
                 '}';
     }

@@ -43,9 +43,9 @@ public class LanguageUtil {
     public static Language getLanguage(Context context) {
         Locale locale = context.getResources().getConfiguration().locale;
         String language = locale.toString();
-        if (language.equals("zh_TW")) {
+        if (language.startsWith("zh_TW") || language.startsWith("zh_HK") || language.startsWith("zh_MO")) {
             return Language.zh_Hant;
-        } else if (language.equals("zh_CN")) {
+        } else if (language.startsWith("zh")) {
             return Language.zh_CN;
         } else {
             return Language.en_US;

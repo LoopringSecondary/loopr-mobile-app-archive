@@ -24,7 +24,6 @@ import leaf.prod.app.fragment.SettingFragment;
 import leaf.prod.app.fragment.TradeFragment;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.UpgradeUtil;
-import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.SPUtils;
 
 /**
@@ -100,10 +99,10 @@ public class MainActivity extends BaseActivity {
         /*
          * 通过language的状态来判断是否设置了显示英文还是中文，1为英文，2为中文,0为未设置，显示系统默认
          */
-        if (LanguageUtil.getLanguage(this) != LanguageUtil.getSettingLanguage(this)) {
-            LanguageUtil.changeLanguage(this, LanguageUtil.getSettingLanguage(this));
-            recreate();
-        }
+//        if (LanguageUtil.getLanguage(this) != LanguageUtil.getSettingLanguage(this)) {
+//            LanguageUtil.changeLanguage(this, LanguageUtil.getSettingLanguage(this));
+//            recreate();
+//        }
     }
 
     @Override

@@ -23,6 +23,7 @@ import leaf.prod.walletsdk.model.ThirdLoginUser;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.LanguageUtil;
+import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.ThirdLoginUtil;
 import leaf.prod.walletsdk.util.WalletUtil;
 import retrofit2.Call;
@@ -90,7 +91,8 @@ public class ThirdLoginActivity extends BaseActivity {
                             if (localThirdLoginUser == null) {
                                 if (remoteThirdLoginUser != null) {
                                     // 初始化本地数据
-                                    ThirdLoginUtil.initLocalConf(ThirdLoginActivity.this, remoteThirdLoginUser);
+                                    SPUtils.put(ThirdLoginActivity.this, "third_login_" + uid, remoteThirdLoginUser);
+                                    ThirdLoginUtil.initLocalConf(ThirdLoginActivity.this);
                                     RxToast.success(getResources().getString(R.string.third_login_success));
                                     forward();
                                 } else {

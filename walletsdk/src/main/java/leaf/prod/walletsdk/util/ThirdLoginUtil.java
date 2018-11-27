@@ -70,13 +70,14 @@ public class ThirdLoginUtil {
     /**
      * 初始化本地配置
      *
-     * @param remoteThirdLoginUser
      * @return
      */
-    public static void initLocalConf(Context context, ThirdLoginUser remoteThirdLoginUser) {
-        SPUtils.put(context, THIRD_LOGIN + "_" + getUserId(context), remoteThirdLoginUser);
-        LanguageUtil.changeLanguage(context, Language.getLanguage(remoteThirdLoginUser.getLanguage()));
-        CurrencyUtil.setCurrency(context, Currency.valueOf(remoteThirdLoginUser.getCurrency()));
+    public static void initLocalConf(Context context) {
+        ThirdLoginUser thirdLoginUser = SPUtils.getBean(context, THIRD_LOGIN + "_" + getUserId(context), ThirdLoginUser.class);
+        LanguageUtil.changeLanguage(context, Language.getLanguage(thirdLoginUser.getLanguage()));
+        if (CurrencyUtil.getCurrency(context) != Currency.valueOf(thirdLoginUser.getCurrency())) {
+            CurrencyUtil.setCurrency(context, Currency.valueOf(thirdLoginUser.getCurrency()));
+        }
     }
 
     /**
