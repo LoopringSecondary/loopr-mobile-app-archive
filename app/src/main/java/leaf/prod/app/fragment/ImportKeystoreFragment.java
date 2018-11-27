@@ -213,15 +213,15 @@ public class ImportKeystoreFragment extends BaseFragment {
     public void onViewClicked() {
         if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
             if (TextUtils.isEmpty(etKeystore.getText().toString())) {
-                RxToast.error(getResources().getString(R.string.keystore_hint));
+                RxToast.warning(getResources().getString(R.string.keystore_hint));
                 return;
             }
             if (etPassword.getText().toString().length() < 6) {
-                RxToast.error(getResources().getString(R.string.good));
+                RxToast.warning(getResources().getString(R.string.good));
                 return;
             }
             if (TextUtils.isEmpty(etPassword.getText().toString())) {
-                RxToast.error(getResources().getString(R.string.put_password));
+                RxToast.warning(getResources().getString(R.string.put_password));
                 return;
             }
             unlockWallet();

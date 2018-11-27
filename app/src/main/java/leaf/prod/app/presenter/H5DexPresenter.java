@@ -27,7 +27,6 @@ import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.H5DexWebActivity;
-import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.walletsdk.manager.PartnerDataManager;
 import leaf.prod.walletsdk.model.H5ScanType;
 import leaf.prod.walletsdk.util.CurrencyUtil;
@@ -75,7 +74,7 @@ public class H5DexPresenter extends BasePresenter<H5DexWebActivity> {
                     view.hidePasswordDialog();
                     break;
                 case ERROR:
-                    ToastUtils.toast(view.getResources().getString(R.string.h5dex_psw_error));
+                    RxToast.error(view.getResources().getString(R.string.h5dex_psw_error));
                     break;
             }
         }

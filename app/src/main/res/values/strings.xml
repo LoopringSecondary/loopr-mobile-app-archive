@@ -10,6 +10,7 @@
     <string name="repeat_password">请再次输入密码</string>
     <string name="password_match_toast">输入密码不匹配</string>
     <string name="backup_mnemonic">备份助记词</string>
+    <string name="mnemonic_not_match">助记词不匹配</string>
     <string name="mnemonic_hint">请不要在公众场所展示(防止摄像头拍照)，也不要截屏(您的操作系统可能会将图片备份到云存储)。这些操作会给您带来巨大而不可逆转的安全隐患。</string>
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
@@ -115,6 +116,7 @@
     <string name="gas_fee">油费</string>
     <string name="send_and_confirm">确认转出</string>
     <string name="put_password">请输入密码</string>
+    <string name="valid_password">请输入六位以上密码</string>
     <string name="trade_detail">交易详情</string>
     <string name="received">收款</string>
     <string name="status">状态</string>
@@ -127,6 +129,7 @@
     <string name="token_address">代币地址</string>
     <string name="token_symbol">代币符号</string>
     <string name="token_add">添加代币</string>
+    <string name="token_add_error">添加代币失败</string>
     <string name="send_error_result">请确保有足够的油费完成转账！</string>
     <string name="you_need">您需要</string>
     <string name="facebook_app_id">295333837738573</string>
@@ -169,4 +172,18 @@
     <string name="upgrade_tips">检测到新版本 %s, 建议升级</string>
     <string name="upgrade_confirm">立即升级</string>
     <string name="upgrade_cancel">忽略</string>
+
+    <string name="copy_to_clipborad_success">复制至剪切板成功</string>
+    <string name="save_pic_success">保存图片至相册成功</string>
+    <string name="click_twice_close">再按一次退出程序</string>
+    <string name="input_valid_symbol">请输入合法的代币符号</string>
+    <string name="input_valid_decimal">请输入合法的decimal</string>
+    <string name="authorize_failed">授权失败</string>
+    <string name="share_success">分享成功!</string>
+    <string name="share_failed">分享失败:%s</string>
+    <string name="share_failed_no_app">分享失败:没有安装该应用</string>
+    <string name="no_access">权限拒绝</string>
+    <string name="no_access_no_alert">权限已拒绝，不再提醒</string>
+    <string name="wallet_address_share">钱包地址分享</string>
+    <string name="download_share">下载地址分享</string>
 </resources>

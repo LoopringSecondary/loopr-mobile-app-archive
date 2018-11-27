@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.json.JSONException;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +24,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.walletsdk.util.FileUtils;
-import leaf.prod.app.utils.ToastUtils;
 
 /**
  *
@@ -58,10 +58,8 @@ public class KeystoreFragment extends BaseFragment {
                     tvKeystore.setText(keystore);
                     break;
                 case ERROR_ONE:
-                    ToastUtils.toast(getResources().getString(R.string.local_file_error));
-                    break;
                 case ERROR_TWO:
-                    ToastUtils.toast(getResources().getString(R.string.local_file_error));
+                    RxToast.error(getResources().getString(R.string.local_file_error));
                     break;
             }
         }
@@ -124,6 +122,6 @@ public class KeystoreFragment extends BaseFragment {
         ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
         // 将文本内容放到系统剪贴板里。
         cm.setText(tvKeystore.getText());
-        ToastUtils.toast("复制成功");
+        RxToast.success(getResources().getString(R.string.copy_to_clipborad_success));
     }
 }

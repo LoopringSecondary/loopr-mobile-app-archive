@@ -30,22 +30,21 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.SetWalletNameActivity;
-import leaf.prod.walletsdk.model.ImportWalletType;
-import leaf.prod.walletsdk.model.WalletEntity;
-import leaf.prod.walletsdk.model.eventbusData.MnemonicData;
 import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.walletsdk.util.MD5Utils;
-import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.wheelPicker.picker.OptionPicker;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
+import leaf.prod.walletsdk.model.ImportWalletType;
+import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.model.eventbusData.MnemonicData;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.CredentialsUtils;
+import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.KeystoreUtils;
+import leaf.prod.walletsdk.util.MD5Utils;
 import leaf.prod.walletsdk.util.MnemonicUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -131,7 +130,7 @@ public class ImportMnemonicFragment extends BaseFragment {
 
                                 @Override
                                 public void onError(Throwable e) {
-                                    ToastUtils.toast(getResources().getString(R.string.add_wallet_error));
+                                    RxToast.error(getResources().getString(R.string.add_wallet_error));
                                     hideProgress();
                                 }
 
@@ -241,16 +240,16 @@ public class ImportMnemonicFragment extends BaseFragment {
             case R.id.btn_next:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
                     if (TextUtils.isEmpty(etMnemonic.getText().toString())) {
-                        ToastUtils.toast(getResources().getString(R.string.input_mnemonic));
+                        RxToast.warning(getResources().getString(R.string.input_mnemonic));
                         return;
                     }
                     if (TextUtils.isEmpty(walletType.getText().toString())) {
-                        ToastUtils.toast(getResources().getString(R.string.wallet_type));
+                        RxToast.warning(getResources().getString(R.string.wallet_type));
                         return;
                     }
                     if (walletType.getText().toString().equals("其它")) {
                         if (TextUtils.isEmpty(etDpath.getText().toString())) {
-                            ToastUtils.toast(getResources().getString(R.string.input_dpath));
+                            RxToast.warning(getResources().getString(R.string.input_dpath));
                             return;
                         }
                         dpath = etDpath.getText().toString();

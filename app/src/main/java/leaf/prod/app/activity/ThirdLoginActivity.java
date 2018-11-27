@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -78,7 +77,7 @@ public class ThirdLoginActivity extends BaseActivity {
                         public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
                             AppResponseWrapper wrapper = response.body();
                             if (wrapper != null && wrapper.getSuccess()) {
-                                RxToast.info(getResources().getString(R.string.third_login_success));
+                                RxToast.success(getResources().getString(R.string.third_login_success));
                             } else {
                                 ThirdLoginUtil.clearLocal(ThirdLoginActivity.this, uid);
                                 RxToast.error(getResources().getString(R.string.third_login_error));
@@ -102,7 +101,7 @@ public class ThirdLoginActivity extends BaseActivity {
 
                 @Override
                 public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-                    Toast.makeText(getApplicationContext(), "Authorize fail", Toast.LENGTH_SHORT).show();
+                    RxToast.error(getResources().getString(R.string.authorize_failed));
                 }
 
                 @Override

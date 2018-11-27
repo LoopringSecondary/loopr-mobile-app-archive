@@ -7,9 +7,11 @@
     <string name="next">下一步</string>
     <string name="good">密碼長度必須大於或等於6位</string>
     <string name="password">請輸入密碼</string>
+    <string name="valid_password">請輸入六位以上密碼</string>
     <string name="repeat_password">請再次輸入密碼</string>
     <string name="password_match_toast">輸入密碼不匹配</string>
     <string name="backup_mnemonic">備份助記詞</string>
+    <string name="mnemonic_not_match">助記詞不匹配</string>
     <string name="mnemonic_hint">請不要在公眾場所展示(防止攝像頭拍照)，也不要截屏(您的操作系統可能會將圖片備份到雲端存儲)。這些操作會給您帶來巨大而不可逆轉的安全隱患。</string>
     <string name="confirm">確認</string>
     <string name="cancel">取消</string>
@@ -61,11 +63,15 @@
     <string name="set_language">語言</string>
     <string name="set_itouch">觸控ID</string>
     <string name="third_part_login">第三方登錄</string>
+    <string name="third_login_error">第三方登錄失敗，請稍後重試</string>
+    <string name="third_login_success">第三方登錄成功</string>
     <string name="third_part_logout">退出登錄</string>
+    <string name="third_logout_error">退出登錄失敗，請稍後重試</string>
+    <string name="third_logout_success">退出登錄成功</string>
     <string name="set_contract_version">合約版本</string>
     <string name="set_lrc_proportion">LRC費用比例</string>
     <string name="set_margin_split">差價分成</string>
-    <string name="set_app_version">應用版本</string>
+    <string name="set_app_version">檢查新版本</string>
 
     <string name="cny">人民幣</string>
     <string name="usd">美元</string>
@@ -123,6 +129,7 @@
     <string name="token_address">代幣地址</string>
     <string name="token_symbol">代幣符號</string>
     <string name="token_add">添加代幣</string>
+    <string name="token_add_error">添加代幣失敗</string>
     <string name="send_error_result">請確保有足夠的油費完成轉賬！ </string>
     <string name="you_need">您需要</string>
     <string name="facebook_app_id">295333837738573</string>
@@ -161,4 +168,23 @@
     <string name="max">最大值</string>
     <string name="convert_des">● 什麼是WETH? WETH之於ETH, 正如硬幣之於等額的紙幣。某些場合, 販賣機只能接受硬幣, 因此需要轉換。以太坊協議保證: WETH和ETH之間的轉換比率為 1 : 1, 且永不改變。 </string>
     <string name="convert_tip">● 我們為您保留 0.01 ETH 作為油費以保證後續可以發送交易</string>
+
+    <string name="upgrade_title">升級成功</string>
+    <string name="upgrade_tips">檢測到新版本 %s, 建議升級</string>
+    <string name="upgrade_confirm">立即升級</string>
+    <string name="upgrade_cancel">忽略</string>
+
+    <string name="copy_to_clipborad_success">複製至剪切板成功</string>
+    <string name="save_pic_success">保存圖片至相冊成功</string>
+    <string name="click_twice_close">再按一次退出程序</string>
+    <string name="input_valid_symbol">請輸入合法的代幣符號</string>
+    <string name="input_valid_decimal">請輸入合法的decimal</string>
+    <string name="authorize_failed">授權失敗</string>
+    <string name="share_success">分享成功!</string>
+    <string name="share_failed">分享失敗:%s</string>
+    <string name="share_failed_no_app">分享失敗:沒有安裝應用</string>
+    <string name="no_access">權限拒絕</string>
+    <string name="no_access_no_alert">權限已拒絕，不再提醒</string>
+    <string name="wallet_address_share">錢包地址分享</string>
+    <string name="download_share">下載地址分享</string>
 </resources>

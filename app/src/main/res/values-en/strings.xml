@@ -7,9 +7,11 @@
     <string name="next">Next</string>
     <string name="good">The length of password needs to be larger than or equal to 6</string>
     <string name="password">Password</string>
+    <string name="valid_password">Password length should be more than 6</string>
     <string name="repeat_password">Repeat Password</string>
     <string name="password_match_toast">Password doesn\'t match</string>
     <string name="backup_mnemonic">Backup Mnemonic</string>
+    <string name="mnemonic_not_match">Mnemonic not match</string>
     <string name="mnemonic_hint">Please don\'t show up in public places (prevent cameras from taking photos) or take a screen shot(your operating system may back up images to cloud storage). These operations can bring you huge and irreversible security risks.</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
@@ -127,6 +129,7 @@
     <string name="token_address">Token Address</string>
     <string name="token_symbol">Token Symbol</string>
     <string name="token_add">Add Token</string>
+    <string name="token_add_error">Add token failed</string>
     <string name="send_error_result">Your transfer has been submited! However, please make sure you have enough balance to complete the trade.</string>
     <string name="you_need">You Need</string>
     <string name="facebook_app_id">295333837738573</string>
@@ -169,4 +172,18 @@
     <string name="upgrade_tips">New version %s</string>
     <string name="upgrade_confirm">Confirm</string>
     <string name="upgrade_cancel">Ignore</string>
+
+    <string name="copy_to_clipborad_success">Copy to clipboard successfully</string>
+    <string name="save_pic_success">Save picture successfully</string>
+    <string name="click_twice_close">Click again to quit</string>
+    <string name="input_valid_symbol">Please input valid symbol</string>
+    <string name="input_valid_decimal">Please input a valid decimal</string>
+    <string name="authorize_failed">Authorize failed</string>
+    <string name="share_success">Share successfully!</string>
+    <string name="share_failed">Share failed:%s</string>
+    <string name="share_failed_no_app">Share failed:application is not installed</string>
+    <string name="no_access">No access</string>
+    <string name="no_access_no_alert">No access, without warning again</string>
+    <string name="wallet_address_share">Share Wallet Address</string>
+    <string name="download_share">Share Link</string>
 </resources>

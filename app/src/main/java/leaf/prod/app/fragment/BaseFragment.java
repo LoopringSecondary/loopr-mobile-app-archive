@@ -3,7 +3,6 @@ package leaf.prod.app.fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.app.view.Operation;
@@ -58,15 +57,6 @@ public abstract class BaseFragment extends LazyFragment {
      */
     public Operation getOperation() {
         return this.mBaseOperation;
-    }
-
-    /**
-     * 吐司
-     *
-     * @param msg 消息
-     */
-    public void showToast(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

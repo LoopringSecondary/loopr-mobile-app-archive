@@ -12,15 +12,16 @@ import java.util.List;
 import android.content.Context;
 
 import org.web3j.crypto.WalletUtils;
+import com.vondear.rxtool.view.RxToast;
 
+import leaf.prod.app.R;
 import leaf.prod.app.activity.AddCustomTokenActivity;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.WalletEntity;
-import leaf.prod.walletsdk.util.NumberUtils;
-import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.util.NumberUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -46,7 +47,7 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
     private boolean validateAddress(String address) {
         boolean result = WalletUtils.isValidAddress(address);
         if (!result) {
-            ToastUtils.toast("please input a valid address");
+            RxToast.warning(context.getResources().getString(R.string.input_valid_address));
         }
         return result;
     }
@@ -54,7 +55,7 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
     private boolean validateSymbol(String symbol) {
         boolean result = !symbol.isEmpty();
         if (!result) {
-            ToastUtils.toast("please input a valid symbol");
+            RxToast.warning(context.getResources().getString(R.string.input_valid_symbol));
         }
         return result;
     }
@@ -66,7 +67,7 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
             result = true;
         }
         if (!result) {
-            ToastUtils.toast("please input a valid decimal");
+            RxToast.warning(context.getResources().getString(R.string.input_valid_decimal));
         }
         return result;
     }
@@ -94,12 +95,12 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
 
                         @Override
                         public void onError(Throwable e) {
-                            ToastUtils.toast("添加代币失败");
+                            RxToast.error(context.getResources().getString(R.string.token_add));
                         }
 
                         @Override
                         public void onNext(String s) {
-                            ToastUtils.toast("成功添加代币");
+                            RxToast.error(context.getResources().getString(R.string.token_add_error));
                             addTokenToChosen();
                         }
                     });

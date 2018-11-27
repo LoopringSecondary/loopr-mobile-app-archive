@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -167,7 +166,7 @@ public class H5DexWebActivity extends BaseActivity {
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(H5DexWebActivity.this, "成功了", Toast.LENGTH_LONG).show();
+            RxToast.success(getResources().getString(R.string.share_success));
         }
 
         /**
@@ -178,9 +177,9 @@ public class H5DexWebActivity extends BaseActivity {
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
             if (t.getMessage().contains("2008")) {//错误码
-                Toast.makeText(H5DexWebActivity.this, "分享失败:没有安装该应用", Toast.LENGTH_LONG).show();
+                RxToast.error(getResources().getString(R.string.share_failed_no_app));
             } else {
-                Toast.makeText(H5DexWebActivity.this, "分享失败:" + t.getMessage(), Toast.LENGTH_LONG).show();
+                RxToast.error(getResources().getString(R.string.share_failed, t.getMessage()));
             }
         }
 
@@ -268,8 +267,8 @@ public class H5DexWebActivity extends BaseActivity {
 
     public void uShare() {
         UMImage umImage = new UMImage(getApplicationContext(), getBitmap(clShareView));
-        umImage.setTitle("钱包地址分享");
-        umImage.setDescription("钱包地址分享");
+        umImage.setTitle(getResources().getString(R.string.wallet_address_share));
+        umImage.setDescription(getResources().getString(R.string.wallet_address_share));
         ShareAction shareAction = new ShareAction(H5DexWebActivity.this);
         shareAction.setDisplayList(SHARE_MEDIA.QQ,
                 SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.FACEBOOK)
