@@ -47,8 +47,8 @@ public class UpgradeUtil {
                 public void onResponse(Call<AppResponseWrapper<VersionResp>> call, Response<AppResponseWrapper<VersionResp>> response) {
                     try {
                         VersionResp versionResult = response.body().getMessage();
-                        if (versionResult != null && !AndroidUtils.getVersionName(context)
-                                .equals(versionResult.getVersion())) {
+                        if (versionResult != null && AndroidUtils.getVersionName(context)
+                                .compareTo(versionResult.getVersion()) < 0) {
                             AlertDialog.Builder updateDialog = new AlertDialog.Builder(context);
                             VersionResp finalVersionResult = versionResult;
                             updateDialog.setPositiveButton(context.getResources()
