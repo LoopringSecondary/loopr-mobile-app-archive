@@ -74,9 +74,11 @@ public class ThirdLoginUtil {
      */
     public static void initLocalConf(Context context) {
         ThirdLoginUser thirdLoginUser = SPUtils.getBean(context, THIRD_LOGIN + "_" + getUserId(context), ThirdLoginUser.class);
-        LanguageUtil.changeLanguage(context, Language.getLanguage(thirdLoginUser.getLanguage()));
-        if (CurrencyUtil.getCurrency(context) != Currency.valueOf(thirdLoginUser.getCurrency())) {
-            CurrencyUtil.setCurrency(context, Currency.valueOf(thirdLoginUser.getCurrency()));
+        if (thirdLoginUser != null) {
+            LanguageUtil.changeLanguage(context, Language.getLanguage(thirdLoginUser.getLanguage()));
+            if (CurrencyUtil.getCurrency(context) != Currency.valueOf(thirdLoginUser.getCurrency())) {
+                CurrencyUtil.setCurrency(context, Currency.valueOf(thirdLoginUser.getCurrency()));
+            }
         }
     }
 
