@@ -48,64 +48,58 @@ public class ThirdLoginUtil {
         SPUtils.put(context, THIRD_LOGIN, "-");
     }
 
-    private static void saveLocal(Context context, ThirdLoginUser thirdLoginUser) {
-        if (thirdLoginUser == null)
-            return;
-        SPUtils.put(context, THIRD_LOGIN, thirdLoginUser.getUserId());
-        SPUtils.put(context, THIRD_LOGIN + "_" + thirdLoginUser.getUserId(), thirdLoginUser);
-    }
-
     public static void clearLocal(Context context, String uid) {
         SPUtils.remove(context, THIRD_LOGIN);
         SPUtils.remove(context, THIRD_LOGIN + "_" + uid);
     }
 
+    public static ThirdLoginUser getLocalUser(Context context) {
+        return SPUtils.getBean(context, THIRD_LOGIN + "_" + getUserId(context), ThirdLoginUser.class);
+    }
+
     /**
      * 点击第三方微信登录
      *
-     * @param context
      * @param thirdLoginUser
      */
-    public static void initThirdLogin(Context context, ThirdLoginUser thirdLoginUser, Callback<AppResponseWrapper<String>> callback) {
-        if (thirdLoginUser == null)
-            return;
-        ThirdLogin newThirdLogin = new ThirdLogin(thirdLoginUser.getUserId(), gson.toJson(thirdLoginUser));
-        ThirdLoginUser localThirdLoginUser = SPUtils.getBean(context, THIRD_LOGIN + "_" + thirdLoginUser.getUserId(), ThirdLoginUser.class);
-        thirdLoginService.getUser(thirdLoginUser.getUserId(), new Callback<AppResponseWrapper<ThirdLogin>>() {
-            @Override
-            public void onResponse(Call<AppResponseWrapper<ThirdLogin>> call, Response<AppResponseWrapper<ThirdLogin>> response) {
-                ThirdLoginUser remoteThirdLoginUser = null;
-                try {
-                    ThirdLogin remoteThirdLogin = response.body().getMessage();
-                    remoteThirdLoginUser = remoteThirdLogin != null ? remoteThirdLogin.getThirdLoginUser() : null;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                if (localThirdLoginUser == null) {
-                    if (remoteThirdLoginUser != null) {
-                        // 初始化本地数据
-                        SPUtils.put(context, THIRD_LOGIN + "_" + thirdLoginUser.getUserId(), remoteThirdLoginUser);
-                        LanguageUtil.changeLanguage(context, Language.getLanguage(remoteThirdLoginUser.getLanguage()));
-                        CurrencyUtil.setCurrency(context, Currency.valueOf(remoteThirdLoginUser.getCurrency()));
-                    } else {
-                        // 初始化本地和线上
-                        thirdLoginService.addUser(newThirdLogin, callback);
-                        SPUtils.put(context, THIRD_LOGIN + "_" + thirdLoginUser.getUserId(), thirdLoginUser);
-                    }
-                } else {
-                    // 更新线上数据
-                    if (!localThirdLoginUser.equals(remoteThirdLoginUser)) {
-                        thirdLoginService.addUser(new ThirdLogin(localThirdLoginUser.getUserId(), gson.toJson(localThirdLoginUser)), callback);
-                    }
-                }
-                SPUtils.put(context, THIRD_LOGIN, thirdLoginUser.getUserId());
-            }
+    public static void initThirdLogin(Context context, ThirdLoginUser thirdLoginUser, Callback<AppResponseWrapper<ThirdLogin>> callback) {
+        SPUtils.put(context, THIRD_LOGIN, thirdLoginUser.getUserId());
+        thirdLoginService.getUser(thirdLoginUser.getUserId(), callback);
+    }
 
-            @Override
-            public void onFailure(Call<AppResponseWrapper<ThirdLogin>> call, Throwable t) {
-                Log.e("", t.getMessage());
-            }
-        });
+    /**
+     * 初始化本地配置
+     *
+     * @param remoteThirdLoginUser
+     * @return
+     */
+    public static void initLocalConf(Context context, ThirdLoginUser remoteThirdLoginUser) {
+        SPUtils.put(context, THIRD_LOGIN + "_" + getUserId(context), remoteThirdLoginUser);
+        LanguageUtil.changeLanguage(context, Language.getLanguage(remoteThirdLoginUser.getLanguage()));
+        CurrencyUtil.setCurrency(context, Currency.valueOf(remoteThirdLoginUser.getCurrency()));
+    }
+
+    /**
+     * 初始化本地和线上
+     *
+     * @param context
+     * @param thirdLogin
+     * @param callback
+     */
+    public static void initLocalAndRemote(Context context, ThirdLogin thirdLogin, Callback<AppResponseWrapper<String>> callback) {
+        thirdLoginService.addUser(thirdLogin, callback);
+        SPUtils.put(context, THIRD_LOGIN + "_" + getUserId(context), thirdLogin.getThirdLoginUser());
+    }
+
+    /**
+     * 初始化线上
+     *
+     * @param context
+     * @param thirdLoginUser
+     * @param callback
+     */
+    public static void initRemote(Context context, ThirdLoginUser thirdLoginUser, Callback<AppResponseWrapper<String>> callback) {
+        thirdLoginService.addUser(new ThirdLogin(getUserId(context), gson.toJson(thirdLoginUser)), callback);
     }
 
     /**
@@ -194,7 +188,7 @@ public class ThirdLoginUtil {
      *
      * @param context
      */
-    public static void clearDritData(Context context) {
+    public static void clearDirtData(Context context) {
         if (((String) SPUtils.get(context, "dirt_data", "")).isEmpty()) {
             String uid = (String) SPUtils.get(context, THIRD_LOGIN, "");
             SPUtils.remove(context, THIRD_LOGIN + "_" + uid);

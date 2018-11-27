@@ -82,7 +82,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
         initListener();
         showNetworkDialog(this.getLocalClassName(), false);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        ThirdLoginUtil.clearDritData(BaseActivity.this);
+        ThirdLoginUtil.clearDirtData(BaseActivity.this);
     }
 
     protected WeakReference<Activity> getWContext() {
