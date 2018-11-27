@@ -14,13 +14,13 @@ import android.widget.ImageView;
 
 import org.json.JSONException;
 import com.vondear.rxfeature.tool.RxQRCode;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.walletsdk.util.FileUtils;
-import leaf.prod.app.utils.ToastUtils;
 
 /**
  *
@@ -57,10 +57,10 @@ public class QRCodeFragment extends BaseFragment {
                             into(ivCode);
                     break;
                 case ERROR_ONE:
-                    ToastUtils.toast(getResources().getString(R.string.local_file_error));
+                    RxToast.error(getResources().getString(R.string.local_file_error));
                     break;
                 case ERROR_TWO:
-                    ToastUtils.toast(getResources().getString(R.string.local_file_error));
+                    RxToast.error(getResources().getString(R.string.local_file_error));
                     break;
             }
         }

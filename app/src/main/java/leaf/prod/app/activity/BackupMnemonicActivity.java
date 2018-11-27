@@ -13,11 +13,12 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.vondear.rxtool.view.RxToast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.MnemonicWordAdapter;
-import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.SpacesItemDecoration;
 import leaf.prod.app.views.TitleView;
 
@@ -58,12 +59,9 @@ public class BackupMnemonicActivity extends BaseActivity {
                     mHintAdapter.setNewData(listMnemonic);
                     break;
                 case ERROR_ONE:
-                    hideProgress();
-                    ToastUtils.toast(getResources().getString(R.string.local_file_error));
-                    break;
                 case ERROR_TWO:
                     hideProgress();
-                    ToastUtils.toast(getResources().getString(R.string.local_file_error));
+                    RxToast.error(getResources().getString(R.string.local_file_error));
                     break;
             }
         }

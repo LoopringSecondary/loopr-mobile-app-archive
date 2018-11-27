@@ -140,7 +140,7 @@ public class SettingFragment extends BaseFragment {
                         AppResponseWrapper<String> wrapper = response.body();
                         if (wrapper != null && wrapper.getSuccess()) {
                             ThirdLoginUtil.skip(getContext());
-                            RxToast.info(getResources().getString(R.string.third_logout_success));
+                            RxToast.success(getResources().getString(R.string.third_logout_success));
                             btnLogin.setText(getResources().getString(R.string.third_part_login));
                         } else {
                             RxToast.error(getResources().getString(R.string.third_logout_error));

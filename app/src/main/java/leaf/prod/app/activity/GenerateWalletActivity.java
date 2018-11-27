@@ -37,27 +37,26 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.MnemonicWordAdapter;
 import leaf.prod.app.adapter.MnemonicWordHintAdapter;
-import leaf.prod.walletsdk.model.ImportWalletType;
-import leaf.prod.walletsdk.model.WalletEntity;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.DialogUtil;
-import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.walletsdk.util.MD5Utils;
 import leaf.prod.app.utils.MyViewUtils;
-import leaf.prod.walletsdk.util.PasswordUtils;
-import leaf.prod.walletsdk.util.SPUtils;
-import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.SpacesItemDecoration;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
+import leaf.prod.walletsdk.model.ImportWalletType;
+import leaf.prod.walletsdk.model.WalletEntity;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.CredentialsUtils;
+import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.KeystoreUtils;
+import leaf.prod.walletsdk.util.MD5Utils;
 import leaf.prod.walletsdk.util.MnemonicUtils;
+import leaf.prod.walletsdk.util.PasswordUtils;
+import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -433,7 +432,7 @@ public class GenerateWalletActivity extends BaseActivity {
         if (str.trim().equals(mnemonic)) {
             startThread();
         } else {
-            ToastUtils.toast("助记词不匹配");
+            RxToast.error(getResources().getString(R.string.mnemonic_not_match));
         }
     }
 

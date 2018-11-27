@@ -26,18 +26,17 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.SetWalletNameActivity;
+import leaf.prod.app.utils.ButtonClickUtil;
+import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
+import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.model.ImportWalletType;
 import leaf.prod.walletsdk.model.WalletEntity;
 import leaf.prod.walletsdk.model.eventbusData.PrivateKeyData;
-import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.walletsdk.util.FileUtils;
-import leaf.prod.walletsdk.util.MD5Utils;
-import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.walletsdk.util.WalletUtil;
-import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
-import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.KeystoreUtils;
+import leaf.prod.walletsdk.util.MD5Utils;
+import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -109,7 +108,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
 
                                 @Override
                                 public void onError(Throwable e) {
-                                    ToastUtils.toast(getResources().getString(R.string.add_wallet_error));
+                                    RxToast.error(getResources().getString(R.string.add_wallet_error));
                                     hideProgress();
                                 }
 
@@ -119,20 +118,17 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                             });
                     break;
                 case ERROR_ONE:
-                    ToastUtils.toast("私钥错误");
+                    RxToast.error(getResources().getString(R.string.private_key_error));
                     hideProgress();
                     break;
                 case ERROR_TWO:
-                    ToastUtils.toast(getResources().getString(R.string.add_wallet_error));
                     hideProgress();
+                    RxToast.error(getResources().getString(R.string.add_wallet_error));
                     break;
                 case ERROR_THREE:
-                    hideProgress();
-                    ToastUtils.toast(getResources().getString(R.string.local_file_error));
-                    break;
                 case ERROR_FOUR:
                     hideProgress();
-                    ToastUtils.toast(getResources().getString(R.string.local_file_error));
+                    RxToast.error(getResources().getString(R.string.local_file_error));
                     break;
             }
         }
@@ -215,23 +211,23 @@ public class ImportPrivateKeyFragment extends BaseFragment {
     public void onViewClicked() {
         if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
             if (TextUtils.isEmpty(etPrivateKey.getText().toString())) {
-                ToastUtils.toast("请输入私钥");
+                RxToast.warning(getResources().getString(R.string.private_key_hint));
                 return;
             }
             if (TextUtils.isEmpty(etPassword.getText().toString())) {
-                ToastUtils.toast("请输入密码");
+                RxToast.warning(getResources().getString(R.string.put_password));
                 return;
             }
             if (etPassword.getText().toString().length() < 6) {
-                ToastUtils.toast("请输入6位以上密码");
+                RxToast.warning(getResources().getString(R.string.valid_password));
                 return;
             }
             if (TextUtils.isEmpty(etRepeatPassword.getText().toString())) {
-                ToastUtils.toast("请再次输入密码");
+                RxToast.warning(getResources().getString(R.string.repeat_password));
                 return;
             }
             if (!etRepeatPassword.getText().toString().equals(etPassword.getText().toString())) {
-                ToastUtils.toast("两次输入密码不一致");
+                RxToast.error(getResources().getString(R.string.password_match_toast));
                 return;
             }
             unlockWallet();

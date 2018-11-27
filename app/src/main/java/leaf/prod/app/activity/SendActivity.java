@@ -43,18 +43,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.walletsdk.manager.BalanceDataManager;
-import leaf.prod.walletsdk.manager.GasDataManager;
-import leaf.prod.walletsdk.manager.MarketcapDataManager;
-import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.manager.TransactionDataManager;
 import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.walletsdk.util.NumberUtils;
-import leaf.prod.walletsdk.util.SPUtils;
-import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.Erc20TransactionManager;
 import leaf.prod.walletsdk.EthTransactionManager;
@@ -62,10 +52,19 @@ import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.exception.TransactionException;
+import leaf.prod.walletsdk.manager.BalanceDataManager;
+import leaf.prod.walletsdk.manager.GasDataManager;
+import leaf.prod.walletsdk.manager.MarketcapDataManager;
+import leaf.prod.walletsdk.manager.TokenDataManager;
+import leaf.prod.walletsdk.manager.TransactionDataManager;
 import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.util.CurrencyUtil;
+import leaf.prod.walletsdk.util.NumberUtils;
+import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class SendActivity extends BaseActivity {
 
@@ -376,7 +375,7 @@ public class SendActivity extends BaseActivity {
             view.findViewById(R.id.cancel).setOnClickListener(v -> passwordDialog.dismiss());
             view.findViewById(R.id.confirm).setOnClickListener(v -> {
                 if (TextUtils.isEmpty(passwordInput.getText().toString())) {
-                    ToastUtils.toast(view.getResources().getString(R.string.put_password));
+                    RxToast.warning(view.getResources().getString(R.string.put_password));
                 } else {
                     send(passwordInput.getText().toString());
                 }

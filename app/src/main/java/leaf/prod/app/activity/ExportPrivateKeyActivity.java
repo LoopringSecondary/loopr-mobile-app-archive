@@ -14,17 +14,17 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.web3j.crypto.Credentials;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.walletsdk.util.FileUtils;
-import leaf.prod.app.utils.ToastUtils;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.util.CredentialsUtils;
+import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.KeystoreUtils;
 
 public class ExportPrivateKeyActivity extends BaseActivity {
@@ -53,24 +53,18 @@ public class ExportPrivateKeyActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case ERROR_ONE:
-                    ToastUtils.toast("私钥获取失败");
-                    break;
                 case ERROR_TWO:
-                    ToastUtils.toast("json转换失败");
+                    RxToast.error(getResources().getString(R.string.private_key_error));
                     break;
                 case ERROR_THREE:
-                    ToastUtils.toast("密码输入错误");
-                    break;
                 case ERROR_FOUR:
-                    ToastUtils.toast("密码输入错误");
+                    RxToast.error(getResources().getString(R.string.password_match_toast));
                     break;
             }
         }
     };
 
     private String filename;
-
-    private String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +87,6 @@ public class ExportPrivateKeyActivity extends BaseActivity {
     @Override
     public void initView() {
         filename = getIntent().getStringExtra("filename");
-        address = getIntent().getStringExtra("address");
     }
 
     @Override
@@ -127,6 +120,6 @@ public class ExportPrivateKeyActivity extends BaseActivity {
         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         // 将文本内容放到系统剪贴板里。
         cm.setText(tvPrivateKey.getText());
-        ToastUtils.toast("复制成功");
+        RxToast.success(getResources().getString(R.string.copy_to_clipborad_success));
     }
 }

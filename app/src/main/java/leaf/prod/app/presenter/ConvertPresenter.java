@@ -37,18 +37,17 @@ import leaf.prod.app.R;
 import leaf.prod.app.activity.ConvertActivity;
 import leaf.prod.app.activity.SendErrorActivity;
 import leaf.prod.app.activity.SendSuccessActivity;
-import leaf.prod.walletsdk.manager.BalanceDataManager;
-import leaf.prod.walletsdk.manager.GasDataManager;
-import leaf.prod.walletsdk.manager.MarketcapDataManager;
-import leaf.prod.walletsdk.util.CurrencyUtil;
-import leaf.prod.walletsdk.util.NumberUtils;
-import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
+import leaf.prod.walletsdk.manager.BalanceDataManager;
+import leaf.prod.walletsdk.manager.GasDataManager;
+import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.util.CurrencyUtil;
+import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.UnitConverter;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class ConvertPresenter extends BasePresenter<ConvertActivity> {
 
@@ -224,7 +223,7 @@ public class ConvertPresenter extends BasePresenter<ConvertActivity> {
             view.findViewById(R.id.cancel).setOnClickListener(v -> passwordDialog.dismiss());
             view.findViewById(R.id.confirm).setOnClickListener(v -> {
                 if (TextUtils.isEmpty(passwordInput.getText().toString())) {
-                    ToastUtils.toast(view.getResources().getString(R.string.put_password));
+                    RxToast.warning(view.getResources().getString(R.string.put_password));
                 } else {
                     convert(passwordInput.getText().toString());
                 }

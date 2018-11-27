@@ -24,7 +24,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.umeng.socialize.Config;
 import com.umeng.socialize.ShareAction;
@@ -32,14 +31,14 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.vondear.rxfeature.tool.RxQRCode;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.utils.ToastUtils;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.util.WalletUtil;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -93,7 +92,7 @@ public class ReceiveActivity extends BaseActivity {
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(ReceiveActivity.this, "分享成功！", Toast.LENGTH_LONG).show();
+            RxToast.success(getResources().getString(R.string.share_success));
         }
 
         /**
@@ -104,9 +103,9 @@ public class ReceiveActivity extends BaseActivity {
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
             if (t.getMessage().contains("2008")) {//错误码
-                Toast.makeText(ReceiveActivity.this, "分享失败:没有安装该应用", Toast.LENGTH_LONG).show();
+                RxToast.error(getResources().getString(R.string.share_failed_no_app));
             } else {
-                Toast.makeText(ReceiveActivity.this, "分享失败:" + t.getMessage(), Toast.LENGTH_LONG).show();
+                RxToast.error(getResources().getString(R.string.share_failed, t.getMessage()));
             }
         }
 
@@ -169,13 +168,13 @@ public class ReceiveActivity extends BaseActivity {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 // 将文本内容放到系统剪贴板里。
                 cm.setText(coinAddress.getText());
-                ToastUtils.toast("复制地址至剪切板成功");
+                RxToast.success(getResources().getString(R.string.copy_to_clipborad_success));
                 break;
             case R.id.btn_save:
                 Bitmap bitmap = getBitmap(llShareView);
                 boolean result = saveChart(bitmap, llShareView.getMeasuredHeight(), llShareView.getMeasuredWidth());
                 if (result) {
-                    ToastUtils.toast("保存图片至相册成功");
+                    RxToast.success(getResources().getString(R.string.save_pic_success));
                 }
                 break;
         }
@@ -192,19 +191,19 @@ public class ReceiveActivity extends BaseActivity {
     // 用户拒绝授权回调（可选）
     @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void showDeniedForWrite() {
-        Toast.makeText(ReceiveActivity.this, "权限已拒绝", Toast.LENGTH_SHORT).show();
+        RxToast.error(getResources().getString(R.string.no_access));
     }
 
     // 用户勾选了“不再提醒”时调用（可选）
     @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void showNeverAskForWrite() {
-        Toast.makeText(ReceiveActivity.this, "权限已拒绝，不在提醒", Toast.LENGTH_SHORT).show();
+        RxToast.error(getResources().getString(R.string.no_access_no_alert));
     }
 
     private void uShare() {
         UMImage umImage = new UMImage(getApplicationContext(), getBitmap(llShareView));
-        umImage.setTitle("钱包地址分享");//标题
-        umImage.setDescription("钱包地址分享");//描述
+        umImage.setTitle(getResources().getString(R.string.wallet_address_share));//标题
+        umImage.setDescription(getResources().getString(R.string.wallet_address_share));
         ShareAction shareAction = new ShareAction(ReceiveActivity.this);
         shareAction.setDisplayList(SHARE_MEDIA.QQ,
                 SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.FACEBOOK)//传入平台
