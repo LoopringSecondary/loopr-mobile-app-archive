@@ -6,26 +6,42 @@
  */
 package leaf.prod.walletsdk.manager;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
 
 import leaf.prod.walletsdk.model.OriginOrder;
+import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class MarketOrderDataManager extends OrderDataManager {
 
     private Context context;
 
-    private Map balanceInfo;
+    private String owner;
+
+    private GasDataManager gas;
+
+    private TokenDataManager token;
+
+    private BalanceDataManager balance;
 
     private LoopringService loopringService;
+
+    private Map<String, Double> balanceInfo;
 
     private static MarketOrderDataManager marketOrderManager = null;
 
     private MarketOrderDataManager(Context context) {
         this.context = context;
+        balanceInfo = new HashMap<>();
         loopringService = new LoopringService();
+        owner = WalletUtil.getCurrentAddress(context);
+        gas = GasDataManager.getInstance(context);
+        token = TokenDataManager.getInstance(context);
+        balance = BalanceDataManager.getInstance(context);
     }
 
     public static MarketOrderDataManager getInstance(Context context) {
@@ -35,7 +51,134 @@ public class MarketOrderDataManager extends OrderDataManager {
         return marketOrderManager;
     }
 
+    private Double getLRCFrozenFromServer() {
+        String valueInWei = loopringService.getFrozenLRCFee(owner).toBlocking().single();
+        return token.getDoubleFromWei("LRC", valueInWei);
+    }
+
+    private Double getAllowanceFromServer(String symbol) {
+        String valueInWei = loopringService.getEstimatedAllocatedAllowance(owner, symbol).toBlocking().single();
+        return token.getDoubleFromWei(symbol, valueInWei);
+    }
+
+    private void checkLRCEnough(OriginOrder order) {
+        Double lrcFrozen = getLRCFrozenFromServer();
+        Double lrcFee = token.getDoubleFromWei("LRC", order.getLrcFee());
+        Double lrcBalance = balance.getAssetBySymbol("LRC").getBalance().doubleValue();
+        Double result = lrcBalance - lrcFee - lrcFrozen;
+        if (result < 0) {
+            balanceInfo.put("MINUS_LRC", -result);
+        }
+    }
+
+    private void checkGasEnough(OriginOrder order, Boolean includingLRC) {
+        Double result;
+        Double ethBalance = balance.getAssetBySymbol("ETH").getBalance().doubleValue();
+        String tokenS = token.getTokenByProtocol(order.getTokenSell()).getSymbol();
+        Double amountS = token.getDoubleFromWei(tokenS, order.getAmountSell());
+        Double lrcFee = token.getDoubleFromWei("LRC", order.getLrcFee());
+        Double tokenGas = calculateGas(tokenS, amountS, lrcFee);
+        if (includingLRC) {
+            Double lrcGas = calculateGas("LRC", amountS, lrcFee);
+            result = ethBalance - lrcGas - tokenGas;
+        } else {
+            result = ethBalance - tokenGas;
+        }
+        if (result < 0) {
+            balanceInfo.put("MINUS_ETH", -result);
+        }
+    }
+
+    private void checkLRCGasEnough(OriginOrder order) {
+        Double ethBalance = balance.getAssetBySymbol("ETH").getBalance().doubleValue();
+        Double lrcGas = calculateGasForLRC(order);
+        Double result = ethBalance - lrcGas;
+        if (result < 0) {
+            balanceInfo.put("MINUS_ETH", -result);
+        }
+    }
+
+    private Double calculateGas(String symbol, Double amount, Double lrcFee) {
+        Double result;
+        BalanceResult.Asset asset = balance.getAssetBySymbol(symbol);
+        Double allowance = token.getDoubleFromWei(asset.getSymbol(), asset.getAllowance());
+        if (symbol.equalsIgnoreCase("LRC")) {
+            Double lrcFrozen = getLRCFrozenFromServer();
+            Double sellingFrozen = getAllowanceFromServer("LRC");
+            if (allowance >= lrcFee + lrcFrozen + sellingFrozen) {
+                return 0d;
+            }
+        } else {
+            Double tokenFrozen = getAllowanceFromServer(symbol);
+            if (allowance >= amount + tokenFrozen) {
+                return 0d;
+            }
+        }
+        Double gasAmount = gas.getGasAmountInETH("approve");
+        String key = String.format("GAS_%s", asset.getSymbol());
+        if (allowance == 0) {
+            result = gasAmount;
+            balanceInfo.put(key, 1d);
+        } else {
+            result = gasAmount * 2;
+            balanceInfo.put(key, 2d);
+        }
+        return result;
+    }
+
+    private Double calculateGasForLRC(OriginOrder order) {
+        Double result;
+        BalanceResult.Asset asset = balance.getAssetBySymbol("LRC");
+        Double allowance = token.getDoubleFromWei("LRC", asset.getAllowance());
+        Double lrcFee = token.getDoubleFromWei("LRC", order.getLrcFee());
+        String tokenS = token.getTokenByProtocol(order.getTokenSell()).getSymbol();
+        Double amountS = token.getDoubleFromWei(tokenS, order.getAmountSell());
+        Double lrcFrozen = getLRCFrozenFromServer();
+        Double sellingFrozen = getAllowanceFromServer("LRC");
+        if (lrcFee + lrcFrozen + sellingFrozen + amountS > allowance) {
+            Double gasAmount = gas.getGasAmountInETH("approve");
+            if (allowance == 0) {
+                result = gasAmount;
+                balanceInfo.put("GAS_LRC", 1d);
+            } else {
+                result = gasAmount * 2;
+                balanceInfo.put("GAS_LRC", 2d);
+            }
+        } else {
+            return 0d;
+        }
+        return result;
+    }
+
+    /*
+     1. LRC FEE 比较的是当前订单lrc fee + getFrozenLrcfee() <> 账户lrc 余额 不够失败
+     2. 如果够了，看lrc授权够不够，够则成功，如果不够需要授权是否等于=0，如果不是，先授权lrc = 0， 再授权lrc = max，
+        是则直接授权lrc = max。看两笔授权支付的eth gas够不够，如果eth够则两次授权，不够失败
+     3. 比较当前订单amounts + loopring_getEstimatedAllocatedAllowance() <> 账户授权tokens，够则成功，
+        不够则看两笔授权支付的eth gas够不够，如果eth够则两次授权，不够失败。如果是sell lrc，
+        需要lrc fee + getFrozenLrcfee() + amounts(lrc) + loopring_getEstimatedAllocatedAllowance() <> 账户授权lrc
+     4. buy lrc不看前两点，只要3满足即可
+     */
     public Map verify(OriginOrder order) {
-        return null;
+        balanceInfo.clear();
+        String tokenB = token.getTokenByProtocol(order.getTokenBuy()).getSymbol();
+        String tokenS = token.getTokenByProtocol(order.getTokenSell()).getSymbol();
+        if (order.getSide().equalsIgnoreCase("buy")) {
+            if (tokenB.equalsIgnoreCase("LRC")) {
+                checkGasEnough(order, false);
+            } else {
+                checkLRCEnough(order);
+                checkGasEnough(order, true);
+            }
+        } else {
+            if (tokenS.equalsIgnoreCase("LRC")) {
+                checkLRCEnough(order);
+                checkLRCGasEnough(order);
+            } else {
+                checkLRCEnough(order);
+                checkGasEnough(order, true);
+            }
+        }
+        return balanceInfo;
     }
 }
