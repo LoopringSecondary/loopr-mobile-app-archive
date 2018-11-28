@@ -1,5 +1,6 @@
 package leaf.prod.app.activity;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -12,8 +13,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,13 +31,15 @@ import android.widget.RelativeLayout;
 
 import com.dtr.zbar.build.ZBarDecoder;
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.Result;
+import com.google.zxing.common.HybridBinarizer;
+import com.vondear.rxfeature.module.scaner.BitmapLuminanceSource;
 import com.vondear.rxfeature.module.scaner.CameraManager;
 import com.vondear.rxfeature.module.scaner.OnRxScanerListener;
 import com.vondear.rxfeature.module.scaner.decoding.InactivityTimer;
-import com.vondear.rxfeature.tool.RxQrBarTool;
 import com.vondear.rxtool.RxAnimationTool;
 import com.vondear.rxtool.RxBarTool;
 import com.vondear.rxtool.RxBeepTool;
@@ -327,13 +330,17 @@ public class ActivityScanerCode extends ActivityBase {
         if (resultCode == Activity.RESULT_OK) {
             ContentResolver resolver = getContentResolver();
             // 照片的原始资源地址
-            Uri originalUri = data.getData();
             try {
                 // 使用ContentProvider通过URI获取原始图片
-                Bitmap photo = MediaStore.Images.Media.getBitmap(resolver, originalUri);
+                Bitmap photo = MediaStore.Images.Media.getBitmap(resolver, data.getData());
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                photo.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+                byte[] bitmapData = bytes.toByteArray();
+
+                photo = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
                 // 开始对图像资源解码
                 try {
-                    Result rawResult = RxQrBarTool.decodeFromPhoto(photo);
+                    Result rawResult = multiFormatReader.decodeWithState(new BinaryBitmap(new HybridBinarizer(new BitmapLuminanceSource(photo))));
                     if (rawResult != null && QRCodeUitl.isValidQRCode(rawResult.toString(), restrictQRCodes)) {
                         if (mScanerListener == null) {
                             //                        initDialogResult(rawResult);
