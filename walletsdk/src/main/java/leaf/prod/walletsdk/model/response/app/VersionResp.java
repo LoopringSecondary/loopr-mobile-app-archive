@@ -6,6 +6,8 @@
  */
 package leaf.prod.walletsdk.model.response.app;
 
+import com.google.gson.annotations.SerializedName;
+
 import lombok.Data;
 
 @Data
@@ -13,15 +15,19 @@ public class VersionResp {
 
     private Integer id;
 
+    @SerializedName(value = "created_at")
     private Long createdAt;
 
+    @SerializedName(value = "updated_at")
     private Long updatedAt;
 
     private String version;
 
     private String description;
 
+    @SerializedName(value = "baidu_uri")
     private String baiduUri;
 
+    @SerializedName(value = "google_uri")
     private String googleUri;
 }
