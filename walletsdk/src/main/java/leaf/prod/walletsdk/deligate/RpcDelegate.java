@@ -93,6 +93,9 @@ public interface RpcDelegate {
     Observable<RelayResponseWrapper<List<Order>>> getOrders(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<Order>> getOrderByHash(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<String>> loopring_getFrozenLRCFee(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)

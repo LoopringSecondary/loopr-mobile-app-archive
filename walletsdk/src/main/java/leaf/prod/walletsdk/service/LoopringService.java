@@ -207,6 +207,17 @@ public class LoopringService {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
+    // 订单相关接口
+    public Observable<Order> getOrderByHash(String orderHash) {
+        GetOrdersParam param = GetOrdersParam.builder()
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .orderHash(orderHash)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_getOrderByHash", param);
+        Observable<RelayResponseWrapper<Order>> observable = rpcDelegate.getOrderByHash(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
     public Observable<String> getEstimatedAllocatedAllowance(String owner, String symbol) {
         GetAllowanceParam param = GetAllowanceParam.builder()
                 .delegateAddress(Default.DELEGATE_ADDRESS)
