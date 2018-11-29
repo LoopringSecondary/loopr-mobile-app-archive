@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_tokens"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/button_bg_pressed"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ll_first_token"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/first_token"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="WETH"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:id="@+id/token_s_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1 WETH ≈ 2,4890.722 LRC"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorNineText"
+                android:textSize="11sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_switch"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/switch_img"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:alpha="0.7"
+                android:src="@mipmap/icon_convert"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_second_token"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/second_token"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LRC"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/token_b_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1 LRC ≈ 0.00038142 WETH"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorNineText"
+                android:textSize="11sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/s_v"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/ll_tokens">
+
+        <LinearLayout
+            android:id="@+id/ll_trade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/button_bg_pressed"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/itemHeight"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/radius_white_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/sell_amount"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/margSide"
+                    android:layout_weight="1"
+                    android:cursorVisible="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/sell_amount"
+                    android:imeOptions="actionNext"
+                    android:inputType="number|numberDecimal"
+                    android:maxLength="100"
+                    android:singleLine="true"
+                    android:textColorHint="@color/black"
+                    android:textCursorDrawable="@drawable/black_color_cursor"
+                    android:textSize="@dimen/normalText"
+                    app:met_baseColor="@color/black"
+                    app:met_checkCharactersCountAtBeginning="false"
+                    app:met_floatingLabel="none"
+                    app:met_helperTextColor="@color/black"
+                    app:met_hideUnderline="true"
+                    app:met_primaryColor="@color/black"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_sell_token"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/sell_token"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="WETH"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <ImageView
+
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margSide"
+                        android:src="@mipmap/icon_caret"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/hint_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="5"
+                    android:text="@string/available_balance"
+                    android:textColor="@color/colorNineText"
+                    android:textSize="@dimen/text_12"/>
+
+                <TextView
+                    android:id="@+id/market_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="right"
+                    android:text="市价计算"
+                    android:textColor="@color/colorCenter"
+                    android:textSize="@dimen/text_12"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/itemHeight"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/radius_white_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/buy_amount"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/margSide"
+                    android:layout_weight="1"
+                    android:cursorVisible="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/buy_amount"
+                    android:imeOptions="actionNext"
+                    android:maxLength="100"
+                    android:singleLine="true"
+                    android:textColorHint="@color/black"
+                    android:textCursorDrawable="@drawable/black_color_cursor"
+                    android:textSize="@dimen/normalText"
+                    app:met_baseColor="@color/black"
+                    app:met_checkCharactersCountAtBeginning="false"
+                    app:met_floatingLabel="none"
+                    app:met_helperTextColor="@color/black"
+                    app:met_hideUnderline="true"
+                    app:met_primaryColor="@color/black"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_buy_token"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/buy_token"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="LRC"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margSide"
+                        android:src="@mipmap/icon_caret"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.xw.repo.BubbleSeekBar
+                android:id="@+id/seek_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                app:bsb_hide_bubble="true"
+                app:bsb_is_float_type="true"
+                app:bsb_second_track_color="@color/colorGreen"
+                app:bsb_section_count="4"
+                app:bsb_section_text_position="below_section_mark"
+                app:bsb_seek_step_section="true"
+                app:bsb_show_section_mark="true"
+                app:bsb_thumb_color="@color/colorGreen"
+                app:bsb_thumb_radius="7dp"
+                app:bsb_touch_to_seek="true"
+                app:bsb_track_color="@color/colorNineText"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/one_hour"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/text_bg_pressed_left"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_12"/>
+
+                <TextView
+                    android:id="@+id/one_day"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/text_bg_pressed_all"
+                    android:gravity="center"
+                    android:textColor="@color/colorNineText"
+                    android:textSize="@dimen/text_12"/>
+
+                <TextView
+                    android:id="@+id/one_month"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/text_bg_pressed_all"
+                    android:gravity="center"
+                    android:textColor="@color/colorNineText"
+                    android:textSize="@dimen/text_12"/>
+
+                <TextView
+                    android:id="@+id/custom"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/text_bg_pressed_right"
+                    android:gravity="center"
+                    android:text="@string/custom"
+                    android:textColor="@color/colorNineText"
+                    android:textSize="@dimen/text_12"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_minimal_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:text="@string/minimal_count"
+                    android:textColor="@color/colorNineText"
+                    android:textSize="@dimen/text_12"/>
+
+                <LinearLayout
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radius_white_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        style="@style/editTextStyle"
+                        android:layout_width="56dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="@dimen/margSide"
+                        android:cursorVisible="true"
+                        android:focusableInTouchMode="true"
+                        android:imeOptions="actionNext"
+                        android:maxLength="100"
+                        android:singleLine="true"
+                        android:text="1"
+                        android:textAlignment="center"
+                        android:textColorHint="@color/black"
+                        android:textCursorDrawable="@drawable/black_color_cursor"
+                        android:textSize="12sp"
+                        app:met_baseColor="@color/black"
+                        app:met_checkCharactersCountAtBeginning="false"
+                        app:met_floatingLabel="none"
+                        app:met_helperTextColor="@color/black"
+                        app:met_hideUnderline="true"
+                        app:met_primaryColor="@color/black"/>
+
+                    <TextView
+                        android:layout_width="24dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/part"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <!--<com.rengwuxian.materialedittext.MaterialEditText-->
+                <!--style="@style/editTextStyle"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:layout_marginStart="@dimen/margSide"-->
+                <!--android:layout_weight="1"-->
+                <!--android:cursorVisible="true"-->
+                <!--android:focusableInTouchMode="true"-->
+                <!--android:imeOptions="actionNext"-->
+                <!--android:inputType="number"-->
+                <!--android:maxLength="100"-->
+                <!--android:singleLine="true"-->
+                <!--android:text="1"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textColorHint="@color/black"-->
+                <!--android:textCursorDrawable="@drawable/white_color_cursor"-->
+                <!--android:textSize="11sp"-->
+                <!--app:met_baseColor="@color/colorWhite"-->
+                <!--app:met_checkCharactersCountAtBeginning="false"-->
+                <!--app:met_floatingLabel="none"-->
+                <!--app:met_hideUnderline="true"-->
+                <!--app:met_primaryColor="@color/colorWhite"/>-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp">
+
+                <Button
+                    android:id="@+id/btn_login"
+                    style="@style/SubmitBtnStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="1"
+                    android:text="@string/next"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

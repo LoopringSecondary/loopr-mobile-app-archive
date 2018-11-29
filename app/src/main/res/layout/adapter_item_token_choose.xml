@@ -63,7 +63,6 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="20dp"
         android:checked="false"
-        android:src="@mipmap/icon_success_white"
         android:textOff="@null"
         android:textOn="@null"
         android:visibility="gone"/>

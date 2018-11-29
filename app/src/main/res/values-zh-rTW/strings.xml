@@ -15,7 +15,6 @@
     <string name="mnemonic_hint">請不要在公眾場所展示(防止攝像頭拍照)，也不要截屏(您的操作系統可能會將圖片備份到雲端存儲)。這些操作會給您帶來巨大而不可逆轉的安全隱患。</string>
     <string name="confirm">確認</string>
     <string name="cancel">取消</string>
-    <string name="cancel_order">取消訂單</string>
     <string name="skip">跳過</string>
     <string name="confirm_mnemonic_word">確認助記詞</string>
     <string name="wallet_create_success">錢包創建成功!</string>
@@ -135,7 +134,9 @@
     <string name="facebook_app_id">295333837738573</string>
     <string name="ddex">去中心化交易所</string>
     <string name="p2p">P2P</string>
+    <string name="p2p_title">場外交易</string>
     <string name="orders">訂單</string>
+    <string name="orders_records">訂單記錄</string>
     <string name="no_data_asset">您還沒有數字資產</string>
     <string name="no_data_transaction">您還沒有收付帳記錄</string>
     <string name="h5_dex">Loopring DEX</string>
@@ -187,4 +188,53 @@
     <string name="no_access_no_alert">權限已拒絕，不再提醒</string>
     <string name="wallet_address_share">錢包地址分享</string>
     <string name="download_share">下載地址分享</string>
+
+    <!-- 訂單相關 -->
+    <string name="open">進行中</string>
+    <string name="filled">成交率</string>
+    <string name="finished">已成交</string>
+    <string name="expired">已過期</string>
+    <string name="order_submitted">掛單中</string>
+    <string name="order_matching">撮合中</string>
+    <string name="order_cancelled">已取消</string>
+    <string name="order_completed">完全成交</string>
+    <string name="order_expired">已過期</string>
+    <string name="order_locked">已鎖定</string>
+    <string name="order_unknown">未知狀態</string>
+    <string name="unknown">其他</string>
+    <string name="order_detail">訂單詳情</string>
+    <string name="filled_amount">完成/總額</string>
+    <string name="type">類型</string>
+    <string name="undefined">未定義</string>
+    <string name="completed">成功</string>
+    <string name="failed">失敗</string>
+    <string name="R10001">抱歉，系統錯誤，請稍後重試</string>
+    <string name="R32000">抱歉，用戶余額不足或者下單總量已經超過余額上限</string>
+    <string name="R50001">抱歉，無法獲取到掃描訂單信息</string>
+    <string name="R50002">抱歉，掃描二維碼訂單必須是P2P訂單</string>
+    <string name="R50003">抱歉，掃描到的訂單，目前無法成交，請稍後重試</string>
+    <string name="R50004">抱歉，雙方訂單數額不匹配，請核對後重新下單</string>
+    <string name="R50005">抱歉，買單和賣單地址相同，請核對後重新下單</string>
+    <string name="R50006">抱歉，訂單已過期，請掃描其他二維碼後重新下單</string>
+    <string name="R50007">抱歉，訂單未成交數額過小，已無法下單成交</string>
+    <string name="R50008">抱歉，無法獲取當前下單信息，請稍後重試</string>
+    <string name="submit_success">恭喜！您的訂單已被提交！</string>
+    <string name="submitted_failed">您的訂單未被提交！請確認您的賬戶中有足夠余額以完成該筆訂單。</string>
+    <string name="cancel_all">取消全部</string>
+    <string name="cancel_order">取消訂單</string>
+    <string name="going_cancel_all">您將取消所有待成交訂單。</string>
+    <string name="going_cancel_order">您將取消該筆訂單</string>
+    <string name="cancel_failed">訂單取消失敗，請稍後重試</string>
+    <string name="cancel_success">訂單取消成功</string>
+    <string name="canceling">取消中</string>
+
+    <string name="sell_amount">賣出數額</string>
+    <string name="buy_amount">買入數額</string>
+    <string name="minimal_count">訂單拆分份數</string>
+
+    <string name="hour">%s小時</string>
+    <string name="day">%s天</string>
+    <string name="month">%s月</string>
+    <string name="custom">自定義</string>
+    <string name="part">份</string>
 </resources>

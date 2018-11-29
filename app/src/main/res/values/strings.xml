@@ -134,7 +134,9 @@
     <string name="facebook_app_id">295333837738573</string>
     <string name="ddex">去中心化交易所</string>
     <string name="p2p">P2P</string>
+    <string name="p2p_title">场外交易</string>
     <string name="orders">订单</string>
+    <string name="orders_records">订单记录</string>
     <string name="no_data_asset">您还没有数字资产</string>
     <string name="no_data_transaction">您还没有收付帐记录</string>
     <string name="h5_dex">Loopring DEX</string>
@@ -225,4 +227,13 @@
 	<string name="cancel_success">订单取消成功</string>
     <string name="canceling">取消中</string>
 
+    <string name="sell_amount">卖出数额</string>
+    <string name="buy_amount">买入数额</string>
+    <string name="minimal_count">订单拆分份数</string>
+
+    <string name="hour">%s小时</string>
+    <string name="day">%s天</string>
+    <string name="month">%s月</string>
+    <string name="custom">自定义</string>
+    <string name="part">份</string>
 </resources>
