@@ -8,6 +8,7 @@ package leaf.prod.walletsdk.model;
 
 import com.google.gson.JsonObject;
 
+import leaf.prod.walletsdk.manager.TokenDataManager;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,19 +24,47 @@ public class OriginOrder {
 
     private String market;
 
-    private String tokenBuy; // token protocol
+    // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
+    private String tokenB;
 
-    private String tokenSell; // token protocol
+    // token protocol e.g. lrc
+    private String tokenBuy;
 
-    private String amountBuy; // big integer hex string
+    // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
+    private String tokenS;
 
-    private String amountSell; // big integer hex string
+    // token protocol e.g. lrc
+    private String tokenSell;
 
-    private String validSince; // hex string
+    // big integer hex string e.g. 0x34f07768a92a83d00000
+    private String amountB;
 
-    private String validUntil; // hex string
+    // double value e.g. 0.02
+    private Double amountBuy;
 
-    private String lrcFee; // big integer hex string
+    // big integer hex string e.g. 0x34f07768a92a83d00000
+    private String amountS;
+
+    // double value e.g. 0.02
+    private Double amountSell;
+
+    // int value e.g. 3562653865313739
+    private Integer validS;
+
+    // hex string e.g. 0x5be8e179
+    private String validSince;
+
+    // int value e.g. 3562653865313739
+    private Integer validU;
+
+    // hex string e.g. 0x5be8e179
+    private String validUntil;
+
+    // double value e.g. 0.02
+    private Double lrc;
+
+    // big integer hex string e.g. 0x34f07768a92a83d00000
+    private String lrcFee;
 
     private Boolean buyNoMoreThanAmountB;
 
@@ -63,19 +92,27 @@ public class OriginOrder {
 
     private String s;
 
-    private OriginOrder() { }
+    private OriginOrder() {
+    }
 
     public static OriginOrder createOriginOrder(JsonObject json) {
         OriginOrder order = new OriginOrder();
         order.delegate = json.get("delegateAddress").getAsString();
         order.owner = json.get("owner").getAsString();
-        order.tokenBuy = json.get("tokenB").getAsString();
-        order.tokenSell = json.get("tokenS").getAsString();
-        order.amountBuy = json.get("amountB").getAsString();
-        order.amountSell = json.get("amountS").getAsString();
+        order.tokenB = json.get("tokenB").getAsString();
+        order.tokenBuy = TokenDataManager.getToken(order.tokenB).getSymbol();
+        order.tokenS = json.get("tokenS").getAsString();
+        order.tokenSell = TokenDataManager.getToken(order.tokenS).getSymbol();
+        order.amountB = json.get("amountB").getAsString();
+        order.amountBuy = TokenDataManager.getDouble(order.tokenBuy, order.amountB);
+        order.amountS = json.get("amountS").getAsString();
+        order.amountSell = TokenDataManager.getDouble(order.tokenSell, order.amountS);
         order.validSince = json.get("validSince").getAsString();
+        order.validS = Integer.parseInt(order.validSince, 16);
         order.validUntil = json.get("validUntil").getAsString();
+        order.validU = Integer.parseInt(order.validUntil, 16);
         order.lrcFee = json.get("lrcFee").getAsString();
+        order.lrc = TokenDataManager.getDouble("LRC", order.lrcFee);
         order.buyNoMoreThanAmountB = json.get("buyNoMoreThanAmountB").getAsBoolean();
         order.walletAddress = json.get("walletAddress").getAsString();
         order.authPrivateKey = json.get("authPrivateKey").getAsString();
