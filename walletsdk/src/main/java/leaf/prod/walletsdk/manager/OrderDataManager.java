@@ -35,12 +35,12 @@ public abstract class OrderDataManager {
         byte[] array = Numeric.hexStringToByteArray(order.getDelegate());
         array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getOwner()));
         array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getOwner()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getTokenSell()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getTokenBuy()));
+        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getTokenS()));
+        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getTokenB()));
         array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getWalletAddress()));
         array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getAuthAddr()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getAmountSell()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getAmountBuy()));
+        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getAmountS()));
+        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getAmountB()));
         array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getValidSince()));
         array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getValidUntil()));
         array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getLrcFee()));

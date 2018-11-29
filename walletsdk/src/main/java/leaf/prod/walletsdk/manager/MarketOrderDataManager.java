@@ -36,12 +36,12 @@ public class MarketOrderDataManager extends OrderDataManager {
 
     private MarketOrderDataManager(Context context) {
         this.context = context;
-        balanceInfo = new HashMap<>();
-        loopringService = new LoopringService();
-        owner = WalletUtil.getCurrentAddress(context);
-        gas = GasDataManager.getInstance(context);
-        token = TokenDataManager.getInstance(context);
-        balance = BalanceDataManager.getInstance(context);
+        this.balanceInfo = new HashMap<>();
+        this.loopringService = new LoopringService();
+        this.owner = WalletUtil.getCurrentAddress(context);
+        this.gas = GasDataManager.getInstance(context);
+        this.token = TokenDataManager.getInstance(context);
+        this.balance = BalanceDataManager.getInstance(context);
     }
 
     public static MarketOrderDataManager getInstance(Context context) {
@@ -63,9 +63,8 @@ public class MarketOrderDataManager extends OrderDataManager {
 
     private void checkLRCEnough(OriginOrder order) {
         Double lrcFrozen = getLRCFrozenFromServer();
-        Double lrcFee = token.getDoubleFromWei("LRC", order.getLrcFee());
         Double lrcBalance = balance.getAssetBySymbol("LRC").getBalance().doubleValue();
-        Double result = lrcBalance - lrcFee - lrcFrozen;
+        Double result = lrcBalance - order.getLrc() - lrcFrozen;
         if (result < 0) {
             balanceInfo.put("MINUS_LRC", -result);
         }
@@ -74,12 +73,9 @@ public class MarketOrderDataManager extends OrderDataManager {
     private void checkGasEnough(OriginOrder order, Boolean includingLRC) {
         Double result;
         Double ethBalance = balance.getAssetBySymbol("ETH").getBalance().doubleValue();
-        String tokenS = token.getTokenByProtocol(order.getTokenSell()).getSymbol();
-        Double amountS = token.getDoubleFromWei(tokenS, order.getAmountSell());
-        Double lrcFee = token.getDoubleFromWei("LRC", order.getLrcFee());
-        Double tokenGas = calculateGas(tokenS, amountS, lrcFee);
+        Double tokenGas = calculateGas(order.getTokenSell(), order.getAmountSell(), order.getLrc());
         if (includingLRC) {
-            Double lrcGas = calculateGas("LRC", amountS, lrcFee);
+            Double lrcGas = calculateGas("LRC", order.getAmountSell(), order.getLrc());
             result = ethBalance - lrcGas - tokenGas;
         } else {
             result = ethBalance - tokenGas;
@@ -130,12 +126,9 @@ public class MarketOrderDataManager extends OrderDataManager {
         Double result;
         BalanceResult.Asset asset = balance.getAssetBySymbol("LRC");
         Double allowance = token.getDoubleFromWei("LRC", asset.getAllowance());
-        Double lrcFee = token.getDoubleFromWei("LRC", order.getLrcFee());
-        String tokenS = token.getTokenByProtocol(order.getTokenSell()).getSymbol();
-        Double amountS = token.getDoubleFromWei(tokenS, order.getAmountSell());
         Double lrcFrozen = getLRCFrozenFromServer();
         Double sellingFrozen = getAllowanceFromServer("LRC");
-        if (lrcFee + lrcFrozen + sellingFrozen + amountS > allowance) {
+        if (order.getLrc() + lrcFrozen + sellingFrozen + order.getAmountSell() > allowance) {
             Double gasAmount = gas.getGasAmountInETH("approve");
             if (allowance == 0) {
                 result = gasAmount;
@@ -161,17 +154,15 @@ public class MarketOrderDataManager extends OrderDataManager {
      */
     public Map verify(OriginOrder order) {
         balanceInfo.clear();
-        String tokenB = token.getTokenByProtocol(order.getTokenBuy()).getSymbol();
-        String tokenS = token.getTokenByProtocol(order.getTokenSell()).getSymbol();
         if (order.getSide().equalsIgnoreCase("buy")) {
-            if (tokenB.equalsIgnoreCase("LRC")) {
+            if (order.getTokenBuy().equalsIgnoreCase("LRC")) {
                 checkGasEnough(order, false);
             } else {
                 checkLRCEnough(order);
                 checkGasEnough(order, true);
             }
         } else {
-            if (tokenS.equalsIgnoreCase("LRC")) {
+            if (order.getTokenSell().equalsIgnoreCase("LRC")) {
                 checkLRCEnough(order);
                 checkLRCGasEnough(order);
             } else {
