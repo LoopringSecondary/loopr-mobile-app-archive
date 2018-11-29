@@ -22,13 +22,12 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.TokenChooseAdapter;
-import leaf.prod.walletsdk.manager.BalanceDataManager;
-import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.response.relay.Token;
 
-public class SendListChooseActivity extends BaseActivity {
+public class P2PTokenListActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
@@ -55,7 +54,7 @@ public class SendListChooseActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_send_list);
+        setContentView(R.layout.activity_p2p_token_list);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
     }
@@ -85,7 +84,6 @@ public class SendListChooseActivity extends BaseActivity {
                 mAdapter.setNewData(listSearch);
                 mAdapter.setOnItemClickListener((adapter, view, position) -> {
                     String symbol = listSearch.get(position).getSymbol();
-                    SPUtils.put(SendListChooseActivity.this, "send_choose", symbol);
                     Intent intent = new Intent();
                     intent.putExtra("symbol", symbol);
                     setResult(1, intent);
@@ -107,7 +105,14 @@ public class SendListChooseActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        list = BalanceDataManager.getInstance(this).getBalanceTokens();
+        list = TokenDataManager.getInstance(this).getTokens();
+        String ignoreSymbol = getIntent().getStringExtra("ignoreSymbol");
+        for (Token token : list) {
+            if (token.getSymbol().equals(ignoreSymbol)) {
+                list.remove(token);
+                break;
+            }
+        }
         if (list.isEmpty()) {
             emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.asset);
             recyclerView.setAdapter(emptyAdapter);

@@ -95,6 +95,7 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ThirdLoginUtil.updateRemote(this);
         AppManager.getAppManager().addActivity(this);
+        mSwipeBackLayout.setEnableGesture(false);
     }
 
     @Override

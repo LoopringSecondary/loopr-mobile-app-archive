@@ -5,28 +5,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 
-/**
- *
- */
-public class TradeFragment extends BaseFragment {
+public class P2PRecordsFragment extends BaseFragment {
 
     Unbinder unbinder;
-
-    @BindView(R.id.ddex_layout)
-    LinearLayout llDex;
-
-    @BindView(R.id.p2p_layout)
-    LinearLayout llP2P;
-
-    @BindView(R.id.order_layout)
-    LinearLayout llOrder;
 
     @Nullable
     @Override
@@ -52,6 +38,16 @@ public class TradeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
