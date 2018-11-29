@@ -15,7 +15,6 @@
     <string name="mnemonic_hint">Please don\'t show up in public places (prevent cameras from taking photos) or take a screen shot(your operating system may back up images to cloud storage). These operations can bring you huge and irreversible security risks.</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
-    <string name="cancel_order">Cancel Order</string>
     <string name="skip">skip</string>
     <string name="confirm_mnemonic_word">Confirm Mnemonic Word</string>
     <string name="wallet_create_success">Wallet Created Successfully!</string>
@@ -186,4 +185,44 @@
     <string name="no_access_no_alert">No access, without warning again</string>
     <string name="wallet_address_share">Share Wallet Address</string>
     <string name="download_share">Share Link</string>
+
+    <!-- order related -->
+    <string name="open">Open</string>
+    <string name="filled">Filled</string>
+    <string name="finished">Finished</string>
+    <string name="expired">Expired</string>
+    <string name="order_submitted">Submitted</string>
+    <string name="order_matching">Waiting</string>
+    <string name="order_cancelled">Cancelled</string>
+    <string name="order_completed">Completed</string>
+    <string name="order_expired">Expired</string>
+    <string name="order_locked">Locked</string>
+    <string name="order_unknown">Unknown</string>
+    <string name="unknown">Unknown</string>
+    <string name="order_detail">Order Detail</string>
+    <string name="filled_amount">Filled/Amount</string>
+    <string name="type">Type</string>
+    <string name="undefined">Undefined</string>
+    <string name="completed">Completed</string>
+    <string name="failed">Failed</string>
+    <string name="R10001">Sorry, system error, please try again later</string>
+    <string name="R32000">Sorry, balance is not enough to submit order</string>
+    <string name="R50001">Sorry, selling order does not exist, could not complete this order</string>
+    <string name="R50002">Sorry, only p2p order could be submitted, could not complete this order</string>
+    <string name="R50003">Sorry, selling order already dealt with another buying order, please try with other orders</string>
+    <string name="R50004">Sorry, selling and buying price did not match between two orders, could not complete this order</string>
+    <string name="R50005">Sorry, owner of buying order is the same as selling, could not complete this order</string>
+    <string name="R50006">Sorry, buying order has expired, please try with other orders</string>
+    <string name="R50007">Sorry, undealt amount of order is too small, could not complete this order</string>
+    <string name="R50008">Sorry, buying order does not exist, could not complete this order</string>
+    <string name="submit_success">Congratulations! Your order has been submitted!</string>
+    <string name="submitted_failed">Your order has not been submitted! Please make sure you have enough balance to complete the trade.</string>
+    <string name="cancel_all">Cancel All</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="going_cancel_all">You are going to cancel all open orders.</string>
+    <string name="going_cancel_order">You are going to cancel the order.</string>
+    <string name="cancel_failed">Order cancellation Failed, Please try again.</string>
+    <string name="cancel_success">Order cancellation Successful.</string>
+    <string name="canceling">Canceling</string>
+
 </resources>

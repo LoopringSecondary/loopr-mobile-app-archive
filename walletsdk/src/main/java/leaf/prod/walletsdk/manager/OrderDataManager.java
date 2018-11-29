@@ -6,6 +6,8 @@
  */
 package leaf.prod.walletsdk.manager;
 
+import java.util.Map;
+
 import org.web3j.crypto.Credentials;
 import org.web3j.utils.Numeric;
 
@@ -48,4 +50,6 @@ public abstract class OrderDataManager {
         array = NumberUtils.append(array, temp);
         return array;
     }
+
+    abstract public Map verify(OriginOrder order);
 }

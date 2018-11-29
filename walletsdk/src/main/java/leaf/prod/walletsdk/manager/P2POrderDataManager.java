@@ -6,6 +6,16 @@
  */
 package leaf.prod.walletsdk.manager;
 
-public class P2POrderDataManager {
+import java.util.Map;
 
+import leaf.prod.walletsdk.model.OriginOrder;
+
+public class P2POrderDataManager extends OrderDataManager {
+
+
+
+    @Override
+    public Map verify(OriginOrder order) {
+        return null;
+    }
 }

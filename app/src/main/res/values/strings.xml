@@ -14,7 +14,6 @@
     <string name="mnemonic_hint">请不要在公众场所展示(防止摄像头拍照)，也不要截屏(您的操作系统可能会将图片备份到云存储)。这些操作会给您带来巨大而不可逆转的安全隐患。</string>
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
-    <string name="cancel_order">取消订单</string>
     <string name="skip">跳过</string>
     <string name="confirm_mnemonic_word">确认助记词</string>
     <string name="wallet_create_success">钱包创建成功!</string>
@@ -186,4 +185,44 @@
     <string name="no_access_no_alert">权限已拒绝，不再提醒</string>
     <string name="wallet_address_share">钱包地址分享</string>
     <string name="download_share">下载地址分享</string>
+
+    <!-- 订单相关 -->
+	<string name="open">进行中</string>
+	<string name="filled">成交率</string>
+	<string name="finished">已成交</string>
+	<string name="expired">已过期</string>
+	<string name="order_submitted">挂单中</string>
+	<string name="order_matching">撮合中</string>
+	<string name="order_cancelled">已取消</string>
+	<string name="order_completed">完全成交</string>
+	<string name="order_expired">已过期</string>
+	<string name="order_locked">已锁定</string>
+	<string name="order_unknown">未知状态</string>
+	<string name="unknown">其他</string>
+	<string name="order_detail">订单详情</string>
+	<string name="filled_amount">完成/总额</string>
+	<string name="type">类型</string>
+	<string name="undefined">未定义</string>
+	<string name="completed">成功</string>
+	<string name="failed">失败</string>
+	<string name="R10001">抱歉，系统错误，请稍后重试</string>
+	<string name="R32000">抱歉，用户余额不足或者下单总量已经超过余额上限</string>
+	<string name="R50001">抱歉，无法获取到扫描订单信息</string>
+	<string name="R50002">抱歉，扫描二维码订单必须是P2P订单</string>
+	<string name="R50003">抱歉，扫描到的订单，目前无法成交，请稍后重试</string>
+	<string name="R50004">抱歉，双方订单数额不匹配，请核对后重新下单</string>
+	<string name="R50005">抱歉，买单和卖单地址相同，请核对后重新下单</string>
+	<string name="R50006">抱歉，订单已过期，请扫描其他二维码后重新下单</string>
+	<string name="R50007">抱歉，订单未成交数额过小，已无法下单成交</string>
+	<string name="R50008">抱歉，无法获取当前下单信息，请稍后重试</string>
+	<string name="submit_success">恭喜！您的订单已被提交！</string>
+	<string name="submitted_failed">您的订单未被提交！请确认您的账户中有足够余额以完成该笔订单。</string>
+	<string name="cancel_all">取消全部</string>
+	<string name="cancel_order">取消订单</string>
+	<string name="going_cancel_all">您将取消所有待成交订单。</string>
+	<string name="going_cancel_order">您将取消该笔订单</string>
+	<string name="cancel_failed">订单取消失败，请稍后重试</string>
+	<string name="cancel_success">订单取消成功</string>
+    <string name="canceling">取消中</string>
+
 </resources>
