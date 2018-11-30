@@ -6,42 +6,19 @@
  */
 package leaf.prod.walletsdk.manager;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
 
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
-import leaf.prod.walletsdk.service.LoopringService;
-import leaf.prod.walletsdk.util.WalletUtil;
 
 public class MarketOrderDataManager extends OrderDataManager {
-
-    private Context context;
-
-    private String owner;
-
-    private GasDataManager gas;
-
-    private TokenDataManager token;
-
-    private BalanceDataManager balance;
-
-    private LoopringService loopringService;
-
-    private Map<String, Double> balanceInfo;
 
     private static MarketOrderDataManager marketOrderManager = null;
 
     private MarketOrderDataManager(Context context) {
-        this.context = context;
-        this.balanceInfo = new HashMap<>();
-        this.loopringService = new LoopringService();
-        this.owner = WalletUtil.getCurrentAddress(context);
-        this.gas = GasDataManager.getInstance(context);
-        this.token = TokenDataManager.getInstance(context);
-        this.balance = BalanceDataManager.getInstance(context);
+        super(context);
     }
 
     public static MarketOrderDataManager getInstance(Context context) {
@@ -51,19 +28,9 @@ public class MarketOrderDataManager extends OrderDataManager {
         return marketOrderManager;
     }
 
-    private Double getLRCFrozenFromServer() {
-        String valueInWei = loopringService.getFrozenLRCFee(owner).toBlocking().single();
-        return token.getDoubleFromWei("LRC", valueInWei);
-    }
-
-    private Double getAllowanceFromServer(String symbol) {
-        String valueInWei = loopringService.getEstimatedAllocatedAllowance(owner, symbol).toBlocking().single();
-        return token.getDoubleFromWei(symbol, valueInWei);
-    }
-
     private void checkLRCEnough(OriginOrder order) {
         Double lrcFrozen = getLRCFrozenFromServer();
-        Double lrcBalance = balance.getAssetBySymbol("LRC").getBalance().doubleValue();
+        Double lrcBalance = token.getDoubleFromWei("LRC", balance.getAssetBySymbol("LRC").getBalance());
         Double result = lrcBalance - order.getLrc() - lrcFrozen;
         if (result < 0) {
             balanceInfo.put("MINUS_LRC", -result);
@@ -86,7 +53,7 @@ public class MarketOrderDataManager extends OrderDataManager {
     }
 
     private void checkLRCGasEnough(OriginOrder order) {
-        Double ethBalance = balance.getAssetBySymbol("ETH").getBalance().doubleValue();
+        Double ethBalance = token.getDoubleFromWei("ETH", balance.getAssetBySymbol("ETH").getBalance());
         Double lrcGas = calculateGasForLRC(order);
         Double result = ethBalance - lrcGas;
         if (result < 0) {
