@@ -6,7 +6,7 @@
  */
 package leaf.prod.app.presenter;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,19 +17,19 @@ import java.util.Map;
 import android.content.Context;
 
 import leaf.prod.app.fragment.MainFragment;
+import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.PartnerDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.WalletEntity;
-import leaf.prod.walletsdk.util.CurrencyUtil;
-import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.walletsdk.util.SPUtils;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.util.CurrencyUtil;
+import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -162,7 +162,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         for (BalanceResult.Asset asset : listChooseAsset) {
             if (Arrays.asList("ETH", "WETH", "LRC").contains(asset.getSymbol()))
                 continue;
-            if (asset.getBalance().compareTo(BigDecimal.ZERO) > 0) {
+            if (asset.getBalance().compareTo(BigInteger.ZERO) > 0) {
                 positiveList.add(asset);
             } else {
                 zeroList.add(asset);
