@@ -52,13 +52,13 @@ public class P2POrderDataManager extends OrderDataManager {
     private Map<String, String> errorMessage;
 
     // token symbol, e.g. weth
-    private String tokenS;
+    public String tokenS;
 
     // token symbol, e.g. lrc
-    private String tokenB;
+    public String tokenB;
 
     // trade market, e.g. lrc-weth
-    private String tradePair;
+    public String tradePair;
 
     private String makerHash;
 
@@ -72,11 +72,11 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private Sign.SignatureData takerSignature;
 
-    private BigInteger sellCount = BigInteger.valueOf(1);
+    public BigInteger sellCount = BigInteger.valueOf(1);
 
     private int orderCount = 2;
 
-    private boolean isTaker = false;
+    public boolean isTaker = false;
 
     private TradeType type = TradeType.buy;
 
@@ -114,18 +114,21 @@ public class P2POrderDataManager extends OrderDataManager {
         this.tradePair = String.format("%s-%s", this.tokenS, this.tokenB);
     }
 
+    // use for pressing switch button in p2p trade activity
     public void swapToken() {
         String temp = this.tokenB;
         changeToTokenB(this.tokenS);
         changeToTokenS(temp);
     }
 
+    // use for pressing switch tokenS in p2p trade activity
     public void changeToTokenS(String symbol) {
         this.tokenS = symbol;
         SPUtils.put(context, "tokenS", symbol);
         updatePair();
     }
 
+    // use for pressing switch tokenB in p2p trade activity
     public void changeToTokenB(String symbol) {
         this.tokenB = symbol;
         SPUtils.put(context, "tokenB", symbol);

@@ -6,7 +6,7 @@
  */
 package leaf.prod.app.presenter;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -162,7 +162,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
         for (BalanceResult.Asset asset : listChooseAsset) {
             if (Arrays.asList("ETH", "WETH", "LRC").contains(asset.getSymbol()))
                 continue;
-            if (asset.getBalance().compareTo(BigInteger.ZERO) > 0) {
+            if (asset.getBalance().compareTo(BigDecimal.ZERO) > 0) {
                 positiveList.add(asset);
             } else {
                 zeroList.add(asset);
