@@ -403,10 +403,11 @@ public class GenerateWalletActivity extends BaseActivity {
     private void startThread() {
         showProgress("加载中...");
         new Thread(() -> {
-            Credentials credentials = MnemonicUtils.calculateCredentialsFromMnemonic(mnemonic, "m/44'/60'/0'/0", "");
+            // TODO: need test for generate with password
+            String pas = repeatPassword.getText().toString();
+            Credentials credentials = MnemonicUtils.calculateCredentialsFromMnemonic(mnemonic, "m/44'/60'/0'/0", pas);
             String privateKeyHexString = CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair()
                     .getPrivateKey());
-            String pas = repeatPassword.getText().toString();
             try {
                 filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, pas, FileUtils.getKeyStoreLocation(GenerateWalletActivity.this));
                 LyqbLogger.log(filename);
