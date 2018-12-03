@@ -45,7 +45,7 @@ public class PasswordUtils {
         StringBuilder returnStr = new StringBuilder();
         Random rd = new Random();
         for (int i = 0; i < len; i++) {
-            returnStr.append(encodeTable[rd.nextInt(encodeTable.length) - 1]);
+            returnStr.append(encodeTable[rd.nextInt(encodeTable.length)]);
         }
         return returnStr.toString();
     }

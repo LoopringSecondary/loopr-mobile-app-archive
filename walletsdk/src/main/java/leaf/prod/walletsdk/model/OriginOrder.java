@@ -99,9 +99,9 @@ public class OriginOrder {
         OriginOrder order = new OriginOrder();
         order.delegate = json.get("delegateAddress").getAsString();
         order.owner = json.get("owner").getAsString();
-        order.tokenB = json.get("tokenB").getAsString();
+        order.tokenB = json.get("tokenBuy").getAsString();
         order.tokenBuy = TokenDataManager.getToken(order.tokenB).getSymbol();
-        order.tokenS = json.get("tokenS").getAsString();
+        order.tokenS = json.get("tokenSell").getAsString();
         order.tokenSell = TokenDataManager.getToken(order.tokenS).getSymbol();
         order.amountB = json.get("amountB").getAsString();
         order.amountBuy = TokenDataManager.getDouble(order.tokenBuy, order.amountB);
