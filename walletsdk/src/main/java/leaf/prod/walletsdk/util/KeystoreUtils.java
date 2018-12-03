@@ -3,6 +3,10 @@ package leaf.prod.walletsdk.util;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,20 +15,19 @@ import android.annotation.SuppressLint;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Keys;
 import org.web3j.crypto.Wallet;
 import org.web3j.crypto.WalletFile;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.utils.Numeric;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import leaf.prod.walletsdk.EventAdvisor;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
-
-import leaf.prod.walletsdk.EventAdvisor;
-import leaf.prod.walletsdk.exception.IllegalCredentialException;
-import leaf.prod.walletsdk.exception.InvalidKeystoreException;
+import leaf.prod.walletsdk.model.RandomWallet;
 
 /**
  * Functions work with Keystore.
@@ -32,6 +35,7 @@ import leaf.prod.walletsdk.exception.InvalidKeystoreException;
  * @author slice30k
  */
 public class KeystoreUtils {
+
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     @SuppressLint("SimpleDateFormat")
@@ -39,6 +43,12 @@ public class KeystoreUtils {
         address = Numeric.cleanHexPrefix(address);
         SimpleDateFormat dateFormat = new SimpleDateFormat("'UTC--'yyyy-MM-dd'T'HH-mm-ss.SSS'--'");
         return dateFormat.format(new Date()) + address + ".json";
+    }
+
+    public static String generatePrivateKey() throws InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
+        ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+        BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+        return privateKeyInDec.toString(16);
     }
 
     public static String createFromKeystoreJson(String keystoreJson, String password, File dest) throws InvalidKeystoreException, KeystoreCreateException, IllegalCredentialException {
@@ -50,20 +60,19 @@ public class KeystoreUtils {
         return filename;
     }
 
-    public static String createFromPrivateKey(String privateKey, String password) throws InvalidPrivateKeyException, KeystoreCreateException {
+    public static RandomWallet createFromPrivateKey() throws InvalidPrivateKeyException, KeystoreCreateException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
+        String privateKey = generatePrivateKey();
+        String address = createFromPrivateKey(privateKey);
+        return RandomWallet.builder().address(address).privateKey(privateKey).build();
+    }
+
+    public static String createFromPrivateKey(String privateKey) throws InvalidPrivateKeyException, KeystoreCreateException {
         if (!WalletUtils.isValidPrivateKey(privateKey)) {
             throw new InvalidPrivateKeyException();
         }
         Credentials credentials = Credentials.create(privateKey);
-        String keystoreJson;
-        try {
-            WalletFile walletFile = Wallet.createLight(password, credentials.getEcKeyPair());
-            keystoreJson = objectMapper.writeValueAsString(walletFile);
-        } catch (Exception e) {
-            throw new KeystoreCreateException(e);
-        }
         EventAdvisor.notifyCreation(credentials.getAddress());
-        return keystoreJson;
+        return credentials.getAddress();
     }
 
     public static String createFromPrivateKey(String privateKey, String password, File dest) throws InvalidPrivateKeyException, KeystoreCreateException {
@@ -100,7 +109,6 @@ public class KeystoreUtils {
             throw new IllegalCredentialException(e);
         }
     }
-
 
     private static WalletFile loadFromFile(File keystoreFile) throws InvalidKeystoreException {
         WalletFile walletFile;
