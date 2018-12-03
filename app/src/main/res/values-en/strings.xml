@@ -236,4 +236,10 @@
     <string name="month">%sMonth</string>
     <string name="custom">Custom</string>
     <string name="part">Part</string>
+    <string name="place_order">Place Order</string>
+    <string name="place_order_tip">Placing order will not consume gas</string>
+    <string name="price">Price</string>
+    <string name="trading_fee">Trading Fee</string>
+    <string name="margin_split">Magin Split</string>
+    <string name="time_to_live">Time to Live</string>
 </resources>

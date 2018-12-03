@@ -237,4 +237,10 @@
     <string name="month">%s月</string>
     <string name="custom">自定義</string>
     <string name="part">份</string>
+    <string name="place_order">下單</string>
+    <string name="place_order_tip">下單不會消耗油費</string>
+    <string name="price">價格</string>
+    <string name="trading_fee">交易費</string>
+    <string name="margin_split">分潤比例</string>
+    <string name="time_to_live">有效時間</string>
 </resources>

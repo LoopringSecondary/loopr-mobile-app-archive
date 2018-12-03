@@ -119,6 +119,29 @@ public class P2PTradeFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                Double sellAmountDouble = (editable.toString().isEmpty() || editable.toString()
+                        .equals(".") ? 0d : Double.valueOf(editable.toString()));
+                if (sellAmountDouble == 0) {
+                    presenter.setHint(0);
+                } else if (sellAmountDouble > presenter.getMaxAmount()) {
+                    presenter.setHint(1);
+                } else {
+                    presenter.setHint(3);
+                }
+            }
+        });
+        buyAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                presenter.setHint(5);
             }
         });
     }
@@ -156,13 +179,23 @@ public class P2PTradeFragment extends BaseFragment {
                 break;
             case R.id.btn_next:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-
                     // TODO: to be done in order confirm activity
-                    Double amountB = Double.parseDouble(buyAmount.getText().toString());
-                    Double amountS = Double.parseDouble(sellAmount.getText().toString());
+                    Double amountB = (buyAmount.getText().toString().isEmpty() || buyAmount.getText()
+                            .toString().equals(".") ? 0d : Double.valueOf(buyAmount.getText().toString()));
+                    Double amountS = (sellAmount.getText().toString().isEmpty() || sellAmount.getText()
+                            .toString().equals(".") ? 0d : Double.valueOf(sellAmount.getText().toString()));
                     P2POrderDataManager.getInstance(getContext()).constructMaker(amountB, amountS, 1, 1, 1, "111111");
+                    if (amountS == 0) {
+                        presenter.setHint(2);
+                    } else if (amountS > presenter.getMaxAmount()) {
+                        presenter.setHint(1);
+                    } else if (amountB == 0) {
+                        presenter.setHint(4);
+                    } else {
+                        presenter.showTradeDetailDialog();
+                    }
+                    break;
                 }
-                break;
         }
     }
 
