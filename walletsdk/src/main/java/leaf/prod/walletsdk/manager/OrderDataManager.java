@@ -12,7 +12,6 @@ import java.util.Map;
 
 import android.content.Context;
 
-import org.spongycastle.jcajce.provider.asymmetric.ec.KeyFactorySpi;
 import org.web3j.crypto.Credentials;
 import org.web3j.utils.Numeric;
 
@@ -21,6 +20,7 @@ import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.P2PType;
+import leaf.prod.walletsdk.model.RandomWallet;
 import leaf.prod.walletsdk.model.SignedBody;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.NumberUtils;
@@ -73,6 +73,8 @@ public class OrderDataManager {
             String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenSell, amountSell));
             String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
             String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
+            RandomWallet randomWallet = WalletUtil.getRandomWallet(context);
+
             order = OriginOrder.builder()
                     .delegate(Default.DELEGATE_ADDRESS)
                     .owner(WalletUtil.getCurrentAddress(context))
@@ -82,8 +84,8 @@ public class OrderDataManager {
                     .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
                     .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
                     .walletAddress(PartnerDataManager.getInstance(context).getWalletAddress())
-                    .authAddr(WalletUtil.getRandomWallet(context).getAddress())
-                    .authPrivateKey(WalletUtil.getRandomWallet(context).getPrivateKey())
+                    .authAddr(randomWallet.getAddress())
+                    .authPrivateKey(randomWallet.getPrivateKey())
                     .buyNoMoreThanAmountB(false).marginSplitPercentage(50)
                     .orderType(OrderType.P2P).p2pType(P2PType.MAKER).powNonce(1)
                     .build();
@@ -137,17 +139,17 @@ public class OrderDataManager {
         return token.getDoubleFromWei(symbol, valueInWei);
     }
 
-    protected void handleVerifyInfo() {
-        if (isBalanceEnough()) {
-            if (needApprove()) {
-                approve();
-            } else {
-                submit();
-            }
-        } else {
-            return;
-        }
-    }
+//    protected void handleVerifyInfo() {
+//        if (isBalanceEnough()) {
+//            if (needApprove()) {
+//                approve();
+//            } else {
+//                submit();
+//            }
+//        } else {
+//            return;
+//        }
+//    }
 
     private boolean isBalanceEnough() {
         for (String s : balanceInfo.keySet()) {
