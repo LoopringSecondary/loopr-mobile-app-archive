@@ -140,13 +140,13 @@ public class P2POrderDataManager extends OrderDataManager {
         this.makerPrivateKey = scanning.get(QRCODE_AUTH).getAsString();
         this.sellCount = scanning.get(SELL_COUNT).getAsBigInteger();
         OriginOrder maker = getOrderBy(makerHash);
-        OriginOrder taker = constructTakerBy(maker);
+        OriginOrder taker = constructTaker(maker);
         this.orders = new OriginOrder[2];
         this.orders[0] = maker;
         this.orders[1] = taker;
     }
 
-    private OriginOrder constructTakerBy(OriginOrder maker) {
+    private OriginOrder constructTaker(OriginOrder maker) {
         // tokens, tokenb
         String tokenB = maker.getTokenS();
         String tokenBuy = token.getTokenByProtocol(tokenB).getSymbol();
@@ -171,10 +171,10 @@ public class P2POrderDataManager extends OrderDataManager {
         String validUntil = maker.getValidUntil();
         Integer validS = Integer.parseInt(validSince, 16);
         Integer validU = Integer.parseInt(validUntil, 16);
-        // build result
+
         return OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
                 .owner(WalletUtil.getCurrentAddress(context))
-                .side("buy").market(tradePair)
+                .side("buy").market(String.format("%s-%s", tokenSell, tokenBuy))
                 .tokenS(tokenS).tokenSell(tokenSell)
                 .tokenB(tokenB).tokenBuy(tokenBuy)
                 .amountS(amountS).amountSell(amountSell)
@@ -186,6 +186,39 @@ public class P2POrderDataManager extends OrderDataManager {
                 .marginSplitPercentage(50)
                 .orderType(OrderType.P2P).p2pType(P2PType.TAKER)
                 .build();
+    }
+
+    private OriginOrder constructMaker(String tokenBuy, String tokenSell, Double amountBuy, Double amountSell,
+                                       Integer sellCount, Integer validS, Integer validU, String password) throws Exception {
+        String tokenB = token.getTokenBySymbol(tokenBuy).getProtocol();
+        String tokenS = token.getTokenBySymbol(tokenSell).getProtocol();
+        String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenBuy, amountBuy));
+        String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenSell, amountSell));
+        String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
+        String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
+
+        OriginOrder order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
+                .owner(WalletUtil.getCurrentAddress(context))
+                .side("buy").market(tradePair)
+                .tokenS(tokenS).tokenSell(tokenSell)
+                .tokenB(tokenB).tokenBuy(tokenBuy)
+                .amountS(amountS).amountSell(amountSell)
+                .amountB(amountB).amountBuy(amountBuy)
+                .validS(validS).validSince(validSince)
+                .validU(validU).validUntil(validUntil)
+                .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
+                .buyNoMoreThanAmountB(false)
+                .marginSplitPercentage(50)
+                .orderType(OrderType.P2P).p2pType(P2PType.MAKER)
+                .build();
+        order = signOrder(WalletUtil.getCredential(context, password), order);
+        preserveMaker(order, sellCount);
+        return order;
+    }
+
+    private void preserveMaker(OriginOrder order, Integer sellCount) {
+        String value = String.format("%s-%s", order.getAuthPrivateKey(), sellCount);
+        SPUtils.put(context, order.getHash(), value);
     }
 
     private Boolean validate() {
@@ -361,8 +394,9 @@ public class P2POrderDataManager extends OrderDataManager {
             return null;
         }
         try {
-            credentials = WalletUtil.getCredential(context, "");
+            credentials = WalletUtil.getCredential(context, password);
             String rawTx = generate();
+            orders[1] = signOrder(credentials, orders[1]);
             String makerHash = orders[0].getHash();
             String takerHash = orders[1].getHash();
             return loopringService.submitRing(makerHash, takerHash, rawTx);

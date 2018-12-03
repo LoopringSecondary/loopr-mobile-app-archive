@@ -147,7 +147,12 @@ public class TokenDataManager {
         }
     }
 
-    public BigInteger getWeiFromDouble(String symbol, String doubleValue) {
+    public BigInteger getWeiFromDouble(String symbol, String doubleString) {
+        Token token = getTokenBySymbol(symbol);
+        return new BigDecimal(doubleString).multiply(token.getDecimals()).toBigInteger();
+    }
+
+    public BigInteger getWeiFromDouble(String symbol, Double doubleValue) {
         Token token = getTokenBySymbol(symbol);
         return new BigDecimal(doubleValue).multiply(token.getDecimals()).toBigInteger();
     }
