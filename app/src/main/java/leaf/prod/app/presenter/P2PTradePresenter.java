@@ -300,7 +300,6 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 .toString()), 8) + " " + sellTokenSymbol + "/" + buyTokenSymbol);
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_trading_fee)).setText("");
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_margin_split)).setText("50%");
-        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_margin_split)).setText("50%");
         Date currentTime = new Date();
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_live_time)).setText(sdf.format(currentTime) + " ~ " +
                 sdf.format(DateUtil.addDateTime(currentTime, timeToLive)));

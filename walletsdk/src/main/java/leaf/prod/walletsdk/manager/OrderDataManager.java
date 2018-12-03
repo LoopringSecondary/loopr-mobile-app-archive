@@ -139,17 +139,17 @@ public class OrderDataManager {
         return token.getDoubleFromWei(symbol, valueInWei);
     }
 
-//    protected void handleVerifyInfo() {
-//        if (isBalanceEnough()) {
-//            if (needApprove()) {
-//                approve();
-//            } else {
-//                submit();
-//            }
-//        } else {
-//            return;
-//        }
-//    }
+    public void handleInfo() throws Exception {
+        if (isBalanceEnough()) {
+            if (needApprove()) {
+                approve();
+            } else {
+                submit();
+            }
+        } else {
+            return;
+        }
+    }
 
     private boolean isBalanceEnough() {
         for (String s : balanceInfo.keySet()) {
@@ -184,6 +184,8 @@ public class OrderDataManager {
             }
         }
     }
+
+    private void submit() {}
 
     private void approveOnce(String symbol) throws Exception {
         Transfer transfer = new Transfer(credentials);
