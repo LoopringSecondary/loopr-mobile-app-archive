@@ -29,13 +29,14 @@ import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.P2PType;
-import leaf.prod.walletsdk.model.TradeType;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
-import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class P2POrderDataManager extends OrderDataManager {
 
@@ -51,22 +52,11 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private Map<String, String> errorMessage;
 
-    // token symbol, e.g. weth
-    public String tokenSell;
-
-    // token symbol, e.g. lrc
-    public String tokenBuy;
-
-    // trade market, e.g. lrc-weth
-    public String tradePair;
-
     private String makerHash;
 
     private String makerPrivateKey;
 
     private OriginOrder[] orders;
-
-    private LoopringService service;
 
     private Sign.SignatureData makerSignature;
 
@@ -77,10 +67,6 @@ public class P2POrderDataManager extends OrderDataManager {
     private int orderCount = 2;
 
     public boolean isTaker = false;
-
-    private TradeType type = TradeType.buy;
-
-    private int byteLength = Type.MAX_BYTE_LENGTH;
 
     private P2POrderDataManager(Context context) {
         super(context);
@@ -141,6 +127,7 @@ public class P2POrderDataManager extends OrderDataManager {
         this.sellCount = scanning.get(SELL_COUNT).getAsBigInteger();
         OriginOrder maker = getOrderBy(makerHash);
         OriginOrder taker = constructTaker(maker);
+        this.isTaker = true;
         this.orders = new OriginOrder[2];
         this.orders[0] = maker;
         this.orders[1] = taker;
@@ -192,37 +179,20 @@ public class P2POrderDataManager extends OrderDataManager {
         return order;
     }
 
-    public void constructMaker(Double amountBuy, Double amountSell, Integer sellCount,
-                                      Integer validS, Integer validU, String password) {
+    public OriginOrder constructMaker(Double amountBuy, Double amountSell, Integer validS,
+                                      Integer validU, Integer sellCount, String password) {
+        OriginOrder order = null;
         try {
-            String tokenB = token.getTokenBySymbol(tokenBuy).getProtocol();
-            String tokenS = token.getTokenBySymbol(tokenSell).getProtocol();
-            String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenBuy, amountBuy));
-            String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenSell, amountSell));
-            String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
-            String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
-            OriginOrder order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
-                    .owner(WalletUtil.getCurrentAddress(context))
-                    .side("buy").market(tradePair)
-                    .tokenS(tokenS).tokenSell(tokenSell).tokenB(tokenB).tokenBuy(tokenBuy)
-                    .amountS(amountS).amountSell(amountSell).amountB(amountB).amountBuy(amountBuy)
-                    .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
-                    .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
-                    .walletAddress(PartnerDataManager.getInstance(context).getWalletAddress())
-                    .authAddr(WalletUtil.getRandomWallet(context).getAddress())
-                    .authPrivateKey(WalletUtil.getRandomWallet(context).getPrivateKey())
-                    .buyNoMoreThanAmountB(false).marginSplitPercentage(50)
-                    .orderType(OrderType.P2P).p2pType(P2PType.MAKER).powNonce(1)
-                    .build();
-            order = signOrder(WalletUtil.getCredential(context, password), order);
+            Credentials credentials = WalletUtil.getCredential(context, password);
+            order = constructOrder(credentials, amountBuy, amountSell, validS, validU);
             preserveMaker(order, sellCount);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return order;
     }
 
     private void preserveMaker(OriginOrder order, Integer sellCount) {
-        orders = new OriginOrder[] {order};
         String value = String.format("%s-%s", order.getAuthPrivateKey(), sellCount);
         SPUtils.put(context, order.getHash(), value);
     }
@@ -293,6 +263,7 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private String generateOffset() {
         String result = "";
+        int byteLength = Type.MAX_BYTE_LENGTH;
         result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(byteLength * 9));
         result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(byteLength * 18));
         result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(byteLength * 31));
@@ -412,8 +383,23 @@ public class P2POrderDataManager extends OrderDataManager {
         return null;
     }
 
+    public Observable<String> submitOrder(Double amountBuy, Double amountSell, Integer sellCount,
+                                          Integer validS, Integer validU, String password) {
+        Observable<String> result = null;
+        if (!isTaker) {
+            OriginOrder order = constructMaker(amountBuy, amountSell, sellCount, validS, validU, password);
+            result = loopringService.submitOrder(order);
+        } else if (orders.length == 2 && makerHash != null) {
+            result = loopringService.submitOrderForP2P(orders[1], makerHash)
+                    .observeOn(Schedulers.io())
+                    .flatMap((Func1<String, Observable<String>>) s -> submitRing(password))
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+        return result;
+    }
+
     private OriginOrder getOrderBy(String hash) {
-        Order order = service.getOrderByHash(hash).toBlocking().single();
+        Order order = loopringService.getOrderByHash(hash).toBlocking().single();
         return order.getOriginOrder();
     }
 
@@ -461,7 +447,7 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private void checkBalanceEnough(OriginOrder order) {
         if (isTaker) {
-            BigDecimal balanceDecimal = this.balance.getAssetBySymbol(order.getTokenSell()).getBalance();
+            BigDecimal balanceDecimal = balance.getAssetBySymbol(order.getTokenSell()).getBalance();
             Double tokensBalance = token.getDoubleFromWei(order.getTokenSell(), balanceDecimal);
             Double result = tokensBalance - order.getAmountSell();
             if (result < 0) {
