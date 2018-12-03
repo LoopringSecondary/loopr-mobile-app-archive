@@ -9,8 +9,12 @@ import android.widget.LinearLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.ConvertActivity;
+import leaf.prod.app.activity.H5DexWebActivity;
+import leaf.prod.app.activity.P2PActivity;
 
 /**
  *
@@ -32,7 +36,7 @@ public class TradeFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // 布局导入
-        layout = inflater.inflate(R.layout.fragment_p2p_records, container, false);
+        layout = inflater.inflate(R.layout.fragment_trade, container, false);
         unbinder = ButterKnife.bind(this, layout);
         return layout;
     }
@@ -58,5 +62,25 @@ public class TradeFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick({R.id.ddex_layout, R.id.p2p_layout, R.id.weth_wrap_layout, R.id.order_layout})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ddex_layout:
+                getOperation().addParameter("url", "http://embeddex.upwallet.io/#/auth/tpwallet?to=/dex");
+                getOperation().forward(H5DexWebActivity.class);
+                break;
+            case R.id.p2p_layout:
+                //                getOperation().addParameter("url", "http://embeddex.upwallet.io/#/auth/tpwallet?to=/face2face");
+                //                getOperation().forward(H5DexWebActivity.class);
+                getOperation().forward(P2PActivity.class);
+                break;
+            case R.id.weth_wrap_layout:
+                getOperation().forward(ConvertActivity.class);
+                break;
+            case R.id.order_layout:
+                break;
+        }
     }
 }
