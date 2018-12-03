@@ -48,7 +48,7 @@ public class P2PTokenListActivity extends BaseActivity {
 
     private NoDataAdapter emptyAdapter;
 
-    private List<Token> list;
+    private List<Token> list = new ArrayList<>();
 
     private List<Token> listSearch = new ArrayList<>();
 
@@ -105,7 +105,7 @@ public class P2PTokenListActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        list = TokenDataManager.getInstance(this).getTokens();
+        list.addAll(TokenDataManager.getInstance(this).getTokens());
         String ignoreSymbol = getIntent().getStringExtra("ignoreSymbol");
         for (Token token : list) {
             if (token.getSymbol().equals(ignoreSymbol)) {
@@ -138,8 +138,6 @@ public class P2PTokenListActivity extends BaseActivity {
                         .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 llSearch.setVisibility(View.GONE);
                 etSearch.setText("");
-                mAdapter.setNewData(list);
-                mAdapter.notifyDataSetChanged();
                 break;
         }
     }

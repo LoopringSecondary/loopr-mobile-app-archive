@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
@@ -13,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/button_bg_pressed"
         android:gravity="center"
@@ -68,7 +67,7 @@
         <LinearLayout
             android:id="@+id/ll_second_token"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="72dp"
             android:layout_weight="3"
             android:gravity="center"
             android:orientation="vertical">
@@ -104,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/button_bg_pressed"
             android:gravity="center"
@@ -162,7 +161,6 @@
                         android:textStyle="bold"/>
 
                     <ImageView
-
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:layout_gravity="center"

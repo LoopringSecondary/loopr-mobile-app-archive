@@ -25,6 +25,7 @@ import com.xw.repo.BubbleSeekBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.P2PTradeQrActivity;
 import leaf.prod.app.fragment.P2PTradeFragment;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
@@ -250,6 +251,21 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             p2pTradeDialogView.findViewById(R.id.btn_cancel).setOnClickListener(view1 -> p2pTradeDialog.hide());
             p2pTradeDialogView.findViewById(R.id.btn_order).setOnClickListener(view1 -> {
                 //todo
+                //                view.showProgress(view.getResources().getString(R.string.loading_default_messsage));
+                view.getOperation().addParameter("sellToken", sellTokenSymbol);
+                view.getOperation().addParameter("buyToken", buyTokenSymbol);
+                view.getOperation().addParameter("sellAmount", sellAmount.getText().toString());
+                view.getOperation().addParameter("buyAmount", buyAmount.getText().toString());
+                view.getOperation()
+                        .addParameter("sellPrice", ((TextView) p2pTradeDialogView.findViewById(R.id.tv_sell_price)).getText()
+                                .toString());
+                view.getOperation()
+                        .addParameter("buyPrice", ((TextView) p2pTradeDialogView.findViewById(R.id.tv_buy_price)).getText()
+                                .toString());
+                view.getOperation()
+                        .addParameter("liveTime", ((TextView) p2pTradeDialogView.findViewById(R.id.tv_live_time)).getText()
+                                .toString());
+                view.getOperation().forward(P2PTradeQrActivity.class);
             });
             builder.setView(p2pTradeDialogView);
             builder.setCancelable(true);
