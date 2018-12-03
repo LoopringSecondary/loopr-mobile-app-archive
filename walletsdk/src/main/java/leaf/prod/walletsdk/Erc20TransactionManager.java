@@ -16,7 +16,6 @@ import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.TransactionManager;
 
 import leaf.prod.walletsdk.api.Erc20Contract;
@@ -37,42 +36,38 @@ public class Erc20TransactionManager {
 
     private LoopringService loopringService = new LoopringService();
 
-    public Erc20TransactionManager(String contractAddress, BigInteger gasPrice, BigInteger gasLimit, TransactionManager transactionManager) {
+    Erc20TransactionManager(String contractAddress, BigInteger gasPrice, BigInteger gasLimit, TransactionManager transactionManager) {
         this.gasPrice = gasPrice;
         this.gasLimit = gasLimit;
         this.erc20Contract = Erc20Contract.load(contractAddress, SDK.getWeb3j(), transactionManager, gasPrice, gasLimit);
     }
 
-    public Erc20Contract getErc20Contract() {
-        return erc20Contract;
-    }
-
-    public String name() throws Exception {
-        return erc20Contract.name().send();
-    }
-
-    public String symbol() throws Exception {
-        return erc20Contract.symbol().send();
-    }
-
-    public BigInteger decimals() throws Exception {
-        return erc20Contract.decimals().send();
-    }
-
-    public BigInteger totalSupply() throws Exception {
-        return erc20Contract.totalSupply().send();
-    }
-
-    public BigInteger balanceOf(String owner) throws Exception {
-        return erc20Contract.balanceOf(owner).send();
-    }
-
     public String transfer(Credentials credentials, String contractAddress, String to, BigInteger value) throws Exception {
-        erc20Contract.setGasPrice(gasPrice);
-        TransactionReceipt transactionReceipt = erc20Contract.transfer(to, value).send();
-        String transactionHash = transactionReceipt.getTransactionHash();
+        String hash = erc20Contract.transfer(to, value).send().getTransactionHash();
+        notifyRelay(hash, credentials, contractAddress, to, value);
+        return hash;
+    }
+
+    public String approve(Credentials credentials, String contractAddress, String to, BigInteger value) throws Exception {
+        String hash = erc20Contract.approve(to, value).send().getTransactionHash();
+        notifyRelay(hash, credentials, contractAddress, to, value);
+        return hash;
+    }
+
+    private RawTransaction getRawTransaction(Credentials credentials, String to, String contractAddress, BigInteger value) throws IOException {
+        Function function = new Function("transfer",
+                Arrays.asList(new Address(to), new Uint256(value)),
+                Collections.emptyList());
+        String data = FunctionEncoder.encode(function);
+        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(
+                credentials.getAddress(), DefaultBlockParameterName.PENDING).send();
+        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+        return RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddress, data);
+    }
+
+    private void notifyRelay(String hash, Credentials credentials, String contractAddress, String to, BigInteger value) throws Exception {
         RawTransaction rawTransaction = getRawTransaction(credentials, to, contractAddress, value);
-        loopringService.notifyTransactionSubmitted(rawTransaction, to, transactionHash)
+        loopringService.notifyTransactionSubmitted(rawTransaction, to, hash)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
@@ -82,27 +77,15 @@ public class Erc20TransactionManager {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("notifyTx_error", e.getMessage());
+                        Log.e("notify_relay_error", e.getMessage());
                         unsubscribe();
                     }
 
                     @Override
                     public void onNext(String s) {
-                        Log.d("notifyTx_success", s);
+                        Log.d("notify_relay_success", s);
                         unsubscribe();
                     }
                 });
-        return transactionHash;
-    }
-
-    public RawTransaction getRawTransaction(Credentials credentials, String to, String contractAddress, BigInteger value) throws IOException {
-        Function function = new Function("transfer",
-                Arrays.asList(new Address(to), new Uint256(value)),
-                Collections.emptyList());
-        String data = FunctionEncoder.encode(function);
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(
-                credentials.getAddress(), DefaultBlockParameterName.PENDING).send();
-        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-        return RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddress, data);
     }
 }

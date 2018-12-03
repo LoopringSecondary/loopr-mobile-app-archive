@@ -6,15 +6,21 @@
  */
 package leaf.prod.walletsdk.manager;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
 
+import org.spongycastle.jcajce.provider.asymmetric.ec.KeyFactorySpi;
 import org.web3j.crypto.Credentials;
 import org.web3j.utils.Numeric;
 
+import leaf.prod.walletsdk.Default;
+import leaf.prod.walletsdk.Transfer;
+import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
+import leaf.prod.walletsdk.model.P2PType;
 import leaf.prod.walletsdk.model.SignedBody;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.NumberUtils;
@@ -25,11 +31,20 @@ public class OrderDataManager {
 
     protected String owner;
 
-    protected Credentials credentials;
+    // token symbol, e.g. weth
+    protected String tokenSell;
+
+    // token symbol, e.g. lrc
+    protected String tokenBuy;
+
+    // e.g. lrc-weth
+    protected String tradePair;
 
     protected Context context;
 
     protected GasDataManager gas;
+
+    protected Credentials credentials;
 
     protected TokenDataManager token;
 
@@ -47,6 +62,36 @@ public class OrderDataManager {
         this.gas = GasDataManager.getInstance(context);
         this.token = TokenDataManager.getInstance(context);
         this.balance = BalanceDataManager.getInstance(context);
+    }
+
+    public OriginOrder constructOrder(Credentials credentials, Double amountBuy, Double amountSell, Integer validS, Integer validU) {
+        OriginOrder order = null;
+        try {
+            String tokenB = token.getTokenBySymbol(tokenBuy).getProtocol();
+            String tokenS = token.getTokenBySymbol(tokenSell).getProtocol();
+            String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenBuy, amountBuy));
+            String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenSell, amountSell));
+            String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
+            String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
+            order = OriginOrder.builder()
+                    .delegate(Default.DELEGATE_ADDRESS)
+                    .owner(WalletUtil.getCurrentAddress(context))
+                    .side("buy").market(tradePair)
+                    .tokenS(tokenS).tokenSell(tokenSell).tokenB(tokenB).tokenBuy(tokenBuy)
+                    .amountS(amountS).amountSell(amountSell).amountB(amountB).amountBuy(amountBuy)
+                    .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
+                    .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
+                    .walletAddress(PartnerDataManager.getInstance(context).getWalletAddress())
+                    .authAddr(WalletUtil.getRandomWallet(context).getAddress())
+                    .authPrivateKey(WalletUtil.getRandomWallet(context).getPrivateKey())
+                    .buyNoMoreThanAmountB(false).marginSplitPercentage(50)
+                    .orderType(OrderType.P2P).p2pType(P2PType.MAKER).powNonce(1)
+                    .build();
+            order = signOrder(credentials, order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return order;
     }
 
     public OriginOrder signOrder(Credentials credentials, OriginOrder order) {
@@ -90,5 +135,74 @@ public class OrderDataManager {
     protected Double getAllowanceFromServer(String symbol) {
         String valueInWei = loopringService.getEstimatedAllocatedAllowance(owner, symbol).toBlocking().single();
         return token.getDoubleFromWei(symbol, valueInWei);
+    }
+
+    protected void handleVerifyInfo() {
+        if (isBalanceEnough()) {
+            if (needApprove()) {
+                approve();
+            } else {
+                submit();
+            }
+        } else {
+            return;
+        }
+    }
+
+    private boolean isBalanceEnough() {
+        for (String s : balanceInfo.keySet()) {
+            if (s.startsWith("MINUS_")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean needApprove() {
+        for (String s : balanceInfo.keySet()) {
+            if (s.startsWith("GAS_")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void approve() throws Exception {
+        for (Map.Entry<String, Double> entry : balanceInfo.entrySet()) {
+            if (entry.getKey().startsWith("GAS_")) {
+                if (entry.getValue() != 1 && entry.getValue() != 2) {
+                    return;
+                }
+                String token = entry.getKey().split("_")[1];
+                if (entry.getValue() == 1) {
+                    approveOnce(token);
+                } else if (entry.getValue() == 2) {
+                    approveTwice(token);
+                }
+            }
+        }
+    }
+
+    private void approveOnce(String symbol) throws Exception {
+        Transfer transfer = new Transfer(credentials);
+        String contract = token.getTokenBySymbol(symbol).getProtocol();
+        BigInteger value = token.getWeiFromDouble(symbol, (double) Integer.MAX_VALUE);
+        BigInteger gasPrice = gas.getCustomizeGasPriceInWei().toBigInteger();
+        BigInteger gasLimit = gas.getGasLimitByType("approve");
+        transfer.erc20(contract, gasPrice, gasLimit)
+                .approve(credentials, contract, Default.DELEGATE_ADDRESS, value);
+    }
+
+    private void approveTwice(String symbol) throws Exception {
+        Transfer transfer = new Transfer(credentials);
+        String contract = token.getTokenBySymbol(symbol).getProtocol();
+        BigInteger value = BigInteger.ZERO;
+        BigInteger gasPrice = gas.getCustomizeGasPriceInWei().toBigInteger();
+        BigInteger gasLimit = gas.getGasLimitByType("approve");
+        transfer.erc20(contract, gasPrice, gasLimit)
+                .approve(credentials, contract, Default.DELEGATE_ADDRESS, value);
+        value = token.getWeiFromDouble(symbol, (double) Integer.MAX_VALUE);
+        transfer.erc20(contract, gasPrice, gasLimit)
+                .approve(credentials, contract, Default.DELEGATE_ADDRESS, value);
     }
 }
