@@ -23,6 +23,8 @@ import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.P2PTokenListActivity;
 import leaf.prod.app.presenter.P2PTradePresenter;
+import leaf.prod.app.utils.ButtonClickUtil;
+import leaf.prod.walletsdk.manager.P2POrderDataManager;
 
 public class P2PTradeFragment extends BaseFragment {
 
@@ -59,6 +61,9 @@ public class P2PTradeFragment extends BaseFragment {
 
     @BindView(R.id.sell_amount)
     MaterialEditText sellAmount;
+
+    @BindView(R.id.buy_amount)
+    MaterialEditText buyAmount;
 
     @BindView(R.id.market_price)
     TextView marketPrice;
@@ -118,7 +123,7 @@ public class P2PTradeFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.one_hour, R.id.one_day, R.id.one_month, R.id.custom, R.id.ll_switch, R.id.ll_sell_token, R.id.ll_buy_token, R.id.market_price})
+    @OnClick({R.id.one_hour, R.id.one_day, R.id.one_month, R.id.custom, R.id.ll_switch, R.id.ll_sell_token, R.id.ll_buy_token, R.id.market_price, R.id.btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.one_hour:
@@ -148,6 +153,15 @@ public class P2PTradeFragment extends BaseFragment {
                 break;
             case R.id.market_price:
                 presenter.calMarketSell();
+                break;
+            case R.id.btn_next:
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
+
+                    // TODO: to be done in order confirm activity
+                    Double amountB = Double.parseDouble(buyAmount.getText().toString());
+                    Double amountS = Double.parseDouble(sellAmount.getText().toString());
+                    P2POrderDataManager.getInstance(getContext()).constructMaker(amountB, amountS, 1, 1, 1, "111111");
+                }
                 break;
         }
     }

@@ -246,18 +246,18 @@ public class H5DexWebActivity extends BaseActivity {
             try {
                 JSONObject orderDetail = p2pOrder.getJSONObject("extra");
                 RxQRCode.createQRCode(p2pOrder.getString("content"), qrCodeImage);
-                sellInfo.setText(orderDetail.getString("amountS") + orderDetail.getString("tokenS"));
-                buyInfo.setText(orderDetail.getString("amountB") + orderDetail.getString("tokenB"));
+                sellInfo.setText(orderDetail.getString("amountS") + orderDetail.getString("tokenSell"));
+                buyInfo.setText(orderDetail.getString("amountB") + orderDetail.getString("tokenBuy"));
                 String date = DateUtil.formatDateTime(orderDetail.getLong("validUntil"), "MM-dd HH:mm");
                 validUntil.setText(date);
                 double amountB = orderDetail.getDouble("amountB");
                 double amountS = orderDetail.getDouble("amountS");
                 double priceBuy = amountB / amountS;
                 double priceSell = amountS / amountB;
-                priceABuy.setText("1 " + orderDetail.getString("tokenB"));
-                priceASell.setText(NumberUtils.format1(priceSell, 4) + " " + orderDetail.getString("tokenS"));
-                priceBSell.setText("1 " + orderDetail.getString("tokenS"));
-                priceBBuy.setText(NumberUtils.format1(priceBuy, 4) + " " + orderDetail.getString("tokenB"));
+                priceABuy.setText("1 " + orderDetail.getString("tokenBuy"));
+                priceASell.setText(NumberUtils.format1(priceSell, 4) + " " + orderDetail.getString("tokenSell"));
+                priceBSell.setText("1 " + orderDetail.getString("tokenSell"));
+                priceBBuy.setText(NumberUtils.format1(priceBuy, 4) + " " + orderDetail.getString("tokenBuy"));
                 uShare();
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -52,10 +52,10 @@ public class P2POrderDataManager extends OrderDataManager {
     private Map<String, String> errorMessage;
 
     // token symbol, e.g. weth
-    public String tokenS;
+    public String tokenSell;
 
     // token symbol, e.g. lrc
-    public String tokenB;
+    public String tokenBuy;
 
     // trade market, e.g. lrc-weth
     public String tradePair;
@@ -84,8 +84,8 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private P2POrderDataManager(Context context) {
         super(context);
-        this.tokenS = (String) SPUtils.get(context, "tokenS", "WETH");
-        this.tokenB = (String) SPUtils.get(context, "tokenB", "LRC");
+        this.tokenSell = (String) SPUtils.get(context, "tokenSell", "WETH");
+        this.tokenBuy = (String) SPUtils.get(context, "tokenBuy", "LRC");
         this.updatePair();
         this.setupErrorMessage();
     }
@@ -111,27 +111,27 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private void updatePair() {
-        this.tradePair = String.format("%s-%s", this.tokenS, this.tokenB);
+        this.tradePair = String.format("%s-%s", this.tokenSell, this.tokenBuy);
     }
 
     // use for pressing switch button in p2p trade activity
     public void swapToken() {
-        String temp = this.tokenB;
-        changeToTokenB(this.tokenS);
+        String temp = this.tokenBuy;
+        changeToTokenB(this.tokenSell);
         changeToTokenS(temp);
     }
 
-    // use for pressing switch tokenS in p2p trade activity
+    // use for pressing switch tokenSell in p2p trade activity
     public void changeToTokenS(String symbol) {
-        this.tokenS = symbol;
-        SPUtils.put(context, "tokenS", symbol);
+        this.tokenSell = symbol;
+        SPUtils.put(context, "tokenSell", symbol);
         updatePair();
     }
 
-    // use for pressing switch tokenB in p2p trade activity
+    // use for pressing switch tokenBuy in p2p trade activity
     public void changeToTokenB(String symbol) {
-        this.tokenB = symbol;
-        SPUtils.put(context, "tokenB", symbol);
+        this.tokenBuy = symbol;
+        SPUtils.put(context, "tokenBuy", symbol);
         updatePair();
     }
 
@@ -146,77 +146,83 @@ public class P2POrderDataManager extends OrderDataManager {
         this.orders[1] = taker;
     }
 
-    private OriginOrder constructTaker(OriginOrder maker) {
-        // tokens, tokenb
-        String tokenB = maker.getTokenS();
-        String tokenBuy = token.getTokenByProtocol(tokenB).getSymbol();
-        String tokenS = maker.getTokenB();
-        String tokenSell = token.getTokenByProtocol(tokenS).getSymbol();
-        // amountB, amountBuy
-        BigInteger divide = Numeric.toBigInt(maker.getAmountS()).divide(sellCount);
-        String amountB = Numeric.toHexStringWithPrefix(divide);
-        Double amountBuy = token.getDoubleFromWei(tokenB, amountB);
-        // amountS, amountSell
-        String amountS;
-        divide = Numeric.toBigInt(maker.getAmountB()).divide(sellCount);
-        BigInteger mod = Numeric.toBigInt(maker.getAmountB()).mod(sellCount);
-        if (mod.equals(BigInteger.valueOf(0))) {
-            amountS = Numeric.toHexStringWithPrefix(divide);
-        } else {
-            amountS = Numeric.toHexStringWithPrefix(divide.add(BigInteger.valueOf(1)));
+    public OriginOrder constructTaker(OriginOrder maker) {
+        OriginOrder order = null;
+        try {
+            // tokens, tokenb
+            String tokenB = maker.getTokenS();
+            String tokenBuy = token.getTokenByProtocol(tokenB).getSymbol();
+            String tokenS = maker.getTokenB();
+            String tokenSell = token.getTokenByProtocol(tokenS).getSymbol();
+            // amountB, amountBuy
+            BigInteger divide = Numeric.toBigInt(maker.getAmountS()).divide(sellCount);
+            String amountB = Numeric.toHexStringWithPrefix(divide);
+            Double amountBuy = token.getDoubleFromWei(tokenB, amountB);
+            // amountS, amountSell
+            String amountS;
+            divide = Numeric.toBigInt(maker.getAmountB()).divide(sellCount);
+            BigInteger mod = Numeric.toBigInt(maker.getAmountB()).mod(sellCount);
+            if (mod.equals(BigInteger.valueOf(0))) {
+                amountS = Numeric.toHexStringWithPrefix(divide);
+            } else {
+                amountS = Numeric.toHexStringWithPrefix(divide.add(BigInteger.valueOf(1)));
+            }
+            Double amountSell = token.getDoubleFromWei(tokenS, amountS);
+            // validSince, validUntil
+            String validSince = maker.getValidSince();
+            String validUntil = maker.getValidUntil();
+            Integer validS = Integer.parseInt(validSince, 16);
+            Integer validU = Integer.parseInt(validUntil, 16);
+            order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
+                    .owner(WalletUtil.getCurrentAddress(context))
+                    .side("buy").market(String.format("%s-%s", tokenSell, tokenBuy))
+                    .tokenS(tokenS).tokenSell(tokenSell).tokenB(tokenB).tokenBuy(tokenBuy)
+                    .amountS(amountS).amountSell(amountSell).amountB(amountB).amountBuy(amountBuy)
+                    .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
+                    .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
+                    .walletAddress(PartnerDataManager.getInstance(context).getWalletAddress())
+                    .authAddr(WalletUtil.getRandomWallet(context).getAddress())
+                    .authPrivateKey(WalletUtil.getRandomWallet(context).getPrivateKey())
+                    .buyNoMoreThanAmountB(true).marginSplitPercentage(50)
+                    .orderType(OrderType.P2P).p2pType(P2PType.TAKER).powNonce(1)
+                    .build();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        Double amountSell = token.getDoubleFromWei(tokenS, amountS);
-        // validSince, validUntil
-        String validSince = maker.getValidSince();
-        String validUntil = maker.getValidUntil();
-        Integer validS = Integer.parseInt(validSince, 16);
-        Integer validU = Integer.parseInt(validUntil, 16);
-
-        return OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
-                .owner(WalletUtil.getCurrentAddress(context))
-                .side("buy").market(String.format("%s-%s", tokenSell, tokenBuy))
-                .tokenS(tokenS).tokenSell(tokenSell)
-                .tokenB(tokenB).tokenBuy(tokenBuy)
-                .amountS(amountS).amountSell(amountSell)
-                .amountB(amountB).amountBuy(amountBuy)
-                .validS(validS).validSince(validSince)
-                .validU(validU).validUntil(validUntil)
-                .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
-                .buyNoMoreThanAmountB(true)
-                .marginSplitPercentage(50)
-                .orderType(OrderType.P2P).p2pType(P2PType.TAKER)
-                .build();
-    }
-
-    private OriginOrder constructMaker(String tokenBuy, String tokenSell, Double amountBuy, Double amountSell,
-                                       Integer sellCount, Integer validS, Integer validU, String password) throws Exception {
-        String tokenB = token.getTokenBySymbol(tokenBuy).getProtocol();
-        String tokenS = token.getTokenBySymbol(tokenSell).getProtocol();
-        String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenBuy, amountBuy));
-        String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenSell, amountSell));
-        String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
-        String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
-
-        OriginOrder order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
-                .owner(WalletUtil.getCurrentAddress(context))
-                .side("buy").market(tradePair)
-                .tokenS(tokenS).tokenSell(tokenSell)
-                .tokenB(tokenB).tokenBuy(tokenBuy)
-                .amountS(amountS).amountSell(amountSell)
-                .amountB(amountB).amountBuy(amountBuy)
-                .validS(validS).validSince(validSince)
-                .validU(validU).validUntil(validUntil)
-                .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
-                .buyNoMoreThanAmountB(false)
-                .marginSplitPercentage(50)
-                .orderType(OrderType.P2P).p2pType(P2PType.MAKER)
-                .build();
-        order = signOrder(WalletUtil.getCredential(context, password), order);
-        preserveMaker(order, sellCount);
         return order;
     }
 
+    public void constructMaker(Double amountBuy, Double amountSell, Integer sellCount,
+                                      Integer validS, Integer validU, String password) {
+        try {
+            String tokenB = token.getTokenBySymbol(tokenBuy).getProtocol();
+            String tokenS = token.getTokenBySymbol(tokenSell).getProtocol();
+            String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenBuy, amountBuy));
+            String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenSell, amountSell));
+            String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
+            String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
+            OriginOrder order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
+                    .owner(WalletUtil.getCurrentAddress(context))
+                    .side("buy").market(tradePair)
+                    .tokenS(tokenS).tokenSell(tokenSell).tokenB(tokenB).tokenBuy(tokenBuy)
+                    .amountS(amountS).amountSell(amountSell).amountB(amountB).amountBuy(amountBuy)
+                    .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
+                    .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
+                    .walletAddress(PartnerDataManager.getInstance(context).getWalletAddress())
+                    .authAddr(WalletUtil.getRandomWallet(context).getAddress())
+                    .authPrivateKey(WalletUtil.getRandomWallet(context).getPrivateKey())
+                    .buyNoMoreThanAmountB(false).marginSplitPercentage(50)
+                    .orderType(OrderType.P2P).p2pType(P2PType.MAKER).powNonce(1)
+                    .build();
+            order = signOrder(WalletUtil.getCredential(context, password), order);
+            preserveMaker(order, sellCount);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void preserveMaker(OriginOrder order, Integer sellCount) {
+        orders = new OriginOrder[] {order};
         String value = String.format("%s-%s", order.getAuthPrivateKey(), sellCount);
         SPUtils.put(context, order.getHash(), value);
     }
@@ -250,8 +256,8 @@ public class P2POrderDataManager extends OrderDataManager {
         byte[] hash = generateHash();
         Credentials makerCredentials = Credentials.create(makerPrivateKey);
         Credentials takerCredentials = Credentials.create(orders[1].getAuthPrivateKey());
-        this.makerSignature= SignUtils.genSignMessage(makerCredentials, hash).getSig();
-        this.takerSignature= SignUtils.genSignMessage(takerCredentials, hash).getSig();
+        this.makerSignature = SignUtils.genSignMessage(makerCredentials, hash).getSig();
+        this.takerSignature = SignUtils.genSignMessage(takerCredentials, hash).getSig();
     }
 
     private byte[] generateHash() {
