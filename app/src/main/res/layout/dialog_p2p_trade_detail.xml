@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="550dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:background="@drawable/radius_bg_38"
@@ -15,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="200dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -253,7 +254,8 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            tools:layout_editor_absoluteY="354dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -287,20 +289,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="18dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:src="@mipmap/icon_info"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="3dp"
                 android:gravity="center_vertical"
+                android:textSize="11sp"
                 android:text="@string/place_order_tip"
                 android:textColor="@color/colorNineText"/>
         </LinearLayout>
@@ -308,8 +311,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -328,7 +331,7 @@
                 android:id="@+id/btn_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:text="@string/cancel"
                 android:textColor="@color/colorWhite"/>
         </LinearLayout>
