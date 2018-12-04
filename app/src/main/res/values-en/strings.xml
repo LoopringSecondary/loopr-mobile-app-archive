@@ -200,6 +200,7 @@
     <string name="order_expired">Expired</string>
     <string name="order_locked">Locked</string>
     <string name="order_unknown">Unknown</string>
+    <string name="order_cut_off">Cut Off</string>
     <string name="unknown">Unknown</string>
     <string name="order_detail">Order Detail</string>
     <string name="filled_amount">Filled/Amount</string>
@@ -245,4 +246,9 @@
     <string name="trade_success">Trade Successfully!</string>
     <string name="view_orders">View Orders</string>
     <string name="trade_result">Trading Result</string>
+    <string name="market_price">Market/Price</string>
+    <string name="amount_filled">Amount/Filled</string>
+    <string name="status_date">Status/Date</string>
+    <string name="sell_icon">S</string>
+    <string name="buy_icon">B</string>
 </resources>
