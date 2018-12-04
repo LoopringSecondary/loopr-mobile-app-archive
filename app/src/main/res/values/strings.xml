@@ -200,6 +200,7 @@
     <string name="order_expired">已过期</string>
     <string name="order_locked">已锁定</string>
     <string name="order_unknown">未知状态</string>
+    <string name="order_cut_off">已中断</string>
     <string name="unknown">其他</string>
     <string name="order_detail">订单详情</string>
     <string name="filled_amount">完成/总额</string>
@@ -245,4 +246,9 @@
     <string name="trade_success">交易成功!</string>
     <string name="view_orders">查看订单</string>
     <string name="trade_result">交易结果</string>
+    <string name="market_price">市场/价格</string>
+    <string name="amount_filled">数量/成交量</string>
+    <string name="status_date">状态/时间</string>
+    <string name="sell_icon">卖</string>
+    <string name="buy_icon">买</string>
 </resources>

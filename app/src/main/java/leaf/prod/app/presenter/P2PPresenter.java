@@ -8,8 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.P2PActivity;
+import leaf.prod.app.fragment.P2PRecordsFragment;
 import leaf.prod.app.fragment.P2PTradeFragment;
-import leaf.prod.app.fragment.TradeFragment;
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,7 +44,7 @@ public class P2PPresenter extends BasePresenter<P2PActivity> {
                 recordsFragment = manager.findFragmentByTag("records_item");
                 hideTab(transaction);
                 if (recordsFragment == null) {
-                    recordsFragment = new TradeFragment();
+                    recordsFragment = new P2PRecordsFragment();
                     transaction.add(R.id.main_frame, recordsFragment, "records_item");
                 } else {
                     transaction.show(recordsFragment);
@@ -62,5 +62,4 @@ public class P2PPresenter extends BasePresenter<P2PActivity> {
             transaction.hide(recordsFragment);
         }
     }
-
 }

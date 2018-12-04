@@ -271,6 +271,11 @@
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.P2PRecordDetailActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
         <receiver
             android:name="leaf.prod.app.receiver.ApkInstallReceiver"

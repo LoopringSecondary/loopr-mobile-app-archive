@@ -260,7 +260,9 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             p2pTradeDialogView.findViewById(R.id.btn_cancel).setOnClickListener(view1 -> p2pTradeDialog.hide());
             p2pTradeDialogView.findViewById(R.id.btn_order).setOnClickListener(view1 -> {
                 if (WalletUtil.needPassword(context)) {
-                    PasswordDialogUtil.showPasswordDialog(context, v -> this.password = PasswordDialogUtil.getInputPassword());
+                    PasswordDialogUtil.showPasswordDialog(context, v -> processMaker(PasswordDialogUtil.getInputPassword()));
+                } else {
+                    processMaker("");
                 }
             });
             builder.setView(p2pTradeDialogView);
