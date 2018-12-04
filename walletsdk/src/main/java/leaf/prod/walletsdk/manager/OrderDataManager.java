@@ -27,7 +27,9 @@ import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Observable;
+import lombok.Getter;
 
+@Getter
 public class OrderDataManager {
 
     protected String owner;
