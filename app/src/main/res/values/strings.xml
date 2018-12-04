@@ -242,4 +242,7 @@
     <string name="trading_fee">交易费</string>
     <string name="margin_split">分润比例</string>
     <string name="time_to_live">有效时间</string>
+    <string name="trade_success">交易成功!</string>
+    <string name="view_orders">查看订单</string>
+    <string name="trade_result">交易结果</string>
 </resources>
