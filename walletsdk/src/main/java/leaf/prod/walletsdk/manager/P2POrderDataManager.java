@@ -121,25 +121,26 @@ public class P2POrderDataManager extends OrderDataManager {
         updatePair();
     }
 
-    private void handleResult(JsonObject scanning) {
+    private void handleResult(JsonObject scanning, String password) {
         this.makerHash = scanning.get(QRCODE_HASH).getAsString();
-        this.makerPrivateKey = scanning.get(QRCODE_AUTH).getAsString();
         this.sellCount = scanning.get(SELL_COUNT).getAsBigInteger();
+        this.makerPrivateKey = scanning.get(QRCODE_AUTH).getAsString();
         OriginOrder maker = getOrderBy(makerHash);
-        OriginOrder taker = constructTaker(maker);
+        OriginOrder taker = constructTaker(maker, password);
         this.isTaker = true;
         this.orders = new OriginOrder[2];
         this.orders[0] = maker;
         this.orders[1] = taker;
     }
 
-    public OriginOrder constructTaker(OriginOrder maker) {
+    public OriginOrder constructTaker(OriginOrder maker, String password) {
         OriginOrder order = null;
         try {
+            this.credentials = WalletUtil.getCredential(context, password);
             // tokens, tokenb
             String tokenB = maker.getTokenS();
-            String tokenBuy = token.getTokenByProtocol(tokenB).getSymbol();
             String tokenS = maker.getTokenB();
+            String tokenBuy = token.getTokenByProtocol(tokenB).getSymbol();
             String tokenSell = token.getTokenByProtocol(tokenS).getSymbol();
             // amountB, amountBuy
             BigInteger divide = Numeric.toBigInt(maker.getAmountS()).divide(sellCount);
@@ -173,16 +174,23 @@ public class P2POrderDataManager extends OrderDataManager {
                     .buyNoMoreThanAmountB(true).marginSplitPercentage(50)
                     .orderType(OrderType.P2P).p2pType(P2PType.TAKER).powNonce(1)
                     .build();
+            order = signOrder(order);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return order;
     }
 
-    public OriginOrder constructMaker(Double amountBuy, Double amountSell,
-                                      Integer validS, Integer validU, Integer sellCount) {
-        OriginOrder order = constructOrder(credentials, amountBuy, amountSell, validS, validU);
-        preserveMaker(order, sellCount);
+    public OriginOrder constructMaker(Double amountBuy, Double amountSell, Integer validS,
+                                      Integer validU, Integer sellCount, String password) {
+        OriginOrder order = null;
+        try {
+            this.credentials = WalletUtil.getCredential(context, password);
+            order = constructOrder(amountBuy, amountSell, validS, validU);
+            preserveMaker(order, sellCount);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return order;
     }
 
@@ -368,7 +376,7 @@ public class P2POrderDataManager extends OrderDataManager {
         }
         try {
             String rawTx = generate();
-            orders[1] = signOrder(credentials, orders[1]);
+            orders[1] = signOrder(orders[1]);
             String makerHash = orders[0].getHash();
             String takerHash = orders[1].getHash();
             return loopringService.submitRing(makerHash, takerHash, rawTx);
@@ -399,11 +407,10 @@ public class P2POrderDataManager extends OrderDataManager {
         return order.getOriginOrder();
     }
 
-    public Map verify(OriginOrder order) {
+    public void verify(OriginOrder order) {
         balanceInfo.clear();
         checkGasEnough(order);
         checkBalanceEnough(order);
-        return balanceInfo;
     }
 
     private void checkGasEnough(OriginOrder order) {
