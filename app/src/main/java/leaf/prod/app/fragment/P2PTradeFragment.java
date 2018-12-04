@@ -184,7 +184,7 @@ public class P2PTradeFragment extends BaseFragment {
                             .toString().equals(".") ? 0d : Double.valueOf(buyAmount.getText().toString()));
                     Double amountS = (sellAmount.getText().toString().isEmpty() || sellAmount.getText()
                             .toString().equals(".") ? 0d : Double.valueOf(sellAmount.getText().toString()));
-                    P2POrderDataManager.getInstance(getContext()).constructMaker(amountB, amountS, 1, 1, 1, "111111");
+                    P2POrderDataManager.getInstance(getContext()).constructMaker(amountB, amountS, 1, 1, 1);
                     if (amountS == 0) {
                         presenter.setHint(2);
                     } else if (amountS > presenter.getMaxAmount()) {
