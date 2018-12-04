@@ -179,20 +179,16 @@ public class P2POrderDataManager extends OrderDataManager {
         return order;
     }
 
-    public OriginOrder constructMaker(Double amountBuy, Double amountSell, Integer validS,
-                                      Integer validU, Integer sellCount, String password) {
-        OriginOrder order = null;
-        try {
-            Credentials credentials = WalletUtil.getCredential(context, password);
-            order = constructOrder(credentials, amountBuy, amountSell, validS, validU);
-            preserveMaker(order, sellCount);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public OriginOrder constructMaker(Double amountBuy, Double amountSell,
+                                      Integer validS, Integer validU, Integer sellCount) {
+        OriginOrder order = constructOrder(credentials, amountBuy, amountSell, validS, validU);
+        preserveMaker(order, sellCount);
         return order;
     }
 
     private void preserveMaker(OriginOrder order, Integer sellCount) {
+        this.isTaker = false;
+        this.orders = new OriginOrder[] {order};
         String value = String.format("%s-%s", order.getAuthPrivateKey(), sellCount);
         SPUtils.put(context, order.getHash(), value);
     }
@@ -366,12 +362,11 @@ public class P2POrderDataManager extends OrderDataManager {
         return result;
     }
 
-    private Observable<String> submitRing(String password) {
+    private Observable<String> submitRing() {
         if (!validate()) {
             return null;
         }
         try {
-            credentials = WalletUtil.getCredential(context, password);
             String rawTx = generate();
             orders[1] = signOrder(credentials, orders[1]);
             String makerHash = orders[0].getHash();
@@ -383,16 +378,17 @@ public class P2POrderDataManager extends OrderDataManager {
         return null;
     }
 
-    public Observable<String> submitOrder(Double amountBuy, Double amountSell, Integer sellCount,
-                                          Integer validS, Integer validU, String password) {
+    @Override
+    public Observable<String> submit() {
         Observable<String> result = null;
         if (!isTaker) {
-            OriginOrder order = constructMaker(amountBuy, amountSell, sellCount, validS, validU, password);
-            result = loopringService.submitOrder(order);
+            if (orders.length == 1 && orders[0] != null) {
+                result = loopringService.submitOrder(orders[0]);
+            }
         } else if (orders.length == 2 && makerHash != null) {
             result = loopringService.submitOrderForP2P(orders[1], makerHash)
                     .observeOn(Schedulers.io())
-                    .flatMap((Func1<String, Observable<String>>) s -> submitRing(password))
+                    .flatMap((Func1<String, Observable<String>>) s -> submitRing())
                     .observeOn(AndroidSchedulers.mainThread());
         }
         return result;

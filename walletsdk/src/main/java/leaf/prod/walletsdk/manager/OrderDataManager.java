@@ -26,6 +26,7 @@ import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
+import rx.Observable;
 
 public class OrderDataManager {
 
@@ -139,7 +140,8 @@ public class OrderDataManager {
         return token.getDoubleFromWei(symbol, valueInWei);
     }
 
-    public void handleInfo() throws Exception {
+    public void handleInfo(String password) throws Exception {
+        this.credentials = WalletUtil.getCredential(context, password);
         if (isBalanceEnough()) {
             if (needApprove()) {
                 approve();
@@ -185,7 +187,7 @@ public class OrderDataManager {
         }
     }
 
-    private void submit() {}
+    protected Observable<String> submit() { return null; }
 
     private void approveOnce(String symbol) throws Exception {
         Transfer transfer = new Transfer(credentials);
