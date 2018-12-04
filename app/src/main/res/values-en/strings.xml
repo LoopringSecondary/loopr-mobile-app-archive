@@ -242,4 +242,7 @@
     <string name="trading_fee">Trading Fee</string>
     <string name="margin_split">Magin Split</string>
     <string name="time_to_live">Time to Live</string>
+    <string name="trade_success">Trade Successfully!</string>
+    <string name="view_orders">View Orders</string>
+    <string name="trade_result">Trading Result</string>
 </resources>
