@@ -51,7 +51,7 @@ public class OrderDataManager {
 
     protected BalanceDataManager balance;
 
-    protected Map<String, Double> balanceInfo;
+    public Map<String, Double> balanceInfo;
 
     protected LoopringService loopringService;
 
@@ -65,7 +65,7 @@ public class OrderDataManager {
         this.balance = BalanceDataManager.getInstance(context);
     }
 
-    public OriginOrder constructOrder(Credentials credentials, Double amountBuy, Double amountSell, Integer validS, Integer validU) {
+    public OriginOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {
         OriginOrder order = null;
         try {
             String tokenB = token.getTokenBySymbol(tokenBuy).getProtocol();
@@ -75,7 +75,6 @@ public class OrderDataManager {
             String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
             String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
             RandomWallet randomWallet = WalletUtil.getRandomWallet(context);
-
             order = OriginOrder.builder()
                     .delegate(Default.DELEGATE_ADDRESS)
                     .owner(WalletUtil.getCurrentAddress(context))
@@ -90,14 +89,14 @@ public class OrderDataManager {
                     .buyNoMoreThanAmountB(false).marginSplitPercentage(50)
                     .orderType(OrderType.P2P).p2pType(P2PType.MAKER).powNonce(1)
                     .build();
-            order = signOrder(credentials, order);
+            order = signOrder(order);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return order;
     }
 
-    public OriginOrder signOrder(Credentials credentials, OriginOrder order) {
+    public OriginOrder signOrder(OriginOrder order) {
         byte[] encoded = encodeOrder(order);
         SignedBody signedBody = SignUtils.genSignMessage(credentials, encoded);
         String r = Numeric.toHexStringNoPrefix(signedBody.getSig().getR());
@@ -140,17 +139,19 @@ public class OrderDataManager {
         return token.getDoubleFromWei(symbol, valueInWei);
     }
 
-    public void handleInfo(String password) throws Exception {
-        this.credentials = WalletUtil.getCredential(context, password);
-        if (isBalanceEnough()) {
-            if (needApprove()) {
-                approve();
-            } else {
-                submit();
+    public Observable<String> handleInfo() {
+        Observable<String> result = null;
+        try {
+            if (isBalanceEnough()) {
+                if (needApprove()) {
+                    approve();
+                }
+                result = submit();
             }
-        } else {
-            return;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return result;
     }
 
     private boolean isBalanceEnough() {
@@ -187,7 +188,9 @@ public class OrderDataManager {
         }
     }
 
-    protected Observable<String> submit() { return null; }
+    protected Observable<String> submit() {
+        return null;
+    }
 
     private void approveOnce(String symbol) throws Exception {
         Transfer transfer = new Transfer(credentials);

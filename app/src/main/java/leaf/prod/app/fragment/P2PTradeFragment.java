@@ -24,7 +24,6 @@ import leaf.prod.app.R;
 import leaf.prod.app.activity.P2PTokenListActivity;
 import leaf.prod.app.presenter.P2PTradePresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.walletsdk.manager.P2POrderDataManager;
 
 public class P2PTradeFragment extends BaseFragment {
 
@@ -64,6 +63,9 @@ public class P2PTradeFragment extends BaseFragment {
 
     @BindView(R.id.buy_amount)
     MaterialEditText buyAmount;
+
+    @BindView(R.id.sell_count)
+    public MaterialEditText sellCount;
 
     @BindView(R.id.market_price)
     TextView marketPrice;
@@ -179,12 +181,10 @@ public class P2PTradeFragment extends BaseFragment {
                 break;
             case R.id.btn_next:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-                    // TODO: to be done in order confirm activity
                     Double amountB = (buyAmount.getText().toString().isEmpty() || buyAmount.getText()
                             .toString().equals(".") ? 0d : Double.valueOf(buyAmount.getText().toString()));
                     Double amountS = (sellAmount.getText().toString().isEmpty() || sellAmount.getText()
                             .toString().equals(".") ? 0d : Double.valueOf(sellAmount.getText().toString()));
-                    P2POrderDataManager.getInstance(getContext()).constructMaker(amountB, amountS, 1, 1, 1);
                     if (amountS == 0) {
                         presenter.setHint(2);
                     } else if (amountS > presenter.getMaxAmount()) {

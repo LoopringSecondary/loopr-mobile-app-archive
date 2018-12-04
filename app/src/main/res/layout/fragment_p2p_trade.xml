@@ -377,6 +377,7 @@
                     android:orientation="horizontal">
 
                     <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/sell_count"
                         style="@style/editTextStyle"
                         android:layout_width="56dp"
                         android:layout_centerInParent="true"

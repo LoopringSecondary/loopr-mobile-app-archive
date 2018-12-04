@@ -32,11 +32,15 @@ import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
+import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created with IntelliJ IDEA.
@@ -83,6 +87,10 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
 
     private String sellTokenSymbol = "WETH", buyTokenSymbol = "LRC", sellPrice = "0", buyPrice = "0";
 
+    private Date validSince;
+
+    private Date validUntil;
+
     private int timeToLive = 1;
 
     private List<TextView> intervalList;
@@ -93,9 +101,9 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
 
     private TokenDataManager tokenDataManager;
 
-    private P2POrderDataManager p2POrderDataManager;
+    private P2POrderDataManager p2pOrderManager;
 
-    private OptionsPickerView datePickerView, miniCountPickerView;
+    private OptionsPickerView datePickerView;
 
     private AlertDialog p2pTradeDialog;
 
@@ -103,13 +111,15 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
 
     private Animation shakeAnimation;
 
+    private String password = "";
+
     public P2PTradePresenter(P2PTradeFragment view, Context context) {
         super(view, context);
         ButterKnife.bind(this, Objects.requireNonNull(view.getView()));
         marketcapDataManager = MarketcapDataManager.getInstance(context);
         balanceDataManager = BalanceDataManager.getInstance(context);
         tokenDataManager = TokenDataManager.getInstance(context);
-        //        p2POrderDataManager = P2POrderDataManager.getInstance(context);
+        p2pOrderManager = P2POrderDataManager.getInstance(context);
         initTokens("WETH", "LRC");
         shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.shake_x);
     }
@@ -245,34 +255,13 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
      */
     public void showTradeDetailDialog() {
         if (p2pTradeDialog == null) {
-            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);//
+            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);
             p2pTradeDialogView = LayoutInflater.from(context).inflate(R.layout.dialog_p2p_trade_detail, null);
-            p2pTradeDialogView.findViewById(R.id.btn_order).setOnClickListener(view1 -> {
-            });
             p2pTradeDialogView.findViewById(R.id.btn_cancel).setOnClickListener(view1 -> p2pTradeDialog.hide());
             p2pTradeDialogView.findViewById(R.id.btn_order).setOnClickListener(view1 -> {
-
                 if (WalletUtil.needPassword(context)) {
-                    PasswordDialogUtil.showPasswordDialog(context, view -> {
-                        // todo confirm
-                        LyqbLogger.log(PasswordDialogUtil.getInputPsw());
-                    });
-                } else {
+                    PasswordDialogUtil.showPasswordDialog(context, v -> this.password = PasswordDialogUtil.getInputPassword());
                 }
-//                view.getOperation().addParameter("sellToken", sellTokenSymbol);
-//                view.getOperation().addParameter("buyToken", buyTokenSymbol);
-//                view.getOperation().addParameter("sellAmount", sellAmount.getText().toString());
-//                view.getOperation().addParameter("buyAmount", buyAmount.getText().toString());
-//                view.getOperation()
-//                        .addParameter("sellPrice", ((TextView) p2pTradeDialogView.findViewById(R.id.tv_sell_price)).getText()
-//                                .toString());
-//                view.getOperation()
-//                        .addParameter("buyPrice", ((TextView) p2pTradeDialogView.findViewById(R.id.tv_buy_price)).getText()
-//                                .toString());
-//                view.getOperation()
-//                        .addParameter("liveTime", ((TextView) p2pTradeDialogView.findViewById(R.id.tv_live_time)).getText()
-//                                .toString());
-//                view.getOperation().forward(P2PTradeQrActivity.class);
             });
             builder.setView(p2pTradeDialogView);
             builder.setCancelable(true);
@@ -300,9 +289,10 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 .toString()), 8) + " " + sellTokenSymbol + "/" + buyTokenSymbol);
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_trading_fee)).setText("");
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_margin_split)).setText("50%");
-        Date currentTime = new Date();
-        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_live_time)).setText(sdf.format(currentTime) + " ~ " +
-                sdf.format(DateUtil.addDateTime(currentTime, timeToLive)));
+        validSince = new Date();
+        validUntil = DateUtil.addDateTime(validSince, timeToLive);
+        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_live_time)).setText(sdf.format(validSince) + " ~ " +
+                sdf.format(validUntil));
         p2pTradeDialog.show();
     }
 
@@ -340,5 +330,34 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
 
     public double getMaxAmount() {
         return balanceDataManager.getAssetBySymbol(sellTokenSymbol).getValue();
+    }
+
+    public void processMaker(String password) {
+        Double amountBuy = Double.parseDouble(buyAmount.getText().toString());
+        Double amountSell = Double.parseDouble(sellAmount.getText().toString());
+        Integer validS = (int) (validSince.getTime() / 1000);
+        Integer validU = (int) (validUntil.getTime() / 1000);
+        Integer sellCount = Integer.parseInt(view.sellCount.getText().toString());
+        OriginOrder order = p2pOrderManager.constructMaker(amountBuy, amountSell, validS, validU, sellCount, password);
+        p2pOrderManager.verify(order);
+        p2pOrderManager.handleInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        System.out.println("completed");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("falied");
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("success");
+                    }
+                });
     }
 }
