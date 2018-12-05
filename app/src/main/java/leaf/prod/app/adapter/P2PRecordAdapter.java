@@ -29,7 +29,7 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
         helper.setText(R.id.tv_token_b, order.getTradingPair().split("-")[1]);
         helper.setGone(R.id.tv_sell_icon, false);
         helper.setGone(R.id.tv_buy_icon, false);
-        switch (order.getOriginOrder().getP2pType()) {
+        switch (order.getOriginOrder().getP2pSide()) {
             case MAKER:
                 helper.setVisible(R.id.tv_sell_icon, true);
                 break;
