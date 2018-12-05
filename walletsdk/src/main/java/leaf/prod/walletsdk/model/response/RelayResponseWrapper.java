@@ -11,9 +11,5 @@ public class RelayResponseWrapper<T> {
 
     private T result;
 
-    private String error;
-
-    public String getError() {
-        return error.toString();
-    }
+    private RelayError error;
 }

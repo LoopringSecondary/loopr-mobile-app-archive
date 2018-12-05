@@ -28,7 +28,9 @@ import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
-import leaf.prod.walletsdk.model.P2PType;
+import leaf.prod.walletsdk.model.P2PSide;
+import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.SignUtils;
@@ -121,7 +123,8 @@ public class P2POrderDataManager extends OrderDataManager {
         updatePair();
     }
 
-    private void handleResult(JsonObject scanning, String password) {
+    // TODO: for yanyan: MUST handle exception of incorrect password
+    private void handleResult(JsonObject scanning, String password) throws Exception {
         this.makerHash = scanning.get(QRCODE_HASH).getAsString();
         this.sellCount = scanning.get(SELL_COUNT).getAsBigInteger();
         this.makerPrivateKey = scanning.get(QRCODE_AUTH).getAsString();
@@ -133,72 +136,54 @@ public class P2POrderDataManager extends OrderDataManager {
         this.orders[1] = taker;
     }
 
-    public OriginOrder constructTaker(OriginOrder maker, String password) {
-        OriginOrder order = null;
-        try {
-            this.credentials = WalletUtil.getCredential(context, password);
-            // tokens, tokenb
-            String tokenB = maker.getTokenS();
-            String tokenS = maker.getTokenB();
-            String tokenBuy = token.getTokenByProtocol(tokenB).getSymbol();
-            String tokenSell = token.getTokenByProtocol(tokenS).getSymbol();
-            // amountB, amountBuy
-            BigInteger divide = Numeric.toBigInt(maker.getAmountS()).divide(sellCount);
-            String amountB = Numeric.toHexStringWithPrefix(divide);
-            Double amountBuy = token.getDoubleFromWei(tokenB, amountB);
-            // amountS, amountSell
-            String amountS;
-            divide = Numeric.toBigInt(maker.getAmountB()).divide(sellCount);
-            BigInteger mod = Numeric.toBigInt(maker.getAmountB()).mod(sellCount);
-            if (mod.equals(BigInteger.valueOf(0))) {
-                amountS = Numeric.toHexStringWithPrefix(divide);
-            } else {
-                amountS = Numeric.toHexStringWithPrefix(divide.add(BigInteger.valueOf(1)));
-            }
-            Double amountSell = token.getDoubleFromWei(tokenS, amountS);
-            // validSince, validUntil
-            String validSince = maker.getValidSince();
-            String validUntil = maker.getValidUntil();
-            Integer validS = Integer.parseInt(validSince, 16);
-            Integer validU = Integer.parseInt(validUntil, 16);
-            order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
-                    .owner(WalletUtil.getCurrentAddress(context))
-                    .side("buy").market(String.format("%s-%s", tokenSell, tokenBuy))
-                    .tokenS(tokenS).tokenSell(tokenSell).tokenB(tokenB).tokenBuy(tokenBuy)
-                    .amountS(amountS).amountSell(amountSell).amountB(amountB).amountBuy(amountBuy)
-                    .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
-                    .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
-                    .walletAddress(PartnerDataManager.getInstance(context).getWalletAddress())
-                    .authAddr(WalletUtil.getRandomWallet(context).getAddress())
-                    .authPrivateKey(WalletUtil.getRandomWallet(context).getPrivateKey())
-                    .buyNoMoreThanAmountB(true).marginSplitPercentage(50)
-                    .orderType(OrderType.P2P).p2pType(P2PType.TAKER).powNonce(1)
-                    .build();
-            order = signOrder(order);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public OriginOrder constructTaker(OriginOrder maker, String password) throws Exception {
+        this.credentials = WalletUtil.getCredential(context, password);
+        // tokens, tokenb
+        this.tokenBuy = token.getTokenByProtocol(maker.getTokenS()).getSymbol();
+        this.tokenSell = token.getTokenByProtocol(maker.getTokenB()).getSymbol();
+        // amountB, amountBuy
+        BigInteger divide = Numeric.toBigInt(maker.getAmountS()).divide(sellCount);
+        String amountB = Numeric.toHexStringWithPrefix(divide);
+        Double amountBuy = token.getDoubleFromWei(tokenBuy, amountB);
+        // amountS, amountSell
+        String amountS;
+        divide = Numeric.toBigInt(maker.getAmountB()).divide(sellCount);
+        BigInteger mod = Numeric.toBigInt(maker.getAmountB()).mod(sellCount);
+        if (mod.equals(BigInteger.valueOf(0))) {
+            amountS = Numeric.toHexStringWithPrefix(divide);
+        } else {
+            amountS = Numeric.toHexStringWithPrefix(divide.add(BigInteger.valueOf(1)));
         }
+        Double amountSell = token.getDoubleFromWei(tokenSell, amountS);
+        // validSince, validUntil
+        Integer validS = Integer.parseInt(maker.getValidSince(), 16);
+        Integer validU = Integer.parseInt(maker.getValidUntil(), 16);
+        // construct order
+        OriginOrder order = constructOrder(amountBuy, amountSell, validS, validU);
+        order.setSide(TradeType.sell.name());
+        order.setOrderType(OrderType.P2P);
+        order.setP2pSide(P2PSide.TAKER);
+        order = signOrder(order);
         return order;
     }
 
     public OriginOrder constructMaker(Double amountBuy, Double amountSell, Integer validS,
-                                      Integer validU, Integer sellCount, String password) {
-        OriginOrder order = null;
-        try {
-            this.credentials = WalletUtil.getCredential(context, password);
-            order = constructOrder(amountBuy, amountSell, validS, validU);
-            preserveMaker(order, sellCount);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                                      Integer validU, Integer sellCount, String password) throws Exception {
+        this.credentials = WalletUtil.getCredential(context, password);
+        OriginOrder order = constructOrder(amountBuy, amountSell, validS, validU);
+        order.setSide(TradeType.buy.name());
+        order.setOrderType(OrderType.P2P);
+        order.setP2pSide(P2PSide.MAKER);
+        preserveMaker(order, sellCount);
         return order;
     }
 
     private void preserveMaker(OriginOrder order, Integer sellCount) {
         this.isTaker = false;
-        this.orders = new OriginOrder[] {order};
+        this.orders = new OriginOrder[]{order};
         String value = String.format("%s-%s", order.getAuthPrivateKey(), sellCount);
         SPUtils.put(context, order.getHash(), value);
+        order.setAuthPrivateKey("");
     }
 
     private Boolean validate() {
@@ -370,7 +355,7 @@ public class P2POrderDataManager extends OrderDataManager {
         return result;
     }
 
-    private Observable<String> submitRing() {
+    private Observable<RelayResponseWrapper> submitRing() {
         if (!validate()) {
             return null;
         }
@@ -387,8 +372,8 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     @Override
-    public Observable<String> submit() {
-        Observable<String> result = null;
+    public Observable<RelayResponseWrapper> submit() {
+        Observable<RelayResponseWrapper> result = null;
         if (!isTaker) {
             if (orders.length == 1 && orders[0] != null) {
                 result = loopringService.submitOrder(orders[0]);
@@ -396,7 +381,13 @@ public class P2POrderDataManager extends OrderDataManager {
         } else if (orders.length == 2 && makerHash != null) {
             result = loopringService.submitOrderForP2P(orders[1], makerHash)
                     .observeOn(Schedulers.io())
-                    .flatMap((Func1<String, Observable<String>>) s -> submitRing())
+                    .flatMap((Func1<RelayResponseWrapper, Observable<RelayResponseWrapper>>) response -> {
+                        if (response.getError() == null) {
+                            return submitRing();
+                        } else {
+                            return Observable.just(response);
+                        }
+                    })
                     .observeOn(AndroidSchedulers.mainThread());
         }
         return result;

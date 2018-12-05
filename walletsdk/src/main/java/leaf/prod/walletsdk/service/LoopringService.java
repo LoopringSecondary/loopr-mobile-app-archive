@@ -5,6 +5,7 @@ import java.util.List;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.utils.Numeric;
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
 
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
@@ -240,7 +241,7 @@ public class LoopringService {
     }
 
     // support for MARKET order submit
-    public Observable<String> submitOrder(OriginOrder order) {
+    public Observable<RelayResponseWrapper> submitOrder(OriginOrder order) {
         SubmitOrderParam param = SubmitOrderParam.builder()
                 .delegateAddress(Default.DELEGATE_ADDRESS)
                 .protocol(Default.PROTOCOL_ADDRESS)
@@ -259,18 +260,21 @@ public class LoopringService {
                 .buyNoMoreThanAmountB(order.getBuyNoMoreThanAmountB())
                 .marginSplitPercentage(order.getMarginSplitPercentage())
                 .powNonce(order.getPowNonce())
-                .orderType(order.getOrderType().name())
+                .orderType(order.getOrderType().getDescription())
+                .p2pSide(order.getP2pSide().getDescription())
                 .v(order.getV())
                 .r(order.getR())
                 .s(order.getS())
                 .build();
+        Gson gson = new Gson();
+        String json = gson.toJson(param);
         RequestWrapper request = new RequestWrapper("loopring_submitOrder", param);
         Observable<RelayResponseWrapper<String>> observable = rpcDelegate.sumitOrder(request);
-        return observable.map(RelayResponseWrapper::getResult);
+        return observable.map(response -> response);
     }
 
     // support for P2P TAKER order submit
-    public Observable<String> submitOrderForP2P(OriginOrder order, String makerOrderHash) {
+    public Observable<RelayResponseWrapper> submitOrderForP2P(OriginOrder order, String makerOrderHash) {
         SubmitOrderP2PParam param = SubmitOrderP2PParam.builder()
                 .delegateAddress(Default.DELEGATE_ADDRESS)
                 .protocol(Default.PROTOCOL_ADDRESS)
@@ -297,10 +301,10 @@ public class LoopringService {
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_submitOrderForP2P", param);
         Observable<RelayResponseWrapper<String>> observable = rpcDelegate.sumitOrderForP2P(request);
-        return observable.map(RelayResponseWrapper::getResult);
+        return observable.map(response -> response);
     }
 
-    public Observable<String> submitRing(String makerOrderHash, String takerOrderHash, String rawTx) {
+    public Observable<RelayResponseWrapper> submitRing(String makerOrderHash, String takerOrderHash, String rawTx) {
         SubmitRingParam param = SubmitRingParam.builder()
                 .delegateAddress(Default.DELEGATE_ADDRESS)
                 .protocol(Default.PROTOCOL_ADDRESS)
@@ -310,7 +314,7 @@ public class LoopringService {
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_submitRingForP2P", param);
         Observable<RelayResponseWrapper<String>> observable = rpcDelegate.sumitRing(request);
-        return observable.map(RelayResponseWrapper::getResult);
+        return observable.map(response -> response);
     }
 
     public Observable<String> cancelOrderFlex(CancelOrder cancelOrder, NotifyScanParam.SignParam signParam) {

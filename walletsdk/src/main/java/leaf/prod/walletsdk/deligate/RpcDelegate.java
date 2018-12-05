@@ -113,15 +113,15 @@ public interface RpcDelegate {
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<String>> sumitRing(@Body RequestWrapper request);
 
-    @GET(Default.APP_RPC_VERSION_URL + "/version/android/getLatest")
+    @GET(Default.APP_RPC_URL + "/version/android/getLatest")
     Call<AppResponseWrapper<VersionResp>> getLatestVersion();
 
-    @GET(Default.APP_RPC_VERSION_URL + "/user/getUser")
+    @GET(Default.APP_RPC_URL + "/user/getUser")
     Call<AppResponseWrapper<ThirdLogin>> getUser(@Query("account_token") String accountToken);
 
-    @POST(Default.APP_RPC_VERSION_URL + "/user/addUser")
+    @POST(Default.APP_RPC_URL + "/user/addUser")
     Call<AppResponseWrapper<String>> addUser(@Body ThirdLogin thirdLogin);
 
-    @DELETE(Default.APP_RPC_VERSION_URL + "/user/deleteUser")
+    @DELETE(Default.APP_RPC_URL + "/user/deleteUser")
     Call<AppResponseWrapper<String>> deleteUser(@Query("account_token") String accountToken);
 }
