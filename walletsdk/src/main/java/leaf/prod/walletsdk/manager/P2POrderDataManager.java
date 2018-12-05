@@ -35,11 +35,13 @@ import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
+import lombok.Getter;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
+@Getter
 public class P2POrderDataManager extends OrderDataManager {
 
     private static P2POrderDataManager p2pOrderManager = null;
@@ -121,21 +123,19 @@ public class P2POrderDataManager extends OrderDataManager {
         updatePair();
     }
 
-    // TODO: for yanyan: MUST handle exception of incorrect password
-    private void handleResult(JsonObject scanning, String password) throws Exception {
+    public void handleResult(JsonObject scanning) {
         this.makerHash = scanning.get(QRCODE_HASH).getAsString();
         this.sellCount = scanning.get(SELL_COUNT).getAsBigInteger();
         this.makerPrivateKey = scanning.get(QRCODE_AUTH).getAsString();
         OriginOrder maker = getOrderBy(makerHash);
-        OriginOrder taker = constructTaker(maker, password);
+        OriginOrder taker = constructTaker(maker);
         this.isTaker = true;
         this.orders = new OriginOrder[2];
         this.orders[0] = maker;
         this.orders[1] = taker;
     }
 
-    public OriginOrder constructTaker(OriginOrder maker, String password) throws Exception {
-        this.credentials = WalletUtil.getCredential(context, password);
+    private OriginOrder constructTaker(OriginOrder maker) {
         // tokens, tokenb
         this.tokenB = maker.getTokenS();
         this.tokenS = maker.getTokenB();
@@ -161,19 +161,15 @@ public class P2POrderDataManager extends OrderDataManager {
         order.setSide(TradeType.sell.name());
         order.setOrderType(OrderType.P2P);
         order.setP2pSide(P2PSide.TAKER);
-        order = signOrder(order);
         return order;
     }
 
-    public OriginOrder constructMaker(Double amountBuy, Double amountSell, Integer validS,
-                                      Integer validU, Integer sellCount, String password) throws Exception {
-        this.credentials = WalletUtil.getCredential(context, password);
+    public void constructMaker(Double amountBuy, Double amountSell, Integer validS, Integer validU, Integer sellCount) {
         OriginOrder order = constructOrder(amountBuy, amountSell, validS, validU);
         order.setSide(TradeType.buy.name());
         order.setOrderType(OrderType.P2P);
         order.setP2pSide(P2PSide.MAKER);
         preserveMaker(order, sellCount);
-        return order;
     }
 
     private void preserveMaker(OriginOrder order, Integer sellCount) {
@@ -392,14 +388,25 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private OriginOrder getOrderBy(String hash) {
-        Order order = loopringService.getOrderByHash(hash).toBlocking().single();
+        Order order = loopringService.getOrderByHash(hash)
+                .subscribeOn(Schedulers.io()).toBlocking().single();
         return order.getOriginOrder();
     }
 
-    public void verify(OriginOrder order) {
+    public void verify(String password) throws Exception {
+        OriginOrder order = completeOrder(password);
         balanceInfo.clear();
         checkGasEnough(order);
         checkBalanceEnough(order);
+    }
+
+    private OriginOrder completeOrder(String password) throws Exception {
+        this.credentials = WalletUtil.getCredential(context, password);
+        int index = isTaker ? 1 : 0;
+        OriginOrder order = orders[index];
+        order = signOrder(order);
+        orders[index] = order;
+        return order;
     }
 
     private void checkGasEnough(OriginOrder order) {

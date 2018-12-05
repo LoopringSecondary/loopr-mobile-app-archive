@@ -36,6 +36,7 @@ import leaf.prod.app.activity.CoverActivity;
 import leaf.prod.app.activity.H5DexWebActivity;
 import leaf.prod.app.activity.ImportWalletActivity;
 import leaf.prod.app.activity.ManageWalletActivity;
+import leaf.prod.app.activity.P2PConfirmActivity;
 import leaf.prod.app.activity.ReceiveActivity;
 import leaf.prod.app.activity.SendActivity;
 import leaf.prod.app.activity.TokenListActivity;
@@ -312,8 +313,7 @@ public class MainFragment extends BaseFragment {
                         break;
                     case P2P_ORDER:
                         getOperation().addParameter("p2p_order", result);
-                        getOperation().forward(H5DexWebActivity.class);
-                        getOperation().mIntent.removeExtra("p2p_order");
+                        getOperation().forward(P2PConfirmActivity.class);
                         break;
                     case LOGIN:
                         getOperation().addParameter("qrcode_info", result);

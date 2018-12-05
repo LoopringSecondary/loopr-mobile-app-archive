@@ -32,7 +32,6 @@ import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
@@ -342,19 +341,17 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         Integer validS = (int) (validSince.getTime() / 1000);
         Integer validU = (int) (validUntil.getTime() / 1000);
         Integer sellCount = Integer.parseInt(view.sellCount.getText().toString());
-        OriginOrder order = null;
+        p2pOrderManager.constructMaker(amountBuy, amountSell, validS, validU, sellCount);
         try {
-            order = p2pOrderManager.constructMaker(amountBuy, amountSell, validS, validU, sellCount, password);
+            p2pOrderManager.verify(password);
         } catch (Exception e) {
             // TODO: for yanyan: MUST handle exception of incorrect password
             e.printStackTrace();
         }
-        p2pOrderManager.verify(order);
         if (!p2pOrderManager.isBalanceEnough()) {
             // TODO: for yanyan: balance not enough
             // p2pOrderManager.balanceInfo e.g. {"MINUS_ETH": 0.3974, "MINUS_LRC": 10.3974}
         }
-
         p2pOrderManager.handleInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
