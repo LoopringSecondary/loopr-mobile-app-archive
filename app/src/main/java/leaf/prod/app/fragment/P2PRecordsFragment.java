@@ -17,10 +17,17 @@ import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.P2PRecordDetailActivity;
 import leaf.prod.app.adapter.P2PRecordAdapter;
+import leaf.prod.walletsdk.manager.P2POrderDataManager;
+import leaf.prod.walletsdk.model.CancelOrder;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.OrderStatus;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.P2PSide;
+import leaf.prod.walletsdk.model.request.param.NotifyScanParam;
+import leaf.prod.walletsdk.service.LoopringService;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class P2PRecordsFragment extends BaseFragment {
 
@@ -30,6 +37,10 @@ public class P2PRecordsFragment extends BaseFragment {
     RecyclerView recyclerView;
 
     private P2PRecordAdapter recordAdapter;
+
+    private LoopringService service;
+
+    private P2POrderDataManager p2pManager;
 
     @Nullable
     @Override
@@ -43,6 +54,8 @@ public class P2PRecordsFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        service = new LoopringService();
+        p2pManager = P2POrderDataManager.getInstance(getContext());
     }
 
     @Override
@@ -83,7 +96,27 @@ public class P2PRecordsFragment extends BaseFragment {
         recordAdapter = new P2PRecordAdapter(R.layout.adapter_item_p2p_record, orders);
         recordAdapter.setOnItemClickListener((adapter, view, position) -> {
             view.findViewById(R.id.tv_cancel).setOnClickListener(v -> {
-                // TODO: 2018/12/4 取消订单
+                String hash = orders.get(position).getOriginOrder().getHash();
+                NotifyScanParam.SignParam signParam = p2pManager.genCancelParam();
+                CancelOrder order = CancelOrder.builder().orderHash(hash).build();
+                service.cancelOrderFlex(order, signParam)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<String>() {
+                            @Override
+                            public void onCompleted() {
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                // TODO: yanyan cancel order failed
+                            }
+
+                            @Override
+                            public void onNext(String s) {
+                                // TODO: yanyan cancel order success
+                            }
+                        });
             });
             getOperation().forward(P2PRecordDetailActivity.class);
         });
