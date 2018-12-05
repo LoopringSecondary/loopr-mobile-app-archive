@@ -32,7 +32,9 @@ import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
+import lombok.Getter;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 @Getter
 public class OrderDataManager {
