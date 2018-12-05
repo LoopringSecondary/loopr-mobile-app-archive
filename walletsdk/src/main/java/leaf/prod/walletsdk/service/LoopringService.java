@@ -38,6 +38,7 @@ import leaf.prod.walletsdk.model.request.param.UnlockWallet;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
+import leaf.prod.walletsdk.model.response.relay.PageWrapper;
 import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
 import rx.Observable;
@@ -190,8 +191,8 @@ public class LoopringService {
     }
 
     // 订单相关接口
-    public Observable<List<Order>> getOrders(String owner, String orderHash, OrderStatus status, String market,
-                                             String side, OrderType type, int pageIndex, int pageSize) {
+    public Observable<PageWrapper<Order>> getOrders(String owner, String orderHash, OrderStatus status, String market,
+                                                    String side, OrderType type, int pageIndex, int pageSize) {
         GetOrdersParam param = GetOrdersParam.builder()
                 .delegateAddress(Default.DELEGATE_ADDRESS)
                 .owner(owner)
@@ -204,7 +205,20 @@ public class LoopringService {
                 .pageSize(pageSize)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getOrders", param);
-        Observable<RelayResponseWrapper<List<Order>>> observable = rpcDelegate.getOrders(request);
+        Observable<RelayResponseWrapper<PageWrapper<Order>>> observable = rpcDelegate.getOrders(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<PageWrapper<Order>> getOrders(String owner, String orderType, int pageIndex, int pageSize) {
+        GetOrdersParam param = GetOrdersParam.builder()
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .owner(owner)
+                .orderType(orderType)
+                .pageIndex(pageIndex)
+                .pageSize(pageSize)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_getOrders", param);
+        Observable<RelayResponseWrapper<PageWrapper<Order>>> observable = rpcDelegate.getOrders(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
@@ -262,7 +276,7 @@ public class LoopringService {
                 .powNonce(order.getPowNonce())
                 .orderType(order.getOrderType().getDescription())
                 .p2pSide(order.getP2pSide().getDescription())
-                .v(order.getV())
+                .v(Numeric.toBigInt(order.getV()).intValue())
                 .r(order.getR())
                 .s(order.getS())
                 .build();
@@ -295,7 +309,7 @@ public class LoopringService {
                 .powNonce(order.getPowNonce())
                 .orderType(order.getOrderType().name())
                 .makerOrderHash(makerOrderHash)
-                .v(order.getV())
+                .v(Numeric.toBigInt(order.getV()).intValue())
                 .r(order.getR())
                 .s(order.getS())
                 .build();

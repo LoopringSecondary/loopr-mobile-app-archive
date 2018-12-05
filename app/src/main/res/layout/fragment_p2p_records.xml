@@ -1,66 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary">
 
-    <LinearLayout
-        android:id="@+id/ll_head"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/button_bg_pressed"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorLine">
 
-        <TextView
-            android:layout_width="0dp"
+        <com.scwang.smartrefresh.header.WaterDropHeader
+            android:id="@+id/head"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/market_price"
-            android:textAlignment="textStart"
-            android:textColor="@color/colorNineText"
-            android:textStyle="bold"
-            tools:ignore="RtlCompat"/>
+            android:layout_marginTop="20dp"/>
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/amount_filled"
-            android:textAlignment="textStart"
-            android:textColor="@color/colorNineText"
-            android:textStyle="bold"
-            tools:ignore="RtlCompat"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/status_date"
-            android:textAlignment="textEnd"
-            android:textColor="@color/colorNineText"
-            android:textStyle="bold"
-            tools:ignore="RtlCompat"/>
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/button_bg_pressed"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margSide"
-        android:layout_marginRight="@dimen/margSide"
-        app:layout_constraintTop_toBottomOf="@id/ll_head"/>
-</android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/market_price"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/colorNineText"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/amount_filled"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/colorNineText"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/status_date"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorNineText"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margSide"
+                android:layout_marginRight="@dimen/margSide"/>
+        </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>

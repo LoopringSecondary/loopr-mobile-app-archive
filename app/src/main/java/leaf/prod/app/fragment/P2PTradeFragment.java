@@ -143,7 +143,27 @@ public class P2PTradeFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                presenter.setHint(5);
+                if (!editable.toString().isEmpty() && !editable.toString().equals(".")) {
+                    presenter.setHint(5);
+                } else {
+                    presenter.setHint(6);
+                }
+            }
+        });
+        sellAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().isEmpty() && !editable.toString().equals(".")) {
+                    presenter.setHint(3);
+                }
             }
         });
     }

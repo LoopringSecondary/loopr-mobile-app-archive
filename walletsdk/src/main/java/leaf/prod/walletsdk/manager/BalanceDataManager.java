@@ -143,4 +143,8 @@ public class BalanceDataManager {
             address = WalletUtil.getCurrentAddress(context);
         return address;
     }
+
+    public static int getPrecision(String symbol) {
+        return balanceDataManager.getAssetBySymbol(symbol).getPrecision();
+    }
 }

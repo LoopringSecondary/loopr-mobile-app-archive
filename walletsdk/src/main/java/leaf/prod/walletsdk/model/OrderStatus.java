@@ -6,9 +6,11 @@
  */
 package leaf.prod.walletsdk.model;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public enum OrderStatus {
+public enum OrderStatus implements Serializable {
 
     @SerializedName("ORDER_OPENED")
     OPENED("opened"),

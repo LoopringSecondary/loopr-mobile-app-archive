@@ -111,7 +111,7 @@ public class OrderDataManager {
         order.setHash(signedBody.getHash());
         order.setR(r);
         order.setS(s);
-        order.setV(v);
+        order.setV(Numeric.toHexStringWithPrefix(BigInteger.valueOf(v)));
         return order;
     }
 
