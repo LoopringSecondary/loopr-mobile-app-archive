@@ -6,9 +6,11 @@
  */
 package leaf.prod.walletsdk.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class CancelOrder {
 
     private String timestamp;
