@@ -6,6 +6,8 @@
  */
 package leaf.prod.walletsdk.model;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +17,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class OriginOrder {
+public class OriginOrder implements Serializable {
 
     @SerializedName("delegateAddress")
     private String delegate;
@@ -90,7 +92,7 @@ public class OriginOrder {
 
     private Integer powNonce;
 
-    private Integer v;
+    private String v;
 
     private String r;
 
@@ -98,5 +100,4 @@ public class OriginOrder {
 
     private OriginOrder() {
     }
-
 }

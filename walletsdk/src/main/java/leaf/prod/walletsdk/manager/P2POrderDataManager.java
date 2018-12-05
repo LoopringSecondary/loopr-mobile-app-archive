@@ -317,7 +317,8 @@ public class P2POrderDataManager extends OrderDataManager {
         String result = "";
         if (makerSignature != null && takerSignature != null) {
             for (OriginOrder order : orders) {
-                result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(order.getV()));
+                //                result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(order.getV()));
+                result += order.getV();
             }
             result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(makerSignature.getV()));
             result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(takerSignature.getV()));

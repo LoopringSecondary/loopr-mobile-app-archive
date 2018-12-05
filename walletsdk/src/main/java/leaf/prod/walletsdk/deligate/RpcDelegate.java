@@ -14,6 +14,7 @@ import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.app.VersionResp;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
+import leaf.prod.walletsdk.model.response.relay.PageWrapper;
 import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
 import okhttp3.OkHttpClient;
@@ -90,7 +91,7 @@ public interface RpcDelegate {
     Observable<RelayResponseWrapper<List<Token>>> getCustomToken(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<RelayResponseWrapper<List<Order>>> getOrders(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<PageWrapper<Order>>> getOrders(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<Order>> getOrderByHash(@Body RequestWrapper request);

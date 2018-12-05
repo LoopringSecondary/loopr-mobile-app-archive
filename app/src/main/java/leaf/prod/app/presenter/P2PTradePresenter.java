@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,13 +21,13 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vondear.rxtool.view.RxToast;
 import com.xw.repo.BubbleSeekBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.fragment.P2PTradeFragment;
-import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.PasswordDialogUtil;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
@@ -36,6 +37,7 @@ import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
+import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -121,6 +123,12 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     }
 
     public void initTokens(String sell, String buy) {
+        if (!sell.isEmpty()) {
+            p2pOrderManager.changeToTokenS(sell);
+        }
+        if (!buy.isEmpty()) {
+            p2pOrderManager.changeToTokenB(buy);
+        }
         p2pOrderManager.changeToTokenS(sell);
         p2pOrderManager.changeToTokenB(buy);
         firstTokenView.setText(p2pOrderManager.getTokenS());
@@ -129,8 +137,10 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         buyTokenView.setText(p2pOrderManager.getTokenB());
         Double tokenPrice1 = marketcapDataManager.getPriceBySymbol(p2pOrderManager.getTokenS());
         Double tokenPrice2 = marketcapDataManager.getPriceBySymbol(p2pOrderManager.getTokenB());
-        sellPrice = NumberUtils.format1(tokenPrice1 / tokenPrice2, 8);
-        buyPrice = NumberUtils.format1(tokenPrice2 / tokenPrice1, 8);
+        BalanceResult.Asset assets = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenS());
+        BalanceResult.Asset assetb = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenB());
+        sellPrice = NumberUtils.format1(tokenPrice2 != 0 ? tokenPrice1 / tokenPrice2 : 0, assetb != null ? assetb.getPrecision() : 6);
+        buyPrice = NumberUtils.format1(tokenPrice1 != 0 ? tokenPrice2 / tokenPrice1 : 0, assets != null ? assets.getPrecision() : 6);
         tokenSPrice.setText(" 1 " + p2pOrderManager.getTokenS() + " ≈ " + sellPrice + " " + p2pOrderManager.getTokenB());
         tokenBPrice.setText("1 " + p2pOrderManager.getTokenB() + " ≈ " + buyPrice + " " + p2pOrderManager.getTokenS());
         setHint(0);
@@ -199,11 +209,16 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             dates.add(i);
         }
         for (int i = 0; i < intervalList.size(); ++i) {
-            intervalList.get(i)
-                    .setTextColor(i == index ? view.getResources().getColor(R.color.colorWhite) : view.getResources()
-                            .getColor(R.color.colorNineText));
+            if (i == index) {
+                intervalList.get(i).setTextColor(view.getResources().getColor(R.color.colorWhite));
+                intervalList.get(i).setTypeface(null, Typeface.BOLD);
+            } else {
+                intervalList.get(i).setTextColor(view.getResources().getColor(R.color.colorNineText));
+                intervalList.get(i).setTypeface(null, Typeface.NORMAL);
+            }
         }
         timeToLive = index == 0 ? 1 : (index == 1 ? 24 : (index == 2 ? 24 * 30 : 1));
+        SPUtils.put(context, "time_to_live", timeToLive);
         if (index == 3) {
             if (datePickerView == null) {
                 datePickerView = new OptionsPickerBuilder(context, (options1, options2, options3, v) -> {
@@ -227,7 +242,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                             datePickerView.setSelectOptions(options1 > dates.size() - 1 ? 0 : options1, options2);
                             datePickerView.setNPicker(dates, dateType, null);
                             timeToLive = dates.get(options1) * (options2 == 0 ? 1 : (options2 == 1 ? 24 : 24 * 30));
-                            LyqbLogger.log(timeToLive + "");
+                            SPUtils.put(context, "time_to_live", timeToLive);
                         }).build();
                 datePickerView.setNPicker(dates, dateType, null);
             }
@@ -286,7 +301,8 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_buy_amount)).setText(buyAmount.getText());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_price)).setText(NumberUtils.format1(Double.parseDouble(sellAmount
                 .getText().toString()) / Double.parseDouble(buyAmount.getText()
-                .toString()), 8) + " " + p2pOrderManager.getTokenS() + "/" + p2pOrderManager.getTokenB());
+                .toString()), BalanceDataManager.getPrecision(p2pOrderManager.getTokenS())) + " " + p2pOrderManager.getTokenS() + "/" + p2pOrderManager
+                .getTokenB());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_trading_fee)).setText("");
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_margin_split)).setText("50%");
         validSince = new Date();
@@ -297,7 +313,6 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     }
 
     public void setHint(int flag) {
-        tvBuyHint.setVisibility(View.INVISIBLE);
         switch (flag) {
             case 0:
                 tvSellHint.setText(view.getResources().getString(R.string.available_balance,
@@ -326,8 +341,13 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             case 4:
                 tvBuyHint.setText(view.getResources().getString(R.string.input_valid_amount));
                 tvBuyHint.setTextColor(view.getResources().getColor(R.color.colorRed));
-                tvBuyHint.setVisibility(View.VISIBLE);
                 tvBuyHint.startAnimation(shakeAnimation);
+                break;
+            case 5:
+                tvBuyHint.setText(CurrencyUtil.format(context, marketcapDataManager.getPriceBySymbol(p2pOrderManager.getTokenB()) *
+                        Double.parseDouble(buyAmount.getText().toString())));
+                tvBuyHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
+                break;
         }
     }
 
@@ -345,8 +365,9 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         try {
             p2pOrderManager.verify(password);
         } catch (Exception e) {
-            // TODO: for yanyan: MUST handle exception of incorrect password
+            RxToast.error(context.getResources().getString(R.string.keystore_psw_error));
             e.printStackTrace();
+            return;
         }
         if (!p2pOrderManager.isBalanceEnough()) {
             // TODO: for yanyan: balance not enough

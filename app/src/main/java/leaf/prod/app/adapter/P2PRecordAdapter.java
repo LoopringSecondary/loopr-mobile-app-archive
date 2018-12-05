@@ -1,5 +1,6 @@
 package leaf.prod.app.adapter;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import leaf.prod.app.R;
 import leaf.prod.walletsdk.model.Order;
-import leaf.prod.walletsdk.util.NumberUtils;
 
 public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
 
@@ -25,8 +25,9 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, Order order) {
         if (order == null)
             return;
-        helper.setText(R.id.tv_token_s, order.getTradingPair().split("-")[0]);
-        helper.setText(R.id.tv_token_b, order.getTradingPair().split("-")[1]);
+        order.convert();
+        helper.setText(R.id.tv_token_s, order.getOriginOrder().getTokenS());
+        helper.setText(R.id.tv_token_b, order.getOriginOrder().getTokenB());
         helper.setGone(R.id.tv_sell_icon, false);
         helper.setGone(R.id.tv_buy_icon, false);
         switch (order.getOriginOrder().getP2pSide()) {
@@ -37,10 +38,9 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
                 helper.setVisible(R.id.tv_buy_icon, true);
                 break;
         }
-        helper.setText(R.id.tv_price, String.valueOf(order.getPrice()));
-        helper.setText(R.id.tv_amount, String.valueOf(order.getOriginOrder().getAmountSell()));
-        helper.setText(R.id.tv_filled, NumberUtils.format1(order.getDealtAmountS() / order.getOriginOrder()
-                .getAmountSell(), 2) + "%");
+        helper.setText(R.id.tv_price, order.getPrice());
+        helper.setText(R.id.tv_amount, BigDecimal.valueOf(order.getOriginOrder().getAmountSell()).toPlainString());
+        helper.setText(R.id.tv_filled, order.getFilled());
         helper.setTextColor(R.id.tv_operate, mContext.getResources().getColor(R.color.colorNineText));
         switch (order.getOrderStatus()) {
             case OPENED:
