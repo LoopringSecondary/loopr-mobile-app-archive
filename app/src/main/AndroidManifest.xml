@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
           package="leaf.prod.app">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -273,6 +272,11 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.P2PRecordDetailActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.P2PConfirmActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>

@@ -15,5 +15,5 @@ public enum QRCodeType {
     APPROVE(),
     CONVERT(),
     ORDER(),
-    CANCEL_ORDER();
+    CANCEL_ORDER()
 }

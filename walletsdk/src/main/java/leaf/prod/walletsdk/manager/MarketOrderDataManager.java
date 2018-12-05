@@ -40,7 +40,7 @@ public class MarketOrderDataManager extends OrderDataManager {
     private void checkGasEnough(OriginOrder order, Boolean includingLRC) {
         Double result;
         Double ethBalance = balance.getAssetBySymbol("ETH").getBalance().doubleValue();
-        Double tokenGas = calculateGas(order.getTokenSell(), order.getAmountSell(), order.getLrc());
+        Double tokenGas = calculateGas(order.getTokenS(), order.getAmountSell(), order.getLrc());
         if (includingLRC) {
             Double lrcGas = calculateGas("LRC", order.getAmountSell(), order.getLrc());
             result = ethBalance - lrcGas - tokenGas;
@@ -122,14 +122,14 @@ public class MarketOrderDataManager extends OrderDataManager {
     public Map verify(OriginOrder order) {
         balanceInfo.clear();
         if (order.getSide().equalsIgnoreCase("buy")) {
-            if (order.getTokenBuy().equalsIgnoreCase("LRC")) {
+            if (order.getTokenB().equalsIgnoreCase("LRC")) {
                 checkGasEnough(order, false);
             } else {
                 checkLRCEnough(order);
                 checkGasEnough(order, true);
             }
         } else {
-            if (order.getTokenSell().equalsIgnoreCase("LRC")) {
+            if (order.getTokenS().equalsIgnoreCase("LRC")) {
                 checkLRCEnough(order);
                 checkLRCGasEnough(order);
             } else {

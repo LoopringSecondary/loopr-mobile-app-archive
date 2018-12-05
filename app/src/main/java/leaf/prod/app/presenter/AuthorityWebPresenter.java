@@ -31,7 +31,6 @@ import leaf.prod.app.activity.AuthorityWebActivity;
 import leaf.prod.app.activity.MainActivity;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.model.CancelOrder;
-import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.ScanWebQRCode;
 import leaf.prod.walletsdk.model.SignStatus;
@@ -230,7 +229,6 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
             String type = subJson.getAsJsonObject().get("type").getAsString();
             JsonObject data = subJson.getAsJsonObject().get("data").getAsJsonObject();
             if (type.equals("order")) {
-                OriginOrder originOrder = OriginOrder.createOriginOrder(data);
                 System.out.println(111);
             } else {
                 System.out.println(111);

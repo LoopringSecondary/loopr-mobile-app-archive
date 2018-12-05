@@ -124,28 +124,28 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     public void initTokens(String sell, String buy) {
         p2pOrderManager.changeToTokenS(sell);
         p2pOrderManager.changeToTokenB(buy);
-        firstTokenView.setText(p2pOrderManager.getTokenSell());
-        secondTokenView.setText(p2pOrderManager.getTokenBuy());
-        sellTokenView.setText(p2pOrderManager.getTokenSell());
-        buyTokenView.setText(p2pOrderManager.getTokenBuy());
-        Double tokenPrice1 = marketcapDataManager.getPriceBySymbol(p2pOrderManager.getTokenSell());
-        Double tokenPrice2 = marketcapDataManager.getPriceBySymbol(p2pOrderManager.getTokenBuy());
+        firstTokenView.setText(p2pOrderManager.getTokenS());
+        secondTokenView.setText(p2pOrderManager.getTokenB());
+        sellTokenView.setText(p2pOrderManager.getTokenS());
+        buyTokenView.setText(p2pOrderManager.getTokenB());
+        Double tokenPrice1 = marketcapDataManager.getPriceBySymbol(p2pOrderManager.getTokenS());
+        Double tokenPrice2 = marketcapDataManager.getPriceBySymbol(p2pOrderManager.getTokenB());
         sellPrice = NumberUtils.format1(tokenPrice1 / tokenPrice2, 8);
         buyPrice = NumberUtils.format1(tokenPrice2 / tokenPrice1, 8);
-        tokenSPrice.setText(" 1 " + p2pOrderManager.getTokenSell() + " ≈ " + sellPrice + " " + p2pOrderManager.getTokenBuy());
-        tokenBPrice.setText("1 " + p2pOrderManager.getTokenBuy() + " ≈ " + buyPrice + " " + p2pOrderManager.getTokenSell());
+        tokenSPrice.setText(" 1 " + p2pOrderManager.getTokenS() + " ≈ " + sellPrice + " " + p2pOrderManager.getTokenB());
+        tokenBPrice.setText("1 " + p2pOrderManager.getTokenB() + " ≈ " + buyPrice + " " + p2pOrderManager.getTokenS());
         setHint(0);
     }
 
     public void switchToken() {
         p2pOrderManager.swapToken();
         String tPrice = sellPrice;
-        firstTokenView.setText(p2pOrderManager.getTokenSell());
-        secondTokenView.setText(p2pOrderManager.getTokenBuy());
-        tokenBPrice.setText(" 1 " + p2pOrderManager.getTokenSell() + " ≈ " + sellPrice + " " + p2pOrderManager.getTokenBuy());
-        tokenSPrice.setText("1 " + p2pOrderManager.getTokenBuy() + " ≈ " + buyPrice + " " + p2pOrderManager.getTokenSell());
-        sellTokenView.setText(p2pOrderManager.getTokenBuy());
-        buyTokenView.setText(p2pOrderManager.getTokenSell());
+        firstTokenView.setText(p2pOrderManager.getTokenS());
+        secondTokenView.setText(p2pOrderManager.getTokenB());
+        tokenBPrice.setText(" 1 " + p2pOrderManager.getTokenS() + " ≈ " + sellPrice + " " + p2pOrderManager.getTokenB());
+        tokenSPrice.setText("1 " + p2pOrderManager.getTokenB() + " ≈ " + buyPrice + " " + p2pOrderManager.getTokenS());
+        sellTokenView.setText(p2pOrderManager.getTokenB());
+        buyTokenView.setText(p2pOrderManager.getTokenS());
         sellPrice = buyPrice;
         buyPrice = tPrice;
         sellAmount.setText("");
@@ -170,7 +170,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell());
+                BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenS());
                 sellAmount.setText(NumberUtils.format1(asset.getValue() * progressFloat / 100, asset.getPrecision()));
             }
 
@@ -240,7 +240,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         try {
             Double amountS = Double.parseDouble(sellAmount.getText().toString());
             Double priceS = Double.parseDouble(sellPrice);
-            int precision = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenBuy()).getPrecision();
+            int precision = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenB()).getPrecision();
             buyAmount.setText(NumberUtils.format1(amountS * priceS, precision));
         } catch (Exception e) {
             buyAmount.setText("0");
@@ -270,24 +270,24 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             p2pTradeDialog.getWindow().setGravity(Gravity.CENTER);
         }
         ((ImageView) p2pTradeDialogView.findViewById(R.id.iv_token_s)).setImageDrawable(view.getResources()
-                .getDrawable(tokenDataManager.getTokenBySymbol(p2pOrderManager.getTokenSell()).getImageResId()));
+                .getDrawable(tokenDataManager.getTokenBySymbol(p2pOrderManager.getTokenS()).getImageResId()));
         ((ImageView) p2pTradeDialogView.findViewById(R.id.iv_token_b)).setImageDrawable(view.getResources()
-                .getDrawable(tokenDataManager.getTokenBySymbol(p2pOrderManager.getTokenBuy()).getImageResId()));
+                .getDrawable(tokenDataManager.getTokenBySymbol(p2pOrderManager.getTokenB()).getImageResId()));
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_sell_token)).setText(view.getResources()
-                .getString(R.string.sell) + " " + p2pOrderManager.getTokenSell());
+                .getString(R.string.sell) + " " + p2pOrderManager.getTokenS());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_buy_token)).setText(view.getResources()
-                .getString(R.string.buy) + " " + p2pOrderManager.getTokenBuy());
+                .getString(R.string.buy) + " " + p2pOrderManager.getTokenB());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_sell_price)).setText(CurrencyUtil.format(context, marketcapDataManager
-                .getPriceBySymbol(p2pOrderManager.getTokenSell()) * Double.parseDouble(sellAmount.getText()
+                .getPriceBySymbol(p2pOrderManager.getTokenS()) * Double.parseDouble(sellAmount.getText()
                 .toString())));
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_buy_price)).setText(CurrencyUtil.format(context, marketcapDataManager
-                .getPriceBySymbol(p2pOrderManager.getTokenBuy()) * Double.parseDouble(buyAmount.getText()
+                .getPriceBySymbol(p2pOrderManager.getTokenB()) * Double.parseDouble(buyAmount.getText()
                 .toString())));
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_sell_amount)).setText(sellAmount.getText());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_buy_amount)).setText(buyAmount.getText());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_price)).setText(NumberUtils.format1(Double.parseDouble(sellAmount
                 .getText().toString()) / Double.parseDouble(buyAmount.getText()
-                .toString()), 8) + " " + p2pOrderManager.getTokenSell() + "/" + p2pOrderManager.getTokenBuy());
+                .toString()), 8) + " " + p2pOrderManager.getTokenS() + "/" + p2pOrderManager.getTokenB());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_trading_fee)).setText("");
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_margin_split)).setText("50%");
         validSince = new Date();
@@ -302,14 +302,14 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         switch (flag) {
             case 0:
                 tvSellHint.setText(view.getResources().getString(R.string.available_balance,
-                        balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell())
-                                .getValueShown()) + " " + p2pOrderManager.getTokenSell());
+                        balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenS())
+                                .getValueShown()) + " " + p2pOrderManager.getTokenS());
                 tvSellHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
                 break;
             case 1:
                 tvSellHint.setText(view.getResources().getString(R.string.available_balance,
-                        balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell())
-                                .getValueShown()) + " " + p2pOrderManager.getTokenSell());
+                        balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenS())
+                                .getValueShown()) + " " + p2pOrderManager.getTokenS());
                 tvSellHint.setTextColor(view.getResources().getColor(R.color.colorRed));
                 tvSellHint.startAnimation(shakeAnimation);
                 break;
@@ -320,7 +320,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 break;
             case 3:
                 tvSellHint.setText(CurrencyUtil.format(context, marketcapDataManager.getPriceBySymbol(p2pOrderManager
-                        .getTokenSell()) *
+                        .getTokenS()) *
                         Double.parseDouble(sellAmount.getText().toString())));
                 tvSellHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
                 break;
@@ -333,7 +333,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     }
 
     public double getMaxAmount() {
-        return balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell()).getValue();
+        return balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenS()).getValue();
     }
 
     public void processMaker(String password) {
