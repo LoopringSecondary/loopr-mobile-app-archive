@@ -20,7 +20,7 @@ import leaf.prod.app.adapter.P2PRecordAdapter;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.OrderStatus;
 import leaf.prod.walletsdk.model.OriginOrder;
-import leaf.prod.walletsdk.model.P2PType;
+import leaf.prod.walletsdk.model.P2PSide;
 
 public class P2PRecordsFragment extends BaseFragment {
 
@@ -64,7 +64,7 @@ public class P2PRecordsFragment extends BaseFragment {
                 .originOrder(OriginOrder.builder()
                         .validS((int) System.currentTimeMillis() / 1000)
                         .amountSell(10000d)
-                        .p2pType(P2PType.MAKER)
+                        .p2pSide(P2PSide.MAKER)
                         .build())
                 .orderStatus(OrderStatus.OPENED)
                 .price(2400d)
@@ -74,7 +74,7 @@ public class P2PRecordsFragment extends BaseFragment {
                 .dealtAmountS(100d)
                 .originOrder(OriginOrder.builder()
                         .validS((int) (System.currentTimeMillis() / 1000))
-                        .p2pType(P2PType.TAKER)
+                        .p2pSide(P2PSide.TAKER)
                         .amountSell(10000d)
                         .build())
                 .orderStatus(OrderStatus.OPENED)
