@@ -6,28 +6,33 @@
  */
 package leaf.prod.walletsdk.manager;
 
+import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
 
+import org.web3j.abi.TypeEncoder;
+import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.Hash;
 import org.web3j.utils.Numeric;
 
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
-import leaf.prod.walletsdk.model.P2PType;
 import leaf.prod.walletsdk.model.RandomWallet;
 import leaf.prod.walletsdk.model.SignedBody;
+import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.service.LoopringService;
-import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Observable;
-import lombok.Getter;
 
 @Getter
 public class OrderDataManager {
@@ -53,7 +58,7 @@ public class OrderDataManager {
 
     protected BalanceDataManager balance;
 
-    public Map<String, Double> balanceInfo;
+    protected Map<String, Double> balanceInfo;
 
     protected LoopringService loopringService;
 
@@ -80,7 +85,7 @@ public class OrderDataManager {
             order = OriginOrder.builder()
                     .delegate(Default.DELEGATE_ADDRESS)
                     .owner(WalletUtil.getCurrentAddress(context))
-                    .side("buy").market(tradePair)
+                    .market(tradePair).orderType(OrderType.MARKET)
                     .tokenS(tokenS).tokenSell(tokenSell).tokenB(tokenB).tokenBuy(tokenBuy)
                     .amountS(amountS).amountSell(amountSell).amountB(amountB).amountBuy(amountBuy)
                     .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
@@ -89,7 +94,7 @@ public class OrderDataManager {
                     .authAddr(randomWallet.getAddress())
                     .authPrivateKey(randomWallet.getPrivateKey())
                     .buyNoMoreThanAmountB(false).marginSplitPercentage(50)
-                    .orderType(OrderType.P2P).p2pType(P2PType.MAKER).powNonce(1)
+                    .powNonce(1)
                     .build();
             order = signOrder(order);
         } catch (Exception e) {
@@ -99,8 +104,9 @@ public class OrderDataManager {
     }
 
     public OriginOrder signOrder(OriginOrder order) {
-        byte[] encoded = encodeOrder(order);
-        SignedBody signedBody = SignUtils.genSignMessage(credentials, encoded);
+        String encoded = encodeOrder(order);
+        byte[] hash = Hash.sha3(Numeric.hexStringToByteArray(encoded));
+        SignedBody signedBody = SignUtils.genSignMessage(credentials, hash);
         String r = Numeric.toHexStringNoPrefix(signedBody.getSig().getR());
         String s = Numeric.toHexStringNoPrefix(signedBody.getSig().getS());
         Integer v = (int) signedBody.getSig().getV();
@@ -111,58 +117,60 @@ public class OrderDataManager {
         return order;
     }
 
-    private byte[] encodeOrder(OriginOrder order) {
-        byte[] array = Numeric.hexStringToByteArray(order.getDelegate());
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getOwner()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getOwner()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getTokenS()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getTokenB()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getWalletAddress()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getAuthAddr()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getAmountS()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getAmountB()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getValidSince()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getValidUntil()));
-        array = NumberUtils.append(array, Numeric.hexStringToByteArray(order.getLrcFee()));
-        byte[] temp = order.getBuyNoMoreThanAmountB() ? new byte[]{1} : new byte[]{0};
-        array = NumberUtils.append(array, temp);
-        temp = new byte[]{order.getMarginSplitPercentage().byteValue()};
-        array = NumberUtils.append(array, temp);
-        return array;
+    private String encodeOrder(OriginOrder order) {
+        List<? extends Type<? extends Serializable>> types = Arrays.asList(
+                new Uint256(Numeric.toBigInt(order.getAmountS())),
+                new Uint256(Numeric.toBigInt(order.getAmountB())),
+                new Uint256(Numeric.toBigInt(order.getValidSince())),
+                new Uint256(Numeric.toBigInt(order.getValidUntil())),
+                new Uint256(Numeric.toBigInt(order.getLrcFee()))
+        );
+        String data = Numeric.cleanHexPrefix(order.getDelegate());
+        data += Numeric.cleanHexPrefix(order.getOwner());
+        data += Numeric.cleanHexPrefix(order.getTokenS());
+        data += Numeric.cleanHexPrefix(order.getTokenB());
+        data += Numeric.cleanHexPrefix(order.getWalletAddress());
+        data += Numeric.cleanHexPrefix(order.getAuthAddr());
+        for (Type<? extends Serializable> type : types) {
+            data += TypeEncoder.encode(type);
+        }
+        data += order.getBuyNoMoreThanAmountB() ? "01" : "00";
+        data += Numeric.toHexStringNoPrefix(BigInteger.valueOf(order.getMarginSplitPercentage()));
+        return data;
     }
 
     protected Double getLRCFrozenFromServer() {
-        String valueInWei = loopringService.getFrozenLRCFee(owner).toBlocking().single();
+        String valueInWei = loopringService.getFrozenLRCFee(owner)
+                .subscribeOn(Schedulers.io()).toBlocking().single();
         return token.getDoubleFromWei("LRC", valueInWei);
     }
 
     protected Double getAllowanceFromServer(String symbol) {
-        String valueInWei = loopringService.getEstimatedAllocatedAllowance(owner, symbol).toBlocking().single();
+        String valueInWei = loopringService.getEstimatedAllocatedAllowance(owner, symbol)
+                .subscribeOn(Schedulers.io()).toBlocking().single();
         return token.getDoubleFromWei(symbol, valueInWei);
     }
 
-    public Observable<String> handleInfo() {
-        Observable<String> result = null;
+    public Observable<RelayResponseWrapper> handleInfo() {
+        Observable<RelayResponseWrapper> result = null;
         try {
-            if (isBalanceEnough()) {
-                if (needApprove()) {
-                    approve();
-                }
-                result = submit();
+            if (needApprove()) {
+                approve();
             }
+            result = submit();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    private boolean isBalanceEnough() {
+    public boolean isBalanceEnough() {
         for (String s : balanceInfo.keySet()) {
             if (s.startsWith("MINUS_")) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private boolean needApprove() {
@@ -190,7 +198,7 @@ public class OrderDataManager {
         }
     }
 
-    protected Observable<String> submit() {
+    protected Observable<RelayResponseWrapper> submit() {
         return null;
     }
 

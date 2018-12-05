@@ -53,7 +53,7 @@ public class SubmitOrderParam {
 
     private String orderType;
 
-    private String p2pType;
+    private String p2pSide;
 
     private Integer powNonce;
 

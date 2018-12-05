@@ -38,7 +38,6 @@ import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -110,8 +109,6 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     private View p2pTradeDialogView;
 
     private Animation shakeAnimation;
-
-    private String password = "";
 
     public P2PTradePresenter(P2PTradeFragment view, Context context) {
         super(view, context);
@@ -345,25 +342,27 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         Integer validS = (int) (validSince.getTime() / 1000);
         Integer validU = (int) (validUntil.getTime() / 1000);
         Integer sellCount = Integer.parseInt(view.sellCount.getText().toString());
-        OriginOrder order = p2pOrderManager.constructMaker(amountBuy, amountSell, validS, validU, sellCount, password);
+        OriginOrder order = null;
+        try {
+            order = p2pOrderManager.constructMaker(amountBuy, amountSell, validS, validU, sellCount, password);
+        } catch (Exception e) {
+            // TODO: for yanyan: MUST handle exception of incorrect password
+            e.printStackTrace();
+        }
         p2pOrderManager.verify(order);
+        if (!p2pOrderManager.isBalanceEnough()) {
+            // TODO: for yanyan: balance not enough
+            // p2pOrderManager.balanceInfo e.g. {"MINUS_ETH": 0.3974, "MINUS_LRC": 10.3974}
+        }
+
         p2pOrderManager.handleInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-                        System.out.println("completed");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("falied");
-                    }
-
-                    @Override
-                    public void onNext(String s) {
-                        System.out.println("success");
+                .subscribe(response -> {
+                    if (response.getError() == null) {
+                        // TODO: for yanyan submit order success
+                    } else {
+                        // TODO: for yanyan submit order failed
                     }
                 });
     }

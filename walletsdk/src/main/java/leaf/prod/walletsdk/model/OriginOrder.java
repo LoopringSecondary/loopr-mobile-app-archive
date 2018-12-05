@@ -82,7 +82,7 @@ public class OriginOrder {
 
     private OrderType orderType;
 
-    private P2PType p2pType;
+    private P2PSide p2pSide;
 
     private Integer powNonce;
 
@@ -124,12 +124,12 @@ public class OriginOrder {
     }
 
     private void getType(JsonObject json) {
-        String p2pType = json.get("p2pSide").getAsString();
+        String p2pSide = json.get("p2pSide").getAsString();
         String orderType = json.get("orderType").getAsString();
-        this.p2pType = p2pType == null ? P2PType.UNKNOWN : P2PType.valueOf(p2pType);
+        this.p2pSide = p2pSide == null ? P2PSide.UNKNOWN : P2PSide.valueOf(p2pSide);
         this.orderType = orderType == null ? OrderType.UNKONWN : OrderType.valueOf(orderType);
         if (this.orderType == OrderType.P2P) {
-            this.side = this.p2pType == P2PType.MAKER ? "sell" : "buy";
+            this.side = this.p2pSide == P2PSide.MAKER ? "sell" : "buy";
         } else {
             this.side = json.get("side").getAsString();
         }

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.Hash;
 import org.web3j.crypto.Sign;
 import org.web3j.tx.RawTransactionManager;
 import org.web3j.utils.Numeric;
@@ -124,7 +125,8 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
 
     private NotifyScanParam.SignParam getSignParam() {
         String timeStamp = String.valueOf(System.currentTimeMillis() / 1000);
-        Sign.SignatureData sig = SignUtils.genSignMessage(credentials, timeStamp).getSig();
+        byte[] hash = Hash.sha3(timeStamp.getBytes());
+        Sign.SignatureData sig = SignUtils.genSignMessage(credentials, hash).getSig();
         return NotifyScanParam.SignParam.builder().timestamp(timeStamp).owner(owner)
                 .r(Numeric.toHexStringNoPrefix(sig.getR()))
                 .s(Numeric.toHexStringNoPrefix(sig.getS()))

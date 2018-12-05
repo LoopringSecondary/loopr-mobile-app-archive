@@ -1,7 +1,6 @@
 package leaf.prod.walletsdk.util;
 
 import org.web3j.crypto.Credentials;
-import org.web3j.crypto.Hash;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.Sign;
 import org.web3j.crypto.TransactionEncoder;
@@ -14,11 +13,6 @@ public class SignUtils {
     public static Sign.SignatureData genSignRawTx(Credentials credentials, RawTransaction rawTransaction) {
         byte[] encodedTransaction = TransactionEncoder.encode(rawTransaction);
         return Sign.signMessage(encodedTransaction, credentials.getEcKeyPair());
-    }
-
-    public static SignedBody genSignMessage(Credentials credentials, String signMessage) {
-        byte[] hash = Hash.sha3(signMessage.getBytes());
-        return genSignMessage(credentials, hash);
     }
 
     public static SignedBody genSignMessage(Credentials credentials, byte[] hash) {

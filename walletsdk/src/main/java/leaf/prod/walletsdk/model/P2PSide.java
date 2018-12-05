@@ -8,19 +8,19 @@ package leaf.prod.walletsdk.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum OrderType {
+public enum P2PSide {
+    @SerializedName("maker")
+    MAKER("maker"),
 
-    @SerializedName("market_order")
-    MARKET("market_order"),
+    @SerializedName("taker")
+    TAKER("taker"),
 
-    @SerializedName("p2p_order")
-    P2P("p2p_order"),
-
-    UNKONWN("unknown");
+    @SerializedName("unknown")
+    UNKNOWN("unknown");
 
     private String description;
 
-    OrderType(String description) {
+    P2PSide(String description) {
         this.description = description;
     }
 

@@ -54,17 +54,6 @@ public class Erc20TransactionManager {
         return hash;
     }
 
-    private RawTransaction getRawTransaction(Credentials credentials, String to, String contractAddress, BigInteger value) throws IOException {
-        Function function = new Function("transfer",
-                Arrays.asList(new Address(to), new Uint256(value)),
-                Collections.emptyList());
-        String data = FunctionEncoder.encode(function);
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(
-                credentials.getAddress(), DefaultBlockParameterName.PENDING).send();
-        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-        return RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddress, data);
-    }
-
     private void notifyRelay(String hash, Credentials credentials, String contractAddress, String to, BigInteger value) throws Exception {
         RawTransaction rawTransaction = getRawTransaction(credentials, to, contractAddress, value);
         loopringService.notifyTransactionSubmitted(rawTransaction, to, hash)
@@ -87,5 +76,16 @@ public class Erc20TransactionManager {
                         unsubscribe();
                     }
                 });
+    }
+
+    private RawTransaction getRawTransaction(Credentials credentials, String to, String contractAddress, BigInteger value) throws IOException {
+        Function function = new Function("transfer",
+                Arrays.asList(new Address(to), new Uint256(value)),
+                Collections.emptyList());
+        String data = FunctionEncoder.encode(function);
+        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(
+                credentials.getAddress(), DefaultBlockParameterName.PENDING).send();
+        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+        return RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddress, data);
     }
 }
