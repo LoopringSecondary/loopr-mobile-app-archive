@@ -24,7 +24,6 @@ import org.web3j.utils.Numeric;
 
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.Transfer;
-import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.RandomWallet;
 import leaf.prod.walletsdk.model.SignedBody;
@@ -43,10 +42,10 @@ public class OrderDataManager {
     protected String owner;
 
     // token symbol, e.g. weth
-    protected String tokenSell;
+    protected String tokenS;
 
     // token symbol, e.g. lrc
-    protected String tokenBuy;
+    protected String tokenB;
 
     // e.g. lrc-weth
     protected String tradePair;
@@ -78,26 +77,22 @@ public class OrderDataManager {
     public OriginOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {
         OriginOrder order = null;
         try {
-            String tokenB = token.getTokenBySymbol(tokenBuy).getProtocol();
-            String tokenS = token.getTokenBySymbol(tokenSell).getProtocol();
-            String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenBuy, amountBuy));
-            String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenSell, amountSell));
+            String tokenBuy = token.getTokenBySymbol(this.tokenB).getProtocol();
+            String tokenSell = token.getTokenBySymbol(this.tokenS).getProtocol();
+            String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(this.tokenB, amountBuy));
+            String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(this.tokenS, amountSell));
             String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
             String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
             RandomWallet randomWallet = WalletUtil.getRandomWallet(context);
-            order = OriginOrder.builder()
-                    .delegate(Default.DELEGATE_ADDRESS)
-                    .owner(WalletUtil.getCurrentAddress(context))
-                    .market(tradePair).orderType(OrderType.MARKET)
+            order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
+                    .owner(WalletUtil.getCurrentAddress(context)).market(tradePair)
                     .tokenS(tokenS).tokenSell(tokenSell).tokenB(tokenB).tokenBuy(tokenBuy)
                     .amountS(amountS).amountSell(amountSell).amountB(amountB).amountBuy(amountBuy)
                     .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
                     .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
                     .walletAddress(PartnerDataManager.getInstance(context).getWalletAddress())
-                    .authAddr(randomWallet.getAddress())
-                    .authPrivateKey(randomWallet.getPrivateKey())
-                    .buyNoMoreThanAmountB(false).marginSplitPercentage(50)
-                    .powNonce(1)
+                    .authAddr(randomWallet.getAddress()).authPrivateKey(randomWallet.getPrivateKey())
+                    .buyNoMoreThanAmountB(false).marginSplitPercentage("0x32").margin(50).powNonce(1)
                     .build();
             order = signOrder(order);
         } catch (Exception e) {
@@ -130,15 +125,15 @@ public class OrderDataManager {
         );
         String data = Numeric.cleanHexPrefix(order.getDelegate());
         data += Numeric.cleanHexPrefix(order.getOwner());
-        data += Numeric.cleanHexPrefix(order.getTokenS());
-        data += Numeric.cleanHexPrefix(order.getTokenB());
+        data += Numeric.cleanHexPrefix(order.getTokenSell());
+        data += Numeric.cleanHexPrefix(order.getTokenBuy());
         data += Numeric.cleanHexPrefix(order.getWalletAddress());
         data += Numeric.cleanHexPrefix(order.getAuthAddr());
         for (Type<? extends Serializable> type : types) {
             data += TypeEncoder.encode(type);
         }
         data += order.getBuyNoMoreThanAmountB() ? "01" : "00";
-        data += Numeric.toHexStringNoPrefix(BigInteger.valueOf(order.getMarginSplitPercentage()));
+        data += Numeric.cleanHexPrefix(order.getMarginSplitPercentage());
         return data;
     }
 

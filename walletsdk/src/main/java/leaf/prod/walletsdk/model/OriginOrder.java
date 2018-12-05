@@ -6,9 +6,8 @@
  */
 package leaf.prod.walletsdk.model;
 
-import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 
-import leaf.prod.walletsdk.manager.TokenDataManager;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,25 +17,26 @@ import lombok.Data;
 @AllArgsConstructor
 public class OriginOrder {
 
+    @SerializedName("delegateAddress")
     private String delegate;
 
+    @SerializedName("address")
     private String owner;
 
     private String market;
 
-    // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
+    // token protocol e.g. lrc
     private String tokenB;
 
-    // token protocol e.g. lrc
+    // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
     private String tokenBuy;
 
-    // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
+    // token protocol e.g. lrc
     private String tokenS;
 
-    // token protocol e.g. lrc
+    // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
     private String tokenSell;
 
-    // big integer hex string e.g. 0x34f07768a92a83d00000
     private String amountB;
 
     // double value e.g. 0.02
@@ -78,7 +78,11 @@ public class OriginOrder {
 
     private String authAddr;
 
-    private Integer marginSplitPercentage;
+    // hex string e.g. 0x32
+    private String marginSplitPercentage;
+
+    // integer e.g. 50
+    private Integer margin;
 
     private OrderType orderType;
 
@@ -95,43 +99,4 @@ public class OriginOrder {
     private OriginOrder() {
     }
 
-    public static OriginOrder createOriginOrder(JsonObject json) {
-        OriginOrder order = new OriginOrder();
-        order.delegate = json.get("delegateAddress").getAsString();
-        order.owner = json.get("owner").getAsString();
-        order.tokenB = json.get("tokenBuy").getAsString();
-        order.tokenBuy = TokenDataManager.getToken(order.tokenB).getSymbol();
-        order.tokenS = json.get("tokenSell").getAsString();
-        order.tokenSell = TokenDataManager.getToken(order.tokenS).getSymbol();
-        order.amountB = json.get("amountB").getAsString();
-        order.amountBuy = TokenDataManager.getDouble(order.tokenBuy, order.amountB);
-        order.amountS = json.get("amountS").getAsString();
-        order.amountSell = TokenDataManager.getDouble(order.tokenSell, order.amountS);
-        order.validSince = json.get("validSince").getAsString();
-        order.validS = Integer.parseInt(order.validSince, 16);
-        order.validUntil = json.get("validUntil").getAsString();
-        order.validU = Integer.parseInt(order.validUntil, 16);
-        order.lrcFee = json.get("lrcFee").getAsString();
-        order.lrc = TokenDataManager.getDouble("LRC", order.lrcFee);
-        order.buyNoMoreThanAmountB = json.get("buyNoMoreThanAmountB").getAsBoolean();
-        order.walletAddress = json.get("walletAddress").getAsString();
-        order.authPrivateKey = json.get("authPrivateKey").getAsString();
-        order.authAddr = json.get("authAddr").getAsString();
-        order.marginSplitPercentage = json.get("marginSplitPercentage").getAsInt();
-        order.getType(json);
-        order.powNonce = 1;
-        return order;
-    }
-
-    private void getType(JsonObject json) {
-        String p2pSide = json.get("p2pSide").getAsString();
-        String orderType = json.get("orderType").getAsString();
-        this.p2pSide = p2pSide == null ? P2PSide.UNKNOWN : P2PSide.valueOf(p2pSide);
-        this.orderType = orderType == null ? OrderType.UNKONWN : OrderType.valueOf(orderType);
-        if (this.orderType == OrderType.P2P) {
-            this.side = this.p2pSide == P2PSide.MAKER ? "sell" : "buy";
-        } else {
-            this.side = json.get("side").getAsString();
-        }
-    }
 }

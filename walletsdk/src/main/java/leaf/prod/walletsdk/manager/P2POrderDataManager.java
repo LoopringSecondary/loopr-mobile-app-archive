@@ -44,8 +44,6 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private static P2POrderDataManager p2pOrderManager = null;
 
-    private final static String QRCODE_TYPE = "P2P";
-
     private final static String QRCODE_HASH = "hash";
 
     private final static String QRCODE_AUTH = "auth";
@@ -72,8 +70,8 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private P2POrderDataManager(Context context) {
         super(context);
-        this.tokenSell = (String) SPUtils.get(context, "tokenSell", "WETH");
-        this.tokenBuy = (String) SPUtils.get(context, "tokenBuy", "LRC");
+        this.tokenS = (String) SPUtils.get(context, "tokenS", "WETH");
+        this.tokenB = (String) SPUtils.get(context, "tokenB", "LRC");
         this.updatePair();
         this.setupErrorMessage();
     }
@@ -99,27 +97,27 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private void updatePair() {
-        this.tradePair = String.format("%s-%s", this.tokenSell, this.tokenBuy);
+        this.tradePair = String.format("%s-%s", this.tokenS, this.tokenB);
     }
 
     // use for pressing switch button in p2p trade activity
     public void swapToken() {
-        String temp = this.tokenBuy;
-        changeToTokenB(this.tokenSell);
+        String temp = this.tokenB;
+        changeToTokenB(this.tokenS);
         changeToTokenS(temp);
     }
 
-    // use for pressing switch tokenSell in p2p trade activity
+    // use for pressing switch tokenS in p2p trade activity
     public void changeToTokenS(String symbol) {
-        this.tokenSell = symbol;
-        SPUtils.put(context, "tokenSell", symbol);
+        this.tokenS = symbol;
+        SPUtils.put(context, "tokenS", symbol);
         updatePair();
     }
 
-    // use for pressing switch tokenBuy in p2p trade activity
+    // use for pressing switch tokenB in p2p trade activity
     public void changeToTokenB(String symbol) {
-        this.tokenBuy = symbol;
-        SPUtils.put(context, "tokenBuy", symbol);
+        this.tokenB = symbol;
+        SPUtils.put(context, "tokenB", symbol);
         updatePair();
     }
 
@@ -139,12 +137,12 @@ public class P2POrderDataManager extends OrderDataManager {
     public OriginOrder constructTaker(OriginOrder maker, String password) throws Exception {
         this.credentials = WalletUtil.getCredential(context, password);
         // tokens, tokenb
-        this.tokenBuy = token.getTokenByProtocol(maker.getTokenS()).getSymbol();
-        this.tokenSell = token.getTokenByProtocol(maker.getTokenB()).getSymbol();
+        this.tokenB = maker.getTokenS();
+        this.tokenS = maker.getTokenB();
         // amountB, amountBuy
         BigInteger divide = Numeric.toBigInt(maker.getAmountS()).divide(sellCount);
         String amountB = Numeric.toHexStringWithPrefix(divide);
-        Double amountBuy = token.getDoubleFromWei(tokenBuy, amountB);
+        Double amountBuy = token.getDoubleFromWei(tokenB, amountB);
         // amountS, amountSell
         String amountS;
         divide = Numeric.toBigInt(maker.getAmountB()).divide(sellCount);
@@ -154,7 +152,7 @@ public class P2POrderDataManager extends OrderDataManager {
         } else {
             amountS = Numeric.toHexStringWithPrefix(divide.add(BigInteger.valueOf(1)));
         }
-        Double amountSell = token.getDoubleFromWei(tokenSell, amountS);
+        Double amountSell = token.getDoubleFromWei(tokenS, amountS);
         // validSince, validUntil
         Integer validS = Integer.parseInt(maker.getValidSince(), 16);
         Integer validU = Integer.parseInt(maker.getValidUntil(), 16);
@@ -305,7 +303,7 @@ public class P2POrderDataManager extends OrderDataManager {
     private String generateMargin() {
         String result = "";
         for (OriginOrder order : orders) {
-            result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(order.getMarginSplitPercentage()));
+            result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(order.getMargin()));
         }
         return result;
     }
@@ -407,7 +405,7 @@ public class P2POrderDataManager extends OrderDataManager {
     private void checkGasEnough(OriginOrder order) {
         Double result;
         Double ethBalance = token.getDoubleFromWei("ETH", balance.getAssetBySymbol("ETH").getBalance());
-        Double tokenGas = calculateGas(order.getTokenSell(), order.getAmountSell());
+        Double tokenGas = calculateGas(order.getTokenS(), order.getAmountSell());
         if (isTaker) {
             Double gasAmount = gas.getGasAmountInETH("submitRing");
             result = ethBalance - tokenGas - gasAmount;
@@ -441,11 +439,11 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private void checkBalanceEnough(OriginOrder order) {
         if (isTaker) {
-            BigDecimal balanceDecimal = balance.getAssetBySymbol(order.getTokenSell()).getBalance();
-            Double tokensBalance = token.getDoubleFromWei(order.getTokenSell(), balanceDecimal);
+            BigDecimal balanceDecimal = balance.getAssetBySymbol(order.getTokenS()).getBalance();
+            Double tokensBalance = token.getDoubleFromWei(order.getTokenS(), balanceDecimal);
             Double result = tokensBalance - order.getAmountSell();
             if (result < 0) {
-                String key = String.format("MINUS_%s", order.getTokenSell());
+                String key = String.format("MINUS_%s", order.getTokenS());
                 balanceInfo.put(key, -result);
             }
         }
