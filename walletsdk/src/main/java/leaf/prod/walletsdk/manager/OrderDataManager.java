@@ -93,7 +93,6 @@ public class OrderDataManager {
                     .authAddr(randomWallet.getAddress()).authPrivateKey(randomWallet.getPrivateKey())
                     .buyNoMoreThanAmountB(false).marginSplitPercentage("0x32").margin(50).powNonce(1)
                     .build();
-            order = signOrder(order);
         } catch (Exception e) {
             e.printStackTrace();
         }

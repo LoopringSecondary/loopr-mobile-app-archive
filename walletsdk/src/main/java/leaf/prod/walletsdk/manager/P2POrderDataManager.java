@@ -8,14 +8,22 @@ package leaf.prod.walletsdk.manager;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.util.Log;
 
+import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.Hash;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.Sign;
 import org.web3j.crypto.TransactionEncoder;
@@ -29,6 +37,7 @@ import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.P2PSide;
+import leaf.prod.walletsdk.model.RandomWallet;
 import leaf.prod.walletsdk.model.TradeType;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
@@ -59,6 +68,8 @@ public class P2POrderDataManager extends OrderDataManager {
     private String makerPrivateKey;
 
     private OriginOrder[] orders;
+
+    private List<Type> ringParameters;
 
     private Sign.SignatureData makerSignature;
 
@@ -136,31 +147,48 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private OriginOrder constructTaker(OriginOrder maker) {
-        // tokens, tokenb
+        // tokenS, tokenB
         this.tokenB = maker.getTokenS();
         this.tokenS = maker.getTokenB();
-        // amountB, amountBuy
-        BigInteger divide = Numeric.toBigInt(maker.getAmountS()).divide(sellCount);
-        String amountB = Numeric.toHexStringWithPrefix(divide);
-        Double amountBuy = token.getDoubleFromWei(tokenB, amountB);
-        // amountS, amountSell
-        String amountS;
-        divide = Numeric.toBigInt(maker.getAmountB()).divide(sellCount);
+        String tokenBuy = token.getTokenBySymbol(this.tokenB).getProtocol();
+        String tokenSell = token.getTokenBySymbol(this.tokenS).getProtocol();
+        updatePair();
+
+        // amountB, amountBuy, amountS, amountSell
+        BigInteger amountB = Numeric.toBigInt(maker.getAmountS()).divide(sellCount);
+        Double amountBuy = token.getDoubleFromWei(tokenB, new BigDecimal(amountB));
+        BigInteger amountS = Numeric.toBigInt(maker.getAmountB()).divide(sellCount);
         BigInteger mod = Numeric.toBigInt(maker.getAmountB()).mod(sellCount);
-        if (mod.equals(BigInteger.valueOf(0))) {
-            amountS = Numeric.toHexStringWithPrefix(divide);
-        } else {
-            amountS = Numeric.toHexStringWithPrefix(divide.add(BigInteger.valueOf(1)));
+        if (!mod.equals(BigInteger.ZERO)) {
+            amountS.add(BigInteger.ONE);
         }
-        Double amountSell = token.getDoubleFromWei(tokenS, amountS);
+        Double amountSell = token.getDoubleFromWei(tokenS, new BigDecimal(amountS));
+
         // validSince, validUntil
-        Integer validS = Integer.parseInt(maker.getValidSince(), 16);
-        Integer validU = Integer.parseInt(maker.getValidUntil(), 16);
+        Integer validS = Numeric.toBigInt(maker.getValidSince()).intValue();
+        Integer validU = Numeric.toBigInt(maker.getValidUntil()).intValue();
+        String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
+        String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
+
         // construct order
-        OriginOrder order = constructOrder(amountBuy, amountSell, validS, validU);
-        order.setSide(TradeType.sell.name());
-        order.setOrderType(OrderType.P2P);
-        order.setP2pSide(P2PSide.TAKER);
+        OriginOrder order = null;
+        try {
+            RandomWallet randomWallet = WalletUtil.getRandomWallet(context);
+            order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
+                    .owner(WalletUtil.getCurrentAddress(context)).market(tradePair)
+                    .tokenS(tokenS).tokenSell(tokenSell).tokenB(tokenB).tokenBuy(tokenBuy)
+                    .amountB(Numeric.toHexStringWithPrefix(amountB)).amountBuy(amountBuy)
+                    .amountS(Numeric.toHexStringWithPrefix(amountS)).amountSell(amountSell)
+                    .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
+                    .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
+                    .walletAddress(PartnerDataManager.getInstance(context).getWalletAddress())
+                    .authAddr(randomWallet.getAddress()).authPrivateKey(randomWallet.getPrivateKey())
+                    .buyNoMoreThanAmountB(false).marginSplitPercentage("0x32").margin(50).powNonce(1)
+                    .side(TradeType.sell.name()).orderType(OrderType.P2P).p2pSide(P2PSide.TAKER)
+                    .build();
+        } catch (Exception e) {
+            Log.e("", e.getLocalizedMessage());
+        }
         return order;
     }
 
@@ -220,134 +248,119 @@ public class P2POrderDataManager extends OrderDataManager {
         for (int i = 0; i < makerHash.length; ++i) {
             result[i] = (byte) (makerHash[i] ^ takerHash[i]);
         }
-        return result;
+        String hexString = Numeric.toHexString(result);
+        hexString += Numeric.cleanHexPrefix(orders[0].getWalletAddress());
+        hexString += "0000";
+        return Hash.sha3(Numeric.hexStringToByteArray(hexString));
     }
 
     private String encodeRing() {
-        String data = "0xe78aadb2";
-        data += generateOffset();
-        data += generateFee();
-        data += insertOrderCounts();
-        data += generateAddresses();
-        data += insertOrderCounts();
-        data += generateValues();
-        data += insertOrderCounts();
-        data += generateMargin();
-        data += insertOrderCounts();
-        data += generateFlag();
-        data += insertListCounts();
-        data += generateVList();
-        data += insertListCounts();
-        data += generateRList();
-        data += insertListCounts();
-        data += generateSList();
-        return data;
+        ringParameters = new ArrayList<>();
+        generateOffset();
+        generateFee();
+        insertOrderCounts();
+        generateAddresses();
+        insertOrderCounts();
+        generateValues();
+        insertOrderCounts();
+        generateMargin();
+        insertOrderCounts();
+        generateFlag();
+        insertListCounts();
+        generateVList();
+        insertListCounts();
+        generateRList();
+        insertListCounts();
+        generateSList();
+        Function function = new Function("submitRing", ringParameters, Collections.emptyList());
+        return FunctionEncoder.encode(function);
     }
 
-    private String generateOffset() {
-        String result = "";
+    private void generateOffset() {
         int byteLength = Type.MAX_BYTE_LENGTH;
-        result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(byteLength * 9));
-        result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(byteLength * 18));
-        result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(byteLength * 31));
-        result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(byteLength * 34));
-        result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(byteLength * 37));
-        result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(byteLength * 42));
-        result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(byteLength * 47));
-        return result;
+        ringParameters.add(new Uint256(byteLength * 9));
+        ringParameters.add(new Uint256(byteLength * 18));
+        ringParameters.add(new Uint256(byteLength * 31));
+        ringParameters.add(new Uint256(byteLength * 34));
+        ringParameters.add(new Uint256(byteLength * 37));
+        ringParameters.add(new Uint256(byteLength * 42));
+        ringParameters.add(new Uint256(byteLength * 47));
     }
 
-    private String generateFee() {
-        String result = "";
-        result += new Address(orders[0].getWalletAddress()).getValue();
-        result += Numeric.toHexStringNoPrefix(BigInteger.ZERO);
-        return result;
+    private void generateFee() {
+        ringParameters.add(new Address(orders[0].getWalletAddress()));
+        ringParameters.add(new Uint256(BigInteger.ZERO)); // fee selection
     }
 
-    private String insertOrderCounts() {
-        return Numeric.toHexStringNoPrefix(BigInteger.valueOf(orderCount));
+    private void insertOrderCounts() {
+        ringParameters.add(new Uint256(orderCount));
     }
 
-    private String insertListCounts() {
-        return Numeric.toHexStringNoPrefix(BigInteger.valueOf(orderCount * 2));
+    private void insertListCounts() {
+        ringParameters.add(new Uint256(orderCount * 2));
     }
 
-    private String generateAddresses() {
-        String result = "";
+    private void generateAddresses() {
         for (OriginOrder order : orders) {
-            result += new Address(order.getOwner()).getValue();
-            result += new Address(order.getTokenS()).getValue();
-            result += new Address(order.getWalletAddress()).getValue();
-            result += new Address(order.getAuthAddr()).getValue();
+            ringParameters.add(new Address(order.getOwner()));
+            ringParameters.add(new Address(order.getTokenSell()));
+            ringParameters.add(new Address(order.getWalletAddress()));
+            ringParameters.add(new Address(order.getAuthAddr()));
         }
-        return result;
     }
 
-    private String generateValues() {
-        String result = "";
+    private void generateValues() {
         for (OriginOrder order : orders) {
-            result += order.getAmountS();
-            result += order.getAmountB();
-            result += order.getValidSince();
-            result += order.getValidUntil();
-            result += order.getLrcFee();
-            result += order.getAmountS();
+            ringParameters.add(new Address(order.getAmountS()));
+            ringParameters.add(new Address(order.getAmountB()));
+            ringParameters.add(new Address(order.getValidSince()));
+            ringParameters.add(new Address(order.getValidUntil()));
+            ringParameters.add(new Address(order.getLrcFee()));
+            ringParameters.add(new Address(order.getAmountS()));
         }
-        return result;
     }
 
-    private String generateMargin() {
-        String result = "";
+    private void generateMargin() {
         for (OriginOrder order : orders) {
-            result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(order.getMargin()));
+            ringParameters.add(new Address(order.getMarginSplitPercentage()));
         }
-        return result;
     }
 
-    private String generateFlag() {
-        String result = "";
+    private void generateFlag() {
         for (OriginOrder order : orders) {
             int flag = order.getBuyNoMoreThanAmountB() ? 1 : 0;
-            result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(flag));
+            ringParameters.add(new Uint256(flag));
         }
-        return result;
     }
 
-    private String generateVList() {
-        String result = "";
+    private void generateVList() {
         if (makerSignature != null && takerSignature != null) {
             for (OriginOrder order : orders) {
-                //                result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(order.getV()));
-                result += order.getV();
+                ringParameters.add(new Address(order.getV()));
             }
-            result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(makerSignature.getV()));
-            result += Numeric.toHexStringNoPrefix(BigInteger.valueOf(takerSignature.getV()));
+            ringParameters.add(new Uint256(makerSignature.getV()));
+            ringParameters.add(new Uint256(takerSignature.getV()));
         }
-        return result;
     }
 
-    private String generateRList() {
-        String result = "";
+    private void generateRList() {
         if (makerSignature != null && takerSignature != null) {
             for (OriginOrder order : orders) {
-                result += order.getR();
+                ringParameters.add(new Address(order.getR()));
             }
-            result += makerSignature.getR();
-            result += takerSignature.getR();
+            ringParameters.add(new Address(Numeric.toHexString(makerSignature.getR())));
+            ringParameters.add(new Address(Numeric.toHexString(takerSignature.getR())));
         }
-        return result;
     }
 
-    private String generateSList() {
-        String result = "";
+    private void generateSList() {
         if (makerSignature != null && takerSignature != null) {
             for (OriginOrder order : orders) {
-                result += order.getS();
+                ringParameters.add(new Address(order.getS()));
             }
-            result += makerSignature.getS();
-            result += takerSignature.getS();
+            ringParameters.add(new Address(Numeric.toHexString(makerSignature.getS())));
+            ringParameters.add(new Address(Numeric.toHexString(takerSignature.getS())));
         }
-        return result;
     }
 
     private Observable<RelayResponseWrapper> submitRing() {
