@@ -236,7 +236,6 @@
                         app:kswThumbColor="@color/white"/>
 
                 </LinearLayout>
-
             </LinearLayout>
 
             <View
@@ -282,6 +281,11 @@
                         android:src="@mipmap/icon_next"/>
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/margSide"
+                    android:background="@color/lineBac"/>
             </LinearLayout>
 
             <LinearLayout
@@ -290,8 +294,7 @@
                 android:layout_height="@dimen/itemHeight"
                 android:background="@drawable/button_bg3_pressed"
                 android:clickable="true"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -316,12 +319,6 @@
                         android:layout_gravity="center"
                         android:src="@mipmap/icon_next"/>
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="@dimen/margSide"
-                    android:background="@color/lineBac"/>
             </LinearLayout>
 
             <LinearLayout

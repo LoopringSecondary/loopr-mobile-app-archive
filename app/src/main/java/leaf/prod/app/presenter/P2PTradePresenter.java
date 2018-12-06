@@ -306,7 +306,12 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 .getText().toString()) / Double.parseDouble(view.sellAmount.getText()
                 .toString()), BalanceDataManager.getPrecision(p2pOrderManager.getTokenS())) + " " + p2pOrderManager.getTokenS() + "/" + p2pOrderManager
                 .getTokenB());
-        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_trading_fee)).setText("");
+        int lrcFeeRatio = (int) SPUtils.get(context, "ratio", 2);
+        double lrcFee = marketcapDataManager.getPriceBySymbol(p2pOrderManager.getTokenS()) * Double.parseDouble(view.sellAmount
+                .getText().toString()) * lrcFeeRatio / 1000;
+        String lrcFeePrice = CurrencyUtil.format(context, lrcFee);
+        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_trading_fee)).setText(NumberUtils.format1(lrcFee, BalanceDataManager
+                .getPrecision("LRC")) + " LRC ≈ " + lrcFeePrice);
         validSince = new Date();
         int time = (int) SPUtils.get(context, "time_to_live", 1);
         validUntil = DateUtil.addDateTime(validSince, time);
