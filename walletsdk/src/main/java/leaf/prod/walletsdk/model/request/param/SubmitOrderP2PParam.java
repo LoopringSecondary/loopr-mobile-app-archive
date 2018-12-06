@@ -53,7 +53,7 @@ public class SubmitOrderP2PParam {
 
     private String orderType;
 
-    private String p2pType;
+    private String p2pSide;
 
     private String makerOrderHash;
 

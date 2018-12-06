@@ -280,8 +280,6 @@ public class LoopringService {
                 .r(order.getR())
                 .s(order.getS())
                 .build();
-        Gson gson = new Gson();
-        String json = gson.toJson(param);
         RequestWrapper request = new RequestWrapper("loopring_submitOrder", param);
         Observable<RelayResponseWrapper<String>> observable = rpcDelegate.sumitOrder(request);
         return observable.map(response -> response);
@@ -307,12 +305,16 @@ public class LoopringService {
                 .buyNoMoreThanAmountB(order.getBuyNoMoreThanAmountB())
                 .marginSplitPercentage(order.getMargin())
                 .powNonce(order.getPowNonce())
-                .orderType(order.getOrderType().name())
+                .orderType(order.getOrderType().getDescription())
+                .p2pSide(order.getP2pSide().getDescription())
+                .side(order.getSide())
                 .makerOrderHash(makerOrderHash)
                 .v(Numeric.toBigInt(order.getV()).intValue())
                 .r(order.getR())
                 .s(order.getS())
                 .build();
+        Gson gson = new Gson();
+        String json = gson.toJson(param);
         RequestWrapper request = new RequestWrapper("loopring_submitOrderForP2P", param);
         Observable<RelayResponseWrapper<String>> observable = rpcDelegate.sumitOrderForP2P(request);
         return observable.map(response -> response);
