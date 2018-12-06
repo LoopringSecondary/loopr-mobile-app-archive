@@ -18,9 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="18dp"
-        android:inputType="textMultiLine"
+        android:layout_marginRight="20dp"
         android:text="LRC费用比例2‰"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/normalText"
@@ -30,10 +29,13 @@
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         app:bsb_bubble_color="@color/colorCenter"
+        app:bsb_hide_bubble="true"
+        app:bsb_max="50"
+        app:bsb_min="2"
         app:bsb_second_track_color="@color/colorGreen"
         app:bsb_thumb_color="@color/colorGreen"
         app:bsb_thumb_radius="7dp"
@@ -44,8 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="18dp">
+        android:layout_marginTop="18dp"
+        android:layout_marginRight="20dp">
 
         <TextView
             android:layout_width="wrap_content"

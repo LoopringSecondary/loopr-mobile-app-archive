@@ -52,16 +52,17 @@ public class LRCFeeRatioActivity extends BaseActivity {
     public void initView() {
         value = (int) SPUtils.get(LRCFeeRatioActivity.this, "ratio", 2);
         seekBar.setProgress(value);
-        tvRatio.setText("LRC费用比例" + value + "‰");
+        tvRatio.setText(getResources().getString(R.string.set_lrc_proportion) + value + "‰");
     }
 
     @Override
     public void initData() {
         seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                value = (int) bubbleSeekBar.getMin();
-                tvRatio.setText("LRC费用比例" + value + "‰");
+                value = progress;
+                tvRatio.setText(getResources().getString(R.string.set_lrc_proportion) + bubbleSeekBar.getProgress() + "‰");
             }
 
             @Override
