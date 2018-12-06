@@ -27,6 +27,8 @@ import com.xw.repo.BubbleSeekBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.P2PErrorActivity;
+import leaf.prod.app.activity.P2PSuccessActivity;
 import leaf.prod.app.fragment.P2PTradeFragment;
 import leaf.prod.app.utils.PasswordDialogUtil;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
@@ -271,7 +273,9 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             p2pTradeDialogView.findViewById(R.id.btn_cancel).setOnClickListener(view1 -> p2pTradeDialog.hide());
             p2pTradeDialogView.findViewById(R.id.btn_order).setOnClickListener(view1 -> {
                 if (WalletUtil.needPassword(context)) {
-                    PasswordDialogUtil.showPasswordDialog(context, v -> processMaker(PasswordDialogUtil.getInputPassword()));
+                    PasswordDialogUtil.showPasswordDialog(context, v -> {
+                        processMaker(PasswordDialogUtil.getInputPassword());
+                    });
                 } else {
                     processMaker("");
                 }
@@ -370,17 +374,20 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             return;
         }
         if (!p2pOrderManager.isBalanceEnough()) {
-            // TODO: for yanyan: balance not enough
             // p2pOrderManager.balanceInfo e.g. {"MINUS_ETH": 0.3974, "MINUS_LRC": 10.3974}
+            PasswordDialogUtil.dismiss(context);
+            view.getOperation().forward(P2PErrorActivity.class);
         }
         p2pOrderManager.handleInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
+                    PasswordDialogUtil.dismiss(context);
                     if (response.getError() == null) {
-                        // TODO: for yanyan submit order success
+                        view.getOperation().forward(P2PSuccessActivity.class);
                     } else {
-                        // TODO: for yanyan submit order failed
+                        view.getOperation().addParameter("error", view.getResources().getString(R.string.trade_error));
+                        view.getOperation().forward(P2PErrorActivity.class);
                     }
                 });
     }

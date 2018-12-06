@@ -333,7 +333,7 @@ public class LoopringService {
 
     public Observable<String> cancelOrderFlex(CancelOrder cancelOrder, NotifyScanParam.SignParam signParam) {
         CancelOrderParam cancelParam = CancelOrderParam.builder()
-                .type(cancelOrder.getType().name())
+                .type(cancelOrder.getType().getType())
                 .cutoff(cancelOrder.getCutoff())
                 .tokenB(cancelOrder.getTokenB())
                 .tokenS(cancelOrder.getTokenS())

@@ -252,4 +252,5 @@
     <string name="status_date">狀態/時間</string>
     <string name="sell_icon">賣</string>
     <string name="buy_icon">買</string>
+    <string name="trade_error">交易失敗</string>
 </resources>

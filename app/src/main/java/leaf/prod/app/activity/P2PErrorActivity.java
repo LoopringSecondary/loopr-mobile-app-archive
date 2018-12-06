@@ -1,5 +1,7 @@
 package leaf.prod.app.activity;
 
+import java.util.Map;
+
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
@@ -10,6 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class P2PErrorActivity extends BaseActivity {
@@ -31,6 +34,8 @@ public class P2PErrorActivity extends BaseActivity {
 
     @BindView(R.id.tv_token_amount2)
     TextView tvTokenAmount2;
+
+    private P2POrderDataManager p2POrderDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,16 +60,21 @@ public class P2PErrorActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        clNeedToken1.setVisibility(View.INVISIBLE);
-        clNeedToken2.setVisibility(View.INVISIBLE);
+        p2POrderDataManager = P2POrderDataManager.getInstance(this);
+        clNeedToken1.setVisibility(View.GONE);
+        clNeedToken2.setVisibility(View.GONE);
         if (!StringUtils.isEmpty(getIntent().getStringExtra("error"))) {
             tvErrorInfo.setText(getIntent().getStringExtra("error"));
         }
-        if (!StringUtils.isEmpty(getIntent().getStringExtra("tokenAmount1"))) {
-            tvTokenAmount1.setText(getIntent().getStringExtra("tokenAmount1"));
-            clNeedToken1.setVisibility(View.VISIBLE);
-            if (!StringUtils.isEmpty(getIntent().getStringExtra("tokenAmount2"))) {
-                tvTokenAmount2.setText(getIntent().getStringExtra("tokenAmount2"));
+        Map<String, Double> map = p2POrderDataManager.getBalanceInfo();
+        if (map != null && map.size() > 0) {
+            Double eth = map.get("MINUS_ETH"), lrc = map.get("MINUS_LRC");
+            if (eth != null && eth != 0d) {
+                tvTokenAmount1.setText(eth + " ETH");
+                clNeedToken1.setVisibility(View.VISIBLE);
+            }
+            if (lrc != null && lrc != 0d) {
+                tvTokenAmount2.setText(lrc + " LRC");
                 clNeedToken2.setVisibility(View.VISIBLE);
             }
         }
