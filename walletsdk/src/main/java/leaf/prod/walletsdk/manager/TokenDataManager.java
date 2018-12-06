@@ -193,8 +193,8 @@ public class TokenDataManager {
         }
     }
 
-    public static Token getToken(String protocol) {
-        return tokenDataManager.getTokenByProtocol(protocol);
+    public static Token getToken(String symbol) {
+        return tokenDataManager.getTokenBySymbol(symbol);
     }
 
     public static Double getDouble(String symbol, String valueInWei) {
