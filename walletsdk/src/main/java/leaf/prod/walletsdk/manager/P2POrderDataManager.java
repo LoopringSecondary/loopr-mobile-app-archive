@@ -9,7 +9,6 @@ package leaf.prod.walletsdk.manager;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +16,8 @@ import java.util.Map;
 import android.content.Context;
 import android.util.Log;
 
-import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.TypeEncoder;
 import org.web3j.abi.datatypes.Address;
-import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
@@ -110,6 +108,14 @@ public class P2POrderDataManager extends OrderDataManager {
         errorMessage.put("50008", context.getString(R.string.R50008));
     }
 
+    public String getLocaleError(String errorCode) {
+        String result = "";
+        if (errorMessage.keySet().contains(errorCode)) {
+            result = errorMessage.get(errorCode);
+        }
+        return result;
+    }
+
     private void updatePair() {
         this.tradePair = String.format("%s-%s", this.tokenS, this.tokenB);
     }
@@ -141,6 +147,7 @@ public class P2POrderDataManager extends OrderDataManager {
         this.makerPrivateKey = scanning.get(QRCODE_AUTH).getAsString();
         OriginOrder maker = getOrderBy(makerHash);
         OriginOrder taker = constructTaker(maker);
+        maker.convert();
         this.isTaker = true;
         this.orders = new OriginOrder[2];
         this.orders[0] = maker;
@@ -273,8 +280,11 @@ public class P2POrderDataManager extends OrderDataManager {
         generateRList();
         insertListCounts();
         generateSList();
-        Function function = new Function("submitRing", ringParameters, Collections.emptyList());
-        return FunctionEncoder.encode(function);
+        String result = "0xe78aadb2";
+        for (Type param : ringParameters) {
+            result += TypeEncoder.encode(param);
+        }
+        return result;
     }
 
     private void generateOffset() {
@@ -337,7 +347,7 @@ public class P2POrderDataManager extends OrderDataManager {
     private void generateVList() {
         if (makerSignature != null && takerSignature != null) {
             for (OriginOrder order : orders) {
-                ringParameters.add(new Address(order.getV()));
+                ringParameters.add(new Uint256(Numeric.toBigInt(order.getV())));
             }
             ringParameters.add(new Uint256(makerSignature.getV()));
             ringParameters.add(new Uint256(takerSignature.getV()));
@@ -347,20 +357,20 @@ public class P2POrderDataManager extends OrderDataManager {
     private void generateRList() {
         if (makerSignature != null && takerSignature != null) {
             for (OriginOrder order : orders) {
-                ringParameters.add(new Address(order.getR()));
+                ringParameters.add(new Uint256(Numeric.toBigInt(order.getR())));
             }
-            ringParameters.add(new Address(Numeric.toHexString(makerSignature.getR())));
-            ringParameters.add(new Address(Numeric.toHexString(takerSignature.getR())));
+            ringParameters.add(new Uint256(Numeric.toBigInt(makerSignature.getR())));
+            ringParameters.add(new Uint256(Numeric.toBigInt(takerSignature.getR())));
         }
     }
 
     private void generateSList() {
         if (makerSignature != null && takerSignature != null) {
             for (OriginOrder order : orders) {
-                ringParameters.add(new Address(order.getS()));
+                ringParameters.add(new Uint256(Numeric.toBigInt(order.getS())));
             }
-            ringParameters.add(new Address(Numeric.toHexString(makerSignature.getS())));
-            ringParameters.add(new Address(Numeric.toHexString(takerSignature.getS())));
+            ringParameters.add(new Uint256(Numeric.toBigInt(makerSignature.getS())));
+            ringParameters.add(new Uint256(Numeric.toBigInt(takerSignature.getS())));
         }
     }
 

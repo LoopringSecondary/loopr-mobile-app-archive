@@ -66,7 +66,8 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
                     if (response.getError() == null) {
                         // TODO: for yanyan submit order success
                     } else {
-                        // TODO: for yanyan submit order failed
+                        String message = p2pManager.getLocaleError(response.getError().getMessage());
+                        RxToast.error(message);
                     }
                 });
     }
