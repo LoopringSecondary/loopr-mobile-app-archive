@@ -39,9 +39,4 @@ public class SignUtils {
                 .v(BigInteger.valueOf(sig.getV()))
                 .build();
     }
-
-    public static void main(String[] args) {
-        byte[] bytes = Numeric.toBytesPadded(BigInteger.TEN, 32);
-        System.out.println(Numeric.toHexStringNoPrefix(bytes));
-    }
 }

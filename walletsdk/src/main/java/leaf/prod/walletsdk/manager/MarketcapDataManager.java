@@ -71,4 +71,22 @@ public class MarketcapDataManager {
         }
         return result;
     }
+
+    public Double getAmountBySymbol(String symbol, Double value) {
+        Double result = null;
+        Double price = getPriceBySymbol(symbol);
+        if (price != null) {
+            result = price * value;
+        }
+        return result;
+    }
+
+    public String getCurrencyBySymbol(String symbol, Double value) {
+        String result = null;
+        Double amount = getAmountBySymbol(symbol, value);
+        if (amount != null) {
+            result = CurrencyUtil.format(context, amount);
+        }
+        return result;
+    }
 }

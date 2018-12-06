@@ -88,6 +88,11 @@ public class BalanceDataManager {
         return result;
     }
 
+    public String getFormattedBySymbol(String symbol, Double value) {
+        int precision = getPrecision(symbol);
+        return NumberUtils.format1(value, precision);
+    }
+
     public int getPrecisionBySymbol(String symbol) {
         int result = 4;
         for (BalanceResult.Asset asset : balance.getTokens()) {

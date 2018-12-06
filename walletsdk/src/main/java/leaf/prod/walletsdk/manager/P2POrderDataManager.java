@@ -53,11 +53,13 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private static P2POrderDataManager p2pOrderManager = null;
 
-    private final static String QRCODE_HASH = "hash";
+    public final static String QRCODE_TYPE = "P2P";
 
-    private final static String QRCODE_AUTH = "auth";
+    public final static String QRCODE_HASH = "hash";
 
-    private final static String SELL_COUNT = "count";
+    public final static String QRCODE_AUTH = "auth";
+
+    public final static String SELL_COUNT = "count";
 
     private Map<String, String> errorMessage;
 
@@ -154,6 +156,20 @@ public class P2POrderDataManager extends OrderDataManager {
         this.orders[1] = taker;
     }
 
+    public OriginOrder getOrder() {
+        OriginOrder result = null;
+        if (!isTaker) {
+            if (orders.length == 1) {
+                result = orders[0];
+            }
+        } else {
+            if (orders.length == 2) {
+                result = orders[1];
+            }
+        }
+        return result;
+    }
+
     private OriginOrder constructTaker(OriginOrder maker) {
         // tokenS, tokenB
         this.tokenB = maker.getTokenS();
@@ -212,7 +228,7 @@ public class P2POrderDataManager extends OrderDataManager {
         this.isTaker = false;
         this.orders = new OriginOrder[]{order};
         String value = String.format("%s-%s", order.getAuthPrivateKey(), sellCount);
-        SPUtils.put(context, order.getHash(), value);
+        SPUtils.put(context, order.getAuthAddr(), value);
         order.setAuthPrivateKey("");
     }
 
