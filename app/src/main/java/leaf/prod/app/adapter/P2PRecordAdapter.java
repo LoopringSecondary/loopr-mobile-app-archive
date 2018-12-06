@@ -107,7 +107,8 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
 
                                         @Override
                                         public void onNext(String s) {
-                                            //                                            fragment.refreshOrders(0);
+                                            RxToast.success(fragment.getResources().getString(R.string.cancel_success));
+                                            fragment.refreshOrders(0);
                                             unsubscribe();
                                         }
                                     });

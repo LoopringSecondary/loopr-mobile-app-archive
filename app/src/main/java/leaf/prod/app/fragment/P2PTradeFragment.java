@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vondear.rxtool.view.RxToast;
+import com.xw.repo.BubbleSeekBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,43 +34,64 @@ public class P2PTradeFragment extends BaseFragment {
     Unbinder unbinder;
 
     @BindView(R.id.ll_switch)
-    LinearLayout llSwitch;
+    public LinearLayout llSwitch;
 
     @BindView(R.id.ll_sell_token)
-    LinearLayout llSellToken;
+    public LinearLayout llSellToken;
 
     @BindView(R.id.ll_buy_token)
-    LinearLayout llBuyToken;
+    public LinearLayout llBuyToken;
 
     @BindView(R.id.one_hour)
-    TextView oneHourView;
+    public TextView oneHourView;
 
     @BindView(R.id.one_day)
-    TextView oneDayView;
+    public TextView oneDayView;
 
     @BindView(R.id.one_month)
-    TextView oneMonthView;
+    public TextView oneMonthView;
 
     @BindView(R.id.custom)
-    TextView customView;
-
-    @BindView(R.id.sell_token)
-    TextView sellTokenView;
-
-    @BindView(R.id.buy_token)
-    TextView buyTokenView;
+    public TextView customView;
 
     @BindView(R.id.sell_amount)
-    MaterialEditText sellAmount;
+    public MaterialEditText sellAmount;
 
     @BindView(R.id.buy_amount)
-    MaterialEditText buyAmount;
+    public MaterialEditText buyAmount;
 
     @BindView(R.id.sell_count)
     public MaterialEditText sellCount;
 
     @BindView(R.id.market_price)
-    TextView marketPrice;
+    public TextView marketPrice;
+
+    @BindView(R.id.tv_sell_token_symbol)
+    public TextView tvSellTokenSymbol;
+
+    @BindView(R.id.tv_buy_token_symbol)
+    public TextView tvBuyTokenSymbol;
+
+    @BindView(R.id.tv_sell_token_symbol2)
+    public TextView tvSellTokenSymbol2;
+
+    @BindView(R.id.tv_buy_token_symbol2)
+    public TextView tvBuyTokenSymbol2;
+
+    @BindView(R.id.tv_sell_token_price)
+    public TextView tvSellTokenPrice;
+
+    @BindView(R.id.tv_buy_token_price)
+    public TextView tvBuyTokenPrice;
+
+    @BindView(R.id.tv_sell_hint)
+    public TextView tvSellHint;
+
+    @BindView(R.id.tv_buy_hint)
+    public TextView tvBuyHint;
+
+    @BindView(R.id.seek_bar)
+    public BubbleSeekBar seekBar;
 
     private P2PTradePresenter presenter;
 
@@ -106,7 +129,6 @@ public class P2PTradeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        presenter.initSeekbar();
         oneHourView.setText(getResources().getString(R.string.hour, "1"));
         oneDayView.setText(getResources().getString(R.string.day, "1"));
         oneMonthView.setText(getResources().getString(R.string.month, "1"));
@@ -172,28 +194,28 @@ public class P2PTradeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.one_hour:
-                presenter.setInterval(0);
-                break;
-            case R.id.one_day:
                 presenter.setInterval(1);
                 break;
+            case R.id.one_day:
+                presenter.setInterval(24);
+                break;
             case R.id.one_month:
-                presenter.setInterval(2);
+                presenter.setInterval(24 * 30);
                 break;
             case R.id.custom:
-                presenter.setInterval(3);
+                presenter.setInterval(0);
                 break;
             case R.id.ll_switch:
                 llSwitch.setOnClickListener(v -> presenter.switchToken());
                 break;
             case R.id.ll_sell_token:
                 Intent intent1 = new Intent(getContext(), P2PTokenListActivity.class);
-                intent1.putExtra("ignoreSymbol", buyTokenView.getText());
+                intent1.putExtra("ignoreSymbol", tvBuyTokenSymbol2.getText());
                 startActivityForResult(intent1, 0);
                 break;
             case R.id.ll_buy_token:
                 Intent intent2 = new Intent(getContext(), P2PTokenListActivity.class);
-                intent2.putExtra("ignoreSymbol", sellTokenView.getText());
+                intent2.putExtra("ignoreSymbol", tvSellTokenSymbol2.getText());
                 startActivityForResult(intent2, 1);
                 break;
             case R.id.market_price:
@@ -211,6 +233,8 @@ public class P2PTradeFragment extends BaseFragment {
                         presenter.setHint(1);
                     } else if (amountB == 0) {
                         presenter.setHint(4);
+                    } else if (sellCount.getText().toString().isEmpty()) {
+                        RxToast.warning(getResources().getString(R.string.minimal_count_error));
                     } else {
                         presenter.showTradeDetailDialog();
                     }
@@ -231,6 +255,10 @@ public class P2PTradeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        presenter.initSeekbar();
+        sellAmount.setText("");
+        buyAmount.setText("");
+        sellCount.setText("1");
     }
 
     @Override

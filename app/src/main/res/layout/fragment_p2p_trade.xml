@@ -28,7 +28,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/first_token"
+                android:id="@+id/tv_sell_token_symbol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="WETH"
@@ -38,7 +38,7 @@
 
 
             <TextView
-                android:id="@+id/token_s_price"
+                android:id="@+id/tv_sell_token_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1 WETH ≈ 2,4890.722 LRC"
@@ -73,7 +73,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/second_token"
+                android:id="@+id/tv_buy_token_symbol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="LRC"
@@ -82,7 +82,7 @@
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/token_b_price"
+                android:id="@+id/tv_buy_token_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1 LRC ≈ 0.00038142 WETH"
@@ -152,7 +152,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/sell_token"
+                        android:id="@+id/tv_sell_token_symbol2"
                         android:layout_width="60dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -241,7 +241,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/buy_token"
+                        android:id="@+id/tv_buy_token_symbol2"
                         android:layout_width="60dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -383,6 +383,7 @@
                         android:cursorVisible="true"
                         android:focusableInTouchMode="true"
                         android:imeOptions="actionNext"
+                        android:inputType="number"
                         android:maxLength="100"
                         android:singleLine="true"
                         android:text="1"

@@ -150,6 +150,7 @@ public class BalanceDataManager {
     }
 
     public static int getPrecision(String symbol) {
-        return balanceDataManager.getAssetBySymbol(symbol).getPrecision();
+        BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(symbol);
+        return asset != null ? asset.getPrecision() : 6;
     }
 }

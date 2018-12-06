@@ -254,4 +254,5 @@
     <string name="buy_icon">買</string>
     <string name="trade_error">交易失敗</string>
     <string name="no_data_p2p">您還沒有場外交易記錄</string>
+    <string name="mimimal_count_error">訂單拆分份數至少為1</string>
 </resources>
