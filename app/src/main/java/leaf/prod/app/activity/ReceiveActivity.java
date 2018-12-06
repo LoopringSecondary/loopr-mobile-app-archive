@@ -137,7 +137,6 @@ public class ReceiveActivity extends BaseActivity {
         title.clickLeftGoBack(getWContext());
         title.setRightImageButton(R.mipmap.icon_share, button -> {
             ReceiveActivityPermissionsDispatcher.showWriteWithPermissionCheck(ReceiveActivity.this);
-            //                ToastUtils.toast("分享");
         });
     }
 

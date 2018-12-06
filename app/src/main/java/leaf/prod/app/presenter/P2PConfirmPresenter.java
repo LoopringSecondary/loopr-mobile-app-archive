@@ -13,6 +13,7 @@ import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.P2PConfirmActivity;
+import leaf.prod.app.activity.P2PTradeQrActivity;
 import leaf.prod.app.utils.PasswordDialogUtil;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.model.OriginOrder;
@@ -64,7 +65,7 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if (response.getError() == null) {
-                        // TODO: for yanyan submit order success
+                        view.getOperation().forward(P2PTradeQrActivity.class);
                     } else {
                         String message = p2pManager.getLocaleError(response.getError().getMessage());
                         RxToast.error(message);

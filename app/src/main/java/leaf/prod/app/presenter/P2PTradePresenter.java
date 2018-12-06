@@ -28,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.P2PErrorActivity;
-import leaf.prod.app.activity.P2PSuccessActivity;
+import leaf.prod.app.activity.P2PTradeQrActivity;
 import leaf.prod.app.fragment.P2PTradeFragment;
 import leaf.prod.app.utils.PasswordDialogUtil;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
@@ -392,9 +392,9 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                     PasswordDialogUtil.dismiss(context);
                     Objects.requireNonNull(view.getActivity()).finish();
                     if (response.getError() == null) {
-                        view.getOperation().forward(P2PSuccessActivity.class);
+                        view.getOperation().forward(P2PTradeQrActivity.class);
                     } else {
-                        view.getOperation().addParameter("error", view.getResources().getString(R.string.trade_error));
+                        view.getOperation().addParameter("error", response.getError().getMessage());
                         view.getOperation().forward(P2PErrorActivity.class);
                     }
                 });
