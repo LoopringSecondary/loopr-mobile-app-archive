@@ -396,7 +396,6 @@ public class P2POrderDataManager extends OrderDataManager {
         }
         try {
             String rawTx = generate();
-            orders[1] = signOrder(orders[1]);
             String makerHash = orders[0].getHash();
             String takerHash = orders[1].getHash();
             return loopringService.submitRing(makerHash, takerHash, rawTx);

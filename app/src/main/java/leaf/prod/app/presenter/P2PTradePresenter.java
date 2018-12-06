@@ -307,7 +307,6 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 .toString()), BalanceDataManager.getPrecision(p2pOrderManager.getTokenS())) + " " + p2pOrderManager.getTokenS() + "/" + p2pOrderManager
                 .getTokenB());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_trading_fee)).setText("");
-        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_margin_split)).setText("50%");
         validSince = new Date();
         int time = (int) SPUtils.get(context, "time_to_live", 1);
         validUntil = DateUtil.addDateTime(validSince, time);

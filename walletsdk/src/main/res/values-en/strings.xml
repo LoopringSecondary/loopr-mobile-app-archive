@@ -1,4 +1,16 @@
 <resources>
+    <string name="order_open">Open</string>
+    <string name="order_filled">Filled</string>
+    <string name="order_finished">Finished</string>
+    <string name="order_expired">Expired</string>
+    <string name="order_submitted">Submitted</string>
+    <string name="order_matching">Waiting</string>
+    <string name="order_cancelled">Cancelled</string>
+    <string name="order_completed">Completed</string>
+    <string name="order_locked">Locked</string>
+    <string name="order_unknown">Unknown</string>
+    <string name="order_cutoff">Cut Off</string>
+
     <string name="R10001">Sorry, system error, please try again later</string>
     <string name="R32000">Sorry, balance is not enough to submit order</string>
     <string name="R50001">Sorry, selling order does not exist, could not complete this order</string>

@@ -8,41 +8,45 @@ package leaf.prod.walletsdk.model;
 
 import java.io.Serializable;
 
+import android.content.Context;
+
 import com.google.gson.annotations.SerializedName;
+
+import leaf.prod.walletsdk.R;
 
 public enum OrderStatus implements Serializable {
 
     @SerializedName("ORDER_OPENED")
-    OPENED("opened"),
+    OPENED(R.string.order_open),
 
     @SerializedName("ORDER_WAIT_SUBMIT_RING")
-    WAITED("waited"),
+    WAITED(R.string.order_submitted),
 
     @SerializedName("ORDER_FINISHED")
-    FINISHED("finished"),
+    FINISHED(R.string.order_completed),
 
     @SerializedName("ORDER_CUTOFF")
-    CUTOFF("cutoff"),
+    CUTOFF(R.string.order_cutoff),
 
     @SerializedName("ORDER_CANCELLED")
-    CANCELLED("cancelled"),
+    CANCELLED(R.string.order_cancelled),
 
     @SerializedName("ORDER_EXPIRE")
-    EXPIRED("expired"),
+    EXPIRED(R.string.order_expired),
 
     @SerializedName("ORDER_P2P_LOCKED")
-    LOCKED("locked"),
+    LOCKED(R.string.order_locked),
 
     @SerializedName("ORDER_UNKNOWN")
-    UNKNOWN("unknown");
+    UNKNOWN(R.string.order_unknown);
 
-    private String description;
+    private int resourceId;
 
-    OrderStatus(String description) {
-        this.description = description;
+    OrderStatus(int id) {
+        this.resourceId = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescription(Context context) {
+        return context.getString(resourceId);
     }
 }

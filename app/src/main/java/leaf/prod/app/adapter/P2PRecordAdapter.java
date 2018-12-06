@@ -122,7 +122,7 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
                 helper.setVisible(R.id.tv_operate, true);
                 break;
             case CUTOFF:
-                helper.setText(R.id.tv_operate, R.string.order_cut_off);
+                helper.setText(R.id.tv_operate, R.string.order_cutoff);
                 helper.setVisible(R.id.tv_operate, true);
                 break;
             case CANCELLED:
