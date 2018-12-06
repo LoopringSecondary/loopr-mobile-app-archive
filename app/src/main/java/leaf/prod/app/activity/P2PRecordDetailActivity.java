@@ -70,8 +70,8 @@ public class P2PRecordDetailActivity extends BaseActivity {
     @BindView(R.id.tv_filled)
     TextView tvFilled;
 
-    @BindView(R.id.tv_txhash)
-    TextView tvTxHash;
+    @BindView(R.id.tv_id)
+    TextView tvId;
 
     @BindView(R.id.tv_live_time)
     TextView tvLiveTime;
@@ -119,7 +119,8 @@ public class P2PRecordDetailActivity extends BaseActivity {
             if (tokens != null) {
                 ivTokenS.setImageDrawable(getResources().getDrawable(tokens.getImageResId()));
                 tvTokenS.setText(getResources().getString(R.string.sell) + " " + tokens.getSymbol());
-                tvAmountS.setText(order.getOriginOrder().getAmountSell() + "");
+                tvAmountS.setText(NumberUtils.format1(order.getOriginOrder()
+                        .getAmountSell(), BalanceDataManager.getPrecision(order.getOriginOrder().getTokenS())));
                 if (assets != null) {
                     tvPriceS.setText(CurrencyUtil.format(this, assets.getLegalValue() * order.getOriginOrder()
                             .getAmountSell()));
@@ -128,7 +129,8 @@ public class P2PRecordDetailActivity extends BaseActivity {
             if (tokenb != null) {
                 ivTokenB.setImageDrawable(getResources().getDrawable(tokenb.getImageResId()));
                 tvTokenB.setText(getResources().getString(R.string.buy) + " " + tokenb.getSymbol());
-                tvAmountB.setText(order.getOriginOrder().getAmountBuy() + "");
+                tvAmountB.setText(NumberUtils.format1(order.getOriginOrder()
+                        .getAmountBuy(), BalanceDataManager.getPrecision(order.getOriginOrder().getTokenB())));
                 if (assetb != null) {
                     tvPriceB.setText(CurrencyUtil.format(this, assetb.getLegalValue() * order.getOriginOrder()
                             .getAmountBuy()));
@@ -161,7 +163,7 @@ public class P2PRecordDetailActivity extends BaseActivity {
             tvTradingFee.setText(order.getOriginOrder().getLrc() + " LRC");
             tvFilled.setText(NumberUtils.format1(order.getDealtAmountSell() / order.getOriginOrder()
                     .getAmountSell(), 2) + "%");
-            tvTxHash.setText(order.getOriginOrder().getHash());
+            tvId.setText(order.getOriginOrder().getHash());
             tvLiveTime.setText(sdf.format(new Date(new Long(order.getOriginOrder()
                     .getValidS()).longValue() * 1000)) + " ~ "
                     + sdf.format(new Date(new Long(order.getOriginOrder().getValidU()).longValue() * 1000)));

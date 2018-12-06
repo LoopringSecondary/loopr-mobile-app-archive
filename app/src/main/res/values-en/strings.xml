@@ -137,7 +137,7 @@
     <string name="p2p_title">P2P Trade</string>
     <string name="orders">Orders</string>
     <string name="orders_records">Records</string>
-    <string name="no_data_asset">You do not have balace yet</string>
+    <string name="no_data_asset">You do not have balance yet</string>
     <string name="no_data_transaction">You do not have transaction record yet</string>
     <string name="h5_dex">Loopring DEX</string>
     <string name="confirm_clear_record">Are you sure you want to delete current wallet and clear records? </string>
@@ -252,4 +252,5 @@
     <string name="sell_icon">S</string>
     <string name="buy_icon">B</string>
     <string name="trade_error">Trading error</string>
+    <string name="no_data_p2p">You do not have p2p trading record yet</string>
 </resources>

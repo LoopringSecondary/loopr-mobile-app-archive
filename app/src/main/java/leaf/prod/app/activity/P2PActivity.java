@@ -23,11 +23,6 @@ public class P2PActivity extends BaseActivity {
 
     @BindView(R.id.p2p_tab)
     TabLayout p2pTab;
-    //    @BindView(R.id.trade_item)
-    //    TabItem tradeItem;
-    //
-    //    @BindView(R.id.records_item)
-    //    TabItem recordsItem;
 
     private P2PPresenter presenter;
 
@@ -55,6 +50,7 @@ public class P2PActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        p2pTab.getTabAt(getIntent().getIntExtra("tag", 0)).select();
         p2pTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

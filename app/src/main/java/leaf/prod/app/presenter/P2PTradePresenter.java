@@ -316,6 +316,12 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         p2pTradeDialog.show();
     }
 
+    public void destroyDialog() {
+        if (p2pTradeDialog != null) {
+            p2pTradeDialog.dismiss();
+        }
+    }
+
     public void setHint(int flag) {
         switch (flag) {
             case 0:
@@ -375,6 +381,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         }
         if (!p2pOrderManager.isBalanceEnough()) {
             // p2pOrderManager.balanceInfo e.g. {"MINUS_ETH": 0.3974, "MINUS_LRC": 10.3974}
+            Objects.requireNonNull(view.getActivity()).finish();
             PasswordDialogUtil.dismiss(context);
             view.getOperation().forward(P2PErrorActivity.class);
         }
@@ -383,6 +390,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     PasswordDialogUtil.dismiss(context);
+                    Objects.requireNonNull(view.getActivity()).finish();
                     if (response.getError() == null) {
                         view.getOperation().forward(P2PSuccessActivity.class);
                     } else {

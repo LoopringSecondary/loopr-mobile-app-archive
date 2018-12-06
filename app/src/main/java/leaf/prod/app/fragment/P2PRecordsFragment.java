@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import butterknife.BindView;
@@ -22,6 +24,7 @@ import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.P2PRecordAdapter;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
+import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.response.relay.PageWrapper;
@@ -39,6 +42,9 @@ public class P2PRecordsFragment extends BaseFragment {
 
     @BindView(R.id.refresh_layout)
     RefreshLayout refreshLayout;
+
+    @BindView(R.id.spin_kit)
+    SpinKitView spinKitView;
 
     private P2PRecordAdapter recordAdapter;
 
@@ -59,6 +65,7 @@ public class P2PRecordsFragment extends BaseFragment {
         refreshLayout.setOnRefreshListener(refreshLayout -> {
             refreshOrders(1);
         });
+        spinKitView.setIndeterminateDrawable(new FadingCircle());
         return layout;
     }
 
@@ -81,6 +88,7 @@ public class P2PRecordsFragment extends BaseFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recordAdapter = new P2PRecordAdapter(R.layout.adapter_item_p2p_record, null, this);
+        recyclerView.setAdapter(recordAdapter);
         recordAdapter.setOnLoadMoreListener(() -> {
             if (recordAdapter.getData().size() >= totalCount) {
                 recordAdapter.loadMoreEnd();
@@ -88,12 +96,12 @@ public class P2PRecordsFragment extends BaseFragment {
                 refreshOrders(currentPageIndex + 1);
             }
         }, recyclerView);
-        recyclerView.setAdapter(recordAdapter);
         refreshOrders(1);
         recordAdapter.setOnItemClickListener((adapter, view, position) -> {
             getOperation().addParameter("order", orderList.get(position));
             getOperation().forward(P2PRecordDetailActivity.class);
         });
+        emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.p2p_orders);
     }
 
     @Override
@@ -137,13 +145,18 @@ public class P2PRecordsFragment extends BaseFragment {
                     @Override
                     public void onNext(PageWrapper<Order> orderPageWrapper) {
                         totalCount = orderPageWrapper.getTotal();
-                        orderList = orderPageWrapper.getData();
-                        if (currentPageIndex == 1) {
-                            recordAdapter.setNewData(orderList);
-                        } else {
-                            recordAdapter.addData(orderList);
+                        List<Order> list = new ArrayList<>();
+                        for (Order order : orderPageWrapper.getData()) {
+                            list.add(order.convert());
                         }
+                        if (currentPageIndex == 1) {
+                            recordAdapter.setNewData(list);
+                        } else {
+                            recordAdapter.addData(list);
+                        }
+                        orderList = recordAdapter.getData();
                         refreshLayout.finishRefresh(true);
+                        spinKitView.setVisibility(View.INVISIBLE);
                         recordAdapter.loadMoreComplete();
                         unsubscribe();
                     }

@@ -44,14 +44,15 @@ public class Order implements Serializable {
     // e.g. 10.50%
     private String filled;
 
-    public void convert() {
+    public Order convert() {
         this.originOrder.convert();
         this.dealtAmountBuy = TokenDataManager.getDouble(originOrder.getTokenB(), Numeric.toBigInt(dealtAmountB)
                 .toString());
         this.dealtAmountSell = TokenDataManager.getDouble(originOrder.getTokenS(), Numeric.toBigInt(dealtAmountS)
                 .toString());
-        this.price = NumberUtils.format1(originOrder.getAmountSell() / originOrder.getAmountBuy(), BalanceDataManager
-                .getPrecision(originOrder.getTokenS()));
+        this.price = NumberUtils.format1(originOrder.getAmountBuy() / originOrder.getAmountSell(), BalanceDataManager
+                .getPrecision(originOrder.getTokenB()));
         this.filled = NumberUtils.format1(dealtAmountSell / originOrder.getAmountSell() * 100, 2) + "%";
+        return this;
     }
 }

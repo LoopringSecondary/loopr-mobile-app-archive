@@ -35,6 +35,7 @@ import leaf.prod.app.activity.AuthorityWebActivity;
 import leaf.prod.app.activity.CoverActivity;
 import leaf.prod.app.activity.H5DexWebActivity;
 import leaf.prod.app.activity.ImportWalletActivity;
+import leaf.prod.app.activity.MainActivity;
 import leaf.prod.app.activity.ManageWalletActivity;
 import leaf.prod.app.activity.P2PConfirmActivity;
 import leaf.prod.app.activity.ReceiveActivity;
@@ -361,6 +362,9 @@ public class MainFragment extends BaseFragment {
             refreshLayout.finishRefresh(true);
         if (progressBar != null)
             progressBar.setVisibility(View.INVISIBLE);
+        if (getActivity() != null) {
+            ((MainActivity) Objects.requireNonNull(getActivity())).setClickable(true);
+        }
     }
 
     public void refresh() {

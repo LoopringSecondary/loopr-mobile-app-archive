@@ -47,6 +47,9 @@ public class P2PSuccessActivity extends BaseActivity {
                 break;
             case R.id.btn_view_orders:
                 // todo 查看订单
+                finish();
+                getOperation().addParameter("tag", 1);
+                getOperation().forward(P2PActivity.class);
                 break;
         }
     }
