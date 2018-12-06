@@ -104,11 +104,11 @@ public class OriginOrder implements Serializable {
     public void convert() {
         this.tokenBuy = TokenDataManager.getToken(tokenB).getProtocol();
         this.tokenSell = TokenDataManager.getToken(tokenS).getProtocol();
-        this.amountBuy = TokenDataManager.getDouble(tokenB, amountB);
-        this.amountSell = TokenDataManager.getDouble(tokenS, amountS);
+        this.amountBuy = TokenDataManager.getDouble(tokenB, Numeric.toBigInt(amountB).toString());
+        this.amountSell = TokenDataManager.getDouble(tokenS, Numeric.toBigInt(amountS).toString());
         this.validS = Numeric.toBigInt(validSince).intValue();
-        this.validS = Numeric.toBigInt(validUntil).intValue();
-        this.lrc = TokenDataManager.getDouble("LRC", lrcFee);
+        this.validU = Numeric.toBigInt(validUntil).intValue();
+        this.lrc = TokenDataManager.getDouble("LRC", Numeric.toBigInt(lrcFee).toString());
         this.margin = Numeric.toBigInt(marginSplitPercentage).intValue();
     }
 }

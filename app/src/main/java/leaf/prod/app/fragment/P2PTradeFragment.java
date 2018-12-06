@@ -237,6 +237,7 @@ public class P2PTradeFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        presenter.destroyDialog();
     }
 
     @Override

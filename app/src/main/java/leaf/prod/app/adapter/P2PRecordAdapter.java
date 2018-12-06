@@ -1,6 +1,5 @@
 package leaf.prod.app.adapter;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -15,11 +14,13 @@ import leaf.prod.app.R;
 import leaf.prod.app.fragment.P2PRecordsFragment;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.PasswordDialogUtil;
+import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.model.CancelOrder;
 import leaf.prod.walletsdk.model.CancelType;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.request.param.NotifyScanParam;
+import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Subscriber;
@@ -44,27 +45,31 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, Order order) {
         if (order == null)
             return;
-        order.convert();
+        //        order.convert();
         helper.setText(R.id.tv_token_s, order.getOriginOrder().getTokenS());
         helper.setText(R.id.tv_token_b, order.getOriginOrder().getTokenB());
         helper.setGone(R.id.tv_sell_icon, false);
         helper.setGone(R.id.tv_buy_icon, false);
-        switch (order.getOriginOrder().getP2pSide()) {
-            case MAKER:
-                helper.setVisible(R.id.tv_sell_icon, true);
-                break;
-            case TAKER:
-                helper.setVisible(R.id.tv_buy_icon, true);
-                break;
+        if (order.getOriginOrder().getP2pSide() != null) {
+            switch (order.getOriginOrder().getP2pSide()) {
+                case MAKER:
+                    helper.setVisible(R.id.tv_sell_icon, true);
+                    break;
+                case TAKER:
+                    helper.setVisible(R.id.tv_buy_icon, true);
+                    break;
+            }
         }
         helper.setText(R.id.tv_price, order.getPrice());
-        helper.setText(R.id.tv_amount, BigDecimal.valueOf(order.getOriginOrder().getAmountSell()).toPlainString());
+        helper.setText(R.id.tv_amount, NumberUtils.format1(order.getOriginOrder()
+                .getAmountSell(), BalanceDataManager.getPrecision(order.getOriginOrder().getTokenS())));
         helper.setText(R.id.tv_filled, order.getFilled());
         helper.setTextColor(R.id.tv_operate, mContext.getResources().getColor(R.color.colorNineText));
         helper.setGone(R.id.tv_cancel, false);
         helper.setGone(R.id.tv_operate, false);
         switch (order.getOrderStatus()) {
             case OPENED:
+            case WAITED:
                 helper.setVisible(R.id.tv_cancel, true);
                 helper.setOnClickListener(R.id.tv_cancel, view -> {
                     String hash = order.getOriginOrder().getHash();
@@ -102,17 +107,13 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
 
                                         @Override
                                         public void onNext(String s) {
-                                            fragment.refreshOrders(0);
+                                            //                                            fragment.refreshOrders(0);
                                             unsubscribe();
                                         }
                                     });
                         }
                     });
                 });
-                break;
-            case WAITED:
-                helper.setText(R.id.tv_operate, R.string.order_submitted);
-                helper.setVisible(R.id.tv_operate, true);
                 break;
             case FINISHED:
                 helper.setText(R.id.tv_operate, R.string.order_completed);

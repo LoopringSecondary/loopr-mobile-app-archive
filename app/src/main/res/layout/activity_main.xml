@@ -16,14 +16,15 @@
         android:layout_height="1dp"
         android:background="@color/colorLine"/>
 
-    <LinearLayout
+    <leaf.prod.app.layout.ChildClickableLinearLayout
+        android:id="@+id/ccl_main"
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:layout_gravity="bottom"
         android:background="@color/colorBg"
         android:orientation="horizontal"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp">
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
 
 
         <RelativeLayout
@@ -114,5 +115,5 @@
         </RelativeLayout>
 
 
-    </LinearLayout>
+    </leaf.prod.app.layout.ChildClickableLinearLayout>
 </LinearLayout>
