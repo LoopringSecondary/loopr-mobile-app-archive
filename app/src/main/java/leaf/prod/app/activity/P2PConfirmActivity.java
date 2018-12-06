@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.P2PConfirmPresenter;
+import leaf.prod.app.views.TitleView;
 
 public class P2PConfirmActivity extends BaseActivity {
 
@@ -55,13 +56,17 @@ public class P2PConfirmActivity extends BaseActivity {
     @BindView(R.id.tv_live_time)
     public TextView tvLiveTime;
 
+    @BindView(R.id.title)
+    public TitleView title;
+
     private P2PConfirmPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.dialog_p2p_trade_detail);
+        setContentView(R.layout.activity_p2p_confirm);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
+        mSwipeBackLayout.setEnableGesture(false);
     }
 
     /**
@@ -77,6 +82,9 @@ public class P2PConfirmActivity extends BaseActivity {
      */
     @Override
     public void initTitle() {
+        title.setBTitle(getResources().getString(R.string.trade));
+        title.clickLeftGoBack(getWContext());
+
     }
 
     /**
