@@ -27,7 +27,6 @@ import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.RandomWallet;
 import leaf.prod.walletsdk.model.SignedBody;
-import leaf.prod.walletsdk.model.request.param.NotifyScanParam;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.SignUtils;
@@ -221,9 +220,5 @@ public class OrderDataManager {
         value = token.getWeiFromDouble(symbol, (double) Integer.MAX_VALUE);
         transfer.erc20(contract, gasPrice, gasLimit)
                 .approve(credentials, contract, Default.DELEGATE_ADDRESS, value);
-    }
-
-    public NotifyScanParam.SignParam genCancelParam() {
-        return SignUtils.genSignParam(credentials, owner);
     }
 }

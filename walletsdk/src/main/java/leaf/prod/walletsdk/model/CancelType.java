@@ -7,5 +7,19 @@
 package leaf.prod.walletsdk.model;
 
 public enum CancelType {
-    hash, owner, time, market
+    hash(1), owner(2), time(3), market(4);
+
+    private int type;
+
+    CancelType(int type) {
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 }

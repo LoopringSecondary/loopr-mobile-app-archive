@@ -1,5 +1,8 @@
 package leaf.prod.app.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -17,38 +20,45 @@ import leaf.prod.app.R;
  */
 public class PasswordDialogUtil {
 
-    private static AlertDialog passwordDialog;
+    private static Map<Context, AlertDialog> map = new HashMap<>();
 
     private static EditText passwordInput;
 
     public static void showPasswordDialog(Context context, View.OnClickListener listener) {
-        if (passwordDialog == null) {
+        if (map.get(context) == null) {
             final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_put_password, null);
             builder.setView(view);
             passwordInput = view.findViewById(R.id.password_input);
             view.findViewById(R.id.cancel).setOnClickListener(v -> {
-                showKeyboard(false);
-                passwordDialog.dismiss();
+                showKeyboard(context, false);
+                map.get(context).dismiss();
             });
             view.findViewById(R.id.confirm).setOnClickListener(listener);
             builder.setCancelable(true);
-            passwordDialog = null;
-            passwordDialog = builder.create();
+            AlertDialog passwordDialog = builder.create();
             passwordDialog.setCancelable(false);
             passwordDialog.setCanceledOnTouchOutside(false);
+            map.put(context, passwordDialog);
         } else {
             passwordInput.setText("");
         }
-        passwordDialog.show();
+        map.get(context).show();
     }
 
     public static String getInputPassword() {
         return passwordInput != null ? passwordInput.getText().toString() : "";
     }
 
-    private static void showKeyboard(boolean show) {
-        if (passwordInput != null && passwordDialog != null) {
+    public static void dismiss(Context context) {
+        if (map.get(context) != null) {
+            map.get(context).dismiss();
+            map.remove(context);
+        }
+    }
+
+    private static void showKeyboard(Context context, boolean show) {
+        if (passwordInput != null && map.get(context) != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) passwordInput.getContext()
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             if (inputMethodManager != null) {

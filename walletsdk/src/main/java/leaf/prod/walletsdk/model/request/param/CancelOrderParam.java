@@ -15,7 +15,7 @@ public class CancelOrderParam {
 
     private String orderHash;
 
-    private String type;
+    private Integer type;
 
     private Integer cutoff;
 

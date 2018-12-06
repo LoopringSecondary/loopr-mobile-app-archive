@@ -9,7 +9,9 @@ package leaf.prod.app.presenter;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
+import com.vondear.rxtool.view.RxToast;
 
+import leaf.prod.app.R;
 import leaf.prod.app.activity.P2PConfirmActivity;
 import leaf.prod.app.utils.PasswordDialogUtil;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
@@ -50,6 +52,7 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
             p2pManager.verify(password);
         } catch (Exception e) {
             // TODO: for yanyan: MUST handle exception of incorrect password
+            RxToast.error(view.getResources().getString(R.string.keystore_psw_error));
             e.printStackTrace();
         }
         if (!p2pManager.isBalanceEnough()) {

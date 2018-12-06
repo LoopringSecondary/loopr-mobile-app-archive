@@ -9,16 +9,35 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
+import leaf.prod.app.fragment.P2PRecordsFragment;
+import leaf.prod.app.utils.LyqbLogger;
+import leaf.prod.app.utils.PasswordDialogUtil;
+import leaf.prod.walletsdk.manager.P2POrderDataManager;
+import leaf.prod.walletsdk.model.CancelOrder;
+import leaf.prod.walletsdk.model.CancelType;
 import leaf.prod.walletsdk.model.Order;
+import leaf.prod.walletsdk.model.request.param.NotifyScanParam;
+import leaf.prod.walletsdk.util.SignUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-    public P2PRecordAdapter(int layoutResId, @Nullable List<Order> data) {
+    private P2PRecordsFragment fragment;
+
+    private P2POrderDataManager p2POrderDataManager;
+
+    public P2PRecordAdapter(int layoutResId, @Nullable List<Order> data, P2PRecordsFragment fragment) {
         super(layoutResId, data);
+        this.fragment = fragment;
+        p2POrderDataManager = P2POrderDataManager.getInstance(fragment.getContext());
     }
 
     @Override
@@ -42,9 +61,54 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
         helper.setText(R.id.tv_amount, BigDecimal.valueOf(order.getOriginOrder().getAmountSell()).toPlainString());
         helper.setText(R.id.tv_filled, order.getFilled());
         helper.setTextColor(R.id.tv_operate, mContext.getResources().getColor(R.color.colorNineText));
+        helper.setGone(R.id.tv_cancel, false);
+        helper.setGone(R.id.tv_operate, false);
         switch (order.getOrderStatus()) {
             case OPENED:
                 helper.setVisible(R.id.tv_cancel, true);
+                helper.setOnClickListener(R.id.tv_cancel, view -> {
+                    String hash = order.getOriginOrder().getHash();
+                    PasswordDialogUtil.showPasswordDialog(fragment.getContext(), listener -> {
+                        NotifyScanParam.SignParam signParam = null;
+                        try {
+                            signParam = SignUtils.genSignParam(WalletUtil.getCredential(fragment.getContext(), PasswordDialogUtil
+                                    .getInputPassword()), WalletUtil
+                                    .getCurrentAddress(fragment.getContext()));
+                        } catch (Exception e) {
+                            RxToast.error(fragment.getResources().getString(R.string.keystore_psw_error));
+                            e.printStackTrace();
+                        }
+                        if (signParam != null) {
+                            PasswordDialogUtil.dismiss(fragment.getContext());
+                            CancelOrder cancelOrder = CancelOrder.builder()
+                                    .type(CancelType.hash)
+                                    .orderHash(hash)
+                                    .build();
+                            p2POrderDataManager.getLoopringService().cancelOrderFlex(cancelOrder, signParam)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Subscriber<String>() {
+                                        @Override
+                                        public void onCompleted() {
+                                            unsubscribe();
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            LyqbLogger.log(e.getMessage());
+                                            RxToast.error(fragment.getResources().getString(R.string.cancel_failed));
+                                            unsubscribe();
+                                        }
+
+                                        @Override
+                                        public void onNext(String s) {
+                                            fragment.refreshOrders(0);
+                                            unsubscribe();
+                                        }
+                                    });
+                        }
+                    });
+                });
                 break;
             case WAITED:
                 helper.setText(R.id.tv_operate, R.string.order_submitted);

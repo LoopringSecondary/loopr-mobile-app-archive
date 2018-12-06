@@ -8,8 +8,6 @@ package leaf.prod.walletsdk.model;
 
 import java.io.Serializable;
 
-import android.util.Log;
-
 import org.web3j.utils.Numeric;
 import com.google.gson.annotations.SerializedName;
 
@@ -63,9 +61,6 @@ public class Order implements Serializable {
                 .toString()));
         this.price = NumberUtils.format1(originOrder.getAmountSell() / originOrder.getAmountBuy(), BalanceDataManager
                 .getPrecision(originOrder.getTokenS()));
-        if (orderStatus == OrderStatus.FINISHED) {
-            Log.d("===", this.toString());
-        }
         this.filled = NumberUtils.format1(dealtAmountSell / originOrder.getAmountSell() * 100, 2) + "%";
     }
 }

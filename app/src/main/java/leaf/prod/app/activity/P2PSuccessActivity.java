@@ -39,10 +39,10 @@ public class P2PSuccessActivity extends BaseActivity {
     public void initData() {
     }
 
-    @OnClick({R.id.btn_return, R.id.btn_view_orders})
+    @OnClick({R.id.tv_back, R.id.btn_view_orders})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_return:
+            case R.id.tv_back:
                 getOperation().forward(MainActivity.class);
                 break;
             case R.id.btn_view_orders:
