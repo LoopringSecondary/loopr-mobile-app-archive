@@ -49,12 +49,10 @@ public class Order implements Serializable {
                 .toString());
         this.dealtAmountSell = TokenDataManager.getDouble(originOrder.getTokenS(), Numeric.toBigInt(dealtAmountS)
                 .toString());
-        this.originOrder.setAmountBuy(Double.parseDouble(NumberUtils.format1(TokenDataManager.getDouble(originOrder.getTokenB(), Numeric
-                .toBigInt(originOrder.getAmountB())
-                .toString()), BalanceDataManager.getPrecision(originOrder.getTokenB()))));
-        this.originOrder.setAmountSell(Double.parseDouble(NumberUtils.format1(TokenDataManager.getDouble(originOrder.getTokenS(), Numeric
-                .toBigInt(originOrder.getAmountS())
-                .toString()), BalanceDataManager.getPrecision(originOrder.getTokenS()))));
+        this.originOrder.setAmountBuy(TokenDataManager.getDouble(originOrder.getTokenB(), Numeric.toBigInt(originOrder.getAmountB())
+                .toString()));
+        this.originOrder.setAmountSell(TokenDataManager.getDouble(originOrder.getTokenS(), Numeric.toBigInt(originOrder.getAmountS())
+                .toString()));
         this.originOrder.setValidU(Numeric.toBigInt(originOrder.getValidUntil()).intValue());
         this.originOrder.setValidS(Numeric.toBigInt(originOrder.getValidSince()).intValue());
         this.originOrder.setLrc(TokenDataManager.getDouble("LRC", Numeric.toBigInt(originOrder.getLrcFee())
