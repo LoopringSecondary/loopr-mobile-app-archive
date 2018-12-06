@@ -87,6 +87,7 @@ public class P2POrderDataManager extends OrderDataManager {
         this.tokenB = (String) SPUtils.get(context, "tokenB", "LRC");
         this.updatePair();
         this.setupErrorMessage();
+        this.ringParameters = new ArrayList<>();
     }
 
     public static P2POrderDataManager getInstance(Context context) {
@@ -255,7 +256,7 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private String encodeRing() {
-        ringParameters = new ArrayList<>();
+        ringParameters.clear();
         generateOffset();
         generateFee();
         insertOrderCounts();

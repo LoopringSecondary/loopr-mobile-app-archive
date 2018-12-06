@@ -8,8 +8,10 @@ package leaf.prod.walletsdk.model;
 
 import java.io.Serializable;
 
+import org.web3j.utils.Numeric;
 import com.google.gson.annotations.SerializedName;
 
+import leaf.prod.walletsdk.manager.TokenDataManager;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,6 +41,7 @@ public class OriginOrder implements Serializable {
     // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
     private String tokenSell;
 
+    // integer hex string e.g. "0x34f07768a92a83d00000"
     private String amountB;
 
     // double value e.g. 0.02
@@ -98,6 +101,14 @@ public class OriginOrder implements Serializable {
 
     private String s;
 
-    private OriginOrder() {
+    public void convert() {
+        this.tokenBuy = TokenDataManager.getToken(tokenB).getProtocol();
+        this.tokenSell = TokenDataManager.getToken(tokenS).getProtocol();
+        this.amountBuy = TokenDataManager.getDouble(tokenB, amountB);
+        this.amountSell = TokenDataManager.getDouble(tokenS, amountS);
+        this.validS = Numeric.toBigInt(validSince).intValue();
+        this.validS = Numeric.toBigInt(validUntil).intValue();
+        this.lrc = TokenDataManager.getDouble("LRC", lrcFee);
+        this.margin = Numeric.toBigInt(marginSplitPercentage).intValue();
     }
 }

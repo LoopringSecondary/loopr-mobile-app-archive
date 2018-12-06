@@ -45,18 +45,11 @@ public class Order implements Serializable {
     private String filled;
 
     public void convert() {
+        this.originOrder.convert();
         this.dealtAmountBuy = TokenDataManager.getDouble(originOrder.getTokenB(), Numeric.toBigInt(dealtAmountB)
                 .toString());
         this.dealtAmountSell = TokenDataManager.getDouble(originOrder.getTokenS(), Numeric.toBigInt(dealtAmountS)
                 .toString());
-        this.originOrder.setAmountBuy(TokenDataManager.getDouble(originOrder.getTokenB(), Numeric.toBigInt(originOrder.getAmountB())
-                .toString()));
-        this.originOrder.setAmountSell(TokenDataManager.getDouble(originOrder.getTokenS(), Numeric.toBigInt(originOrder.getAmountS())
-                .toString()));
-        this.originOrder.setValidU(Numeric.toBigInt(originOrder.getValidUntil()).intValue());
-        this.originOrder.setValidS(Numeric.toBigInt(originOrder.getValidSince()).intValue());
-        this.originOrder.setLrc(TokenDataManager.getDouble("LRC", Numeric.toBigInt(originOrder.getLrcFee())
-                .toString()));
         this.price = NumberUtils.format1(originOrder.getAmountSell() / originOrder.getAmountBuy(), BalanceDataManager
                 .getPrecision(originOrder.getTokenS()));
         this.filled = NumberUtils.format1(dealtAmountSell / originOrder.getAmountSell() * 100, 2) + "%";
