@@ -17,6 +17,7 @@ import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
+import leaf.prod.walletsdk.model.OrderStatus;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.SPUtils;
@@ -115,7 +116,7 @@ public class P2PTradeQrActivity extends BaseActivity {
             tvSellAmount.setText(amountS);
             tvBuyPrice.setText(currencyB);
             tvSellPrice.setText(currencyS);
-            tvStatus.setText("open");
+            tvStatus.setText(OrderStatus.OPENED.getDescription(this));
             tvLiveTime.setText(validSince + " ~ " + validUntil);
 
             generateQRCode();

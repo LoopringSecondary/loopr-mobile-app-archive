@@ -28,7 +28,6 @@ public class SignUtils {
         return SignedBody.builder().hash(Numeric.toHexString(hash)).sig(sig).build();
     }
 
-
     public static NotifyScanParam.SignParam genSignParam(Credentials credentials, String owner) {
         String timeStamp = String.valueOf(System.currentTimeMillis() / 1000);
         byte[] hash = Hash.sha3(timeStamp.getBytes());

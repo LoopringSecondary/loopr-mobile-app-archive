@@ -147,7 +147,7 @@ public class P2PRecordDetailActivity extends BaseActivity {
                     tvStatus.setText(getResources().getString(R.string.completed));
                     break;
                 case CUTOFF:
-                    tvStatus.setText(getResources().getString(R.string.order_cut_off));
+                    tvStatus.setText(getResources().getString(R.string.order_cutoff));
                     break;
                 case CANCELLED:
                     tvStatus.setText(getResources().getString(R.string.order_cancelled));

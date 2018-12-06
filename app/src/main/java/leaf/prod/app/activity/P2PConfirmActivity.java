@@ -23,40 +23,37 @@ import leaf.prod.app.presenter.P2PConfirmPresenter;
 public class P2PConfirmActivity extends BaseActivity {
 
     @BindView(R.id.iv_token_s)
-    public ImageView tokenSImage;
+    public ImageView ivTokenS;
 
     @BindView(R.id.iv_token_b)
-    public ImageView tokenBImage;
+    public ImageView ivTokenB;
 
     @BindView(R.id.tv_sell_token)
-    public TextView tokenSText;
+    public TextView tvSellToken;
 
     @BindView(R.id.tv_buy_token)
-    public TextView tokenBText;
+    public TextView tvBuyToken;
 
     @BindView(R.id.tv_sell_price)
-    public TextView sellPriceText;
+    public TextView tvSellPrice;
 
     @BindView(R.id.tv_buy_price)
-    public TextView buyPriceText;
+    public TextView tvBuyPrice;
 
     @BindView(R.id.tv_sell_amount)
-    public TextView sellAmountText;
+    public TextView tvSellAmount;
 
     @BindView(R.id.tv_buy_amount)
-    public TextView buyAmountText;
+    public TextView tvBuyAmount;
 
     @BindView(R.id.tv_price)
-    public TextView priceText;
+    public TextView tvPrice;
 
     @BindView(R.id.tv_trading_fee)
-    public TextView tradingFeeText;
-
-    @BindView(R.id.tv_margin_split)
-    public TextView marginSplitText;
+    public TextView tvTradingFee;
 
     @BindView(R.id.tv_live_time)
-    public TextView liveTimeText;
+    public TextView tvLiveTime;
 
     private P2PConfirmPresenter presenter;
 
