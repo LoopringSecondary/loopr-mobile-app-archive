@@ -253,4 +253,5 @@
     <string name="buy_icon">B</string>
     <string name="trade_error">Trading error</string>
     <string name="no_data_p2p">You do not have p2p trading record yet</string>
+    <string name="minimal_count_error">Minimal count should be at least one</string>
 </resources>

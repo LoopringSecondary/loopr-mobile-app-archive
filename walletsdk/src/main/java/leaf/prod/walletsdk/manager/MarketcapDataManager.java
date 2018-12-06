@@ -62,7 +62,7 @@ public class MarketcapDataManager {
     }
 
     public Double getPriceBySymbol(String symbol) {
-        Double result = null;
+        Double result = 0d;
         for (MarketcapResult.Token token : marketcapResult.getTokens()) {
             if (token.getSymbol().equalsIgnoreCase(symbol)) {
                 result = token.getPrice();

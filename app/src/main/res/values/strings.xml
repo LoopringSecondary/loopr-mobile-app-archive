@@ -253,4 +253,5 @@
     <string name="buy_icon">买</string>
     <string name="trade_error">交易失败</string>
     <string name="no_data_p2p">您还没有场外交易记录</string>
+    <string name="minimal_count_error">订单拆分份数至少为1</string>
 </resources>

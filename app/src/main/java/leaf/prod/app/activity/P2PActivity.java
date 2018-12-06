@@ -50,7 +50,6 @@ public class P2PActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        p2pTab.getTabAt(getIntent().getIntExtra("tag", 0)).select();
         p2pTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -65,6 +64,7 @@ public class P2PActivity extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        p2pTab.getTabAt(getIntent().getIntExtra("tag", 0)).select();
     }
 
     @Override
