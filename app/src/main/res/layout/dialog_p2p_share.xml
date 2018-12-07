@@ -41,14 +41,14 @@
                 android:background="@color/lineBac"/>
 
             <Button
-                android:id="@+id/btn_send"
+                android:id="@+id/btn_share"
                 style="@style/SubmitBtnStyle"
                 android:layout_width="220dp"
                 android:layout_height="43dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="0dp"
-                android:text="@string/send"
+                android:text="@string/share_order"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"/>
 
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:text="@string/save_address"
+                android:text="@string/save_to_album"
                 android:textColor="@color/colorWhite"/>
         </LinearLayout>
 
