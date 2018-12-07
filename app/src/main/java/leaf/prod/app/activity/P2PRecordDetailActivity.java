@@ -150,7 +150,6 @@ public class P2PRecordDetailActivity extends BaseActivity {
                     String authAddr = order.getOriginOrder().getAuthAddr().toLowerCase();
                     String p2pContent = (String) SPUtils.get(getApplicationContext(), authAddr, "");
                     if (!p2pContent.isEmpty() && p2pContent.contains("-")) {
-                        // TODO: yanyan
                         String qrCode = p2pOrderManager.generateQRCode(order.getOriginOrder());
                         presenter.showShareDialog(qrCode);
                     } else {

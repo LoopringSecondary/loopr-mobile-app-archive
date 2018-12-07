@@ -80,6 +80,7 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
                                     .getInputPassword()), WalletUtil
                                     .getCurrentAddress(fragment.getContext()));
                         } catch (Exception e) {
+                            PasswordDialogUtil.clearPassword();
                             RxToast.error(fragment.getResources().getString(R.string.keystore_psw_error));
                             e.printStackTrace();
                         }

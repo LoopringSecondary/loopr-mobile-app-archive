@@ -103,6 +103,7 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(response -> {
+                        view.finish();
                         if (response.getError() == null) {
                             view.getOperation().forward(P2PSuccessActivity.class);
                         } else {

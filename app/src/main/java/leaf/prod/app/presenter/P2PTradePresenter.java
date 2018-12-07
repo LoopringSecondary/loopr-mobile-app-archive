@@ -383,6 +383,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                     .subscribe(response -> {
                         PasswordDialogUtil.dismiss(context);
                         destroyDialog();
+                        view.getActivity().finish();
                         if (response.getError() == null) {
                             view.getOperation().forward(P2PTradeQrActivity.class);
                         } else {
