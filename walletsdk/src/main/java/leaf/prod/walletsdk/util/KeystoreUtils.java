@@ -46,9 +46,13 @@ public class KeystoreUtils {
     }
 
     public static String generatePrivateKey() throws InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
-        ECKeyPair ecKeyPair = Keys.createEcKeyPair();
-        BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
-        return privateKeyInDec.toString(16);
+        String privateKey;
+        do {
+            ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+            BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+            privateKey = privateKeyInDec.toString(16);
+        } while (!WalletUtils.isValidPrivateKey(privateKey));
+        return privateKey;
     }
 
     public static String createFromKeystoreJson(String keystoreJson, String password, File dest) throws InvalidKeystoreException, KeystoreCreateException, IllegalCredentialException {
@@ -66,12 +70,11 @@ public class KeystoreUtils {
         return RandomWallet.builder().address(address).privateKey(privateKey).build();
     }
 
-    public static String createFromPrivateKey(String privateKey) throws InvalidPrivateKeyException, KeystoreCreateException {
+    private static String createFromPrivateKey(String privateKey) throws InvalidPrivateKeyException {
         if (!WalletUtils.isValidPrivateKey(privateKey)) {
             throw new InvalidPrivateKeyException();
         }
         Credentials credentials = Credentials.create(privateKey);
-        EventAdvisor.notifyCreation(credentials.getAddress());
         return credentials.getAddress();
     }
 

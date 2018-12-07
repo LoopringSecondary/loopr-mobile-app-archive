@@ -160,25 +160,9 @@ public class WalletUtil {
 
     /**
      * 生成随机钱包 
-     *
-     * @param context
-     * @return
-     * @throws InvalidPrivateKeyException
-     * @throws KeystoreCreateException
-     * @throws IOException
-     * @throws JSONException
      */
-    public static RandomWallet getRandomWallet(Context context) throws InvalidPrivateKeyException, KeystoreCreateException, IOException, JSONException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
-        String mnemonic = MnemonicUtils.randomMnemonic();
-        Credentials credentials = MnemonicUtils.calculateCredentialsFromMnemonic(mnemonic, "m/44'/60'/0'/0", "");
-        String privateKeyHexString = CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair().getPrivateKey());
-        String filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, PasswordUtils.getRandomPassword(20), FileUtils
-                .getKeyStoreLocation(context));
-        String address = FileUtils.getFileFromSD(context, filename);
-        return RandomWallet.builder()
-                .address(address.startsWith("0x") ? address : "0x" + address)
-                .privateKey(privateKeyHexString)
-                .build();
+    public static RandomWallet getRandomWallet() throws InvalidPrivateKeyException, KeystoreCreateException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
+        return KeystoreUtils.createFromPrivateKey();
     }
 
 }
