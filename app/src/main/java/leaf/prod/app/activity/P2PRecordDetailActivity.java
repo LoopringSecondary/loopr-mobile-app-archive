@@ -16,6 +16,7 @@ import com.vondear.rxtool.view.RxToast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
+import leaf.prod.app.presenter.P2PRecordDetailPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
@@ -30,6 +31,7 @@ import leaf.prod.walletsdk.model.P2PSide;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SPUtils;
+
 
 public class P2PRecordDetailActivity extends BaseActivity {
 
@@ -103,6 +105,7 @@ public class P2PRecordDetailActivity extends BaseActivity {
 
     @Override
     protected void initPresenter() {
+        presenter = new P2PRecordDetailPresenter(this, this);
     }
 
     @Override
