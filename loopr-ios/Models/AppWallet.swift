@@ -159,6 +159,7 @@ class AppWallet: NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(setupWalletMethod.rawValue, forKey: "setupWalletMethod")
         aCoder.encode(password, forKey: "password")
+        aCoder.encode(devicePassword, forKey: "devicePassword")
         aCoder.encode(address, forKey: "address")
         aCoder.encode(name, forKey: "name")
         aCoder.encode(isVerified, forKey: "isVerified")

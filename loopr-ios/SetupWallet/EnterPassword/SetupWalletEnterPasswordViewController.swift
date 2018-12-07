@@ -8,11 +8,26 @@
 
 import UIKit
 
-class GenerateWalletEnterPasswordViewController: UIViewController, UITextFieldDelegate {
+class SetupWalletEnterPasswordViewController: UIViewController, UITextFieldDelegate {
 
+    var setupWalletMethod: QRCodeMethod = .create
+    
     var passwordTextField: UITextField = UITextField(frame: .zero)
     var continueButton = GradientButton(frame: .zero)
     var errorInfoLabel: UITextView = UITextView(frame: .zero)
+    
+    convenience init(setupWalletMethod: QRCodeMethod) {
+        self.init(nibName: nil, bundle: nil)
+        self.setupWalletMethod = setupWalletMethod
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,9 +107,22 @@ class GenerateWalletEnterPasswordViewController: UIViewController, UITextFieldDe
         }
 
         if validPassword {
-            GenerateWalletDataManager.shared.setPassword(passwordTextField.text!)
-            let viewController = GenerateWalletEnterRepeatPasswordViewController()
-            self.navigationController?.pushViewController(viewController, animated: true)
+            switch setupWalletMethod {
+            case .create:
+                GenerateWalletDataManager.shared.setPassword(passwordTextField.text!)
+                let viewController = SetupWalletEnterRepeatPasswordViewController(setupWalletMethod: .create)
+                self.navigationController?.pushViewController(viewController, animated: true)
+            case .importUsingMnemonic:
+                ImportWalletUsingMnemonicDataManager.shared.devicePassword = passwordTextField.text!
+                let viewController = SetupWalletEnterRepeatPasswordViewController(setupWalletMethod: .importUsingMnemonic)
+                self.navigationController?.pushViewController(viewController, animated: true)
+            case .importUsingPrivateKey:
+                ImportWalletUsingPrivateKeyDataManager.shared.devicePassword = passwordTextField.text!
+                let viewController = SetupWalletEnterRepeatPasswordViewController(setupWalletMethod: .importUsingPrivateKey)
+                self.navigationController?.pushViewController(viewController, animated: true)
+            default:
+                return
+            }
         }
     }
     
