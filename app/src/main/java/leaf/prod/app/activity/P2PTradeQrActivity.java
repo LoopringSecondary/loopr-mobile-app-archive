@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.vondear.rxfeature.tool.RxQRCode;
 
 import butterknife.BindView;
@@ -20,7 +19,6 @@ import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.OrderStatus;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.util.DateUtil;
-import leaf.prod.walletsdk.util.SPUtils;
 
 public class P2PTradeQrActivity extends BaseActivity {
 
@@ -129,22 +127,8 @@ public class P2PTradeQrActivity extends BaseActivity {
 
     private void generateQRCode() {
         OriginOrder order = p2pOrderManager.getOrder();
-        if (order != null) {
-            String address = p2pOrderManager.getOrder().getAuthAddr();
-            String params = (String) SPUtils.get(this, address, "");
-            if (!params.isEmpty() && params.contains("-")) {
-                String auth = params.split("-")[0];
-                String count = params.split("-")[1];
-                JsonObject value = new JsonObject();
-                value.addProperty(P2POrderDataManager.QRCODE_AUTH, auth);
-                value.addProperty(P2POrderDataManager.SELL_COUNT, count);
-                value.addProperty(P2POrderDataManager.QRCODE_HASH, order.getHash());
-                JsonObject content = new JsonObject();
-                content.add("value", value);
-                content.addProperty("type", P2POrderDataManager.QRCODE_TYPE);
-                RxQRCode.Builder builder = RxQRCode.builder(content.toString());
-                builder.into(ivQrCode);
-            }
-        }
+        String content = p2pOrderManager.generateQRCode(order);
+        RxQRCode.Builder builder = RxQRCode.builder(content);
+        builder.into(ivQrCode);
     }
 }
