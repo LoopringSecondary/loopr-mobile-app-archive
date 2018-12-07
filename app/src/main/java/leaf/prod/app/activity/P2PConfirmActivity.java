@@ -113,7 +113,7 @@ public class P2PConfirmActivity extends BaseActivity {
             case R.id.btn_order:
                 presenter.processTaker();
                 break;
-            case R.id.cancel:
+            case R.id.btn_cancel:
                 finish();
                 break;
         }
