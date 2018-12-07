@@ -495,4 +495,25 @@ public class P2POrderDataManager extends OrderDataManager {
             }
         }
     }
+
+    public String generateQRCode(OriginOrder order) {
+        String result = null;
+        if (order != null) {
+            String address = order.getAuthAddr();
+            String params = (String) SPUtils.get(context, address, "");
+            if (!params.isEmpty() && params.contains("-")) {
+                String auth = params.split("-")[0];
+                String count = params.split("-")[1];
+                JsonObject value = new JsonObject();
+                value.addProperty(QRCODE_AUTH, auth);
+                value.addProperty(SELL_COUNT, count);
+                value.addProperty(QRCODE_HASH, order.getHash());
+                JsonObject content = new JsonObject();
+                content.add("value", value);
+                content.addProperty("type", P2POrderDataManager.QRCODE_TYPE);
+                result = content.toString();
+            }
+        }
+        return result;
+    }
 }

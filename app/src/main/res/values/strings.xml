@@ -243,7 +243,8 @@
     <string name="trading_fee">交易费</string>
     <string name="margin_split">分润比例</string>
     <string name="time_to_live">有效时间</string>
-    <string name="trade_success">交易成功!</string>
+    <string name="trade_success">交易成功</string>
+    <string name="trade_confirmation">交易确认</string>
     <string name="view_orders">查看订单</string>
     <string name="trade_result">交易结果</string>
     <string name="market_price">市场/价格</string>
@@ -254,4 +255,5 @@
     <string name="trade_error">交易失败</string>
     <string name="no_data_p2p">您还没有场外交易记录</string>
     <string name="minimal_count_error">订单拆分份数至少为1</string>
+    <string name="detail_qr_error">该P2P订单，不在该手机产生，无法获取二维码。</string>
 </resources>
