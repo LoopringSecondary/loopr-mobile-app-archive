@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.util.StringUtils;
 
@@ -37,6 +38,8 @@ public class P2PErrorActivity extends BaseActivity {
 
     private P2POrderDataManager p2POrderDataManager;
 
+    private BalanceDataManager balanceDataManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_p2p_error);
@@ -61,6 +64,7 @@ public class P2PErrorActivity extends BaseActivity {
     @Override
     public void initData() {
         p2POrderDataManager = P2POrderDataManager.getInstance(this);
+        balanceDataManager = BalanceDataManager.getInstance(this);
         clNeedToken1.setVisibility(View.GONE);
         clNeedToken2.setVisibility(View.GONE);
         if (!StringUtils.isEmpty(getIntent().getStringExtra("error"))) {
@@ -70,11 +74,11 @@ public class P2PErrorActivity extends BaseActivity {
         if (map != null && map.size() > 0) {
             Double eth = map.get("MINUS_ETH"), lrc = map.get("MINUS_LRC");
             if (eth != null && eth != 0d) {
-                tvTokenAmount1.setText(eth + " ETH");
+                tvTokenAmount1.setText(balanceDataManager.getFormattedBySymbol("ETH", eth) + " ETH");
                 clNeedToken1.setVisibility(View.VISIBLE);
             }
             if (lrc != null && lrc != 0d) {
-                tvTokenAmount2.setText(lrc + " LRC");
+                tvTokenAmount2.setText(balanceDataManager.getFormattedBySymbol("LRC", lrc) + " LRC");
                 clNeedToken2.setVisibility(View.VISIBLE);
             }
         }
