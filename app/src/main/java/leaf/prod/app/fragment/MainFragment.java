@@ -33,10 +33,10 @@ import leaf.prod.app.R;
 import leaf.prod.app.activity.ActivityScanerCode;
 import leaf.prod.app.activity.AuthorityWebActivity;
 import leaf.prod.app.activity.CoverActivity;
-import leaf.prod.app.activity.H5DexWebActivity;
 import leaf.prod.app.activity.ImportWalletActivity;
 import leaf.prod.app.activity.MainActivity;
 import leaf.prod.app.activity.ManageWalletActivity;
+import leaf.prod.app.activity.P2PActivity;
 import leaf.prod.app.activity.P2PConfirmActivity;
 import leaf.prod.app.activity.ReceiveActivity;
 import leaf.prod.app.activity.SendActivity;
@@ -46,7 +46,6 @@ import leaf.prod.app.adapter.MainWalletAdapter;
 import leaf.prod.app.layout.ChildClickableFrameLayout;
 import leaf.prod.app.presenter.MainFragmentPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.QRCodeUitl;
 import leaf.prod.walletsdk.model.QRCodeType;
 
@@ -258,8 +257,7 @@ public class MainFragment extends BaseFragment {
                 }
                 break;
             case R.id.ll_trade://trade 按钮
-                getOperation().addParameter("url", "http://embeddex.upwallet.io/#/auth/tpwallet?to=/face2face");
-                getOperation().forward(H5DexWebActivity.class);
+                getOperation().forward(P2PActivity.class);
                 break;
             case R.id.right_btn:  //右上角添加按钮
                 if (llMenu.getVisibility() == View.GONE) {
@@ -302,7 +300,6 @@ public class MainFragment extends BaseFragment {
                     return;
                 }
                 String result = bundle.getString("result");
-                LyqbLogger.log(result);
                 switch (Objects.requireNonNull(QRCodeUitl.getQRCodeType(result))) {
                     case KEY_STORE:
                         getOperation().addParameter("result", result);
