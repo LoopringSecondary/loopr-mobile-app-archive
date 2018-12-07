@@ -298,12 +298,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 .getText().toString()) / Double.parseDouble(view.sellAmount.getText()
                 .toString()), BalanceDataManager.getPrecision(p2pOrderManager.getTokenS())) + " " + p2pOrderManager.getTokenS() + "/" + p2pOrderManager
                 .getTokenB());
-        int lrcFeeRatio = (int) SPUtils.get(context, "ratio", 2);
-        double lrcFee = marketcapDataManager.getPriceBySymbol(p2pOrderManager.getTokenS()) * Double.parseDouble(view.sellAmount
-                .getText().toString()) * lrcFeeRatio / 1000;
-        String lrcFeePrice = CurrencyUtil.format(context, lrcFee);
-        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_trading_fee)).setText(NumberUtils.format1(lrcFee, BalanceDataManager
-                .getPrecision("LRC")) + " LRC ≈ " + lrcFeePrice);
+        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_trading_fee)).setText("0 LRC ≈ " + CurrencyUtil.format(context, 0));
         validSince = new Date();
         int time = (int) SPUtils.get(context, "time_to_live", 1);
         validUntil = DateUtil.addDateTime(validSince, time);
@@ -362,7 +357,6 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     }
 
     public void processMaker(String password) {
-        view.showProgress(view.getResources().getString(R.string.loading_default_messsage));
         Double amountBuy = Double.parseDouble(view.buyAmount.getText().toString());
         Double amountSell = Double.parseDouble(view.sellAmount.getText().toString());
         Integer validS = (int) (validSince.getTime() / 1000);
@@ -372,28 +366,31 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         try {
             p2pOrderManager.verify(password);
         } catch (Exception e) {
+            PasswordDialogUtil.clearPassword();
             RxToast.error(context.getResources().getString(R.string.keystore_psw_error));
             e.printStackTrace();
             return;
         }
+        view.showProgress(view.getResources().getString(R.string.loading_default_messsage));
         if (!p2pOrderManager.isBalanceEnough()) {
             Objects.requireNonNull(view.getActivity()).finish();
             PasswordDialogUtil.dismiss(context);
             view.getOperation().forward(P2PErrorActivity.class);
+        } else {
+            p2pOrderManager.handleInfo()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(response -> {
+                        PasswordDialogUtil.dismiss(context);
+                        destroyDialog();
+                        if (response.getError() == null) {
+                            view.getOperation().forward(P2PTradeQrActivity.class);
+                        } else {
+                            view.getOperation().addParameter("error", response.getError().getMessage());
+                            view.getOperation().forward(P2PErrorActivity.class);
+                        }
+                        view.hideProgress();
+                    });
         }
-        p2pOrderManager.handleInfo()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    PasswordDialogUtil.dismiss(context);
-                    destroyDialog();
-                    if (response.getError() == null) {
-                        view.getOperation().forward(P2PTradeQrActivity.class);
-                    } else {
-                        view.getOperation().addParameter("error", response.getError().getMessage());
-                        view.getOperation().forward(P2PErrorActivity.class);
-                    }
-                    view.hideProgress();
-                });
     }
 }

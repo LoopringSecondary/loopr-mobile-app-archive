@@ -50,8 +50,13 @@ public class PasswordDialogUtil {
         return passwordInput != null ? passwordInput.getText().toString() : "";
     }
 
+    public static void clearPassword() {
+        passwordInput.setText("");
+    }
+
     public static void dismiss(Context context) {
         if (map.get(context) != null) {
+            passwordInput = null;
             map.get(context).dismiss();
             map.remove(context);
         }

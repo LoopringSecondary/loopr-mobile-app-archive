@@ -89,6 +89,7 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
         try {
             p2pOrderManager.verify(password);
         } catch (Exception e) {
+            PasswordDialogUtil.clearPassword();
             RxToast.error(view.getResources().getString(R.string.keystore_psw_error));
             e.printStackTrace();
             return;
@@ -97,17 +98,18 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
             view.finish();
             PasswordDialogUtil.dismiss(context);
             view.getOperation().forward(P2PErrorActivity.class);
+        } else {
+            p2pOrderManager.handleInfo()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(response -> {
+                        if (response.getError() == null) {
+                            view.getOperation().forward(P2PSuccessActivity.class);
+                        } else {
+                            String message = p2pOrderManager.getLocaleError(response.getError().getMessage());
+                            RxToast.error(message, 5);
+                        }
+                    });
         }
-        p2pOrderManager.handleInfo()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    if (response.getError() == null) {
-                        view.getOperation().forward(P2PSuccessActivity.class);
-                    } else {
-                        String message = p2pOrderManager.getLocaleError(response.getError().getMessage());
-                        RxToast.error(message);
-                    }
-                });
     }
 }
