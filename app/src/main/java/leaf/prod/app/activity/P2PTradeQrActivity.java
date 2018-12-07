@@ -2,6 +2,7 @@ package leaf.prod.app.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.P2PTradeQrPresenter;
+import leaf.prod.app.utils.ShareUtil;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
@@ -19,6 +21,7 @@ import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.OrderStatus;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.util.DateUtil;
+import leaf.prod.walletsdk.util.NumberUtils;
 
 public class P2PTradeQrActivity extends BaseActivity {
 
@@ -58,6 +61,33 @@ public class P2PTradeQrActivity extends BaseActivity {
     @BindView(R.id.tv_live_time)
     public TextView tvLiveTime;
 
+    @BindView(R.id.ll_share_view)
+    public ConstraintLayout shareView;
+
+    @BindView(R.id.qrcode_image)
+    public ImageView qrCodeImage;
+
+    @BindView(R.id.sell_info)
+    public TextView sellInfo;
+
+    @BindView(R.id.buy_info)
+    public TextView buyInfo;
+
+    @BindView(R.id.valid_until)
+    public TextView tvValidUntil;
+
+    @BindView(R.id.price_A_buy)
+    public TextView priceABuy;
+
+    @BindView(R.id.price_A_sell)
+    public TextView priceASell;
+
+    @BindView(R.id.price_B_buy)
+    public TextView priceBBuy;
+
+    @BindView(R.id.price_B_sell)
+    public TextView priceBSell;
+
     private P2PTradeQrPresenter presenter;
 
     private TokenDataManager tokenManager;
@@ -89,6 +119,8 @@ public class P2PTradeQrActivity extends BaseActivity {
         title.setBTitle(getResources().getString(R.string.order_detail));
         title.clickLeftGoBack(getWContext());
         title.setRightImageButton(R.mipmap.icon_share, button -> {
+//            uShare();
+            ShareUtil.uShare(this, getString(R.string.share_order), ShareUtil.getBitmap(shareView));
         });
     }
 
@@ -105,7 +137,6 @@ public class P2PTradeQrActivity extends BaseActivity {
             String currencyS = marketManager.getCurrencyBySymbol(order.getTokenS(), order.getAmountSell());
             String validSince = DateUtil.formatDateTime(order.getValidS() * 1000, "MM-dd HH:mm");
             String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000, "MM-dd HH:mm");
-
             ivTokenB.setImageDrawable(getResources().getDrawable(resourceB));
             ivTokenS.setImageDrawable(getResources().getDrawable(resourceS));
             tvBuyToken.setText(getString(R.string.buy) + " " + order.getTokenB());
@@ -116,8 +147,15 @@ public class P2PTradeQrActivity extends BaseActivity {
             tvSellPrice.setText(currencyS);
             tvStatus.setText(OrderStatus.OPENED.getDescription(this));
             tvLiveTime.setText(validSince + " ~ " + validUntil);
-
             generateQRCode();
+            // 分享界面
+            sellInfo.setText(amountS + " " + order.getTokenS());
+            buyInfo.setText(amountB + " " + order.getTokenB());
+            tvValidUntil.setText(validUntil);
+            priceABuy.setText("1 " + order.getTokenB());
+            priceASell.setText(NumberUtils.format1(order.getAmountSell() / order.getAmountBuy(), 4) + " " + order.getTokenS());
+            priceBSell.setText("1 " + order.getTokenS());
+            priceBBuy.setText(NumberUtils.format1(order.getAmountBuy() / order.getAmountSell(), 4) + " " + order.getTokenB());
         }
     }
 
@@ -130,5 +168,6 @@ public class P2PTradeQrActivity extends BaseActivity {
         String content = p2pOrderManager.generateQRCode(order);
         RxQRCode.Builder builder = RxQRCode.builder(content);
         builder.into(ivQrCode);
+        builder.into(qrCodeImage);
     }
 }

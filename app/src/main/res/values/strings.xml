@@ -257,4 +257,6 @@
     <string name="minimal_count_error">订单拆分份数至少为1</string>
     <string name="detail_qr_error">该P2P订单不在该手机产生，无法获取二维码。</string>
     <string name="qr_error_tip">请扫描P2P订单类型的二维码</string>
+    <string name="share_order">分享订单</string>
+    <string name="save_to_album">保存到相册</string>
 </resources>
