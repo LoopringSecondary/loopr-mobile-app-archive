@@ -19,6 +19,7 @@ import com.vondear.rxtool.view.RxToast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
+import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
@@ -111,13 +112,15 @@ public class P2PRecordDetailActivity extends BaseActivity {
         if (order.getOriginOrder().getOrderType() == OrderType.P2P && order.getOriginOrder().getP2pSide() == P2PSide.MAKER
                 && (order.getOrderStatus() == OrderStatus.OPENED || order.getOrderStatus() == OrderStatus.WAITED)) {
             title.setRightImageButton(R.mipmap.icon_title_qrcode, button -> {
-                String walletAddress = order.getOriginOrder().getWalletAddress();
-                String p2pContent = (String) SPUtils.get(this, walletAddress, "");
-                if (p2pContent.isEmpty()) {
-                    RxToast.error(getString(R.string.detail_qr_error));
-                } else {
-                    // TODO: yanyan
-                    String qrCode = p2pOrderManager.generateQRCode(order.getOriginOrder());
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) {
+                    String authAddr = order.getOriginOrder().getAuthAddr().toLowerCase();
+                    String p2pContent = (String) SPUtils.get(getApplicationContext(), authAddr, "");
+                    if (!p2pContent.isEmpty() && p2pContent.contains("-")) {
+                        // TODO: yanyan
+                        String qrCode = p2pOrderManager.generateQRCode(order.getOriginOrder());
+                    } else {
+                        RxToast.error(getString(R.string.detail_qr_error));
+                    }
                 }
             });
         }

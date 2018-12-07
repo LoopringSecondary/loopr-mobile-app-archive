@@ -1,3 +1,9 @@
+/**
+ * Created with IntelliJ IDEA.
+ * User: laiyanyan
+ * Time: 2018-11-29 2:23 PM
+ * Cooperation: loopring.org 路印协议基金会
+ */
 package leaf.prod.app.activity;
 
 import android.content.Intent;
@@ -5,19 +11,16 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.view.WindowManager;
 
+import com.vondear.rxtool.view.RxToast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.P2PPresenter;
+import leaf.prod.app.utils.QRCodeUitl;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.QRCodeType;
 
-/**
- * Created with IntelliJ IDEA.
- * User: laiyanyan
- * Time: 2018-11-29 2:23 PM
- * Cooperation: loopring.org 路印协议基金会
- */
 public class P2PActivity extends BaseActivity {
 
     @BindView(R.id.title)
@@ -83,19 +86,19 @@ public class P2PActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /**
-         * 处理二维码扫描结果
-         */
         if (requestCode == REQUEST_CODE) {
-            //处理扫描结果（在界面上显示）
             if (null != data) {
                 Bundle bundle = data.getExtras();
                 if (bundle == null) {
                     return;
                 }
                 String result = bundle.getString("result");
-                getOperation().addParameter("p2p_order", result);
-                getOperation().forward(P2PConfirmActivity.class);
+                if (QRCodeUitl.getQRCodeType(result) == QRCodeType.P2P_ORDER) {
+                    getOperation().addParameter("p2p_order", result);
+                    getOperation().forward(P2PConfirmActivity.class);
+                } else {
+                    RxToast.error(getString(R.string.qr_error_tip));
+                }
             }
         }
     }

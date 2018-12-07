@@ -256,4 +256,5 @@
     <string name="no_data_p2p">You do not have p2p trading record yet</string>
     <string name="minimal_count_error">Minimal count should be at least one</string>
     <string name="detail_qr_error">The P2P order is not created in this iPhone. You can\'t share the QR code.</string>
+    <string name="qr_error_tip">Please make sure the QR code is type of P2P order.</string>
 </resources>

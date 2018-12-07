@@ -228,7 +228,7 @@ public class P2POrderDataManager extends OrderDataManager {
         this.isTaker = false;
         this.orders = new OriginOrder[]{order};
         String value = String.format("%s-%s", order.getAuthPrivateKey(), sellCount);
-        SPUtils.put(context, order.getAuthAddr(), value);
+        SPUtils.put(context.getApplicationContext(), order.getAuthAddr().toLowerCase(), value);
         order.setAuthPrivateKey("");
     }
 
@@ -499,8 +499,8 @@ public class P2POrderDataManager extends OrderDataManager {
     public String generateQRCode(OriginOrder order) {
         String result = null;
         if (order != null) {
-            String address = order.getAuthAddr();
-            String params = (String) SPUtils.get(context, address, "");
+            String address = order.getAuthAddr().toLowerCase();
+            String params = (String) SPUtils.get(context.getApplicationContext(), address, "");
             if (!params.isEmpty() && params.contains("-")) {
                 String auth = params.split("-")[0];
                 String count = params.split("-")[1];

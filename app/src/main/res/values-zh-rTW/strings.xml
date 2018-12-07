@@ -257,4 +257,5 @@
     <string name="no_data_p2p">您還沒有場外交易記錄</string>
     <string name="mimimal_count_error">訂單拆分份數至少為1</string>
     <string name="detail_qr_error">P2P訂單不在這手機產生。無法獲取二維碼。</string>
+    <string name="qr_error_tip">請掃描P2P訂單類型的二維碼</string>
 </resources>
