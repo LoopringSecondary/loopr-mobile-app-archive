@@ -343,8 +343,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 break;
             case 3:
                 view.tvSellHint.setText(CurrencyUtil.format(context, marketcapDataManager.getPriceBySymbol(p2pOrderManager
-                        .getTokenS()) *
-                        Double.parseDouble(view.sellAmount.getText().toString())));
+                        .getTokenS()) * Double.parseDouble(view.sellAmount.getText().toString())));
                 view.tvSellHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
                 break;
             case 4:
@@ -354,8 +353,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 break;
             case 5:
                 view.tvBuyHint.setText(CurrencyUtil.format(context, marketcapDataManager.getPriceBySymbol(p2pOrderManager
-                        .getTokenB()) *
-                        Double.parseDouble(view.buyAmount.getText().toString())));
+                        .getTokenB()) * Double.parseDouble(view.buyAmount.getText().toString())));
                 view.tvBuyHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
                 break;
         }
@@ -381,7 +379,6 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             return;
         }
         if (!p2pOrderManager.isBalanceEnough()) {
-            // p2pOrderManager.balanceInfo e.g. {"MINUS_ETH": 0.3974, "MINUS_LRC": 10.3974}
             Objects.requireNonNull(view.getActivity()).finish();
             PasswordDialogUtil.dismiss(context);
             view.getOperation().forward(P2PErrorActivity.class);
