@@ -13,8 +13,8 @@ import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.P2PConfirmActivity;
+import leaf.prod.app.activity.P2PErrorActivity;
 import leaf.prod.app.activity.P2PSuccessActivity;
-import leaf.prod.app.activity.P2PTradeQrActivity;
 import leaf.prod.app.utils.PasswordDialogUtil;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
@@ -63,7 +63,6 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
             String priceStr = NumberUtils.format1(price, 6) + " " + taker.getTokenS() + " / " + taker.getTokenB();
             String lrcFee = balanceManager.getFormattedBySymbol("LRC", taker.getLrc());
             String lrcCurrency = marketManager.getCurrencyBySymbol("LRC", taker.getLrc());
-
             view.ivTokenB.setImageDrawable(context.getResources().getDrawable(resourceB));
             view.ivTokenS.setImageDrawable(context.getResources().getDrawable(resourceS));
             view.tvBuyToken.setText(context.getString(R.string.buy) + " " + taker.getTokenB());
@@ -90,24 +89,21 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
         try {
             p2pOrderManager.verify(password);
         } catch (Exception e) {
-            // TODO: for yanyan: MUST handle exception of incorrect password
             RxToast.error(view.getResources().getString(R.string.keystore_psw_error));
             e.printStackTrace();
+            return;
         }
         if (!p2pOrderManager.isBalanceEnough()) {
-            // TODO: for yanyan: balance not enough
-            // p2pOrderManager.balanceInfo e.g. {"MINUS_ETH": 0.3974, "MINUS_LRC": 10.3974}
+            view.finish();
+            PasswordDialogUtil.dismiss(context);
+            view.getOperation().forward(P2PErrorActivity.class);
         }
         p2pOrderManager.handleInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if (response.getError() == null) {
-                        if (p2pOrderManager.isTaker) {
-                            view.getOperation().forward(P2PTradeQrActivity.class);
-                        } else {
-                            view.getOperation().forward(P2PSuccessActivity.class);
-                        }
+                        view.getOperation().forward(P2PSuccessActivity.class);
                     } else {
                         String message = p2pOrderManager.getLocaleError(response.getError().getMessage());
                         RxToast.error(message);

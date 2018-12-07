@@ -84,7 +84,6 @@ public class P2PConfirmActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.trade_confirmation));
         title.clickLeftGoBack(getWContext());
-
     }
 
     /**
@@ -115,6 +114,7 @@ public class P2PConfirmActivity extends BaseActivity {
                 presenter.processTaker();
                 break;
             case R.id.cancel:
+                finish();
                 break;
         }
     }

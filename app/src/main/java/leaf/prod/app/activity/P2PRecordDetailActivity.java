@@ -161,7 +161,7 @@ public class P2PRecordDetailActivity extends BaseActivity {
         ivTokenB.setImageDrawable(getResources().getDrawable(resourceB));
         ivTokenS.setImageDrawable(getResources().getDrawable(resourceS));
         tvTokenB.setText(getString(R.string.buy) + " " + order.getTokenB());
-        tvAmountS.setText(getString(R.string.sell) + " " + order.getTokenS());
+        tvTokenS.setText(getString(R.string.sell) + " " + order.getTokenS());
         tvAmountB.setText(amountB);
         tvAmountS.setText(amountS);
         tvPriceB.setText(currencyB);
