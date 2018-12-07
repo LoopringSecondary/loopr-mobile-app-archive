@@ -197,7 +197,7 @@ public class P2POrderDataManager extends OrderDataManager {
         // construct order
         OriginOrder order = null;
         try {
-            RandomWallet randomWallet = WalletUtil.getRandomWallet(context);
+            RandomWallet randomWallet = WalletUtil.getRandomWallet();
             order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
                     .owner(WalletUtil.getCurrentAddress(context)).market(tradePair)
                     .tokenS(tokenS).tokenSell(tokenSell).tokenB(tokenB).tokenBuy(tokenBuy)
