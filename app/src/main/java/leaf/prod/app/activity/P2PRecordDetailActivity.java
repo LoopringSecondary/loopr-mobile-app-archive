@@ -1,3 +1,9 @@
+/**
+ * Created with IntelliJ IDEA.
+ * User: laiyanyan
+ * Time: 2018-11-29 2:23 PM
+ * Cooperation: loopring.org 路印协议基金会
+ */
 package leaf.prod.app.activity;
 
 import java.text.SimpleDateFormat;
@@ -19,18 +25,14 @@ import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.OrderStatus;
+import leaf.prod.walletsdk.model.OrderType;
+import leaf.prod.walletsdk.model.P2PSide;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SPUtils;
 
-/**
- * Created with IntelliJ IDEA.
- * User: laiyanyan
- * Time: 2018-11-29 2:23 PM
- * Cooperation: loopring.org 路印协议基金会
- */
 public class P2PRecordDetailActivity extends BaseActivity {
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
@@ -105,17 +107,20 @@ public class P2PRecordDetailActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.order_detail));
         title.clickLeftGoBack(getWContext());
-        title.setRightImageButton(R.mipmap.icon_title_qrcode, button -> {
-            order = (Order) getIntent().getSerializableExtra("order");
-            String walletAddress = order.getOriginOrder().getWalletAddress();
-            String p2pContent = (String) SPUtils.get(this, walletAddress, "");
-            if (p2pContent.isEmpty()) {
-                RxToast.error(getString(R.string.detail_qr_error));
-            } else {
-                // TODO: yanyan
-                String qrCode = p2pOrderManager.generateQRCode(order.getOriginOrder());
-            }
-        });
+        order = (Order) getIntent().getSerializableExtra("order");
+        if (order.getOriginOrder().getOrderType() == OrderType.P2P && order.getOriginOrder().getP2pSide() == P2PSide.MAKER
+                && (order.getOrderStatus() == OrderStatus.OPENED || order.getOrderStatus() == OrderStatus.WAITED)) {
+            title.setRightImageButton(R.mipmap.icon_title_qrcode, button -> {
+                String walletAddress = order.getOriginOrder().getWalletAddress();
+                String p2pContent = (String) SPUtils.get(this, walletAddress, "");
+                if (p2pContent.isEmpty()) {
+                    RxToast.error(getString(R.string.detail_qr_error));
+                } else {
+                    // TODO: yanyan
+                    String qrCode = p2pOrderManager.generateQRCode(order.getOriginOrder());
+                }
+            });
+        }
     }
 
     @Override

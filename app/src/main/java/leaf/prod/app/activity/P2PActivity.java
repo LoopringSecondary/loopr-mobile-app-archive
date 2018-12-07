@@ -1,5 +1,6 @@
 package leaf.prod.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.view.WindowManager;
@@ -9,6 +10,7 @@ import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.P2PPresenter;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.model.QRCodeType;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,6 +27,8 @@ public class P2PActivity extends BaseActivity {
     TabLayout p2pTab;
 
     private P2PPresenter presenter;
+
+    private static int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,11 @@ public class P2PActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.p2p_title));
         title.clickLeftGoBack(getWContext());
+        title.setRightImageButton(R.mipmap.icon_scan, button -> {
+            Intent intent = new Intent(P2PActivity.this, ActivityScanerCode.class);
+            intent.putExtra("restrict", QRCodeType.P2P_ORDER.name());
+            startActivityForResult(intent, REQUEST_CODE);
+        });
     }
 
     @Override
@@ -69,5 +78,25 @@ public class P2PActivity extends BaseActivity {
 
     @Override
     public void initData() {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /**
+         * 处理二维码扫描结果
+         */
+        if (requestCode == REQUEST_CODE) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                String result = bundle.getString("result");
+                getOperation().addParameter("p2p_order", result);
+                getOperation().forward(P2PConfirmActivity.class);
+            }
+        }
     }
 }

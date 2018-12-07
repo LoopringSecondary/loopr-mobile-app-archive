@@ -82,7 +82,7 @@ public class P2PConfirmActivity extends BaseActivity {
      */
     @Override
     public void initTitle() {
-        title.setBTitle(getResources().getString(R.string.trade));
+        title.setBTitle(getResources().getString(R.string.trade_confirmation));
         title.clickLeftGoBack(getWContext());
 
     }
