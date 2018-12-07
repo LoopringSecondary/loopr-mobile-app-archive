@@ -96,7 +96,6 @@ public class P2PRecordsFragment extends BaseFragment {
                 refreshOrders(currentPageIndex + 1);
             }
         }, recyclerView);
-        refreshOrders(1);
         recordAdapter.setOnItemClickListener((adapter, view, position) -> {
             getOperation().addParameter("order", orderList.get(position));
             getOperation().forward(P2PRecordDetailActivity.class);
@@ -112,6 +111,7 @@ public class P2PRecordsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        refreshOrders(1);
     }
 
     @Override
