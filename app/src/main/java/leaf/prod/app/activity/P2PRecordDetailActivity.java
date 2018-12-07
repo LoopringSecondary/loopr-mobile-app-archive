@@ -6,9 +6,6 @@
  */
 package leaf.prod.app.activity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -22,21 +19,19 @@ import leaf.prod.app.R;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
+import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.OrderStatus;
 import leaf.prod.walletsdk.model.OrderType;
+import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.P2PSide;
-import leaf.prod.walletsdk.model.response.relay.BalanceResult;
-import leaf.prod.walletsdk.model.response.relay.Token;
-import leaf.prod.walletsdk.util.CurrencyUtil;
+import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SPUtils;
 
 public class P2PRecordDetailActivity extends BaseActivity {
-
-    private static SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
 
     @BindView(R.id.title)
     TitleView title;
@@ -91,11 +86,17 @@ public class P2PRecordDetailActivity extends BaseActivity {
 
     private P2POrderDataManager p2pOrderManager;
 
+    private MarketcapDataManager marketDataManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_p2p_record_detail);
         ButterKnife.bind(this);
+        tokenDataManager = TokenDataManager.getInstance(this);
+        balanceDataManager = BalanceDataManager.getInstance(this);
+        p2pOrderManager = P2POrderDataManager.getInstance(this);
+        marketDataManager = MarketcapDataManager.getInstance(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
     }
@@ -133,64 +134,69 @@ public class P2PRecordDetailActivity extends BaseActivity {
     @Override
     public void initData() {
         if (order != null) {
-            tokenDataManager = TokenDataManager.getInstance(this);
-            balanceDataManager = BalanceDataManager.getInstance(this);
-            p2pOrderManager = P2POrderDataManager.getInstance(this);
-            Token tokens = tokenDataManager.getTokenBySymbol(p2pOrderManager.getTokenS());
-            Token tokenb = tokenDataManager.getTokenBySymbol(p2pOrderManager.getTokenB());
-            BalanceResult.Asset assets = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenS());
-            BalanceResult.Asset assetb = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenB());
-            if (tokens != null) {
-                ivTokenS.setImageDrawable(getResources().getDrawable(tokens.getImageResId()));
-                tvTokenS.setText(getResources().getString(R.string.sell) + " " + tokens.getSymbol());
-                tvAmountS.setText(NumberUtils.format1(order.getOriginOrder()
-                        .getAmountSell(), BalanceDataManager.getPrecision(order.getOriginOrder().getTokenS())));
-                if (assets != null) {
-                    tvPriceS.setText(CurrencyUtil.format(this, assets.getLegalValue() * order.getOriginOrder()
-                            .getAmountSell()));
-                }
+            setOrderStatus();
+            OriginOrder originOrder = order.getOriginOrder();
+            if (originOrder != null) {
+                setOverview(originOrder);
             }
-            if (tokenb != null) {
-                ivTokenB.setImageDrawable(getResources().getDrawable(tokenb.getImageResId()));
-                tvTokenB.setText(getResources().getString(R.string.buy) + " " + tokenb.getSymbol());
-                tvAmountB.setText(NumberUtils.format1(order.getOriginOrder()
-                        .getAmountBuy(), BalanceDataManager.getPrecision(order.getOriginOrder().getTokenB())));
-                if (assetb != null) {
-                    tvPriceB.setText(CurrencyUtil.format(this, assetb.getLegalValue() * order.getOriginOrder()
-                            .getAmountBuy()));
-                }
-            }
-            switch (order.getOrderStatus()) {
-                case OPENED:
-                    tvStatus.setText(OrderStatus.OPENED.getDescription(this));
-                    break;
-                case WAITED:
-                    tvStatus.setText(OrderStatus.WAITED.getDescription(this));
-                    break;
-                case FINISHED:
-                    tvStatus.setText(OrderStatus.FINISHED.getDescription(this));
-                    break;
-                case CUTOFF:
-                    tvStatus.setText(OrderStatus.CUTOFF.getDescription(this));
-                    break;
-                case CANCELLED:
-                    tvStatus.setText(OrderStatus.CANCELLED.getDescription(this));
-                    break;
-                case EXPIRED:
-                    tvStatus.setText(OrderStatus.EXPIRED.getDescription(this));
-                    break;
-                case LOCKED:
-                    tvStatus.setText(getResources().getString(R.string.order_locked));
-                    break;
-            }
-            tvPrice.setText(order.getPrice() + " " + p2pOrderManager.getTokenS() + "/" + p2pOrderManager.getTokenB());
-            tvTradingFee.setText(order.getOriginOrder().getLrc() + " LRC");
-            tvFilled.setText(NumberUtils.format1(order.getDealtAmountSell() / order.getOriginOrder()
-                    .getAmountSell(), 2) + "%");
-            tvId.setText(order.getOriginOrder().getHash());
-            tvLiveTime.setText(sdf.format(new Date(new Long(order.getOriginOrder()
-                    .getValidS()).longValue() * 1000)) + " ~ "
-                    + sdf.format(new Date(new Long(order.getOriginOrder().getValidU()).longValue() * 1000)));
         }
     }
+
+    private void setOverview(OriginOrder order) {
+        int resourceB = tokenDataManager.getTokenBySymbol(order.getTokenB()).getImageResId();
+        int resourceS = tokenDataManager.getTokenBySymbol(order.getTokenS()).getImageResId();
+        String amountB = balanceDataManager.getFormattedBySymbol(order.getTokenB(), order.getAmountBuy());
+        String amountS = balanceDataManager.getFormattedBySymbol(order.getTokenS(), order.getAmountSell());
+        String currencyB = marketDataManager.getCurrencyBySymbol(order.getTokenB(), order.getAmountBuy());
+        String currencyS = marketDataManager.getCurrencyBySymbol(order.getTokenS(), order.getAmountSell());
+        Double price = order.getAmountSell() / order.getAmountBuy();
+        String priceStr = NumberUtils.format1(price, 6) + " " + order.getTokenS() + " / " + order.getTokenB();
+        String lrcFee = balanceDataManager.getFormattedBySymbol("LRC", order.getLrc());
+        String lrcCurrency = marketDataManager.getCurrencyBySymbol("LRC", order.getLrc());
+        Double ratio = this.order.getDealtAmountSell() / order.getAmountSell();
+        String ratioStr = NumberUtils.format1(ratio, 6) + "%";
+        String validSince = DateUtil.formatDateTime(order.getValidS() * 1000, "MM-dd HH:mm");
+        String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000, "MM-dd HH:mm");
+
+        ivTokenB.setImageDrawable(getResources().getDrawable(resourceB));
+        ivTokenS.setImageDrawable(getResources().getDrawable(resourceS));
+        tvTokenB.setText(getString(R.string.buy) + " " + order.getTokenB());
+        tvAmountS.setText(getString(R.string.sell) + " " + order.getTokenS());
+        tvAmountB.setText(amountB);
+        tvAmountS.setText(amountS);
+        tvPriceB.setText(currencyB);
+        tvPriceS.setText(currencyS);
+        tvPrice.setText(priceStr);
+        tvTradingFee.setText(lrcFee + " LRC ≈ " + lrcCurrency);
+        tvFilled.setText(ratioStr);
+        tvId.setText(order.getHash());
+        tvLiveTime.setText(validSince + " ~ " + validUntil);
+    }
+
+    private void setOrderStatus() {
+        switch (order.getOrderStatus()) {
+            case OPENED:
+                tvStatus.setText(OrderStatus.OPENED.getDescription(this));
+                break;
+            case WAITED:
+                tvStatus.setText(OrderStatus.WAITED.getDescription(this));
+                break;
+            case FINISHED:
+                tvStatus.setText(OrderStatus.FINISHED.getDescription(this));
+                break;
+            case CUTOFF:
+                tvStatus.setText(OrderStatus.CUTOFF.getDescription(this));
+                break;
+            case CANCELLED:
+                tvStatus.setText(OrderStatus.CANCELLED.getDescription(this));
+                break;
+            case EXPIRED:
+                tvStatus.setText(OrderStatus.EXPIRED.getDescription(this));
+                break;
+            case LOCKED:
+                tvStatus.setText(OrderStatus.LOCKED.getDescription(this));
+                break;
+        }
+    }
+
 }

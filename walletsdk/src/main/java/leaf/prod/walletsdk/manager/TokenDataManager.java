@@ -92,6 +92,21 @@ public class TokenDataManager {
         return this.tokens;
     }
 
+    public List<Token> getERC20Tokens() {
+        return getTokensExcept("ETH");
+    }
+
+    public List<Token> getTokensExcept(String symbol) {
+        List<Token> result = tokens;
+        for (Token token : result) {
+            if (token.getSymbol().equalsIgnoreCase(symbol)) {
+                result.remove(token);
+                break;
+            }
+        }
+        return result;
+    }
+
     public List<Token> getWhiteList() {
         return this.whiteList;
     }

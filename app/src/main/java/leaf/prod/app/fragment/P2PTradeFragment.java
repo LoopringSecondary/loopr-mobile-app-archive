@@ -26,6 +26,7 @@ import leaf.prod.app.R;
 import leaf.prod.app.activity.P2PTokenListActivity;
 import leaf.prod.app.presenter.P2PTradePresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
+import leaf.prod.walletsdk.model.TradeType;
 
 public class P2PTradeFragment extends BaseFragment {
 
@@ -211,11 +212,13 @@ public class P2PTradeFragment extends BaseFragment {
             case R.id.ll_sell_token:
                 Intent intent1 = new Intent(getContext(), P2PTokenListActivity.class);
                 intent1.putExtra("ignoreSymbol", tvBuyTokenSymbol2.getText());
+                intent1.putExtra("tokenType", TradeType.sell.name());
                 startActivityForResult(intent1, 0);
                 break;
             case R.id.ll_buy_token:
                 Intent intent2 = new Intent(getContext(), P2PTokenListActivity.class);
                 intent2.putExtra("ignoreSymbol", tvSellTokenSymbol2.getText());
+                intent2.putExtra("tokenType", TradeType.buy.name());
                 startActivityForResult(intent2, 1);
                 break;
             case R.id.market_price:
@@ -270,13 +273,6 @@ public class P2PTradeFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data == null)
-            return;
-        Bundle bundle = data.getExtras();
-        if (bundle != null) {
-            String result = bundle.getString("symbol");
-            presenter.initTokens(requestCode == 0 ? result : "", requestCode == 1 ? result : "");
-        }
+        presenter.initTokens();
     }
 }

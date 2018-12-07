@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,8 +22,10 @@ import leaf.prod.app.R;
 import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.TokenChooseAdapter;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.NoDataType;
+import leaf.prod.walletsdk.model.TradeType;
 import leaf.prod.walletsdk.model.response.relay.Token;
 
 public class P2PTokenListActivity extends BaseActivity {
@@ -52,10 +53,15 @@ public class P2PTokenListActivity extends BaseActivity {
 
     private List<Token> listSearch = new ArrayList<>();
 
+    private P2POrderDataManager p2pOrderManager;
+
+    private TradeType type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_p2p_token_list);
         ButterKnife.bind(this);
+        p2pOrderManager = P2POrderDataManager.getInstance(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -84,9 +90,11 @@ public class P2PTokenListActivity extends BaseActivity {
                 mAdapter.setNewData(listSearch);
                 mAdapter.setOnItemClickListener((adapter, view, position) -> {
                     String symbol = listSearch.get(position).getSymbol();
-                    Intent intent = new Intent();
-                    intent.putExtra("symbol", symbol);
-                    setResult(1, intent);
+                    if (type == TradeType.buy) {
+                        p2pOrderManager.changeToTokenB(symbol);
+                    } else if (type == TradeType.sell) {
+                        p2pOrderManager.changeToTokenS(symbol);
+                    }
                     finish();
                 });
             }
@@ -105,8 +113,9 @@ public class P2PTokenListActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        list.addAll(TokenDataManager.getInstance(this).getTokens());
+        list.addAll(TokenDataManager.getInstance(this).getERC20Tokens());
         String ignoreSymbol = getIntent().getStringExtra("ignoreSymbol");
+        type = TradeType.valueOf(getIntent().getStringExtra("tokenType"));
         for (Token token : list) {
             if (token.getSymbol().equals(ignoreSymbol)) {
                 list.remove(token);
@@ -122,9 +131,12 @@ public class P2PTokenListActivity extends BaseActivity {
             mAdapter = new TokenChooseAdapter(R.layout.adapter_item_token_choose, list);
             recyclerView.setAdapter(mAdapter);
             mAdapter.setOnItemClickListener((adapter, view, position) -> {
-                Intent intent = new Intent();
-                intent.putExtra("symbol", list.get(position).getSymbol());
-                setResult(1, intent);
+                String symbol = list.get(position).getSymbol();
+                if (type == TradeType.buy) {
+                    p2pOrderManager.changeToTokenB(symbol);
+                } else if (type == TradeType.sell) {
+                    p2pOrderManager.changeToTokenS(symbol);
+                }
                 finish();
             });
         }
