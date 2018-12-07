@@ -85,18 +85,12 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         balanceDataManager = BalanceDataManager.getInstance(context);
         tokenDataManager = TokenDataManager.getInstance(context);
         p2pOrderManager = P2POrderDataManager.getInstance(context);
-        initTokens("WETH", "LRC");
+        initTokens();
         shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.shake_x);
     }
 
     @SuppressLint("SetTextI18n")
-    public void initTokens(String sell, String buy) {
-        if (!sell.isEmpty()) {
-            p2pOrderManager.changeToTokenS(sell);
-        }
-        if (!buy.isEmpty()) {
-            p2pOrderManager.changeToTokenB(buy);
-        }
+    public void initTokens() {
         view.tvSellTokenSymbol.setText(p2pOrderManager.getTokenS());
         view.tvBuyTokenSymbol.setText(p2pOrderManager.getTokenB());
         view.tvSellTokenSymbol2.setText(p2pOrderManager.getTokenS());

@@ -108,8 +108,8 @@ public class P2PTradeQrActivity extends BaseActivity {
 
             ivTokenB.setImageDrawable(getResources().getDrawable(resourceB));
             ivTokenS.setImageDrawable(getResources().getDrawable(resourceS));
-            tvBuyToken.setText(order.getTokenB());
-            tvSellToken.setText(order.getTokenS());
+            tvBuyToken.setText(getString(R.string.buy) + " " + order.getTokenB());
+            tvSellToken.setText(getString(R.string.sell) + " " + order.getTokenS());
             tvBuyAmount.setText(amountB);
             tvSellAmount.setText(amountS);
             tvBuyPrice.setText(currencyB);
