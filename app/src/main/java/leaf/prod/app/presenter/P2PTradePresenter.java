@@ -1,3 +1,9 @@
+/**
+ * Created with IntelliJ IDEA.
+ * User: laiyanyan
+ * Time: 2018-11-29 5:42 PM
+ * Cooperation: loopring.org 路印协议基金会
+ */
 package leaf.prod.app.presenter;
 
 import java.text.SimpleDateFormat;
@@ -43,12 +49,6 @@ import leaf.prod.walletsdk.util.WalletUtil;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created with IntelliJ IDEA.
- * User: laiyanyan
- * Time: 2018-11-29 5:42 PM
- * Cooperation: loopring.org 路印协议基金会
- */
 public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
 
     @SuppressLint("SimpleDateFormat")
@@ -59,8 +59,6 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     private Date validSince;
 
     private Date validUntil;
-
-    private int timeToLive = 1;
 
     private MarketcapDataManager marketcapDataManager;
 
