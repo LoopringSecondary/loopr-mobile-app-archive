@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.P2PTradeQrPresenter;
 import leaf.prod.app.utils.ShareUtil;
+import leaf.prod.app.view.Operation;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
@@ -117,11 +118,11 @@ public class P2PTradeQrActivity extends BaseActivity {
     @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.order_detail));
-        title.clickLeftGoBack(getWContext());
-        title.setRightImageButton(R.mipmap.icon_share, button -> {
-//            uShare();
-            ShareUtil.uShare(this, getString(R.string.share_order), ShareUtil.getBitmap(shareView));
-        });
+        Operation operation = getOperation();
+        operation.addParameter("tag", 1);
+        title.clickLeftGoBack(getWContext(), operation, P2PActivity.class);
+        title.setRightImageButton(R.mipmap.icon_share, button -> ShareUtil.uShare(this, getString(R.string.share_order), ShareUtil
+                .getBitmap(shareView)));
     }
 
     @SuppressLint("SetTextI18n")
