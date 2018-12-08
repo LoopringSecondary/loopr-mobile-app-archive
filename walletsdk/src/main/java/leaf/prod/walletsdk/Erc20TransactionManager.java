@@ -63,7 +63,7 @@ public class Erc20TransactionManager {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return Observable.just("approve failed");
+                    return Observable.just("failed");
                 })
                 .observeOn(Schedulers.io());
     }

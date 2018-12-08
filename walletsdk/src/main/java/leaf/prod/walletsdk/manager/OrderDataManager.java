@@ -150,9 +150,9 @@ public class OrderDataManager {
     }
 
     public Observable<RelayResponseWrapper> handleInfo() {
-        Observable<RelayResponseWrapper> result = null;
+        Observable<RelayResponseWrapper> result;
         if (needApprove()) {
-            approve().flatMap((Func1<String, Observable<RelayResponseWrapper>>) s -> {
+            result = approve().flatMap((Func1<String, Observable<RelayResponseWrapper>>) s -> {
                 if (!s.equals("failed")) {
                     return submit();
                 }
