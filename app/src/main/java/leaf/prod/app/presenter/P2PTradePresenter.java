@@ -113,8 +113,8 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         view.tvBuyTokenSymbol.setText(p2pOrderManager.getTokenB());
         view.tvSellTokenPrice.setText(" 1 " + p2pOrderManager.getTokenS() + " ≈ " + sellPrice + " " + p2pOrderManager.getTokenB());
         view.tvBuyTokenPrice.setText("1 " + p2pOrderManager.getTokenB() + " ≈ " + buyPrice + " " + p2pOrderManager.getTokenS());
-        view.tvSellTokenSymbol2.setText(p2pOrderManager.getTokenB());
-        view.tvBuyTokenSymbol2.setText(p2pOrderManager.getTokenS());
+        view.tvSellTokenSymbol2.setText(p2pOrderManager.getTokenS());
+        view.tvBuyTokenSymbol2.setText(p2pOrderManager.getTokenB());
         sellPrice = buyPrice;
         buyPrice = tPrice;
         view.sellAmount.setText("");
