@@ -23,6 +23,7 @@ import org.web3j.crypto.Hash;
 import org.web3j.utils.Numeric;
 
 import leaf.prod.walletsdk.Default;
+import leaf.prod.walletsdk.Erc20TransactionManager;
 import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.RandomWallet;
@@ -33,6 +34,7 @@ import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import lombok.Getter;
 import rx.Observable;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 @Getter
@@ -149,13 +151,15 @@ public class OrderDataManager {
 
     public Observable<RelayResponseWrapper> handleInfo() {
         Observable<RelayResponseWrapper> result = null;
-        try {
-            if (needApprove()) {
-                approve();
-            }
+        if (needApprove()) {
+            approve().flatMap((Func1<String, Observable<RelayResponseWrapper>>) s -> {
+                if (!s.equals("failed")) {
+                    return submit();
+                }
+                return null;
+            });
+        } else {
             result = submit();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return result;
     }
@@ -178,46 +182,50 @@ public class OrderDataManager {
         return false;
     }
 
-    private void approve() throws Exception {
+    private Observable<String> approve() {
+        Observable<String> result = Observable.just("failed");
         for (Map.Entry<String, Double> entry : balanceInfo.entrySet()) {
             if (entry.getKey().startsWith("GAS_")) {
                 if (entry.getValue() != 1 && entry.getValue() != 2) {
-                    return;
+                    continue;
                 }
                 String token = entry.getKey().split("_")[1];
                 if (entry.getValue() == 1) {
-                    approveOnce(token);
+                    result = approveOnce(token);
                 } else if (entry.getValue() == 2) {
-                    approveTwice(token);
+                    result = approveTwice(token);
                 }
             }
         }
+        return result;
     }
 
     protected Observable<RelayResponseWrapper> submit() {
         return null;
     }
 
-    private void approveOnce(String symbol) throws Exception {
+    private Observable<String> approveOnce(String symbol) {
         Transfer transfer = new Transfer(credentials);
         String contract = token.getTokenBySymbol(symbol).getProtocol();
         BigInteger value = token.getWeiFromDouble(symbol, (double) Integer.MAX_VALUE);
         BigInteger gasPrice = gas.getCustomizeGasPriceInWei().toBigInteger();
         BigInteger gasLimit = gas.getGasLimitByType("approve");
-        transfer.erc20(contract, gasPrice, gasLimit)
+        return transfer.erc20(contract, gasPrice, gasLimit)
                 .approve(credentials, contract, Default.DELEGATE_ADDRESS, value);
     }
 
-    private void approveTwice(String symbol) throws Exception {
+    private Observable<String> approveTwice(String symbol) {
         Transfer transfer = new Transfer(credentials);
         String contract = token.getTokenBySymbol(symbol).getProtocol();
         BigInteger value = BigInteger.ZERO;
         BigInteger gasPrice = gas.getCustomizeGasPriceInWei().toBigInteger();
         BigInteger gasLimit = gas.getGasLimitByType("approve");
-        transfer.erc20(contract, gasPrice, gasLimit)
-                .approve(credentials, contract, Default.DELEGATE_ADDRESS, value);
-        value = token.getWeiFromDouble(symbol, (double) Integer.MAX_VALUE);
-        transfer.erc20(contract, gasPrice, gasLimit)
-                .approve(credentials, contract, Default.DELEGATE_ADDRESS, value);
+        final Erc20TransactionManager manager = transfer.erc20(contract, gasPrice, gasLimit);
+        return manager.approve(credentials, contract, Default.DELEGATE_ADDRESS, value)
+                .observeOn(Schedulers.io())
+                .flatMap((Func1<String, Observable<String>>) s -> {
+                    BigInteger value1 = token.getWeiFromDouble(symbol, (double) Integer.MAX_VALUE);
+                    return manager.approve(credentials, contract, Default.DELEGATE_ADDRESS, value1);
+                });
     }
 }
