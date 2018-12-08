@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.MainActivity;
+import leaf.prod.app.view.Operation;
 
 public class TitleView extends FrameLayout implements View.OnClickListener {
 
@@ -100,6 +101,14 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
         mLeftBtn.setVisibility(View.VISIBLE);
         mLeftBtn.setImageResource(imgResource);
         mOnLeftButtonClickListener = button -> context.get().finish();
+    }
+
+    public void clickLeftGoBack(final WeakReference<Activity> context, Operation operation, Class<? extends Activity> clazz) {
+        mLeftBtn.setVisibility(View.VISIBLE);
+        mOnLeftButtonClickListener = button -> {
+            context.get().finish();
+            operation.forward(clazz);
+        };
     }
 
     public void clickLeftGoMain(final WeakReference<Activity> context) {

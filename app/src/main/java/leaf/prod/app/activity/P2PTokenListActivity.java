@@ -69,6 +69,7 @@ public class P2PTokenListActivity extends BaseActivity {
         p2pOrderManager = P2POrderDataManager.getInstance(this);
         balanceDataManager = BalanceDataManager.getInstance(this);
         super.onCreate(savedInstanceState);
+        mSwipeBackLayout.setEnableGesture(false);
     }
 
     @Override

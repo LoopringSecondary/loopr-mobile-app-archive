@@ -125,8 +125,8 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     /**
      * 金额拖动条
      */
-    public void initSeekbar() {
-        view.seekBar.setProgress(0);
+    public void setSeekbar(int progress) {
+        view.seekBar.setProgress(progress);
         view.seekBar.setCustomSectionTextArray((sectionCount, array) -> {
             array.clear();
             array.put(0, "0%");
@@ -382,6 +382,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(response -> {
+                        view.getActivity().finish();
                         if (response.getError() == null) {
                             view.getOperation().forward(P2PTradeQrActivity.class);
                         } else {

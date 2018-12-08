@@ -26,6 +26,7 @@ import leaf.prod.app.R;
 import leaf.prod.app.activity.P2PTokenListActivity;
 import leaf.prod.app.presenter.P2PTradePresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
+import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.model.TradeType;
 
 public class P2PTradeFragment extends BaseFragment {
@@ -96,6 +97,10 @@ public class P2PTradeFragment extends BaseFragment {
 
     private P2PTradePresenter presenter;
 
+    private P2POrderDataManager p2pManager;
+
+    private String currentToken, tradeType;
+
     @SuppressLint("HandlerLeak")
     Handler handlerBalance = new Handler() {
         @Override
@@ -130,6 +135,7 @@ public class P2PTradeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        presenter.setSeekbar(0);
         oneHourView.setText(getResources().getString(R.string.hour, "1"));
         oneDayView.setText(getResources().getString(R.string.day, "1"));
         oneMonthView.setText(getResources().getString(R.string.month, "1"));
@@ -195,14 +201,18 @@ public class P2PTradeFragment extends BaseFragment {
                 break;
             case R.id.ll_sell_token:
                 Intent intent1 = new Intent(getContext(), P2PTokenListActivity.class);
-                intent1.putExtra("ignoreSymbol", tvBuyTokenSymbol2.getText());
-                intent1.putExtra("tokenType", TradeType.sell.name());
+                currentToken = tvSellTokenSymbol2.getText().toString();
+                tradeType = TradeType.sell.name();
+                intent1.putExtra("ignoreSymbol", tvBuyTokenSymbol2.getText().toString());
+                intent1.putExtra("tokenType", tradeType);
                 startActivityForResult(intent1, 0);
                 break;
             case R.id.ll_buy_token:
                 Intent intent2 = new Intent(getContext(), P2PTokenListActivity.class);
-                intent2.putExtra("ignoreSymbol", tvSellTokenSymbol2.getText());
-                intent2.putExtra("tokenType", TradeType.buy.name());
+                currentToken = tvBuyTokenSymbol2.getText().toString();
+                tradeType = TradeType.buy.name();
+                intent2.putExtra("ignoreSymbol", tvSellTokenSymbol2.getText().toString());
+                intent2.putExtra("tokenType", tradeType);
                 startActivityForResult(intent2, 1);
                 break;
             case R.id.market_price:
@@ -232,6 +242,7 @@ public class P2PTradeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        p2pManager = P2POrderDataManager.getInstance(getContext());
     }
 
     @Override
@@ -242,10 +253,6 @@ public class P2PTradeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        presenter.initSeekbar();
-        sellAmount.setText("");
-        buyAmount.setText("");
-        sellCount.setText("1");
     }
 
     @Override
@@ -257,6 +264,15 @@ public class P2PTradeFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (TradeType.sell.name().equals(tradeType) && !p2pManager.getTokenS().equals(currentToken)) {
+            presenter.setSeekbar(0);
+            buyAmount.setText("");
+            presenter.setHint(0);
+            tvBuyHint.setText("");
+        } else if (TradeType.buy.name().equals(tradeType) && !p2pManager.getTokenB().equals(currentToken)) {
+            buyAmount.setText("");
+            tvBuyHint.setText("");
+        }
         presenter.initTokens();
     }
 }
