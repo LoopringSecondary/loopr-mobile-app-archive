@@ -1,6 +1,7 @@
 package leaf.prod.app.activity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
@@ -22,10 +23,12 @@ import leaf.prod.app.R;
 import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.TokenChooseAdapter;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.Token;
 
 public class P2PTokenListActivity extends BaseActivity {
@@ -55,6 +58,8 @@ public class P2PTokenListActivity extends BaseActivity {
 
     private P2POrderDataManager p2pOrderManager;
 
+    private BalanceDataManager balanceDataManager;
+
     private TradeType type;
 
     @Override
@@ -62,6 +67,7 @@ public class P2PTokenListActivity extends BaseActivity {
         setContentView(R.layout.activity_p2p_token_list);
         ButterKnife.bind(this);
         p2pOrderManager = P2POrderDataManager.getInstance(this);
+        balanceDataManager = BalanceDataManager.getInstance(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -120,6 +126,17 @@ public class P2PTokenListActivity extends BaseActivity {
             if (token.getSymbol().equals(ignoreSymbol)) {
                 list.remove(token);
                 break;
+            }
+        }
+        // sell列表只保留有余额的token
+        if (type == TradeType.sell) {
+            Iterator<Token> iterator = list.iterator();
+            while (iterator.hasNext()) {
+                Token token = iterator.next();
+                BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(token.getSymbol());
+                if (asset == null || asset.getValue() == 0) {
+                    iterator.remove();
+                }
             }
         }
         if (list.isEmpty()) {
