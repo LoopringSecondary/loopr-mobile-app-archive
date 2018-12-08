@@ -16,12 +16,15 @@ import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.TransactionManager;
 
 import leaf.prod.walletsdk.api.Erc20Contract;
 import leaf.prod.walletsdk.service.LoopringService;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class Erc20TransactionManager {
@@ -48,10 +51,21 @@ public class Erc20TransactionManager {
         return hash;
     }
 
-    public String approve(Credentials credentials, String contractAddress, String to, BigInteger value) throws Exception {
-        String hash = erc20Contract.approve(to, value).send().getTransactionHash();
-        notifyRelay(hash, credentials, contractAddress, to, value);
-        return hash;
+    public Observable<String> approve(Credentials credentials, String contractAddress, String to, BigInteger value) {
+        return erc20Contract.approve(to, value).observable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap((Func1<TransactionReceipt, Observable<String>>) transactionReceipt -> {
+                    try {
+                        RawTransaction rawTransaction = getRawTransaction(credentials, to, contractAddress, value);
+                        String hash = transactionReceipt.getTransactionHash();
+                        return loopringService.notifyTransactionSubmitted(rawTransaction, to, hash);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return Observable.just("approve failed");
+                })
+                .observeOn(Schedulers.io());
     }
 
     private void notifyRelay(String hash, Credentials credentials, String contractAddress, String to, BigInteger value) throws Exception {

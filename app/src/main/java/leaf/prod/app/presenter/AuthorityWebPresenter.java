@@ -134,13 +134,11 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
                     .flatMap((Func1<String, Observable<String>>) result -> loopringService.getSignMessage(value))
-                    .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
                     .flatMap((Func1<String, Observable<String>>) rawTx -> {
                         signAndSendRawTx(rawTx);
                         return loopringService.notifyStatus(getStatus(SignStatus.accept), owner);
                     })
-                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<String>() {
                         @Override
