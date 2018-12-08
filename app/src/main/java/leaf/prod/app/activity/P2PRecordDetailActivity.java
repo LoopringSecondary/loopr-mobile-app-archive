@@ -8,7 +8,6 @@ package leaf.prod.app.activity;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -121,7 +120,6 @@ public class P2PRecordDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_p2p_record_detail);
         ButterKnife.bind(this);
         tokenDataManager = TokenDataManager.getInstance(this);

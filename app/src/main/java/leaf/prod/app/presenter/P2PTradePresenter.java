@@ -265,6 +265,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             p2pTradeDialogView.findViewById(R.id.btn_order).setOnClickListener(view1 -> {
                 if (WalletUtil.needPassword(context)) {
                     PasswordDialogUtil.showPasswordDialog(context, v -> {
+                        view.showProgress(view.getResources().getString(R.string.loading_default_messsage));
                         processMaker(PasswordDialogUtil.getInputPassword());
                     });
                 } else {
@@ -366,12 +367,12 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         try {
             p2pOrderManager.verify(password);
         } catch (Exception e) {
+            view.hideProgress();
             PasswordDialogUtil.clearPassword();
             RxToast.error(context.getResources().getString(R.string.keystore_psw_error));
             e.printStackTrace();
             return;
         }
-        view.showProgress(view.getResources().getString(R.string.loading_default_messsage));
         if (!p2pOrderManager.isBalanceEnough()) {
             Objects.requireNonNull(view.getActivity()).finish();
             PasswordDialogUtil.dismiss(context);
@@ -381,15 +382,14 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(response -> {
-                        PasswordDialogUtil.dismiss(context);
-                        destroyDialog();
-                        view.getActivity().finish();
                         if (response.getError() == null) {
                             view.getOperation().forward(P2PTradeQrActivity.class);
                         } else {
                             view.getOperation().addParameter("error", response.getError().getMessage());
                             view.getOperation().forward(P2PErrorActivity.class);
                         }
+                        PasswordDialogUtil.dismiss(context);
+                        destroyDialog();
                         view.hideProgress();
                     });
         }
