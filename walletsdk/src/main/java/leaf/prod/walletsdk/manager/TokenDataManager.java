@@ -97,7 +97,7 @@ public class TokenDataManager {
     }
 
     public List<Token> getTokensExcept(String symbol) {
-        List<Token> result = tokens;
+        List<Token> result = new ArrayList<>(tokens);
         for (Token token : result) {
             if (token.getSymbol().equalsIgnoreCase(symbol)) {
                 result.remove(token);
