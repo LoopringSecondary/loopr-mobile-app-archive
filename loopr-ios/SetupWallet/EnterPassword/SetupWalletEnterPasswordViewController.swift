@@ -8,6 +8,10 @@
 
 import UIKit
 
+// Only three cases:
+// 1. create wallet
+// 2. import mnemonic without password
+// 3. import private key
 class SetupWalletEnterPasswordViewController: UIViewController, UITextFieldDelegate {
 
     var setupWalletMethod: QRCodeMethod = .create
@@ -17,6 +21,11 @@ class SetupWalletEnterPasswordViewController: UIViewController, UITextFieldDeleg
     var errorInfoLabel: UITextView = UITextView(frame: .zero)
     
     convenience init(setupWalletMethod: QRCodeMethod) {
+        let validOptions: [QRCodeMethod] = [.create, .importUsingMnemonic, .importUsingPrivateKey]
+        guard validOptions.contains(setupWalletMethod) else {
+            preconditionFailure("Invalid setupWalletMethod")
+        }
+
         self.init(nibName: nil, bundle: nil)
         self.setupWalletMethod = setupWalletMethod
     }
@@ -121,7 +130,7 @@ class SetupWalletEnterPasswordViewController: UIViewController, UITextFieldDeleg
                 let viewController = SetupWalletEnterRepeatPasswordViewController(setupWalletMethod: .importUsingPrivateKey)
                 self.navigationController?.pushViewController(viewController, animated: true)
             default:
-                return
+                preconditionFailure("Invalid setupWalletMethod")
             }
         }
     }

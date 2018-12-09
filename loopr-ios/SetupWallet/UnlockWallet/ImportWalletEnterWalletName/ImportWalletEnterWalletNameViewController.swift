@@ -121,7 +121,7 @@ class ImportWalletEnterWalletNameViewController: UIViewController, UITextFieldDe
             walletNameTextField.resignFirstResponder()
             ImportWalletUsingPrivateKeyDataManager.shared.walletName = walletNameTextField.text!
             
-            let viewController = SetupWalletEnterPasswordViewController(setupWalletMethod: .importUsingMnemonic)
+            let viewController = SetupWalletEnterPasswordViewController(setupWalletMethod: .importUsingPrivateKey)
             self.navigationController?.pushViewController(viewController, animated: true)
             return
             
@@ -131,6 +131,7 @@ class ImportWalletEnterWalletNameViewController: UIViewController, UITextFieldDe
     }
     
     func importUsingMnemonic() {
+        // If password is empty, then ask user to enter a password.
         if ImportWalletUsingMnemonicDataManager.shared.password == "" {
             let viewController = SetupWalletEnterPasswordViewController(setupWalletMethod: .importUsingMnemonic)
             self.navigationController?.pushViewController(viewController, animated: true)

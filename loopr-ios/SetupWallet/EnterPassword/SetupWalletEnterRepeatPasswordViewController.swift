@@ -97,10 +97,11 @@ class SetupWalletEnterRepeatPasswordViewController: UIViewController, UITextFiel
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
         case .importUsingMnemonic:
+            // If this part of code is executed, it means using mnemonic without password.
             if password != ImportWalletUsingMnemonicDataManager.shared.devicePassword {
                 showErrorInfoLabel()
             } else {
-                ImportWalletUsingMnemonicDataManager.shared.complete(completion: {(appWallet, error) in
+                ImportWalletUsingMnemonicDataManager.shared.complete(completion: {(_, error) in
                     if error == nil {
                         self.succeedAndExit(setupWalletMethod: self.setupWalletMethod)
                     } else if error == .duplicatedAddress {
@@ -114,18 +115,15 @@ class SetupWalletEnterRepeatPasswordViewController: UIViewController, UITextFiel
             if password != ImportWalletUsingPrivateKeyDataManager.shared.devicePassword {
                 showErrorInfoLabel()
             } else {
-                do {
-                    try ImportWalletUsingPrivateKeyDataManager.shared.complete()
-                } catch AddWalletError.duplicatedAddress {
-                    alertForDuplicatedAddress()
-                    return
-                } catch {
-                    alertForError()
-                    return
+                ImportWalletUsingPrivateKeyDataManager.shared.complete { (_, error) in
+                    if error == nil {
+                        self.succeedAndExit(setupWalletMethod: self.setupWalletMethod)
+                    } else if error == .duplicatedAddress {
+                        self.alertForDuplicatedAddress()
+                    } else {
+                        self.alertForError()
+                    }
                 }
-
-                // Exit the whole importing process
-                succeedAndExit(setupWalletMethod: setupWalletMethod)
             }
         default:
             return
