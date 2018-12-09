@@ -226,6 +226,8 @@ class AppWalletDataManager {
             newAppWallet = AppWallet(setupWalletMethod: setupWalletMethod, address: address.description, password: password, devicePassword: "", mnemonics: mnemonics, keystoreString: keystoreString, name: walletName.trim(), isVerified: isVerified, tokenList: ["ETH", "WETH", "LRC"], manuallyDisabledTokenList: [])
         } else if setupWalletMethod == .importUsingMnemonic {
             newAppWallet = AppWallet(setupWalletMethod: setupWalletMethod, address: address.description, password: password, devicePassword: devicePassword, mnemonics: mnemonics, keystoreString: keystoreString, name: walletName.trim(), isVerified: isVerified, tokenList: ["ETH", "WETH", "LRC"], manuallyDisabledTokenList: [])
+        } else {
+            preconditionFailure("unsupported setupWalletMethod in addWallet method in AppWalletDataManager")
         }
         
         guard newAppWallet != nil else {
