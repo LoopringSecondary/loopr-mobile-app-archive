@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -29,6 +30,7 @@ import rx.schedulers.Schedulers;
 
 public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
 
+    @SuppressLint("SimpleDateFormat")
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private P2PRecordsFragment fragment;
@@ -73,7 +75,7 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
                 helper.setVisible(R.id.tv_cancel, true);
                 helper.setOnClickListener(R.id.tv_cancel, view -> {
                     String hash = order.getOriginOrder().getHash();
-                    PasswordDialogUtil.showPasswordDialog(fragment.getContext(), listener -> {
+                    PasswordDialogUtil.showPasswordDialog(fragment.getContext(), P2PRecordsFragment.PASSWORD_TYPE + "_" + hash, listener -> {
                         NotifyScanParam.SignParam signParam = null;
                         try {
                             signParam = SignUtils.genSignParam(WalletUtil.getCredential(fragment.getContext(), PasswordDialogUtil
@@ -85,7 +87,6 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
                             e.printStackTrace();
                         }
                         if (signParam != null) {
-                            PasswordDialogUtil.dismiss(fragment.getContext());
                             CancelOrder cancelOrder = CancelOrder.builder()
                                     .type(CancelType.hash)
                                     .orderHash(hash)
@@ -110,6 +111,7 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
                                         public void onNext(String s) {
                                             RxToast.success(fragment.getResources().getString(R.string.cancel_success));
                                             fragment.refreshOrders(0);
+                                            PasswordDialogUtil.dismiss(P2PRecordsFragment.PASSWORD_TYPE + "_" + hash);
                                             unsubscribe();
                                         }
                                     });
@@ -141,7 +143,6 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
             default:
                 break;
         }
-        helper.setText(R.id.tv_date, sdf.format(new Date(new Long(order.getOriginOrder()
-                .getValidS()).longValue() * 1000)));
+        helper.setText(R.id.tv_date, sdf.format(new Date(Long.valueOf(order.getOriginOrder().getValidS()) * 1000)));
     }
 }

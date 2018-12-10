@@ -54,6 +54,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     @SuppressLint("SimpleDateFormat")
     private static SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
 
+
     private String sellPrice = "0", buyPrice = "0";
 
     private Date validSince;
@@ -264,7 +265,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             p2pTradeDialogView.findViewById(R.id.btn_cancel).setOnClickListener(view1 -> p2pTradeDialog.hide());
             p2pTradeDialogView.findViewById(R.id.btn_order).setOnClickListener(view1 -> {
                 if (WalletUtil.needPassword(context)) {
-                    PasswordDialogUtil.showPasswordDialog(context, v -> {
+                    PasswordDialogUtil.showPasswordDialog(view.getActivity(), P2PTradeFragment.PASSWORD_TYPE, v -> {
                         view.showProgress(view.getResources().getString(R.string.loading_default_messsage));
                         processMaker(PasswordDialogUtil.getInputPassword());
                     });
@@ -306,12 +307,6 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_live_time)).setText(sdf.format(validSince) + " ~ " +
                 sdf.format(validUntil));
         p2pTradeDialog.show();
-    }
-
-    public void destroyDialog() {
-        if (p2pTradeDialog != null) {
-            p2pTradeDialog.dismiss();
-        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -357,6 +352,13 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         return balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenS()).getValue();
     }
 
+    public void destroyDialog() {
+        if(p2pTradeDialog != null) {
+            p2pTradeDialog.dismiss();
+            PasswordDialogUtil.dismiss(P2PTradeFragment.PASSWORD_TYPE);
+        }
+    }
+
     public void processMaker(String password) {
         Double amountBuy = Double.parseDouble(view.buyAmount.getText().toString());
         Double amountSell = Double.parseDouble(view.sellAmount.getText().toString());
@@ -375,7 +377,6 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         }
         if (!p2pOrderManager.isBalanceEnough()) {
             Objects.requireNonNull(view.getActivity()).finish();
-            PasswordDialogUtil.dismiss(context);
             view.getOperation().forward(P2PErrorActivity.class);
         } else {
             p2pOrderManager.handleInfo()
@@ -389,8 +390,6 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                             view.getOperation().addParameter("error", response.getError().getMessage());
                             view.getOperation().forward(P2PErrorActivity.class);
                         }
-                        PasswordDialogUtil.dismiss(context);
-                        destroyDialog();
                         view.hideProgress();
                     });
         }
