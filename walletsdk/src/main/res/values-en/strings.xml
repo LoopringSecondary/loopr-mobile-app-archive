@@ -21,4 +21,6 @@
     <string name="R50006">Sorry, buying order has expired, please try with other orders</string>
     <string name="R50007">Sorry, undealt amount of order is too small, could not complete this order</string>
     <string name="R50008">Sorry, buying order does not exist, could not complete this order</string>
+
+    <string name="approve_failed">Failed to approve trading token</string>
 </resources>

@@ -136,8 +136,8 @@ public class P2PTradeQrActivity extends BaseActivity {
             String amountS = balanceManager.getFormattedBySymbol(order.getTokenS(), order.getAmountSell());
             String currencyB = marketManager.getCurrencyBySymbol(order.getTokenB(), order.getAmountBuy());
             String currencyS = marketManager.getCurrencyBySymbol(order.getTokenS(), order.getAmountSell());
-            String validSince = DateUtil.formatDateTime(order.getValidS() * 1000, "MM-dd HH:mm");
-            String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000, "MM-dd HH:mm");
+            String validSince = DateUtil.formatDateTime(order.getValidS() * 1000L, "MM-dd HH:mm");
+            String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000L, "MM-dd HH:mm");
             ivTokenB.setImageDrawable(getResources().getDrawable(resourceB));
             ivTokenS.setImageDrawable(getResources().getDrawable(resourceS));
             tvBuyToken.setText(getString(R.string.buy) + " " + order.getTokenB());
