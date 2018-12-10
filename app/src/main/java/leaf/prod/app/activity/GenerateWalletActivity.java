@@ -40,7 +40,6 @@ import leaf.prod.app.adapter.MnemonicWordHintAdapter;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.DialogUtil;
-import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.MyViewUtils;
 import leaf.prod.app.views.SpacesItemDecoration;
 import leaf.prod.app.views.TitleView;
@@ -176,7 +175,6 @@ public class GenerateWalletActivity extends BaseActivity {
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
                     new Thread(() -> {
-                        LyqbLogger.log(address);
                         loopringService.notifyCreateWallet(address)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Subscriber<String>() {
@@ -371,7 +369,6 @@ public class GenerateWalletActivity extends BaseActivity {
                         rlMnemonic.setVisibility(View.GONE);
                         rlWord.setVisibility(View.GONE);
                         generatePartthree.setVisibility(View.VISIBLE);
-                        LyqbLogger.log(listMnemonic.toString());
                         Collections.shuffle(listRandomMnemonic); //打乱助记词
                         mAdapter.setNewData(listRandomMnemonic);
                         mAdapter.notifyDataSetChanged();
@@ -410,7 +407,6 @@ public class GenerateWalletActivity extends BaseActivity {
                     .getPrivateKey());
             try {
                 filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, pas, FileUtils.getKeyStoreLocation(GenerateWalletActivity.this));
-                LyqbLogger.log(filename);
                 //                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             } catch (InvalidPrivateKeyException | KeystoreCreateException e) {
