@@ -260,4 +260,5 @@
     <string name="qr_error_tip">請掃描P2P訂單類型的二維碼</string>
     <string name="share_order">分享訂單</string>
     <string name="save_to_album">保存到相冊</string>
+    <string name="password_empty">密碼不能為空</string>
 </resources>

@@ -11,9 +11,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.walletsdk.model.WalletEntity;
-import leaf.prod.walletsdk.util.MD5Utils;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class ExportMatchPasSafeActivity extends BaseActivity {
 
@@ -63,12 +63,14 @@ public class ExportMatchPasSafeActivity extends BaseActivity {
             RxToast.error(getResources().getString(R.string.put_password));
             return;
         }
-        if (!selectedWallet.getPas().equals(MD5Utils.md5(etPassword.getText().toString()))) {
+        if (!WalletUtil.passwordValid(etPassword.getText().toString(), selectedWallet.getPas())) {
             RxToast.error(getResources().getString(R.string.keystore_psw_error));
             return;
         }
         if (type == 1) {
+            getOperation().addParameter("selectedWallet", selectedWallet);
             getOperation().addParameter("mnemonic", selectedWallet.getMnemonic());
+            getOperation().addParameter("password", etPassword.getText().toString());
             getOperation().forward(BackupMnemonicActivity.class);
         } else if (type == 2) {
             getOperation().addParameter("filename", selectedWallet.getFilename());

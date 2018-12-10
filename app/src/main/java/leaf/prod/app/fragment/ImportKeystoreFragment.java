@@ -1,6 +1,7 @@
 package leaf.prod.app.fragment;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -26,19 +27,18 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.SetWalletNameActivity;
-import leaf.prod.walletsdk.model.ImportWalletType;
-import leaf.prod.walletsdk.model.WalletEntity;
-import leaf.prod.walletsdk.model.eventbusData.KeystoreData;
 import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.walletsdk.util.FileUtils;
-import leaf.prod.walletsdk.util.MD5Utils;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
+import leaf.prod.walletsdk.model.ImportWalletType;
+import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.model.eventbusData.KeystoreData;
 import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.KeystoreUtils;
 import leaf.prod.walletsdk.util.StringUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -88,8 +88,13 @@ public class ImportKeystoreFragment extends BaseFragment {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    WalletEntity newWallet = new WalletEntity("", filename, address, "", MD5Utils.md5(etPassword.getText()
-                            .toString()), "", "", ImportWalletType.KEY_STORE);
+                    WalletEntity newWallet = WalletEntity.builder()
+                            .filename(filename)
+                            .address(address.toLowerCase().startsWith("0x") ? address : "0x" + address)
+                            .walletType(ImportWalletType.KEY_STORE)
+                            .chooseTokenList(Arrays.asList("ETH", "WETH", "LRC"))
+                            .build();
+                    //                    WalletEntity newWallet = new WalletEntity("", filename, address, "", null, "", "", ImportWalletType.KEY_STORE);
                     loopringService.notifyCreateWallet(address)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())

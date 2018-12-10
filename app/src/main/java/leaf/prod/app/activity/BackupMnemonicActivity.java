@@ -21,6 +21,8 @@ import leaf.prod.app.R;
 import leaf.prod.app.adapter.MnemonicWordAdapter;
 import leaf.prod.app.views.SpacesItemDecoration;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class BackupMnemonicActivity extends BaseActivity {
 
@@ -48,6 +50,8 @@ public class BackupMnemonicActivity extends BaseActivity {
     private MnemonicWordAdapter mHintAdapter; //助记词提示adapter
 
     private List<String> listMnemonic = new ArrayList<>();
+
+    private WalletEntity selectedWallet;
 
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
@@ -89,7 +93,10 @@ public class BackupMnemonicActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mnemonic = getIntent().getStringExtra("mnemonic");
+        //        mnemonic = EncryptUtil.decryptAES(getIntent().getStringExtra("mnemonic"), getIntent().getStringExtra("password"));
+        selectedWallet = (WalletEntity) getIntent().getSerializableExtra("selectedWallet");
+        mnemonic = WalletUtil.decryptMnemonic(selectedWallet.getMnemonic(), getIntent().getStringExtra("password"), selectedWallet
+                .getSalt(), selectedWallet.getIv());
     }
 
     @Override

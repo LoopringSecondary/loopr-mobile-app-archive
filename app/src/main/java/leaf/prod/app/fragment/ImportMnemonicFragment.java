@@ -1,6 +1,7 @@
 package leaf.prod.app.fragment;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -37,12 +38,13 @@ import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.model.ImportWalletType;
 import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.model.WalletFromType;
 import leaf.prod.walletsdk.model.eventbusData.MnemonicData;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.CredentialsUtils;
+import leaf.prod.walletsdk.util.EncryptUtil;
 import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.KeystoreUtils;
-import leaf.prod.walletsdk.util.MD5Utils;
 import leaf.prod.walletsdk.util.MnemonicUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Subscriber;
@@ -110,9 +112,27 @@ public class ImportMnemonicFragment extends BaseFragment {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    WalletEntity newWallet = new WalletEntity("", filename, address, etMnemonic.getText()
-                            .toString(), MD5Utils.md5(etPassword.getText()
-                            .toString()), dpath, walletType.getText().toString(), ImportWalletType.MNEMONIC);
+                    String salt = EncryptUtil.getSecureRandom(), iv = EncryptUtil.getSecureRandom();
+                    WalletEntity newWallet = WalletEntity.builder()
+                            .filename(filename)
+                            .address(address.toLowerCase().startsWith("0x") ? address : "0x" + address)
+                            .mnemonic(WalletUtil.encryptMnemonic(etMnemonic.getText()
+                                    .toString()
+                                    .trim(), etPassword.getText().toString(), salt, iv))
+                            .pas(EncryptUtil.encryptSHA3(etPassword.getText().toString()))
+                            .salt(salt)
+                            .iv(iv)
+                            .dPath(dpath)
+                            .walletFrom(walletType.getText().toString())
+                            .walletType(ImportWalletType.MNEMONIC)
+                            .chooseTokenList(Arrays.asList("ETH", "WETH", "LRC"))
+                            .build();
+                    //                    WalletEntity newWallet = new WalletEntity("", filename, address, WalletUtil.encryptMnemonic(etMnemonic
+                    //                            .getText()
+                    //                            .toString()
+                    //                            .trim(), password), password, dpath, walletType.getText()
+                    //                            .toString(), ImportWalletType.MNEMONIC);
+                    LyqbLogger.log(newWallet.toString());
                     loopringService.notifyCreateWallet(address)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -121,7 +141,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                                 public void onCompleted() {
                                     hideProgress();
                                     if (WalletUtil.isWalletExisted(getContext(), newWallet)) {
-                                        RxToast.error(getResources().getString(R.string.wallet_existed));
+                                        RxToast.error(getString(R.string.wallet_existed));
                                     } else {
                                         getOperation().addParameter("newWallet", newWallet);
                                         getOperation().forward(SetWalletNameActivity.class);
@@ -130,7 +150,7 @@ public class ImportMnemonicFragment extends BaseFragment {
 
                                 @Override
                                 public void onError(Throwable e) {
-                                    RxToast.error(getResources().getString(R.string.add_wallet_error));
+                                    RxToast.error(getString(R.string.add_wallet_error));
                                     hideProgress();
                                 }
 
@@ -140,7 +160,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                             });
                     break;
                 case ERROR_ONE:
-                    RxToast.error(getResources().getString(R.string.add_wallet_error));
+                    RxToast.error(getString(R.string.add_wallet_error));
                     hideProgress();
                     break;
                 case ERROR_TWO:
@@ -148,11 +168,11 @@ public class ImportMnemonicFragment extends BaseFragment {
                 case ERROR_THREE:
                 case ERROR_FOUR:
                     hideProgress();
-                    RxToast.error(getResources().getString(R.string.local_file_error));
+                    RxToast.error(getString(R.string.local_file_error));
                     break;
                 case ERROR_FIVE:
                     hideProgress();
-                    RxToast.error(getResources().getString(R.string.mnemonic_invalid));
+                    RxToast.error(getString(R.string.mnemonic_invalid));
                     break;
             }
         }
@@ -240,16 +260,20 @@ public class ImportMnemonicFragment extends BaseFragment {
             case R.id.btn_next:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
                     if (TextUtils.isEmpty(etMnemonic.getText().toString())) {
-                        RxToast.warning(getResources().getString(R.string.input_mnemonic));
+                        RxToast.warning(getString(R.string.input_mnemonic));
+                        return;
+                    }
+                    if (TextUtils.isEmpty(etPassword.getText().toString())) {
+                        RxToast.warning(getString(R.string.password_empty));
                         return;
                     }
                     if (TextUtils.isEmpty(walletType.getText().toString())) {
-                        RxToast.warning(getResources().getString(R.string.wallet_type));
+                        RxToast.warning(getString(R.string.wallet_type));
                         return;
                     }
-                    if (walletType.getText().toString().equals("其它")) {
+                    if (walletType.getText().toString().equals(WalletFromType.OTHER.getName())) {
                         if (TextUtils.isEmpty(etDpath.getText().toString())) {
-                            RxToast.warning(getResources().getString(R.string.input_dpath));
+                            RxToast.warning(getString(R.string.input_dpath));
                             return;
                         }
                         dpath = etDpath.getText().toString();
@@ -268,13 +292,13 @@ public class ImportMnemonicFragment extends BaseFragment {
         new Thread(() -> {
             Credentials credentials;
             try {
-                String psw = !"imToken".equals(walletType.getText().toString()) ? etPassword.getText().toString() : "";
+                String psw = WalletFromType.LOOPRING_WALLET.getName()
+                        .equals(walletType.getText().toString()) ? etPassword.getText().toString() : "";
                 credentials = MnemonicUtils.calculateCredentialsFromMnemonic(etMnemonic.getText()
                         .toString().trim(), dpath, psw);
                 String privateKeyHexString = CredentialsUtils.toPrivateKeyHexString(credentials.getEcKeyPair()
                         .getPrivateKey());
                 filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, psw, FileUtils.getKeyStoreLocation(getContext()));
-                //                SPUtils.put(getContext(), "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             } catch (KeystoreCreateException | InvalidPrivateKeyException e) {
                 handlerCreate.sendEmptyMessage(ERROR_ONE);
@@ -290,7 +314,8 @@ public class ImportMnemonicFragment extends BaseFragment {
      * 选择钱包类型
      */
     public void walletChoose() {
-        OptionPicker picker = new OptionPicker((Activity) getContext(), new String[]{"Loopring Wallet", "imToken", "MetaMask", "TREZOR (ETH)", "Digital Bitbox", "Exodus", "Jaxx", "Ledger (ETH)", "TREZOR (ETC)", "Ledger (ETC)", "SingularDTV", "Network: Testnets", "Network: Expanse", "Network: Ubiq", "Network: Ellaism", "other"});
+        //        OptionPicker picker = new OptionPicker((Activity) getContext(), new String[]{"Loopring Wallet", "imToken", "MetaMask", "TREZOR (ETH)", "Digital Bitbox", "Exodus", "Jaxx", "Ledger (ETH)", "TREZOR (ETC)", "Ledger (ETC)", "SingularDTV", "Network: Testnets", "Network: Expanse", "Network: Ubiq", "Network: Ellaism", "other"});
+        OptionPicker picker = new OptionPicker((Activity) getContext(), WalletFromType.getAllNames());
         picker.setOffset(1);
         picker.setSelectedIndex(0);
         picker.setTextSize(18);
