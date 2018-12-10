@@ -44,7 +44,6 @@ import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import lombok.Getter;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -218,10 +217,11 @@ public class P2POrderDataManager extends OrderDataManager {
 
     public void constructMaker(Double amountBuy, Double amountSell, Integer validS, Integer validU, Integer sellCount) {
         OriginOrder order = constructOrder(amountBuy, amountSell, validS, validU);
+        preserveMaker(order, sellCount);
         order.setSide(TradeType.buy.name());
         order.setOrderType(OrderType.P2P);
         order.setP2pSide(P2PSide.MAKER);
-        preserveMaker(order, sellCount);
+        order.setAuthPrivateKey("");
     }
 
     private void preserveMaker(OriginOrder order, Integer sellCount) {
@@ -229,7 +229,6 @@ public class P2POrderDataManager extends OrderDataManager {
         this.orders = new OriginOrder[]{order};
         String value = String.format("%s-%s", order.getAuthPrivateKey(), sellCount);
         SPUtils.put(context.getApplicationContext(), order.getAuthAddr().toLowerCase(), value);
-        order.setAuthPrivateKey("");
     }
 
     private Boolean validate() {
@@ -421,8 +420,7 @@ public class P2POrderDataManager extends OrderDataManager {
                         } else {
                             return Observable.just(response);
                         }
-                    })
-                    .observeOn(AndroidSchedulers.mainThread());
+                    });
         }
         return result;
     }

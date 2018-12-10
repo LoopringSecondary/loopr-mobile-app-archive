@@ -61,8 +61,8 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
             String amountS = balanceManager.getFormattedBySymbol(taker.getTokenS(), taker.getAmountSell());
             String currencyB = marketManager.getCurrencyBySymbol(taker.getTokenB(), taker.getAmountBuy());
             String currencyS = marketManager.getCurrencyBySymbol(taker.getTokenS(), taker.getAmountSell());
-            String validSince = DateUtil.formatDateTime(taker.getValidS() * 1000, "MM-dd HH:mm");
-            String validUntil = DateUtil.formatDateTime(taker.getValidU() * 1000, "MM-dd HH:mm");
+            String validSince = DateUtil.formatDateTime(taker.getValidS() * 1000L, "MM-dd HH:mm");
+            String validUntil = DateUtil.formatDateTime(taker.getValidU() * 1000L, "MM-dd HH:mm");
             Double price = taker.getAmountSell() / taker.getAmountBuy();
             String priceStr = NumberUtils.format1(price, 6) + " " + taker.getTokenS() + " / " + taker.getTokenB();
             String lrcFee = balanceManager.getFormattedBySymbol("LRC", taker.getLrc());

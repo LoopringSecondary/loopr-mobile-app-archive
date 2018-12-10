@@ -32,7 +32,8 @@ import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SPUtils;
 
-public class P2PRecordDetailActivity extends BaseActivity {
+public class
+P2PRecordDetailActivity extends BaseActivity {
 
     @BindView(R.id.title)
     public TitleView title;
@@ -186,8 +187,8 @@ public class P2PRecordDetailActivity extends BaseActivity {
         String lrcCurrency = marketDataManager.getCurrencyBySymbol("LRC", order.getLrc());
         Double ratio = this.order.getDealtAmountSell() / order.getAmountSell();
         String ratioStr = NumberUtils.format1(ratio, 6) + "%";
-        String validSince = DateUtil.formatDateTime(order.getValidS() * 1000, "MM-dd HH:mm");
-        String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000, "MM-dd HH:mm");
+        String validSince = DateUtil.formatDateTime(order.getValidS() * 1000L, "MM-dd HH:mm");
+        String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000L, "MM-dd HH:mm");
         ivTokenB.setImageDrawable(getResources().getDrawable(resourceB));
         ivTokenS.setImageDrawable(getResources().getDrawable(resourceS));
         tvTokenB.setText(getString(R.string.buy) + " " + order.getTokenB());

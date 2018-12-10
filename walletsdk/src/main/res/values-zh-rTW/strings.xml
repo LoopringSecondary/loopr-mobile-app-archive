@@ -21,4 +21,6 @@
     <string name="R50006">抱歉，訂單已過期，請掃描其他二維碼後重新下單</string>
     <string name="R50007">抱歉，訂單未成交數額過小，已無法下單成交</string>
     <string name="R50008">抱歉，無法獲取當前下單信息，請稍後重試</string>
+
+    <string name="approve_failed">交易代幣授權失敗</string>
 </resources>

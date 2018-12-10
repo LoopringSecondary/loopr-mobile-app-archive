@@ -64,8 +64,7 @@ public class Erc20TransactionManager {
                         e.printStackTrace();
                     }
                     return Observable.just("failed");
-                })
-                .observeOn(Schedulers.io());
+                });
     }
 
     private void notifyRelay(String hash, Credentials credentials, String contractAddress, String to, BigInteger value) throws Exception {

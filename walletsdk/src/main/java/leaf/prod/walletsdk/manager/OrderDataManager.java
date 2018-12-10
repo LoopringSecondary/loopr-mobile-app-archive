@@ -24,10 +24,12 @@ import org.web3j.utils.Numeric;
 
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.Erc20TransactionManager;
+import leaf.prod.walletsdk.R;
 import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.RandomWallet;
 import leaf.prod.walletsdk.model.SignedBody;
+import leaf.prod.walletsdk.model.response.RelayError;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.SignUtils;
@@ -152,12 +154,16 @@ public class OrderDataManager {
     public Observable<RelayResponseWrapper> handleInfo() {
         Observable<RelayResponseWrapper> result;
         if (needApprove()) {
-            result = approve().flatMap((Func1<String, Observable<RelayResponseWrapper>>) s -> {
-                if (!s.equals("failed")) {
-                    return submit();
-                }
-                return null;
-            });
+            result = approve().observeOn(Schedulers.io())
+                    .flatMap((Func1<String, Observable<RelayResponseWrapper>>) hash -> {
+                        if (!hash.equals("failed")) {
+                            return submit();
+                        }
+                        RelayError failed = RelayError.builder()
+                                .message(context.getString(R.string.approve_failed)).build();
+                        RelayResponseWrapper<Object> response = RelayResponseWrapper.builder().error(failed).build();
+                        return Observable.just(response);
+                    });
         } else {
             result = submit();
         }
@@ -202,6 +208,16 @@ public class OrderDataManager {
 
     protected Observable<RelayResponseWrapper> submit() {
         return null;
+    }
+
+    protected Observable<String> approve(String symbol, Double value) {
+        Transfer transfer = new Transfer(credentials);
+        String contract = token.getTokenBySymbol(symbol).getProtocol();
+        BigInteger amount = token.getWeiFromDouble(symbol, value);
+        BigInteger gasPrice = gas.getCustomizeGasPriceInWei().toBigInteger();
+        BigInteger gasLimit = gas.getGasLimitByType("approve");
+        return transfer.erc20(contract, gasPrice, gasLimit)
+                .approve(credentials, contract, Default.DELEGATE_ADDRESS, amount);
     }
 
     private Observable<String> approveOnce(String symbol) {
