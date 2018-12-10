@@ -22,11 +22,10 @@ import leaf.prod.app.adapter.ViewPageAdapter;
 import leaf.prod.app.fragment.ImportKeystoreFragment;
 import leaf.prod.app.fragment.ImportMnemonicFragment;
 import leaf.prod.app.fragment.ImportPrivateKeyFragment;
-import leaf.prod.walletsdk.model.eventbusData.KeystoreData;
 import leaf.prod.app.utils.AppManager;
-import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.QRCodeType;
+import leaf.prod.walletsdk.model.eventbusData.KeystoreData;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class ImportWalletActivity extends BaseActivity {
@@ -108,7 +107,6 @@ public class ImportWalletActivity extends BaseActivity {
                     return;
                 }
                 String result = bundle.getString("result");
-                LyqbLogger.log(result);
                 viewPager.setCurrentItem(1);
                 EventBus.getDefault().post(new KeystoreData(result));
                 //                if (viewPager.getCurrentItem() == 0) {

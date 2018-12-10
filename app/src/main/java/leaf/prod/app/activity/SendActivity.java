@@ -233,7 +233,6 @@ public class SendActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
-        LyqbLogger.log(WalletUtil.getCurrentFileName(this));
     }
 
     @Override

@@ -254,8 +254,6 @@ public class ImportMnemonicFragment extends BaseFragment {
                         }
                         dpath = etDpath.getText().toString();
                     }
-                    LyqbLogger.log(etMnemonic.getText().toString() + "   " + dpath + "   " + etPassword.getText()
-                            .toString());
                     unlockWallet();
                 }
                 break;
@@ -297,7 +295,6 @@ public class ImportMnemonicFragment extends BaseFragment {
         picker.setSelectedIndex(0);
         picker.setTextSize(18);
         picker.setOnOptionPickListener((position, option) -> {
-            LyqbLogger.log(position + "  ");
             rlDpath.setVisibility(View.GONE);
             if (position <= 6) {
                 dpath = "m/44'/60'/0'/0";
