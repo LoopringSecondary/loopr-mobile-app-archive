@@ -3,6 +3,7 @@ package leaf.prod.app.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -20,50 +21,63 @@ import leaf.prod.app.R;
  */
 public class PasswordDialogUtil {
 
-    private static Map<Context, AlertDialog> map = new HashMap<>();
+    private static Map<String, AlertDialog> dialogMap = new HashMap<>();
 
-    private static EditText passwordInput;
+    private static Map<String, Context> contextMap = new HashMap<>();
 
-    public static void showPasswordDialog(Context context, View.OnClickListener listener) {
-        if (map.get(context) == null) {
+    private static String passwordTag;
+
+    public static void showPasswordDialog(Context context, String tag, View.OnClickListener listener) {
+        Context existContext = contextMap.get(passwordTag = tag);
+        if (existContext == null || ((Activity) existContext).isFinishing()) {
             final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context, R.style.DialogTheme);
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_put_password, null);
             builder.setView(view);
-            passwordInput = view.findViewById(R.id.password_input);
+            view.findViewById(R.id.password_input);
             view.findViewById(R.id.cancel).setOnClickListener(v -> {
-                showKeyboard(context, false);
-                map.get(context).dismiss();
+                ((EditText) view.findViewById(R.id.password_input)).setText("");
+                showKeyboard(false);
+                dialogMap.get(passwordTag).dismiss();
             });
             view.findViewById(R.id.confirm).setOnClickListener(listener);
             builder.setCancelable(true);
             AlertDialog passwordDialog = builder.create();
             passwordDialog.setCancelable(false);
             passwordDialog.setCanceledOnTouchOutside(false);
-            map.put(context, passwordDialog);
+            dialogMap.put(passwordTag, passwordDialog);
+            contextMap.put(passwordTag, context);
         } else {
-            passwordInput.setText("");
+            ((EditText) dialogMap.get(tag).findViewById(R.id.password_input)).setText("");
         }
-        map.get(context).show();
+        dialogMap.get(passwordTag).show();
     }
 
     public static String getInputPassword() {
+        EditText passwordInput = dialogMap.get(passwordTag) != null ? dialogMap.get(passwordTag)
+                .findViewById(R.id.password_input) : null;
         return passwordInput != null ? passwordInput.getText().toString() : "";
     }
 
     public static void clearPassword() {
-        passwordInput.setText("");
-    }
-
-    public static void dismiss(Context context) {
-        if (map.get(context) != null) {
-            passwordInput = null;
-            map.get(context).dismiss();
-            map.remove(context);
+        EditText passwordInput = dialogMap.get(passwordTag) != null ? dialogMap.get(passwordTag)
+                .findViewById(R.id.password_input) : null;
+        if (passwordInput != null) {
+            ((EditText) dialogMap.get(passwordTag).findViewById(R.id.password_input)).setText("");
         }
     }
 
-    private static void showKeyboard(Context context, boolean show) {
-        if (passwordInput != null && map.get(context) != null) {
+    public static void dismiss(String tag) {
+        if (dialogMap.get(tag) != null) {
+            dialogMap.get(tag).dismiss();
+            dialogMap.remove(tag);
+            contextMap.remove(tag);
+        }
+    }
+
+    private static void showKeyboard(boolean show) {
+        EditText passwordInput = dialogMap.get(passwordTag) != null ? dialogMap.get(passwordTag)
+                .findViewById(R.id.password_input) : null;
+        if (passwordInput != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) passwordInput.getContext()
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             if (inputMethodManager != null) {

@@ -33,6 +33,8 @@ public class P2PTradeFragment extends BaseFragment {
 
     public final static int BALANCE_SUCCESS = 1;
 
+    public static String PASSWORD_TYPE = "P2P_ORDER";
+
     Unbinder unbinder;
 
     @BindView(R.id.ll_switch)

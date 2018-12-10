@@ -56,6 +56,8 @@ public class P2PRecordsFragment extends BaseFragment {
 
     private int currentPageIndex = 1, pageSize = 20, totalCount = 0;
 
+    public static String PASSWORD_TYPE = "P2P_CANCEL";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

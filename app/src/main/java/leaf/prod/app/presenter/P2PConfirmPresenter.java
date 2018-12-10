@@ -6,6 +6,7 @@
  */
 package leaf.prod.app.presenter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
@@ -29,6 +30,8 @@ import rx.schedulers.Schedulers;
 
 public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
 
+    private static String PASSWORD_TYPE = "P2P_CONFIRM";
+
     public JsonObject p2pContent;
 
     private TokenDataManager tokenManager;
@@ -47,6 +50,7 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
         p2pOrderManager = P2POrderDataManager.getInstance(context);
     }
 
+    @SuppressLint("SetTextI18n")
     public void handleResult() {
         p2pOrderManager.handleResult(p2pContent);
         OriginOrder taker = p2pOrderManager.getOrder();
@@ -79,7 +83,7 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
 
     public void processTaker() {
         if (WalletUtil.needPassword(context)) {
-            PasswordDialogUtil.showPasswordDialog(context, v -> processTaker(PasswordDialogUtil.getInputPassword()));
+            PasswordDialogUtil.showPasswordDialog(view, PASSWORD_TYPE, v -> processTaker(PasswordDialogUtil.getInputPassword()));
         } else {
             processTaker("");
         }
@@ -96,7 +100,6 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
         }
         if (!p2pOrderManager.isBalanceEnough()) {
             view.finish();
-            PasswordDialogUtil.dismiss(context);
             view.getOperation().forward(P2PErrorActivity.class);
         } else {
             p2pOrderManager.handleInfo()
