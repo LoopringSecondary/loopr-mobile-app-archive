@@ -26,7 +26,7 @@ enum Production: String {
         }
         return .upwallet
     }
-    
+
     static func getProduct() -> String {
         return getCurrent().rawValue
     }

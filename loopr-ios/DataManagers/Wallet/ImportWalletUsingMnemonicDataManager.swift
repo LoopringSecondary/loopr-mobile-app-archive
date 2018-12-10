@@ -15,6 +15,8 @@ class ImportWalletUsingMnemonicDataManager: ImportWalletProtocol {
     
     var mnemonic: String = ""
     var password: String = ""
+    // If password is empty, devicePassword will become required.
+    var devicePassword: String = ""
     private var derivationPathValue = "m/44'/60'/0'/0"
     var selectedKey: Int = 0
     var addresses: [Address] = []
@@ -48,12 +50,12 @@ class ImportWalletUsingMnemonicDataManager: ImportWalletProtocol {
         let pathValue = derivationPathValue + "/x"
         let wallet: Wallet
         
-        // imToken wallet doesn't use password to get ETH addresses.
+        // imToken wallet and other wallets don't use password to get ETH addresses.
         // password won't be changed as users may try different wallet types.
-        if walletType == WalletType.getImtokenWallet() {
-            wallet = Wallet(mnemonic: mnemonic, password: "", path: pathValue)
-        } else {
+        if walletType == WalletType.getLoopringWallet() {
             wallet = Wallet(mnemonic: mnemonic, password: password, path: pathValue)
+        } else {
+            wallet = Wallet(mnemonic: mnemonic, password: "", path: pathValue)
         }
 
         // TODO: in theory, it should generate many many addresses. However, we should only top 100 addresses. Improve in the future.
@@ -70,12 +72,14 @@ class ImportWalletUsingMnemonicDataManager: ImportWalletProtocol {
         SVProgressHUD.show(withStatus: LocalizedString("Initializing the wallet", comment: "") + "...")
         DispatchQueue.global().async {
             
-            // imToken wallet doesn't use password to get ETH addresses.
-            if self.walletType == WalletType.getImtokenWallet() {
+            // imToken wallet and other wallets don't use password to get ETH addresses.
+            // The password will be used as devicePassword.
+            if self.walletType != WalletType.getLoopringWallet() {
+                self.devicePassword = self.password
                 self.password = ""
             }
 
-            AppWalletDataManager.shared.addWallet(setupWalletMethod: .importUsingMnemonic, walletName: self.walletName, mnemonics: self.mnemonic.components(separatedBy: " "), password: self.password, derivationPath: pathValue, key: self.selectedKey, isVerified: true, completionHandler: {(appWallet, error) in
+            AppWalletDataManager.shared.addWallet(setupWalletMethod: .importUsingMnemonic, walletName: self.walletName, mnemonics: self.mnemonic.components(separatedBy: " "), password: self.password, devicePassword: self.devicePassword, derivationPath: pathValue, key: self.selectedKey, isVerified: true, completionHandler: {(appWallet, error) in
                 if error == nil {
                     // Inform relay
                     LoopringAPIRequest.unlockWallet(owner: appWallet!.address) { (_, _) in }

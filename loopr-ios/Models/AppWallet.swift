@@ -25,9 +25,15 @@ class AppWallet: NSObject, NSCoding {
     
     final var mnemonics: [String]
     private final let keystoreString: String
-    
-    // Only used when the wallet is imported using a private key
+
+    /*
+    // TODO: deprecated after 1.3.2. Use devicePassword instead.
+    // Only used when the wallet is imported using a private key and using mnemonics without password
     private final let keystorePassword: String = "123456"
+    */
+
+    // If the password is empty and the devicePassword is not, the wallet type is other wallets.
+    private final var devicePassword: String
     
     // The wallet name in the app. Users can update later.
     var name: String
@@ -51,10 +57,11 @@ class AppWallet: NSObject, NSCoding {
     
     var nonce: Int64 = 0
     
-    init(setupWalletMethod: QRCodeMethod, address: String, password: String, mnemonics: [String] = [], keystoreString: String, name: String, isVerified: Bool, totalCurrency: Double = 0, tokenList: [String], manuallyDisabledTokenList: [String]) {
+    init(setupWalletMethod: QRCodeMethod, address: String, password: String, devicePassword: String, mnemonics: [String] = [], keystoreString: String, name: String, isVerified: Bool, totalCurrency: Double = 0, tokenList: [String], manuallyDisabledTokenList: [String]) {
         self.setupWalletMethod = setupWalletMethod
         self.address = address
         self.password = password
+        self.devicePassword = devicePassword
         self.mnemonics = mnemonics
         self.keystoreString = keystoreString
         self.name = name
@@ -62,7 +69,7 @@ class AppWallet: NSObject, NSCoding {
 
         self.tokenList = tokenList
         self.manuallyDisabledTokenList = manuallyDisabledTokenList
-
+        
         super.init()
         
         if keystoreString == "" || !AppWallet.isKeystore(content: keystoreString) {
@@ -140,7 +147,7 @@ class AppWallet: NSObject, NSCoding {
     
     func getKeystorePassword() -> String {
         if setupWalletMethod == .importUsingPrivateKey || (setupWalletMethod == .importUsingMnemonic && password == "") {
-            return keystorePassword
+            return devicePassword
         } else {
             return password
         }
@@ -153,6 +160,7 @@ class AppWallet: NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(setupWalletMethod.rawValue, forKey: "setupWalletMethod")
         aCoder.encode(password, forKey: "password")
+        aCoder.encode(devicePassword, forKey: "devicePassword")
         aCoder.encode(address, forKey: "address")
         aCoder.encode(name, forKey: "name")
         aCoder.encode(isVerified, forKey: "isVerified")
@@ -169,6 +177,10 @@ class AppWallet: NSObject, NSCoding {
         let setupWalletMethod = QRCodeMethod(rawValue: setupWalletMethodString) ?? QRCodeMethod.importUsingPrivateKey
         
         let password = aDecoder.decodeObject(forKey: "password") as? String
+        
+        // Before 1.3.2, devicePassword is not available, use keystorePassword at that time.
+        let devicePassword = aDecoder.decodeObject(forKey: "devicePassword") as? String ?? "123456"
+        
         let address = aDecoder.decodeObject(forKey: "address") as? String
         let name = aDecoder.decodeObject(forKey: "name") as? String
         let isVerified = aDecoder.containsValue(forKey: "isVerified") ? aDecoder.decodeBool(forKey: "isVerified") : false
@@ -193,7 +205,7 @@ class AppWallet: NSObject, NSCoding {
             if keystoreString == "" || !AppWallet.isKeystore(content: keystoreString) {
                 return nil
             }
-            self.init(setupWalletMethod: setupWalletMethod, address: address, password: password, mnemonics: mnemonics, keystoreString: keystoreString, name: name, isVerified: isVerified, tokenList: unique(filteredTokenList), manuallyDisabledTokenList: unique(filteredManuallyDisabledTokenList))
+            self.init(setupWalletMethod: setupWalletMethod, address: address, password: password, devicePassword: devicePassword, mnemonics: mnemonics, keystoreString: keystoreString, name: name, isVerified: isVerified, tokenList: unique(filteredTokenList), manuallyDisabledTokenList: unique(filteredManuallyDisabledTokenList))
         } else {
             return nil
         }

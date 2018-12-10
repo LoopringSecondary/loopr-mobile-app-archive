@@ -8,15 +8,16 @@
 
 import Foundation
 import secp256k1_ios
+import SVProgressHUD
+import NotificationBannerSwift
 
 class ImportWalletUsingPrivateKeyDataManager: ImportWalletProtocol {
     
     static let shared = ImportWalletUsingPrivateKeyDataManager()
     
     var walletName: String
-    
-    // Password is no need
-    final let password: String = ""
+
+    var devicePassword: String = ""
     
     var address: String
     private var privateKey: String
@@ -35,15 +36,7 @@ class ImportWalletUsingPrivateKeyDataManager: ImportWalletProtocol {
         privateKey = ""
         keystore = ""
     }
-    
-    func setKeystore(keystore: String) {
-        self.keystore = keystore
-    }
-    
-    func getPrivateKey() -> String {
-        return privateKey
-    }
-    
+
     func importWallet(privateKey privateKeyString: String) throws {
         print("Start to unlock a new wallet using the private key")
         let privateKeyData: Data? = Data(hexString: privateKeyString.trim())
@@ -62,18 +55,50 @@ class ImportWalletUsingPrivateKeyDataManager: ImportWalletProtocol {
         // Store public key
         address = keystoreAddress.eip55String
     }
-    
-    func complete() throws {
+
+    func complete(completion: @escaping (_ appWallet: AppWallet?, _ error: AddWalletError?) -> Void) {
         if AppWalletDataManager.shared.isDuplicatedAddress(address: address) {
-            throw AddWalletError.duplicatedAddress
+            completion(nil, AddWalletError.duplicatedAddress)
         }
         
-        let newAppWallet = AppWallet(setupWalletMethod: .importUsingPrivateKey, address: address, password: password, keystoreString: keystore, name: walletName.trim(), isVerified: true, tokenList: ["ETH", "WETH", "LRC"], manuallyDisabledTokenList: [])
-        AppWalletDataManager.shared.updateAppWalletsInLocalStorage(newAppWallet: newAppWallet)
-        CurrentAppWalletDataManager.shared.setCurrentAppWallet(newAppWallet, completionHandler: {})
-        
-        // Inform relay
-        LoopringAPIRequest.unlockWallet(owner: address) { (_, _) in }
-        print("Finished unlocking a new wallet in ImportWalletUsingPrivateKeyDataManager")
+        SVProgressHUD.show(withStatus: LocalizedString("Initializing the wallet", comment: "") + "...")
+        DispatchQueue.global().async {
+            do {
+                guard let data = Data(hexString: self.privateKey) else {
+                    print("Invalid private key")
+                    DispatchQueue.main.async {
+                        SVProgressHUD.dismiss()
+                        completion(nil, AddWalletError.invalidInput)
+                    }
+                    return
+                }
+                
+                print("Generating keystore")
+                let key = try KeystoreKey(password: self.devicePassword, key: data)
+                print("Finished generating keystore")
+                let keystoreData = try JSONEncoder().encode(key)
+                let json = try JSON(data: keystoreData)
+                self.keystore = json.description
+                
+                let newAppWallet = AppWallet(setupWalletMethod: .importUsingPrivateKey, address: self.address, password: "", devicePassword: self.devicePassword, keystoreString: self.keystore, name: self.walletName.trim(), isVerified: true, tokenList: ["ETH", "WETH", "LRC"], manuallyDisabledTokenList: [])
+                AppWalletDataManager.shared.updateAppWalletsInLocalStorage(newAppWallet: newAppWallet)
+                CurrentAppWalletDataManager.shared.setCurrentAppWallet(newAppWallet, completionHandler: {})
+                
+                // Inform relay
+                LoopringAPIRequest.unlockWallet(owner: self.address) { (_, _) in }
+                print("Finished unlocking a new wallet in ImportWalletUsingPrivateKeyDataManager")
+
+                DispatchQueue.main.async {
+                    SVProgressHUD.dismiss()
+                    completion(newAppWallet, nil)
+                }
+
+            } catch {
+                DispatchQueue.main.async {
+                    SVProgressHUD.dismiss()
+                    completion(nil, AddWalletError.invalidInput)
+                }
+            }
+        }
     }
 }
