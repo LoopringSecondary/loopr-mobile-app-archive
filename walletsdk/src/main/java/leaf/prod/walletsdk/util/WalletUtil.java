@@ -11,6 +11,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
@@ -85,7 +86,7 @@ public class WalletUtil {
     }
 
     public static boolean isWalletExisted(Context context, String walletName) {
-        return isWalletExisted(context, new WalletEntity(walletName));
+        return isWalletExisted(context, WalletEntity.builder().walletname(walletName).build());
     }
 
     public static void addWallet(Context context, WalletEntity wallet) {
@@ -150,7 +151,7 @@ public class WalletUtil {
     public static Credentials getCredential(Context context, String password) throws IOException, JSONException, InvalidKeystoreException, IllegalCredentialException {
         WalletEntity walletEntity = getCurrentWallet(context);
         if (!StringUtils.isEmpty(password) && !StringUtils.isEmpty(walletEntity.getPas()) && ImportWalletType.MNEMONIC == walletEntity
-                .getWalletType() && !MD5Utils.md5(password).equals(walletEntity.getPas())) {
+                .getWalletType() && !passwordValid(password, walletEntity.getPas())) {
             throw new InvalidKeystoreException();
         }
         password = "imToken".equals(walletEntity.getWalletFrom()) && ImportWalletType.MNEMONIC == walletEntity.getWalletType() ? "" : password;
@@ -165,4 +166,39 @@ public class WalletUtil {
         return KeystoreUtils.createFromPrivateKey();
     }
 
+    /**
+     * 加密助记词
+     *
+     * @param content
+     * @param password
+     * @return
+     */
+    public static String encryptMnemonic(String content, String password, String salt, String iv) {
+        String sha256 = EncryptUtil.encryptSHA256(password, salt);
+        return EncryptUtil.encryptAES(content, sha256, iv);
+    }
+
+    /**
+     * 解密助记词
+     *
+     * @param content
+     * @return
+     */
+    public static String decryptMnemonic(String content, String password, String salt, String iv) {
+        return EncryptUtil.decryptAES(content, EncryptUtil.encryptSHA256(password, salt), iv);
+    }
+
+    public static boolean passwordValid(String inputPwd, String encryptPwd) {
+        return encryptPwd.equals(EncryptUtil.encryptSHA3(inputPwd));
+    }
+
+    public static void cleanOldWallets(Context context) {
+        Iterator<WalletEntity> iterator = getWalletList(context).iterator();
+        while (iterator.hasNext()) {
+            WalletEntity wallet = iterator.next();
+            if (StringUtils.isEmpty(wallet.getSalt())) {
+                iterator.remove();
+            }
+        }
+    }
 }

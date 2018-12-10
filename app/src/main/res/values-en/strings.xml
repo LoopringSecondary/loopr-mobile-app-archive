@@ -259,4 +259,5 @@
     <string name="qr_error_tip">Please make sure the QR code is type of P2P order.</string>
     <string name="share_order">Share Order</string>
     <string name="save_to_album">Save to album</string>
+    <string name="password_empty">Password should not be empty</string>
 </resources>

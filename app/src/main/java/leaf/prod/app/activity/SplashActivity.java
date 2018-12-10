@@ -96,6 +96,7 @@ public class SplashActivity extends BaseActivity {
         ThirdLoginUtil.updateRemote(this);
         AppManager.getAppManager().addActivity(this);
         mSwipeBackLayout.setEnableGesture(false);
+        WalletUtil.cleanOldWallets(this);
     }
 
     @Override

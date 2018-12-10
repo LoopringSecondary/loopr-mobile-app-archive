@@ -2,6 +2,7 @@ package leaf.prod.app.activity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,9 +50,9 @@ import leaf.prod.walletsdk.model.ImportWalletType;
 import leaf.prod.walletsdk.model.WalletEntity;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.CredentialsUtils;
+import leaf.prod.walletsdk.util.EncryptUtil;
 import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.KeystoreUtils;
-import leaf.prod.walletsdk.util.MD5Utils;
 import leaf.prod.walletsdk.util.MnemonicUtils;
 import leaf.prod.walletsdk.util.PasswordUtils;
 import leaf.prod.walletsdk.util.SPUtils;
@@ -180,9 +181,20 @@ public class GenerateWalletActivity extends BaseActivity {
                                 .subscribe(new Subscriber<String>() {
                                     @Override
                                     public void onCompleted() {
-                                        WalletUtil.addWallet(GenerateWalletActivity.this, new WalletEntity(walletName.getText()
-                                                .toString(), filename, "0x" + address, mnemonic, MD5Utils.md5(password.getText()
-                                                .toString()), "", "", ImportWalletType.ALL));
+                                        String salt = EncryptUtil.getSecureRandom(), iv = EncryptUtil.getSecureRandom();
+                                        WalletUtil.addWallet(GenerateWalletActivity.this, WalletEntity.builder()
+                                                .walletname(walletName.getText().toString())
+                                                .filename(filename)
+                                                .address("0x" + address)
+                                                .pas(EncryptUtil.encryptSHA3(password.getText().toString()))
+                                                .salt(salt)
+                                                .iv(iv)
+                                                .mnemonic(WalletUtil.encryptMnemonic(mnemonic, password.getText()
+                                                        .toString(), salt, iv))
+                                                .chooseTokenList(Arrays.asList("ETH", "WETH", "LRC"))
+                                                .walletType(ImportWalletType.ALL).build());
+                                        //                                        WalletUtil.addWallet(GenerateWalletActivity.this, new WalletEntity(walletName.getText()
+                                        //                                                .toString(), filename, "0x" + address, mnemonic, null, "", "", ImportWalletType.ALL));
                                         hideProgress();
                                         DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, v -> {
                                             DialogUtil.dialog.dismiss();
