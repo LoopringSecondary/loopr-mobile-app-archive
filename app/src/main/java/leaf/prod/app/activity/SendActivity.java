@@ -46,8 +46,6 @@ import leaf.prod.app.R;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.Erc20TransactionManager;
-import leaf.prod.walletsdk.EthTransactionManager;
 import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
@@ -60,7 +58,6 @@ import leaf.prod.walletsdk.manager.TransactionDataManager;
 import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.Token;
-import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SPUtils;
@@ -142,13 +139,9 @@ public class SendActivity extends BaseActivity {
 
     private String address; //钱包地址
 
-    private BigInteger nonce;
-
     private String sendChoose;
 
     private String gasLimitType = "token_transfer";
-
-    private LoopringService loopringService = new LoopringService();
 
     private BalanceDataManager balanceManager;
 
@@ -157,10 +150,6 @@ public class SendActivity extends BaseActivity {
     private GasDataManager gasDataManager;
 
     private MarketcapDataManager marketcapDataManager;
-
-    private Erc20TransactionManager erc20TransactionManager;
-
-    private EthTransactionManager ethTransactionManager;
 
     /**
      * 邮费选择弹窗相关组件
