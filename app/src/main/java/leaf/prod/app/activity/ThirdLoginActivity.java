@@ -18,8 +18,8 @@ import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.PermissionUtils;
-import leaf.prod.walletsdk.model.ThirdLogin;
-import leaf.prod.walletsdk.model.ThirdLoginUser;
+import leaf.prod.walletsdk.model.LoginUser;
+import leaf.prod.walletsdk.model.LoginUserConfig;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.LanguageUtil;
@@ -72,32 +72,32 @@ public class ThirdLoginActivity extends BaseActivity {
                 @Override
                 public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                     String uid = map.get("openid");
-                    ThirdLoginUser thirdLoginUser = new ThirdLoginUser(uid, LanguageUtil
-                            .getSettingLanguage(ThirdLoginActivity.this)
-                            .getText(), CurrencyUtil.getCurrency(ThirdLoginActivity.this)
-                            .name(), null);
-                    ThirdLoginUtil.initThirdLogin(ThirdLoginActivity.this, thirdLoginUser, new Callback<AppResponseWrapper<ThirdLogin>>() {
+                    LoginUserConfig loginUserConfig = LoginUserConfig.builder().userId(uid)
+                            .language(LanguageUtil.getSettingLanguage(ThirdLoginActivity.this).getText())
+                            .currency(CurrencyUtil.getCurrency(ThirdLoginActivity.this).name())
+                            .walletList(null).build();
+                    ThirdLoginUtil.initThirdLogin(ThirdLoginActivity.this, loginUserConfig, new Callback<AppResponseWrapper<LoginUser>>() {
                         @Override
-                        public void onResponse(Call<AppResponseWrapper<ThirdLogin>> call, Response<AppResponseWrapper<ThirdLogin>> response) {
-                            ThirdLoginUser remoteThirdLoginUser = null;
-                            ThirdLogin newThirdLogin = new ThirdLogin(uid, new Gson().toJson(thirdLoginUser));
-                            ThirdLoginUser localThirdLoginUser = ThirdLoginUtil.getLocalUser(ThirdLoginActivity.this);
+                        public void onResponse(Call<AppResponseWrapper<LoginUser>> call, Response<AppResponseWrapper<LoginUser>> response) {
+                            LoginUserConfig remoteLoginUserConfig = null;
+                            LoginUser newLoginUser = new LoginUser(uid, new Gson().toJson(loginUserConfig));
+                            LoginUserConfig localLoginUserConfig = ThirdLoginUtil.getLocalUser(ThirdLoginActivity.this);
                             try {
-                                ThirdLogin remoteThirdLogin = response.body().getMessage();
-                                remoteThirdLoginUser = remoteThirdLogin != null ? remoteThirdLogin.getThirdLoginUser() : null;
+                                LoginUser remoteLoginUser = response.body().getMessage();
+                                remoteLoginUserConfig = remoteLoginUser != null ? remoteLoginUser.getThirdLoginUser() : null;
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            if (localThirdLoginUser == null) {
-                                if (remoteThirdLoginUser != null) {
+                            if (localLoginUserConfig == null) {
+                                if (remoteLoginUserConfig != null) {
                                     // 初始化本地数据
-                                    SPUtils.put(ThirdLoginActivity.this, "third_login_" + uid, remoteThirdLoginUser);
+                                    SPUtils.put(ThirdLoginActivity.this, "third_login_" + uid, remoteLoginUserConfig);
                                     ThirdLoginUtil.initLocalConf(ThirdLoginActivity.this);
                                     RxToast.success(getResources().getString(R.string.third_login_success));
                                     forward();
                                 } else {
                                     // 初始化本地和线上
-                                    ThirdLoginUtil.initLocalAndRemote(ThirdLoginActivity.this, newThirdLogin, new Callback<AppResponseWrapper<String>>() {
+                                    ThirdLoginUtil.initLocalAndRemote(ThirdLoginActivity.this, newLoginUser, new Callback<AppResponseWrapper<String>>() {
                                         @Override
                                         public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
                                             RxToast.success(getResources().getString(R.string.third_login_success));
@@ -113,8 +113,8 @@ public class ThirdLoginActivity extends BaseActivity {
                                 }
                             } else {
                                 // 更新线上数据
-                                if (!localThirdLoginUser.equals(remoteThirdLoginUser)) {
-                                    ThirdLoginUtil.initRemote(ThirdLoginActivity.this, localThirdLoginUser, new Callback<AppResponseWrapper<String>>() {
+                                if (!localLoginUserConfig.equals(remoteLoginUserConfig)) {
+                                    ThirdLoginUtil.initRemote(ThirdLoginActivity.this, localLoginUserConfig, new Callback<AppResponseWrapper<String>>() {
                                         @Override
                                         public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
                                             RxToast.success(getResources().getString(R.string.third_login_success));
@@ -132,7 +132,7 @@ public class ThirdLoginActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<AppResponseWrapper<ThirdLogin>> call, Throwable t) {
+                        public void onFailure(Call<AppResponseWrapper<LoginUser>> call, Throwable t) {
                             RxToast.error(getResources().getString(R.string.third_login_error));
                             ThirdLoginUtil.clearLocal(ThirdLoginActivity.this, uid);
                         }

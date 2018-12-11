@@ -7,10 +7,10 @@ import com.google.gson.Gson;
 
 import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.model.Language;
-import leaf.prod.walletsdk.model.ThirdLogin;
-import leaf.prod.walletsdk.model.ThirdLoginUser;
+import leaf.prod.walletsdk.model.LoginUser;
+import leaf.prod.walletsdk.model.LoginUserConfig;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
-import leaf.prod.walletsdk.service.ThirdLoginService;
+import leaf.prod.walletsdk.service.LoginUserService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,7 +25,7 @@ public class ThirdLoginUtil {
 
     private static String THIRD_LOGIN = "third_login";
 
-    private static ThirdLoginService thirdLoginService = new ThirdLoginService();
+    private static LoginUserService loginUserService = new LoginUserService();
 
     private static Gson gson = new Gson();
 
@@ -35,7 +35,7 @@ public class ThirdLoginUtil {
 
     public static boolean isThirdLogin(Context context) {
         String uid = getUserId(context);
-        return !StringUtils.isEmpty(uid) && !uid.equals("-") && SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, ThirdLogin.class) != null;
+        return !StringUtils.isEmpty(uid) && !uid.equals("-") && SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, LoginUser.class) != null;
     }
 
     public static boolean isSkip(Context context) {
@@ -53,18 +53,18 @@ public class ThirdLoginUtil {
         SPUtils.remove(context, THIRD_LOGIN + "_" + uid);
     }
 
-    public static ThirdLoginUser getLocalUser(Context context) {
-        return SPUtils.getBean(context, THIRD_LOGIN + "_" + getUserId(context), ThirdLoginUser.class);
+    public static LoginUserConfig getLocalUser(Context context) {
+        return SPUtils.getBean(context, THIRD_LOGIN + "_" + getUserId(context), LoginUserConfig.class);
     }
 
     /**
      * 点击第三方微信登录
      *
-     * @param thirdLoginUser
+     * @param loginUserConfig
      */
-    public static void initThirdLogin(Context context, ThirdLoginUser thirdLoginUser, Callback<AppResponseWrapper<ThirdLogin>> callback) {
-        SPUtils.put(context, THIRD_LOGIN, thirdLoginUser.getUserId());
-        thirdLoginService.getUser(thirdLoginUser.getUserId(), callback);
+    public static void initThirdLogin(Context context, LoginUserConfig loginUserConfig, Callback<AppResponseWrapper<LoginUser>> callback) {
+        SPUtils.put(context, THIRD_LOGIN, loginUserConfig.getUserId());
+        loginUserService.getUser(loginUserConfig.getUserId(), callback);
     }
 
     /**
@@ -73,11 +73,11 @@ public class ThirdLoginUtil {
      * @return
      */
     public static void initLocalConf(Context context) {
-        ThirdLoginUser thirdLoginUser = SPUtils.getBean(context, THIRD_LOGIN + "_" + getUserId(context), ThirdLoginUser.class);
-        if (thirdLoginUser != null) {
-            LanguageUtil.changeLanguage(context, Language.getLanguage(thirdLoginUser.getLanguage()));
-            if (CurrencyUtil.getCurrency(context) != Currency.valueOf(thirdLoginUser.getCurrency())) {
-                CurrencyUtil.setCurrency(context, Currency.valueOf(thirdLoginUser.getCurrency()));
+        LoginUserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + getUserId(context), LoginUserConfig.class);
+        if (loginUserConfig != null) {
+            LanguageUtil.changeLanguage(context, Language.getLanguage(loginUserConfig.getLanguage()));
+            if (CurrencyUtil.getCurrency(context) != Currency.valueOf(loginUserConfig.getCurrency())) {
+                CurrencyUtil.setCurrency(context, Currency.valueOf(loginUserConfig.getCurrency()));
             }
         } else {
             if (LanguageUtil.getLanguage(context) != LanguageUtil.getSettingLanguage(context)) {
@@ -90,23 +90,23 @@ public class ThirdLoginUtil {
      * 初始化本地和线上
      *
      * @param context
-     * @param thirdLogin
+     * @param loginUser
      * @param callback
      */
-    public static void initLocalAndRemote(Context context, ThirdLogin thirdLogin, Callback<AppResponseWrapper<String>> callback) {
-        thirdLoginService.addUser(thirdLogin, callback);
-        SPUtils.put(context, THIRD_LOGIN + "_" + getUserId(context), thirdLogin.getThirdLoginUser());
+    public static void initLocalAndRemote(Context context, LoginUser loginUser, Callback<AppResponseWrapper<String>> callback) {
+        loginUserService.addUser(loginUser, callback);
+        SPUtils.put(context, THIRD_LOGIN + "_" + getUserId(context), loginUser.getThirdLoginUser());
     }
 
     /**
      * 初始化线上
      *
      * @param context
-     * @param thirdLoginUser
+     * @param loginUserConfig
      * @param callback
      */
-    public static void initRemote(Context context, ThirdLoginUser thirdLoginUser, Callback<AppResponseWrapper<String>> callback) {
-        thirdLoginService.addUser(new ThirdLogin(getUserId(context), gson.toJson(thirdLoginUser)), callback);
+    public static void initRemote(Context context, LoginUserConfig loginUserConfig, Callback<AppResponseWrapper<String>> callback) {
+        loginUserService.addUser(new LoginUser(getUserId(context), gson.toJson(loginUserConfig)), callback);
     }
 
     /**
@@ -119,11 +119,11 @@ public class ThirdLoginUtil {
     public static void updateLocal(Context context, Language language, Currency currency) {
         if (isThirdLogin(context)) {
             String uid = getUserId(context);
-            ThirdLoginUser thirdLoginUser = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, ThirdLoginUser.class);
-            if (thirdLoginUser != null) {
-                thirdLoginUser.setLanguage(language != null ? language.getText() : thirdLoginUser.getLanguage());
-                thirdLoginUser.setCurrency(currency != null ? currency.name() : thirdLoginUser.getCurrency());
-                SPUtils.put(context, THIRD_LOGIN + "_" + uid, thirdLoginUser);
+            LoginUserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, LoginUserConfig.class);
+            if (loginUserConfig != null) {
+                loginUserConfig.setLanguage(language != null ? language.getText() : loginUserConfig.getLanguage());
+                loginUserConfig.setCurrency(currency != null ? currency.name() : loginUserConfig.getCurrency());
+                SPUtils.put(context, THIRD_LOGIN + "_" + uid, loginUserConfig);
             }
         }
     }
@@ -136,27 +136,27 @@ public class ThirdLoginUtil {
     public static void updateRemote(Context context) {
         if (isThirdLogin(context)) {
             String uid = getUserId(context);
-            ThirdLoginUser thirdLoginUser = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, ThirdLoginUser.class);
-            if (thirdLoginUser != null) {
-                thirdLoginService.getUser(uid, new Callback<AppResponseWrapper<ThirdLogin>>() {
+            LoginUserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, LoginUserConfig.class);
+            if (loginUserConfig != null) {
+                loginUserService.getUser(uid, new Callback<AppResponseWrapper<LoginUser>>() {
                     @Override
-                    public void onResponse(Call<AppResponseWrapper<ThirdLogin>> call, Response<AppResponseWrapper<ThirdLogin>> response) {
-                        ThirdLoginUser remoteThirdLoginUser = null;
-                        ThirdLogin remoteThirdLogin = null;
+                    public void onResponse(Call<AppResponseWrapper<LoginUser>> call, Response<AppResponseWrapper<LoginUser>> response) {
+                        LoginUserConfig remoteLoginUserConfig = null;
+                        LoginUser remoteLoginUser = null;
                         try {
-                            remoteThirdLogin = response.body().getMessage();
-                            remoteThirdLoginUser = remoteThirdLogin != null ? remoteThirdLogin.getThirdLoginUser() : null;
+                            remoteLoginUser = response.body().getMessage();
+                            remoteLoginUserConfig = remoteLoginUser != null ? remoteLoginUser.getThirdLoginUser() : null;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        if (thirdLoginUser.equals(remoteThirdLoginUser))
+                        if (loginUserConfig.equals(remoteLoginUserConfig))
                             return;
-                        if (remoteThirdLoginUser == null) {
-                            remoteThirdLogin = new ThirdLogin(thirdLoginUser.getUserId(), gson.toJson(thirdLoginUser));
+                        if (remoteLoginUserConfig == null) {
+                            remoteLoginUser = new LoginUser(loginUserConfig.getUserId(), gson.toJson(loginUserConfig));
                         } else {
-                            remoteThirdLogin.setConfig(gson.toJson(thirdLoginUser));
+                            remoteLoginUser.setConfig(gson.toJson(loginUserConfig));
                         }
-                        thirdLoginService.addUser(remoteThirdLogin, new Callback<AppResponseWrapper<String>>() {
+                        loginUserService.addUser(remoteLoginUser, new Callback<AppResponseWrapper<String>>() {
                             @Override
                             public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
                                 Log.d("[update remote]: ", "同步成功......");
@@ -170,7 +170,7 @@ public class ThirdLoginUtil {
                     }
 
                     @Override
-                    public void onFailure(Call<AppResponseWrapper<ThirdLogin>> call, Throwable t) {
+                    public void onFailure(Call<AppResponseWrapper<LoginUser>> call, Throwable t) {
                         Log.e("[update remote]: ", "获得云端信息失败......");
                     }
                 });
@@ -186,7 +186,7 @@ public class ThirdLoginUtil {
     public static void deleteThirdLogin(Context context, Callback<AppResponseWrapper<String>> callback) {
         String uid = getUserId(context);
         if (!uid.isEmpty()) {
-            thirdLoginService.deleteUser(uid, callback);
+            loginUserService.deleteUser(uid, callback);
         }
     }
 
