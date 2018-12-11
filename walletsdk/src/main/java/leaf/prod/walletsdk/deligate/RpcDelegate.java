@@ -7,7 +7,7 @@ import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.Partner;
-import leaf.prod.walletsdk.model.ThirdLogin;
+import leaf.prod.walletsdk.model.LoginUser;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
@@ -118,10 +118,10 @@ public interface RpcDelegate {
     Call<AppResponseWrapper<VersionResp>> getLatestVersion();
 
     @GET(Default.APP_RPC_URL + "/user/getUser")
-    Call<AppResponseWrapper<ThirdLogin>> getUser(@Query("account_token") String accountToken);
+    Call<AppResponseWrapper<LoginUser>> getUser(@Query("account_token") String accountToken);
 
     @POST(Default.APP_RPC_URL + "/user/addUser")
-    Call<AppResponseWrapper<String>> addUser(@Body ThirdLogin thirdLogin);
+    Call<AppResponseWrapper<String>> addUser(@Body LoginUser loginUser);
 
     @DELETE(Default.APP_RPC_URL + "/user/deleteUser")
     Call<AppResponseWrapper<String>> deleteUser(@Query("account_token") String accountToken);
