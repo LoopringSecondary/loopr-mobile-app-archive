@@ -34,9 +34,7 @@ import leaf.prod.app.view.Operation;
 import leaf.prod.app.views.swipeback.SwipeBackActivity;
 import leaf.prod.app.views.swipeback.SwipeBackLayout;
 import leaf.prod.walletsdk.model.Network;
-import leaf.prod.walletsdk.service.VersionService;
 import leaf.prod.walletsdk.util.ThirdLoginUtil;
-//import com.umeng.analytics.MobclickAgent;
 
 public abstract class BaseActivity extends SwipeBackActivity {
 
@@ -63,8 +61,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
     private NotificationReceiver notificationReceiver;
 
     private static boolean updateHint = false;
-
-    private static VersionService versionService = new VersionService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
