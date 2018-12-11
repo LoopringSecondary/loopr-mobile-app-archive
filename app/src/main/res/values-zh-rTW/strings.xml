@@ -261,4 +261,5 @@
     <string name="share_order">分享訂單</string>
     <string name="save_to_album">保存到相冊</string>
     <string name="password_empty">密碼不能為空</string>
+    <string name="mnemonic_backup_success">助記詞順序驗證正確</string>
 </resources>

@@ -260,4 +260,5 @@
     <string name="share_order">Share Order</string>
     <string name="save_to_album">Save to album</string>
     <string name="password_empty">Password should not be empty</string>
+    <string name="mnemonic_backup_success">Sequence of your mnemonics is right</string>
 </resources>

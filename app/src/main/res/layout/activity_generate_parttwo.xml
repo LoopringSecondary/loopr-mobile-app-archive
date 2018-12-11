@@ -50,7 +50,7 @@
             android:layout_marginBottom="15dp" />
     </RelativeLayout>
 
-    <include layout="@layout/activity_generate_partthree"/>
+    <!--<include layout="@layout/activity_generate_partthree"/>-->
 
     <LinearLayout style="@style/MatchMatch.Horizontal">
 

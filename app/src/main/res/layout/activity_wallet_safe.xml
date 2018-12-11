@@ -47,12 +47,6 @@
                 android:layout_gravity="center"
                 android:src="@mipmap/icon_next"/>
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/margSide"
-            android:background="@color/lineBac"/>
     </LinearLayout>
 
     <LinearLayout
@@ -63,6 +57,12 @@
         android:clickable="true"
         android:orientation="vertical"
         android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/margSide"
+            android:background="@color/lineBac"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,11 +88,6 @@
                 android:src="@mipmap/icon_next"/>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/margSide"
-            android:background="@color/lineBac"/>
     </LinearLayout>
 
     <LinearLayout
@@ -103,6 +98,12 @@
         android:clickable="true"
         android:orientation="vertical"
         android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/margSide"
+            android:background="@color/lineBac"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -128,11 +129,6 @@
                 android:src="@mipmap/icon_next"/>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/margSide"
-            android:background="@color/lineBac"/>
     </LinearLayout>
 
     <LinearLayout
@@ -143,6 +139,12 @@
         android:clickable="true"
         android:orientation="vertical"
         android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/margSide"
+            android:background="@color/lineBac"/>
 
         <LinearLayout
             android:layout_width="match_parent"
