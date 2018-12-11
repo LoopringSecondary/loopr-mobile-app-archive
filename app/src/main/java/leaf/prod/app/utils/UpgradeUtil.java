@@ -41,7 +41,7 @@ public class UpgradeUtil {
         if (downloadManager == null) {
             downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         }
-        if (!updateHint && getNewVersion(context).isEmpty() || force) {
+        if (!updateHint && getIgnoreVersion(context).isEmpty() || force) {
             versionService.getNewVersion(new Callback<AppResponseWrapper<VersionResp>>() {
                 @Override
                 public void onResponse(Call<AppResponseWrapper<VersionResp>> call, Response<AppResponseWrapper<VersionResp>> response) {
@@ -49,6 +49,7 @@ public class UpgradeUtil {
                         VersionResp versionResult = response.body().getMessage();
                         if (versionResult != null && AndroidUtils.getVersionName(context)
                                 .compareTo(versionResult.getVersion()) < 0) {
+                            SPUtils.put(context, "latestVersion", versionResult.getVersion());
                             AlertDialog.Builder updateDialog = new AlertDialog.Builder(context);
                             VersionResp finalVersionResult = versionResult;
                             updateDialog.setPositiveButton(context.getResources()
@@ -63,8 +64,7 @@ public class UpgradeUtil {
                                 SPUtils.put(context, "ignoreVersion", finalVersionResult.getVersion());
                                 dialogInterface.dismiss();
                             });
-                            updateDialog.setMessage(context.getResources()
-                                    .getString(R.string.upgrade_tips, versionResult.getVersion()));
+                            updateDialog.setMessage(versionResult.getDescription());
                             updateDialog.setTitle(context.getResources().getString(R.string.upgrade_title));
                             updateDialog.show();
                         }
@@ -82,7 +82,19 @@ public class UpgradeUtil {
     }
 
     public static String getNewVersion(Context context) {
-        return (String) SPUtils.get(context, "ignoreVersion", "");
+        String version = (String) SPUtils.get(context, "latestVersion", "");
+        if (!version.isEmpty() && AndroidUtils.getVersionName(context).compareTo(version) < 0) {
+            return version;
+        }
+        return "";
+    }
+
+    public static String getIgnoreVersion(Context context) {
+        String version = (String) SPUtils.get(context, "ignoreVersion", "");
+        if (!version.isEmpty() && AndroidUtils.getVersionName(context).compareTo(version) < 0) {
+            return version;
+        }
+        return "";
     }
 
     /**
