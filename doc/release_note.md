@@ -13,3 +13,14 @@
 > 3. Improve traditional Chinese language support
 > 4. Add Logo animation to splash screen
 > 5. Fix and improve many UI display features
+
+## v1.4
+### 中文
+> 1. 实现原生的P2P交易功能（场外交易功能）
+> 2. 更加安全及完善的助记词保存功能
+> 3. 多处UI的修复及改进
+
+### English
+> 1. Implement native function of P2P trade feature
+> 2. More security mnemonic word processing
+> 3. Fix and improve many UI display features
