@@ -193,12 +193,14 @@ public class WalletUtil {
     }
 
     public static void cleanOldWallets(Context context) {
-        Iterator<WalletEntity> iterator = getWalletList(context).iterator();
+        List<WalletEntity> walletList = getWalletList(context);
+        Iterator<WalletEntity> iterator = walletList.iterator();
         while (iterator.hasNext()) {
             WalletEntity wallet = iterator.next();
             if (StringUtils.isEmpty(wallet.getSalt())) {
                 iterator.remove();
             }
         }
+        setWalletList(context, walletList);
     }
 }
