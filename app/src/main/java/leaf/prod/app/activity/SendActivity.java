@@ -450,6 +450,7 @@ public class SendActivity extends BaseActivity {
             }
         } else if (requestCode == TOKEN_CODE) {
             if (resultCode == 1) {
+                initSeekbar();
                 updateBySymbol(data);
             }
         }
