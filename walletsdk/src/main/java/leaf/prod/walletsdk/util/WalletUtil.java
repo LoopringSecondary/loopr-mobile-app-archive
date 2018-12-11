@@ -197,7 +197,7 @@ public class WalletUtil {
         Iterator<WalletEntity> iterator = walletList.iterator();
         while (iterator.hasNext()) {
             WalletEntity wallet = iterator.next();
-            if (StringUtils.isEmpty(wallet.getSalt())) {
+            if (!StringUtils.isEmpty(wallet.getMnemonic()) && StringUtils.isEmpty(wallet.getSalt())) {
                 iterator.remove();
             }
         }
