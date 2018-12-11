@@ -67,6 +67,7 @@ public class ExportMatchPasSafeActivity extends BaseActivity {
             RxToast.error(getResources().getString(R.string.keystore_psw_error));
             return;
         }
+        finish();
         if (type == 1) {
             getOperation().addParameter("selectedWallet", selectedWallet);
             getOperation().addParameter("mnemonic", selectedWallet.getMnemonic());

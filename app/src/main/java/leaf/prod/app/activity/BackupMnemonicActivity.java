@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -46,6 +48,9 @@ public class BackupMnemonicActivity extends BaseActivity {
 
     @BindView(R.id.rl_word)
     RelativeLayout rlWord;
+
+    @BindView(R.id.btn_next)
+    Button btnNext;
 
     private MnemonicWordAdapter mHintAdapter; //助记词提示adapter
 
@@ -88,8 +93,7 @@ public class BackupMnemonicActivity extends BaseActivity {
     @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.backup_mnemonic));
-        //        title.clickLeftGoBack(getWContext());
-        title.clickLeftGoBack(getWContext(), getOperation(), WalletSafeActivity.class);
+        title.clickLeftGoBack(getWContext());
     }
 
     @Override
@@ -98,6 +102,11 @@ public class BackupMnemonicActivity extends BaseActivity {
         selectedWallet = (WalletEntity) getIntent().getSerializableExtra("selectedWallet");
         mnemonic = WalletUtil.decryptMnemonic(selectedWallet.getMnemonic(), getIntent().getStringExtra("password"), selectedWallet
                 .getSalt(), selectedWallet.getIv());
+        btnNext.setOnClickListener(v -> {
+            Intent intent = new Intent(BackupMnemonicActivity.this, ConfirmMnemonicActivity.class);
+            intent.putExtra("mnemonic", mnemonic);
+            startActivityForResult(intent, 1);
+        });
     }
 
     @Override
@@ -107,29 +116,26 @@ public class BackupMnemonicActivity extends BaseActivity {
         for (int i = 0; i < arrayMne.length; i++) {
             listMnemonic.add(arrayMne[i]);
         }
-        //        new Thread(new Runnable() {
-        //            @Override
-        //            public void run() {
-        //                try {
-        //                    String[] arrayMne = FileUtils.getFile(BackupMnemonicActivity.this,"mnemonic.txt");
-        //                    listMnemonic.clear();
-        //                    for (int i = 0; i < arrayMne.length; i++) {
-        //                        listMnemonic.add(arrayMne[i]);
-        //                    }
-        //                    handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
-        //                } catch (IOException e) {
-        //                    handlerCreate.sendEmptyMessage(ERROR_ONE);
-        //                    e.printStackTrace();
-        //                } catch (JSONException e) {
-        //                    handlerCreate.sendEmptyMessage(ERROR_TWO);
-        //                    e.printStackTrace();
-        //                }
-        //            }
-        //        }).start();
         GridLayoutManager layoutManagerHint = new GridLayoutManager(this, 3);
         recyclerMnemonicHint.setLayoutManager(layoutManagerHint);  //助记词提示列表
         mHintAdapter = new MnemonicWordAdapter(R.layout.adapter_item_mnemonic_word_hint, listMnemonic);
         recyclerMnemonicHint.addItemDecoration(new SpacesItemDecoration(8, 8, 2, 2));
         recyclerMnemonicHint.setAdapter(mHintAdapter);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (null != data) {
+            Bundle bundle = data.getExtras();
+            if (bundle == null) {
+                return;
+            }
+            Boolean result = bundle.getBoolean("result");
+            if (result) {
+                finish();
+                getOperation().forward(MainActivity.class);
+            }
+        }
     }
 }

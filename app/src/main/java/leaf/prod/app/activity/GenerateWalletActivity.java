@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,14 +22,12 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.web3j.crypto.Credentials;
-import com.google.common.base.Joiner;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vondear.rxtool.view.RxToast;
 
@@ -36,7 +35,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.adapter.MnemonicWordAdapter;
 import leaf.prod.app.adapter.MnemonicWordHintAdapter;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.ButtonClickUtil;
@@ -106,21 +104,18 @@ public class GenerateWalletActivity extends BaseActivity {
 
     @BindView(R.id.rl_word)
     RelativeLayout rlWord;
-
-    @BindView(R.id.confirm_mnemonic_word)
-    TextView confirmMnemonicWord;
-
-    @BindView(R.id.confirm_mnemonic_word_info)
-    TextView confirmMnemonicWordInfo;
+    //    @BindView(R.id.confirm_mnemonic_word)
+    //    TextView confirmMnemonicWord;
+    //    @BindView(R.id.confirm_mnemonic_word_info)
+    //    TextView confirmMnemonicWordInfo;
 
     @BindView(R.id.recycler_mnemonic_hint)
     RecyclerView recyclerMnemonicHint;
-
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-
-    @BindView(R.id.generate_partthree)
-    LinearLayout generatePartthree;
+    //    @BindView(R.id.recycler_view)
+    //    RecyclerView recyclerView;
+    //
+    //    @BindView(R.id.generate_partthree)
+    //    LinearLayout generatePartthree;
 
     @BindView(R.id.btn_confirm)
     Button btnConfirm;
@@ -150,8 +145,7 @@ public class GenerateWalletActivity extends BaseActivity {
     List<String> listRandomMnemonic = new ArrayList<>();  //打乱顺序的助记词列表
 
     private MnemonicWordHintAdapter mHintAdapter; //助记词提示adapter
-
-    private MnemonicWordAdapter mAdapter;  //助记词选择adapter
+    //    private MnemonicWordAdapter mAdapter;  //助记词选择adapter
 
     private String mnemonic;  //助记词
 
@@ -294,30 +288,30 @@ public class GenerateWalletActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        //        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         GridLayoutManager layoutManagerHint = new GridLayoutManager(this, 3);
         recyclerMnemonicHint.setLayoutManager(layoutManagerHint);  //助记词提示列表
         mHintAdapter = new MnemonicWordHintAdapter(R.layout.adapter_item_mnemonic_word_hint, null);
         recyclerMnemonicHint.addItemDecoration(new SpacesItemDecoration(8, 8, 2, 2));
         recyclerMnemonicHint.setAdapter(mHintAdapter);
-        recyclerView.setLayoutManager(layoutManager);   //助记词选择列表
-        mAdapter = new MnemonicWordAdapter(R.layout.adapter_item_mnemonic_word, null);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(8, 8, 2, 2));
-        recyclerView.setAdapter(mAdapter);
-        final Joiner joiner = Joiner.on(" ");
-        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            //选择助记词，进行验证
-            CheckBox checkBox = view.findViewById(R.id.mnemonic_word);
-            if (checkBox.isChecked()) {
-                checkBox.setChecked(false);
-                mneCheckedList.remove(listRandomMnemonic.get(position));
-                confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
-            } else {
-                checkBox.setChecked(true);
-                mneCheckedList.add(listRandomMnemonic.get(position));
-                confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
-            }
-        });
+        //        recyclerView.setLayoutManager(layoutManager);   //助记词选择列表
+        //        mAdapter = new MnemonicWordAdapter(R.layout.adapter_item_mnemonic_word, null);
+        //        recyclerView.addItemDecoration(new SpacesItemDecoration(8, 8, 2, 2));
+        //        recyclerView.setAdapter(mAdapter);
+        //        final Joiner joiner = Joiner.on(" ");
+        //        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+        //            //选择助记词，进行验证
+        //            CheckBox checkBox = view.findViewById(R.id.mnemonic_word);
+        //            if (checkBox.isChecked()) {
+        //                checkBox.setChecked(false);
+        //                mneCheckedList.remove(listRandomMnemonic.get(position));
+        //                confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
+        //            } else {
+        //                checkBox.setChecked(true);
+        //                mneCheckedList.add(listRandomMnemonic.get(position));
+        //                confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
+        //            }
+        //        });
         shakeAnimation = AnimationUtils.loadAnimation(GenerateWalletActivity.this, R.anim.shake_x);
     }
 
@@ -375,19 +369,22 @@ public class GenerateWalletActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_confirm:
-                if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-                    if (confirmStatus.equals("one")) {
-                        confirmStatus = "two";
-                        rlMnemonic.setVisibility(View.GONE);
-                        rlWord.setVisibility(View.GONE);
-                        generatePartthree.setVisibility(View.VISIBLE);
-                        Collections.shuffle(listRandomMnemonic); //打乱助记词
-                        mAdapter.setNewData(listRandomMnemonic);
-                        mAdapter.notifyDataSetChanged();
-                    } else {
-                        matchMnemonic();
-                    }
-                }
+                //                if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
+                //                    if (confirmStatus.equals("one")) {
+                //                        confirmStatus = "two";
+                //                        rlMnemonic.setVisibility(View.GONE);
+                //                        rlWord.setVisibility(View.GONE);
+                //                        generatePartthree.setVisibility(View.VISIBLE);
+                //                        Collections.shuffle(listRandomMnemonic); //打乱助记词
+                //                        mAdapter.setNewData(listRandomMnemonic);
+                //                        mAdapter.notifyDataSetChanged();
+                //                    } else {
+                //                        matchMnemonic();
+                //                    }
+                //                }
+                Intent intent = new Intent(this, ConfirmMnemonicActivity.class);
+                intent.putExtra("mnemonic", mnemonic);
+                startActivityForResult(intent, 1);
                 break;
             case R.id.btn_skip:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
@@ -432,18 +429,17 @@ public class GenerateWalletActivity extends BaseActivity {
             //                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
         }).start();
     }
-
     /**
      * 助记词匹配
      */
-    private void matchMnemonic() {
-        String str = Joiner.on(" ").join(mneCheckedList);
-        if (str.trim().equals(mnemonic)) {
-            startThread();
-        } else {
-            RxToast.error(getResources().getString(R.string.mnemonic_not_match));
-        }
-    }
+    //    private void matchMnemonic() {
+    //        String str = Joiner.on(" ").join(mneCheckedList);
+    //        if (str.trim().equals(mnemonic)) {
+    //            startThread();
+    //        } else {
+    //            RxToast.error(getResources().getString(R.string.mnemonic_not_match));
+    //        }
+    //    }
 
     /**
      * 判断两个集合是否相等
@@ -495,5 +491,20 @@ public class GenerateWalletActivity extends BaseActivity {
                 handlerCreate.sendMessage(msg);
             }
         }.start();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (null != data) {
+            Bundle bundle = data.getExtras();
+            if (bundle == null) {
+                return;
+            }
+            Boolean result = bundle.getBoolean("result");
+            if (result) {
+                startThread();
+            }
+        }
     }
 }
