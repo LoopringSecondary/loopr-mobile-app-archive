@@ -14,7 +14,7 @@ import leaf.prod.app.R;
 import leaf.prod.app.receiver.ApkInstallReceiver;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.model.response.app.VersionResp;
-import leaf.prod.walletsdk.service.VersionService;
+import leaf.prod.walletsdk.service.AppService;
 import leaf.prod.walletsdk.util.SPUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +30,7 @@ public class UpgradeUtil {
 
     private static boolean updateHint = false;
 
-    private static VersionService versionService = new VersionService();
+    private static AppService appService = new AppService();
 
     private static DownloadManager downloadManager;
 
@@ -42,7 +42,7 @@ public class UpgradeUtil {
             downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         }
         if (!updateHint && getIgnoreVersion(context).isEmpty() || force) {
-            versionService.getNewVersion(new Callback<AppResponseWrapper<VersionResp>>() {
+            appService.getLatestVersion(new Callback<AppResponseWrapper<VersionResp>>() {
                 @Override
                 public void onResponse(Call<AppResponseWrapper<VersionResp>> call, Response<AppResponseWrapper<VersionResp>> response) {
                     try {

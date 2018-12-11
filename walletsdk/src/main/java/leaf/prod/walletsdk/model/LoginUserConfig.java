@@ -1,15 +1,16 @@
-package leaf.prod.walletsdk.model;
-
-import java.util.List;
-
-import lombok.Builder;
-import lombok.Data;
-
 /**
  * Created with IntelliJ IDEA.
  * User: laiyanyan
  * Time: 2018-10-30 上午10:06
  */
+package leaf.prod.walletsdk.model;
+
+import java.util.List;
+import java.util.Set;
+
+import lombok.Builder;
+import lombok.Data;
+
 @Data
 @Builder
 public class LoginUserConfig {
@@ -21,6 +22,8 @@ public class LoginUserConfig {
     private String currency;
 
     private List<WalletInfo> walletList;
+
+    private Set<Contact> contacts;
 
     @Data
     @Builder
