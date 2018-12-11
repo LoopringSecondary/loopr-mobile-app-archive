@@ -239,7 +239,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
                 progressDialog = new ProgressDialog(this);
                 progressDialog.setMessage(message);
                 progressDialog.setCancelable(cancelable);
-                progressDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_STATUS_BAR);
                 progressDialog.show();
             } else {
                 progressDialog.setCancelable(cancelable);
