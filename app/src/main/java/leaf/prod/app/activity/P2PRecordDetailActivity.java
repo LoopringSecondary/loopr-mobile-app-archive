@@ -6,6 +6,8 @@
  */
 package leaf.prod.app.activity;
 
+import java.text.NumberFormat;
+
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.widget.ImageView;
@@ -186,7 +188,12 @@ P2PRecordDetailActivity extends BaseActivity {
         String lrcFee = balanceDataManager.getFormattedBySymbol("LRC", order.getLrc());
         String lrcCurrency = marketDataManager.getCurrencyBySymbol("LRC", order.getLrc());
         Double ratio = this.order.getDealtAmountSell() / order.getAmountSell();
-        String ratioStr = NumberUtils.format1(ratio, 6) + "%";
+        // Use NumberFormat
+        NumberFormat formatter = NumberFormat.getPercentInstance();
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+        String ratioStr = formatter.format(ratio);
+
         String validSince = DateUtil.formatDateTime(order.getValidS() * 1000L, "MM-dd HH:mm");
         String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000L, "MM-dd HH:mm");
         ivTokenB.setImageDrawable(getResources().getDrawable(resourceB));
