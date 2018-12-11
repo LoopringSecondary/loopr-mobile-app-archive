@@ -54,7 +54,6 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     @SuppressLint("SimpleDateFormat")
     private static SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
 
-
     private String sellPrice = "0", buyPrice = "0";
 
     private Date validSince;
@@ -288,10 +287,10 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 .getString(R.string.sell) + " " + p2pOrderManager.getTokenS());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_buy_token)).setText(view.getResources()
                 .getString(R.string.buy) + " " + p2pOrderManager.getTokenB());
-        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_sell_price)).setText(CurrencyUtil.format(context, marketcapDataManager
+        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_sell_price)).setText("≈" + CurrencyUtil.format(context, marketcapDataManager
                 .getPriceBySymbol(p2pOrderManager.getTokenS()) * Double.parseDouble(view.sellAmount.getText()
                 .toString())));
-        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_buy_price)).setText(CurrencyUtil.format(context, marketcapDataManager
+        ((TextView) p2pTradeDialogView.findViewById(R.id.tv_buy_price)).setText("≈" + CurrencyUtil.format(context, marketcapDataManager
                 .getPriceBySymbol(p2pOrderManager.getTokenB()) * Double.parseDouble(view.buyAmount.getText()
                 .toString())));
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_sell_amount)).setText(view.sellAmount.getText());
@@ -331,7 +330,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 view.tvSellHint.startAnimation(shakeAnimation);
                 break;
             case 3:
-                view.tvSellHint.setText(CurrencyUtil.format(context, marketcapDataManager.getPriceBySymbol(p2pOrderManager
+                view.tvSellHint.setText("≈" + CurrencyUtil.format(context, marketcapDataManager.getPriceBySymbol(p2pOrderManager
                         .getTokenS()) * Double.parseDouble(view.sellAmount.getText().toString())));
                 view.tvSellHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
                 break;
@@ -341,7 +340,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 view.tvBuyHint.startAnimation(shakeAnimation);
                 break;
             case 5:
-                view.tvBuyHint.setText(CurrencyUtil.format(context, marketcapDataManager.getPriceBySymbol(p2pOrderManager
+                view.tvBuyHint.setText("≈" + CurrencyUtil.format(context, marketcapDataManager.getPriceBySymbol(p2pOrderManager
                         .getTokenB()) * Double.parseDouble(view.buyAmount.getText().toString())));
                 view.tvBuyHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
                 break;
@@ -353,7 +352,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     }
 
     public void destroyDialog() {
-        if(p2pTradeDialog != null) {
+        if (p2pTradeDialog != null) {
             p2pTradeDialog.dismiss();
             PasswordDialogUtil.dismiss(P2PTradeFragment.PASSWORD_TYPE);
         }

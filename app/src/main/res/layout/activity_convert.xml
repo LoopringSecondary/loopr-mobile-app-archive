@@ -64,7 +64,6 @@
                     android:layout_marginTop="5dp"
                     android:text="ETH"
                     android:textColor="@color/colorNineText"
-                    android:textSize="12dp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -101,7 +100,6 @@
                     android:layout_marginTop="5dp"
                     android:text="WETH"
                     android:textColor="@color/colorNineText"
-                    android:textSize="12dp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -205,9 +203,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="12dp"
             android:orientation="horizontal"
+            android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/second_line">
 
             <TextView
@@ -215,33 +213,35 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/available_balance"
                 android:textColor="@color/colorNineText"
-                android:textSize="@dimen/mainTabText"/>
+                android:textSize="@dimen/text_11"/>
 
             <TextView
                 android:id="@+id/max"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
                 android:text="@string/max"
                 android:textColor="@color/colorCenter"
-                android:textSize="@dimen/mainTabText"/>
+                android:textSize="@dimen/text_11"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_show_fee"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="18dp"
             android:layout_marginEnd="12dp"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/third_line">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="3dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
                 android:gravity="center_vertical"
                 android:text="@string/transaction_fee"
                 android:textColor="@color/colorWhite"

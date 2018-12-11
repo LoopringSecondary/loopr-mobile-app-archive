@@ -176,7 +176,8 @@ public class ConvertPresenter extends BasePresenter<ConvertActivity> {
                     gasDataManager.setCustomizeGasPriceInGWei((double) progressFloat);
                     gasEthValue = Double.parseDouble(gasDataManager.getGasAmountInETH(String.valueOf(gasDataManager.getGasLimitByType("token_transfer")), String
                             .valueOf(gasDataManager.getCustomizeGasPriceInWei())));
-                    tvAmount.setText(new StringBuilder(gasEthValue.toString()).append(" ETH ≈ ")
+                    tvAmount.setText(new StringBuilder(NumberUtils.format1(gasEthValue, BalanceDataManager.getPrecision("ETH")))
+                            .append(" ETH ≈ ")
                             .append(CurrencyUtil.format(view.getContext(), gasEthValue * marketcapDataManager.getPriceBySymbol("ETH"))));
                     tvWalletInfo.setText(new StringBuilder("Gas limit(").append(gasDataManager.getGasLimitByType("token_transfer"))
                             .append(") * Gas Price(")
@@ -313,7 +314,7 @@ public class ConvertPresenter extends BasePresenter<ConvertActivity> {
                 hint.startAnimation(shakeAnimation);
                 break;
             case 3:
-                hint.setText(CurrencyUtil.format(context, marketcapDataManager.getPriceBySymbol(firstToken) *
+                hint.setText("≈" + CurrencyUtil.format(context, marketcapDataManager.getPriceBySymbol(firstToken) *
                         Double.parseDouble(firstVal.getText().toString())));
                 hint.setTextColor(view.getResources().getColor(R.color.colorNineText));
                 break;

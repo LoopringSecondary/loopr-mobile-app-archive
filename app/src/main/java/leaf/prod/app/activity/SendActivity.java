@@ -595,7 +595,7 @@ public class SendActivity extends BaseActivity {
                 int precision = balanceManager.getPrecisionBySymbol(sendChoose);
                 moneyAmount.setText(NumberUtils.format1(balanceManager.getAssetBySymbol(sendChoose)
                         .getValue() * progressFloat / 100, precision));
-                amountToast.setText(CurrencyUtil.format(getApplicationContext(), balanceManager.getAssetBySymbol(sendChoose)
+                amountToast.setText("≈" + CurrencyUtil.format(getApplicationContext(), balanceManager.getAssetBySymbol(sendChoose)
                         .getLegalValue() * progressFloat / 100));
                 Selection.setSelection(moneyAmount.getText(), moneyAmount.getText().length());
             }
@@ -614,7 +614,7 @@ public class SendActivity extends BaseActivity {
      * 输入金额实时验证
      */
     private void initMoneyAmount() {
-        amountToast.setText(CurrencyUtil.format(SendActivity.this, 0));
+        amountToast.setText("");
         amountToast.setTextColor(getResources().getColor(R.color.colorNineText));
         moneyAmount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -631,13 +631,16 @@ public class SendActivity extends BaseActivity {
                         .isEmpty()) ? Double.parseDouble(editable.toString()
                         .equals(".") ? "0" : editable.toString()) : 0;
                 moneyAmountChange = true;
-                if (currentAmount > amountTotal) {
+                if(editable == null || editable.toString().isEmpty()) {
+                    amountToast.setText("");
+                    seekBar.setProgress(0);
+                } else if (currentAmount > amountTotal) {
                     amountToast.setText(getResources().getString(R.string.available_balance, sendWalletCount.getText()));
                     amountToast.setTextColor(getResources().getColor(R.color.colorRed));
                     amountToast.startAnimation(shakeAnimation);
                     seekBar.setProgress(100);
                 } else {
-                    amountToast.setText(CurrencyUtil.format(getApplicationContext(), currentAmount * marketcapDataManager
+                    amountToast.setText("≈" + CurrencyUtil.format(getApplicationContext(), currentAmount * marketcapDataManager
                             .getPriceBySymbol(sendChoose)));
                     amountToast.setTextColor(getResources().getColor(R.color.colorNineText));
                     seekBar.setProgress((float) (amountTotal != 0 ? currentAmount / amountTotal * 100 : 0));
