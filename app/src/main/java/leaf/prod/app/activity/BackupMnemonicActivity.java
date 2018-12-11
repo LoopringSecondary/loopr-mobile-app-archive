@@ -88,7 +88,8 @@ public class BackupMnemonicActivity extends BaseActivity {
     @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.backup_mnemonic));
-        title.clickLeftGoBack(getWContext());
+        //        title.clickLeftGoBack(getWContext());
+        title.clickLeftGoBack(getWContext(), getOperation(), WalletSafeActivity.class);
     }
 
     @Override
