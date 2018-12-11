@@ -80,11 +80,11 @@ public class ThirdLoginActivity extends BaseActivity {
                         @Override
                         public void onResponse(Call<AppResponseWrapper<LoginUser>> call, Response<AppResponseWrapper<LoginUser>> response) {
                             LoginUserConfig remoteLoginUserConfig = null;
-                            LoginUser newLoginUser = new LoginUser(uid, new Gson().toJson(loginUserConfig));
+                            LoginUser newLoginUser = LoginUser.builder().accountToken(uid).config(new Gson().toJson(loginUserConfig)).build();
                             LoginUserConfig localLoginUserConfig = ThirdLoginUtil.getLocalUser(ThirdLoginActivity.this);
                             try {
                                 LoginUser remoteLoginUser = response.body().getMessage();
-                                remoteLoginUserConfig = remoteLoginUser != null ? remoteLoginUser.getThirdLoginUser() : null;
+                                remoteLoginUserConfig = remoteLoginUser != null ? remoteLoginUser.getUserConfig() : null;
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

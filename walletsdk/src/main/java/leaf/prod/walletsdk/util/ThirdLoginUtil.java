@@ -10,7 +10,7 @@ import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.LoginUser;
 import leaf.prod.walletsdk.model.LoginUserConfig;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
-import leaf.prod.walletsdk.service.LoginUserService;
+import leaf.prod.walletsdk.service.AppService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,7 +25,7 @@ public class ThirdLoginUtil {
 
     private static String THIRD_LOGIN = "third_login";
 
-    private static LoginUserService loginUserService = new LoginUserService();
+    private static AppService appService = new AppService();
 
     private static Gson gson = new Gson();
 
@@ -64,7 +64,7 @@ public class ThirdLoginUtil {
      */
     public static void initThirdLogin(Context context, LoginUserConfig loginUserConfig, Callback<AppResponseWrapper<LoginUser>> callback) {
         SPUtils.put(context, THIRD_LOGIN, loginUserConfig.getUserId());
-        loginUserService.getUser(loginUserConfig.getUserId(), callback);
+        appService.getUser(loginUserConfig.getUserId(), callback);
     }
 
     /**
@@ -94,8 +94,8 @@ public class ThirdLoginUtil {
      * @param callback
      */
     public static void initLocalAndRemote(Context context, LoginUser loginUser, Callback<AppResponseWrapper<String>> callback) {
-        loginUserService.addUser(loginUser, callback);
-        SPUtils.put(context, THIRD_LOGIN + "_" + getUserId(context), loginUser.getThirdLoginUser());
+        appService.addUser(loginUser, callback);
+        SPUtils.put(context, THIRD_LOGIN + "_" + getUserId(context), loginUser.getUserConfig());
     }
 
     /**
@@ -106,7 +106,11 @@ public class ThirdLoginUtil {
      * @param callback
      */
     public static void initRemote(Context context, LoginUserConfig loginUserConfig, Callback<AppResponseWrapper<String>> callback) {
-        loginUserService.addUser(new LoginUser(getUserId(context), gson.toJson(loginUserConfig)), callback);
+        LoginUser loginUser = LoginUser.builder()
+                .accountToken(getUserId(context))
+                .config(gson.toJson(loginUserConfig))
+                .build();
+        appService.addUser(loginUser, callback);
     }
 
     /**
@@ -138,25 +142,27 @@ public class ThirdLoginUtil {
             String uid = getUserId(context);
             LoginUserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, LoginUserConfig.class);
             if (loginUserConfig != null) {
-                loginUserService.getUser(uid, new Callback<AppResponseWrapper<LoginUser>>() {
+                appService.getUser(uid, new Callback<AppResponseWrapper<LoginUser>>() {
                     @Override
                     public void onResponse(Call<AppResponseWrapper<LoginUser>> call, Response<AppResponseWrapper<LoginUser>> response) {
                         LoginUserConfig remoteLoginUserConfig = null;
                         LoginUser remoteLoginUser = null;
                         try {
                             remoteLoginUser = response.body().getMessage();
-                            remoteLoginUserConfig = remoteLoginUser != null ? remoteLoginUser.getThirdLoginUser() : null;
+                            remoteLoginUserConfig = remoteLoginUser != null ? remoteLoginUser.getUserConfig() : null;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                         if (loginUserConfig.equals(remoteLoginUserConfig))
                             return;
                         if (remoteLoginUserConfig == null) {
-                            remoteLoginUser = new LoginUser(loginUserConfig.getUserId(), gson.toJson(loginUserConfig));
+                            remoteLoginUser = LoginUser.builder()
+                                    .accountToken(loginUserConfig.getUserId())
+                                    .config(gson.toJson(loginUserConfig)).build();
                         } else {
                             remoteLoginUser.setConfig(gson.toJson(loginUserConfig));
                         }
-                        loginUserService.addUser(remoteLoginUser, new Callback<AppResponseWrapper<String>>() {
+                        appService.addUser(remoteLoginUser, new Callback<AppResponseWrapper<String>>() {
                             @Override
                             public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
                                 Log.d("[update remote]: ", "同步成功......");
@@ -186,7 +192,7 @@ public class ThirdLoginUtil {
     public static void deleteThirdLogin(Context context, Callback<AppResponseWrapper<String>> callback) {
         String uid = getUserId(context);
         if (!uid.isEmpty()) {
-            loginUserService.deleteUser(uid, callback);
+            appService.deleteUser(uid, callback);
         }
     }
 

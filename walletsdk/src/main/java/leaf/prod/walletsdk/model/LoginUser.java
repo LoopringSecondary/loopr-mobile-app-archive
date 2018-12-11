@@ -6,6 +6,7 @@ import java.util.Objects;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -15,6 +16,7 @@ import lombok.Data;
  * Cooperation: Loopring
  */
 @Data
+@Builder
 public class LoginUser implements Serializable {
 
     @SerializedName("updated_at")
@@ -30,12 +32,7 @@ public class LoginUser implements Serializable {
 
     private String config;
 
-    public LoginUser(String accountToken, String config) {
-        this.accountToken = accountToken;
-        this.config = config;
-    }
-
-    public LoginUserConfig getThirdLoginUser() {
+    public LoginUserConfig getUserConfig() {
         try {
             return new Gson().fromJson(this.config, LoginUserConfig.class);
         } catch (Exception e) {
