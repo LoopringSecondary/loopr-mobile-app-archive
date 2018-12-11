@@ -485,7 +485,7 @@ public class SendActivity extends BaseActivity {
                     gasDataManager.setCustomizeGasPriceInGWei((double) progressFloat);
                     gasEthValue = Double.parseDouble(gasDataManager.getGasAmountInETH(String.valueOf(gasDataManager.getGasLimitByType(gasLimitType)), String
                             .valueOf(gasDataManager.getCustomizeGasPriceInWei())));
-                    tvAmount.setText(new StringBuilder(gasEthValue.toString()).append(" ETH ≈ ")
+                    tvAmount.setText(new StringBuilder(NumberUtils.format1(gasEthValue, BalanceDataManager.getPrecision("ETH"))).append(" ETH ≈ ")
                             .append(CurrencyUtil.format(view.getContext(), gasEthValue * marketcapDataManager.getPriceBySymbol("ETH"))));
                     tvWalletInfo.setText(new StringBuilder("Gas limit(").append(gasDataManager.getGasLimitByType(gasLimitType))
                             .append(") * Gas Price(")
