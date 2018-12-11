@@ -410,7 +410,7 @@ public class GenerateWalletActivity extends BaseActivity {
      * 生成钱包
      */
     private void startThread() {
-        showProgress("加载中...");
+        showProgress(getString(R.string.loading_default_messsage));
         new Thread(() -> {
             // TODO: need test for generate with password
             String pas = repeatPassword.getText().toString();

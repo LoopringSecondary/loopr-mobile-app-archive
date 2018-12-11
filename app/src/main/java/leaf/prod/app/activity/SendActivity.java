@@ -335,6 +335,7 @@ public class SendActivity extends BaseActivity {
             confirm = view.findViewById(R.id.btn_confirm);
             confirm.setOnClickListener(v -> {
                 confirmDialog.dismiss();
+
                 if (WalletUtil.needPassword(context)) {
                     showPasswordDialog();
                 } else {
