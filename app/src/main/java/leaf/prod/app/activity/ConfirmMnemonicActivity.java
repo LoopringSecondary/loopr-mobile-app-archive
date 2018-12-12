@@ -20,6 +20,7 @@ import com.google.common.base.Joiner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.MnemonicWordAdapter;
 import leaf.prod.app.presenter.ConfirmMnemonicPresenter;
@@ -35,6 +36,9 @@ public class ConfirmMnemonicActivity extends BaseActivity {
 
     @BindView(R.id.btn_confirm)
     public Button btnConfirm;
+
+    @BindView(R.id.btn_skip)
+    public Button btnSkip;
 
     @BindView(R.id.generate_partthree)
     public LinearLayout llGeneratePartthree;
@@ -77,11 +81,9 @@ public class ConfirmMnemonicActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        btnConfirm.setOnClickListener(v -> {
-            if (!(ButtonClickUtil.isFastDoubleClick(1))) {
-                presenter.matchMnemonic(mneCheckedList, mnemonic);
-            }
-        });
+        if (!getIntent().getBooleanExtra("skip", true)) {
+            btnSkip.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -110,5 +112,19 @@ public class ConfirmMnemonicActivity extends BaseActivity {
                 confirmMnemonicWordInfo.setText(Joiner.on(" ").join(mneCheckedList));
             }
         });
+    }
+
+    @OnClick({R.id.btn_confirm, R.id.btn_skip})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_skip:
+                presenter.setResult();
+                break;
+            case R.id.btn_confirm:
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) {
+                    presenter.matchMnemonic(mneCheckedList, mnemonic);
+                }
+                break;
+        }
     }
 }

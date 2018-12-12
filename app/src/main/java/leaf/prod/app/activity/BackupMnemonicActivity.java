@@ -105,6 +105,7 @@ public class BackupMnemonicActivity extends BaseActivity {
         btnNext.setOnClickListener(v -> {
             Intent intent = new Intent(BackupMnemonicActivity.this, ConfirmMnemonicActivity.class);
             intent.putExtra("mnemonic", mnemonic);
+            intent.putExtra("skip", false);
             startActivityForResult(intent, 1);
         });
     }
