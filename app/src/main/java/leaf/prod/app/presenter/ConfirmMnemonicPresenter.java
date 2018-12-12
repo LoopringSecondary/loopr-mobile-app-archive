@@ -35,15 +35,19 @@ public class ConfirmMnemonicPresenter extends BasePresenter<ConfirmMnemonicActiv
             updateDialog.setPositiveButton(context.getResources()
                     .getString(R.string.confirm), (dialogInterface, i0) -> {
                 dialogInterface.dismiss();
-                view.finish();
-                Intent intent = new Intent();
-                intent.putExtra("result", true);
-                view.setResult(Activity.RESULT_OK, intent);
+                setResult();
             });
             updateDialog.setMessage(view.getResources().getString(R.string.mnemonic_backup_success));
             updateDialog.show();
         } else {
             RxToast.error(view.getResources().getString(R.string.mnemonic_not_match));
         }
+    }
+
+    public void setResult() {
+        Intent intent = new Intent();
+        intent.putExtra("result", true);
+        view.setResult(Activity.RESULT_OK, intent);
+        view.finish();
     }
 }
