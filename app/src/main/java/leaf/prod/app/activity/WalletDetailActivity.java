@@ -144,6 +144,9 @@ public class WalletDetailActivity extends BaseActivity {
         symbol = getIntent().getStringExtra("symbol");
         title.setBTitle(symbol);
         title.clickLeftGoBack(getWContext());
+        if (symbol.equalsIgnoreCase("ETH") || symbol.equalsIgnoreCase("WETH")) {
+            title.setRightText(getString(R.string.convert), button -> getOperation().forward(ConvertActivity.class));
+        }
         walletMoney.setText(balanceManager.getAssetBySymbol(symbol).getValueShown());
         walletDollar.setText(balanceManager.getAssetBySymbol(symbol).getLegalShown());
         list = new ArrayList<>();

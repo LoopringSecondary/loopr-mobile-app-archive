@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.LoginUser;
-import leaf.prod.walletsdk.model.LoginUserConfig;
+import leaf.prod.walletsdk.model.UserConfig;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.service.AppService;
 import retrofit2.Call;
@@ -53,18 +53,18 @@ public class ThirdLoginUtil {
         SPUtils.remove(context, THIRD_LOGIN + "_" + uid);
     }
 
-    public static LoginUserConfig getLocalUser(Context context) {
-        return SPUtils.getBean(context, THIRD_LOGIN + "_" + getUserId(context), LoginUserConfig.class);
+    public static UserConfig getLocalUser(Context context) {
+        return SPUtils.getBean(context, THIRD_LOGIN + "_" + getUserId(context), UserConfig.class);
     }
 
     /**
      * 点击第三方微信登录
      *
-     * @param loginUserConfig
+     * @param userConfig
      */
-    public static void initThirdLogin(Context context, LoginUserConfig loginUserConfig, Callback<AppResponseWrapper<LoginUser>> callback) {
-        SPUtils.put(context, THIRD_LOGIN, loginUserConfig.getUserId());
-        appService.getUser(loginUserConfig.getUserId(), callback);
+    public static void initThirdLogin(Context context, UserConfig userConfig, Callback<AppResponseWrapper<LoginUser>> callback) {
+        SPUtils.put(context, THIRD_LOGIN, userConfig.getUserId());
+        appService.getUser(userConfig.getUserId(), callback);
     }
 
     /**
@@ -73,11 +73,11 @@ public class ThirdLoginUtil {
      * @return
      */
     public static void initLocalConf(Context context) {
-        LoginUserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + getUserId(context), LoginUserConfig.class);
-        if (loginUserConfig != null) {
-            LanguageUtil.changeLanguage(context, Language.getLanguage(loginUserConfig.getLanguage()));
-            if (CurrencyUtil.getCurrency(context) != Currency.valueOf(loginUserConfig.getCurrency())) {
-                CurrencyUtil.setCurrency(context, Currency.valueOf(loginUserConfig.getCurrency()));
+        UserConfig userConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + getUserId(context), UserConfig.class);
+        if (userConfig != null) {
+            LanguageUtil.changeLanguage(context, Language.getLanguage(userConfig.getLanguage()));
+            if (CurrencyUtil.getCurrency(context) != Currency.valueOf(userConfig.getCurrency())) {
+                CurrencyUtil.setCurrency(context, Currency.valueOf(userConfig.getCurrency()));
             }
         } else {
             if (LanguageUtil.getLanguage(context) != LanguageUtil.getSettingLanguage(context)) {
@@ -102,13 +102,13 @@ public class ThirdLoginUtil {
      * 初始化线上
      *
      * @param context
-     * @param loginUserConfig
+     * @param userConfig
      * @param callback
      */
-    public static void initRemote(Context context, LoginUserConfig loginUserConfig, Callback<AppResponseWrapper<String>> callback) {
+    public static void initRemote(Context context, UserConfig userConfig, Callback<AppResponseWrapper<String>> callback) {
         LoginUser loginUser = LoginUser.builder()
                 .accountToken(getUserId(context))
-                .config(gson.toJson(loginUserConfig))
+                .config(gson.toJson(userConfig))
                 .build();
         appService.addUser(loginUser, callback);
     }
@@ -119,10 +119,10 @@ public class ThirdLoginUtil {
      * @param context
      * @param config
      */
-    public static void updateLocal(Context context, LoginUserConfig config) {
+    public static void updateLocal(Context context, UserConfig config) {
         if (isThirdLogin(context)) {
             String uid = getUserId(context);
-            LoginUserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, LoginUserConfig.class);
+            UserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, UserConfig.class);
             if (loginUserConfig != null) {
                 loginUserConfig.setLanguage(config.getLanguage() != null ? config.getLanguage() : loginUserConfig.getLanguage());
                 loginUserConfig.setCurrency(config.getCurrency() != null ? config.getCurrency() : loginUserConfig.getCurrency());
@@ -139,7 +139,7 @@ public class ThirdLoginUtil {
     public static void updateRemote(Context context) {
         if (isThirdLogin(context)) {
             String uid = getUserId(context);
-            LoginUserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, LoginUserConfig.class);
+            UserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, UserConfig.class);
             if (loginUserConfig != null) {
                 LoginUser loginUser = LoginUser.builder()
                         .accountToken(loginUserConfig.getUserId())
