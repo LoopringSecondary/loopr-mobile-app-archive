@@ -32,9 +32,9 @@ public class LoginUser implements Serializable {
 
     private String config;
 
-    public LoginUserConfig getUserConfig() {
+    public UserConfig getUserConfig() {
         try {
-            return new Gson().fromJson(this.config, LoginUserConfig.class);
+            return new Gson().fromJson(this.config, UserConfig.class);
         } catch (Exception e) {
             return null;
         }

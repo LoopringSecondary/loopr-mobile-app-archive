@@ -19,7 +19,7 @@ import leaf.prod.app.R;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.PermissionUtils;
 import leaf.prod.walletsdk.model.LoginUser;
-import leaf.prod.walletsdk.model.LoginUserConfig;
+import leaf.prod.walletsdk.model.UserConfig;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.LanguageUtil;
@@ -72,29 +72,29 @@ public class ThirdLoginActivity extends BaseActivity {
                 @Override
                 public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                     String uid = map.get("openid");
-                    LoginUserConfig loginUserConfig = LoginUserConfig.builder().userId(uid)
+                    UserConfig userConfig = UserConfig.builder().userId(uid)
                             .language(LanguageUtil.getSettingLanguage(ThirdLoginActivity.this).getText())
                             .currency(CurrencyUtil.getCurrency(ThirdLoginActivity.this).name())
                             .walletList(null).build();
-                    ThirdLoginUtil.initThirdLogin(ThirdLoginActivity.this, loginUserConfig, new Callback<AppResponseWrapper<LoginUser>>() {
+                    ThirdLoginUtil.initThirdLogin(ThirdLoginActivity.this, userConfig, new Callback<AppResponseWrapper<LoginUser>>() {
                         @Override
                         public void onResponse(Call<AppResponseWrapper<LoginUser>> call, Response<AppResponseWrapper<LoginUser>> response) {
-                            LoginUserConfig remoteLoginUserConfig = null;
+                            UserConfig remoteUserConfig = null;
                             LoginUser newLoginUser = LoginUser.builder()
                                     .accountToken(uid)
-                                    .config(new Gson().toJson(loginUserConfig))
+                                    .config(new Gson().toJson(userConfig))
                                     .build();
-                            LoginUserConfig localLoginUserConfig = ThirdLoginUtil.getLocalUser(ThirdLoginActivity.this);
+                            UserConfig localLoginUserConfig = ThirdLoginUtil.getLocalUser(ThirdLoginActivity.this);
                             try {
                                 LoginUser remoteLoginUser = response.body().getMessage();
-                                remoteLoginUserConfig = remoteLoginUser != null ? remoteLoginUser.getUserConfig() : null;
+                                remoteUserConfig = remoteLoginUser != null ? remoteLoginUser.getUserConfig() : null;
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            if (localLoginUserConfig == null) {
-                                if (remoteLoginUserConfig != null) {
+                            if (userConfig == null) {
+                                if (remoteUserConfig != null) {
                                     // 初始化本地数据
-                                    SPUtils.put(ThirdLoginActivity.this, "third_login_" + uid, remoteLoginUserConfig);
+                                    SPUtils.put(ThirdLoginActivity.this, "third_login_" + uid, remoteUserConfig);
                                     ThirdLoginUtil.initLocalConf(ThirdLoginActivity.this);
                                     RxToast.success(getResources().getString(R.string.third_login_success));
                                     forward();

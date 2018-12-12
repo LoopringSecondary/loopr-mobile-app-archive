@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class LoginUserConfig {
+public class UserConfig {
 
     private String userId;
 
