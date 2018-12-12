@@ -80,7 +80,10 @@ public class ThirdLoginActivity extends BaseActivity {
                         @Override
                         public void onResponse(Call<AppResponseWrapper<LoginUser>> call, Response<AppResponseWrapper<LoginUser>> response) {
                             LoginUserConfig remoteLoginUserConfig = null;
-                            LoginUser newLoginUser = LoginUser.builder().accountToken(uid).config(new Gson().toJson(loginUserConfig)).build();
+                            LoginUser newLoginUser = LoginUser.builder()
+                                    .accountToken(uid)
+                                    .config(new Gson().toJson(loginUserConfig))
+                                    .build();
                             LoginUserConfig localLoginUserConfig = ThirdLoginUtil.getLocalUser(ThirdLoginActivity.this);
                             try {
                                 LoginUser remoteLoginUser = response.body().getMessage();
@@ -113,21 +116,19 @@ public class ThirdLoginActivity extends BaseActivity {
                                 }
                             } else {
                                 // 更新线上数据
-                                if (!localLoginUserConfig.equals(remoteLoginUserConfig)) {
-                                    ThirdLoginUtil.initRemote(ThirdLoginActivity.this, localLoginUserConfig, new Callback<AppResponseWrapper<String>>() {
-                                        @Override
-                                        public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
-                                            RxToast.success(getResources().getString(R.string.third_login_success));
-                                            forward();
-                                        }
+                                ThirdLoginUtil.initRemote(ThirdLoginActivity.this, localLoginUserConfig, new Callback<AppResponseWrapper<String>>() {
+                                    @Override
+                                    public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
+                                        RxToast.success(getResources().getString(R.string.third_login_success));
+                                        forward();
+                                    }
 
-                                        @Override
-                                        public void onFailure(Call<AppResponseWrapper<String>> call, Throwable t) {
-                                            RxToast.error(getResources().getString(R.string.third_login_error));
-                                            ThirdLoginUtil.clearLocal(ThirdLoginActivity.this, uid);
-                                        }
-                                    });
-                                }
+                                    @Override
+                                    public void onFailure(Call<AppResponseWrapper<String>> call, Throwable t) {
+                                        RxToast.error(getResources().getString(R.string.third_login_error));
+                                        ThirdLoginUtil.clearLocal(ThirdLoginActivity.this, uid);
+                                    }
+                                });
                             }
                         }
 
