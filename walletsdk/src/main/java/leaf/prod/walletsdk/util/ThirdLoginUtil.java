@@ -117,16 +117,15 @@ public class ThirdLoginUtil {
      * 配置更改后保存本地
      *
      * @param context
-     * @param language
-     * @param currency
+     * @param config
      */
-    public static void updateLocal(Context context, Language language, Currency currency) {
+    public static void updateLocal(Context context, LoginUserConfig config) {
         if (isThirdLogin(context)) {
             String uid = getUserId(context);
             LoginUserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, LoginUserConfig.class);
             if (loginUserConfig != null) {
-                loginUserConfig.setLanguage(language != null ? language.getText() : loginUserConfig.getLanguage());
-                loginUserConfig.setCurrency(currency != null ? currency.name() : loginUserConfig.getCurrency());
+                loginUserConfig.setLanguage(config.getLanguage() != null ? config.getLanguage() : loginUserConfig.getLanguage());
+                loginUserConfig.setCurrency(config.getCurrency() != null ? config.getCurrency() : loginUserConfig.getCurrency());
                 SPUtils.put(context, THIRD_LOGIN + "_" + uid, loginUserConfig);
             }
         }
@@ -142,42 +141,19 @@ public class ThirdLoginUtil {
             String uid = getUserId(context);
             LoginUserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, LoginUserConfig.class);
             if (loginUserConfig != null) {
-                appService.getUser(uid, new Callback<AppResponseWrapper<LoginUser>>() {
+                LoginUser loginUser = LoginUser.builder()
+                        .accountToken(loginUserConfig.getUserId())
+                        .config(gson.toJson(loginUserConfig))
+                        .build();
+                appService.addUser(loginUser, new Callback<AppResponseWrapper<String>>() {
                     @Override
-                    public void onResponse(Call<AppResponseWrapper<LoginUser>> call, Response<AppResponseWrapper<LoginUser>> response) {
-                        LoginUserConfig remoteLoginUserConfig = null;
-                        LoginUser remoteLoginUser = null;
-                        try {
-                            remoteLoginUser = response.body().getMessage();
-                            remoteLoginUserConfig = remoteLoginUser != null ? remoteLoginUser.getUserConfig() : null;
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        if (loginUserConfig.equals(remoteLoginUserConfig))
-                            return;
-                        if (remoteLoginUserConfig == null) {
-                            remoteLoginUser = LoginUser.builder()
-                                    .accountToken(loginUserConfig.getUserId())
-                                    .config(gson.toJson(loginUserConfig)).build();
-                        } else {
-                            remoteLoginUser.setConfig(gson.toJson(loginUserConfig));
-                        }
-                        appService.addUser(remoteLoginUser, new Callback<AppResponseWrapper<String>>() {
-                            @Override
-                            public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
-                                Log.d("[update remote]: ", "同步成功......");
-                            }
-
-                            @Override
-                            public void onFailure(Call<AppResponseWrapper<String>> call, Throwable t) {
-                                Log.e("[update remote]: ", "同步失败......");
-                            }
-                        });
+                    public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
+                        Log.d("[update remote]: ", "同步成功......" + response.body().toString());
                     }
 
                     @Override
-                    public void onFailure(Call<AppResponseWrapper<LoginUser>> call, Throwable t) {
-                        Log.e("[update remote]: ", "获得云端信息失败......");
+                    public void onFailure(Call<AppResponseWrapper<String>> call, Throwable t) {
+                        Log.e("[update remote]: ", "同步失败......" + t.getMessage());
                     }
                 });
             }
