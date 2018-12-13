@@ -335,11 +335,16 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 view.tvSellHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
                 break;
             case 4:
+                view.tvBuyHint.setVisibility(View.INVISIBLE);
+                break;
+            case 5:
+                view.tvBuyHint.setVisibility(View.VISIBLE);
                 view.tvBuyHint.setText(view.getResources().getString(R.string.input_valid_amount));
                 view.tvBuyHint.setTextColor(view.getResources().getColor(R.color.colorRed));
                 view.tvBuyHint.startAnimation(shakeAnimation);
                 break;
-            case 5:
+            case 6:
+                view.tvBuyHint.setVisibility(View.VISIBLE);
                 view.tvBuyHint.setText("≈" + CurrencyUtil.format(context, marketcapDataManager.getPriceBySymbol(p2pOrderManager
                         .getTokenB()) * Double.parseDouble(view.buyAmount.getText().toString())));
                 view.tvBuyHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
