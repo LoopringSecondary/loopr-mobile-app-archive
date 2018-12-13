@@ -84,7 +84,7 @@ public class ThirdLoginActivity extends BaseActivity {
                                     .accountToken(uid)
                                     .config(new Gson().toJson(userConfig))
                                     .build();
-                            UserConfig localLoginUserConfig = ThirdLoginUtil.getLocalUser(ThirdLoginActivity.this);
+                            UserConfig localUserConfig = ThirdLoginUtil.getLocalUser(ThirdLoginActivity.this);
                             try {
                                 LoginUser remoteLoginUser = response.body().getMessage();
                                 remoteUserConfig = remoteLoginUser != null ? remoteLoginUser.getUserConfig() : null;
@@ -116,7 +116,7 @@ public class ThirdLoginActivity extends BaseActivity {
                                 }
                             } else {
                                 // 更新线上数据
-                                ThirdLoginUtil.initRemote(ThirdLoginActivity.this, localLoginUserConfig, new Callback<AppResponseWrapper<String>>() {
+                                ThirdLoginUtil.initRemote(ThirdLoginActivity.this, localUserConfig, new Callback<AppResponseWrapper<String>>() {
                                     @Override
                                     public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
                                         RxToast.success(getResources().getString(R.string.third_login_success));

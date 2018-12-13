@@ -7,7 +7,7 @@ import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 
 import leaf.prod.walletsdk.model.Language;
-import leaf.prod.walletsdk.model.LoginUserConfig;
+import leaf.prod.walletsdk.model.UserConfig;
 
 /**
  * 标题:    LanguageUtil
@@ -22,21 +22,21 @@ public class LanguageUtil {
             case zh_CN:
                 configuration.locale = Locale.SIMPLIFIED_CHINESE;
                 SPUtils.put(context, "language", 2);
-                ThirdLoginUtil.updateLocal(context, LoginUserConfig.builder()
+                ThirdLoginUtil.updateLocal(context, UserConfig.builder()
                         .language(Language.zh_CN.getText())
                         .build());
                 break;
             case zh_Hant:
                 configuration.locale = Locale.TRADITIONAL_CHINESE;
                 SPUtils.put(context, "language", 3);
-                ThirdLoginUtil.updateLocal(context, LoginUserConfig.builder()
+                ThirdLoginUtil.updateLocal(context, UserConfig.builder()
                         .language(Language.zh_Hant.getText())
                         .build());
                 break;
             case en_US:
                 configuration.locale = Locale.US;
                 SPUtils.put(context, "language", 1);
-                ThirdLoginUtil.updateLocal(context, LoginUserConfig.builder()
+                ThirdLoginUtil.updateLocal(context, UserConfig.builder()
                         .language(Language.en_US.getText())
                         .build());
                 break;

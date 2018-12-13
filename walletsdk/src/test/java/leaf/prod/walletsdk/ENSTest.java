@@ -63,8 +63,7 @@ public class ENSTest {
         SDK.initSDK();
         Web3j web3j = SDK.getWeb3j();
         EnsResolver ensResolver = new EnsResolver(web3j);
-        String resolve = ensResolver.reverseResolve("0xa3ae668b6239fa3eb1dc26daabb03f244d0259f0");
-        assertEquals(ensResolver.resolve("wangdong.eth"), "0xe7b95e3aefeb28d8a32a46e8c5278721dad39550");
+        assertEquals(ensResolver.resolve("2.eth"), "0xe7b95e3aefeb28d8a32a46e8c5278721dad39550");
 
 
     }

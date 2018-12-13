@@ -34,7 +34,6 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vondear.rxtool.view.RxToast;
 import com.xw.repo.BubbleSeekBar;
@@ -58,6 +57,7 @@ import leaf.prod.walletsdk.manager.TransactionDataManager;
 import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.util.CredentialsUtils;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SPUtils;
@@ -300,9 +300,8 @@ public class SendActivity extends BaseActivity {
 
     private void checkInfo() {
         String amount = moneyAmount.getText().toString();
-        if (TextUtils.isEmpty(walletAddress.getText().toString()) || !WalletUtils.isValidAddress(walletAddress.getText()
-                .toString()
-                .trim())) {
+        String address = walletAddress.getText().toString().trim();
+        if (TextUtils.isEmpty(address) || !CredentialsUtils.isValidAddress(address)) {
             addressToast.setText(getResources().getText(R.string.input_valid_address));
             addressToast.setTextColor(getResources().getColor(R.color.colorRed));
             addressToast.setVisibility(View.VISIBLE);
@@ -335,7 +334,6 @@ public class SendActivity extends BaseActivity {
             confirm = view.findViewById(R.id.btn_confirm);
             confirm.setOnClickListener(v -> {
                 confirmDialog.dismiss();
-
                 if (WalletUtil.needPassword(context)) {
                     showPasswordDialog();
                 } else {
@@ -400,10 +398,9 @@ public class SendActivity extends BaseActivity {
                             .send(credentials, address, walletAddress.getText().toString(), values);
                 } else {
                     gasLimit = gasDataManager.getGasLimitByType("token_transfer");
-                    txHash = transfer.erc20(tokenDataManager.getTokenBySymbol(sendChoose)
-                            .getProtocol(), gasPrice, gasLimit)
-                            .transfer(credentials, tokenDataManager.getTokenBySymbol(sendChoose)
-                                    .getProtocol(), walletAddress.getText().toString(), values);
+                    String contract = tokenDataManager.getTokenBySymbol(sendChoose).getProtocol();
+                    txHash = transfer.erc20(contract, gasPrice, gasLimit)
+                            .transfer(credentials, contract, walletAddress.getText().toString(), values);
                 }
                 TransactionDataManager manager = TransactionDataManager.getInstance(SendActivity.this);
                 manager.queryByHash(txHash);
@@ -485,7 +482,8 @@ public class SendActivity extends BaseActivity {
                     gasDataManager.setCustomizeGasPriceInGWei((double) progressFloat);
                     gasEthValue = Double.parseDouble(gasDataManager.getGasAmountInETH(String.valueOf(gasDataManager.getGasLimitByType(gasLimitType)), String
                             .valueOf(gasDataManager.getCustomizeGasPriceInWei())));
-                    tvAmount.setText(new StringBuilder(NumberUtils.format1(gasEthValue, BalanceDataManager.getPrecision("ETH"))).append(" ETH ≈ ")
+                    tvAmount.setText(new StringBuilder(NumberUtils.format1(gasEthValue, BalanceDataManager.getPrecision("ETH")))
+                            .append(" ETH ≈ ")
                             .append(CurrencyUtil.format(view.getContext(), gasEthValue * marketcapDataManager.getPriceBySymbol("ETH"))));
                     tvWalletInfo.setText(new StringBuilder("Gas limit(").append(gasDataManager.getGasLimitByType(gasLimitType))
                             .append(") * Gas Price(")
@@ -547,11 +545,9 @@ public class SendActivity extends BaseActivity {
             }
             gasEthValue = Double.parseDouble(gasDataManager.getGasAmountInETH(gasDataManager.getGasLimitByType(gasLimitType)
                     .toString(), gasDataManager.getGasPriceString()));
-
             // Avoid scientific notation
             DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
             df.setMaximumFractionDigits(10);
-
             transactionFee.setText(new StringBuilder(df.format(gasEthValue)).append(" ETH ≈ ")
                     .append(CurrencyUtil.format(this, gasEthValue * marketcapDataManager.getPriceBySymbol("ETH"))));
         }, error -> Log.e("Send", error.getMessage()));
@@ -631,7 +627,7 @@ public class SendActivity extends BaseActivity {
                         .isEmpty()) ? Double.parseDouble(editable.toString()
                         .equals(".") ? "0" : editable.toString()) : 0;
                 moneyAmountChange = true;
-                if(editable == null || editable.toString().isEmpty()) {
+                if (editable == null || editable.toString().isEmpty()) {
                     amountToast.setText("");
                     seekBar.setProgress(0);
                 } else if (currentAmount > amountTotal) {
@@ -673,13 +669,17 @@ public class SendActivity extends BaseActivity {
                     addressToast.setTextColor(getResources().getColor(R.color.colorNineText));
                     addressToast.setText(getResources().getText(R.string.address_confirm));
                     addressToast.setVisibility(View.VISIBLE);
-                } else if (!WalletUtils.isValidAddress(editable.toString().trim())) {
+                } else if (!CredentialsUtils.isValidAddress(editable.toString().trim())) {
                     addressToast.setTextColor(getResources().getColor(R.color.colorRed));
                     addressToast.setText(getResources().getText(R.string.input_valid_address));
                     addressToast.startAnimation(shakeAnimation);
                     addressToast.setVisibility(View.VISIBLE);
-                } else {
+                } else if (CredentialsUtils.isHexAddress(editable.toString().trim())) {
                     addressToast.setVisibility(View.INVISIBLE);
+                } else {
+                    addressToast.setTextColor(getResources().getColor(R.color.colorNineText));
+                    addressToast.setText(CredentialsUtils.getENSAddress(editable.toString().trim()));
+                    addressToast.setVisibility(View.VISIBLE);
                 }
             }
         });
