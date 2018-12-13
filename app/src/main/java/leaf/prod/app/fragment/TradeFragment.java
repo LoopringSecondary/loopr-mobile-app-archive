@@ -72,8 +72,6 @@ public class TradeFragment extends BaseFragment {
                 getOperation().forward(H5DexWebActivity.class);
                 break;
             case R.id.p2p_layout:
-                //                getOperation().addParameter("url", "http://embeddex.upwallet.io/#/auth/tpwallet?to=/face2face");
-                //                getOperation().forward(H5DexWebActivity.class);
                 getOperation().forward(P2PActivity.class);
                 break;
             case R.id.weth_wrap_layout:

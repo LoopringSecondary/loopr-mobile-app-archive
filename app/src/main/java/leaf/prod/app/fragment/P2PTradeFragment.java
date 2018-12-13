@@ -28,6 +28,7 @@ import leaf.prod.app.presenter.P2PTradePresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.util.StringUtils;
 
 public class P2PTradeFragment extends BaseFragment {
 
@@ -174,7 +175,10 @@ public class P2PTradeFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!editable.toString().isEmpty() && !editable.toString().equals(".")) {
+                String value = editable.toString();
+                if (StringUtils.isEmpty(value)) {
+                    presenter.setHint(4);
+                } else if (value.equals(".")) {
                     presenter.setHint(5);
                 } else {
                     presenter.setHint(6);
@@ -231,7 +235,7 @@ public class P2PTradeFragment extends BaseFragment {
                     } else if (amountS > presenter.getMaxAmount()) {
                         presenter.setHint(1);
                     } else if (amountB == 0) {
-                        presenter.setHint(4);
+                        presenter.setHint(5);
                     } else if (sellCount.getText().toString().isEmpty()) {
                         RxToast.warning(getResources().getString(R.string.minimal_count_error));
                     } else {
