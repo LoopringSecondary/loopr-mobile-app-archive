@@ -55,10 +55,11 @@
     <string name="wallet_type">請選擇錢包類型</string>
     <string name="setting">設置</string>
     <string name="etherscan">Etherscan.io</string>
+    <string name="add_contact">添加聯系人</string>
     <string name="contact_name">聯系人名稱</string>
     <string name="contact_address">聯系人地址</string>
-    <string name="contact_note">聯系人備註</string>
-    <string name="add_contact">添加聯系人</string>
+    <string name="contact_note">備註, 如：薪資（可选）</string>
+    <string name="input_valid_name">請輸入聯系人名稱</string>
 
     <string name="set_share">分享APP，獲得撮合費20%收益</string>
     <string name="set_manage_wallet">管理錢包</string>

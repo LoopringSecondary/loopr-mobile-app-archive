@@ -26,7 +26,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="80dp"
         android:background="@drawable/radius_bg_38"
-        app:layout_constraintBottom_toBottomOf="@id/add_btn"
+        app:layout_constraintBottom_toBottomOf="@id/save_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +124,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/radius_white_bg"
         android:gravity="center_vertical"
-        app:layout_constraintBottom_toTopOf="@+id/add_btn"
+        app:layout_constraintBottom_toTopOf="@+id/save_btn"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/ll_token_symbol"
@@ -141,7 +141,7 @@
             android:imeOptions="actionNext"
             android:maxLength="100"
             android:singleLine="true"
-            android:text="@string/contact_note"
+            android:hint="@string/contact_note"
             android:textColorHint="@color/black"
             android:textCursorDrawable="@drawable/white_color_cursor"
             android:textSize="@dimen/normalText"
@@ -152,7 +152,6 @@
             app:met_hideUnderline="true"
             app:met_primaryColor="@color/black"/>
     </LinearLayout>
-
 
     <Button
         android:id="@+id/save_btn"

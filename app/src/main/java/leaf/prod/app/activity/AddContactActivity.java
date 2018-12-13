@@ -16,8 +16,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.Button;
 
+import org.web3j.crypto.WalletUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vondear.rxtool.view.RxToast;
 
@@ -31,6 +31,7 @@ import leaf.prod.walletsdk.model.Contact;
 import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.UserConfig;
 import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.StringUtils;
 import leaf.prod.walletsdk.util.ThirdLoginUtil;
 
 public class AddContactActivity extends BaseActivity {
@@ -47,10 +48,7 @@ public class AddContactActivity extends BaseActivity {
     @BindView(R.id.contact_note)
     MaterialEditText contactNote;
 
-    @BindView(R.id.save_btn)
-    Button saveButton;
-
-    private static int REQUEST_CODE = 1;  //二维码扫一扫code
+    private static int REQUEST_CODE = 1;
 
     /**
      * 初始化P层
@@ -121,22 +119,37 @@ public class AddContactActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.save_btn:
+                if (StringUtils.isEmpty(contactName.getText().toString().trim())) {
+                    RxToast.error(getString(R.string.input_valid_name));
+                    break;
+                }
+                if (!WalletUtils.isValidAddress(contactAddress.getText().toString().trim())) {
+                    RxToast.error(getString(R.string.input_valid_address));
+                    break;
+                }
+                mergeContact();
+//                getOperation().forward();  lyy to contact list
                 break;
         }
     }
 
     private void mergeContact() {
         Contact contact = Contact.builder()
-                .name(contactName.getText().toString())
-                .address(contactAddress.getText().toString())
-                .note(contactNote.getText().toString())
+                .name(contactName.getText().toString().trim())
+                .address(contactAddress.getText().toString().trim())
+                .note(contactNote.getText().toString().trim())
                 .build();
         String key = ThirdLoginUtil.THIRD_LOGIN + "_" + ThirdLoginUtil.getUserId(this);
         UserConfig userConfig = SPUtils.getBean(this, key, UserConfig.class);
+        if (userConfig == null) {
+            userConfig = UserConfig.builder().contacts(new HashSet<>()).build();
+        }
         Set<Contact> contacts = userConfig.getContacts();
         if (contacts == null) {
             contacts = new HashSet<>();
         }
         contacts.add(contact);
+        userConfig.setContacts(contacts);
+        ThirdLoginUtil.updateLocal(this, userConfig);
     }
 }

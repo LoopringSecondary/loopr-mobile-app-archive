@@ -55,10 +55,11 @@
     <string name="wallet_type">Please choose wallet type</string>
     <string name="setting">Settings</string>
     <string name="etherscan">Etherscan.io</string>
+    <string name="add_contact">Add Contact</string>
     <string name="contact_name">Name</string>
     <string name="contact_address">Address</string>
-    <string name="contact_note">Note</string>
-    <string name="add_contact">Add Contact</string>
+    <string name="contact_note">Note, e.g. salary (optional)</string>
+    <string name="input_valid_name">Please input a valid name</string>
 
     <string name="set_share">Share APP ,  harvest 20% of trading fee</string>
     <string name="set_manage_wallet">Manage Wallet</string>
