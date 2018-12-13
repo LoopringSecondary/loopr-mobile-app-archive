@@ -9,31 +9,33 @@ package leaf.prod.walletsdk.model;
 import java.util.Objects;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
 @Builder
+@Setter
+@Getter
+@ToString
 public class Contact {
-    private String name;
-    private String address;
-    private String note;
-    private String tag;
 
-    public void setName(String name) {
-        this.name = name;
-        this.tag = name.substring(0, 1).toUpperCase();
-    }
+    private String name;
+
+    private String address;
+
+    private String note;
+
+    private String tag;
 
     @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof Contact))
-            return false;
-        if (!super.equals(o))
+        if (o == null || getClass() != o.getClass())
             return false;
         Contact contact = (Contact) o;
-        return Objects.equals(getName(), contact.getName()) ||
-                Objects.equals(getAddress(), contact.getAddress());
+        return Objects.equals(name, contact.name) ||
+                Objects.equals(address.toUpperCase(), contact.address.toUpperCase());
     }
 }
+

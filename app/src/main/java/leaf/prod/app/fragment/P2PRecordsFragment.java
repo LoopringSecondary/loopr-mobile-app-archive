@@ -102,7 +102,7 @@ public class P2PRecordsFragment extends BaseFragment {
             getOperation().addParameter("order", orderList.get(position));
             getOperation().forward(P2PRecordDetailActivity.class);
         });
-        emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.p2p_orders);
+        emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.p2p_order);
     }
 
     @Override

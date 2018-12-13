@@ -23,8 +23,8 @@ import leaf.prod.app.R;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.FingerprintUtil;
 import leaf.prod.walletsdk.util.FileUtils;
+import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.util.SPUtils;
-import leaf.prod.walletsdk.util.ThirdLoginUtil;
 import leaf.prod.walletsdk.util.WalletUtil;
 
 public class SplashActivity extends BaseActivity {
@@ -59,18 +59,16 @@ public class SplashActivity extends BaseActivity {
             switch (msg.what) {
                 case 1:
                     if (WalletUtil.hasWallet(SplashActivity.this)) {
-                        if (!ThirdLoginUtil.isThirdLogin(SplashActivity.this) && !ThirdLoginUtil.isSkip(SplashActivity.this)) {
+                        if (!loginDataManager.isLogin() && !loginDataManager.isSkip()) {
                             getOperation().forward(ThirdLoginActivity.class);
                         } else {
-                            ThirdLoginUtil.initLocalConf(SplashActivity.this);
                             AppManager.getAppManager().finishAllActivity();
                             getOperation().forward(MainActivity.class);
                         }
                     } else {
-                        if (!ThirdLoginUtil.isThirdLogin(SplashActivity.this) && !ThirdLoginUtil.isSkip(SplashActivity.this)) {
+                        if (!loginDataManager.isLogin() && !loginDataManager.isSkip()) {
                             getOperation().forward(ThirdLoginActivity.class);
                         } else {
-                            ThirdLoginUtil.initLocalConf(SplashActivity.this);
                             getOperation().forward(CoverActivity.class);
                         }
                     }
@@ -93,10 +91,10 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
-        ThirdLoginUtil.updateRemote(this);
         AppManager.getAppManager().addActivity(this);
         mSwipeBackLayout.setEnableGesture(false);
         WalletUtil.cleanOldWallets(this);
+        loginDataManager = LoginDataManager.getInstance(this);
     }
 
     @Override

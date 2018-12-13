@@ -61,6 +61,7 @@ import leaf.prod.walletsdk.util.CredentialsUtils;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.StringUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 
 public class SendActivity extends BaseActivity {
@@ -80,6 +81,8 @@ public class SendActivity extends BaseActivity {
     private static int REQUEST_CODE = 1;  //二维码扫一扫code
 
     private static int TOKEN_CODE = 2;  //选择币种code
+
+    private static int CONTACT_CODE = 3;  //选择币种code
 
     @BindView(R.id.title)
     TitleView title;
@@ -101,9 +104,6 @@ public class SendActivity extends BaseActivity {
 
     @BindView(R.id.wallet_address)
     MaterialEditText walletAddress;
-
-    @BindView(R.id.iv_scan)
-    ImageView ivScan;
 
     @BindView(R.id.address_toast)
     TextView addressToast;
@@ -247,6 +247,11 @@ public class SendActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.send));
         title.clickLeftGoBack(getWContext());
+        title.setRightImageButton(R.mipmap.icon_scan, button -> {
+            Intent intent = new Intent(this, ActivityScanerCode.class);
+            intent.putExtra("restrict", QRCodeType.TRANSFER.name());
+            startActivityForResult(intent, REQUEST_CODE);
+        });
     }
 
     @Override
@@ -274,17 +279,15 @@ public class SendActivity extends BaseActivity {
         super.onRestart();
     }
 
-    @OnClick({R.id.ll_manager_wallet, R.id.iv_scan, R.id.btn_send, R.id.ll_show_fee})
+    @OnClick({R.id.ll_manager_wallet, R.id.iv_contact, R.id.btn_send, R.id.ll_show_fee})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_manager_wallet:
                 getOperation().forwardForResult(SendListChooseActivity.class, TOKEN_CODE);
                 break;
-            case R.id.iv_scan:
+            case R.id.iv_contact:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-                    Intent intent = new Intent(this, ActivityScanerCode.class);
-                    intent.putExtra("restrict", QRCodeType.TRANSFER.name());
-                    startActivityForResult(intent, REQUEST_CODE);
+                    startActivityForResult(new Intent(SendActivity.this, ContactListActivity.class), CONTACT_CODE);
                 }
                 break;
             case R.id.ll_show_fee:
@@ -450,6 +453,15 @@ public class SendActivity extends BaseActivity {
             if (resultCode == 1) {
                 initSeekbar();
                 updateBySymbol(data);
+            }
+        } else if (requestCode == CONTACT_CODE) {
+            Bundle bundle = data.getExtras();
+            if (bundle == null) {
+                return;
+            }
+            String address = bundle.getString("address");
+            if (!StringUtils.isEmpty(address)) {
+                walletAddress.setText(address);
             }
         }
     }

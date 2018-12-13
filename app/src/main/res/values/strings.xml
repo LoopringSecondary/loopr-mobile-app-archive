@@ -54,10 +54,13 @@
     <string name="wallet_type">请选择钱包类型</string>
     <string name="setting">设置</string>
     <string name="add_contact">添加联系人</string>
+    <string name="contact_list">联系人列表</string>
     <string name="contact_name">联系人名称</string>
     <string name="contact_address">联系人地址</string>
     <string name="contact_note">备注, 如：薪资（可选）</string>
+    <string name="contact_empty">您还没有联系人</string>
     <string name="input_valid_name">请输入联系人名称</string>
+    <string name="contact_duplication">联系人地址或名称已存在</string>
 
     <string name="set_share">分享APP，获得撮合费20%收益</string>
     <string name="set_manage_wallet">管理钱包</string>

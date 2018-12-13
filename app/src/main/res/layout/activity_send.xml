@@ -123,12 +123,11 @@
                 app:met_primaryColor="@color/black"/>
 
             <ImageView
-                android:id="@+id/iv_scan"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:id="@+id/iv_contact"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_gravity="center"
-                android:layout_marginRight="@dimen/margSide"
-                android:src="@mipmap/icon_scan_light"/>
+                android:src="@mipmap/icon_contact"/>
         </LinearLayout>
 
         <TextView

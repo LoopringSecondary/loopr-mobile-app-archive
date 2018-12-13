@@ -33,8 +33,8 @@ import leaf.prod.app.utils.AndroidUtils;
 import leaf.prod.app.utils.FingerprintUtil;
 import leaf.prod.app.utils.UpgradeUtil;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
+import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.util.SPUtils;
-import leaf.prod.walletsdk.util.ThirdLoginUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -89,6 +89,8 @@ public class SettingFragment extends BaseFragment {
 
     private AlertDialog.Builder confirmThirdLogin;
 
+    private LoginDataManager loginDataManager;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -115,16 +117,17 @@ public class SettingFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        loginDataManager = LoginDataManager.getInstance(getContext());
         if (!FingerprintUtil.isEnable(getContext())) {
             llIdTouch.setVisibility(View.GONE);
         } else {
             boolean isFingerEnable = (boolean) SPUtils.get(getContext(), "touch_id", aSwitch.isChecked());
             aSwitch.setCheckedImmediately(isFingerEnable);
         }
-        btnLogin.setText(ThirdLoginUtil.isThirdLogin(getContext()) ? getResources().getString(R.string.third_part_logout) : getResources()
+        btnLogin.setText(loginDataManager.isLogin() ? getResources().getString(R.string.third_part_logout) : getResources()
                 .getString(R.string.third_part_login));
         btnLogin.setOnClickListener(view -> {
-            if (ThirdLoginUtil.isThirdLogin(getContext())) {
+            if (loginDataManager.isLogin()) {
                 confirmThirdLogin.show();
             } else {
                 getOperation().addParameter("skip", "skip");
@@ -134,12 +137,12 @@ public class SettingFragment extends BaseFragment {
         if (confirmThirdLogin == null) {
             confirmThirdLogin = new AlertDialog.Builder(getContext());
             confirmThirdLogin.setPositiveButton(getResources().getString(R.string.confirm), (dialogInterface, i0) -> {
-                ThirdLoginUtil.deleteThirdLogin(getContext(), new Callback<AppResponseWrapper<String>>() {
+                loginDataManager.logout(new Callback<AppResponseWrapper<String>>() {
                     @Override
                     public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
                         AppResponseWrapper<String> wrapper = response.body();
                         if (wrapper != null && wrapper.getSuccess()) {
-                            ThirdLoginUtil.skip(getContext());
+                            loginDataManager.logoutSuccess();
                             RxToast.success(getResources().getString(R.string.third_logout_success));
                             btnLogin.setText(getResources().getString(R.string.third_part_login));
                         } else {
@@ -180,7 +183,7 @@ public class SettingFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden && btnLogin != null) {
-            btnLogin.setText(ThirdLoginUtil.isThirdLogin(getContext()) ? getResources().getString(R.string.third_part_logout) : getResources()
+            btnLogin.setText(loginDataManager.isLogin() ? getResources().getString(R.string.third_part_logout) : getResources()
                     .getString(R.string.third_part_login));
         }
     }

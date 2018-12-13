@@ -6,7 +6,6 @@
 package leaf.prod.walletsdk.model;
 
 import java.util.List;
-import java.util.Set;
 
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +22,7 @@ public class UserConfig {
 
     private List<WalletInfo> walletList;
 
-    private Set<Contact> contacts;
+    private List<Contact> contacts;
 
     @Data
     @Builder
