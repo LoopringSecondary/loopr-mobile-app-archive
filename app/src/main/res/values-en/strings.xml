@@ -55,6 +55,10 @@
     <string name="wallet_type">Please choose wallet type</string>
     <string name="setting">Settings</string>
     <string name="etherscan">Etherscan.io</string>
+    <string name="contact_name">Name</string>
+    <string name="contact_address">Address</string>
+    <string name="contact_note">Note</string>
+    <string name="add_contact">Add Contact</string>
 
     <string name="set_share">Share APP ,  harvest 20% of trading fee</string>
     <string name="set_manage_wallet">Manage Wallet</string>
@@ -256,7 +260,8 @@
     <string name="no_data_p2p">You do not have p2p trading record yet</string>
     <string name="minimal_count_error">Minimal count should be at least one</string>
     <string name="detail_qr_error">The P2P order is not created in this iPhone. You can\'t share the QR code.</string>
-    <string name="qr_error_tip">Please make sure the QR code is type of P2P order.</string>
+    <string name="qr_p2p_error_tip">Please make sure the QR code is type of P2P order.</string>
+    <string name="qr_addr_error_tip">Please make sure the QR code is type of wallet address.</string>
     <string name="share_order">Share Order</string>
     <string name="save_to_album">Save to album</string>
     <string name="password_empty">Password should not be empty</string>

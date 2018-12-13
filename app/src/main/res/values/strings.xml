@@ -53,7 +53,10 @@
     <string name="search">搜索</string>
     <string name="wallet_type">请选择钱包类型</string>
     <string name="setting">设置</string>
-    <string name="etherscan">Etherscan.io</string>
+    <string name="contact_name">联系人名称</string>
+    <string name="contact_address">联系人地址</string>
+    <string name="contact_note">联系人备注</string>
+    <string name="add_contact">添加联系人</string>
 
     <string name="set_share">分享APP，获得撮合费20%收益</string>
     <string name="set_manage_wallet">管理钱包</string>
@@ -256,7 +259,8 @@
     <string name="no_data_p2p">您还没有场外交易记录</string>
     <string name="minimal_count_error">订单拆分份数至少为1</string>
     <string name="detail_qr_error">该P2P订单不在该手机产生，无法获取二维码。</string>
-    <string name="qr_error_tip">请扫描P2P订单类型的二维码</string>
+    <string name="qr_p2p_error_tip">请扫描P2P订单类型的二维码</string>
+    <string name="qr_addr_error_tip">请扫描钱包地址类型的二维码</string>
     <string name="share_order">分享订单</string>
     <string name="save_to_album">保存到相册</string>
     <string name="password_empty">密码不能为空</string>

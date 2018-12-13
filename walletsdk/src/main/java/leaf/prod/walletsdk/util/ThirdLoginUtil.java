@@ -23,7 +23,7 @@ import retrofit2.Response;
  */
 public class ThirdLoginUtil {
 
-    private static String THIRD_LOGIN = "third_login";
+    public static String THIRD_LOGIN = "third_login";
 
     private static AppService appService = new AppService();
 
@@ -122,11 +122,11 @@ public class ThirdLoginUtil {
     public static void updateLocal(Context context, UserConfig config) {
         if (isThirdLogin(context)) {
             String uid = getUserId(context);
-            UserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, UserConfig.class);
-            if (loginUserConfig != null) {
-                loginUserConfig.setLanguage(config.getLanguage() != null ? config.getLanguage() : loginUserConfig.getLanguage());
-                loginUserConfig.setCurrency(config.getCurrency() != null ? config.getCurrency() : loginUserConfig.getCurrency());
-                SPUtils.put(context, THIRD_LOGIN + "_" + uid, loginUserConfig);
+            UserConfig userConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, UserConfig.class);
+            if (userConfig != null) {
+                userConfig.setLanguage(config.getLanguage() != null ? config.getLanguage() : userConfig.getLanguage());
+                userConfig.setCurrency(config.getCurrency() != null ? config.getCurrency() : userConfig.getCurrency());
+                SPUtils.put(context, THIRD_LOGIN + "_" + uid, userConfig);
             }
         }
     }
@@ -139,11 +139,11 @@ public class ThirdLoginUtil {
     public static void updateRemote(Context context) {
         if (isThirdLogin(context)) {
             String uid = getUserId(context);
-            UserConfig loginUserConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, UserConfig.class);
-            if (loginUserConfig != null) {
+            UserConfig userConfig = SPUtils.getBean(context, THIRD_LOGIN + "_" + uid, UserConfig.class);
+            if (userConfig != null) {
                 LoginUser loginUser = LoginUser.builder()
-                        .accountToken(loginUserConfig.getUserId())
-                        .config(gson.toJson(loginUserConfig))
+                        .accountToken(userConfig.getUserId())
+                        .config(gson.toJson(userConfig))
                         .build();
                 appService.addUser(loginUser, new Callback<AppResponseWrapper<String>>() {
                     @Override

@@ -7,7 +7,6 @@
 package leaf.prod.walletsdk.model;
 
 public enum QRCodeType {
-
     KEY_STORE,
     TRANSFER(),
     P2P_ORDER(),

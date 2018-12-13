@@ -55,8 +55,12 @@
     <string name="wallet_type">請選擇錢包類型</string>
     <string name="setting">設置</string>
     <string name="etherscan">Etherscan.io</string>
+    <string name="contact_name">聯系人名稱</string>
+    <string name="contact_address">聯系人地址</string>
+    <string name="contact_note">聯系人備註</string>
+    <string name="add_contact">添加聯系人</string>
 
-    <string name="set_share">分享APP，獲得撮合費20%收益</string>
+    <string name="set_share">分享APP，獲得撮合費20%收益</string>
     <string name="set_manage_wallet">管理錢包</string>
     <string name="set_money_type">貨幣</string>
     <string name="set_language">語言</string>
@@ -257,7 +261,8 @@
     <string name="no_data_p2p">您還沒有場外交易記錄</string>
     <string name="minimal_count_error">訂單拆分份數至少為1</string>
     <string name="detail_qr_error">P2P訂單不在這手機產生。無法獲取二維碼。</string>
-    <string name="qr_error_tip">請掃描P2P訂單類型的二維碼</string>
+    <string name="qr_p2p_error_tip">請掃描P2P訂單類型的二維碼</string>
+    <string name="qr_addr_error_tip">請掃描錢包地址類型的二維碼</string>
     <string name="share_order">分享訂單</string>
     <string name="save_to_album">保存到相冊</string>
     <string name="password_empty">密碼不能為空</string>

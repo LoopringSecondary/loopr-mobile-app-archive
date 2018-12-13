@@ -96,7 +96,7 @@ public class P2PActivity extends BaseActivity {
                     getOperation().addParameter("p2p_order", result);
                     getOperation().forward(P2PConfirmActivity.class);
                 } else {
-                    RxToast.error(getString(R.string.qr_error_tip));
+                    RxToast.error(getString(R.string.qr_p2p_error_tip));
                 }
             }
         }

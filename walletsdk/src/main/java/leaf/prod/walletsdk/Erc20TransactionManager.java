@@ -29,7 +29,7 @@ import rx.schedulers.Schedulers;
 
 public class Erc20TransactionManager {
 
-    private Web3j web3j = SDK.getWeb3j();
+    public Web3j web3j = SDK.getWeb3j();
 
     private Erc20Contract erc20Contract;
 
