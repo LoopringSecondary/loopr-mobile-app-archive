@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -18,13 +17,9 @@ import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.PermissionUtils;
+import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.model.LoginUser;
-import leaf.prod.walletsdk.model.UserConfig;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
-import leaf.prod.walletsdk.util.CurrencyUtil;
-import leaf.prod.walletsdk.util.LanguageUtil;
-import leaf.prod.walletsdk.util.SPUtils;
-import leaf.prod.walletsdk.util.ThirdLoginUtil;
 import leaf.prod.walletsdk.util.WalletUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,70 +67,23 @@ public class ThirdLoginActivity extends BaseActivity {
                 @Override
                 public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                     String uid = map.get("openid");
-                    UserConfig userConfig = UserConfig.builder().userId(uid)
-                            .language(LanguageUtil.getSettingLanguage(ThirdLoginActivity.this).getText())
-                            .currency(CurrencyUtil.getCurrency(ThirdLoginActivity.this).name())
-                            .walletList(null).build();
-                    ThirdLoginUtil.initThirdLogin(ThirdLoginActivity.this, userConfig, new Callback<AppResponseWrapper<LoginUser>>() {
+                    loginDataManager.getRemoteUser(uid, new Callback<AppResponseWrapper<LoginUser>>() {
                         @Override
                         public void onResponse(Call<AppResponseWrapper<LoginUser>> call, Response<AppResponseWrapper<LoginUser>> response) {
-                            UserConfig remoteUserConfig = null;
-                            LoginUser newLoginUser = LoginUser.builder()
-                                    .accountToken(uid)
-                                    .config(new Gson().toJson(userConfig))
-                                    .build();
-                            UserConfig localUserConfig = ThirdLoginUtil.getLocalUser(ThirdLoginActivity.this);
-                            try {
-                                LoginUser remoteLoginUser = response.body().getMessage();
-                                remoteUserConfig = remoteLoginUser != null ? remoteLoginUser.getUserConfig() : null;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            if (userConfig == null) {
-                                if (remoteUserConfig != null) {
-                                    // 初始化本地数据
-                                    SPUtils.put(ThirdLoginActivity.this, "third_login_" + uid, remoteUserConfig);
-                                    ThirdLoginUtil.initLocalConf(ThirdLoginActivity.this);
-                                    RxToast.success(getResources().getString(R.string.third_login_success));
-                                    forward();
-                                } else {
-                                    // 初始化本地和线上
-                                    ThirdLoginUtil.initLocalAndRemote(ThirdLoginActivity.this, newLoginUser, new Callback<AppResponseWrapper<String>>() {
-                                        @Override
-                                        public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
-                                            RxToast.success(getResources().getString(R.string.third_login_success));
-                                            forward();
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<AppResponseWrapper<String>> call, Throwable t) {
-                                            RxToast.error(getResources().getString(R.string.third_login_error));
-                                            ThirdLoginUtil.clearLocal(ThirdLoginActivity.this, uid);
-                                        }
-                                    });
-                                }
+                            loginDataManager.loginSuccess(uid);
+                            AppResponseWrapper<LoginUser> responseWrapper = response.body();
+                            if (responseWrapper.getSuccess() && responseWrapper.getMessage() != null) {
+                                loginDataManager.updateLocal(responseWrapper.getMessage());
                             } else {
-                                // 更新线上数据
-                                ThirdLoginUtil.initRemote(ThirdLoginActivity.this, localUserConfig, new Callback<AppResponseWrapper<String>>() {
-                                    @Override
-                                    public void onResponse(Call<AppResponseWrapper<String>> call, Response<AppResponseWrapper<String>> response) {
-                                        RxToast.success(getResources().getString(R.string.third_login_success));
-                                        forward();
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<AppResponseWrapper<String>> call, Throwable t) {
-                                        RxToast.error(getResources().getString(R.string.third_login_error));
-                                        ThirdLoginUtil.clearLocal(ThirdLoginActivity.this, uid);
-                                    }
-                                });
+                                loginDataManager.updateRemote(loginDataManager.getLocalUser());
                             }
+                            RxToast.success(getString(R.string.third_login_success));
+                            forward();
                         }
 
                         @Override
                         public void onFailure(Call<AppResponseWrapper<LoginUser>> call, Throwable t) {
                             RxToast.error(getResources().getString(R.string.third_login_error));
-                            ThirdLoginUtil.clearLocal(ThirdLoginActivity.this, uid);
                         }
                     });
                 }
@@ -151,7 +99,7 @@ public class ThirdLoginActivity extends BaseActivity {
             });
         });
         skipLogin.setOnClickListener(view -> {
-            ThirdLoginUtil.skip(ThirdLoginActivity.this);
+            loginDataManager.skip();
             forward();
         });
     }
@@ -167,6 +115,7 @@ public class ThirdLoginActivity extends BaseActivity {
         super.onCreate(bundle);
         mSwipeBackLayout.setEnableGesture(false);
         PermissionUtils.initPermissions(this);
+        loginDataManager = LoginDataManager.getInstance(this);
     }
 
     private void forward() {

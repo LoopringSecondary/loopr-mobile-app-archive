@@ -6,8 +6,8 @@
  */
 package leaf.prod.app.activity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.Manifest;
 import android.content.Intent;
@@ -27,12 +27,12 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.QRCodeUitl;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.model.Contact;
 import leaf.prod.walletsdk.model.QRCodeType;
 import leaf.prod.walletsdk.model.UserConfig;
-import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.ChineseCharUtil;
 import leaf.prod.walletsdk.util.StringUtils;
-import leaf.prod.walletsdk.util.ThirdLoginUtil;
 
 public class AddContactActivity extends BaseActivity {
 
@@ -94,6 +94,7 @@ public class AddContactActivity extends BaseActivity {
         setContentView(R.layout.activity_add_contact);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
+        loginDataManager = LoginDataManager.getInstance(this);
     }
 
     @Override
@@ -127,29 +128,35 @@ public class AddContactActivity extends BaseActivity {
                     RxToast.error(getString(R.string.input_valid_address));
                     break;
                 }
-                mergeContact();
-//                getOperation().forward();  lyy to contact list
+                if (mergeContact()) {
+                    finish();
+                }
                 break;
         }
     }
 
-    private void mergeContact() {
+    private boolean mergeContact() {
         Contact contact = Contact.builder()
                 .name(contactName.getText().toString().trim())
-                .address(contactAddress.getText().toString().trim())
+                .address(contactAddress.getText().toString().toLowerCase().trim())
                 .note(contactNote.getText().toString().trim())
+                .tag(ChineseCharUtil.getFirstLetter(contactName.getText().toString().trim()))
                 .build();
-        String key = ThirdLoginUtil.THIRD_LOGIN + "_" + ThirdLoginUtil.getUserId(this);
-        UserConfig userConfig = SPUtils.getBean(this, key, UserConfig.class);
+        UserConfig userConfig = loginDataManager.getLocalUser();
         if (userConfig == null) {
-            userConfig = UserConfig.builder().contacts(new HashSet<>()).build();
+            userConfig = UserConfig.builder().contacts(new ArrayList<>()).build();
         }
-        Set<Contact> contacts = userConfig.getContacts();
+        List<Contact> contacts = userConfig.getContacts();
         if (contacts == null) {
-            contacts = new HashSet<>();
+            contacts = new ArrayList<>();
+        }
+        if (contacts.contains(contact)) {
+            RxToast.error(getString(R.string.contact_duplication));
+            return false;
         }
         contacts.add(contact);
         userConfig.setContacts(contacts);
-        ThirdLoginUtil.updateLocal(this, userConfig);
+        loginDataManager.updateRemote(userConfig);
+        return true;
     }
 }

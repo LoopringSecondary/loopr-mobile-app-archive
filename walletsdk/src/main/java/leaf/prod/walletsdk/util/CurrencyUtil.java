@@ -11,6 +11,7 @@ import java.util.Locale;
 
 import android.content.Context;
 
+import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.model.UserConfig;
 
@@ -44,6 +45,8 @@ public class CurrencyUtil {
 
     public static void setCurrency(Context context, Currency currency) {
         SPUtils.put(context, "coin", currency.getText());
-        ThirdLoginUtil.updateLocal(context, UserConfig.builder().currency(currency.getText()).build());
+        UserConfig userConfig = LoginDataManager.getInstance(context).getLocalUser();
+        userConfig.setCurrency(currency.getText());
+        LoginDataManager.getInstance(context).updateRemote(userConfig);
     }
 }

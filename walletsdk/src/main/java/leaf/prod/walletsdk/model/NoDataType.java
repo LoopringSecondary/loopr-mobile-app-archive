@@ -9,7 +9,8 @@ package leaf.prod.walletsdk.model;
 public enum NoDataType {
     asset("asset"),
     transation("transation"),
-    p2p_orders("p2p_orders");
+    p2p_order("p2p_order"),
+    contact("contact");
 
     private final String description;
 

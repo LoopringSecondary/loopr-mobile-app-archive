@@ -34,7 +34,7 @@ import leaf.prod.app.view.Operation;
 import leaf.prod.app.views.swipeback.SwipeBackActivity;
 import leaf.prod.app.views.swipeback.SwipeBackLayout;
 import leaf.prod.walletsdk.model.Network;
-import leaf.prod.walletsdk.util.ThirdLoginUtil;
+import leaf.prod.walletsdk.manager.LoginDataManager;
 
 public abstract class BaseActivity extends SwipeBackActivity {
 
@@ -60,6 +60,8 @@ public abstract class BaseActivity extends SwipeBackActivity {
     private MainNetworkReceiver mainNetworkReceiver;
     private NotificationReceiver notificationReceiver;
 
+    protected LoginDataManager loginDataManager;
+
     private static boolean updateHint = false;
 
     @Override
@@ -78,7 +80,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
         initListener();
         showNetworkDialog(this.getLocalClassName(), false);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        ThirdLoginUtil.clearDirtData(BaseActivity.this);
     }
 
     protected WeakReference<Activity> getWContext() {
