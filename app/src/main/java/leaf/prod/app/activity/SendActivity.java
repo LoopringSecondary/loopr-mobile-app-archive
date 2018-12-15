@@ -455,13 +455,15 @@ public class SendActivity extends BaseActivity {
                 updateBySymbol(data);
             }
         } else if (requestCode == CONTACT_CODE) {
-            Bundle bundle = data.getExtras();
-            if (bundle == null) {
-                return;
-            }
-            String address = bundle.getString("address");
-            if (!StringUtils.isEmpty(address)) {
-                walletAddress.setText(address);
+            if (data != null) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                String address = bundle.getString("address");
+                if (!StringUtils.isEmpty(address)) {
+                    walletAddress.setText(address);
+                }
             }
         }
     }
