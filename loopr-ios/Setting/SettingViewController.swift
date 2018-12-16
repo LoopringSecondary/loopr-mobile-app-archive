@@ -124,7 +124,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         } else if section == 1 {
             var numberOfRows: Int = 0
-            if BiometricType.get() == .none {
+            // If it's app version, no third party login yet.
+            if BiometricType.get() == .none || Production.isAppStoreVersion() {
                 numberOfRows = 4
             } else {
                 numberOfRows = 5
