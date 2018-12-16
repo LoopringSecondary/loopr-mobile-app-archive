@@ -100,7 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                 if !AppWalletDataManager.shared.getWallets().isEmpty {
                     result = MainTabController.instantiate()
                 }
-            } else if hasKeysPlist() {
+            } else if hasKeysPlist() && !Production.isAppStoreVersion() {
                 result = ThirdPartyViewController(nibName: nil, bundle: nil)
             }
             if !AppWalletDataManager.shared.getWallets().isEmpty {
