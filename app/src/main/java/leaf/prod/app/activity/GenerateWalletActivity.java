@@ -169,47 +169,44 @@ public class GenerateWalletActivity extends BaseActivity {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    new Thread(() -> {
-                        loopringService.notifyCreateWallet(address)
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<String>() {
-                                    @Override
-                                    public void onCompleted() {
-                                        String salt = EncryptUtil.getSecureRandom(), iv = EncryptUtil.getSecureRandom();
-                                        WalletUtil.addWallet(GenerateWalletActivity.this, WalletEntity.builder()
-                                                .walletname(walletName.getText().toString())
-                                                .filename(filename)
-                                                .address("0x" + address)
-                                                .pas(EncryptUtil.encryptSHA3(password.getText().toString()))
-                                                .salt(salt)
-                                                .iv(iv)
-                                                .mnemonic(WalletUtil.encryptMnemonic(mnemonic, password.getText()
-                                                        .toString(), salt, iv))
-                                                .chooseTokenList(Arrays.asList("ETH", "WETH", "LRC"))
-                                                .walletType(ImportWalletType.ALL).build());
-                                        //                                        WalletUtil.addWallet(GenerateWalletActivity.this, new WalletEntity(walletName.getText()
-                                        //                                                .toString(), filename, "0x" + address, mnemonic, null, "", "", ImportWalletType.ALL));
-                                        hideProgress();
-                                        DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, v -> {
-                                            DialogUtil.dialog.dismiss();
-                                            finish();
-                                            AppManager.getAppManager().finishAllActivity();
-                                            //                                                    startActivity(new Intent(GenerateWalletActivity.this,MainActivity.class));
-                                            getOperation().forwardClearTop(MainActivity.class);
-                                        });
-                                    }
+                    new Thread(() ->
+                            loopringService.notifyCreateWallet(address)
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Subscriber<String>() {
+                                        @Override
+                                        public void onCompleted() {
+                                            String salt = EncryptUtil.getSecureRandom(), iv = EncryptUtil.getSecureRandom();
+                                            WalletUtil.addWallet(GenerateWalletActivity.this, WalletEntity.builder()
+                                                    .walletname(walletName.getText().toString())
+                                                    .filename(filename)
+                                                    .address("0x" + address)
+                                                    .pas(EncryptUtil.encryptSHA3(password.getText().toString()))
+                                                    .salt(salt)
+                                                    .iv(iv)
+                                                    .mnemonic(WalletUtil.encryptMnemonic(mnemonic, password.getText()
+                                                            .toString(), salt, iv))
+                                                    .chooseTokenList(Arrays.asList("ETH", "WETH", "LRC"))
+                                                    .walletType(ImportWalletType.ALL).build());
+                                            hideProgress();
+                                            DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, v -> {
+                                                DialogUtil.dialog.dismiss();
+                                                finish();
+                                                AppManager.getAppManager().finishAllActivity();
+                                                getOperation().forwardClearTop(MainActivity.class);
+                                            });
+                                        }
 
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        RxToast.error(getResources().getString(R.string.add_wallet_error));
-                                        hideProgress();
-                                    }
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            RxToast.error(getResources().getString(R.string.add_wallet_error));
+                                            hideProgress();
+                                        }
 
-                                    @Override
-                                    public void onNext(String s) {
-                                    }
-                                });
-                    }).start();
+                                        @Override
+                                        public void onNext(String s) {
+                                        }
+                                    })
+                    ).start();
                     break;
                 case ERROR_ONE:
                     hideProgress();
@@ -258,6 +255,7 @@ public class GenerateWalletActivity extends BaseActivity {
             public void afterTextChanged(Editable editable) {
                 if (editable == null || editable.toString().length() == 0) {
                     pswLevel.setVisibility(View.INVISIBLE);
+                    setPasswordHint(getResources().getColor(R.color.colorNineText), getResources().getString(R.string.good), false, View.VISIBLE);
                 } else {
                     int level = PasswordUtils.checkPasswordLevel(password.getText().toString());
                     switch (level) {
@@ -288,30 +286,11 @@ public class GenerateWalletActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        //        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         GridLayoutManager layoutManagerHint = new GridLayoutManager(this, 3);
         recyclerMnemonicHint.setLayoutManager(layoutManagerHint);  //助记词提示列表
         mHintAdapter = new MnemonicWordHintAdapter(R.layout.adapter_item_mnemonic_word_hint, null);
         recyclerMnemonicHint.addItemDecoration(new SpacesItemDecoration(8, 8, 2, 2));
         recyclerMnemonicHint.setAdapter(mHintAdapter);
-        //        recyclerView.setLayoutManager(layoutManager);   //助记词选择列表
-        //        mAdapter = new MnemonicWordAdapter(R.layout.adapter_item_mnemonic_word, null);
-        //        recyclerView.addItemDecoration(new SpacesItemDecoration(8, 8, 2, 2));
-        //        recyclerView.setAdapter(mAdapter);
-        //        final Joiner joiner = Joiner.on(" ");
-        //        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-        //            //选择助记词，进行验证
-        //            CheckBox checkBox = view.findViewById(R.id.mnemonic_word);
-        //            if (checkBox.isChecked()) {
-        //                checkBox.setChecked(false);
-        //                mneCheckedList.remove(listRandomMnemonic.get(position));
-        //                confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
-        //            } else {
-        //                checkBox.setChecked(true);
-        //                mneCheckedList.add(listRandomMnemonic.get(position));
-        //                confirmMnemonicWordInfo.setText(joiner.join(mneCheckedList));
-        //            }
-        //        });
         shakeAnimation = AnimationUtils.loadAnimation(GenerateWalletActivity.this, R.anim.shake_x);
     }
 
@@ -336,17 +315,13 @@ public class GenerateWalletActivity extends BaseActivity {
                         password.setVisibility(View.VISIBLE);
                     }
                 } else if (nextStatus.equals("password")) {
-                    if (password.length() < 6) {
-                        setPasswordHint(getResources().getColor(R.color.colorRed), getResources().getString(R.string.good), true, View.VISIBLE);
+                    if (PasswordUtils.checkPasswordLevel(password.getText().toString()) != 3) {
+                        setPasswordHint(getResources().getColor(R.color.colorRed), getResources().getString(R.string.password_weak), true, View.VISIBLE);
                     } else {
-                        if (PasswordUtils.checkPasswordLevel(password.getText().toString()) == 3) {
-                            nextStatus = "match";
-                            passwordHint.setVisibility(View.GONE);
-                            password.setVisibility(View.GONE);
-                            repeatPassword.setVisibility(View.VISIBLE);
-                        } else {
-                            RxToast.error(getString(R.string.password_weak));
-                        }
+                        nextStatus = "match";
+                        passwordHint.setVisibility(View.GONE);
+                        password.setVisibility(View.GONE);
+                        repeatPassword.setVisibility(View.VISIBLE);
                     }
                 } else if (nextStatus.equals("match")) {
                     if (repeatPassword.getText().toString().equals(password.getText().toString())) {
@@ -373,19 +348,6 @@ public class GenerateWalletActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_confirm:
-                //                if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-                //                    if (confirmStatus.equals("one")) {
-                //                        confirmStatus = "two";
-                //                        rlMnemonic.setVisibility(View.GONE);
-                //                        rlWord.setVisibility(View.GONE);
-                //                        generatePartthree.setVisibility(View.VISIBLE);
-                //                        Collections.shuffle(listRandomMnemonic); //打乱助记词
-                //                        mAdapter.setNewData(listRandomMnemonic);
-                //                        mAdapter.notifyDataSetChanged();
-                //                    } else {
-                //                        matchMnemonic();
-                //                    }
-                //                }
                 Intent intent = new Intent(this, ConfirmMnemonicActivity.class);
                 intent.putExtra("mnemonic", mnemonic);
                 startActivityForResult(intent, 1);
@@ -401,9 +363,9 @@ public class GenerateWalletActivity extends BaseActivity {
     private void setPasswordHint(int color, String content, boolean animate, int visible) {
         passwordHint.setTextColor(color);
         passwordHint.setText(content);
-        passwordHint.setVisibility(View.VISIBLE);
+        passwordHint.setVisibility(visible);
         if (animate) {
-            passwordHint.setAnimation(shakeAnimation);
+            passwordHint.startAnimation(shakeAnimation);
         }
     }
 
@@ -420,30 +382,13 @@ public class GenerateWalletActivity extends BaseActivity {
                     .getPrivateKey());
             try {
                 filename = KeystoreUtils.createFromPrivateKey(privateKeyHexString, pas, FileUtils.getKeyStoreLocation(GenerateWalletActivity.this));
-                //                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
                 handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
             } catch (InvalidPrivateKeyException | KeystoreCreateException e) {
                 handlerCreate.sendEmptyMessage(ERROR_THREE);
                 e.printStackTrace();
             }
-            //                WalletDetail walletDetail = createWallet();//生成助记词
-            //                filename = walletDetail.getFilename();
-            //                LyqbLogger.log(filename);
-            //                SPUtils.put(GenerateWalletActivity.this, "filename", filename);
-            //                handlerCreate.sendEmptyMessage(MNEMONIC_SUCCESS);
         }).start();
     }
-    /**
-     * 助记词匹配
-     */
-    //    private void matchMnemonic() {
-    //        String str = Joiner.on(" ").join(mneCheckedList);
-    //        if (str.trim().equals(mnemonic)) {
-    //            startThread();
-    //        } else {
-    //            RxToast.error(getResources().getString(R.string.mnemonic_not_match));
-    //        }
-    //    }
 
     /**
      * 判断两个集合是否相等
@@ -459,19 +404,6 @@ public class GenerateWalletActivity extends BaseActivity {
         }
         return true;
     }
-    /**
-     * 创建钱包
-     */
-    //    private WalletDetail createWallet() {
-    //        WalletDetail walletDetail = null;
-    //        try {
-    //            String pas = repeatPassword.getText().toString();
-    //            walletDetail = WalletHelper.createFromMnemonic(mnemonic, null, pas, FileUtils.getKeyStoreLocation(this));
-    //        } catch (Exception e) {
-    //            e.printStackTrace();
-    //        }
-    //        return walletDetail;
-    //    }
 
     /**
      * 获取本地keystore中的address
