@@ -6,16 +6,15 @@
  */
 package leaf.prod.app.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.Button;
 
 import org.web3j.crypto.WalletUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -30,7 +29,6 @@ import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.model.Contact;
 import leaf.prod.walletsdk.model.QRCodeType;
-import leaf.prod.walletsdk.model.UserConfig;
 import leaf.prod.walletsdk.util.ChineseCharUtil;
 import leaf.prod.walletsdk.util.StringUtils;
 
@@ -48,7 +46,14 @@ public class AddContactActivity extends BaseActivity {
     @BindView(R.id.contact_note)
     MaterialEditText contactNote;
 
+    @BindView(R.id.btn_delete)
+    Button btnDelete;
+
     private static int REQUEST_CODE = 1;
+
+    private AlertDialog.Builder confirmDelete;
+
+    private String address;
 
     /**
      * 初始化P层
@@ -79,10 +84,25 @@ public class AddContactActivity extends BaseActivity {
      */
     @Override
     public void initView() {
+        loginDataManager = LoginDataManager.getInstance(this);
+        address = getIntent().getStringExtra("address");
+        if (!StringUtils.isEmpty(address)) {
+            Contact contact = loginDataManager.getContact(address);
+            if (contact == null)
+                return;
+            contactName.setText(contact.getName());
+            contactAddress.setText(contact.getAddress());
+            contactNote.setText(contact.getNote());
+            btnDelete.setVisibility(View.VISIBLE);
+        } else {
+            contactName.setText("");
+            contactAddress.setText("");
+            contactNote.setText("");
+            btnDelete.setVisibility(View.GONE);
+        }
     }
 
     /**
-     * 0
      * 初始化数据
      */
     @Override
@@ -94,7 +114,6 @@ public class AddContactActivity extends BaseActivity {
         setContentView(R.layout.activity_add_contact);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
-        loginDataManager = LoginDataManager.getInstance(this);
     }
 
     @Override
@@ -116,10 +135,10 @@ public class AddContactActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.save_btn})
+    @OnClick({R.id.btn_save, R.id.btn_delete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.save_btn:
+            case R.id.btn_save:
                 if (StringUtils.isEmpty(contactName.getText().toString().trim())) {
                     RxToast.error(getString(R.string.input_valid_name));
                     break;
@@ -132,6 +151,21 @@ public class AddContactActivity extends BaseActivity {
                     finish();
                 }
                 break;
+            case R.id.btn_delete:
+                if (confirmDelete == null) {
+                    confirmDelete = new AlertDialog.Builder(this);
+                    confirmDelete.setPositiveButton(getResources().getString(R.string.confirm), (dialogInterface, i0) -> {
+                        loginDataManager.deleteContact(address);
+                        finish();
+                    });
+                    confirmDelete.setNegativeButton(getResources().getString(R.string.cancel), (dialogInterface, i) -> {
+                        dialogInterface.dismiss();
+                    });
+                    confirmDelete.setMessage(getResources().getString(R.string.delete_contact_hint));
+                    confirmDelete.setTitle(getResources().getString(R.string.hint));
+                }
+                confirmDelete.show();
+                break;
         }
     }
 
@@ -142,21 +176,17 @@ public class AddContactActivity extends BaseActivity {
                 .note(contactNote.getText().toString().trim())
                 .tag(ChineseCharUtil.getFirstLetter(contactName.getText().toString().trim()))
                 .build();
-        UserConfig userConfig = loginDataManager.getLocalUser();
-        if (userConfig == null) {
-            userConfig = UserConfig.builder().contacts(new ArrayList<>()).build();
+        if (!StringUtils.isEmpty(address)) {
+            if (!loginDataManager.updateContact(contact, address)) {
+                RxToast.error(getString(R.string.contact_duplication));
+                return false;
+            }
+        } else {
+            if (!loginDataManager.addContact(contact)) {
+                RxToast.error(getString(R.string.contact_duplication));
+                return false;
+            }
         }
-        List<Contact> contacts = userConfig.getContacts();
-        if (contacts == null) {
-            contacts = new ArrayList<>();
-        }
-        if (contacts.contains(contact)) {
-            RxToast.error(getString(R.string.contact_duplication));
-            return false;
-        }
-        contacts.add(contact);
-        userConfig.setContacts(contacts);
-        loginDataManager.updateRemote(userConfig);
         return true;
     }
 }

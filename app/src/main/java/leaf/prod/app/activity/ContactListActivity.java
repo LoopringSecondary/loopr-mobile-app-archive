@@ -34,7 +34,6 @@ import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.model.Contact;
 import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.UserConfig;
-import leaf.prod.walletsdk.util.ChineseCharUtil;
 
 public class ContactListActivity extends BaseActivity {
 
@@ -94,7 +93,10 @@ public class ContactListActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.contact_list));
         title.clickLeftGoBack(getWContext());
-        title.setMiddleImageButton(R.mipmap.icon_plus, button -> startActivityForResult(new Intent(this, AddContactActivity.class), 1));
+        title.setMiddleImageButton(R.mipmap.icon_plus, button -> {
+            getOperation().mIntent.removeExtra("address");
+            getOperation().forward(AddContactActivity.class);
+        });
         title.setRightImageButton(R.mipmap.icon_search, button -> {
             llIndex.setVisibility(View.INVISIBLE);
             llSearch.setVisibility(View.VISIBLE);
@@ -130,7 +132,7 @@ public class ContactListActivity extends BaseActivity {
         layoutManager = new RecyclerViewBugLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         presenter.initIndexBar();
-        adapter = new ContactListAdapter(R.layout.adapter_item_contact_list, contactList);
+        adapter = new ContactListAdapter(this, R.layout.adapter_item_contact_list, contactList);
         emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.contact);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -154,6 +156,12 @@ public class ContactListActivity extends BaseActivity {
     public void initData() {
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshContacts();
+    }
+
     @OnClick({R.id.tv_cancel, R.id.iv_left})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -170,12 +178,6 @@ public class ContactListActivity extends BaseActivity {
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        refreshContacts();
     }
 
     private void refreshContacts() {
@@ -201,21 +203,5 @@ public class ContactListActivity extends BaseActivity {
             recyclerView.setAdapter(adapter);
             presenter.highLightBar(contactList.get(0).getTag());
         }
-    }
-
-    private List<Contact> genLists() {
-        List<Contact> list = new ArrayList<>();
-        for (int j = 0; j < 27; ++j) {
-            for (int i = 0; i < 3; ++i) {
-                String name = j != 26 ? (char) ('A' + j) + "_" + i : "#_" + i;
-                list.add(Contact.builder()
-                        .name(name)
-                        .address("0xA64B16a18885F00FA1AD6D3d3100C3E6F1CEf724")
-                        .note(name)
-                        .tag(ChineseCharUtil.getFirstLetter(name))
-                        .build());
-            }
-        }
-        return list;
     }
 }

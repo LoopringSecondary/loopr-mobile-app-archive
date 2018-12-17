@@ -271,4 +271,6 @@
     <string name="save_to_album">Save to album</string>
     <string name="password_empty">Password should not be empty</string>
     <string name="mnemonic_backup_success">Sequence of your mnemonics is right</string>
+    <string name="delete">delete</string>
+    <string name="delete_contact_hint">Are you sure to delete current contact?</string>
 </resources>
