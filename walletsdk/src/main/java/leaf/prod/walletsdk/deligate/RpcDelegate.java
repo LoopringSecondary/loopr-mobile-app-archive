@@ -125,4 +125,10 @@ public interface RpcDelegate {
 
     @DELETE(Default.APP_RPC_URL + "/user/deleteUser")
     Call<AppResponseWrapper<String>> deleteUser(@Query("account_token") String accountToken);
+
+    @POST
+    Observable<RelayResponseWrapper<String>> getAirdropAmount(@Body RequestWrapper request);
+
+    @POST
+    Observable<RelayResponseWrapper<String>> claimAirdrop(@Body RequestWrapper request);
 }

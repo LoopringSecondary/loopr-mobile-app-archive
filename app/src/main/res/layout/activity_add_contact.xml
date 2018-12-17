@@ -37,7 +37,6 @@
         android:id="@+id/ll_token_addr"
         android:layout_width="match_parent"
         android:layout_height="@dimen/itemHeight"
-
         android:layout_marginStart="32dp"
         android:layout_marginTop="104dp"
         android:layout_marginEnd="32dp"
@@ -72,7 +71,6 @@
             app:met_hideUnderline="true"
             app:met_primaryColor="@color/black"/>
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/ll_token_symbol"
@@ -112,7 +110,6 @@
             app:met_hideUnderline="true"
             app:met_primaryColor="@color/black"/>
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/ll_token_decimal"
@@ -182,6 +179,5 @@
             android:layout_weight="1"
             android:text="@string/save"/>
     </LinearLayout>
-
 
 </android.support.constraint.ConstraintLayout>
