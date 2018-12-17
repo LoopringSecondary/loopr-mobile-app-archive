@@ -3,12 +3,16 @@ package leaf.prod.walletsdk.service;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -16,7 +20,10 @@ import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthCall;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
+
+import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
+import rx.Observable;
 
 public class Erc20Service {
 
@@ -48,5 +55,16 @@ public class Erc20Service {
         String value = send.getValue();
         System.out.println(value);
         return Numeric.toBigInt(Numeric.cleanHexPrefix(value));
+    }
+
+    public Observable<EthCall> getBindAddress(String owner, int projectId) {
+        Function function = new Function(
+                "getBindingAddress",
+                Arrays.asList(new Address(owner), new Uint8(projectId)),
+                Collections.emptyList()
+        );
+        String encode = FunctionEncoder.encode(function);
+        Transaction ethCallTransaction = Transaction.createEthCallTransaction( owner, Default.BIND_CONTRACT, encode );
+        return web3j.ethCall(ethCallTransaction, DefaultBlockParameterName.LATEST).observable();
     }
 }

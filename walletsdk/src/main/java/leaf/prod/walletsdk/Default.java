@@ -15,6 +15,8 @@ public final class Default {
 
     public static final String WETH_CONTRACT = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
 
+    public static final String BIND_CONTRACT = "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42";
+
     public static final String DEFAULT_DPATH = "m/44'/60'/0'/0";
 
     // used in submit order interface: mark order device

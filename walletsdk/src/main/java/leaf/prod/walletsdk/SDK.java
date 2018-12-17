@@ -27,6 +27,8 @@ public class SDK {
 
     private static String ETH_BASE = "https://relay1.loopring.io/eth";
 
+    private static String NEO_BASE = "https://relay1.loopring.io/neo";
+
     private static String APP_SERVICE_BASE = "https://www.loopring.mobi";
 
     private static Web3j web3j = null;
@@ -37,6 +39,10 @@ public class SDK {
 
     public static String ethBase() {
         return ETH_BASE;
+    }
+
+    public static String neoBase() {
+        return NEO_BASE;
     }
 
     public static String appServiceBase() {
