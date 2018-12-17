@@ -339,10 +339,14 @@ public class GenerateWalletActivity extends BaseActivity {
                     if (password.length() < 6) {
                         setPasswordHint(getResources().getColor(R.color.colorRed), getResources().getString(R.string.good), true, View.VISIBLE);
                     } else {
-                        nextStatus = "match";
-                        passwordHint.setVisibility(View.GONE);
-                        password.setVisibility(View.GONE);
-                        repeatPassword.setVisibility(View.VISIBLE);
+                        if (PasswordUtils.checkPasswordLevel(password.getText().toString()) == 3) {
+                            nextStatus = "match";
+                            passwordHint.setVisibility(View.GONE);
+                            password.setVisibility(View.GONE);
+                            repeatPassword.setVisibility(View.VISIBLE);
+                        } else {
+                            RxToast.error(getString(R.string.password_weak));
+                        }
                     }
                 } else if (nextStatus.equals("match")) {
                     if (repeatPassword.getText().toString().equals(password.getText().toString())) {
