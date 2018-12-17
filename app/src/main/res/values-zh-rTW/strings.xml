@@ -5,11 +5,12 @@
     <string name="import_wallet">導入錢包</string>
     <string name="generate_wallet">創建錢包</string>
     <string name="next">下一步</string>
-    <string name="good">密碼長度必須大於或等於6位</string>
+    <string name="good">密碼長度必須大於或等於8位</string>
     <string name="password">請輸入密碼</string>
-    <string name="valid_password">請輸入六位以上密碼</string>
+    <string name="valid_password">請輸入8位以上密碼</string>
     <string name="repeat_password">請再次輸入密碼</string>
     <string name="password_match_toast">輸入密碼不匹配</string>
+    <string name="password_weak">您的密碼太弱，建議混合大小寫字母、數字、特數字符</string>
     <string name="backup_mnemonic">備份助記詞</string>
     <string name="mnemonic_not_match">助記詞不匹配</string>
     <string name="mnemonic_hint">請不要在公眾場所展示(防止攝像頭拍照)，也不要截屏(您的操作系統可能會將圖片備份到雲端存儲)。這些操作會給您帶來巨大而不可逆轉的安全隱患。</string>
