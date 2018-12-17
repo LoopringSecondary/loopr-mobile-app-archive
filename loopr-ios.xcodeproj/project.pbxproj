@@ -114,6 +114,11 @@
 		9BA3015021B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014E21B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.swift */; };
 		9BA3015121B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3014F21B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.xib */; };
 		9BA3015521B0EBC000E55E49 /* MarketDetailViewControllerChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3015421B0EBC000E55E49 /* MarketDetailViewControllerChart.swift */; };
+		9BA3015C21C72DF000E55E49 /* ContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3015A21C72DF000E55E49 /* ContactTableViewController.swift */; };
+		9BA3015D21C72DF000E55E49 /* ContactTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3015B21C72DF000E55E49 /* ContactTableViewController.xib */; };
+		9BA3016021C7346500E55E49 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3015E21C7346500E55E49 /* ContactTableViewCell.swift */; };
+		9BA3016121C7346500E55E49 /* ContactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3015F21C7346500E55E49 /* ContactTableViewCell.xib */; };
+		9BA3016321C73D0400E55E49 /* ContactDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3016221C73D0400E55E49 /* ContactDataManager.swift */; };
 		9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */; };
 		9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */; };
 		AC061939208401EB0060F416 /* MnemonicAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC061937208401EB0060F416 /* MnemonicAddressTableViewCell.swift */; };
@@ -621,6 +626,11 @@
 		9BA3014E21B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailPriceChartTableViewCell.swift; sourceTree = "<group>"; };
 		9BA3014F21B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailPriceChartTableViewCell.xib; sourceTree = "<group>"; };
 		9BA3015421B0EBC000E55E49 /* MarketDetailViewControllerChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerChart.swift; sourceTree = "<group>"; };
+		9BA3015A21C72DF000E55E49 /* ContactTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewController.swift; sourceTree = "<group>"; };
+		9BA3015B21C72DF000E55E49 /* ContactTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactTableViewController.xib; sourceTree = "<group>"; };
+		9BA3015E21C7346500E55E49 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		9BA3015F21C7346500E55E49 /* ContactTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactTableViewCell.xib; sourceTree = "<group>"; };
+		9BA3016221C73D0400E55E49 /* ContactDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDataManager.swift; sourceTree = "<group>"; };
 		9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailSummaryTableViewCell.xib; sourceTree = "<group>"; };
 		AC061937208401EB0060F416 /* MnemonicAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicAddressTableViewCell.swift; sourceTree = "<group>"; };
@@ -1082,6 +1092,10 @@
 			children = (
 				948B418B21C34B0700594E1A /* AddContactViewController.swift */,
 				948B418C21C34B0700594E1A /* AddContactViewController.xib */,
+				9BA3015A21C72DF000E55E49 /* ContactTableViewController.swift */,
+				9BA3015B21C72DF000E55E49 /* ContactTableViewController.xib */,
+				9BA3015E21C7346500E55E49 /* ContactTableViewCell.swift */,
+				9BA3015F21C7346500E55E49 /* ContactTableViewCell.xib */,
 			);
 			path = AddContact;
 			sourceTree = "<group>";
@@ -2088,6 +2102,7 @@
 				AC971EC720BB412200EDEDD0 /* AuthenticationDataManager.swift */,
 				943C1CAD20CE1E0B008A8CED /* AuthorizeDataManager.swift */,
 				948125662119B38E00453225 /* PartnerDataManager.swift */,
+				9BA3016221C73D0400E55E49 /* ContactDataManager.swift */,
 			);
 			path = DataManagers;
 			sourceTree = "<group>";
@@ -2512,6 +2527,7 @@
 				ACB97C6E20707B6F00775D4C /* AddTokenTableViewCell.xib in Resources */,
 				AC2ACA4D20FA0EC3009C77E7 /* Rubik-Bold.ttf in Resources */,
 				AC31CE1D205A2F0100A30335 /* SwitchTradeTokenViewController.xib in Resources */,
+				9BA3015D21C72DF000E55E49 /* ContactTableViewController.xib in Resources */,
 				ACC8D0AB20CCF6C30049A741 /* AssetTransactionTableViewCell.xib in Resources */,
 				AC5E3E71205DFB700051ACFC /* SendAssetViewController.xib in Resources */,
 				ACBA47E7207890910032C2B4 /* SettingManageWalletTableViewCell.xib in Resources */,
@@ -2541,6 +2557,7 @@
 				AC99CF4F2083E4AF000AE4BD /* MnemonicSelectAddressViewController.xib in Resources */,
 				94C11FD7208C2DC60050E180 /* SettingCurrencyViewController.xib in Resources */,
 				AC72AED9204C8AAD00E9D3B0 /* BackupMnemonicViewController.xib in Resources */,
+				9BA3016121C7346500E55E49 /* ContactTableViewCell.xib in Resources */,
 				AC2ACAA221031AC2009C77E7 /* fee_0_zh-Hans.md in Resources */,
 				ACB729D1205DC27800DD4DF3 /* SwitchTradeTokenTableViewCell.xib in Resources */,
 				9BA3015121B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.xib in Resources */,
@@ -2768,6 +2785,7 @@
 				94CA6B5920BC037F000E4E8E /* OrderType.swift in Sources */,
 				AC4F600E20773E9D00F1D954 /* Sign.swift in Sources */,
 				940B452A2060F67E00ADE2B9 /* MarketDataManager.swift in Sources */,
+				9BA3016321C73D0400E55E49 /* ContactDataManager.swift in Sources */,
 				AC23B367210D6214004DC5A9 /* MarketDetailViewController.swift in Sources */,
 				ACB1482321057B9300AB2343 /* GenerateWalletEnterNameViewController.swift in Sources */,
 				AC69913B20AA6254003593AE /* SettingWalletDetailViewControllerDataSource.swift in Sources */,
@@ -3042,6 +3060,7 @@
 				ACB911992027F65800F14644 /* LoopringAPIRequest.swift in Sources */,
 				AC147BEE208D2FD2008D5104 /* ImportWalletProtocol.swift in Sources */,
 				ACB5DDA4202D6FC300140A09 /* UIImageExtension.swift in Sources */,
+				9BA3016021C7346500E55E49 /* ContactTableViewCell.swift in Sources */,
 				AC31B952204A8DF400B16155 /* Account.swift in Sources */,
 				AC9FFF2121254BAC00957175 /* DefaultStepSlider.swift in Sources */,
 				AC1B6D802130FB510026C1B2 /* KeystoreFactory.swift in Sources */,
@@ -3059,6 +3078,7 @@
 				AC0CD57920D21BF100ABB7BA /* TabBarItemBasicContentView.swift in Sources */,
 				C8BF959D202696A900343B9A /* MainTabController.swift in Sources */,
 				ACB911522024254F00F14644 /* WalletNavigationViewController.swift in Sources */,
+				9BA3015C21C72DF000E55E49 /* ContactTableViewController.swift in Sources */,
 				AC2ACA5C21005C18009C77E7 /* UIButton+AlignedIcon.swift in Sources */,
 				AC147BEA208D0613008D5104 /* UIDeviceExtension.swift in Sources */,
 				940B45252060F67E00ADE2B9 /* UserDefaultsKeys.swift in Sources */,

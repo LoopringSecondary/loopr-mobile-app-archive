@@ -12,7 +12,8 @@ class IconView: UIView {
     
     var symbol: String = ""
     var symbolLabel: UILabel = UILabel()
-    
+    var symbolLabelFont: UIFont = FontConfigManager.shared.getBoldFont(size: 11)
+
     var circleView: UIView = UIView()
     var circleViewColor: UIColor = UIColor.clear
     
@@ -36,7 +37,7 @@ class IconView: UIView {
         symbolLabel.textAlignment = .center
         symbolLabel.theme_textColor = GlobalPicker.textColor
         let fontSize = (circleRadius*0.625).rounded()
-        symbolLabel.font = UIFont.init(name: FontConfigManager.shared.getBold(), size: fontSize)
+        symbolLabel.font = symbolLabelFont
         symbolLabel.text = symbol
         addSubview(symbolLabel)
     }

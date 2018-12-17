@@ -139,7 +139,8 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
             }
             let encodedData = NSKeyedArchiver.archivedData(withRootObject: contacts)
             defaults.set(encodedData, forKey: UserDefaultsKeys.userContacts.rawValue)
-            // TODO: navigate to contact list
+
+            self.navigationController?.popViewController(animated: true)
             return
         }
     }

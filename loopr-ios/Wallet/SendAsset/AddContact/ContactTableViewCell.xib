@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactTableViewCell" rowHeight="68" id="KGk-i7-Jjw" customClass="ContactTableViewCell" customModule="loopr_ios" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="67.666666666666671"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lCp-cy-f3G">
+                        <rect key="frame" x="15" y="0.0" width="290" height="0.66666666666666663"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="9kd-u0-CkT"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tfw-mN-aaq">
+                        <rect key="frame" x="15" y="67.333333333333329" width="290" height="0.3333333333333286"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="zhI-qh-cxh"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="lCp-cy-f3G" secondAttribute="trailing" constant="15" id="7hi-Jx-jHs"/>
+                    <constraint firstAttribute="bottom" secondItem="Tfw-mN-aaq" secondAttribute="bottom" id="B6L-z9-div"/>
+                    <constraint firstItem="lCp-cy-f3G" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="DGr-4a-cWQ"/>
+                    <constraint firstItem="lCp-cy-f3G" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Ec3-qk-XQM"/>
+                    <constraint firstItem="Tfw-mN-aaq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="I2d-D6-ib6"/>
+                    <constraint firstAttribute="trailing" secondItem="Tfw-mN-aaq" secondAttribute="trailing" constant="15" id="ST7-aP-tKK"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="bottomSeperateLine" destination="Tfw-mN-aaq" id="Dci-E4-sky"/>
+                <outlet property="upSeperateLine" destination="lCp-cy-f3G" id="p3Y-cY-9FL"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="120.65217391304348"/>
+        </tableViewCell>
+    </objects>
+</document>

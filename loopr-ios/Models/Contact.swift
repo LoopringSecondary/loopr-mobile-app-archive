@@ -9,6 +9,7 @@
 import Foundation
 
 class Contact: NSObject, NSCoding {
+
     var name: String
     var address: String
     var note: String
@@ -50,4 +51,9 @@ class Contact: NSObject, NSCoding {
         }
         return result
     }
+    
+    static func == (lhs: Contact, rhs: Contact) -> Bool {
+        return lhs.address.uppercased() == rhs.address.uppercased()
+    }
+
 }

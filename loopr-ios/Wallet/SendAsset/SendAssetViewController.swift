@@ -433,8 +433,8 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     }
     
     @objc func pressedScanButton(_ sender: UIButton) {
-        let viewController = ScanQRCodeViewController()
-        viewController.delegate = self
+        let viewController = ContactTableViewController()
+        // viewController.delegate = self
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
