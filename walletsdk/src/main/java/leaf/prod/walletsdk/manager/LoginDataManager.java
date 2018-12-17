@@ -1,5 +1,9 @@
 package leaf.prod.walletsdk.manager;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.Settings;
@@ -7,6 +11,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import leaf.prod.walletsdk.model.Contact;
 import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.LoginUser;
@@ -259,6 +264,59 @@ public class LoginDataManager {
                 Log.d("登录androidId[" + androidId + "]失败: ", t.getMessage());
             }
         });
+    }
+
+    public Contact getContact(String address) {
+        List<Contact> contacts = userConfig.getContacts();
+        if (contacts != null) {
+            for (Contact contact : contacts) {
+                if (contact.getAddress().equalsIgnoreCase(address))
+                    return contact;
+            }
+        }
+        return null;
+    }
+
+    public void deleteContact(String address) {
+        List<Contact> contacts = new ArrayList<>();
+        if (userConfig.getContacts() == null) {
+            for (Contact contact : userConfig.getContacts()) {
+                if (!contact.getAddress().equalsIgnoreCase(address)) {
+                    contacts.add(contact);
+                }
+            }
+        }
+        userConfig.setContacts(contacts);
+        updateRemote(userConfig);
+    }
+
+    public boolean addContact(Contact newContact) {
+        List<Contact> contacts = new ArrayList<>();
+        if (userConfig.getContacts() == null || userConfig.getContacts().contains(newContact))
+            return false;
+        contacts.add(newContact);
+        userConfig.setContacts(contacts);
+        Collections.sort(contacts, (contact, t1) -> contact.getTag().compareTo(t1.getTag()));
+        updateRemote(userConfig);
+        return true;
+    }
+
+    public boolean updateContact(Contact newContact, String address) {
+        List<Contact> contacts = userConfig.getContacts();
+        Contact oldContact = getContact(address);
+        if (contacts == null) {
+            contacts = new ArrayList<>();
+        }
+        for (Contact contact : contacts) {
+            if (!oldContact.equals(newContact) && contact.equals(newContact))
+                return false;
+        }
+        contacts.remove(oldContact);
+        contacts.add(newContact);
+        Collections.sort(contacts, (contact, t1) -> contact.getTag().compareTo(t1.getTag()));
+        userConfig.setContacts(contacts);
+        updateRemote(userConfig);
+        return true;
     }
 
     public enum LoginType {

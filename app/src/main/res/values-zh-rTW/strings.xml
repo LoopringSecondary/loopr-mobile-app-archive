@@ -272,4 +272,6 @@
     <string name="save_to_album">保存到相冊</string>
     <string name="password_empty">密碼不能為空</string>
     <string name="mnemonic_backup_success">助記詞順序驗證正確</string>
+    <string name="delete">刪除</string>
+    <string name="delete_contact_hint">確定要刪除當前聯繫人嗎?</string>
 </resources>
