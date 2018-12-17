@@ -92,14 +92,14 @@ class TradeSelectionViewController: UIViewController {
         button1.set(image: UIImage.init(named: "Trade-decentralizaed-exchange-dark"), title: LocalizedString("DEX Trade", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .normal)
         button1.set(image: UIImage.init(named: "Trade-decentralizaed-exchange-dark")?.alpha(0.6), title: LocalizedString("DEX Trade", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .highlighted)
         
-        button2.set(image: UIImage.init(named: "Trade-peer-to-peer-dark"), title: "P2P", titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .normal)
-        button2.set(image: UIImage.init(named: "Trade-peer-to-peer-dark")?.alpha(0.6), title: "P2P", titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .highlighted)
+        button2.set(image: UIImage.init(named: "Trade-order-dark"), title: LocalizedString("Orders", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .normal)
+        button2.set(image: UIImage.init(named: "Trade-order-dark")?.alpha(0.6), title: LocalizedString("Orders", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .highlighted)
         
         button3.set(image: UIImage.init(named: "Trade-weth-convert-dark"), title: LocalizedString("Convert WETH", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .normal)
         button3.set(image: UIImage.init(named: "Trade-weth-convert-dark")?.alpha(0.6), title: LocalizedString("Convert WETH", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .highlighted)
         
-        button4.set(image: UIImage.init(named: "Trade-order-dark"), title: LocalizedString("Orders", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .normal)
-        button4.set(image: UIImage.init(named: "Trade-order-dark")?.alpha(0.6), title: LocalizedString("Orders", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .highlighted)
+        button4.set(image: UIImage.init(named: "Trade-peer-to-peer-dark"), title: "P2P", titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .normal)
+        button4.set(image: UIImage.init(named: "Trade-peer-to-peer-dark")?.alpha(0.6), title: "P2P", titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .highlighted)
         
         // TODO: needs to config through cloud.
         button5.isHidden = true
@@ -142,7 +142,7 @@ class TradeSelectionViewController: UIViewController {
     
     @objc func pressedButton2(_ button: UIButton) {
         print("pressedItem2Button")
-        let viewController = TradeSwipeViewController()
+        let viewController = UpdatedOrderHistoryViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
@@ -157,7 +157,7 @@ class TradeSelectionViewController: UIViewController {
 
     @objc func pressedButton4(_ button: UIButton) {
         print("pressedButton4")
-        let viewController = UpdatedOrderHistoryViewController()
+        let viewController = TradeSwipeViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
