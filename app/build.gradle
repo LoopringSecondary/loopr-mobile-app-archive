@@ -131,4 +131,5 @@ dependencies {
 
     implementation 'com.contrarywind:Android-PickerView:4.1.6'
     implementation 'com.github.arimorty:floatingsearchview:2.0.3'
+    implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
 }
