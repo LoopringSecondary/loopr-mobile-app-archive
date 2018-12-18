@@ -64,7 +64,7 @@ public class KeystoreUtils {
         return filename;
     }
 
-    public static RandomWallet createFromPrivateKey() throws InvalidPrivateKeyException, KeystoreCreateException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
+    public static RandomWallet createFromPrivateKey() throws InvalidPrivateKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
         String privateKey = generatePrivateKey();
         String address = createFromPrivateKey(privateKey);
         return RandomWallet.builder().address(address).privateKey(privateKey).build();

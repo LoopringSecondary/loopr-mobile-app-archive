@@ -27,7 +27,7 @@ public class SDK {
 
     private static String ETH_BASE = "https://relay1.loopring.io/eth";
 
-    private static String NEO_BASE = "https://relay1.loopring.io/neo";
+    private static String NEO_BASE = "https://relay1.loopring.io/";
 
     private static String APP_SERVICE_BASE = "https://www.loopring.mobi";
 

@@ -84,8 +84,8 @@ public class GasDataManager {
             this.gasObservable = loopringService.getEstimateGasPrice()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .map(s -> {
-                        BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(s));
+                    .map(result -> {
+                        BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(result));
                         return new BigDecimal(bigInteger);
                     });
         }

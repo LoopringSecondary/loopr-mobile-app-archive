@@ -65,6 +65,17 @@
     <string name="input_valid_name">Please input a valid name</string>
     <string name="contact_duplication">Name or Address has existed</string>
 
+    <string name="airdrop_title">LRN claiming</string>
+    <string name="airdrop_address_tip">Your LRN binding address</string>
+    <string name="airdrop_amount_tip">Your LRN claiming amount for today</string>
+    <string name="airdrop_button">Claim Airdrop</string>
+    <string name="airdrop_success">Claim Airdrop Successful</string>
+    <string name="airdrop_failed">Claim Airdrop Failed, Please retry later</string>
+    <string name="airdrop_forward">Forward to NEO Tracker</string>
+    <string name="airdrop_no_bind">您尚未绑定LRN的空投地址，目前无法领取</string>
+    <string name="airdrop_time_invalid">距您上次领取，还未到一天，请稍后领取</string>
+    <string name="airdrop_browser">NEO Tracker</string>
+
     <string name="set_share">Share APP ,  harvest 20% of trading fee</string>
     <string name="set_manage_wallet">Manage Wallet</string>
     <string name="set_money_type">Currency</string>

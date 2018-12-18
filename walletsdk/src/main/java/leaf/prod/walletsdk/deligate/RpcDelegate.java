@@ -10,6 +10,8 @@ import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.model.LoginUser;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
+import leaf.prod.walletsdk.model.response.ClaimBindAmount;
+import leaf.prod.walletsdk.model.response.GetBindAmount;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.app.VersionResp;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
@@ -126,9 +128,9 @@ public interface RpcDelegate {
     @DELETE(Default.APP_RPC_URL + "/user/deleteUser")
     Call<AppResponseWrapper<String>> deleteUser(@Query("account_token") String accountToken);
 
-    @POST
-    Observable<RelayResponseWrapper<String>> getAirdropAmount(@Body RequestWrapper request);
+    @POST("neo")
+    Observable<RelayResponseWrapper<GetBindAmount>> getAirdropAmount(@Body RequestWrapper request);
 
-    @POST
-    Observable<RelayResponseWrapper<String>> claimAirdrop(@Body RequestWrapper request);
+    @POST("neo")
+    Observable<RelayResponseWrapper<ClaimBindAmount>> claimAirdrop(@Body RequestWrapper request);
 }

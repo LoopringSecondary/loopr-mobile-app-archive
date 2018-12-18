@@ -24,18 +24,16 @@ public class NeoService {
 
     public Observable<String> getAirdropAmount(String bindAddress) {
         UInt160 hash = ModelUtil.addressToScriptHash(bindAddress);
-        String reverse = "0x" + hash.toReverseHexString();
-        String params = "14" + reverse + "51c1157175657279417661696c61626c6542616c616e636567f7c5643ab1896195b8abe8cfd2e3b450441ca45c";
-        RequestWrapper request = new RequestWrapper("invokescript", params);
-        return rpcDelegate.getAirdropAmount(request).map(RelayResponseWrapper::getResult);
+        String key = "14" + hash + "51c1157175657279417661696c61626c6542616c616e636567f7c5643ab1896195b8abe8cfd2e3b450441ca45c";
+        RequestWrapper request = new RequestWrapper("invokescript", key);
+        return rpcDelegate.getAirdropAmount(request).map(result -> result.getResult().getStack().get(0).getValue());
     }
 
-    public Observable<String> claimAirdrop(String bindAddress) {
+    public Observable<RelayResponseWrapper> claimAirdrop(String bindAddress) {
         UInt160 hash = ModelUtil.addressToScriptHash(bindAddress);
-        String reverse = "0x" + hash.toReverseHexString();
-        String id = DateUtil.formatDateTime(new Date(), "YYYYMMDDHHmm");
-        String params = "d1013d1c" + id + "0000" +  reverse + METHOD;
-        RequestWrapper request = new RequestWrapper("sendrawtransaction", params);
-        return rpcDelegate.claimAirdrop(request).map(RelayResponseWrapper::getResult);
+        String id = DateUtil.formatDateTime(new Date(), "yyyyMMddHHmm");
+        String key = "d1013d1c" + id + "0000" +  hash + METHOD;
+        RequestWrapper request = new RequestWrapper("sendrawtransaction", key);
+        return rpcDelegate.claimAirdrop(request).map(result -> result);
     }
 }
