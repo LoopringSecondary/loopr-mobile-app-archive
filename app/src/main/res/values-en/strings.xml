@@ -273,4 +273,5 @@
     <string name="mnemonic_backup_success">Sequence of your mnemonics is right</string>
     <string name="delete">delete</string>
     <string name="delete_contact_hint">Are you sure to delete current contact?</string>
+    <string name="edit_contact">Edit this contact</string>
 </resources>

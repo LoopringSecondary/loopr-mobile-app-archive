@@ -21,6 +21,7 @@ import leaf.prod.walletsdk.service.AppService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.StringUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -279,7 +280,7 @@ public class LoginDataManager {
 
     public void deleteContact(String address) {
         List<Contact> contacts = new ArrayList<>();
-        if (userConfig.getContacts() == null) {
+        if (userConfig.getContacts() != null) {
             for (Contact contact : userConfig.getContacts()) {
                 if (!contact.getAddress().equalsIgnoreCase(address)) {
                     contacts.add(contact);
@@ -291,8 +292,8 @@ public class LoginDataManager {
     }
 
     public boolean addContact(Contact newContact) {
-        List<Contact> contacts = new ArrayList<>();
-        if (userConfig.getContacts() == null || userConfig.getContacts().contains(newContact))
+        List<Contact> contacts = userConfig.getContacts() == null ? new ArrayList<>() : userConfig.getContacts();
+        if (contacts.contains(newContact))
             return false;
         contacts.add(newContact);
         userConfig.setContacts(contacts);
@@ -301,12 +302,22 @@ public class LoginDataManager {
         return true;
     }
 
-    public boolean updateContact(Contact newContact, String address) {
-        List<Contact> contacts = userConfig.getContacts();
-        Contact oldContact = getContact(address);
-        if (contacts == null) {
-            contacts = new ArrayList<>();
+    public List<Contact> searchContacts(String content) {
+        List<Contact> result = new ArrayList<>();
+        if (userConfig.getContacts() == null || StringUtils.isEmpty(content))
+            return result;
+        for (Contact contact : userConfig.getContacts()) {
+            if (contact.getName().toLowerCase().contains(content.toLowerCase()) ||
+                    contact.getNote().toLowerCase().contains(content.toLowerCase())) {
+                result.add(contact);
+            }
         }
+        return result;
+    }
+
+    public boolean updateContact(Contact newContact, String address) {
+        List<Contact> contacts = userConfig.getContacts() == null ? new ArrayList<>() : userConfig.getContacts();
+        Contact oldContact = getContact(address);
         for (Contact contact : contacts) {
             if (!oldContact.equals(newContact) && contact.equals(newContact))
                 return false;

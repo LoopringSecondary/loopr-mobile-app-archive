@@ -130,4 +130,5 @@ dependencies {
     implementation(name: 'RxTools-library', ext: 'aar')
 
     implementation 'com.contrarywind:Android-PickerView:4.1.6'
+    implementation 'com.github.arimorty:floatingsearchview:2.0.3'
 }

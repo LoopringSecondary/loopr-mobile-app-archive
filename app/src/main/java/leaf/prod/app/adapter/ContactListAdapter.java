@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.vondear.rxtool.RxDataTool;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.AddContactActivity;
@@ -31,6 +32,11 @@ public class ContactListAdapter extends BaseQuickAdapter<Contact, BaseViewHolder
         helper.setText(R.id.tv_wallet_name, item.getName());
         helper.setText(R.id.tv_wallet_address, item.getAddress());
         helper.setText(R.id.tv_wallet_note, item.getNote());
+        if (RxDataTool.isEmpty(item.getNote())) {
+            helper.setGone(R.id.tv_wallet_note, false);
+        } else {
+            helper.setVisible(R.id.tv_wallet_note, true);
+        }
         helper.setOnClickListener(R.id.iv_edit, view -> {
             activity.getOperation()
                     .addParameter("address", ((TextView) helper.getView(R.id.tv_wallet_address)).getText().toString());

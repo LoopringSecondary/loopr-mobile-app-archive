@@ -12,11 +12,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -33,8 +35,8 @@ import leaf.prod.app.view.APP;
 import leaf.prod.app.view.Operation;
 import leaf.prod.app.views.swipeback.SwipeBackActivity;
 import leaf.prod.app.views.swipeback.SwipeBackLayout;
-import leaf.prod.walletsdk.model.Network;
 import leaf.prod.walletsdk.manager.LoginDataManager;
+import leaf.prod.walletsdk.model.Network;
 
 public abstract class BaseActivity extends SwipeBackActivity {
 
@@ -62,7 +64,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     protected LoginDataManager loginDataManager;
 
-    private static boolean updateHint = false;
+    protected Point mPoint = new Point();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,6 +271,15 @@ public abstract class BaseActivity extends SwipeBackActivity {
         if (notificationReceiver != null) {
             this.unregisterReceiver(notificationReceiver);
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            mPoint.x = (int) ev.getRawX();
+            mPoint.y = (int) ev.getRawY();
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     private static class MainNetworkReceiver extends NetworkStateReceiver {

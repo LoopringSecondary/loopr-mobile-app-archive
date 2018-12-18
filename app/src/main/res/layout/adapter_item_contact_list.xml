@@ -3,12 +3,13 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/wallet_item"
               android:layout_width="match_parent"
-              android:layout_height="68dp"
+              android:layout_height="80dp"
               android:layout_marginTop="8dp"
               android:background="@drawable/button_bg2_pressed"
               android:clickable="true"
               android:focusable="true"
               android:gravity="center"
+              android:longClickable="true"
               android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
@@ -41,70 +42,70 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <LinearLayout
-            style="@style/WrapMatch"
-            android:layout_width="270dp"
+            android:id="@+id/ll_wallet_address"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="16dp"
-            android:gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="left|center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/wallet_image"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tv_wallet_name"
-                    style="@style/WrapWrap"
-                    android:maxWidth="100dp"
-                    android:singleLine="true"
-                    android:text="My Wallet11111"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/normal14Text"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
-
-                <TextView
-                    android:id="@+id/tv_wallet_note"
-                    style="@style/WrapWrap"
-                    android:maxWidth="100dp"
-                    android:layout_marginStart="8dp"
-                    android:singleLine="true"
-                    android:text="salary address11111111111111"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/text_10"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/tv_wallet_name"/>
-
-                <LinearLayout
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/iv_edit"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@mipmap/icon_token_lrc"
-                        android:textColor="@color/colorWhite"/>
-                </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_wallet_name"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="My Wallet11111"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/tv_wallet_address"
-                style="@style/WrapWrap"
-                android:layout_marginTop="7dp"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:singleLine="true"
                 android:text="0xA64B16a18885F00FA1AD6D3d3100C3E6F1CEf724"
                 android:textColor="@color/colorNineText"
-                android:textSize="@dimen/text_10"/>
+                android:textSize="@dimen/text_10"
+                app:layout_constraintTop_toBottomOf="@id/tv_wallet_name"/>
+
+            <TextView
+                android:id="@+id/tv_wallet_note"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="salary address11111111111111"
+                android:textColor="@color/colorNineText"
+                android:textSize="@dimen/text_10"
+                app:layout_constraintTop_toBottomOf="@id/tv_wallet_address"/>
 
         </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_edit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:src="@mipmap/icon_token_lrc"
+            android:textColor="@color/colorWhite"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/ll_wallet_address"
+            app:layout_constraintTop_toTopOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 
     <!--<View-->

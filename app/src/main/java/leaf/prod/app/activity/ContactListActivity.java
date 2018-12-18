@@ -60,7 +60,7 @@ public class ContactListActivity extends BaseActivity {
 
     private ContactListPresenter presenter;
 
-    private ContactListAdapter adapter;
+    public ContactListAdapter adapter;
 
     private NoDataAdapter emptyAdapter;
 
@@ -149,6 +149,11 @@ public class ContactListActivity extends BaseActivity {
             setResult(RESULT_OK, intent);
             finish();
         });
+        adapter.setOnItemLongClickListener((adapter, view, position) -> {
+            presenter.showContactOptionDialog(mPoint, position);
+
+                        return true;
+        });
         refreshContacts();
     }
 
@@ -159,6 +164,7 @@ public class ContactListActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
+        presenter.hideContactOptionDialog();
         refreshContacts();
     }
 

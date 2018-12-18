@@ -272,4 +272,5 @@
     <string name="mnemonic_backup_success">助记词顺序验证正确</string>
     <string name="delete">删除</string>
     <string name="delete_contact_hint">确定要删除当前联系人吗?</string>
+    <string name="edit_contact">编辑联系人信息</string>
 </resources>
