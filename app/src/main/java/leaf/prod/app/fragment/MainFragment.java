@@ -31,12 +31,12 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.ActivityScanerCode;
+import leaf.prod.app.activity.AirdropActivity;
 import leaf.prod.app.activity.AuthorityWebActivity;
 import leaf.prod.app.activity.CoverActivity;
 import leaf.prod.app.activity.ImportWalletActivity;
 import leaf.prod.app.activity.MainActivity;
 import leaf.prod.app.activity.ManageWalletActivity;
-import leaf.prod.app.activity.P2PActivity;
 import leaf.prod.app.activity.P2PConfirmActivity;
 import leaf.prod.app.activity.ReceiveActivity;
 import leaf.prod.app.activity.SendActivity;
@@ -257,7 +257,7 @@ public class MainFragment extends BaseFragment {
                 }
                 break;
             case R.id.ll_trade://trade 按钮
-                getOperation().forward(P2PActivity.class);
+                getOperation().forward(AirdropActivity.class);
                 break;
             case R.id.right_btn:  //右上角添加按钮
                 if (llMenu.getVisibility() == View.GONE) {

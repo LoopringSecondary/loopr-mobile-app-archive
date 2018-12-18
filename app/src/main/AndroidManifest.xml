@@ -295,6 +295,11 @@
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.AirdropActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
         <receiver
             android:name="leaf.prod.app.receiver.ApkInstallReceiver"
@@ -303,7 +308,6 @@
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
                 <action android:name="android.intent.action.PACKAGE_REPLACED"/>
                 <action android:name="android.intent.action.PACKAGE_REMOVED"/>
-
                 <data android:scheme="package"/>
             </intent-filter>
         </receiver>
