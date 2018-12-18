@@ -17,6 +17,21 @@ class ContactDataManager {
     private init() {
         contacts = []
     }
+    
+    func addContact(_ newContact: Contact) {
+        contacts.append(newContact)
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: contacts)
+        UserDefaults.standard.set(encodedData, forKey: UserDefaultsKeys.userContacts.rawValue)
+        
+        // Post data to server.
+        AppServiceUserManager.shared.updateUserConfigWithUserDefaults()
+    }
+    
+    func setContacts(_ newContacts: [Contact]) {
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: newContacts)
+        UserDefaults.standard.set(encodedData, forKey: UserDefaultsKeys.userContacts.rawValue)
+        contacts = newContacts
+    }
 
     func getContactsFromLocal() -> [Contact] {
         let defaults = UserDefaults.standard

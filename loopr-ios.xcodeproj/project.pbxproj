@@ -1692,7 +1692,6 @@
 			children = (
 				AC8866982174688500815DD1 /* AppServiceUpdateManager.swift */,
 				ACE9F049218AAB4300695E37 /* AppServiceUserManager.swift */,
-				9BA3016221C73D0400E55E49 /* ContactDataManager.swift */,
 				AC88669A21747B4B00815DD1 /* WalletViewControllerExtensionAppService.swift */,
 			);
 			path = AppService;
@@ -2103,6 +2102,7 @@
 				AC971EC720BB412200EDEDD0 /* AuthenticationDataManager.swift */,
 				943C1CAD20CE1E0B008A8CED /* AuthorizeDataManager.swift */,
 				948125662119B38E00453225 /* PartnerDataManager.swift */,
+				9BA3016221C73D0400E55E49 /* ContactDataManager.swift */,
 			);
 			path = DataManagers;
 			sourceTree = "<group>";

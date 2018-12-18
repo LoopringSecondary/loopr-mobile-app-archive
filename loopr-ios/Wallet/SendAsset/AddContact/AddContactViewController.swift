@@ -118,30 +118,20 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
     
     @IBAction func pressedSaveButton(_ sender: Any) {
         if validateName() && validateAddress() {
-            var contacts: [Contact] = []
-            let defaults = UserDefaults.standard
-            let contact = Contact(name: nameTextField.text!,
+            let contact = Contact(name: nameTextField.text!.trim(),
                                   address: addressTextField.text!, note: noteTextField.text ?? "")
-            if let decodedData = defaults.data(forKey: UserDefaultsKeys.userContacts.rawValue) {
-                if let array = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as? [Contact] {
-                    contacts = array
-                    if !contacts.contains(where: { (item) -> Bool in
-                        return item.name.uppercased() == contact.name.uppercased() ||
-                            item.address.uppercased() == contact.address.uppercased()}) {
-                        contacts.append(contact)
-                    } else {
-                        // TODO: navigate to contact list
-                        return
-                    }
-                }
+            if !ContactDataManager.shared.contacts.contains(where: { (item) -> Bool in
+                return item.name.uppercased() == contact.name.uppercased() ||
+                    item.address.uppercased() == contact.address.uppercased()}) {
+                ContactDataManager.shared.addContact(contact)
+                self.navigationController?.popViewController(animated: true)
             } else {
-                contacts.append(contact)
+                let notificationTitle = LocalizedString("Duplicated address", comment: "")
+                let banner = NotificationBanner.generate(title: notificationTitle, style: .danger)
+                banner.duration = 1.5
+                banner.show()
+                return
             }
-            let encodedData = NSKeyedArchiver.archivedData(withRootObject: contacts)
-            defaults.set(encodedData, forKey: UserDefaultsKeys.userContacts.rawValue)
-
-            self.navigationController?.popViewController(animated: true)
-            return
         }
     }
     

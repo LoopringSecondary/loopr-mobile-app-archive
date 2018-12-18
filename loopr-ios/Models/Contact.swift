@@ -15,6 +15,17 @@ class Contact: NSObject, NSCoding {
     var note: String
     var tag: String
     
+    init?(json: JSON) {
+        if let name = json["name"].string, let address = json["address"].string, let note = json["note"].string, let tag = json["tag"].string {
+            self.name = name
+            self.address = address
+            self.note = note
+            self.tag = tag
+        } else {
+            return nil
+        }
+    }
+    
     init(name: String, address: String, note: String) {
         self.name = name
         self.address = address

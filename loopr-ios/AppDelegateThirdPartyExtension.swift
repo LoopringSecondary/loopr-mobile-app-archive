@@ -27,19 +27,23 @@ extension AppDelegate {
                     UserDefaults.standard.set(openID, forKey: UserDefaultsKeys.openID.rawValue)
                     UserDefaults.standard.set(false, forKey: UserDefaultsKeys.thirdParty.rawValue)
                     UserDefaults.standard.synchronize()
-                    self.synchronizeWithCloud(openID: openID, accessToken: accessToken)
+                    self.loadConfigFromServerJustAfterGettingOpenID(openID: openID, accessToken: accessToken)
                 }
             }
         }
     }
     
-    private func synchronizeWithCloud(openID: String, accessToken: String) {
+    private func loadConfigFromServerJustAfterGettingOpenID(openID: String, accessToken: String) {
         var configuration = JSON()
         configuration["userId"] = JSON(openID)
         configuration["language"] = JSON(SettingDataManager.shared.getCurrentLanguage().name)
         configuration["currency"] = JSON(SettingDataManager.shared.getCurrentCurrency().name)
+        
+        // TODO: add contacts?
+        
         AppServiceUserManager.shared.getUserConfig(completion: { (config, _) in
             if config == nil {
+                // TODO: Why we need to update?
                 AppServiceUserManager.shared.updateUserConfig(openID: openID, config: configuration)
             } else if let configString = config?.rawString() {
                 configuration = JSON.init(parseJSON: configString)
@@ -48,6 +52,17 @@ extension AppDelegate {
                 // This part will crash.
                 _ = SetLanguage(configuration["language"].stringValue)
                 SettingDataManager.shared.setCurrentCurrency(Currency(name: configuration["currency"].stringValue))
+                
+                var contacts: [Contact] = []
+                if configuration["contacts"].array != nil {
+                    let contactsJson = configuration["contacts"].array!
+                    for contactJson in contactsJson {
+                        if let contact = Contact(json: contactJson) {
+                            contacts.append(contact)
+                            ContactDataManager.shared.setContacts(contacts)
+                        }
+                    }
+                }
             }
             self.wechatLoginByRequestForUserInfo(openID: openID, accessToken: accessToken)
         })

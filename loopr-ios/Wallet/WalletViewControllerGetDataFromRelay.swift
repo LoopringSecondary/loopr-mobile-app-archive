@@ -124,6 +124,17 @@ extension WalletViewController {
                                 NotificationCenter.default.post(name: .needRelaunchCurrentAppWallet, object: nil)
                             }
                             
+                            var contacts: [Contact] = []
+                            if configuration["contacts"].array != nil {
+                                let contactsJson = configuration["contacts"].array!
+                                for contactJson in contactsJson {
+                                    if let contact = Contact(json: contactJson) {
+                                        contacts.append(contact)
+                                        ContactDataManager.shared.setContacts(contacts)
+                                    }
+                                }
+                            }
+
                         }
                     })
                 }
