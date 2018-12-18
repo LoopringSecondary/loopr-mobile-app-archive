@@ -11,13 +11,13 @@ import java.util.Objects;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +51,7 @@ import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.util.CredentialsUtils;
 import leaf.prod.walletsdk.util.CurrencyUtil;
+import leaf.prod.walletsdk.util.DpUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
@@ -67,11 +68,9 @@ public class SendPresenter extends BasePresenter<SendActivity> {
 
     private static String GAS_LIMIT_TYPE = "token_transfer";
 
-    private int maxHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, context.getResources()
-            .getDisplayMetrics());
+    private int maxHeight;
 
-    private int perHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, context.getResources()
-            .getDisplayMetrics());
+    private int perHeight;
 
     private BalanceDataManager balanceManager;
 
@@ -141,6 +140,8 @@ public class SendPresenter extends BasePresenter<SendActivity> {
         transactionDataManager = TransactionDataManager.getInstance(context);
         loginDataManager = LoginDataManager.getInstance(context);
         address = WalletUtil.getCurrentAddress(context);
+        maxHeight = DpUtil.dp2Int(context, 180);
+        perHeight = DpUtil.dp2Int(context, 50);
     }
 
     public void updateTransactionFeeUI() {
@@ -500,15 +501,27 @@ public class SendPresenter extends BasePresenter<SendActivity> {
             view.llSearchContents.setVisibility(View.VISIBLE);
             if (contacts.size() * perHeight > maxHeight) {
                 view.rvSearchContacts.getLayoutParams().height = maxHeight;
-                view.llSearchContents.getLayoutParams().height = maxHeight;
+                view.llSearchContents.getLayoutParams().height = maxHeight + DpUtil.dp2Int(context, 2);
             } else {
-                view.llSearchContents.getLayoutParams().height = contacts.size() * perHeight;
+                view.llSearchContents.getLayoutParams().height = contacts.size() * perHeight + DpUtil.dp2Int(context, 2);
+                if (view.llSearchContents.getLayoutParams().height < DpUtil.dp2Int(context, 80)) {
+                    view.llSearchContents.getLayoutParams().height = DpUtil.dp2Int(context, 80);
+                }
             }
             ((ContactSearchAdapter) view.rvSearchContacts.getAdapter()).setOnItemClickListener((adapter, view, position) -> {
                 this.view.walletAddress.setText(contacts.get(position).getAddress());
                 this.view.llSearchContents.setVisibility(View.GONE);
             });
         }
+    }
+
+    public boolean clickInView(Point point, View view) {
+        int[] location = new int[2];
+        view.getLocationInWindow(location);
+        if (point.x >= location[0] && point.x <= location[0] + view.getWidth() &&
+                point.y >= location[1] && point.y <= location[1] + view.getHeight())
+            return true;
+        return false;
     }
 
     private void showKeyboard(View view, boolean show) {
