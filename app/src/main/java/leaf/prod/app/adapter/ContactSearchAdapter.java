@@ -21,6 +21,9 @@ public class ContactSearchAdapter extends BaseQuickAdapter<Contact, BaseViewHold
     protected void convert(BaseViewHolder helper, Contact item) {
         if (item == null)
             return;
+        if (getData().indexOf(item) == 0) {
+            helper.setGone(R.id.top_line, false);
+        }
         helper.setText(R.id.tv_wallet_name, item.getName());
         helper.setText(R.id.tv_wallet_address, item.getAddress());
     }

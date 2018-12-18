@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -167,7 +168,6 @@ public class SendActivity extends BaseActivity {
         shakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake_x);
         rvSearchContacts.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvSearchContacts.setAdapter(new ContactSearchAdapter(R.layout.adapter_search_contact_list, null));
-
     }
 
     @Override
@@ -180,6 +180,20 @@ public class SendActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         presenter.initWalletAddress();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (llSearchContents.getVisibility() == View.VISIBLE) {
+                mPoint.x = (int) ev.getRawX();
+                mPoint.y = (int) ev.getRawY();
+                if (!presenter.clickInView(mPoint, walletAddress) && !presenter.clickInView(mPoint, llSearchContents)) {
+                    llSearchContents.setVisibility(View.GONE);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override

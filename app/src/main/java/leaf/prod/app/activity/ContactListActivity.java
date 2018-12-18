@@ -151,8 +151,7 @@ public class ContactListActivity extends BaseActivity {
         });
         adapter.setOnItemLongClickListener((adapter, view, position) -> {
             presenter.showContactOptionDialog(mPoint, position);
-
-                        return true;
+            return true;
         });
         refreshContacts();
     }
