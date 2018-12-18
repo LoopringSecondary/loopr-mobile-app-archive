@@ -281,15 +281,23 @@
 
         </LinearLayout>
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <LinearLayout
+            android:id="@+id/ll_search_contacts"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:background="@drawable/radius_white_bg_bottom"
-            android:visibility="gone"
-            app:layout_constraintTop_toTopOf="@id/ll_wallet_address"/>
+            app:layout_constraintTop_toTopOf="@id/ll_wallet_address">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_search_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="1dp"
+                android:fadeScrollbars="false"
+                android:scrollbars="vertical"/>
+        </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>
