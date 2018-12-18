@@ -1,14 +1,22 @@
 package leaf.prod.app.presenter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import leaf.prod.app.R;
+import leaf.prod.app.activity.AddContactActivity;
 import leaf.prod.app.activity.ContactListActivity;
 
 /**
@@ -21,8 +29,21 @@ public class ContactListPresenter extends BasePresenter<ContactListActivity> {
 
     private TextView currentTv = null;
 
+    private AlertDialog dialog;
+
+    private View dialogView;
+
+    private int dialogWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120,
+            context.getResources().getDisplayMetrics());
+
+    private int dialogHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
+            context.getResources().getDisplayMetrics());
+
+    private int screenWidth;
+
     public ContactListPresenter(ContactListActivity view, Context context) {
         super(view, context);
+        screenWidth = view.getWindowManager().getDefaultDisplay().getWidth();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -66,5 +87,46 @@ public class ContactListPresenter extends BasePresenter<ContactListActivity> {
         }
         TextView textView = view.tvMap.get(tag.toLowerCase());
         textView.setTextColor(view.getResources().getColor(R.color.colorCenter));
+    }
+
+    @SuppressLint("RtlHardcoded")
+    public void showContactOptionDialog(Point point, int position) {
+        if (dialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogTheme);
+            dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_contact_option, null);
+            builder.setView(dialogView);
+            dialog = builder.create();
+            dialog.setCancelable(true);
+            dialog.setCanceledOnTouchOutside(true);
+        }
+        dialogView.findViewById(R.id.tv_edit).setOnClickListener(v -> {
+            view.getOperation().addParameter("address", view.adapter.getData().get(position).getAddress());
+            view.getOperation().forward(AddContactActivity.class);
+        });
+        ImageView ivLeftTriangle = dialogView.findViewById(R.id.left_triangle);
+        ImageView ivRightTriangle = dialogView.findViewById(R.id.right_triangle);
+        dialog.show();
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams layoutParams = window.getAttributes();
+        window.setGravity(Gravity.LEFT | Gravity.TOP);
+        if (point.x <= screenWidth / 2) {
+            layoutParams.x = point.x - view.recyclerView.getLeft();
+            ivLeftTriangle.setVisibility(View.VISIBLE);
+            ivRightTriangle.setVisibility(View.GONE);
+        } else {
+            layoutParams.x = point.x - view.recyclerView.getLeft() - dialogWidth;
+            ivLeftTriangle.setVisibility(View.GONE);
+            ivRightTriangle.setVisibility(View.VISIBLE);
+        }
+        layoutParams.y = point.y - view.recyclerView.getTop() - 50;
+        layoutParams.height = dialogHeight;
+        layoutParams.width = dialogWidth;
+        window.setAttributes(layoutParams);
+    }
+
+    public void hideContactOptionDialog() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.hide();
+        }
     }
 }

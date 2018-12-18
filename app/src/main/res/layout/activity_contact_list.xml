@@ -66,6 +66,7 @@
 
 
     <android.support.constraint.ConstraintLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -80,10 +81,9 @@
 
         <leaf.prod.app.layout.IndexBarLayout
             android:id="@+id/ll_index"
-            android:layout_width="20dp"
+            android:layout_width="16dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="85dp"
-            android:layout_marginEnd="5dp"
             android:background="@drawable/button_index_bar"
             android:gravity="center"
             android:orientation="vertical"
