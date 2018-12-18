@@ -203,10 +203,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Language", comment: ""))
             case 3:
                 let title: String
-                if let _ = UserDefaults.standard.string(forKey: UserDefaultsKeys.openID.rawValue) {
-                    title = LocalizedString("Unthird", comment: "")
-                } else {
+                if UserDefaults.standard.bool(forKey: UserDefaultsKeys.thirdParty.rawValue) {
                     title = LocalizedString("Third", comment: "")
+                } else {
+                    title = LocalizedString("Unthird", comment: "")
                 }
                 return createDetailTableCell(indexPath: indexPath, title: title)
             default:
@@ -228,10 +228,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 return createSettingPasscodeTableView(indexPath: indexPath)
             case 4:
                 let title: String
-                if let _ = UserDefaults.standard.string(forKey: UserDefaultsKeys.openID.rawValue) {
-                    title = LocalizedString("Unthird", comment: "")
-                } else {
+                if UserDefaults.standard.bool(forKey: UserDefaultsKeys.thirdParty.rawValue) {
                     title = LocalizedString("Third", comment: "")
+                } else {
+                    title = LocalizedString("Unthird", comment: "")
                 }
                 return createDetailTableCell(indexPath: indexPath, title: title)
             default:
@@ -452,12 +452,14 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func pressedThirdPartyButton() {
-        if let openID = UserDefaults.standard.string(forKey: UserDefaultsKeys.openID.rawValue) {
+        if !UserDefaults.standard.bool(forKey: UserDefaultsKeys.thirdParty.rawValue), let openID = UserDefaults.standard.string(forKey: UserDefaultsKeys.openID.rawValue) {
             let title = LocalizedString("Third party title", comment: "")
             let message = LocalizedString("Third party message", comment: "")
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
                 UserDefaults.standard.set(true, forKey: UserDefaultsKeys.thirdParty.rawValue)
+                // UserDefaults.standard.set(nil, forKey: UserDefaultsKeys.openID.rawValue)
+                
                 DispatchQueue.main.async {
                     self.settingsTableView.reloadData()
                 }

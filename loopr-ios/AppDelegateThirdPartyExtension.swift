@@ -53,8 +53,7 @@ extension AppDelegate {
         })
     }
     
-    // This should not be in synchronizeWithCloud
-    func wechatLoginByRequestForUserInfo(openID: String, accessToken: String) {
+    private func wechatLoginByRequestForUserInfo(openID: String, accessToken: String) {
         // 获取用户信息
         let parameters = ["access_token": accessToken, "openid": openID]
         Request.get("https://api.weixin.qq.com/sns/oauth2/access_token", parameters: parameters) { _, _, error in

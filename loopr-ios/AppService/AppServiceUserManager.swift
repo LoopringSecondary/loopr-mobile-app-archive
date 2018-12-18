@@ -64,6 +64,7 @@ class AppServiceUserManager {
                 config["currency"] = JSON(SettingDataManager.shared.getCurrentCurrency().name)
                 print("Post: " + SettingDataManager.shared.getCurrentCurrency().name)
                 config["language"] = JSON(SettingDataManager.shared.getCurrentLanguage().name)
+                config["contacts"] = ContactDataManager.shared.toJson()
                 AppServiceUserManager.shared.updateUserConfig(openID: openID, config: config)
             }
         }

@@ -52,6 +52,15 @@ class Contact: NSObject, NSCoding {
         return result
     }
     
+    func toJson() -> JSON {
+        var json = JSON()
+        json["name"] = JSON(name)
+        json["address"] = JSON(address)
+        json["note"] = JSON(note)
+        json["tag"] = JSON(tag)
+        return json
+    }
+    
     static func == (lhs: Contact, rhs: Contact) -> Bool {
         return lhs.address.uppercased() == rhs.address.uppercased()
     }

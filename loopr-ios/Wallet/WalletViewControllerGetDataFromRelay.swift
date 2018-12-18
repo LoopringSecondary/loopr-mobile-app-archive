@@ -110,6 +110,8 @@ extension WalletViewController {
                         if let config = config {
                             let configuration = JSON.init(parseJSON: config.rawString()!)
                             
+                            // Merge
+
                             // Updating language or currency will trigger a sequence of API requests.
                             if SettingDataManager.shared.getCurrentLanguage().name != configuration["language"].stringValue {
                                 _ = SetLanguage(configuration["language"].stringValue)
@@ -121,6 +123,7 @@ extension WalletViewController {
                                 SettingDataManager.shared.setCurrentCurrency(currency)
                                 NotificationCenter.default.post(name: .needRelaunchCurrentAppWallet, object: nil)
                             }
+                            
                         }
                     })
                 }

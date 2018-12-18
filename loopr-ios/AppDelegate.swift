@@ -103,13 +103,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             } else if hasKeysPlist() && !Production.isAppStoreVersion() {
                 result = ThirdPartyViewController(nibName: nil, bundle: nil)
             }
-            if !AppWalletDataManager.shared.getWallets().isEmpty {
-                result = MainTabController.instantiate()
-            }
-        } else {
-            if !AppWalletDataManager.shared.getWallets().isEmpty {
-                result = MainTabController.instantiate()
-            }
+        }
+        if !AppWalletDataManager.shared.getWallets().isEmpty {
+            result = MainTabController.instantiate()
         }
         return result
     }

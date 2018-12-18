@@ -35,4 +35,13 @@ class ContactDataManager {
         return []
     }
 
+    func toJson() -> JSON {
+        let contacts = getContactsFromLocal()
+        var contactsJson: [JSON] = []
+        for contact in contacts {
+            let contactJson = contact.toJson()
+            contactsJson.append(contactJson)
+        }
+        return JSON(contactsJson)
+    }
 }

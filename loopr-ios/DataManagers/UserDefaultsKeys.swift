@@ -29,7 +29,7 @@ enum UserDefaultsKeys: String {
     case userContacts = "UserDefaultsKeys.userContacts"
     
     // ThirdParty
-    // thirdParty is used to check whether users has skip the third party
+    // thirdParty is used to check whether users has skip or quit the third party
     case thirdParty = "UserDefaultsKeys.thirdParty"
     
     // openID is used to track the uuid of a user. should not be limited to WeChat account
