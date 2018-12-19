@@ -1236,14 +1236,14 @@
 			path = MarketPlaceOrder;
 			sourceTree = "<group>";
 		};
-		AC1B6D712130FB510026C1B2 /* Classes */ = {
+		AC1B6D712130FB510026C1B2 /* NewKeystore */ = {
 			isa = PBXGroup;
 			children = (
 				AC1B6D722130FB510026C1B2 /* NewKeystore.swift */,
 				AC1B6D742130FB510026C1B2 /* Toolbox */,
 				AC1B6D772130FB510026C1B2 /* KeystoreFactory.swift */,
 			);
-			path = Classes;
+			path = NewKeystore;
 			sourceTree = "<group>";
 		};
 		AC1B6D742130FB510026C1B2 /* Toolbox */ = {
@@ -2230,7 +2230,7 @@
 			isa = PBXGroup;
 			children = (
 				AC4F5FFF20773E9D00F1D954 /* GethBigInt+Extension.swift */,
-				AC1B6D712130FB510026C1B2 /* Classes */,
+				AC1B6D712130FB510026C1B2 /* NewKeystore */,
 				ACB9119320278A0E00F14644 /* RelayAPI */,
 				AC5442DA2081163D0036A2B4 /* SwiftyJSON@a1700fb */,
 				AC4F5FFA20773E9D00F1D954 /* web3swift@fe0c304 */,
