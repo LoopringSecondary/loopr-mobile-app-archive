@@ -23,7 +23,7 @@ def shared_pods
     pod 'Geth', '1.8.8'
     pod 'BigInt', '3.0.1'
     pod 'CryptoSwift', '0.8.3'
-    pod 'secp256k1_ios', git: 'https://github.com/shamatar/secp256k1_ios.git', inhibit_warnings: true
+    pod 'secp256k1_ios', git: 'https://github.com/xiaowheat/secp256k1_ios.git'
     pod 'TrezorCrypto', '0.0.9', inhibit_warnings: true
     pod 'SipHash', '1.2.0'
     

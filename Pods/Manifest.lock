@@ -44,7 +44,7 @@ DEPENDENCIES:
   - lottie-ios
   - MKDropdownMenu
   - NotificationBannerSwift (~> 1.6.3)
-  - secp256k1_ios (from `https://github.com/shamatar/secp256k1_ios.git`)
+  - secp256k1_ios (from `https://github.com/xiaowheat/secp256k1_ios.git`)
   - SipHash (= 1.2.0)
   - Socket.IO-Client-Swift (~> 13.1.0)
   - StepSlider (from `https://github.com/xiaowheat/StepSlider.git`)
@@ -82,7 +82,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   secp256k1_ios:
-    :git: https://github.com/shamatar/secp256k1_ios.git
+    :git: https://github.com/xiaowheat/secp256k1_ios.git
   StepSlider:
     :git: https://github.com/xiaowheat/StepSlider.git
   web3.swift:
@@ -91,7 +91,7 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   secp256k1_ios:
     :commit: e3ab3e26fafc3688436528f2ca24cc679c7d746e
-    :git: https://github.com/shamatar/secp256k1_ios.git
+    :git: https://github.com/xiaowheat/secp256k1_ios.git
   StepSlider:
     :commit: 86ffd212f5822a4c844414052a61b7c0ca95de67
     :git: https://github.com/xiaowheat/StepSlider.git
@@ -125,6 +125,6 @@ SPEC CHECKSUMS:
   web3.swift: 7b89fef89eb474685b7ffaf50a9eb30b9727f1d7
   WeChat_SDK: 681388233ac24a3ed6c4803cb3e0b6d3602050aa
 
-PODFILE CHECKSUM: bf2814151ac83306034a32531fcdece1a447ac59
+PODFILE CHECKSUM: fd5bf3174a6ef16d61dbee74102a4bdebc2fb0ac
 
 COCOAPODS: 1.5.3

@@ -127,6 +127,7 @@
 		291C4865DB37871B2AC42A8AA728BDC5 /* LOTArrayInterpolator.m in Sources */ = {isa = PBXBuildFile; fileRef = 688736785DCB049FD25D37CE4F63F336 /* LOTArrayInterpolator.m */; };
 		29274D47F00F250DAD61DC78F47149E0 /* PKCS5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75714E14514EC8C260AECA4049F02105 /* PKCS5.swift */; };
 		298F657D9E015F478350A947C96D5621 /* LOTTransformInterpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1B80A369E057361DBFCA96A04741BE /* LOTTransformInterpolator.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		29AC6442AE8BF6E866D12D32837B845C /* lax_der_privatekey_parsing.c in Sources */ = {isa = PBXBuildFile; fileRef = 3F1E8483762259A0CC56195EFD9A4B2E /* lax_der_privatekey_parsing.c */; };
 		29B434B1042DBA23C3B49327FD204BA6 /* ABIDecoder+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352629D93F3BE75B795DE4083A8CC2AA /* ABIDecoder+JSON.swift */; };
 		2A7AE7EDC74749E8C639F2CBEAF17E52 /* ChartDataEntryBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E424D0D5EFB26AC04D356787993DA3DB /* ChartDataEntryBase.swift */; };
 		2AA8725FE47AC3EB30D6280847263BC7 /* SocketIOClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41D438F4ED421F2EFDB50C62A9695BE /* SocketIOClient.swift */; };
@@ -270,6 +271,7 @@
 		5CD8F1E10B9B73A72CEB343201E11567 /* SocketIOStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C84A48CB57B8E21FFD402E66D925FD /* SocketIOStatus.swift */; };
 		5D260376658E74F047D40B83C89E68E0 /* LineChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7340DF7593B0A85A6B9929900933BC5 /* LineChartDataProvider.swift */; };
 		5D28D44A0B67D488FEA19B29433E9EE2 /* memzero.c in Sources */ = {isa = PBXBuildFile; fileRef = BBFFA453C1693510A857E57BF77C6333 /* memzero.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		5D93E6CFD5280284568C07AF45AA1C6E /* secp256k1.c in Sources */ = {isa = PBXBuildFile; fileRef = A1D475CE6203ED359E4D6C97B33E24D9 /* secp256k1.c */; };
 		5E6C6A1E2BBC94C1A38717A7A9DD64B3 /* Socket.IO-Client-Swift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F5DF2BED50E236E7E3ED982751B0839 /* Socket.IO-Client-Swift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5EA88F50ED06AC8CC758A1475898EE37 /* IMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F393A3D8DC8EF615149DA28F73908C /* IMarker.swift */; };
 		5EDF9FFEF5930F9A7EFA6E1C7AD3D056 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC7FFDCBEFEA76AC79F0D2DEA357C5F /* SnapKit.framework */; };
@@ -340,7 +342,6 @@
 		7A2B6CE1DB8EA7EFEB48DE421462142D /* scalar_4x64_impl.h in Headers */ = {isa = PBXBuildFile; fileRef = 56EC8137F5513954E3750AE51D16252E /* scalar_4x64_impl.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7AF5DA392DFAF545FEA71E929FB2B8B7 /* Starscream-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0184F9CC58DC5481309181D2FE9EA1CE /* Starscream-dummy.m */; };
 		7B544D110884F83FB346C9063E3C1E0E /* TransformerHorizontalBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F38FB6B9D78FC1EA6A0411B051933FC /* TransformerHorizontalBarChart.swift */; };
-		7BB78E8B9DB3D1E22D7C5E1C1CD057E8 /* secp256k1.c in Sources */ = {isa = PBXBuildFile; fileRef = A1D475CE6203ED359E4D6C97B33E24D9 /* secp256k1.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		7BE2605781A20AEA2D3A3D5FBD8F64EB /* AES.Cryptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070A2CAA73410523B81B0CEEE2945B3C /* AES.Cryptors.swift */; };
 		7C2A1B49B33F062C0D0B19879CE15E81 /* LOTAssetGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = B61F1591D07A9AC4320EBDF8FF46352A /* LOTAssetGroup.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		7C2BB1972FF2C3A8B2DDD473BE3E6AF5 /* Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C4E023559396A631743D860C1B492E /* Padding.swift */; };
@@ -461,6 +462,7 @@
 		A028D356863A86BEBAEB57DAA7FD7C95 /* PBKDF2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60694828A02355DC35560C500D303EB /* PBKDF2.swift */; };
 		A05CF0D10DFD5644A5FA8E2C8C24A4FD /* ENSResolverContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B69384AD445BB10AF68433E87BB962 /* ENSResolverContract.swift */; };
 		A095DED6E55EC6AEF3C544D19A8781D5 /* base32.h in Headers */ = {isa = PBXBuildFile; fileRef = C1DBEDCAFC9F09BEFE9F7A309CB15502 /* base32.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A099DE874BD2734A68EE6A9BF116D4FD /* secp256k1_ios-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CB144C74C0577BF68AC1A1F4216B287A /* secp256k1_ios-dummy.m */; };
 		A0FA96A77A60EBA976B510533D075AE2 /* LOTRadialGradientLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B346BF9EA06D9A8E3244D719D2B8FF /* LOTRadialGradientLayer.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A100684C6EB802F069EFD85123D10A3C /* IBubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946D2F177CF7BB391DC5BE4FAACA1A59 /* IBubbleChartDataSet.swift */; };
 		A125969B1B58E37AAB7A0C84154CDA4B /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4446F06816F02BAB63886B38D48EF707 /* BarChartView.swift */; };
@@ -603,7 +605,6 @@
 		CA9BECB52B8E0FE5873A60C1D62C7CC5 /* LOTShapeTrimPath.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE266506C1385ABD9CF49D21DFFB06F /* LOTShapeTrimPath.m */; };
 		CAE4D28FF01C435AD8B97FF756767F2D /* ConstraintView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E039BA5137272AB1700D0ACDEA0DE1A7 /* ConstraintView+Extensions.swift */; };
 		CB10F67FA9C9ABD7D23A7FD2702B4A6C /* bip39_english.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B2F6F4FEAAEB36EFF6E8FA85CE60BD /* bip39_english.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		CB89F6193A573527C04692417374350E /* lax_der_privatekey_parsing.c in Sources */ = {isa = PBXBuildFile; fileRef = 3F1E8483762259A0CC56195EFD9A4B2E /* lax_der_privatekey_parsing.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		CB9D936820B3521264B20D6E48BC367F /* LOTColorInterpolator.m in Sources */ = {isa = PBXBuildFile; fileRef = 54F3EF7CF487659F326F46F83288C292 /* LOTColorInterpolator.m */; };
 		CB9DFAF6444C81044921C00C4AD2F5D1 /* sha2.h in Headers */ = {isa = PBXBuildFile; fileRef = C5B454310AE912CECBED27F60284D3FB /* sha2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CBF98591A02A3DDFF0E87E0C2EF71218 /* num.h in Headers */ = {isa = PBXBuildFile; fileRef = FA1F74FE3E8024975438A44BD4A63954 /* num.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -649,7 +650,6 @@
 		DB3524355A69E357BFD945E32B639317 /* LOTCompositionContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70FF97D7D3DF8246FD4C66AE9C778690 /* LOTCompositionContainer.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		DC4263FD2AA494956742786244224DDB /* UIBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = BF4A0DE9D21AA578AF649C4523CCA76E /* UIBezierPath.m */; };
 		DC92943DC257DBA0841B9603709C65E7 /* YAxis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C03ED06EAF1F9D6E20DD156462F333E /* YAxis.swift */; };
-		DCB126DDD28CFD7F64DCE5A0A39199DD /* lax_der_parsing.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E1325BB3D8E0B6A2ECCC26E18152534 /* lax_der_parsing.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		DCBCB668B0FE03C540A3CDEADF1747EA /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = C09347B7C0191EB447D5A6316388523C /* SVProgressHUD.m */; };
 		DDD85C55C7DF57DD5D3BD0F88B550123 /* ABIJSONEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DBD95C79A9EDA284599DC473D524F3 /* ABIJSONEntry.swift */; };
 		DDDD8E00E11C6954003179BE4EA0471E /* LOTLayerGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 3240A3CB1A749FA0AD10C098746A7AAF /* LOTLayerGroup.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -685,7 +685,6 @@
 		E5B9C8CB38F1EFF751B78F702E6ED023 /* RandomAccessBlockModeWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51C29BDE2017E5D147FF154F876D8C6 /* RandomAccessBlockModeWorker.swift */; };
 		E62C4A5AD3B26FF707FEF48560E1BDB4 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF9E3777360B9F8D850B6D713DB4502 /* Random.swift */; };
 		E6D4C1066E425C9D0EB8A79CEFFCE25A /* IHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8A0BC359FFB5C1C47939A0B2CD7A81 /* IHighlighter.swift */; };
-		E6FA78872A03F6019509EB419911491A /* secp256k1_ios-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CB144C74C0577BF68AC1A1F4216B287A /* secp256k1_ios-dummy.m */; };
 		E715337C9F8D28D38584F292EB3632FB /* IFillFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51710A21D53AA4E29839AEC82F6B3A51 /* IFillFormatter.swift */; };
 		E7256EC97041F6F0CA1772A56DE11C86 /* CryptoSwift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A4472731BBF547A80E927453814FA2F8 /* CryptoSwift-dummy.m */; };
 		E75952847088B382666CF9F1C6A8600A /* LOTShapeStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = DFF9409F05AA2B69B80653AFF604D081 /* LOTShapeStroke.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -762,6 +761,7 @@
 		FE4021AC5D584383384D449B23D5E91E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB0616F8083635B39BA67BE5C1120C74 /* Foundation.framework */; };
 		FEA2DE4375D926494D36CD29D5417AA9 /* HorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B72366D5B6AB1F08CB53E0FADD9489 /* HorizontalBarChartView.swift */; };
 		FEE72A5FD1A85BDFCF1B1FBD44032253 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D117158C37F7FF857410AB27186DC1C7 /* Platform.swift */; };
+		FF5FDD2DD922AC67C0933F9BA934D63D /* lax_der_parsing.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E1325BB3D8E0B6A2ECCC26E18152534 /* lax_der_parsing.c */; };
 		FF93F42F9F5C8F0BDD6B5934120F5A42 /* ConstraintLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A8F20849307FD6202FF36A831BDA8C /* ConstraintLayoutGuide.swift */; };
 		FFBA4A6259D279DF77D9E6E2D312CCF7 /* LOTAnimatedSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 46EFF7516F9B9747F368A66A723CF83A /* LOTAnimatedSwitch.m */; };
 /* End PBXBuildFile section */
@@ -3941,7 +3941,7 @@
 			buildConfigurationList = BA3532172AF4ABA83FD68C068DB5D949 /* Build configuration list for PBXNativeTarget "secp256k1_ios" */;
 			buildPhases = (
 				59B502A2BB1ADECC789AD8005B3A6461 /* Headers */,
-				5138C51E4DF4C161BE574B8D962536E1 /* Sources */,
+				C4F0B366211366026F40915E0C72387D /* Sources */,
 				5FC0D951E6F05A07E031AD7512FFBEC6 /* Frameworks */,
 				76AFA938C0EAF7E1EC34038234C7CA7A /* Resources */,
 			);
@@ -4611,17 +4611,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5138C51E4DF4C161BE574B8D962536E1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DCB126DDD28CFD7F64DCE5A0A39199DD /* lax_der_parsing.c in Sources */,
-				CB89F6193A573527C04692417374350E /* lax_der_privatekey_parsing.c in Sources */,
-				7BB78E8B9DB3D1E22D7C5E1C1CD057E8 /* secp256k1.c in Sources */,
-				E6FA78872A03F6019509EB419911491A /* secp256k1_ios-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5F93B1613149CF4B61A563CCBC4A032B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4954,6 +4943,17 @@
 				14F8D4E3762AA94AF33720F0833501A9 /* sha2.c in Sources */,
 				F63943AB43C5BBB4C2391E28CFB84DC7 /* sha3.c in Sources */,
 				2DE1CDF9394C898C8DC11104E5E2520B /* TrezorCrypto-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4F0B366211366026F40915E0C72387D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF5FDD2DD922AC67C0933F9BA934D63D /* lax_der_parsing.c in Sources */,
+				29AC6442AE8BF6E866D12D32837B845C /* lax_der_privatekey_parsing.c in Sources */,
+				5D93E6CFD5280284568C07AF45AA1C6E /* secp256k1.c in Sources */,
+				A099DE874BD2734A68EE6A9BF116D4FD /* secp256k1_ios-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
