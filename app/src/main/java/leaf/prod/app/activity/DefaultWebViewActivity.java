@@ -88,7 +88,7 @@ public class DefaultWebViewActivity extends BaseActivity {
      */
     @Override
     public void initTitle() {
-        title.setBTitle(getResources().getString(R.string.etherscan));
+        title.setBTitle(getResources().getString(R.string.neo_tracker));
         title.clickLeftGoBack(getWContext());
     }
 
