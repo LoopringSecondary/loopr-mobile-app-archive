@@ -62,20 +62,27 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                             .getBindFunction(owner, 1).getOutputParameters();
                     List<Type> values = FunctionReturnDecoder.decode(ethCall.getValue(), typeReferences);
                     bindAddress = values.get(0).toString();
-                    return neoService.getAirdropAmount(bindAddress);
+                    if (StringUtils.isEmpty(bindAddress)) {
+                        disableClaimButton();
+                        return Observable.just("failed");
+                    } else {
+                        return neoService.getAirdropAmount(bindAddress);
+                    }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
-                    BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(s));
-                    BigInteger divider = BigInteger.valueOf(100000000L);
-                    String value = NumberUtils.format1(bigInteger.divide(divider).doubleValue(), 4);
-                    view.airdropAddress.setText(bindAddress);
-                    view.airdropAmount.setText(value);
+                .subscribe(result -> {
+                    if (!result.equals("failed")) {
+                        BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(result));
+                        BigInteger divider = BigInteger.valueOf(100000000L);
+                        String value = NumberUtils.format1(bigInteger.divide(divider).doubleValue(), 4);
+                        view.airdropAddress.setText(bindAddress);
+                        view.airdropAmount.setText(value);
+                    }
                 });
     }
 
     public void handleClaim() {
-        if (bindAddress != null) {
+        if (!StringUtils.isEmpty(bindAddress)) {
             neoService.claimAirdrop(bindAddress)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -93,6 +100,8 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                             RxToast.error(context.getString(R.string.airdrop_failed));
                         }
                     });
+        } else {
+            RxToast.error(context.getString(R.string.airdrop_failed));
         }
     }
 
@@ -106,7 +115,9 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
         return result;
     }
 
-    public boolean isAddressBinded() {
-        return !StringUtils.isEmpty(bindAddress);
+    private void disableClaimButton() {
+        int color = context.getResources().getColor(R.color.colorBg);
+        view.claimButton.setBackgroundColor(color);
+        view.claimButton.setOnClickListener(v -> RxToast.error(context.getString(R.string.airdrop_no_bind)));
     }
 }
