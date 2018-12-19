@@ -286,4 +286,5 @@
     <string name="delete">刪除</string>
     <string name="delete_contact_hint">確定要刪除當前聯繫人嗎?</string>
     <string name="edit_contact">編輯聯繫人信息</string>
+    <string name="neo_tracker">Neo Tracker</string>
 </resources>

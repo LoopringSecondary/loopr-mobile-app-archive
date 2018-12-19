@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.view.View;
 
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
@@ -54,6 +55,7 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
     }
 
     private void setupBindAddress() {
+        view.clLoading.setVisibility(View.VISIBLE);
         erc20Service.getBindAddress(owner, 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
@@ -78,11 +80,13 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                         view.airdropAddress.setText(bindAddress);
                         view.airdropAmount.setText(value);
                     }
+                    view.clLoading.setVisibility(View.GONE);
                 });
     }
 
     public void handleClaim() {
         if (!StringUtils.isEmpty(bindAddress)) {
+            view.clLoading.setVisibility(View.VISIBLE);
             neoService.claimAirdrop(bindAddress)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -97,8 +101,9 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                                 view.getOperation().forward(DefaultWebViewActivity.class);
                             });
                         } else {
-                            RxToast.error(context.getString(R.string.airdrop_failed));
+                            RxToast.error(context.getString(R.string.airdrop_time_invalid));
                         }
+                        view.clLoading.setVisibility(View.GONE);
                     });
         } else {
             RxToast.error(context.getString(R.string.airdrop_failed));

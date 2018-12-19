@@ -6,11 +6,12 @@
  */
 package leaf.prod.app.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.Button;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vondear.rxtool.view.RxToast;
 
@@ -21,7 +22,6 @@ import leaf.prod.app.R;
 import leaf.prod.app.presenter.AirdropPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.model.QRCodeType;
 
 public class AirdropActivity extends BaseActivity {
 
@@ -36,6 +36,15 @@ public class AirdropActivity extends BaseActivity {
 
     @BindView(R.id.btn_claim)
     public Button claimButton;
+
+    @BindView(R.id.btn_claim_disable)
+    public Button clainButtonDisable;
+
+    @BindView(R.id.cl_loading)
+    public ConstraintLayout clLoading;
+
+    @BindView(R.id.ae_loading)
+    public LottieAnimationView aeLoading;
 
     private AirdropPresenter presenter;
 
@@ -56,11 +65,11 @@ public class AirdropActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.airdrop_title));
         title.clickLeftGoBack(getWContext());
-        title.setRightImageButton(R.mipmap.icon_scan, button -> {
-            Intent intent = new Intent(this, ActivityScanerCode.class);
-            intent.putExtra("restrict", QRCodeType.TRANSFER.name());
-            startActivityForResult(intent, REQUEST_CODE);
-        });
+        //        title.setRightImageButton(R.mipmap.icon_scan, button -> {
+        //            Intent intent = new Intent(this, ActivityScanerCode.class);
+        //            intent.putExtra("restrict", QRCodeType.TRANSFER.name());
+        //            startActivityForResult(intent, REQUEST_CODE);
+        //        });
     }
 
     /**
@@ -68,10 +77,12 @@ public class AirdropActivity extends BaseActivity {
      */
     @Override
     public void initView() {
-        int color = this.getResources().getColor(R.color.colorBg);
         if (!presenter.isClaimTimeValid()) {
-            claimButton.setBackgroundColor(color);
-            claimButton.setOnClickListener(v -> RxToast.error(getString(R.string.airdrop_time_invalid)));
+            claimButton.setVisibility(View.GONE);
+            clainButtonDisable.setVisibility(View.VISIBLE);
+        } else {
+            claimButton.setVisibility(View.VISIBLE);
+            clainButtonDisable.setVisibility(View.GONE);
         }
     }
 
@@ -91,13 +102,16 @@ public class AirdropActivity extends BaseActivity {
         mSwipeBackLayout.setEnableGesture(false);
     }
 
-    @OnClick({R.id.btn_claim})
+    @OnClick({R.id.btn_claim, R.id.btn_claim_disable})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_claim:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) {
                     presenter.handleClaim();
                 }
+                break;
+            case R.id.btn_claim_disable:
+                RxToast.error(getString(R.string.airdrop_time_invalid));
                 break;
         }
     }
