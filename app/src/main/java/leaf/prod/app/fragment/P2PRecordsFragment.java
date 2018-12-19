@@ -5,14 +5,13 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.ybq.android.spinkit.SpinKitView;
-import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import butterknife.BindView;
@@ -43,8 +42,8 @@ public class P2PRecordsFragment extends BaseFragment {
     @BindView(R.id.refresh_layout)
     RefreshLayout refreshLayout;
 
-    @BindView(R.id.spin_kit)
-    SpinKitView spinKitView;
+    @BindView(R.id.cl_loading)
+    ConstraintLayout clLoading;
 
     private P2PRecordAdapter recordAdapter;
 
@@ -64,10 +63,10 @@ public class P2PRecordsFragment extends BaseFragment {
         // 布局导入
         layout = inflater.inflate(R.layout.fragment_p2p_records, container, false);
         unbinder = ButterKnife.bind(this, layout);
+        clLoading.setVisibility(View.VISIBLE);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
             refreshOrders(1);
         });
-        spinKitView.setIndeterminateDrawable(new FadingCircle());
         return layout;
     }
 
@@ -132,6 +131,7 @@ public class P2PRecordsFragment extends BaseFragment {
                     @Override
                     public void onCompleted() {
                         refreshLayout.finishRefresh(true);
+                        clLoading.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -141,24 +141,30 @@ public class P2PRecordsFragment extends BaseFragment {
                         emptyAdapter.refresh();
                         refreshLayout.finishRefresh(true);
                         recordAdapter.loadMoreFail();
+                        clLoading.setVisibility(View.GONE);
                         unsubscribe();
                     }
 
                     @Override
                     public void onNext(PageWrapper<Order> orderPageWrapper) {
                         totalCount = orderPageWrapper.getTotal();
-                        List<Order> list = new ArrayList<>();
-                        for (Order order : orderPageWrapper.getData()) {
-                            list.add(order.convert());
-                        }
-                        if (currentPageIndex == 1) {
-                            recordAdapter.setNewData(list);
+                        if (totalCount == 0) {
+                            recyclerView.setAdapter(emptyAdapter);
+                            emptyAdapter.refresh();
                         } else {
-                            recordAdapter.addData(list);
+                            List<Order> list = new ArrayList<>();
+                            for (Order order : orderPageWrapper.getData()) {
+                                list.add(order.convert());
+                            }
+                            if (currentPageIndex == 1) {
+                                recordAdapter.setNewData(list);
+                            } else {
+                                recordAdapter.addData(list);
+                            }
+                            orderList = recordAdapter.getData();
+                            refreshLayout.finishRefresh(true);
                         }
-                        orderList = recordAdapter.getData();
-                        refreshLayout.finishRefresh(true);
-                        spinKitView.setVisibility(View.INVISIBLE);
+                        clLoading.setVisibility(View.GONE);
                         recordAdapter.loadMoreComplete();
                         unsubscribe();
                     }

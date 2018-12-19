@@ -80,14 +80,15 @@
         </LinearLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <com.github.ybq.android.spinkit.SpinKitView
-        android:id="@+id/spin_kit"
-        style="@style/SpinKitView.Large.Circle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <!--<com.github.ybq.android.spinkit.SpinKitView-->
+    <!--android:id="@+id/spin_kit"-->
+    <!--style="@style/SpinKitView.Large.Circle"-->
+    <!--android:layout_width="40dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_gravity="center"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"/>-->
+    <include layout="@layout/activity_loading"/>
 </android.support.constraint.ConstraintLayout>
