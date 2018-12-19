@@ -168,6 +168,7 @@
         <Button
             android:id="@+id/btn_claim_disable"
             style="@style/CancelBtnStyle"
+            android:textColor="@color/colorNineText"
             android:layout_height="wrap_content"
             android:text="@string/airdrop_button"
             android:visibility="gone"/>
