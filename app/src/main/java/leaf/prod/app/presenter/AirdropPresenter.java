@@ -48,7 +48,7 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
 
     public AirdropPresenter(AirdropActivity view, Context context) {
         super(view, context);
-        this.neoService = new NeoService();
+        this.neoService = new NeoService(context);
         this.erc20Service = new Erc20Service();
         this.owner = WalletUtil.getCurrentAddress(context);
         this.setupBindAddress();

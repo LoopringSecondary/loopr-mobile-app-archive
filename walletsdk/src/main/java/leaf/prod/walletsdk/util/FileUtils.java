@@ -8,7 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -128,6 +130,31 @@ public class FileUtils {
         br.close();
         isr.close();
         return s;
+    }
+
+    /**
+     * 读取本地文件
+     */
+    @SuppressLint("ResourceType")
+    public static String getFile(Context context, int resourceId) {
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            br = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(resourceId)));
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (Exception e) {
+            Log.e("getFile: ", e.getMessage());
+        } finally {
+            try {
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
     }
 
     /**
