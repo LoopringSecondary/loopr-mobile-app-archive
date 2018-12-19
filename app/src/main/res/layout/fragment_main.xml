@@ -5,12 +5,12 @@
               android:layout_height="match_parent"
               android:background="@color/colorLine">
 
-    <leaf.prod.app.layout.ChildClickableFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                    android:id="@+id/frame_layout"
-                                                    android:layout_width="match_parent"
-                                                    android:layout_height="match_parent"
-                                                    android:background="@color/colorPrimary"
-                                                    android:orientation="vertical">
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/title_layout"
@@ -73,8 +73,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginRight="8dp"
                         android:background="@mipmap/wallet_bg">
 
                         <com.robinhood.ticker.TickerView
@@ -92,8 +92,8 @@
                             android:layout_below="@+id/wallet_count"
                             android:layout_marginTop="11dp"
                             android:gravity="center"
-                            android:paddingEnd="30dp"
-                            android:paddingStart="50dp">
+                            android:paddingStart="50dp"
+                            android:paddingEnd="30dp">
 
                             <TextView
                                 android:id="@+id/wallet_address"
@@ -118,8 +118,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="88dp"
                         android:layout_marginLeft="@dimen/margSide"
-                        android:layout_marginRight="@dimen/margSide"
                         android:layout_marginTop="8dp"
+                        android:layout_marginRight="@dimen/margSide"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -226,10 +226,10 @@
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="16dp"
                         android:layout_marginLeft="@dimen/margSide"
-                        android:layout_marginRight="@dimen/margSide"
                         android:layout_marginTop="16dp"
+                        android:layout_marginRight="@dimen/margSide"
+                        android:layout_marginBottom="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"/>
                 </LinearLayout>
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
@@ -239,8 +239,8 @@
                 android:layout_width="160dp"
                 android:layout_height="150dp"
                 android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/margSide"
                 android:layout_marginTop="94dp"
+                android:layout_marginEnd="@dimen/margSide"
                 android:background="@drawable/button_bg_pressed"
                 android:elevation="4dp"
                 android:orientation="vertical"
@@ -315,16 +315,5 @@
 
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>
-
-        <com.github.ybq.android.spinkit.SpinKitView
-            android:id="@+id/spin_kit"
-            style="@style/SpinKitView.Large.Circle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-    </leaf.prod.app.layout.ChildClickableFrameLayout>
+    </FrameLayout>
 </LinearLayout>

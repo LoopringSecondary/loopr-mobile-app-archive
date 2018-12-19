@@ -15,12 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.ybq.android.spinkit.SpinKitView;
-import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -43,7 +42,6 @@ import leaf.prod.app.activity.SendActivity;
 import leaf.prod.app.activity.TokenListActivity;
 import leaf.prod.app.activity.WalletDetailActivity;
 import leaf.prod.app.adapter.MainWalletAdapter;
-import leaf.prod.app.layout.ChildClickableFrameLayout;
 import leaf.prod.app.presenter.MainFragmentPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.QRCodeUitl;
@@ -114,11 +112,8 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.refresh_layout)
     RefreshLayout refreshLayout;
 
-    @BindView(R.id.spin_kit)
-    SpinKitView progressBar;
-
     @BindView(R.id.frame_layout)
-    ChildClickableFrameLayout frameLayout;
+    FrameLayout frameLayout;
 
     @SuppressLint("HandlerLeak")
     Handler handlerBalance = new Handler() {
@@ -151,13 +146,12 @@ public class MainFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, layout);
         walletCount.setAnimationInterpolator(new OvershootInterpolator());
         walletCount.setCharacterLists(TickerUtils.provideNumberList());
-        frameLayout.setChildClickable(false);
+        if (getActivity() != null) {
+            ((MainActivity) getActivity()).showLoading(true);
+        }
         refreshLayout.setOnRefreshListener(refreshLayout -> {
-            //            presenter.handleNetworkError();
-            frameLayout.setChildClickable(false);
             presenter.initObservable();
         });
-        progressBar.setIndeterminateDrawable(new FadingCircle());
         return layout;
     }
 
@@ -353,14 +347,10 @@ public class MainFragment extends BaseFragment {
     }
 
     public void finishRefresh() {
-        if (frameLayout != null)
-            frameLayout.setChildClickable(true);
         if (refreshLayout != null)
             refreshLayout.finishRefresh(true);
-        if (progressBar != null)
-            progressBar.setVisibility(View.INVISIBLE);
         if (getActivity() != null) {
-            ((MainActivity) Objects.requireNonNull(getActivity())).setClickable(true);
+            ((MainActivity) getActivity()).showLoading(false);
         }
     }
 

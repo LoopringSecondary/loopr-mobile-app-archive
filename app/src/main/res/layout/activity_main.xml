@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/refresh_layout"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:id="@+id/refresh_layout"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/main_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@id/ccl_main"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorLine"/>
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:background="@color/colorLine"/>-->
 
-    <leaf.prod.app.layout.ChildClickableLinearLayout
+    <LinearLayout
         android:id="@+id/ccl_main"
         android:layout_width="match_parent"
         android:layout_height="38dp"
@@ -24,7 +27,8 @@
         android:background="@color/colorBg"
         android:orientation="horizontal"
         android:paddingTop="4dp"
-        android:paddingBottom="4dp">
+        android:paddingBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
 
         <RelativeLayout
@@ -113,7 +117,7 @@
             </LinearLayout>
 
         </RelativeLayout>
+    </LinearLayout>
 
-
-    </leaf.prod.app.layout.ChildClickableLinearLayout>
-</LinearLayout>
+    <include layout="@layout/activity_loading"/>
+</android.support.constraint.ConstraintLayout>

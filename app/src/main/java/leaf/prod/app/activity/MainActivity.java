@@ -2,6 +2,7 @@ package leaf.prod.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,10 +10,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
@@ -22,7 +25,6 @@ import leaf.prod.app.R;
 import leaf.prod.app.fragment.MainFragment;
 import leaf.prod.app.fragment.SettingFragment;
 import leaf.prod.app.fragment.TradeFragment;
-import leaf.prod.app.layout.ChildClickableLinearLayout;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.UpgradeUtil;
 import leaf.prod.walletsdk.util.SPUtils;
@@ -64,7 +66,13 @@ public class MainActivity extends BaseActivity {
     RelativeLayout rlSetting;
 
     @BindView(R.id.ccl_main)
-    ChildClickableLinearLayout cclMain;
+    LinearLayout cclMain;
+
+    @BindView(R.id.cl_loading)
+    ConstraintLayout clLoading;
+
+    @BindView(R.id.ae_loading)
+    LottieAnimationView aeLoading;
 
     private long exitTime = 0;
 
@@ -86,7 +94,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
         UpgradeUtil.showUpdateHint(this, false);
-        cclMain.setChildClickable(false);
     }
 
     @Override
@@ -264,9 +271,7 @@ public class MainActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    public void setClickable(boolean clickable) {
-        if (cclMain != null) {
-            cclMain.setChildClickable(clickable);
-        }
+    public void showLoading(boolean show) {
+        clLoading.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 }
