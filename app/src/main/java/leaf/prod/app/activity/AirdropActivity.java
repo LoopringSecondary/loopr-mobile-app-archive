@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,16 +68,11 @@ public class AirdropActivity extends BaseActivity {
      */
     @Override
     public void initView() {
-//        int color = this.getResources().getColor(R.color.colorBg);
-//        if (!presenter.isAddressBinded()) {
-//            claimButton.setBackgroundColor(color);
-//            claimButton.setOnClickListener(v -> RxToast.error(getString(R.string.airdrop_no_bind)));
-//            return;
-//        }
-//        if (!presenter.isClaimTimeValid()) {
-//            claimButton.setBackgroundColor(color);
-//            claimButton.setOnClickListener(v -> RxToast.error(getString(R.string.airdrop_time_invalid)));
-//        }
+        int color = this.getResources().getColor(R.color.colorBg);
+        if (!presenter.isClaimTimeValid()) {
+            claimButton.setBackgroundColor(color);
+            claimButton.setOnClickListener(v -> RxToast.error(getString(R.string.airdrop_time_invalid)));
+        }
     }
 
     /**
