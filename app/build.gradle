@@ -129,6 +129,5 @@ dependencies {
     implementation(name: 'RxTools-library', ext: 'aar')
 
     implementation 'com.contrarywind:Android-PickerView:4.1.6'
-    implementation 'com.github.arimorty:floatingsearchview:2.0.3'
-    implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
+    implementation 'com.github.tiagohm.MarkdownView:library:0.19.0'
 }

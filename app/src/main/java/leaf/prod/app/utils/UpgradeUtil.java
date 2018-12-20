@@ -9,7 +9,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 
+import br.tiagohm.markdownview.MarkdownView;
+import br.tiagohm.markdownview.css.InternalStyleSheet;
 import leaf.prod.app.R;
 import leaf.prod.app.receiver.ApkInstallReceiver;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
@@ -34,6 +39,10 @@ public class UpgradeUtil {
 
     private static DownloadManager downloadManager;
 
+    private static AlertDialog dialog;
+
+    private static View view;
+
     /**
      * 升级提示框
      */
@@ -50,23 +59,23 @@ public class UpgradeUtil {
                         if (versionResult != null && AndroidUtils.getVersionName(context)
                                 .compareTo(versionResult.getVersion()) < 0) {
                             SPUtils.put(context, "latestVersion", versionResult.getVersion());
-                            AlertDialog.Builder updateDialog = new AlertDialog.Builder(context);
-                            VersionResp finalVersionResult = versionResult;
-                            updateDialog.setPositiveButton(context.getResources()
-                                    .getString(R.string.upgrade_confirm), (dialogInterface, i0) -> {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogTheme);
+                            view = LayoutInflater.from(context).inflate(R.layout.dialog_upgrade, null);
+                            MarkdownView mvContent = view.findViewById(R.id.mv_content);
+                            InternalStyleSheet css = new InternalStyleSheet();
+                            css.addRule("body", "background-color:#21203A");
+                            mvContent.addStyleSheet(css);
+                            mvContent.loadMarkdown(versionResult.getReleaseNote());
+                            view.findViewById(R.id.btn_skip).setOnClickListener(v -> dialog.dismiss());
+                            view.findViewById(R.id.btn_confirm).setOnClickListener(v -> {
                                 updateHint = true;
-                                downloadApk(context, finalVersionResult.getBaiduUri());
-                                dialogInterface.dismiss();
+                                SPUtils.put(context, "ignoreVersion", versionResult.getVersion());
+                                dialog.dismiss();
                             });
-                            updateDialog.setNegativeButton(context.getResources()
-                                    .getString(R.string.upgrade_cancel), (dialogInterface, i) -> {
-                                updateHint = true;
-                                SPUtils.put(context, "ignoreVersion", finalVersionResult.getVersion());
-                                dialogInterface.dismiss();
-                            });
-                            updateDialog.setMessage(versionResult.getDescription());
-                            updateDialog.setTitle(context.getResources().getString(R.string.upgrade_title));
-                            updateDialog.show();
+                            builder.setView(view);
+                            dialog = builder.create();
+                            dialog.getWindow().setGravity(Gravity.CENTER);
+                            dialog.show();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
