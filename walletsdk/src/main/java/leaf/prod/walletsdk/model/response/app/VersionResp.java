@@ -30,4 +30,10 @@ public class VersionResp {
 
     @SerializedName(value = "google_uri")
     private String googleUri;
+
+    @SerializedName(value = "release_note")
+    private String releaseNote;
+
+    @SerializedName(value = "release_note_en")
+    private String releaseNoteEn;
 }
