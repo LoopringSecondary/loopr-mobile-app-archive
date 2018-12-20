@@ -8,6 +8,7 @@
 
 import Foundation
 import Geth
+import web3
 
 class SendCurrentAppWalletDataManager {
     
@@ -158,6 +159,24 @@ class SendCurrentAppWalletDataManager {
         let data = web3swift.encode(transferFunction)
         let gasLimit: Int64 = GasDataManager.shared.getGasLimit(by: "cancelAllOrdersByTradingPair")!
         _transfer(data: data, address: protocolAddress!, amount: GethBigInt.init(0), gasLimit: GethBigInt(gasLimit), completion: completion)
+    }
+    
+    func _getBindAddress() {
+        if let owner = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address {
+            
+            let client = EthereumClient(url: URL(string: "https://relay1.loopr.io/eth")!)
+            let erc20 = ERC20(client: client)
+
+            erc20.getBindAddress(tokenContract: EthereumAddress(RelayAPIConfiguration.neoProtocolAddress), address: EthereumAddress(owner)) { (error, result) in
+                print(result)
+                print(error)
+            }
+            
+//            let transferFunction = EthFunction(name: "getBindingAddress", inputParameters: [toAddress, tokenAmount])
+//            let data = web3swift.encode(transferFunction)
+//
+//            EthereumAPIRequest.eth_call(from: String?, to: <#T##String#>, gas: <#T##UInt?#>, gasPrice: <#T##UInt?#>, value: <#T##UInt?#>, data: <#T##String?#>, block: <#T##DefaultBlock#>, completionHandler: <#T##(SimpleRespond?, Error?) -> Void#>)
+        }
     }
     
     // transfer eth

@@ -15,9 +15,6 @@ import Fabric
 import Crashlytics
 import UserNotifications
 
-// TODO: Test web3.swift
-import web3
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
 
@@ -26,14 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
-        // TODO: Move this part of code. It's only used to verify web3.swift is installed correctly.
-        let keyStorage = EthereumKeyLocalStorage()
-        let account = try? EthereumAccount.create(keyStorage: keyStorage, keystorePassword: "MY_PASSWORD")
-        
-        let publicKey = account!.publicKey
-        let address = account!.address
-
         
         Fabric.with([Crashlytics.self, Answers.self])
         

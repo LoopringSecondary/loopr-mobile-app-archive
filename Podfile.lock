@@ -57,7 +57,7 @@ DEPENDENCIES:
   - WeChat_SDK (~> 1.8.1)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - BigInt
     - Charts
     - Crashlytics
@@ -127,4 +127,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: fd5bf3174a6ef16d61dbee74102a4bdebc2fb0ac
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.5.0

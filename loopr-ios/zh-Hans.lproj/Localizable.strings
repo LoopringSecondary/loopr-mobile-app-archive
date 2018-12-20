@@ -128,6 +128,18 @@
 "Contact Input" = "请输入正确的联系人名称";
 "QRCode error tip" = "请扫描钱包地址类型的二维码";
 
+/* Airdrop page */
+"Airdrop title" = "LRN 空投领取";
+"Airdrop address tip" = "您的LRN空投领取地址";
+"Airdrop amount tip" = "您本日的LRN空投领取金额";
+"Airdrop button" = "领取空投";
+"Airdrop success" = "成功领取空投";
+"Airdrop failed" = "领取空投失败，请稍后重试";
+"Airdrop forward" = "前往NEO浏览器查看详情";
+"Airdrop no_bind" = "您尚未绑定LRN的空投地址，目前无法领取";
+"Airdrop time invalid" = "距您上次领取，还未到一天，请稍后领取";
+"Airdrop browser" = "NEO Tracker";
+
 /* DEX Trade page */
 "Loopring Order" = "路印订单";
 "DEX Trade" = "去中心化交易所";

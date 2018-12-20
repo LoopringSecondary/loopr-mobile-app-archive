@@ -128,6 +128,19 @@
 "Contact Input" = "Please input a valid name";
 "QRCode error tip" = "Please make sure the QR code is type of wallet address.";
 
+/* Airdrop page */
+/* Airdrop page */
+"Airdrop title" = "LRN claiming";
+"Airdrop address tip" = "Your LRN binding address";
+"Airdrop amount tip" = "Your LRN claiming amount for today";
+"Airdrop button" = "Claim Airdrop";
+"Airdrop success" = "Claim Airdrop Successful";
+"Airdrop failed" = "Claim Airdrop Failed, Please retry later";
+"Airdrop forward" = "Forward to NEO Tracker";
+"Airdrop no_bind" = "您尚未绑定LRN的空投地址，目前无法领取";
+"Airdrop time invalid" = "距您上次领取，还未到一天，请稍后领取";
+"Airdrop browser" = "NEO Tracker";
+
 /* DEX Trade page */
 "Loopring Order" = "Loopring Order";
 "DEX Trade" = "DEX Trade";

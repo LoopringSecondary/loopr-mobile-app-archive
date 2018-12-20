@@ -13,6 +13,7 @@ class RelayAPIConfiguration {
     static let baseURL = "https://relay1.loopr.io"
     static let rpcURL = URL(string: baseURL + "/rpc/v2")!
     static let ethURL = URL(string: baseURL + "/eth")!
+    static let neoURL = URL(string: baseURL + "/neo")!
     static let socketURL = URL(string: baseURL)!
 
     // Deployment on Ethereum https://github.com/Loopring/token-listing/blob/master/ethereum/deployment.md#protocol

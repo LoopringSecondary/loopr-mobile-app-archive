@@ -47,6 +47,8 @@
 		943C1CB220CE26CE008A8CED /* LoginResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C1CB020CE26CE008A8CED /* LoginResultViewController.swift */; };
 		943C1CB320CE26CE008A8CED /* LoginResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943C1CB120CE26CE008A8CED /* LoginResultViewController.xib */; };
 		943C657A209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6579209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift */; };
+		9453597221CA2E5900FA624E /* AirdropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453597021CA2E5900FA624E /* AirdropViewController.swift */; };
+		9453597321CA2E5900FA624E /* AirdropViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9453597121CA2E5900FA624E /* AirdropViewController.xib */; };
 		9457416E20D0D23400110CFD /* CancelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9457416D20D0D23400110CFD /* CancelType.swift */; };
 		9457417020D0E9CD00110CFD /* CancelOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9457416F20D0E9CD00110CFD /* CancelOrder.swift */; };
 		945800212058FEB500E08DEF /* tokens.json in Resources */ = {isa = PBXBuildFile; fileRef = 945800202058FEB500E08DEF /* tokens.json */; };
@@ -560,6 +562,8 @@
 		943C1CB020CE26CE008A8CED /* LoginResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResultViewController.swift; sourceTree = "<group>"; };
 		943C1CB120CE26CE008A8CED /* LoginResultViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginResultViewController.xib; sourceTree = "<group>"; };
 		943C6579209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOrderDataManagerTests.swift; sourceTree = "<group>"; };
+		9453597021CA2E5900FA624E /* AirdropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropViewController.swift; sourceTree = "<group>"; };
+		9453597121CA2E5900FA624E /* AirdropViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AirdropViewController.xib; sourceTree = "<group>"; };
 		9457416D20D0D23400110CFD /* CancelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelType.swift; sourceTree = "<group>"; };
 		9457416F20D0E9CD00110CFD /* CancelOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrder.swift; sourceTree = "<group>"; };
 		945800202058FEB500E08DEF /* tokens.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tokens.json; sourceTree = "<group>"; };
@@ -1085,6 +1089,15 @@
 				943C1CB120CE26CE008A8CED /* LoginResultViewController.xib */,
 			);
 			path = AuthorizeLogin;
+			sourceTree = "<group>";
+		};
+		9453596D21CA2DF400FA624E /* Airdrop */ = {
+			isa = PBXGroup;
+			children = (
+				9453597021CA2E5900FA624E /* AirdropViewController.swift */,
+				9453597121CA2E5900FA624E /* AirdropViewController.xib */,
+			);
+			path = Airdrop;
 			sourceTree = "<group>";
 		};
 		949253C021C28C9F000032E9 /* AddContact */ = {
@@ -2006,6 +2019,7 @@
 		ACB9115D20242D9900F14644 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
+				9453596D21CA2DF400FA624E /* Airdrop */,
 				943C1CAF20CE269B008A8CED /* AuthorizeLogin */,
 				ACB911512024254F00F14644 /* WalletNavigationViewController.swift */,
 				ACB911532024260E00F14644 /* WalletViewController.swift */,
@@ -2584,6 +2598,7 @@
 				94E49ED5213CE99700CDDA02 /* PreventScreenShotViewController.xib in Resources */,
 				AC299496212BE32E005C4D72 /* SearchTokenNoDataTableViewCell.xib in Resources */,
 				941138C8210F12AD007FDC82 /* TimeToLiveViewController.xib in Resources */,
+				9453597321CA2E5900FA624E /* AirdropViewController.xib in Resources */,
 				AC2ACA4F20FA0EC3009C77E7 /* Rubik-Light.ttf in Resources */,
 				AC13B30420548767008A72C0 /* BuyAndSellSwipeViewController.xib in Resources */,
 				9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */,
@@ -2975,6 +2990,7 @@
 				AC4B894D21103EAF00643910 /* TradeType.swift in Sources */,
 				ACA677D3207DCF1900D34A2F /* RelayAPIConfiguration.swift in Sources */,
 				AC72AED8204C8AAD00E9D3B0 /* BackupMnemonicViewController.swift in Sources */,
+				9453597221CA2E5900FA624E /* AirdropViewController.swift in Sources */,
 				AC6466082083EE1E00EBEC97 /* MnemonicDerivationPathTableViewCell.swift in Sources */,
 				949629DB204E836400858F03 /* Depth.swift in Sources */,
 				AC2C93D32105AE7A004B8456 /* SetupWalletEnterPasswordViewController.swift in Sources */,
