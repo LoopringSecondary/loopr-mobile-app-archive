@@ -8,8 +8,15 @@
 
 import UIKit
 
+protocol ContactTableViewControllerDelegate: class {
+    func didSelectedContact(contact: Contact)
+}
+
 class ContactTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    var isCellSelectEnable = true
+    weak var delegate: ContactTableViewControllerDelegate?
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -74,7 +81,12 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: add delegate to update the text field
+        guard isCellSelectEnable else {
+            return
+        }
+        let contact = ContactDataManager.shared.contacts[indexPath.row]
+        delegate?.didSelectedContact(contact: contact)
         self.navigationController?.popViewController(animated: true)
     }
+
 }

@@ -434,7 +434,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     
     @objc func pressedScanButton(_ sender: UIButton) {
         let viewController = ContactTableViewController()
-        // viewController.delegate = self
+        viewController.delegate = self
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
@@ -603,4 +603,12 @@ extension SendAssetViewController: UIViewControllerTransitioningDelegate {
         return dismissInteractor
     }
     
+}
+
+extension SendAssetViewController: ContactTableViewControllerDelegate {
+    
+    func didSelectedContact(contact: Contact) {
+        addressTextField.text = contact.address
+    }
+
 }

@@ -126,9 +126,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             var numberOfRows: Int = 0
             // If it's app version, no third party login yet.
             if BiometricType.get() == .none || Production.isAppStoreVersion() {
-                numberOfRows = 4
-            } else {
                 numberOfRows = 5
+            } else {
+                numberOfRows = 6
             }
             if !FeatureConfigDataManager.shared.getShowTradingFeature() {
                 numberOfRows -= 1
@@ -192,16 +192,14 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         if BiometricType.get() == .none {
             switch indexPath.row {
             case 0:
-                var currentWalletName = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.name
-                if currentWalletName == nil {
-                    currentWalletName = ""
-                }
                 return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Manage Wallets", comment: ""))
             case 1:
-                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Currency", comment: ""))
+                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Contacts", comment: ""))
             case 2:
-                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Language", comment: ""))
+                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Currency", comment: ""))
             case 3:
+                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Language", comment: ""))
+            case 4:
                 let title: String
                 if UserDefaults.standard.bool(forKey: UserDefaultsKeys.thirdParty.rawValue) {
                     title = LocalizedString("Third", comment: "")
@@ -215,18 +213,16 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else {
             switch indexPath.row {
             case 0:
-                var currentWalletName = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.name
-                if currentWalletName == nil {
-                    currentWalletName = ""
-                }
                 return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Manage Wallets", comment: ""))
             case 1:
-                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Currency", comment: ""))
+                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Contacts", comment: ""))
             case 2:
-                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Language", comment: ""))
+                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Currency", comment: ""))
             case 3:
-                return createSettingPasscodeTableView(indexPath: indexPath)
+                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Language", comment: ""))
             case 4:
+                return createSettingPasscodeTableView(indexPath: indexPath)
+            case 5:
                 let title: String
                 if UserDefaults.standard.bool(forKey: UserDefaultsKeys.thirdParty.rawValue) {
                     title = LocalizedString("Third", comment: "")
@@ -249,16 +245,22 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 viewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(viewController, animated: true)
             case 1:
+                print("Setting contacts")
+                let viewController = ContactTableViewController()
+                viewController.isCellSelectEnable = false
+                viewController.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(viewController, animated: true)
+            case 2:
                 print("Setting currency")
                 let viewController = SettingCurrencyViewController()
                 viewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(viewController, animated: true)
-            case 2:
+            case 3:
                 print("Setting language")
                 let viewController = SettingLanguageViewController()
                 viewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(viewController, animated: true)
-            case 3:
+            case 4:
                 pressedThirdPartyButton()
             default:
                 break
@@ -271,16 +273,22 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 viewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(viewController, animated: true)
             case 1:
+                print("Setting contacts")
+                let viewController = ContactTableViewController()
+                viewController.isCellSelectEnable = false
+                viewController.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(viewController, animated: true)
+            case 2:
                 print("Setting currency")
                 let viewController = SettingCurrencyViewController()
                 viewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(viewController, animated: true)
-            case 2:
+            case 3:
                 print("Setting language")
                 let viewController = SettingLanguageViewController()
                 viewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(viewController, animated: true)
-            case 3:
+            case 4:
                 print("Touch id")
                 if !AuthenticationDataManager.shared.devicePasscodeEnabled() {
                     let title: String
@@ -295,7 +303,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     }))
                     UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
                 }
-            case 4:
+            case 5:
                 pressedThirdPartyButton()
             default:
                 break
