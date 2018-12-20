@@ -210,13 +210,13 @@
                             <ImageView
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
-                                android:src="@mipmap/icon_trades"/>
+                                android:src="@mipmap/icon_token_lrc"/>
 
                             <TextView
                                 android:id="@+id/wallet_trades_tv"
                                 style="@style/WrapWrap"
                                 android:layout_marginTop="8dp"
-                                android:text="@string/trade"
+                                android:text="@string/airdrop"
                                 android:textColor="@color/colorWhite"
                                 android:textSize="@dimen/normal14Text"/>
                         </LinearLayout>

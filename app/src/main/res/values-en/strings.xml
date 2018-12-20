@@ -286,4 +286,5 @@
     <string name="delete_contact_hint">Are you sure to delete current contact?</string>
     <string name="edit_contact">Edit this contact</string>
     <string name="neo_tracker">Neo Tracker</string>
+    <string name="airdrop">Airdrop</string>
 </resources>
