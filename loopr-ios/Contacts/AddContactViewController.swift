@@ -20,6 +20,7 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
     @IBOutlet weak var noteTextField: UITextField!
     @IBOutlet weak var saveButton: GradientButton!
     
+    var isCreatingContact = true
     var address: String = ""
     var name: String = ""
     var note: String = ""
@@ -120,18 +121,24 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
         if validateName() && validateAddress() {
             let contact = Contact(name: nameTextField.text!.trim(),
                                   address: addressTextField.text!, note: noteTextField.text ?? "")
-            if !ContactDataManager.shared.contacts.contains(where: { (item) -> Bool in
-                return item.name.uppercased() == contact.name.uppercased() ||
-                    item.address.uppercased() == contact.address.uppercased()}) {
-                ContactDataManager.shared.addContact(contact)
-                self.navigationController?.popViewController(animated: true)
+            if isCreatingContact {
+                if !ContactDataManager.shared.contacts.contains(where: { (item) -> Bool in
+                    return item.name.uppercased() == contact.name.uppercased() ||
+                        item.address.uppercased() == contact.address.uppercased()}) {
+                    ContactDataManager.shared.addContact(contact)
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    let notificationTitle = LocalizedString("Duplicated address", comment: "")
+                    let banner = NotificationBanner.generate(title: notificationTitle, style: .danger)
+                    banner.duration = 1.5
+                    banner.show()
+                    return
+                }
             } else {
-                let notificationTitle = LocalizedString("Duplicated address", comment: "")
-                let banner = NotificationBanner.generate(title: notificationTitle, style: .danger)
-                banner.duration = 1.5
-                banner.show()
-                return
+                ContactDataManager.shared.updateContact(contact)
+                self.navigationController?.popViewController(animated: true)
             }
+
         }
     }
     

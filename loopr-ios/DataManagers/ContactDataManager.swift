@@ -18,6 +18,21 @@ class ContactDataManager {
         contacts = []
     }
     
+    // TODO: merge updateContact and addContact
+    func updateContact(_ updatedContact: Contact) {
+        let results = contacts.filter { $0.address.uppercased() == updatedContact.address.uppercased() }
+        contacts.removeAll { (contact) -> Bool in
+            return results.contains(contact)
+        }
+        contacts.append(updatedContact)
+
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: contacts)
+        UserDefaults.standard.set(encodedData, forKey: UserDefaultsKeys.userContacts.rawValue)
+        
+        // Post data to server.
+        AppServiceUserManager.shared.updateUserConfigWithUserDefaults()
+    }
+    
     func addContact(_ newContact: Contact) {
         contacts.append(newContact)
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: contacts)

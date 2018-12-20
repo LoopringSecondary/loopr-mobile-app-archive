@@ -80,6 +80,25 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
         return cell!
     }
     
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit") { (rowAction, indexPath) in
+            let contact = ContactDataManager.shared.contacts[indexPath.row]
+            let viewController = AddContactViewController()
+            viewController.isCreatingContact = false
+            viewController.address = contact.address
+            viewController.name = contact.name
+            viewController.note = contact.note
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
+        editAction.backgroundColor = UIColor.theme
+        
+        let deleteAction = UITableViewRowAction(style: .normal, title: "Delete") { (rowAction, indexPath) in
+            
+        }
+        deleteAction.backgroundColor = UIColor(named: "Color-red")!
+        return [editAction, deleteAction]
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard isCellSelectEnable else {
             return
