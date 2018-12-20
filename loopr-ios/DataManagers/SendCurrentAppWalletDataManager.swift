@@ -13,7 +13,9 @@ import web3
 class SendCurrentAppWalletDataManager {
     
     static let shared = SendCurrentAppWalletDataManager()
-    
+
+    let client = EthereumClient(url: URL(string: "https://relay1.loopr.io/eth")!)
+
     // sending token in send controller
     open var token: Token?
     
@@ -164,7 +166,6 @@ class SendCurrentAppWalletDataManager {
     func _getBindAddress() {
         if let owner = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address {
             
-            let client = EthereumClient(url: URL(string: "https://relay1.loopr.io/eth")!)
             let erc20 = ERC20(client: client)
 
             erc20.getBindAddress(tokenContract: EthereumAddress(RelayAPIConfiguration.neoProtocolAddress), address: EthereumAddress(owner)) { (error, result) in
