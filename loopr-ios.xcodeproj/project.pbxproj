@@ -1100,7 +1100,7 @@
 			path = Airdrop;
 			sourceTree = "<group>";
 		};
-		949253C021C28C9F000032E9 /* AddContact */ = {
+		949253C021C28C9F000032E9 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
 				948B418B21C34B0700594E1A /* AddContactViewController.swift */,
@@ -1110,7 +1110,7 @@
 				9BA3015E21C7346500E55E49 /* ContactTableViewCell.swift */,
 				9BA3015F21C7346500E55E49 /* ContactTableViewCell.xib */,
 			);
-			path = AddContact;
+			path = Contacts;
 			sourceTree = "<group>";
 		};
 		94A1C0D92128122700FD3A1F /* SettingPartner */ = {
@@ -1520,7 +1520,6 @@
 		AC5E3E6D205DFABD0051ACFC /* SendAsset */ = {
 			isa = PBXGroup;
 			children = (
-				949253C021C28C9F000032E9 /* AddContact */,
 				AC5E3E6E205DFB700051ACFC /* SendAssetViewController.swift */,
 				AC5E3E6F205DFB700051ACFC /* SendAssetViewController.xib */,
 				94BFF9CC21072EA000A0BE8B /* TokenSelectTableViewController.swift */,
@@ -1659,6 +1658,7 @@
 				AC952A112053A7DB00C78562 /* OrderHistory */,
 				ACB41A6A20B549E400A92C9D /* TouchIDAndFaceIDAuthentication */,
 				C8BF959B20267FB600343B9A /* SetupWallet */,
+				949253C021C28C9F000032E9 /* Contacts */,
 				ACB9115D20242D9900F14644 /* Wallet */,
 				ACB9117D2026381A00F14644 /* Setting */,
 				AC70E848206604F000451047 /* Files */,
