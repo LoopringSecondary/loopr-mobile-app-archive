@@ -37,7 +37,7 @@ public class NoDataAdapter extends BaseQuickAdapter<Object, BaseViewHolder> {
                 helper.setText(R.id.wallet_title, R.string.no_data_transaction);
                 break;
             case p2p_order:
-                helper.setImageResource(R.id.wallet_image, R.mipmap.icon_empty_transaction);
+                helper.setImageResource(R.id.wallet_image, R.mipmap.icon_empty_orders);
                 helper.setText(R.id.wallet_title, R.string.no_data_p2p);
                 break;
             case contact:
