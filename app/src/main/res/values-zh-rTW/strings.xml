@@ -75,6 +75,8 @@
     <string name="airdrop_no_bind">您尚未绑定LRN的空投地址，目前无法领取</string>
     <string name="airdrop_time_invalid">距您上次领取，还未到一天，请稍后领取</string>
     <string name="airdrop_browser">NEO Tracker</string>
+    <string name="airdrop_empty">沒有可領空投金額</string>
+    <string name="airdrop">空投</string>
 
     <string name="set_share">分享APP，獲得撮合費20%收益</string>
     <string name="set_manage_wallet">管理錢包</string>
@@ -287,5 +289,4 @@
     <string name="delete_contact_hint">確定要刪除當前聯繫人嗎?</string>
     <string name="edit_contact">編輯聯繫人信息</string>
     <string name="neo_tracker">Neo Tracker</string>
-    <string name="airdrop">空投</string>
 </resources>

@@ -11,14 +11,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.WebView;
+import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.DefaultWebClient;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
+import leaf.prod.app.layout.WebLayout;
 import leaf.prod.app.views.TitleView;
 
 public class DefaultWebViewActivity extends BaseActivity {
@@ -30,7 +35,9 @@ public class DefaultWebViewActivity extends BaseActivity {
     ImageView browser;
 
     @BindView(R.id.webView)
-    WebView webView;
+    LinearLayout webView;
+
+    private AgentWeb mAgentWeb;
 
     private String url;
 
@@ -40,25 +47,27 @@ public class DefaultWebViewActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         url = getIntent().getStringExtra("url");
-        webView.loadUrl(url);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url == null)
-                    return false;
-                try {
-                    if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity(intent);
-                        return true;
-                    }
-                } catch (Exception e) {
-                    return true;
-                }
-                view.loadUrl(url);
-                return true;
-            }
-        });
+        setSwipeBackEnable(false);
+        AgentWeb.PreAgentWeb preAgentWeb = AgentWeb.with(this)
+                .setAgentWebParent(webView, new LinearLayout.LayoutParams(-1, -1))
+                .useDefaultIndicator()
+                .defaultProgressBarColor()
+                .setReceivedTitleCallback((view, title) -> {
+                })
+                .setWebChromeClient(new WebChromeClient())
+                .setWebViewClient(new WebViewClient())
+                .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
+                .setSecurityType(AgentWeb.SecurityType.strict)
+                .setWebLayout(new WebLayout(this))
+                .openParallelDownload() //打开并行下载 , 默认串行下载
+                .setNotifyIcon(R.mipmap.download) //下载图标
+                .setOpenOtherAppWays(DefaultWebClient.OpenOtherAppWays.DISALLOW) //打开其他应用时，弹窗咨询用户是否前往其他应用
+                .interceptUnkownScheme() //拦截找不到相关页面的Scheme
+                .createAgentWeb()
+                .ready();
+        mAgentWeb = preAgentWeb.go(url);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setMinimumFontSize(1);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setMinimumLogicalFontSize(1);
     }
 
     @OnClick({R.id.browser_btn})
@@ -69,10 +78,6 @@ public class DefaultWebViewActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-            webView.goBack();
-            return true;
-        }
         return super.onKeyDown(keyCode, event);
     }
 
