@@ -8,19 +8,16 @@ package leaf.prod.app.activity;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.vondear.rxtool.view.RxToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.presenter.AirdropPresenter;
-import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.views.TitleView;
 
 public class AirdropActivity extends BaseActivity {
@@ -38,13 +35,19 @@ public class AirdropActivity extends BaseActivity {
     public Button claimButton;
 
     @BindView(R.id.btn_claim_disable)
-    public Button clainButtonDisable;
+    public Button claimButtonDisable;
 
     @BindView(R.id.cl_loading)
     public ConstraintLayout clLoading;
 
     @BindView(R.id.ae_loading)
     public LottieAnimationView aeLoading;
+
+    @BindView(R.id.address_tip)
+    public TextView addressTip;
+
+    @BindView(R.id.amount_tip)
+    public TextView amountTip;
 
     private AirdropPresenter presenter;
 
@@ -77,13 +80,6 @@ public class AirdropActivity extends BaseActivity {
      */
     @Override
     public void initView() {
-        if (!presenter.isClaimTimeValid()) {
-            claimButton.setVisibility(View.GONE);
-            clainButtonDisable.setVisibility(View.VISIBLE);
-        } else {
-            claimButton.setVisibility(View.VISIBLE);
-            clainButtonDisable.setVisibility(View.GONE);
-        }
     }
 
     /**
@@ -100,19 +96,5 @@ public class AirdropActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
-    }
-
-    @OnClick({R.id.btn_claim, R.id.btn_claim_disable})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_claim:
-                if (!(ButtonClickUtil.isFastDoubleClick(1))) {
-                    presenter.handleClaim();
-                }
-                break;
-            case R.id.btn_claim_disable:
-                RxToast.error(getString(R.string.airdrop_time_invalid));
-                break;
-        }
     }
 }

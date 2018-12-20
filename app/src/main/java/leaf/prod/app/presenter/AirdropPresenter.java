@@ -12,6 +12,8 @@ import java.util.List;
 
 import android.content.Context;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
@@ -23,6 +25,7 @@ import com.vondear.rxtool.view.RxToast;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.AirdropActivity;
 import leaf.prod.app.activity.DefaultWebViewActivity;
+import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.walletsdk.model.response.ClaimBindAmount;
 import leaf.prod.walletsdk.service.Erc20Service;
 import leaf.prod.walletsdk.service.NeoService;
@@ -46,12 +49,17 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
 
     private String bindAddress;
 
+    private double bindAmount = 0;
+
+    private Animation shakeAnimation;
+
     public AirdropPresenter(AirdropActivity view, Context context) {
         super(view, context);
         this.neoService = new NeoService(context);
         this.erc20Service = new Erc20Service();
         this.owner = WalletUtil.getCurrentAddress(context);
         this.setupBindAddress();
+        shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.shake_x);
     }
 
     private void setupBindAddress() {
@@ -65,7 +73,6 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                     List<Type> values = FunctionReturnDecoder.decode(ethCall.getValue(), typeReferences);
                     bindAddress = values.get(0).toString();
                     if (StringUtils.isEmpty(bindAddress)) {
-                        disableClaimButton();
                         return Observable.just("failed");
                     } else {
                         return neoService.getAirdropAmount(bindAddress);
@@ -76,10 +83,13 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                     if (!result.equals("failed")) {
                         BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(result));
                         BigInteger divider = BigInteger.valueOf(100000000L);
-                        String value = NumberUtils.format1(bigInteger.divide(divider).doubleValue(), 4);
+                        bindAmount = bigInteger.divide(divider).doubleValue();
+                        String value = NumberUtils.format1(bindAmount, 4);
                         view.airdropAddress.setText(bindAddress);
                         view.airdropAmount.setText(value);
                     }
+                    view.airdropAmount.setText("0.0000");
+                    setClaimButton();
                     view.clLoading.setVisibility(View.GONE);
                 });
     }
@@ -94,12 +104,9 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                         if (wrapper.getError() == null) {
                             RxToast.success(context.getString(R.string.airdrop_success));
                             SPUtils.put(context, "claim_date", new Date());
-                            String txHash = ((ClaimBindAmount) wrapper.getResult()).getTxid();
-                            view.claimButton.setText(context.getString(R.string.airdrop_forward));
-                            view.claimButton.setOnClickListener(v -> {
-                                view.getOperation().addParameter("url", "https://neotracker.io/tx/" + txHash);
-                                view.getOperation().forward(DefaultWebViewActivity.class);
-                            });
+                            String txHash = Numeric.cleanHexPrefix(((ClaimBindAmount) wrapper.getResult()).getTxid());
+                            SPUtils.put(context, "airdrop_txhash", WalletUtil.getCurrentAddress(context) + "_" + txHash);
+                            setClaimButton();
                         } else {
                             RxToast.error(context.getString(R.string.airdrop_time_invalid));
                         }
@@ -120,9 +127,35 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
         return result;
     }
 
-    private void disableClaimButton() {
-        int color = context.getResources().getColor(R.color.colorBg);
-        view.claimButton.setBackgroundColor(color);
-        view.claimButton.setOnClickListener(v -> RxToast.error(context.getString(R.string.airdrop_no_bind)));
+    public void setClaimButton() {
+        String txHash = (String) SPUtils.get(context, "airdrop_txhash", "");
+        if (!isClaimTimeValid() && !txHash.isEmpty() && txHash.startsWith(WalletUtil.getCurrentAddress(context) + "_")) {
+            view.claimButton.setText(context.getString(R.string.airdrop_forward));
+            view.claimButton.setOnClickListener(v -> {
+                view.getOperation().addParameter("url", "https://neotracker.io/tx/" + txHash);
+                view.getOperation().forward(DefaultWebViewActivity.class);
+            });
+            view.claimButton.setVisibility(View.VISIBLE);
+            view.claimButtonDisable.setVisibility(View.GONE);
+        } else if (StringUtils.isEmpty(bindAddress)) {
+            view.addressTip.setText(view.getString(R.string.airdrop_no_bind));
+            view.addressTip.setTextColor(view.getResources().getColor(R.color.colorRed));
+            view.claimButtonDisable.setOnClickListener(v -> view.addressTip.startAnimation(shakeAnimation));
+            view.claimButton.setVisibility(View.GONE);
+            view.claimButtonDisable.setVisibility(View.VISIBLE);
+        } else if (bindAmount == 0) {
+            view.amountTip.setText(view.getString(R.string.airdrop_empty));
+            view.amountTip.setTextColor(view.getResources().getColor(R.color.colorRed));
+            view.claimButtonDisable.setOnClickListener(v -> view.amountTip.startAnimation(shakeAnimation));
+            view.claimButton.setVisibility(View.GONE);
+            view.claimButtonDisable.setVisibility(View.VISIBLE);
+        } else {
+            view.claimButton.setText(context.getString(R.string.airdrop_button));
+            view.claimButton.setVisibility(View.VISIBLE);
+            view.claimButtonDisable.setVisibility(View.GONE);
+            if (!(ButtonClickUtil.isFastDoubleClick(1))) {
+                handleClaim();
+            }
+        }
     }
 }

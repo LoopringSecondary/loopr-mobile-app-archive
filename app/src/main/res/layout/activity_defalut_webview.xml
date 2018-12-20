@@ -25,9 +25,15 @@
             android:src="@mipmap/icon_item_browser"/>
     </RelativeLayout>
 
-    <WebView
+    <LinearLayout
         android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="horizontal"/>
+
+    <!--<WebView-->
+        <!--android:id="@+id/webView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
 
 </LinearLayout>
