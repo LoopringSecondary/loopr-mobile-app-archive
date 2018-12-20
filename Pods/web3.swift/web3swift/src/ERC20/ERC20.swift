@@ -45,7 +45,7 @@ public class ERC20 {
     }
     
     public func getBindAddress(tokenContract: EthereumAddress, address: EthereumAddress, completion: @escaping((Error?, String?) -> Void)) {
-        let function = ERC20Functions.bind(contract: tokenContract, account: address, projectId: 1)
+        let function = ERC20Functions.bind(contract: tokenContract, account: address, projectId: "1")
         function.call(withClient: self.client, responseType: ERC20Responses.bindResponse.self) { (error, bindResponse) in
             return completion(error, bindResponse?.value)
         }

@@ -9,7 +9,7 @@
 import Foundation
 
 extension ABIRawType {
-    init?(rawValue: String) {
+    public init?(rawValue: String) {
         // Specific match
         if rawValue == "uint" {
             self = ABIRawType.FixedUInt(256)
@@ -30,7 +30,7 @@ extension ABIRawType {
             self = ABIRawType.DynamicString
             return
         }
-        
+
         // Arrays
         let components = rawValue.components(separatedBy: CharacterSet(charactersIn: "[]"))
         if components.count == 3 && components[1].isEmpty {
@@ -46,7 +46,7 @@ extension ABIRawType {
                 return
             }
         }
-        
+
         // Variable sizes
         if rawValue.starts(with: "uint") {
             let num = String(rawValue.filter { "0"..."9" ~= $0 })
@@ -64,7 +64,7 @@ extension ABIRawType {
             self = ABIRawType.FixedBytes(int)
             return
         }
-        
+
         return nil
     }
 }

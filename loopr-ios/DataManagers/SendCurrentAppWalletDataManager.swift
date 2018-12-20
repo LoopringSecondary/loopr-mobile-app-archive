@@ -165,7 +165,7 @@ class SendCurrentAppWalletDataManager {
     
     func _getBindAddress() {
         if let owner = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address {
-            
+            let client = EthereumClient(url: URL(string: "https://relay1.loopr.io/eth")!)
             let erc20 = ERC20(client: client)
 
             erc20.getBindAddress(tokenContract: EthereumAddress(RelayAPIConfiguration.neoProtocolAddress), address: EthereumAddress(owner)) { (error, result) in
@@ -173,10 +173,15 @@ class SendCurrentAppWalletDataManager {
                 print(error)
             }
             
-//            let transferFunction = EthFunction(name: "getBindingAddress", inputParameters: [toAddress, tokenAmount])
-//            let data = web3swift.encode(transferFunction)
+//            let address = GethAddress.init(fromHex: owner)!
+//            let projectId: UInt8 = 1
 //
-//            EthereumAPIRequest.eth_call(from: String?, to: <#T##String#>, gas: <#T##UInt?#>, gasPrice: <#T##UInt?#>, value: <#T##UInt?#>, data: <#T##String?#>, block: <#T##DefaultBlock#>, completionHandler: <#T##(SimpleRespond?, Error?) -> Void#>)
+//            let bindFunction = EthFunction(name: "getBindingAddress", inputParameters: [address, projectId])
+//            let data = web3swift.encode(bindFunction)
+//
+//            EthereumAPIRequest.eth_call(from: nil, to: RelayAPIConfiguration.neoProtocolAddress, gas: nil, gasPrice: nil, value: nil, data: data.hexString, block: BlockTag.latest) { (response, error) in
+//                print(1111)
+//            }
         }
     }
     
