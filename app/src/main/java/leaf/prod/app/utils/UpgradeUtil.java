@@ -20,7 +20,9 @@ import leaf.prod.app.receiver.ApkInstallReceiver;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.model.response.app.VersionResp;
 import leaf.prod.walletsdk.service.AppService;
+import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.StringUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,7 +67,17 @@ public class UpgradeUtil {
                             InternalStyleSheet css = new InternalStyleSheet();
                             css.addRule("body", "background-color:#21203A");
                             mvContent.addStyleSheet(css);
-                            mvContent.loadMarkdown(versionResult.getReleaseNote());
+                            switch (LanguageUtil.getLanguage(context)) {
+                                case zh_CN:
+                                    mvContent.loadMarkdown(StringUtils.isEmpty(versionResult.getReleaseNoteChs()) ? "" : versionResult.getReleaseNoteChs());
+                                    break;
+                                case en_US:
+                                    mvContent.loadMarkdown(StringUtils.isEmpty(versionResult.getReleaseNoteEn()) ? "" : versionResult.getReleaseNoteEn());
+                                    break;
+                                case zh_Hant:
+                                    mvContent.loadMarkdown(StringUtils.isEmpty(versionResult.getReleaseNoteCht()) ? "" : versionResult.getReleaseNoteCht());
+                                    break;
+                            }
                             view.findViewById(R.id.btn_skip).setOnClickListener(v -> dialog.dismiss());
                             view.findViewById(R.id.btn_confirm).setOnClickListener(v -> {
                                 updateHint = true;
