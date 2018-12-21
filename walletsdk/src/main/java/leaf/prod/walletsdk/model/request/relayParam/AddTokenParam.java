@@ -4,7 +4,7 @@
  * Time: 2018-09-26 下午5:39
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.walletsdk.model.request.param;
+package leaf.prod.walletsdk.model.request.relayParam;
 
 import com.google.gson.annotations.SerializedName;
 

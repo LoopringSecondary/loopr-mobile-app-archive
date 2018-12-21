@@ -20,7 +20,7 @@ import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.model.CancelOrder;
 import leaf.prod.walletsdk.model.CancelType;
 import leaf.prod.walletsdk.model.Order;
-import leaf.prod.walletsdk.model.request.param.NotifyScanParam;
+import leaf.prod.walletsdk.model.request.relayParam.NotifyScanParam;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;

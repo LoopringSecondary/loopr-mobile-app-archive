@@ -10,7 +10,7 @@ import org.web3j.crypto.TransactionEncoder;
 import org.web3j.utils.Numeric;
 
 import leaf.prod.walletsdk.model.SignedBody;
-import leaf.prod.walletsdk.model.request.param.NotifyScanParam;
+import leaf.prod.walletsdk.model.request.relayParam.NotifyScanParam;
 
 public class SignUtils {
 

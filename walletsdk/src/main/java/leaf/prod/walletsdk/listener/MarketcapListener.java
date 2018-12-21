@@ -2,7 +2,7 @@ package leaf.prod.walletsdk.listener;
 
 import android.util.Log;
 
-import leaf.prod.walletsdk.model.request.param.MarketcapParam;
+import leaf.prod.walletsdk.model.request.relayParam.MarketcapParam;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 
 import rx.Observable;
