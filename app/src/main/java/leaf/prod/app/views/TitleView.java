@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.activity.MainActivity;
+import leaf.prod.app.activity.wallet.MainActivity;
 import leaf.prod.app.view.Operation;
 
 public class TitleView extends FrameLayout implements View.OnClickListener {
