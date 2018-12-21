@@ -81,7 +81,7 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let editAction = UITableViewRowAction(style: .normal, title: "Edit") { (rowAction, indexPath) in
+        let editAction = UITableViewRowAction(style: .normal, title: LocalizedString("Edit", comment: "")) { (rowAction, indexPath) in
             let contact = ContactDataManager.shared.contacts[indexPath.row]
             let viewController = AddContactViewController()
             viewController.isCreatingContact = false
@@ -92,20 +92,24 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
         }
         editAction.backgroundColor = UIColor.theme
         
-        let deleteAction = UITableViewRowAction(style: .normal, title: "Delete") { (rowAction, indexPath) in
-            
+        let deleteAction = UITableViewRowAction(style: .normal, title: LocalizedString("Delete", comment: "")) { (rowAction, indexPath) in
+            let contact = ContactDataManager.shared.contacts[indexPath.row]
+            ContactDataManager.shared.deleteContact(contact)
+            self.tableView.reloadData()
         }
         deleteAction.backgroundColor = UIColor(named: "Color-red")!
         return [editAction, deleteAction]
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard isCellSelectEnable else {
-            return
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            guard self.isCellSelectEnable else {
+                return
+            }
+            let contact = ContactDataManager.shared.contacts[indexPath.row]
+            self.delegate?.didSelectedContact(contact: contact)
+            self.navigationController?.popViewController(animated: true)
         }
-        let contact = ContactDataManager.shared.contacts[indexPath.row]
-        delegate?.didSelectedContact(contact: contact)
-        self.navigationController?.popViewController(animated: true)
     }
 
 }

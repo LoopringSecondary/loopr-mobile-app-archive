@@ -43,7 +43,7 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
         nameTextField.tag = 0
         nameTextField.keyboardType = .alphabet
         nameTextField.keyboardAppearance = Themes.isDark() ? .dark : .default
-        nameTextField.font = FontConfigManager.shared.getCharactorFont()
+        nameTextField.font = FontConfigManager.shared.getDigitalFont()
         nameTextField.theme_tintColor = GlobalPicker.contrastTextColor
         nameTextField.placeholder = LocalizedString("Contact Name", comment: "")
         nameTextField.text = name
@@ -71,7 +71,7 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
         noteTextField.tag = 2
         addressTextField.keyboardType = .alphabet
         noteTextField.keyboardAppearance = Themes.isDark() ? .dark : .default
-        noteTextField.font = FontConfigManager.shared.getCharactorFont()
+        noteTextField.font = FontConfigManager.shared.getDigitalFont()
         noteTextField.theme_tintColor = GlobalPicker.contrastTextColor
         noteTextField.placeholder = LocalizedString("Contact Note", comment: "")
         noteTextField.text = note

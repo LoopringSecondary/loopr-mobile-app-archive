@@ -62,7 +62,7 @@
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7oX-vi-Tsb" customClass="GradientButton" customModule="loopr_ios" customModuleProvider="target">
-                                    <rect key="frame" x="48" y="210" width="288" height="44"/>
+                                    <rect key="frame" x="15" y="210" width="354" height="44"/>
                                     <color key="backgroundColor" name="Color-dark5"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="bzM-hR-G4u"/>
@@ -80,11 +80,11 @@
                                 <constraint firstItem="UMW-Ir-4hT" firstAttribute="leading" secondItem="oH5-WG-t3v" secondAttribute="leading" constant="15" id="O4G-xf-bdZ"/>
                                 <constraint firstAttribute="height" constant="274" id="VLg-gF-J3Y"/>
                                 <constraint firstItem="UkH-Yu-71b" firstAttribute="top" secondItem="UMW-Ir-4hT" secondAttribute="bottom" constant="10" id="W7W-1V-bek"/>
-                                <constraint firstAttribute="trailing" secondItem="7oX-vi-Tsb" secondAttribute="trailing" constant="48" id="WsN-h6-OKx"/>
+                                <constraint firstAttribute="trailing" secondItem="7oX-vi-Tsb" secondAttribute="trailing" constant="15" id="WsN-h6-OKx"/>
                                 <constraint firstItem="4nb-AT-qUN" firstAttribute="top" secondItem="UkH-Yu-71b" secondAttribute="bottom" constant="10" id="XdX-7T-QEl"/>
                                 <constraint firstAttribute="trailing" secondItem="UkH-Yu-71b" secondAttribute="trailing" constant="15" id="k18-aU-rrZ"/>
                                 <constraint firstItem="UkH-Yu-71b" firstAttribute="leading" secondItem="oH5-WG-t3v" secondAttribute="leading" constant="15" id="sJB-E1-jeG"/>
-                                <constraint firstItem="7oX-vi-Tsb" firstAttribute="leading" secondItem="oH5-WG-t3v" secondAttribute="leading" constant="48" id="urR-vt-duc"/>
+                                <constraint firstItem="7oX-vi-Tsb" firstAttribute="leading" secondItem="oH5-WG-t3v" secondAttribute="leading" constant="15" id="urR-vt-duc"/>
                                 <constraint firstItem="7oX-vi-Tsb" firstAttribute="top" secondItem="4nb-AT-qUN" secondAttribute="bottom" constant="20" id="vFX-uF-hSb"/>
                                 <constraint firstItem="4nb-AT-qUN" firstAttribute="leading" secondItem="oH5-WG-t3v" secondAttribute="leading" constant="15" id="x6r-6V-Rg3"/>
                             </constraints>
@@ -107,6 +107,7 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ENw-zw-10l" secondAttribute="trailing" id="tjH-P3-qyR"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="-335" y="60"/>
         </view>
     </objects>
     <resources>

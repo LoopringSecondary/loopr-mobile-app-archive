@@ -42,6 +42,19 @@ class ContactDataManager {
         AppServiceUserManager.shared.updateUserConfigWithUserDefaults()
     }
     
+    func deleteContact(_ dealatedContact: Contact) {
+        let results = contacts.filter { $0.address.uppercased() == dealatedContact.address.uppercased() }
+        contacts.removeAll { (contact) -> Bool in
+            return results.contains(contact)
+        }
+
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: contacts)
+        UserDefaults.standard.set(encodedData, forKey: UserDefaultsKeys.userContacts.rawValue)
+        
+        // Post data to server.
+        AppServiceUserManager.shared.updateUserConfigWithUserDefaults()
+    }
+    
     func setContacts(_ newContacts: [Contact]) {
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: newContacts)
         UserDefaults.standard.set(encodedData, forKey: UserDefaultsKeys.userContacts.rawValue)

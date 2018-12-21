@@ -385,6 +385,7 @@
 "Album" = "相冊";
 "Create" = "創建";
 "Complete" = "完成";
+"Delete" = "刪除";
 "Amount" = "數額";
 "Advanced" = "高級設置";
 "Backup" = "備份";
@@ -394,6 +395,8 @@
 "A new version of app is ready to update" = "新版本的app已上線";
 "Update" = "更新";
 "Skip_Update" = "跳過";
+"Contacts" = "地址簿";
+"Edit" = "編輯";
 
 /* No data */
 "No search result" = "無搜尋結果";

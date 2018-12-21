@@ -129,7 +129,6 @@
 "QRCode error tip" = "Please make sure the QR code is type of wallet address.";
 
 /* Airdrop page */
-/* Airdrop page */
 "Airdrop title" = "LRN claiming";
 "Airdrop address tip" = "Your LRN binding address";
 "Airdrop amount tip" = "Your LRN claiming amount for today";
@@ -385,6 +384,7 @@
 "Loading Data" = "Loading Data";
 "Album" = "Album";
 "Create" = "Create";
+"Delete" = "Delete";
 "Complete" = "Complete";
 "Amount" = "Amount";
 "Advanced" = "Advanced";
@@ -395,6 +395,8 @@
 "A new version of app is ready to update" = "A new version of app is ready to update";
 "Update" = "Update";
 "Skip_Update" = "Skip";
+"Contacts" = "Contacts";
+"Edit" = "Edit";
 
 /* No data */
 "No search result" = "No search result";

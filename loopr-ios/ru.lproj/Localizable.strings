@@ -364,6 +364,7 @@
 "Album" = "Album";
 "Create" = "Create";
 "Complete" = "Complete";
+"Delete" = "Delete";
 "Amount" = "Amount";
 "Advanced" = "Advanced";
 "Backup" = "Backup";
@@ -373,6 +374,8 @@
 "A new version of app is ready to update" = "A new version of app is ready to update";
 "Update" = "Update";
 "Skip_Update" = "Skip";
+"Contacts" = "Contacts";
+"Edit" = "Edit";
 
 /* No data */
 "No search result" = "No search result";
