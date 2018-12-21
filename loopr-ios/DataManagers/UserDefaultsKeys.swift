@@ -51,6 +51,10 @@ enum UserDefaultsKeys: String {
     case deviceToken = "UserDefaultsKeys.deviceToken"
     
     case largestSkipBuildVersion = "UserDefaultsKeys.largestSkipBuildVersion"
+    
+    // Airdrop
+    case airdropDate = "UserDefaultsKeys.airdropDate"
+    case airdropUrl = "UserDefaultsKeys.airdropUrl"
 
     // MARK: - Deprecated
     // Keep these in the code to avoid using them again in the future.

@@ -56,7 +56,7 @@ class Transaction {
         } else {
             return nil
         }
-
+        
         self.type = TxType(rawValue: json["type"].string ?? "other") ?? .other
         self.status = TxStatus(rawValue: json["status"].string ?? "other") ?? .other
         self.icon = UIImage(named: "Transaction-\(self.type.rawValue)-\(Themes.getTheme())") ?? nil
