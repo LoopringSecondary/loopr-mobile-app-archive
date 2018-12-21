@@ -19,6 +19,7 @@
                 <outlet property="amountTipLabel" destination="AcS-wc-s2K" id="IDQ-C0-VBu"/>
                 <outlet property="claimButton" destination="nQP-hb-vYH" id="4DD-sz-lho"/>
                 <outlet property="contentView" destination="z3h-4u-t38" id="s8f-GH-cvW"/>
+                <outlet property="forwardButton" destination="Rhz-mz-X8t" id="IRB-dQ-hAV"/>
                 <outlet property="scrollView" destination="8ne-cx-q8J" id="FfG-Ps-QN5"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -76,15 +77,30 @@
                                         <action selector="pressedClaimButton:" destination="-1" eventType="touchUpInside" id="vWZ-EA-sUi"/>
                                     </connections>
                                 </button>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rhz-mz-X8t" customClass="GradientButton" customModule="loopr_ios" customModuleProvider="target">
+                                    <rect key="frame" x="48" y="206" width="249" height="44"/>
+                                    <color key="backgroundColor" name="Color-dark5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="WTT-tZ-mia"/>
+                                    </constraints>
+                                    <state key="normal" title="Button"/>
+                                    <connections>
+                                        <action selector="pressedForwardButton:" destination="-1" eventType="touchUpInside" id="PgN-Jt-fsG"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <constraints>
+                                <constraint firstItem="Rhz-mz-X8t" firstAttribute="top" secondItem="nQP-hb-vYH" secondAttribute="top" id="2Tk-CO-CID"/>
                                 <constraint firstAttribute="trailing" secondItem="zbF-4r-ct9" secondAttribute="trailing" constant="15" id="4V3-4C-Z6h"/>
                                 <constraint firstItem="8Hn-Qb-mVB" firstAttribute="leading" secondItem="z3h-4u-t38" secondAttribute="leading" constant="15" id="5cf-GC-9lo"/>
                                 <constraint firstItem="8Hn-Qb-mVB" firstAttribute="top" secondItem="z3h-4u-t38" secondAttribute="top" constant="20" id="Dq4-2v-GPl"/>
                                 <constraint firstItem="baQ-Vs-MNF" firstAttribute="top" secondItem="8Hn-Qb-mVB" secondAttribute="bottom" constant="8" id="EbV-W6-QB4"/>
                                 <constraint firstAttribute="bottom" secondItem="nQP-hb-vYH" secondAttribute="bottom" constant="24" id="M91-df-yoV"/>
                                 <constraint firstItem="zbF-4r-ct9" firstAttribute="top" secondItem="8Hn-Qb-mVB" secondAttribute="bottom" constant="40" id="VyF-0D-Trd"/>
+                                <constraint firstItem="Rhz-mz-X8t" firstAttribute="leading" secondItem="nQP-hb-vYH" secondAttribute="leading" id="XFD-bL-PmT"/>
                                 <constraint firstItem="zbF-4r-ct9" firstAttribute="leading" secondItem="z3h-4u-t38" secondAttribute="leading" constant="15" id="Xmb-pl-lBy"/>
+                                <constraint firstItem="Rhz-mz-X8t" firstAttribute="trailing" secondItem="nQP-hb-vYH" secondAttribute="trailing" id="cAH-Le-pYu"/>
+                                <constraint firstItem="Rhz-mz-X8t" firstAttribute="bottom" secondItem="nQP-hb-vYH" secondAttribute="bottom" id="e7T-Qc-tPX"/>
                                 <constraint firstAttribute="trailing" secondItem="nQP-hb-vYH" secondAttribute="trailing" constant="48" id="gbG-q1-O6c"/>
                                 <constraint firstItem="AcS-wc-s2K" firstAttribute="leading" secondItem="zbF-4r-ct9" secondAttribute="leading" id="hb7-pc-Tk0"/>
                                 <constraint firstItem="baQ-Vs-MNF" firstAttribute="leading" secondItem="8Hn-Qb-mVB" secondAttribute="leading" id="hmM-lk-mq7"/>

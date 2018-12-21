@@ -75,30 +75,38 @@ class Asset: CustomStringConvertible, Equatable {
         self.icon = UIImage(named: "Token-\(self.symbol)-\(Themes.getTheme())") ?? nil
         self.decimals = MarketDataManager.shared.getDecimals(tokenSymbol: self.symbol)
     }
-
-    static func getAmount(of symbol: String, fromWeiAmount weiAmount: String) -> Double? {
+    
+    static func getAmount(fromWeiAmount weiAmount: String, of decimals: Int) -> Double? {
         var index: String.Index
         var result: Double?
         // hex string
         if weiAmount.lowercased().starts(with: "0x") {
             let hexString = weiAmount.dropFirst(2)
             let decString = BigUInt(hexString, radix: 16)!.description
-            return getAmount(of: symbol, fromWeiAmount: decString)
-        } else if let token = TokenDataManager.shared.getTokenBySymbol(symbol) {
+            return getAmount(fromWeiAmount: decString, of: decimals)
+        } else {
             var amount = weiAmount
-            guard token.decimals < 100 || token.decimals >= 0 else {
+            guard decimals < 100 || decimals >= 0 else {
                 return result
             }
             if amount == "0" {
                 return 0
             }
-            if token.decimals >= amount.count {
-                let prepend = String(repeating: "0", count: token.decimals - amount.count + 1)
+            if decimals >= amount.count {
+                let prepend = String(repeating: "0", count: decimals - amount.count + 1)
                 amount = prepend + amount
             }
-            index = amount.index(amount.endIndex, offsetBy: -token.decimals)
+            index = amount.index(amount.endIndex, offsetBy: -decimals)
             amount.insert(".", at: index)
             result = Double(amount)
+        }
+        return result
+    }
+
+    static func getAmount(of symbol: String, fromWeiAmount weiAmount: String) -> Double? {
+        var result: Double?
+        if let token = TokenDataManager.shared.getTokenBySymbol(symbol) {
+            result = getAmount(fromWeiAmount: weiAmount, of: token.decimals)
         }
         return result
     }

@@ -36,15 +36,6 @@ extension Data {
             append(number)
         }
     }
-
-    /// Returns the hex string representation of the data.
-    public var hexString: String {
-        var string = ""
-        for byte in self {
-            string.append(String(format: "%02x", byte))
-        }
-        return string
-    }
 }
 
 extension KeyedDecodingContainerProtocol {

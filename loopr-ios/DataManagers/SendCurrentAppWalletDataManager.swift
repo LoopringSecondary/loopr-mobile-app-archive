@@ -14,7 +14,7 @@ class SendCurrentAppWalletDataManager {
     
     static let shared = SendCurrentAppWalletDataManager()
 
-    let client = EthereumClient(url: URL(string: "https://relay1.loopr.io/eth")!)
+    private var client: EthereumClient?
 
     // sending token in send controller
     open var token: Token?
@@ -29,6 +29,7 @@ class SendCurrentAppWalletDataManager {
         self.protocolAddress = nil
         self.getWethAddress()
         self.getProtocolAddress()
+        self.client = EthereumClient(url: RelayAPIConfiguration.ethURL)
     }
     
     func getWethAddress() {
@@ -163,25 +164,12 @@ class SendCurrentAppWalletDataManager {
         _transfer(data: data, address: protocolAddress!, amount: GethBigInt.init(0), gasLimit: GethBigInt(gasLimit), completion: completion)
     }
     
-    func _getBindAddress() {
+    func _getBindAddress(completion: @escaping (String?, Error?) -> Void) {
         if let owner = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address {
-            let client = EthereumClient(url: URL(string: "https://relay1.loopr.io/eth")!)
-            let erc20 = ERC20(client: client)
-
+            let erc20 = ERC20(client: client!)
             erc20.getBindAddress(tokenContract: EthereumAddress(RelayAPIConfiguration.neoProtocolAddress), address: EthereumAddress(owner)) { (error, result) in
-                print(result)
-                print(error)
+                completion(result, error)
             }
-            
-//            let address = GethAddress.init(fromHex: owner)!
-//            let projectId: UInt8 = 1
-//
-//            let bindFunction = EthFunction(name: "getBindingAddress", inputParameters: [address, projectId])
-//            let data = web3swift.encode(bindFunction)
-//
-//            EthereumAPIRequest.eth_call(from: nil, to: RelayAPIConfiguration.neoProtocolAddress, gas: nil, gasPrice: nil, value: nil, data: data.hexString, block: BlockTag.latest) { (response, error) in
-//                print(1111)
-//            }
         }
     }
     
