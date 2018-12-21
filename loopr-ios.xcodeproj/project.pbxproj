@@ -80,6 +80,7 @@
 		94A1C0DF2128461100FD3A1F /* Partner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A1C0DE2128461100FD3A1F /* Partner.swift */; };
 		94A39E1320C8E4FE00BC1B72 /* SignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A39E1220C8E4FE00BC1B72 /* SignStatus.swift */; };
 		94A8699021340C7000453F2B /* ProductConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A8698F21340C7000453F2B /* ProductConfigManager.swift */; };
+		94A8FEFD21CCB94700A25929 /* neo.json in Resources */ = {isa = PBXBuildFile; fileRef = 94A8FEFC21CCB94700A25929 /* neo.json */; };
 		94AA0A9E211550440092D2CE /* PlaceOrderConfirmationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AA0A9D211550440092D2CE /* PlaceOrderConfirmationViewController.xib */; };
 		94AA0AA0211578460092D2CE /* ConfirmationResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AA0A9F211578460092D2CE /* ConfirmationResultViewController.xib */; };
 		94AD1FE5208B910D00C443E6 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AD1FE4208B910D00C443E6 /* Currency.swift */; };
@@ -600,6 +601,7 @@
 		94A1C0DE2128461100FD3A1F /* Partner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Partner.swift; sourceTree = "<group>"; };
 		94A39E1220C8E4FE00BC1B72 /* SignStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignStatus.swift; sourceTree = "<group>"; };
 		94A8698F21340C7000453F2B /* ProductConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductConfigManager.swift; sourceTree = "<group>"; };
+		94A8FEFC21CCB94700A25929 /* neo.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = neo.json; sourceTree = "<group>"; };
 		94AA0A9D211550440092D2CE /* PlaceOrderConfirmationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaceOrderConfirmationViewController.xib; sourceTree = "<group>"; };
 		94AA0A9F211578460092D2CE /* ConfirmationResultViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmationResultViewController.xib; sourceTree = "<group>"; };
 		94AD1FE4208B910D00C443E6 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
@@ -1585,6 +1587,7 @@
 				9401C4D221C0F89E00A01E0B /* data.json */,
 				945800202058FEB500E08DEF /* tokens.json */,
 				940B451B2060F67E00ADE2B9 /* gas_limit.json */,
+				94A8FEFC21CCB94700A25929 /* neo.json */,
 			);
 			path = Files;
 			sourceTree = "<group>";
@@ -2604,6 +2607,7 @@
 				942C49FE21292FF8008A6B4F /* ConvertETHResultViewController.xib in Resources */,
 				ACDA889C20F85F9C004FA10B /* InfoPlist.strings in Resources */,
 				AC68E10320C24BD900BFA837 /* ImportWalletEnterWalletNameViewController.xib in Resources */,
+				94A8FEFD21CCB94700A25929 /* neo.json in Resources */,
 				ACA677D0207D1BEC00D34A2F /* SettingChangeWalletNameViewController.xib in Resources */,
 				AC88669F2174923800815DD1 /* SetLRCRatioFeeViewController.xib in Resources */,
 				AC9FFF262126BDF800957175 /* MarketChangeTokenSwipeViewController.xib in Resources */,
