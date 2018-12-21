@@ -69,7 +69,7 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
             cell = nib![0] as? ContactTableViewCell
         }
         let contact = ContactDataManager.shared.contacts[indexPath.row]
-        cell?.update(contact: contact)
+        cell?.update(contact: contact, isCellSelectEnable: isCellSelectEnable)
         
         if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
             cell?.bottomSeperateLine.isHidden = false

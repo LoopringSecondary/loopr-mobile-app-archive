@@ -13,6 +13,8 @@ class ContactTableViewCell: UITableViewCell {
     var iconView: IconView = IconView()
     var nameLabel: UILabel = UILabel()
     var addressLabel: UILabel = UILabel()
+    
+    var isCellSelectEnable: Bool = true
 
     @IBOutlet weak var upSeperateLine: UIView!
     @IBOutlet weak var bottomSeperateLine: UIView!
@@ -52,12 +54,24 @@ class ContactTableViewCell: UITableViewCell {
         addSubview(addressLabel)
     }
     
-    func update(contact: Contact) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        guard self.isCellSelectEnable else {
+            return
+        }
+        if highlighted {
+            theme_backgroundColor = ColorPicker.cardBackgroundColor
+        } else {
+            theme_backgroundColor = ColorPicker.backgroundColor
+        }
+    }
+    
+    func update(contact: Contact, isCellSelectEnable: Bool) {
         iconView.setSymbol(contact.tag)
         iconView.symbol = contact.tag
         iconView.symbolLabel.text = contact.tag
         nameLabel.text = contact.name
         addressLabel.text = contact.address
+        self.isCellSelectEnable = isCellSelectEnable
     }
 
     class func getCellIdentifier() -> String {
