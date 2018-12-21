@@ -31,8 +31,11 @@ public class VersionResp {
     @SerializedName(value = "google_uri")
     private String googleUri;
 
-    @SerializedName(value = "release_note")
-    private String releaseNote;
+    @SerializedName(value = "release_note_chs")
+    private String releaseNoteChs;
+
+    @SerializedName(value = "release_note_cht")
+    private String releaseNoteCht;
 
     @SerializedName(value = "release_note_en")
     private String releaseNoteEn;
