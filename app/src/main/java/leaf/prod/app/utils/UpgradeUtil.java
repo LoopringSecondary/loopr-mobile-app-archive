@@ -66,22 +66,30 @@ public class UpgradeUtil {
                             MarkdownView mvContent = view.findViewById(R.id.mv_content);
                             InternalStyleSheet css = new InternalStyleSheet();
                             css.addRule("body", "background-color:#21203A");
+                            css.addRule("body", "margin-bottom: 0px !important");
                             mvContent.addStyleSheet(css);
                             switch (LanguageUtil.getLanguage(context)) {
                                 case zh_CN:
-                                    mvContent.loadMarkdown(StringUtils.isEmpty(versionResult.getReleaseNoteChs()) ? "" : versionResult.getReleaseNoteChs());
+                                    mvContent.loadMarkdown(StringUtils.isEmpty(versionResult.getReleaseNoteChs()) ? "" : versionResult
+                                            .getReleaseNoteChs());
                                     break;
                                 case en_US:
-                                    mvContent.loadMarkdown(StringUtils.isEmpty(versionResult.getReleaseNoteEn()) ? "" : versionResult.getReleaseNoteEn());
+                                    mvContent.loadMarkdown(StringUtils.isEmpty(versionResult.getReleaseNoteEn()) ? "" : versionResult
+                                            .getReleaseNoteEn());
                                     break;
                                 case zh_Hant:
-                                    mvContent.loadMarkdown(StringUtils.isEmpty(versionResult.getReleaseNoteCht()) ? "" : versionResult.getReleaseNoteCht());
+                                    mvContent.loadMarkdown(StringUtils.isEmpty(versionResult.getReleaseNoteCht()) ? "" : versionResult
+                                            .getReleaseNoteCht());
                                     break;
                             }
-                            view.findViewById(R.id.btn_skip).setOnClickListener(v -> dialog.dismiss());
-                            view.findViewById(R.id.btn_confirm).setOnClickListener(v -> {
+                            view.findViewById(R.id.btn_skip).setOnClickListener(v -> {
                                 updateHint = true;
                                 SPUtils.put(context, "ignoreVersion", versionResult.getVersion());
+                                dialog.dismiss();
+                            });
+                            view.findViewById(R.id.btn_confirm).setOnClickListener(v -> {
+                                updateHint = true;
+                                downloadApk(context, versionResult.getBaiduUri());
                                 dialog.dismiss();
                             });
                             builder.setView(view);
