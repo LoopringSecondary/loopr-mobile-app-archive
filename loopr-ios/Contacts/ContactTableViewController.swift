@@ -49,6 +49,10 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Load data
+        reloadContact()
+    }
+    
+    func reloadContact() {
         dict.removeAll()
         for contact in ContactDataManager.shared.getContactsFromLocal() {
             if let tmp = dict[contact.tag] {
@@ -135,7 +139,7 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
         let deleteAction = UITableViewRowAction(style: .normal, title: LocalizedString("Delete", comment: "")) { (rowAction, indexPath) in
             let contact = self.dict[self.keys[indexPath.section]]![indexPath.row]
             ContactDataManager.shared.deleteContact(contact)
-            self.tableView.reloadData()
+            self.reloadContact()
         }
         deleteAction.backgroundColor = UIColor(named: "Color-red")!
         return [editAction, deleteAction]
