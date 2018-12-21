@@ -2,7 +2,7 @@ package leaf.prod.walletsdk.listener;
 
 import com.google.gson.JsonElement;
 
-import leaf.prod.walletsdk.model.request.param.PendingTxParam;
+import leaf.prod.walletsdk.model.request.relayParam.PendingTxParam;
 import leaf.prod.walletsdk.model.response.relay.Transaction;
 import leaf.prod.walletsdk.util.Assert;
 import rx.Observable;

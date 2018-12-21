@@ -1,4 +1,4 @@
-package leaf.prod.walletsdk.model.request.param;
+package leaf.prod.walletsdk.model.request.relayParam;
 
 /**
  * Created with IntelliJ IDEA.
