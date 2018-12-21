@@ -408,6 +408,7 @@
 "No-data-transaction" = "還沒有成交記錄";
 "No-data-order" = "還沒有訂單記錄";
 "No-data-asset" = "還沒有收付賬記錄";
+"No-data-contact" = "還沒有地址";
 
 /* Unlock app using Touch ID or Face ID. */
 "Unlock" = "解鎖";

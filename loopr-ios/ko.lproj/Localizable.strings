@@ -352,6 +352,7 @@
 "No-data-transaction" = "No trade yet";
 "No-data-order" = "No order yet";
 "No-data-asset" = "No transaction yet";
+"No-data-contact" = "No contact yet";
 
 /* Unlock app using Touch ID or Face ID. */
 "Unlock" = "완료";

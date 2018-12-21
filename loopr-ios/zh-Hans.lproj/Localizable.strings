@@ -408,6 +408,7 @@
 "No-data-transaction" = "还没有成交记录";
 "No-data-order" = "还没有订单记录";
 "No-data-asset" = "还没有收付账记录";
+"No-data-contact" = "还没有地址";
 
 /* Unlock app using Touch ID or Face ID. */
 "Unlock" = "解锁";

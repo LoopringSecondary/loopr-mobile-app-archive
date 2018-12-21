@@ -65,8 +65,12 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
+    func isTableEmpty() -> Bool {
+        return dict.count == 0
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return keys.count
+        return isTableEmpty() ? 1 : keys.count
     }
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
@@ -74,33 +78,49 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ContactTableViewCell.getHeight()
+        if isTableEmpty() {
+            return OrderNoDataTableViewCell.getHeight() - 120
+        } else {
+            return ContactTableViewCell.getHeight()
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(dict[keys[section]])
-        return dict[keys[section]]?.count ?? 0
+        return isTableEmpty() ? 1 : dict[keys[section]]?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.getCellIdentifier()) as? ContactTableViewCell
-        if cell == nil {
-            let nib = Bundle.main.loadNibNamed("ContactTableViewCell", owner: self, options: nil)
-            cell = nib![0] as? ContactTableViewCell
-        }
-        let contact = dict[keys[indexPath.section]]![indexPath.row]
-        cell?.update(contact: contact, isCellSelectEnable: isCellSelectEnable)
-        
-        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-            cell?.bottomSeperateLine.isHidden = false
+        if isTableEmpty() {
+            var cell = tableView.dequeueReusableCell(withIdentifier: OrderNoDataTableViewCell.getCellIdentifier()) as? OrderNoDataTableViewCell
+            if cell == nil {
+                let nib = Bundle.main.loadNibNamed("OrderNoDataTableViewCell", owner: self, options: nil)
+                cell = nib![0] as? OrderNoDataTableViewCell
+            }
+            cell?.noDataLabel.text = LocalizedString("No-data-contact", comment: "")
+            cell?.noDataImageView.image = UIImage(named: "No-data-contact")
+            return cell!
         } else {
-            cell?.bottomSeperateLine.isHidden = true
+            var cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.getCellIdentifier()) as? ContactTableViewCell
+            if cell == nil {
+                let nib = Bundle.main.loadNibNamed("ContactTableViewCell", owner: self, options: nil)
+                cell = nib![0] as? ContactTableViewCell
+            }
+            let contact = dict[keys[indexPath.section]]![indexPath.row]
+            cell?.update(contact: contact, isCellSelectEnable: isCellSelectEnable)
+            
+            if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+                cell?.bottomSeperateLine.isHidden = false
+            } else {
+                cell?.bottomSeperateLine.isHidden = true
+            }
+            
+            return cell!
         }
-        
-        return cell!
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard !isTableEmpty() else { return nil }
+
         let editAction = UITableViewRowAction(style: .normal, title: LocalizedString("Edit", comment: "")) { (rowAction, indexPath) in
             let contact = self.dict[self.keys[indexPath.section]]![indexPath.row]
             let viewController = AddContactViewController()
@@ -122,6 +142,7 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard !isTableEmpty() else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             guard self.isCellSelectEnable else {
                 return
