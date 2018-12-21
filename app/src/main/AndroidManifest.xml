@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme">
 
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name=".activity.wallet.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -101,28 +101,28 @@
             android:value="@string/facebook_app_id"/>
 
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.setting.LoginActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.CoverActivity"
+            android:name=".activity.setupWallet.CoverActivity"
             android:exported="false"
             android:launchMode="standard"/>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.wallet.MainActivity"
             android:configChanges="locale|layoutDirection|keyboard"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.GenerateWalletActivity"
+            android:name=".activity.setupWallet.GenerateWalletActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.ImportWalletActivity"
+            android:name=".activity.setupWallet.ImportWalletActivity"
             android:exported="false"
             android:launchMode="standard"/>
         <activity
-            android:name=".activity.WalletDetailActivity"
+            android:name=".activity.setting.WalletDetailActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
@@ -130,15 +130,15 @@
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.TokenListActivity"
+            android:name=".activity.wallet.TokenListActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.TokenListSearchActivity"
+            android:name=".activity.wallet.TokenListSearchActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.ActivityScanerCode"
+            android:name=".activity.wallet.ActivityScanerCode"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
@@ -147,156 +147,156 @@
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.ManageWalletActivity"
+            android:name=".activity.setting.ManageWalletActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.CurrencyActivity"
+            android:name=".activity.setting.CurrencyActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.LanguageActivity"
+            android:name=".activity.setting.LanguageActivity"
             android:configChanges="locale|layoutDirection|keyboard"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.ContractVersionActivity"
+            android:name=".activity.setting.ContractVersionActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.LRCFeeRatioActivity"
+            android:name=".activity.setting.LRCFeeRatioActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.MarginSplitActivity"
+            android:name=".activity.setting.MarginSplitActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.WalletSafeActivity"
+            android:name=".activity.setting.WalletSafeActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.ReviseWalletNameActivity"
+            android:name=".activity.setting.ReviseWalletNameActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.BackupMnemonicActivity"
+            android:name=".activity.setting.BackupMnemonicActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.ExportMatchPasSafeActivity"
+            android:name=".activity.setting.ExportMatchPasSafeActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.ExportPrivateKeyActivity"
+            android:name=".activity.setting.ExportPrivateKeyActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.ExportKeystoreDetailActivity"
+            android:name=".activity.setting.ExportKeystoreDetailActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.SendActivity"
+            android:name=".activity.wallet.SendActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.SendSuccessActivity"
+            android:name=".activity.wallet.SendSuccessActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.SendErrorActivity"
+            android:name=".activity.wallet.SendErrorActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.SendListChooseActivity"
+            android:name=".activity.wallet.SendListChooseActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.DefaultWebViewActivity"
+            android:name=".activity.wallet.DefaultWebViewActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.AddCustomTokenActivity"
+            android:name=".activity.wallet.AddCustomTokenActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.SetWalletNameActivity"
+            android:name=".activity.setting.SetWalletNameActivity"
             android:exported="false"
             android:launchMode="standard"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.H5DexWebActivity"
+            android:name=".activity.trade.H5DexWebActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.ThirdLoginActivity"
+            android:name=".activity.setting.ThirdLoginActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.AuthorityWebActivity"
+            android:name=".activity.wallet.AuthorityWebActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.ConvertActivity"
+            android:name=".activity.trade.ConvertActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.P2PActivity"
+            android:name=".activity.trade.P2PActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.P2PTokenListActivity"
+            android:name=".activity.trade.P2PTokenListActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.P2PTradeQrActivity"
+            android:name=".activity.trade.P2PTradeQrActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.P2PSuccessActivity"
+            android:name=".activity.trade.P2PSuccessActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.P2PErrorActivity"
+            android:name=".activity.trade.P2PErrorActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.P2PRecordDetailActivity"
+            android:name=".activity.trade.P2PRecordDetailActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.P2PConfirmActivity"
+            android:name=".activity.trade.P2PConfirmActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.ConfirmMnemonicActivity"
+            android:name=".activity.setupWallet.ConfirmMnemonicActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.AddContactActivity"
+            android:name=".activity.wallet.AddContactActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.ContactListActivity"
+            android:name=".activity.wallet.ContactListActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.AirdropActivity"
+            android:name=".activity.wallet.AirdropActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
