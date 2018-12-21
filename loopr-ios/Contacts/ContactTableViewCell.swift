@@ -52,6 +52,8 @@ class ContactTableViewCell: UITableViewCell {
         addressLabel.text = ""
         addressLabel.lineBreakMode = .byTruncatingMiddle
         addSubview(addressLabel)
+        
+        // iconView.setSymbol("")
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
@@ -66,7 +68,6 @@ class ContactTableViewCell: UITableViewCell {
     }
     
     func update(contact: Contact, isCellSelectEnable: Bool) {
-        iconView.setSymbol(contact.tag)
         iconView.symbol = contact.tag
         iconView.symbolLabel.text = contact.tag
         nameLabel.text = contact.name

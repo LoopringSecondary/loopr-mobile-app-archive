@@ -37,6 +37,7 @@ class ContactDataManager {
         contacts.append(newContact)
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: contacts)
         UserDefaults.standard.set(encodedData, forKey: UserDefaultsKeys.userContacts.rawValue)
+        UserDefaults.standard.synchronize()
         
         // Post data to server.
         AppServiceUserManager.shared.updateUserConfigWithUserDefaults()

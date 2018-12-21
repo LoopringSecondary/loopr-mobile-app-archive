@@ -17,6 +17,18 @@ class IconView: UIView {
     var circleView: UIView = UIView()
     var circleViewColor: UIColor = UIColor.clear
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(circleView)
+        addSubview(symbolLabel)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        addSubview(circleView)
+        addSubview(symbolLabel)
+    }
+    
     override func draw(_ rect: CGRect) {
         backgroundColor = UIColor.clear
         let circleRadius = min(rect.width, rect.height) * 0.5
@@ -28,18 +40,16 @@ class IconView: UIView {
         circleView.layer.borderColor = UIColor.text1.cgColor
         circleView.layer.borderWidth = 1
         circleView.clipsToBounds = true
-        addSubview(circleView)
+        
         showTextInsdieView(circleRadius: circleRadius)
     }
     
     private func showTextInsdieView(circleRadius: CGFloat) {
-        symbolLabel = UILabel(frame: CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height))
+        symbolLabel.frame = CGRect(x: 0, y: 0, width: circleRadius*2, height: circleRadius*2)
         symbolLabel.textAlignment = .center
         symbolLabel.theme_textColor = GlobalPicker.textColor
-        let fontSize = (circleRadius*0.625).rounded()
         symbolLabel.font = symbolLabelFont
         symbolLabel.text = symbol
-        addSubview(symbolLabel)
     }
     
     public func setSymbol(_ symbol: String) {

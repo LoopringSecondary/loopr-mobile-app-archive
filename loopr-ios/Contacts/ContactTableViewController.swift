@@ -14,6 +14,9 @@ protocol ContactTableViewControllerDelegate: class {
 
 class ContactTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    let keys = ["#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "V", "X", "Y", "Z"]
+    var dict = [String: [Contact]]()
+    
     var isCellSelectEnable = true
     weak var delegate: ContactTableViewControllerDelegate?
     
@@ -22,8 +25,9 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-
+        self.tableView.sectionIndexColor = UIColor.text1
+        self.tableView.reloadData()
+        
         self.setBackButton()
         self.navigationItem.title = LocalizedString("Contacts", comment: "")
         view.theme_backgroundColor = ColorPicker.backgroundColor
@@ -45,7 +49,14 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Load data
-        _ = ContactDataManager.shared.getContactsFromLocal()
+        dict.removeAll()
+        for contact in ContactDataManager.shared.getContactsFromLocal() {
+            if let tmp = dict[contact.tag] {
+                dict[contact.tag]!.append(contact)
+            } else {
+                dict[contact.tag] = [contact]
+            }
+        }
         tableView.reloadData()
     }
     
@@ -54,12 +65,21 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return keys.count
+    }
+    
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return keys
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return ContactTableViewCell.getHeight()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ContactDataManager.shared.contacts.count
+        print(dict[keys[section]])
+        return dict[keys[section]]?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,7 +88,7 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
             let nib = Bundle.main.loadNibNamed("ContactTableViewCell", owner: self, options: nil)
             cell = nib![0] as? ContactTableViewCell
         }
-        let contact = ContactDataManager.shared.contacts[indexPath.row]
+        let contact = dict[keys[indexPath.section]]![indexPath.row]
         cell?.update(contact: contact, isCellSelectEnable: isCellSelectEnable)
         
         if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
@@ -82,7 +102,7 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editAction = UITableViewRowAction(style: .normal, title: LocalizedString("Edit", comment: "")) { (rowAction, indexPath) in
-            let contact = ContactDataManager.shared.contacts[indexPath.row]
+            let contact = self.dict[self.keys[indexPath.section]]![indexPath.row]
             let viewController = AddContactViewController()
             viewController.isCreatingContact = false
             viewController.address = contact.address
@@ -93,7 +113,7 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
         editAction.backgroundColor = UIColor.theme
         
         let deleteAction = UITableViewRowAction(style: .normal, title: LocalizedString("Delete", comment: "")) { (rowAction, indexPath) in
-            let contact = ContactDataManager.shared.contacts[indexPath.row]
+            let contact = self.dict[self.keys[indexPath.section]]![indexPath.row]
             ContactDataManager.shared.deleteContact(contact)
             self.tableView.reloadData()
         }
@@ -106,7 +126,7 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
             guard self.isCellSelectEnable else {
                 return
             }
-            let contact = ContactDataManager.shared.contacts[indexPath.row]
+            let contact = self.dict[self.keys[indexPath.section]]![indexPath.row]
             self.delegate?.didSelectedContact(contact: contact)
             self.navigationController?.popViewController(animated: true)
         }

@@ -123,8 +123,7 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
                                   address: addressTextField.text!, note: noteTextField.text ?? "")
             if isCreatingContact {
                 if !ContactDataManager.shared.contacts.contains(where: { (item) -> Bool in
-                    return item.name.uppercased() == contact.name.uppercased() ||
-                        item.address.uppercased() == contact.address.uppercased()}) {
+                    return item.address.uppercased() == contact.address.uppercased()}) {
                     ContactDataManager.shared.addContact(contact)
                     self.navigationController?.popViewController(animated: true)
                 } else {
