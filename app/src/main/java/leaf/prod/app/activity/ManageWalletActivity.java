@@ -56,28 +56,9 @@ public class ManageWalletActivity extends BaseActivity {
     public void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-//        list = WalletUtil.getWalletList(ManageWalletActivity.this);
-//        String amount = (String) SPUtils.get(this, "amount", "");
-//        String amountValue = (String) SPUtils.get(this, "amountValue", "");
-//        String pas = (String) SPUtils.get(this, "pas", "");
-//        String address = (String) SPUtils.get(this, "address", "");
-//        for (int i = 0; i < list.size(); i++) {
-//            if (list.get(i).getAddress().equals(address)) {
-//                list.get(i).setAmountShow(amount);  //设置当前地址所拥有的币值
-//                list.get(i).setAmount(Double.parseDouble(amountValue != null ? amountValue : "0"));  //设置当前地址所拥有的币值
-//                list.get(i).setPas(pas);  //设置当前地址所拥有的pas
-//            }
-//        }
-//        WalletUtil.setWalletList(this, list);
         mAdapter = new ManageWalletListAdapter(R.layout.adapter_item_manage_wallet, list);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            //            getOperation().addParameter("position", position);
-            //            getOperation().addParameter("filename", list.get(position).getFilename());
-            //            getOperation().addParameter("address", list.get(position).getAddress());
-            //            getOperation().addParameter("walletname", list.get(position).getWalletname());
-            //            getOperation().addParameter("mnemonic", list.get(position).getMnemonic());
-            //            getOperation().addParameter("pas", list.get(position).getPas());
             getOperation().addParameter("selectedWallet", list.get(position));
             getOperation().forward(WalletSafeActivity.class);
         });

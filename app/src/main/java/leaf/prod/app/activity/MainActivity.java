@@ -28,6 +28,7 @@ import leaf.prod.app.fragment.TradeFragment;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.UpgradeUtil;
 import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 /**
  * Created by niedengqiang on 2018/8/13.
@@ -103,6 +104,9 @@ public class MainActivity extends BaseActivity {
         if ((Boolean) SPUtils.get(this, "isRecreate", false)) {//判断是否是更改语言设置后，执行了系统的recreate()方法,
             ChangeMainFragment(2);
             SPUtils.put(this, "isRecreate", false);
+        }
+        if (WalletUtil.getCurrentWallet(this).getAmount() >= 30) {
+            rlTrade.setVisibility(View.VISIBLE);
         }
     }
 
