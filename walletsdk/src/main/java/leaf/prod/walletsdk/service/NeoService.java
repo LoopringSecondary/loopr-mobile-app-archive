@@ -22,7 +22,7 @@ public class NeoService {
     private static String METHOD = "";
 
     public NeoService(Context context) {
-        String url = SDK.neoBase();
+        String url = SDK.relayBase();
         rpcDelegate = RpcDelegate.getService(url);
         METHOD = FileUtils.getFile(context, R.raw.neo);
     }

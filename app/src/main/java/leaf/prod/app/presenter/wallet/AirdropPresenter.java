@@ -27,7 +27,7 @@ import leaf.prod.app.activity.wallet.AirdropActivity;
 import leaf.prod.app.activity.wallet.DefaultWebViewActivity;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.walletsdk.model.response.ClaimBindAmount;
+import leaf.prod.walletsdk.model.response.relay.ClaimBindAmount;
 import leaf.prod.walletsdk.service.Erc20Service;
 import leaf.prod.walletsdk.service.NeoService;
 import leaf.prod.walletsdk.util.DateUtil;
