@@ -38,11 +38,21 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
         contentView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         contentView.cornerRadius = 6
         contentView.applyShadow()
-
+        
+        addressTextField.font = FontConfigManager.shared.getDigitalFont(size: 14)
+        addressTextField.theme_tintColor = GlobalPicker.contrastTextColor
+        addressTextField.contentMode = UIViewContentMode.bottom
+        addressTextField.setLeftPaddingPoints(8)
+        
         addressTipLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         addressTipLabel.theme_textColor = GlobalPicker.textLightColor
         addressTipLabel.text = LocalizedString("Airdrop address tip", comment: "")
 
+        amountTextField.font = FontConfigManager.shared.getDigitalFont(size: 14)
+        amountTextField.theme_tintColor = GlobalPicker.contrastTextColor
+        amountTextField.contentMode = UIViewContentMode.bottom
+        amountTextField.setLeftPaddingPoints(8)
+        
         amountTipLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         amountTipLabel.theme_textColor = GlobalPicker.textLightColor
         amountTipLabel.text = LocalizedString("Airdrop amount tip", comment: "")
