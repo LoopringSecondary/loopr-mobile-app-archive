@@ -172,7 +172,7 @@
                                     </connections>
                                 </button>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mfs-dw-Pii">
-                                    <rect key="frame" x="15" y="55" width="352" height="219"/>
+                                    <rect key="frame" x="15" y="67" width="352" height="207"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </tableView>
                             </subviews>
@@ -190,7 +190,7 @@
                                 <constraint firstItem="Rte-SL-Gly" firstAttribute="leading" secondItem="hqf-UR-h9I" secondAttribute="leading" id="LHr-qN-xNN"/>
                                 <constraint firstItem="Cu0-Ap-5L8" firstAttribute="leading" secondItem="4fJ-P7-xjN" secondAttribute="leading" constant="15" id="QAX-Zm-yqv"/>
                                 <constraint firstItem="lrj-AR-lcV" firstAttribute="leading" secondItem="izC-oD-GRt" secondAttribute="trailing" constant="-10" id="TqB-HP-d2j"/>
-                                <constraint firstItem="mfs-dw-Pii" firstAttribute="top" secondItem="Cu0-Ap-5L8" secondAttribute="bottom" constant="-8" id="VXr-Uy-adU"/>
+                                <constraint firstItem="mfs-dw-Pii" firstAttribute="top" secondItem="Cu0-Ap-5L8" secondAttribute="bottom" constant="4" id="VXr-Uy-adU"/>
                                 <constraint firstItem="JlJ-XA-Yl0" firstAttribute="top" secondItem="yvt-JE-1ey" secondAttribute="bottom" constant="15" id="ZTg-Sb-2dD"/>
                                 <constraint firstItem="aje-gV-Iod" firstAttribute="centerY" secondItem="Cu0-Ap-5L8" secondAttribute="centerY" id="bSn-N7-rt6"/>
                                 <constraint firstItem="Cu0-Ap-5L8" firstAttribute="trailing" secondItem="mfs-dw-Pii" secondAttribute="trailing" id="biA-Vp-Jf2"/>

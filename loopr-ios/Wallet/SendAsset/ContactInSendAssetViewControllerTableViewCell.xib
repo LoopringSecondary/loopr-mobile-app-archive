@@ -28,18 +28,28 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QsC-L9-poA">
-                        <rect key="frame" x="115" y="13.5" width="189" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QsC-L9-poA">
+                        <rect key="frame" x="125" y="13.5" width="183" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xt3-Zw-gNR">
+                        <rect key="frame" x="0.0" y="47" width="320" height="0.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="gv8-gj-aIi"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="QsC-L9-poA" firstAttribute="leading" secondItem="5ol-0f-4ry" secondAttribute="trailing" id="0RP-1j-x3D"/>
+                    <constraint firstItem="QsC-L9-poA" firstAttribute="leading" secondItem="5ol-0f-4ry" secondAttribute="trailing" constant="10" id="0RP-1j-x3D"/>
+                    <constraint firstAttribute="bottom" secondItem="Xt3-Zw-gNR" secondAttribute="bottom" id="SPD-7V-qN5"/>
                     <constraint firstItem="5ol-0f-4ry" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="YhB-X1-Egd"/>
                     <constraint firstItem="5ol-0f-4ry" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="mNa-J5-ql2"/>
-                    <constraint firstItem="QsC-L9-poA" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="u1J-S4-6iq"/>
+                    <constraint firstItem="Xt3-Zw-gNR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="t0R-hC-gkp"/>
+                    <constraint firstAttribute="trailing" secondItem="QsC-L9-poA" secondAttribute="trailing" constant="12" id="u1J-S4-6iq"/>
+                    <constraint firstAttribute="trailing" secondItem="Xt3-Zw-gNR" secondAttribute="trailing" id="u5c-YH-kGq"/>
                     <constraint firstItem="QsC-L9-poA" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zOh-Hi-KhY"/>
                 </constraints>
             </tableViewCellContentView>
@@ -47,6 +57,7 @@
             <connections>
                 <outlet property="addressLabel" destination="QsC-L9-poA" id="ulu-Aw-AYM"/>
                 <outlet property="nameLabel" destination="5ol-0f-4ry" id="ZyY-O9-2eJ"/>
+                <outlet property="seperateLine" destination="Xt3-Zw-gNR" id="uYc-sD-6JD"/>
             </connections>
             <point key="canvasLocation" x="52.799999999999997" y="67.466266866566727"/>
         </tableViewCell>
