@@ -136,6 +136,7 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
     // To prove claiming only once a day
     func validateTime() -> Bool {
         var result = false
+        // FIXME: can't claim the airdrop if there are mutiple addresses.
         let date = UserDefaults.standard.object(forKey: UserDefaultsKeys.airdropDate.rawValue)
         if let date = date as? Date {
             let target = Calendar.current.date(byAdding: .hour, value: 24, to: date)
