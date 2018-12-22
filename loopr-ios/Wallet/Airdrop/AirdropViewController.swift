@@ -120,7 +120,8 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func validateAmount() -> Bool {
-        if bindAmount == nil || !bindAmount!.isDouble {
+        if bindAmount == nil || !bindAmount!.isDouble || Double(bindAmount!) == 0 {
+            self.amountTextField.text = "0.0000"
             self.amountTipLabel.text = LocalizedString("Airdrop empty", comment: "")
             self.amountTipLabel.textColor = .fail
             self.amountTipLabel.shake()
