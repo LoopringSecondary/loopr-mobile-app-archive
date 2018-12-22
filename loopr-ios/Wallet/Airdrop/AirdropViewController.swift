@@ -62,7 +62,10 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
 
         scrollView.delegate = self
         scrollView.delaysContentTouches = false
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         setupContent()
     }
 
@@ -85,15 +88,16 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
                                 banner.duration = 5.0
                                 banner.show()
                             }
+                            SVProgressHUD.dismiss()
                         }
                     })
                 } else {
+                    SVProgressHUD.dismiss()
                     let notificationTitle = LocalizedString("Airdrop no bind", comment: "")
                     let banner = NotificationBanner.generate(title: notificationTitle, style: .danger)
                     banner.duration = 5.0
                     banner.show()
                 }
-                SVProgressHUD.dismiss()
             }
         }
     }
