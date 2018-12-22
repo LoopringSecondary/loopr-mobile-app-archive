@@ -162,6 +162,10 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
                     self.forwardButton.isHidden = false
                     UserDefaults.standard.setValue(result, forKey: UserDefaultsKeys.airdropUrl.rawValue)
                     UserDefaults.standard.setValue(Date(), forKey: UserDefaultsKeys.airdropDate.rawValue)
+                    let notificationTitle = LocalizedString("Airdrop success", comment: "")
+                    let banner = NotificationBanner.generate(title: notificationTitle, style: .success)
+                    banner.duration = 3.0
+                    banner.show()
                 } else {
                     let notificationTitle = LocalizedString("Airdrop failed", comment: "")
                     let banner = NotificationBanner.generate(title: notificationTitle, style: .danger)

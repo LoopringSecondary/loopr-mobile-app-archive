@@ -67,7 +67,6 @@ class WalletButtonTableViewCell: UITableViewCell {
         button4.addTarget(self, action: #selector(self.pressedButton4(_:)), for: .touchUpInside)
         button4.set(image: UIImage.init(named: "Transaction-airdrop-dark"), title: LocalizedString("Airdrop", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .normal)
         button4.set(image: UIImage.init(named: "Transaction-airdrop-dark")?.alpha(0.6), title: LocalizedString("Airdrop", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .highlighted)
-        
         buttonHeightLayoutConstraint.constant = WalletButtonTableViewCell.getButtonHeight()
     }
     
