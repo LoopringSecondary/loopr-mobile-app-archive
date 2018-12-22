@@ -20,18 +20,20 @@ class ContactInSendAssetViewControllerTableViewCell: UITableViewCell {
         selectionStyle = .none
         
         seperateLine.theme_backgroundColor = ColorPicker.cardBackgroundColor
+        seperateLine.isHidden = true
+        
         nameLabel.lineBreakMode = .byTruncatingMiddle
         nameLabel.font = FontConfigManager.shared.getMediumFont(size: 14)
         // nameLabel.theme_textColor = GlobalPicker.textColor
         
         addressLabel.lineBreakMode = .byTruncatingMiddle
-        addressLabel.font = FontConfigManager.shared.getMediumFont(size: 14)
+        addressLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         // addressLabel.theme_textColor = GlobalPicker.textLightColor
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         if highlighted {
-            backgroundColor = UIColor.dark5
+            backgroundColor = UIColor.init(rgba: "#f0f0f0")
         } else {
             backgroundColor = .white
         }
