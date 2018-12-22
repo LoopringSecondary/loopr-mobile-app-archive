@@ -21,6 +21,7 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var amountTipLabel: UILabel!
     @IBOutlet weak var claimButton: GradientButton!
     @IBOutlet weak var forwardButton: GradientButton!
+    var isFirtTimeAppear: Bool = true
     
     var bindAddress: String?
 
@@ -66,7 +67,10 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setupContent()
+        if isFirtTimeAppear {
+            setupContent()
+            isFirtTimeAppear = false
+        }
     }
 
     func setupContent() {
