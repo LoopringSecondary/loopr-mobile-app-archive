@@ -10,8 +10,8 @@ android {
         applicationId "leaf.prod.app"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 8
-        versionName "1.4"
+        versionCode 9
+        versionName "1.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
