@@ -15,7 +15,7 @@ import lombok.Data;
 @Builder
 public class NewsPageWrapper {
 
-    private List<News> newsList;
+    private List<News> data;
 
     private Integer pageIndex;
 

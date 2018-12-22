@@ -1,5 +1,7 @@
 package leaf.prod.walletsdk.model.request.crawlerParam;
 
+import com.google.gson.annotations.SerializedName;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -7,7 +9,8 @@ import lombok.Data;
 @Data
 public class NewsParam {
 
-    private String currency;
+    @SerializedName("currency")
+    private String token;
 
     private String language;
 

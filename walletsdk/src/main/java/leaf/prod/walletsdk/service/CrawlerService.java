@@ -25,11 +25,24 @@ public class CrawlerService {
         rpcDelegate = RpcDelegate.getService(url);
     }
 
-    public Observable<NewsPageWrapper> getNews(String token, Language language, NewsCategory category, int pageIndex, int pageSize) {
+    public Observable<NewsPageWrapper> getInformation(String token, Language language, int pageIndex, int pageSize) {
         NewsParam param = NewsParam.builder()
-                .currency(token)
+                .token(token)
                 .language(language.getText())
-                .category(category.name())
+                .category(NewsCategory.information.name())
+                .pageIndex(pageIndex)
+                .pageSize(pageSize)
+                .build();
+        RequestWrapper request = new RequestWrapper("queryNews", param);
+        Observable<RelayResponseWrapper<NewsPageWrapper>> observable = rpcDelegate.getNews(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<NewsPageWrapper> getFlash(String token, Language language, int pageIndex, int pageSize) {
+        NewsParam param = NewsParam.builder()
+                .token(token)
+                .language(language.getText())
+                .category(NewsCategory.flash.name())
                 .pageIndex(pageIndex)
                 .pageSize(pageSize)
                 .build();
