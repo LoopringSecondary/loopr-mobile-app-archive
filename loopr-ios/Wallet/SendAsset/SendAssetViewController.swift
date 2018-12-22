@@ -65,6 +65,9 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     
     var gasPriceInGwei: Double = GasDataManager.shared.getGasPriceInGwei()
         
+    @IBOutlet weak var contactListView: UITableView!
+    var filtedContacts: [Contact] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -153,7 +156,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         let scrollViewTap = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
         scrollViewTap.numberOfTapsRequired = 1
         scrollView.addGestureRecognizer(scrollViewTap)
-        scrollView.delaysContentTouches = false
+        scrollView.delaysContentTouches = true
 
         // Send button
         sendButton.title = LocalizedString("Send", comment: "")
@@ -180,6 +183,14 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         blurVisualEffectView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         blurVisualEffectView.alpha = 1
         blurVisualEffectView.frame = UIScreen.main.bounds
+        
+        contactListView.delegate = self
+        contactListView.dataSource = self
+        contactListView.separatorStyle = .none
+        contactListView.isHidden = true
+        contactListView.layer.zPosition = 1
+        
+        filtedContacts = ContactDataManager.shared.getContactsFromLocal()
     }
     
     func setNavigationBarItem() {
@@ -236,12 +247,17 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     }
 
     @objc func scrollViewTapped() {
+        guard !addressTextField.text!.isEmpty else {
+            return
+        }
         print("scrollViewTapped")
         amountTextField.resignFirstResponder()
         self.view.endEditing(true)
         hideNumericKeyboard()
         
         // Hide table list
+        contactListView.isHidden = true
+        scrollView.isScrollEnabled = true
     }
     
     func updateLabel(label: UILabel, text: String, textColor: UIColor) {
@@ -254,6 +270,21 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     
     @objc func addressTextFieldDidChange(_ textField: UITextField) {
         print(textField.text!)
+        let searchText = textField.text!.trim()
+        if searchText == "" {
+            filtedContacts = ContactDataManager.shared.contacts
+            contactListView.reloadData()
+            return
+        }
+        
+        let newFiltedContacts = ContactDataManager.shared.contacts.filter({(contact: Contact) -> Bool in
+            return contact.name.lowercased().contains(searchText.lowercased())
+        })
+        if filtedContacts == newFiltedContacts && filtedContacts.count > 0 {
+            return
+        }
+        filtedContacts = newFiltedContacts
+        contactListView.reloadData()
     }
     
     func validateAddress(requiredHex: Bool) -> Bool {
@@ -268,9 +299,10 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
                 }
                 if requiredHex {
                     updateLabel(label: addressInfoLabel, text: LocalizedString("Please input a correct address", comment: ""), textColor: .fail)
+                } else {
+                    // Search in ContactDataManager and display the table view
+                    
                 }
-                // Search in ContactDataManager and display the table view
-
             } else {
                 updateLabel(label: addressInfoLabel, text: LocalizedString("Please confirm the address before sending", comment: ""), textColor: .text2)
             }
@@ -486,6 +518,8 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField.tag == 0 {
             scrollView.setContentOffset(CGPoint(x: 0, y: 92), animated: true)
+            contactListView.isHidden = false
+            scrollView.isScrollEnabled = false
             hideNumericKeyboard()
         } else if textField.tag == 1 {
             showNumericKeyboard(textField: amountTextField)
@@ -588,6 +622,9 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard (scrollView as? UITableView) == nil else {
+            return
+        }
         if tokenTotalAmountLabel.frame.maxY < scrollView.contentOffset.y {
             self.navigationItem.title = "\(asset!.display) \(asset!.symbol) Available"
         } else {
@@ -621,6 +658,35 @@ extension SendAssetViewController: UIViewControllerTransitioningDelegate {
 extension SendAssetViewController: ContactTableViewControllerDelegate {
     
     func didSelectedContact(contact: Contact) {
+        addressTextField.text = contact.address
+    }
+
+}
+
+extension SendAssetViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return ContactInSendAssetViewControllerTableViewCell.getHeight()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return filtedContacts.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: ContactInSendAssetViewControllerTableViewCell.getCellIdentifier()) as? ContactInSendAssetViewControllerTableViewCell
+        if cell == nil {
+            let nib = Bundle.main.loadNibNamed("ContactInSendAssetViewControllerTableViewCell", owner: self, options: nil)
+            cell = nib![0] as? ContactInSendAssetViewControllerTableViewCell
+        }
+        
+        let contact = filtedContacts[indexPath.row]
+        cell?.update(contact: contact)
+        return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let contact = filtedContacts[indexPath.row]
         addressTextField.text = contact.address
     }
 
