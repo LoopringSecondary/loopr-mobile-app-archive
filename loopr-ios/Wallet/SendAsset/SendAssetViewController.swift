@@ -64,7 +64,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     var address: String!
     
     var gasPriceInGwei: Double = GasDataManager.shared.getGasPriceInGwei()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -105,6 +105,8 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         addressTextField.contentMode = UIViewContentMode.bottom
         addressTextField.setLeftPaddingPoints(8)
         addressTextField.setRightPaddingPoints(32)
+        addressTextField.addTarget(self, action: #selector(addressTextFieldDidChange(_:)),
+                            for: UIControlEvents.editingChanged)
         
         // Third row: Amount
         amountInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
@@ -238,6 +240,8 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         amountTextField.resignFirstResponder()
         self.view.endEditing(true)
         hideNumericKeyboard()
+        
+        // Hide table list
     }
     
     func updateLabel(label: UILabel, text: String, textColor: UIColor) {
@@ -248,7 +252,11 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         }
     }
     
-    func validateAddress() -> Bool {
+    @objc func addressTextFieldDidChange(_ textField: UITextField) {
+        print(textField.text!)
+    }
+    
+    func validateAddress(requiredHex: Bool) -> Bool {
         if let toAddress = addressTextField.text {
             if !toAddress.isEmpty {
                 if toAddress.isHexAddress() {
@@ -258,7 +266,11 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
                         return true
                     }
                 }
-                updateLabel(label: addressInfoLabel, text: LocalizedString("Please input a correct address", comment: ""), textColor: .fail)
+                if requiredHex {
+                    updateLabel(label: addressInfoLabel, text: LocalizedString("Please input a correct address", comment: ""), textColor: .fail)
+                }
+                // Search in ContactDataManager and display the table view
+
             } else {
                 updateLabel(label: addressInfoLabel, text: LocalizedString("Please confirm the address before sending", comment: ""), textColor: .text2)
             }
@@ -325,7 +337,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     func validate() -> Bool {
         var isValid = false
         if activeTextFieldTag == addressTextField.tag {
-            isValid = validateAddress()
+            isValid = validateAddress(requiredHex: false)
         } else if activeTextFieldTag == amountTextField.tag {
             isValid = validateAmount()
         }
@@ -411,7 +423,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         addressTextField.resignFirstResponder()
         amountTextField.resignFirstResponder()
         let isAmountValid = validateAmount()
-        let isAddressValid = validateAddress()
+        let isAddressValid = validateAddress(requiredHex: true)
         if isAmountValid && isAddressValid {
             self.pushController()
         }
@@ -473,6 +485,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField.tag == 0 {
+            scrollView.setContentOffset(CGPoint(x: 0, y: 92), animated: true)
             hideNumericKeyboard()
         } else if textField.tag == 1 {
             showNumericKeyboard(textField: amountTextField)

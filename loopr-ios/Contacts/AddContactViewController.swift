@@ -41,7 +41,6 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
         // Name
         nameTextField.delegate = self
         nameTextField.tag = 0
-        nameTextField.keyboardType = .alphabet
         nameTextField.keyboardAppearance = Themes.isDark() ? .dark : .default
         nameTextField.font = FontConfigManager.shared.getDigitalFont()
         nameTextField.theme_tintColor = GlobalPicker.contrastTextColor
@@ -69,7 +68,6 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
         // Note
         noteTextField.delegate = self
         noteTextField.tag = 2
-        addressTextField.keyboardType = .alphabet
         noteTextField.keyboardAppearance = Themes.isDark() ? .dark : .default
         noteTextField.font = FontConfigManager.shared.getDigitalFont()
         noteTextField.theme_tintColor = GlobalPicker.contrastTextColor
@@ -114,7 +112,7 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
         print("scrollViewTapped")
         addressTextField.resignFirstResponder()
         nameTextField.resignFirstResponder()
-        noteTextField.resignFirstResponder()
+        noteTextField.resignFirstResponder()        
     }
     
     @IBAction func pressedSaveButton(_ sender: Any) {
