@@ -13,7 +13,7 @@ class AppServiceUpdateManager {
     static let shared = AppServiceUpdateManager()
 
     var latestBuildVersion: String = "0.0.1"
-    var latestBuildDescription: String?
+    var latestBuildDescription: String = ""
     
     private init() {
         
@@ -56,7 +56,7 @@ class AppServiceUpdateManager {
             let json = JSON(data)
             let latestBuildVersion = json["message"]["version"].string ?? "0.0.1"
             self.latestBuildVersion = latestBuildVersion
-            self.latestBuildDescription = json["message"]["description"].string
+            self.latestBuildDescription = json["message"]["release_note_en"].string ?? ""
 
             let currentBuildVersion = self.getBuildVersion()
             let largestSkipBuildVersion = self.getLargestSkipBuildVersion()

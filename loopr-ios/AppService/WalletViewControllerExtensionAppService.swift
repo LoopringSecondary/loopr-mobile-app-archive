@@ -12,7 +12,7 @@ import Crashlytics
 
 extension UIViewController {
     
-    func displayUpdateNotification() {
+    func old_displayUpdateNotification() {
         let alert = UIAlertController(title: LocalizedString("A new version of app is ready to update", comment: ""), message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: LocalizedString("Skip_Update", comment: ""), style: .default, handler: { _ in
             AppServiceUpdateManager.shared.setLargestSkipBuildVersion()

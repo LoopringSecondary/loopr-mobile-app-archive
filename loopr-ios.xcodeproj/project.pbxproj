@@ -136,6 +136,8 @@
 		9BA3020B21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020A21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift */; };
 		9BA3020E21CF77AE00E55E49 /* SettingAppVersionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020C21CF77AE00E55E49 /* SettingAppVersionTableViewCell.swift */; };
 		9BA3020F21CF77AE00E55E49 /* SettingAppVersionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3020D21CF77AE00E55E49 /* SettingAppVersionTableViewCell.xib */; };
+		9BA3021421D0260300E55E49 /* AppReleaseNotePopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3021221D0260300E55E49 /* AppReleaseNotePopViewController.swift */; };
+		9BA3021521D0260300E55E49 /* AppReleaseNotePopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */; };
 		9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */; };
 		9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */; };
 		AC061939208401EB0060F416 /* MnemonicAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC061937208401EB0060F416 /* MnemonicAddressTableViewCell.swift */; };
@@ -663,6 +665,8 @@
 		9BA3020A21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferencesSectionInViewController.swift; sourceTree = "<group>"; };
 		9BA3020C21CF77AE00E55E49 /* SettingAppVersionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAppVersionTableViewCell.swift; sourceTree = "<group>"; };
 		9BA3020D21CF77AE00E55E49 /* SettingAppVersionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingAppVersionTableViewCell.xib; sourceTree = "<group>"; };
+		9BA3021221D0260300E55E49 /* AppReleaseNotePopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReleaseNotePopViewController.swift; sourceTree = "<group>"; };
+		9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppReleaseNotePopViewController.xib; sourceTree = "<group>"; };
 		9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailSummaryTableViewCell.xib; sourceTree = "<group>"; };
 		AC061937208401EB0060F416 /* MnemonicAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicAddressTableViewCell.swift; sourceTree = "<group>"; };
@@ -1209,6 +1213,15 @@
 			path = MarketDetailViewControllerExtension;
 			sourceTree = "<group>";
 		};
+		9BA3021621D0260900E55E49 /* AppReleaseNote */ = {
+			isa = PBXGroup;
+			children = (
+				9BA3021221D0260300E55E49 /* AppReleaseNotePopViewController.swift */,
+				9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */,
+			);
+			path = AppReleaseNote;
+			sourceTree = "<group>";
+		};
 		AC0CD58220D2294D00ABB7BA /* TabBarItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -1736,6 +1749,7 @@
 				AC8866982174688500815DD1 /* AppServiceUpdateManager.swift */,
 				ACE9F049218AAB4300695E37 /* AppServiceUserManager.swift */,
 				AC88669A21747B4B00815DD1 /* WalletViewControllerExtensionAppService.swift */,
+				9BA3021621D0260900E55E49 /* AppReleaseNote */,
 			);
 			path = AppService;
 			sourceTree = "<group>";
@@ -2660,6 +2674,7 @@
 				AC2ACA5520FA0EC3009C77E7 /* Rubik-Regular.ttf in Resources */,
 				94DFE4042122BD48000E1831 /* BuyViewController.xib in Resources */,
 				ACE58B8620BE796A005BC1C8 /* VerifyMnemonicViewController.xib in Resources */,
+				9BA3021521D0260300E55E49 /* AppReleaseNotePopViewController.xib in Resources */,
 				AC2ACA5320FA0EC3009C77E7 /* Rubik-LightItalic.ttf in Resources */,
 				AC131A11210ED2BB001998A0 /* MarketDetailDepthTableViewCell.xib in Resources */,
 				ACBA47EB207897C60032C2B4 /* SettingWalletDetailViewController.xib in Resources */,
@@ -3003,6 +3018,7 @@
 				948125672119B38E00453225 /* PartnerDataManager.swift in Sources */,
 				94E49ED4213CE99700CDDA02 /* PreventScreenShotViewController.swift in Sources */,
 				AC9280E7202F5A010009B574 /* UIStyleConfig.swift in Sources */,
+				9BA3021421D0260300E55E49 /* AppReleaseNotePopViewController.swift in Sources */,
 				AC8866A4217C2D5500815DD1 /* GradientButton.swift in Sources */,
 				AC31CE17205A121000A30335 /* NumericKeyboardProtocol.swift in Sources */,
 				AC31CE142057B5A400A30335 /* TradeReviewViewController.swift in Sources */,

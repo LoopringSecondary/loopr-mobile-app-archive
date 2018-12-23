@@ -101,7 +101,7 @@ extension WalletViewController {
                     // Check app version
                     AppServiceUpdateManager.shared.getLatestAppVersion(completion: {(shouldDisplayUpdateNotification) in
                         if shouldDisplayUpdateNotification {
-                            self.displayUpdateNotification()
+                            self.old_displayUpdateNotification()
                         }
                     })
                     
