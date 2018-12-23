@@ -10,6 +10,10 @@ import Foundation
 
 extension SettingViewController {
 
+    func aboutSectionNumberOfRows() -> Int {
+        return Production.getSocialMedia().count + 1
+    }
+    
     func aboutSectionForCell(indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:

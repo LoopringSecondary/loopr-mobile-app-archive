@@ -132,6 +132,8 @@
 		9BA3020221CF4C3700E55E49 /* AboutSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020121CF4C3700E55E49 /* AboutSectionInViewController.swift */; };
 		9BA3020421CF53F400E55E49 /* TradeSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020321CF53F400E55E49 /* TradeSectionInViewController.swift */; };
 		9BA3020621CF543700E55E49 /* PartnerSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020521CF543700E55E49 /* PartnerSectionInViewController.swift */; };
+		9BA3020921CF64A900E55E49 /* WalletSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020821CF64A900E55E49 /* WalletSectionInViewController.swift */; };
+		9BA3020B21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020A21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift */; };
 		9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */; };
 		9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */; };
 		AC061939208401EB0060F416 /* MnemonicAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC061937208401EB0060F416 /* MnemonicAddressTableViewCell.swift */; };
@@ -655,6 +657,8 @@
 		9BA3020121CF4C3700E55E49 /* AboutSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSectionInViewController.swift; sourceTree = "<group>"; };
 		9BA3020321CF53F400E55E49 /* TradeSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeSectionInViewController.swift; sourceTree = "<group>"; };
 		9BA3020521CF543700E55E49 /* PartnerSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSectionInViewController.swift; sourceTree = "<group>"; };
+		9BA3020821CF64A900E55E49 /* WalletSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSectionInViewController.swift; sourceTree = "<group>"; };
+		9BA3020A21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferencesSectionInViewController.swift; sourceTree = "<group>"; };
 		9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailSummaryTableViewCell.xib; sourceTree = "<group>"; };
 		AC061937208401EB0060F416 /* MnemonicAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicAddressTableViewCell.swift; sourceTree = "<group>"; };
@@ -2169,6 +2173,8 @@
 				ACB911822026388700F14644 /* SettingViewController.swift */,
 				ACB911832026388700F14644 /* SettingViewController.xib */,
 				9BA3020521CF543700E55E49 /* PartnerSectionInViewController.swift */,
+				9BA3020821CF64A900E55E49 /* WalletSectionInViewController.swift */,
+				9BA3020A21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift */,
 				9BA3020321CF53F400E55E49 /* TradeSectionInViewController.swift */,
 				9BA3020121CF4C3700E55E49 /* AboutSectionInViewController.swift */,
 				ACB8485720BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.swift */,
@@ -2901,6 +2907,7 @@
 				AC45EFEB20D0CCF5004F6EC0 /* SetupWalletViewControllerExtension.swift in Sources */,
 				AC3756702038D3ED00AADC60 /* UnlockWalletType.swift in Sources */,
 				AC8866992174688500815DD1 /* AppServiceUpdateManager.swift in Sources */,
+				9BA3020B21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift in Sources */,
 				ACC6E12221B517F6001729EC /* FeatureConfigDataManager.swift in Sources */,
 				ACB97C6D20707B6F00775D4C /* AddTokenTableViewCell.swift in Sources */,
 				ACB8AD89207F299700B478D6 /* UIViewController+BackButton.swift in Sources */,
@@ -2927,6 +2934,7 @@
 				AC9DC45A21159084002D7D23 /* MiniToLargeViewInteractive.swift in Sources */,
 				AC120758214DA02300EEDC49 /* SetupWalletViewController.swift in Sources */,
 				ACB911642024504E00F14644 /* Order.swift in Sources */,
+				9BA3020921CF64A900E55E49 /* WalletSectionInViewController.swift in Sources */,
 				ACB8485920BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.swift in Sources */,
 				9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */,
 				AC9280E92030C7440009B574 /* UIColorExtensions.swift in Sources */,

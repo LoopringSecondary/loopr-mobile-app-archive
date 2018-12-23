@@ -10,7 +10,12 @@ import Foundation
 
 extension SettingViewController {
     
-    func tradingSectionForCell(indexPath: IndexPath) -> UITableViewCell {
+    func tradeSectionNumberOfRows() -> Int {
+        // TODO: add Trade FAQ back.
+        return 2
+    }
+
+    func tradeSectionForCell(indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
             return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Contract Version", comment: ""))
@@ -23,7 +28,7 @@ extension SettingViewController {
         }
     }
     
-    func tradingSectionForCellDidSelected(didSelectRowAt indexPath: IndexPath) {
+    func tradeSectionForCellDidSelected(didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
             print("contract version")

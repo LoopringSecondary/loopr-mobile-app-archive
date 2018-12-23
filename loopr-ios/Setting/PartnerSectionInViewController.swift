@@ -10,6 +10,10 @@ import Foundation
 
 extension SettingViewController {
 
+    func partnerSectionNumberOfRows() -> Int {
+        return 1
+    }
+    
     func partnerSectionForCell(indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
