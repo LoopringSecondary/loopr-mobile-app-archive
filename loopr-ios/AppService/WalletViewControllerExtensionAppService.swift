@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Crashlytics
 
-extension WalletViewController {
+extension UIViewController {
     
     func displayUpdateNotification() {
         let alert = UIAlertController(title: LocalizedString("A new version of app is ready to update", comment: ""), message: nil, preferredStyle: .alert)

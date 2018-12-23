@@ -30,6 +30,15 @@ class AppServiceUpdateManager {
         let build = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as! String
         return version + " (" + build + ")"
     }
+    
+    func shouldDisplayUpdateNotificationInSettingViewController() -> Bool {
+        let currentBuildVersion = self.getBuildVersion()
+        if latestBuildVersion.compare(currentBuildVersion, options: .numeric) == .orderedDescending && latestBuildVersion != currentBuildVersion {
+            return true
+        } else {
+            return false
+        }
+    }
 
     func getLatestAppVersion(completion: @escaping (_ shouldDisplayUpdateNotification: Bool) -> Void) {
         // Only apply for psy version, excluding app store version.
@@ -46,12 +55,13 @@ class AppServiceUpdateManager {
             }
             let json = JSON(data)
             let latestBuildVersion = json["message"]["version"].string ?? "0.0.1"
+            self.latestBuildVersion = latestBuildVersion
+            self.latestBuildDescription = json["message"]["description"].string
+
             let currentBuildVersion = self.getBuildVersion()
             let largestSkipBuildVersion = self.getLargestSkipBuildVersion()
             if latestBuildVersion.compare(currentBuildVersion, options: .numeric) == .orderedDescending && latestBuildVersion != currentBuildVersion && latestBuildVersion.compare(largestSkipBuildVersion, options: .numeric) == .orderedDescending && latestBuildVersion != largestSkipBuildVersion {
                 print("latestBuildVersion version is newer")
-                self.latestBuildVersion = latestBuildVersion
-                self.latestBuildDescription = json["message"]["description"].string
                 completion(true)
             } else {
                 completion(false)
