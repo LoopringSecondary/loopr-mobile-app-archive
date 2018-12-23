@@ -112,7 +112,7 @@ class ContactTableViewController: UIViewController, UITableViewDelegate, UITable
             let contact = dict[keys[indexPath.section]]![indexPath.row]
             cell?.update(contact: contact, isCellSelectEnable: isCellSelectEnable)
             
-            if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+            if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
                 cell?.bottomSeperateLine.isHidden = false
             } else {
                 cell?.bottomSeperateLine.isHidden = true

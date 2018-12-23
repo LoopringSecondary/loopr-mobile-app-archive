@@ -71,45 +71,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.section {
         case 0:
-            if indexPath.row == 0 {
-                print("Setting partner")
-                let viewController = SettingPartnerViewController()
-                viewController.hidesBottomBarWhenPushed = true
-                self.navigationController?.pushViewController(viewController, animated: true)
-            }
+            partnerSectionForCellDidSelected(didSelectRowAt: indexPath)
         case 1:
             userPreferencesSectionForCellDidSelected(indexPath: indexPath)
         case 2:
-            switch indexPath.row {
-            case 0:
-                print("contract version")
-                let viewController = DisplayContractVersionViewController()
-                viewController.hidesBottomBarWhenPushed = true
-                self.navigationController?.pushViewController(viewController, animated: true)
-            case 1:
-                print("LRC Fee ratio")
-                let viewController = SettingLRCFeeRatioViewController()
-                viewController.hidesBottomBarWhenPushed = true
-                self.navigationController?.pushViewController(viewController, animated: true)
-            case 2:
-                // TODO: Trade FAQ is not ready.
-                print("Trade FAQ")
-                let viewController = TradeFAQViewController()
-                viewController.hidesBottomBarWhenPushed = true
-                self.navigationController?.pushViewController(viewController, animated: true)
-            default:
-                break
-            }
+            tradingSectionForCellDidSelected(didSelectRowAt: indexPath)
         case 3:
-            // About
-            switch indexPath.row {
-            case 0..<Production.getSocialMedia().count:
-                if let url = Production.getSocialMedia()[indexPath.row].url {
-                    UIApplication.shared.open(url)
-                }
-            default:
-                break
-            }
+            aboutSectionForCellDidSelected(didSelectRowAt: indexPath)
         default:
             break
         }
@@ -156,45 +124,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     // Sections
-    func partnerSectionForCell(indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
-        case 0:
-            var cell = settingsTableView.dequeueReusableCell(withIdentifier: SettingStyleTableViewCell.getCellIdentifier()) as? SettingStyleTableViewCell
-            if cell == nil {
-                let nib = Bundle.main.loadNibNamed("SettingStyleTableViewCell", owner: self, options: nil)
-                cell = nib![0] as? SettingStyleTableViewCell
-            }
-            
-            cell?.leftLabel.textColor = .success
-            cell?.leftLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
-            cell?.leftLabel.text = LocalizedString("Partner_Slogan", comment: "")
-            cell?.rightLabel.isHidden = true
-            cell?.disclosureIndicator.isHidden = false
-            
-            if indexPath.row == 0 {
-                cell?.seperateLineUp.isHidden = false
-            } else {
-                cell?.seperateLineUp.isHidden = true
-            }
-            
-            if indexPath.row == sectionRows[indexPath.section]-1 {
-                cell?.trailingSeperateLineDown.constant = 0
-            } else {
-                cell?.trailingSeperateLineDown.constant = 15
-            }
-            return cell!
-        default:
-            return UITableViewCell(frame: .zero)
-        }
-    }
-    
     func userPreferencesSectionForCell(indexPath: IndexPath) -> UITableViewCell {
         if BiometricType.get() == .none {
             switch indexPath.row {
             case 0:
                 return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Manage Wallets", comment: ""))
             case 1:
-                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Contacts", comment: ""))
+                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Manage Contacts", comment: ""))
             case 2:
                 return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Currency", comment: ""))
             case 3:
@@ -215,13 +151,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 0:
                 return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Manage Wallets", comment: ""))
             case 1:
-                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Contacts", comment: ""))
+                return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Manage Contacts", comment: ""))
             case 2:
                 return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Currency", comment: ""))
             case 3:
                 return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Language", comment: ""))
             case 4:
-                return createSettingPasscodeTableView(indexPath: indexPath)
+                return createSettingTouchIDAndFaceIDTableViewCell(indexPath: indexPath)
             case 5:
                 let title: String
                 if UserDefaults.standard.bool(forKey: UserDefaultsKeys.thirdParty.rawValue) {
@@ -310,60 +246,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
     }
-
-    func tradingSectionForCell(indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
-        case 0:
-            return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Contract Version", comment: ""))
-        case 1:
-            return createDetailTableCell(indexPath: indexPath, title: LocalizedString("LRC Fee Ratio", comment: ""))
-        case 2:
-            return createDetailTableCell(indexPath: indexPath, title: LocalizedString("Trade FAQ", comment: ""))
-        default:
-            return UITableViewCell(frame: .zero)
-        }
-    }
-
-    func aboutSectionForCell(indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
-        case 0..<Production.getSocialMedia().count:
-            return createDetailTableCell(indexPath: indexPath, title: Production.getSocialMedia()[indexPath.row].description)
-        case Production.getSocialMedia().count:
-            var cell = settingsTableView.dequeueReusableCell(withIdentifier: SettingStyleTableViewCell.getCellIdentifier()) as? SettingStyleTableViewCell
-            if cell == nil {
-                let nib = Bundle.main.loadNibNamed("SettingStyleTableViewCell", owner: self, options: nil)
-                cell = nib![0] as? SettingStyleTableViewCell
-            }
-            cell?.selectionStyle = .none
-            cell?.leftLabel.text = title
-            cell?.rightLabel.isHidden = false
-            cell?.disclosureIndicator.isHidden = true
-            if indexPath.row == 0 {
-                cell?.seperateLineUp.isHidden = false
-            } else {
-                cell?.seperateLineUp.isHidden = true
-            }
-            
-            if indexPath.row == sectionRows[indexPath.section]-1 {
-                cell?.trailingSeperateLineDown.constant = 0
-            } else {
-                cell?.trailingSeperateLineDown.constant = 15
-            }
-            cell?.leftLabel.text = LocalizedString("App Version", comment: "")
-            cell?.rightLabel.text = AppServiceUpdateManager.shared.getAppVersionAndBuildVersion()
-
-            return cell!
-        default:
-            return UITableViewCell(frame: .zero)
-        }
-    }
     
     // Cell Types
-    func createSettingPasscodeTableView(indexPath: IndexPath) -> UITableViewCell {
-        var cell = settingsTableView.dequeueReusableCell(withIdentifier: SettingPasscodeTableViewCell.getCellIdentifier()) as? SettingPasscodeTableViewCell
+    func createSettingTouchIDAndFaceIDTableViewCell(indexPath: IndexPath) -> UITableViewCell {
+        var cell = settingsTableView.dequeueReusableCell(withIdentifier: SettingTouchIDAndFaceIDTableViewCell.getCellIdentifier()) as? SettingTouchIDAndFaceIDTableViewCell
         if cell == nil {
-            let nib = Bundle.main.loadNibNamed("SettingPasscodeTableViewCell", owner: self, options: nil)
-            cell = nib![0] as? SettingPasscodeTableViewCell
+            let nib = Bundle.main.loadNibNamed("SettingTouchIDAndFaceIDTableViewCell", owner: self, options: nil)
+            cell = nib![0] as? SettingTouchIDAndFaceIDTableViewCell
             cell?.selectionStyle = .none
         }
 
@@ -373,7 +262,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell?.seperateLineUp.isHidden = true
         }
         
-        if indexPath.row == sectionRows[indexPath.section]-1 {
+        if indexPath.row == settingsTableView.numberOfRows(inSection: indexPath.section) - 1 {
             cell?.trailingSeperateLineDown.constant = 0
         } else {
             cell?.trailingSeperateLineDown.constant = 15
@@ -381,30 +270,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         return cell!
     }
-    
-    func createThemeMode(indexPath: IndexPath) -> UITableViewCell {
-        var cell = settingsTableView.dequeueReusableCell(withIdentifier: SettingThemeModeTableViewCell.getCellIdentifier()) as? SettingThemeModeTableViewCell
-        if cell == nil {
-            let nib = Bundle.main.loadNibNamed("SettingThemeModeTableViewCell", owner: self, options: nil)
-            cell = nib![0] as? SettingThemeModeTableViewCell
-            cell?.selectionStyle = .none
-        }
 
-        if indexPath.row == 0 {
-            cell?.seperateLineUp.isHidden = false
-        } else {
-            cell?.seperateLineUp.isHidden = true
-        }
-        
-        if indexPath.row == sectionRows[indexPath.section]-1 {
-            cell?.trailingSeperateLineDown.constant = 0
-        } else {
-            cell?.trailingSeperateLineDown.constant = 15
-        }
-
-        return cell!
-    }
-    
     func createDetailTableCell(indexPath: IndexPath, title: String) -> UITableViewCell {
         var cell = settingsTableView.dequeueReusableCell(withIdentifier: SettingStyleTableViewCell.getCellIdentifier()) as? SettingStyleTableViewCell
         if cell == nil {
@@ -416,18 +282,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell?.rightLabel.isHidden = true
         cell?.disclosureIndicator.isHidden = false
 
-        if indexPath.row == 0 {
-            cell?.seperateLineUp.isHidden = false
-        } else {
-            cell?.seperateLineUp.isHidden = true
-        }
-        
-        if indexPath.row == sectionRows[indexPath.section]-1 {
-            cell?.trailingSeperateLineDown.constant = 0
-        } else {
-            cell?.trailingSeperateLineDown.constant = 15
-        }
-        
+        let isLastCell = indexPath.row == settingsTableView.numberOfRows(inSection: indexPath.section) - 1
+        cell?.update(indexPath: indexPath, isLastCell: isLastCell)
+
         return cell!
     }
     

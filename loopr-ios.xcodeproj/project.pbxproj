@@ -129,6 +129,9 @@
 		9BA3016321C73D0400E55E49 /* ContactDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3016221C73D0400E55E49 /* ContactDataManager.swift */; };
 		9BA301FF21CDFF0F00E55E49 /* ContactInSendAssetViewControllerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA301FD21CDFF0F00E55E49 /* ContactInSendAssetViewControllerTableViewCell.swift */; };
 		9BA3020021CDFF0F00E55E49 /* ContactInSendAssetViewControllerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA301FE21CDFF0F00E55E49 /* ContactInSendAssetViewControllerTableViewCell.xib */; };
+		9BA3020221CF4C3700E55E49 /* AboutSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020121CF4C3700E55E49 /* AboutSectionInViewController.swift */; };
+		9BA3020421CF53F400E55E49 /* TradeSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020321CF53F400E55E49 /* TradeSectionInViewController.swift */; };
+		9BA3020621CF543700E55E49 /* PartnerSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020521CF543700E55E49 /* PartnerSectionInViewController.swift */; };
 		9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */; };
 		9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */; };
 		AC061939208401EB0060F416 /* MnemonicAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC061937208401EB0060F416 /* MnemonicAddressTableViewCell.swift */; };
@@ -413,8 +416,8 @@
 		ACB729D5205DE21B00DD4DF3 /* TradeConfirmationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACB729D3205DE21B00DD4DF3 /* TradeConfirmationViewController.xib */; };
 		ACB746E52043C5F5006C2BF5 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB746E32043C5F5006C2BF5 /* QRCodeViewController.swift */; };
 		ACB746E62043C5F5006C2BF5 /* QRCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACB746E42043C5F5006C2BF5 /* QRCodeViewController.xib */; };
-		ACB8485920BA75E7006B83AD /* SettingPasscodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB8485720BA75E7006B83AD /* SettingPasscodeTableViewCell.swift */; };
-		ACB8485A20BA75E7006B83AD /* SettingPasscodeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACB8485820BA75E7006B83AD /* SettingPasscodeTableViewCell.xib */; };
+		ACB8485920BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB8485720BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.swift */; };
+		ACB8485A20BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACB8485820BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.xib */; };
 		ACB8AD87207EE40300B478D6 /* TokenDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB8AD86207EE40300B478D6 /* TokenDataManager.swift */; };
 		ACB8AD89207F299700B478D6 /* UIViewController+BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB8AD88207F299700B478D6 /* UIViewController+BackButton.swift */; };
 		ACB911522024254F00F14644 /* WalletNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB911512024254F00F14644 /* WalletNavigationViewController.swift */; };
@@ -476,8 +479,6 @@
 		ACE6F71C204211470039273D /* DashedLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE6F71B204211470039273D /* DashedLineView.swift */; };
 		ACE6F722204221260039273D /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE6F721204221260039273D /* Themes.swift */; };
 		ACE6F7242042228A0039273D /* GlobalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE6F7232042228A0039273D /* GlobalPicker.swift */; };
-		ACE6F72720426BAC0039273D /* SettingThemeModeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE6F72520426BAC0039273D /* SettingThemeModeTableViewCell.swift */; };
-		ACE6F72820426BAC0039273D /* SettingThemeModeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACE6F72620426BAC0039273D /* SettingThemeModeTableViewCell.xib */; };
 		ACE9F0462186FB5800695E37 /* WalletViewControllerDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE9F0452186FB5700695E37 /* WalletViewControllerDropdownMenu.swift */; };
 		ACE9F0482186FD1A00695E37 /* AppDelegateNotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE9F0472186FD1A00695E37 /* AppDelegateNotificationExtension.swift */; };
 		ACE9F04A218AAB4300695E37 /* AppServiceUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE9F049218AAB4300695E37 /* AppServiceUserManager.swift */; };
@@ -651,6 +652,9 @@
 		9BA3016221C73D0400E55E49 /* ContactDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDataManager.swift; sourceTree = "<group>"; };
 		9BA301FD21CDFF0F00E55E49 /* ContactInSendAssetViewControllerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInSendAssetViewControllerTableViewCell.swift; sourceTree = "<group>"; };
 		9BA301FE21CDFF0F00E55E49 /* ContactInSendAssetViewControllerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactInSendAssetViewControllerTableViewCell.xib; sourceTree = "<group>"; };
+		9BA3020121CF4C3700E55E49 /* AboutSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSectionInViewController.swift; sourceTree = "<group>"; };
+		9BA3020321CF53F400E55E49 /* TradeSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeSectionInViewController.swift; sourceTree = "<group>"; };
+		9BA3020521CF543700E55E49 /* PartnerSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSectionInViewController.swift; sourceTree = "<group>"; };
 		9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailSummaryTableViewCell.xib; sourceTree = "<group>"; };
 		AC061937208401EB0060F416 /* MnemonicAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicAddressTableViewCell.swift; sourceTree = "<group>"; };
@@ -943,8 +947,8 @@
 		ACB729D3205DE21B00DD4DF3 /* TradeConfirmationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TradeConfirmationViewController.xib; sourceTree = "<group>"; };
 		ACB746E32043C5F5006C2BF5 /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		ACB746E42043C5F5006C2BF5 /* QRCodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QRCodeViewController.xib; sourceTree = "<group>"; };
-		ACB8485720BA75E7006B83AD /* SettingPasscodeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingPasscodeTableViewCell.swift; sourceTree = "<group>"; };
-		ACB8485820BA75E7006B83AD /* SettingPasscodeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingPasscodeTableViewCell.xib; sourceTree = "<group>"; };
+		ACB8485720BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTouchIDAndFaceIDTableViewCell.swift; sourceTree = "<group>"; };
+		ACB8485820BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingTouchIDAndFaceIDTableViewCell.xib; sourceTree = "<group>"; };
 		ACB8AD86207EE40300B478D6 /* TokenDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenDataManager.swift; sourceTree = "<group>"; };
 		ACB8AD88207F299700B478D6 /* UIViewController+BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+BackButton.swift"; sourceTree = "<group>"; };
 		ACB911512024254F00F14644 /* WalletNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNavigationViewController.swift; sourceTree = "<group>"; };
@@ -1009,8 +1013,6 @@
 		ACE6F71B204211470039273D /* DashedLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLineView.swift; sourceTree = "<group>"; };
 		ACE6F721204221260039273D /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		ACE6F7232042228A0039273D /* GlobalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPicker.swift; sourceTree = "<group>"; };
-		ACE6F72520426BAC0039273D /* SettingThemeModeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingThemeModeTableViewCell.swift; sourceTree = "<group>"; };
-		ACE6F72620426BAC0039273D /* SettingThemeModeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingThemeModeTableViewCell.xib; sourceTree = "<group>"; };
 		ACE9F0452186FB5700695E37 /* WalletViewControllerDropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewControllerDropdownMenu.swift; sourceTree = "<group>"; };
 		ACE9F0472186FD1A00695E37 /* AppDelegateNotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateNotificationExtension.swift; sourceTree = "<group>"; };
 		ACE9F049218AAB4300695E37 /* AppServiceUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServiceUserManager.swift; sourceTree = "<group>"; };
@@ -2166,10 +2168,11 @@
 				ACB9117E2026385100F14644 /* SettingNavigationViewController.swift */,
 				ACB911822026388700F14644 /* SettingViewController.swift */,
 				ACB911832026388700F14644 /* SettingViewController.xib */,
-				ACE6F72520426BAC0039273D /* SettingThemeModeTableViewCell.swift */,
-				ACE6F72620426BAC0039273D /* SettingThemeModeTableViewCell.xib */,
-				ACB8485720BA75E7006B83AD /* SettingPasscodeTableViewCell.swift */,
-				ACB8485820BA75E7006B83AD /* SettingPasscodeTableViewCell.xib */,
+				9BA3020521CF543700E55E49 /* PartnerSectionInViewController.swift */,
+				9BA3020321CF53F400E55E49 /* TradeSectionInViewController.swift */,
+				9BA3020121CF4C3700E55E49 /* AboutSectionInViewController.swift */,
+				ACB8485720BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.swift */,
+				ACB8485820BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.xib */,
 				AC2ACA5F2102E7B1009C77E7 /* SettingStyleTableViewCell.swift */,
 				AC2ACA602102E7B1009C77E7 /* SettingStyleTableViewCell.xib */,
 				AC34A389215483FA0083ADEC /* DisplayContractVersion */,
@@ -2537,7 +2540,6 @@
 				AC2ACA622102E7B2009C77E7 /* SettingStyleTableViewCell.xib in Resources */,
 				94EE76A22113F1C5009D6A90 /* OrderHistorySwipeViewController.xib in Resources */,
 				ACE5BFA720466EFD005D75DD /* Localizable.strings in Resources */,
-				ACE6F72820426BAC0039273D /* SettingThemeModeTableViewCell.xib in Resources */,
 				ACB911852026388700F14644 /* SettingViewController.xib in Resources */,
 				AC56625C20563C05003C925C /* TradeViewController.xib in Resources */,
 				AC2ACA4E20FA0EC3009C77E7 /* SIL Open Font License.txt in Resources */,
@@ -2585,7 +2587,7 @@
 				ACB1482421057B9300AB2343 /* GenerateWalletEnterNameViewController.xib in Resources */,
 				AC6466092083EE1E00EBEC97 /* MnemonicDerivationPathTableViewCell.xib in Resources */,
 				ACE65E422071F875001EE499 /* MnemonicCollectionViewController.xib in Resources */,
-				ACB8485A20BA75E7006B83AD /* SettingPasscodeTableViewCell.xib in Resources */,
+				ACB8485A20BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.xib in Resources */,
 				AC99CF472083DD6A000AE4BD /* MnemonicEnterDerivationPathViewController.xib in Resources */,
 				AC2C93D82105AE97004B8456 /* SetupWalletEnterRepeatPasswordViewController.xib in Resources */,
 				ACB9118D20266A9C00F14644 /* AssetDetailViewController.xib in Resources */,
@@ -2842,6 +2844,7 @@
 				94B35BB021A55A0200F6B708 /* BigInt+Extension.swift in Sources */,
 				ACB729D0205DC27800DD4DF3 /* SwitchTradeTokenTableViewCell.swift in Sources */,
 				AC13B30320548767008A72C0 /* BuyAndSellSwipeViewController.swift in Sources */,
+				9BA3020421CF53F400E55E49 /* TradeSectionInViewController.swift in Sources */,
 				94EE76A42113F21B009D6A90 /* OrderHistorySwipeType.swift in Sources */,
 				ACB5DDA6202D704200140A09 /* UIButtonExtension.swift in Sources */,
 				AC9A274020A6144700DB04AC /* OrderNoDataTableViewCell.swift in Sources */,
@@ -2852,6 +2855,7 @@
 				FF9C7DDC208D59EA004687AD /* SettingsBundleHelper.swift in Sources */,
 				ACB9119520278A4000F14644 /* Request.swift in Sources */,
 				AC76E47320493CAE008BA229 /* SettingLanguageViewController.swift in Sources */,
+				9BA3020621CF543700E55E49 /* PartnerSectionInViewController.swift in Sources */,
 				AC3756782038D7E200AADC60 /* UnlockKeystoreViewController.swift in Sources */,
 				ACB5DD95202C434B00140A09 /* EthereumAPIRequest.swift in Sources */,
 				ACE6F722204221260039273D /* Themes.swift in Sources */,
@@ -2923,7 +2927,7 @@
 				AC9DC45A21159084002D7D23 /* MiniToLargeViewInteractive.swift in Sources */,
 				AC120758214DA02300EEDC49 /* SetupWalletViewController.swift in Sources */,
 				ACB911642024504E00F14644 /* Order.swift in Sources */,
-				ACB8485920BA75E7006B83AD /* SettingPasscodeTableViewCell.swift in Sources */,
+				ACB8485920BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.swift in Sources */,
 				9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */,
 				AC9280E92030C7440009B574 /* UIColorExtensions.swift in Sources */,
 				AC4141F920352DA70089861D /* SwipeTabView.swift in Sources */,
@@ -3100,7 +3104,6 @@
 				AC99CF4E2083E4AF000AE4BD /* MnemonicSelectAddressViewController.swift in Sources */,
 				ACB6A19F20965D94004C64BC /* QRCodeSaveToAlbum.swift in Sources */,
 				AC2ACA87210305F8009C77E7 /* TradeFAQTableViewCell.swift in Sources */,
-				ACE6F72720426BAC0039273D /* SettingThemeModeTableViewCell.swift in Sources */,
 				ACA677CF207D1BEC00D34A2F /* SettingChangeWalletNameViewController.swift in Sources */,
 				AC6A3478210D740500AE615B /* MarketDetailSwipeViewController.swift in Sources */,
 				ACA677B82079970600D34A2F /* ExportKeystoreSwipeViewController.swift in Sources */,
@@ -3135,6 +3138,7 @@
 				ACB911552024260E00F14644 /* WalletViewController.swift in Sources */,
 				AC5E0995205F270000801738 /* ScanQRCodeViewController.swift in Sources */,
 				AC31B950204A8DF400B16155 /* Secp256k1.swift in Sources */,
+				9BA3020221CF4C3700E55E49 /* AboutSectionInViewController.swift in Sources */,
 				940B452D2061206900ADE2B9 /* Token.swift in Sources */,
 				AC7BC856214386AF004204D3 /* PushNotificationSettingManager.swift in Sources */,
 				ACB911A320296B9900F14644 /* OriginalOrder.swift in Sources */,

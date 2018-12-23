@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingPasscodeTableViewCell: UITableViewCell {
+class SettingTouchIDAndFaceIDTableViewCell: UITableViewCell {
 
     @IBOutlet weak var passcodeLabel: UILabel!
     @IBOutlet weak var passcodeSwitch: UISwitchCustom!
@@ -47,7 +47,7 @@ class SettingPasscodeTableViewCell: UITableViewCell {
     }
 
     class func getCellIdentifier() -> String {
-        return "SettingThemeModeTableViewCell"
+        return "SettingTouchIDAndFaceIDTableViewCell"
     }
     
     class func getHeight() -> CGFloat {

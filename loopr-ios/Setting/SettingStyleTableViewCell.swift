@@ -48,6 +48,20 @@ class SettingStyleTableViewCell: UITableViewCell {
         disclosureIndicator.theme_image = GlobalPicker.indicator
         disclosureIndicator.contentMode = .center
     }
+    
+    func update(indexPath: IndexPath, isLastCell: Bool) {
+        if indexPath.row == 0 {
+            seperateLineUp.isHidden = false
+        } else {
+            seperateLineUp.isHidden = true
+        }
+        
+        if isLastCell {
+            trailingSeperateLineDown.constant = 0
+        } else {
+            trailingSeperateLineDown.constant = 15
+        }
+    }
 
     class func getCellIdentifier() -> String {
         return "SettingStyleTableViewCell"
