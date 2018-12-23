@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyMarkdown
+// import CDMarkdownKit
 
 class AppReleaseNotePopViewController: UIViewController {
 
@@ -42,14 +43,26 @@ class AppReleaseNotePopViewController: UIViewController {
         seperateLine1.theme_backgroundColor = ColorPicker.cardHighLightColor
         
         releaseNoteTextView.backgroundColor = .clear
+        
+        /*
         let md = SwiftyMarkdown(string: AppServiceUpdateManager.shared.latestBuildDescription)
-        md.h1.fontName = "Rubik-Medium"
-        md.h1.fontSize = 18
-        md.h1.color = UIColor.init(rgba: "#32384C")
         md.body.fontName = "Rubik-Regular"
-        md.body.fontSize = 14
-        md.body.color = UIColor.init(rgba: "#32384C")
+        md.body.fontSize = 17
+        md.body.color = UIColor.text1
         releaseNoteTextView.attributedText = md.attributedString()
+        */
+        
+        /*
+        let markdownParser = CDMarkdownParser()
+        releaseNoteTextView.attributedText = markdownParser.parse(AppServiceUpdateManager.shared.latestBuildDescription)
+        */
+
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 20
+        let attributes = [NSAttributedStringKey.paragraphStyle: style]
+        releaseNoteTextView.attributedText = NSAttributedString(string: AppServiceUpdateManager.shared.latestBuildDescription, attributes: attributes)
+        releaseNoteTextView.textColor = UIColor.text1
+        releaseNoteTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
 
         seperateLine2.theme_backgroundColor = ColorPicker.cardHighLightColor
         
@@ -60,6 +73,9 @@ class AppReleaseNotePopViewController: UIViewController {
         skipButton.setBlack()
         skipButton.addTarget(self, action: #selector(pressedSkipButton), for: .touchUpInside)
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(backgroundViewTapped))
+        tap.numberOfTapsRequired = 1
+        view.addGestureRecognizer(tap)
     }
 
     @objc func pressedUpdateButton(_ sender: Any) {
@@ -69,6 +85,12 @@ class AppReleaseNotePopViewController: UIViewController {
     }
     
     @objc func pressedSkipButton(_ sender: Any) {
+        skipClosure?()
+        self.dismiss(animated: true, completion: {
+        })
+    }
+    
+    @objc func backgroundViewTapped() {
         skipClosure?()
         self.dismiss(animated: true, completion: {
         })

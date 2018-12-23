@@ -144,6 +144,7 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CDMarkdownKit/CDMarkdownKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Charts/Charts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ESTabBarController-swift/ESTabBarController_swift.framework"
@@ -165,6 +166,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CDMarkdownKit/CDMarkdownKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Charts/Charts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ESTabBarController-swift/ESTabBarController_swift.framework"
@@ -186,6 +188,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
 fi
 if [[ "$CONFIGURATION" == "loopr" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CDMarkdownKit/CDMarkdownKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Charts/Charts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ESTabBarController-swift/ESTabBarController_swift.framework"
@@ -207,6 +210,7 @@ if [[ "$CONFIGURATION" == "loopr" ]]; then
 fi
 if [[ "$CONFIGURATION" == "vivwallet" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CDMarkdownKit/CDMarkdownKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Charts/Charts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ESTabBarController-swift/ESTabBarController_swift.framework"

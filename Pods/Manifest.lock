@@ -1,6 +1,7 @@
 PODS:
   - BigInt (3.0.1):
     - SipHash (~> 1.2)
+  - CDMarkdownKit (1.2.1)
   - Charts (3.2.1):
     - Charts/Core (= 3.2.1)
   - Charts/Core (3.2.1)
@@ -35,6 +36,7 @@ PODS:
 
 DEPENDENCIES:
   - BigInt (= 3.0.1)
+  - CDMarkdownKit (= 1.2.1)
   - Charts (= 3.2.1)
   - Crashlytics
   - CryptoSwift (= 0.8.3)
@@ -57,8 +59,9 @@ DEPENDENCIES:
   - WeChat_SDK (~> 1.8.1)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - BigInt
+    - CDMarkdownKit
     - Charts
     - Crashlytics
     - CryptoSwift
@@ -101,6 +104,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   BigInt: 8e8a52161c745cd3ab78e3dc346a9fbee51e6cf6
+  CDMarkdownKit: 5b0a629f057c1b07e79d7eeaa62693381029fbdb
   Charts: f122fb70b19847fa5817d018b77d6c5a2296ab25
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   CryptoSwift: 033efc3523865d19cc6ab6612fa17a62613b5dfa
@@ -125,6 +129,6 @@ SPEC CHECKSUMS:
   web3.swift: 7b89fef89eb474685b7ffaf50a9eb30b9727f1d7
   WeChat_SDK: 681388233ac24a3ed6c4803cb3e0b6d3602050aa
 
-PODFILE CHECKSUM: fd5bf3174a6ef16d61dbee74102a4bdebc2fb0ac
+PODFILE CHECKSUM: c8dd72260c474b950e518f156ca897fc7b595f41
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3
