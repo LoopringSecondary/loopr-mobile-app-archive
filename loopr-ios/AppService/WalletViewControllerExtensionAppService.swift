@@ -21,19 +21,7 @@ extension UIViewController {
                                     "update": "false"])
         }))
         alert.addAction(UIAlertAction(title: LocalizedString("Update", comment: ""), style: .default, handler: { _ in
-            // Navigate to website
-            if Production.getCurrent() == .upwallet {
-                UIApplication.shared.open(NSURL(string:"itms-services://?action=download-manifest&url=https://loopr.io/ios/manifest.plist")! as URL, options: [:], completionHandler: { (_) in
-                    
-                })
-            } else if let url = URL(string: Production.getUrlText()) {
-                UIApplication.shared.open(url)
-            }
-
-            AppServiceUpdateManager.shared.setLargestSkipBuildVersion()
-            Answers.logCustomEvent(withName: "App Update Notification v1",
-                                   customAttributes: [
-                                    "update": "true"])
+            
         }))
 
         self.present(alert, animated: true, completion: nil)

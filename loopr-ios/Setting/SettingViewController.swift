@@ -21,9 +21,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet weak var settingsTableView: UITableView!
 
-    
     var blurVisualEffectView = UIView(frame: .zero)
-
     
     override func viewDidLoad() {
         super.viewDidLoad()

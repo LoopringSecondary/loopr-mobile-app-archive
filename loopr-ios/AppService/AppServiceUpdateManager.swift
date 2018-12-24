@@ -13,8 +13,10 @@ class AppServiceUpdateManager {
     static let shared = AppServiceUpdateManager()
 
     var latestBuildVersion: String = "0.0.1"
-    var latestBuildDescription: String = ""
-    
+    private var latestBuildReleaseNote_en: String = ""
+    private var latestBuildReleaseNote_chs: String = ""
+    private var latestBuildReleaseNote_cht: String = ""
+
     private init() {
         
     }
@@ -39,10 +41,20 @@ class AppServiceUpdateManager {
             return false
         }
     }
+    
+    func getReleaseNote() -> String {
+        let currentLanguage = SettingDataManager.shared.getCurrentLanguage().name
+        if currentLanguage == "zh-Hans" {
+            return latestBuildReleaseNote_chs
+        } else if currentLanguage == "zh-Hant" {
+            return latestBuildReleaseNote_cht
+        } else {
+            return latestBuildReleaseNote_en
+        }
+    }
 
     func getLatestAppVersion(completion: @escaping (_ shouldDisplayUpdateNotification: Bool) -> Void) {
-        // Only apply for psy version, excluding app store version.
-        guard let bundleIdentifier = Bundle.main.bundleIdentifier, bundleIdentifier == "leaf.prod.app" else {
+        guard Production.getCurrent() == .upwallet else {
             return
         }
         
@@ -56,7 +68,9 @@ class AppServiceUpdateManager {
             let json = JSON(data)
             let latestBuildVersion = json["message"]["version"].string ?? "0.0.1"
             self.latestBuildVersion = latestBuildVersion
-            self.latestBuildDescription = json["message"]["release_note_en"].string ?? ""
+            self.latestBuildReleaseNote_en = json["message"]["release_note_en"].string ?? ""
+            self.latestBuildReleaseNote_chs = json["message"]["release_note_chs"].string ?? ""
+            self.latestBuildReleaseNote_cht = json["message"]["release_note_cht"].string ?? ""
 
             let currentBuildVersion = self.getBuildVersion()
             let largestSkipBuildVersion = self.getLargestSkipBuildVersion()

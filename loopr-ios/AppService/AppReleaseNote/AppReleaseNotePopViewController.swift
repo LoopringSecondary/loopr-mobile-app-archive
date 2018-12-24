@@ -9,9 +9,12 @@
 import UIKit
 import SwiftyMarkdown
 // import CDMarkdownKit
+import Crashlytics
 
 class AppReleaseNotePopViewController: UIViewController {
 
+    var popFromSettingViewController: Bool = true
+    
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var containerViewLayoutConstraint: NSLayoutConstraint!
     
@@ -60,7 +63,7 @@ class AppReleaseNotePopViewController: UIViewController {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 20
         let attributes = [NSAttributedStringKey.paragraphStyle: style]
-        releaseNoteTextView.attributedText = NSAttributedString(string: AppServiceUpdateManager.shared.latestBuildDescription, attributes: attributes)
+        releaseNoteTextView.attributedText = NSAttributedString(string: AppServiceUpdateManager.shared.getReleaseNote(), attributes: attributes)
         releaseNoteTextView.textColor = UIColor.text1
         releaseNoteTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
 
@@ -68,9 +71,13 @@ class AppReleaseNotePopViewController: UIViewController {
         
         updateButton.title = LocalizedString("Update", comment: "")
         updateButton.addTarget(self, action: #selector(pressedUpdateButton), for: .touchUpInside)
-        
-        skipButton.title = LocalizedString("Skip_Verification", comment: "")
-        skipButton.setBlack()
+
+        if popFromSettingViewController {
+            skipButton.title = LocalizedString("Back", comment: "")
+        } else {
+            skipButton.title = LocalizedString("Skip_Verification", comment: "")
+        }
+        skipButton.setGradient(colors: [UIColor.dark4, UIColor.dark4], hightlightedColors: [UIColor.dark3, UIColor.dark3], gradientOrientation: .bottomLeftTopRight)
         skipButton.addTarget(self, action: #selector(pressedSkipButton), for: .touchUpInside)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(backgroundViewTapped))
@@ -82,6 +89,26 @@ class AppReleaseNotePopViewController: UIViewController {
         updateClosure?()
         self.dismiss(animated: true, completion: {
         })
+        
+        // Navigate to website
+        if Production.getCurrent() == .upwallet {
+            if Production.isAppStoreVersion() {
+                UIApplication.shared.open(NSURL(string:"https://itunes.apple.com/app/1441613740?mt=8")! as URL, options: [:], completionHandler: { (_) in
+                    
+                })
+            } else {
+                UIApplication.shared.open(NSURL(string:"itms-services://?action=download-manifest&url=https://loopr.io/ios/manifest.plist")! as URL, options: [:], completionHandler: { (_) in
+                    
+                })
+            }
+        } else if let url = URL(string: Production.getUrlText()) {
+            UIApplication.shared.open(url)
+        }
+        
+        AppServiceUpdateManager.shared.setLargestSkipBuildVersion()
+        Answers.logCustomEvent(withName: "App Update Notification v1",
+                               customAttributes: [
+                                "update": "true"])
     }
     
     @objc func pressedSkipButton(_ sender: Any) {
