@@ -134,15 +134,15 @@
 "Airdrop address tip" = "Your LRN binding address";
 "Airdrop amount tip" = "Your LRN claiming amount for today";
 "Airdrop button" = "Claim Airdrop";
-"Airdrop success" = "Claim Airdrop Successful";
+"Airdrop success" = "Claim Airdrop Successfully";
 "Airdrop empty" = "You have no LRN bonus";
 "Airdrop failed" = "Claim Airdrop Failed, Please retry later";
-"Airdrop forward" = "Forward to NEO Tracker";
+"Airdrop forward" = "Review on NEO Tracker";
 "Airdrop no bind" = "You have not bound LRN address";
 "Airdrop time invalid" = "You can only claim LRN once a day";
 "Airdrop browser" = "NEO Tracker";
-"Airdrop next claim date" = "Next Claim Date";
-"Airdrop last claim date" = "Last Claim Date";
+"Airdrop next claim date" = "Next Claim Time";
+"Airdrop last claim date" = "Last Claim Time";
 
 /* DEX Trade page */
 "Loopring Order" = "Loopring Order";
