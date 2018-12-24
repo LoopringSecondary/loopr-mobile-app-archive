@@ -28,7 +28,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         UMConfigure.setLogEnabled(false)
         UMConfigure.setEncryptEnabled(true)
-        UMConfigure.initWithAppkey("5c207fc4b465f567c20002a0", channel: "App Store")
+        let channel: String
+        if Production.isAppStoreVersion() {
+            channel = "App Store"
+        } else {
+            channel = "pgyer"
+        }
+        UMConfigure.initWithAppkey("5c207fc4b465f567c20002a0", channel: channel)
         
         // Background Fetch doesn't work very well and consume a lot of battery.
         // Fetch data in the background fetch mode.
