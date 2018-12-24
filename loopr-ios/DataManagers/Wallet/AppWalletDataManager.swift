@@ -243,9 +243,7 @@ class AppWalletDataManager {
         completionHandler(newAppWallet, nil)
     }
     
-    func getTotalCurrencyValue(address: String, getPrice: Bool, completionHandlerInBackgroundThread: @escaping (_ totalCurrencyValue: Double, _ error: Error?) -> Void) {
-        print("getTotalCurrencyValue Current address: \(address)")
-        
+    func getTotalCurrencyValue(address: String, getPrice: Bool, completionHandlerInBackgroundThread: @escaping (_ totalCurrencyValue: Double, _ error: Error?) -> Void) {        
         let appWallet = getWallet(address: address)
         var localAssets: [Asset] = []
         let dispatchGroup = DispatchGroup()

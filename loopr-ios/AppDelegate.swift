@@ -26,6 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         Fabric.with([Crashlytics.self, Answers.self])
         
+        UMConfigure.setLogEnabled(false)
+        UMConfigure.setEncryptEnabled(true)
+        UMConfigure.initWithAppkey("5c207fc4b465f567c20002a0", channel: "App Store")
+        
         // Background Fetch doesn't work very well and consume a lot of battery.
         // Fetch data in the background fetch mode.
         // UIApplication.shared.setMinimumBackgroundFetchInterval(10)

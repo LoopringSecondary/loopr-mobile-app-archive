@@ -15,8 +15,19 @@ def shared_pods
     pod 'MKDropdownMenu'
     pod 'StepSlider', git: 'https://github.com/xiaowheat/StepSlider.git'
     
+    # TODO: deprecated in in 1.7
     pod 'Fabric'
     pod 'Crashlytics'
+    
+    pod 'UMCCommon'
+    pod 'UMCAnalytics'
+    
+    # Note from cocoapods https://github.com/CocoaPods/CocoaPods/issues/7238
+    # https://developer.umeng.com/docs/66632/detail/67204?spm=a311a.9588098.0.0
+    # [!] 'UMCSecurityPlugins' uses the unencrypted http protocol to transfer the Pod. Please be sure you're in a safe network with only trusted hosts in there. Please reach out to the library author to notify them of this security issue.
+    # ruby: I think we don't need to use this pod.
+    # pod 'UMCSecurityPlugins'
+    
     pod 'lottie-ios'
     pod 'WeChat_SDK', '~> 1.8.1'
     

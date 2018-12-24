@@ -29,6 +29,9 @@ PODS:
   - SwiftTheme (0.4.3)
   - SwiftyMarkdown (0.6.0)
   - TrezorCrypto (0.0.9)
+  - UMCAnalytics (5.5.2):
+    - UMCCommon
+  - UMCCommon (1.5.3)
   - web3.swift (0.0.5):
     - BigInt (~> 3.0.1)
     - secp256k1_ios (~> 0.1.3)
@@ -55,6 +58,8 @@ DEPENDENCIES:
   - SwiftTheme
   - SwiftyMarkdown
   - TrezorCrypto (= 0.0.9)
+  - UMCAnalytics
+  - UMCCommon
   - web3.swift (from `https://github.com/xiaowheat/web3.swift.git`)
   - WeChat_SDK (~> 1.8.1)
 
@@ -81,6 +86,8 @@ SPEC REPOS:
     - SwiftTheme
     - SwiftyMarkdown
     - TrezorCrypto
+    - UMCAnalytics
+    - UMCCommon
     - WeChat_SDK
 
 EXTERNAL SOURCES:
@@ -126,9 +133,11 @@ SPEC CHECKSUMS:
   SwiftTheme: 628345b948068a48d330d76dffb1a990ea5f90aa
   SwiftyMarkdown: 698fe6b283dddac69747f4e08ed0d067c18e0356
   TrezorCrypto: bfeea47a052dca2c77d4a39e1e183865e52de14d
+  UMCAnalytics: 6654fd3c8201ff6da5c86a3ae29cd5c8436d3b7b
+  UMCCommon: 016af43c0f769feb1ae1861d65aaf2b23b89c9c7
   web3.swift: 7b89fef89eb474685b7ffaf50a9eb30b9727f1d7
   WeChat_SDK: 681388233ac24a3ed6c4803cb3e0b6d3602050aa
 
-PODFILE CHECKSUM: c8dd72260c474b950e518f156ca897fc7b595f41
+PODFILE CHECKSUM: ea1d4b3773bc0549ae06b1707018a9a8caf6741a
 
 COCOAPODS: 1.5.3

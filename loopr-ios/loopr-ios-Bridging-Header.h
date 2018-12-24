@@ -4,3 +4,4 @@
 #import "WXApi.h"
 #import "WXApiObject.h"
 #import <CommonCrypto/CommonCrypto.h>
+#import <UMCommon/UMCommon.h>
