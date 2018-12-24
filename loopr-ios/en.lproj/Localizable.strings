@@ -138,9 +138,11 @@
 "Airdrop empty" = "You have no LRN bonus";
 "Airdrop failed" = "Claim Airdrop Failed, Please retry later";
 "Airdrop forward" = "Forward to NEO Tracker";
-"Airdrop no bind" = "You have not bind LRN address";
+"Airdrop no bind" = "You have not bound LRN address";
 "Airdrop time invalid" = "You can only claim LRN once a day";
 "Airdrop browser" = "NEO Tracker";
+"Airdrop next claim date" = "Next Claim Date";
+"Airdrop last claim date" = "Last Claim Date";
 
 /* DEX Trade page */
 "Loopring Order" = "Loopring Order";

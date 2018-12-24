@@ -140,7 +140,9 @@
 "Airdrop forward" = "前往NEO浏览器查看详情";
 "Airdrop no bind" = "您尚未绑定LRN的空投地址，目前无法领取";
 "Airdrop time invalid" = "距您上次领取，还未到一天，请稍后领取";
-"Airdrop browser" = "NEO Tracker";
+"Airdrop browser" = "NEO瀏覽器";
+"Airdrop next claim date" = "下次可领取空投时间";
+"Airdrop last claim date" = "上次领取空投时间";
 
 /* DEX Trade page */
 "Loopring Order" = "路印订单";
