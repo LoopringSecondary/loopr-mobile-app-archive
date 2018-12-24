@@ -107,7 +107,6 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                             view.airdropAmount.setText(value);
                         }
                         setClaimButton(false);
-                        view.airdropAmount.setText("0.0000");
                         view.clLoading.setVisibility(View.GONE);
                     }
                 });
@@ -156,6 +155,17 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
         if (claimDate != null) {
             Date dateTarget = DateUtil.addDateTime(claimDate, 24);
             result = DateUtil.compareDate(dateTarget, new Date());
+            if (result) {
+                view.llAirdropDate.setVisibility(View.GONE);
+                view.dateTip.setVisibility(View.GONE);
+            } else {
+                view.airdropDate.setText(DateUtil.formatDateTime(dateTarget, "yyyy-MM-dd HH:mm:ss"));
+                view.llAirdropDate.setVisibility(View.VISIBLE);
+                view.dateTip.setVisibility(View.VISIBLE);
+            }
+        } else {
+            view.llAirdropDate.setVisibility(View.GONE);
+            view.dateTip.setVisibility(View.GONE);
         }
         return result;
     }

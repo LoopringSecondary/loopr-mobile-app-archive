@@ -9,6 +9,7 @@ package leaf.prod.app.activity.wallet;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -46,6 +47,16 @@ public class AirdropActivity extends BaseActivity {
 
     @BindView(R.id.amount_tip)
     public TextView amountTip;
+
+    @BindView(R.id.ll_airdrop_date)
+    public LinearLayout llAirdropDate;
+
+    @BindView(R.id.date_tip)
+    public TextView dateTip;
+
+
+    @BindView(R.id.airdrop_date)
+    public MaterialEditText airdropDate;
 
     private static int REQUEST_CODE = 1;
 

@@ -100,7 +100,7 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/radius_white_bg"
         android:gravity="center_vertical"
-        app:layout_constraintBottom_toTopOf="@+id/ll_btns"
+        app:layout_constraintBottom_toTopOf="@+id/ll_airdrop_date"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/ll_airdrop_addr"
@@ -140,10 +140,66 @@
         android:text="@string/airdrop_amount_tip"
         android:textColor="@color/colorNineText"
         android:textSize="@dimen/text_11"
-        app:layout_constraintBottom_toTopOf="@id/ll_btns"
+        app:layout_constraintBottom_toTopOf="@id/ll_airdrop_date"
         app:layout_constraintEnd_toEndOf="@id/imageView"
         app:layout_constraintStart_toStartOf="@id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/ll_airdrop_amount"
+    />
+
+    <LinearLayout
+        android:id="@+id/ll_airdrop_date"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemHeight"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/radius_white_bg"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toTopOf="@+id/ll_btns"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/ll_airdrop_amount"
+        app:layout_constraintVertical_bias="0">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/airdrop_date"
+            style="@style/editTextStyle"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/margSide"
+            android:layout_weight="1"
+            android:cursorVisible="true"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            android:imeOptions="actionNext"
+            android:maxLength="100"
+            android:singleLine="true"
+            android:textColorHint="@color/black"
+            android:textCursorDrawable="@drawable/black_color_cursor"
+            android:textSize="@dimen/normalText"
+            app:met_baseColor="@color/black"
+            app:met_checkCharactersCountAtBeginning="false"
+            app:met_floatingLabel="none"
+            app:met_helperTextColor="@color/black"
+            app:met_hideUnderline="true"
+            app:met_primaryColor="@color/black"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/date_tip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/airdrop_amount_tip"
+        android:textColor="@color/colorNineText"
+        android:textSize="@dimen/text_11"
+        app:layout_constraintBottom_toTopOf="@id/ll_btns"
+        app:layout_constraintEnd_toEndOf="@id/imageView"
+        app:layout_constraintStart_toStartOf="@id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/ll_airdrop_date"
         />
 
     <LinearLayout
@@ -157,7 +213,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/ll_airdrop_amount">
+        app:layout_constraintTop_toBottomOf="@+id/ll_airdrop_date">
 
         <Button
             android:id="@+id/btn_claim"
