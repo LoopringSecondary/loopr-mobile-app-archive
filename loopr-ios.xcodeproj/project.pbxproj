@@ -1132,6 +1132,13 @@
 			path = Airdrop;
 			sourceTree = "<group>";
 		};
+		9461850B21D082D500393432 /* News */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
 		949253C021C28C9F000032E9 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1679,6 +1686,7 @@
 		AC798E412022B93A0071D477 /* loopr-ios */ = {
 			isa = PBXGroup;
 			children = (
+				9461850B21D082D500393432 /* News */,
 				94AEF3B3218AA67B00112AAC /* ThirdParty */,
 				AC1BDECE21853A9F002CF4ED /* UP Wallet.entitlements */,
 				ACCC7EA120828D2E008E58BA /* loopr-ios-sdk */,
