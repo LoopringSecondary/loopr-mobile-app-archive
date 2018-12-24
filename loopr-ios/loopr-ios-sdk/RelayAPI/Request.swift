@@ -21,6 +21,7 @@ class Request {
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
+        request.timeoutInterval = 30
 
         do {
             try request.httpBody = body.rawData()
@@ -58,7 +59,9 @@ class Request {
             URLQueryItem(name: key, value: value)
         }
         components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
-        let request = URLRequest(url: components.url!)
+        var request = URLRequest(url: components.url!)
+        request.timeoutInterval = 30
+
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data,                                // is there data
                 let httpResponse = response as? HTTPURLResponse,  // is there HTTP response
@@ -80,6 +83,8 @@ class Request {
         components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
         var request = URLRequest(url: components.url!)
         request.httpMethod = "DELETE"
+        request.timeoutInterval = 30
+
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data,                            // is there data
                 let httpResponse = response as? HTTPURLResponse,  // is there HTTP response
