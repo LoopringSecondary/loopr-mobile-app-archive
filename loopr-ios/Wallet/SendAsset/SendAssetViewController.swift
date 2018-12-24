@@ -531,6 +531,14 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         return true
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // Show contact list view
+        if textField.tag == 0 && contactListView.isHidden {
+            showContactListView()
+        }
+        return true
+    }
+    
     func getActiveTextField() -> UITextField? {
         return amountTextField
     }
@@ -671,7 +679,13 @@ extension SendAssetViewController: UITableViewDelegate, UITableViewDataSource {
         guard filtedContacts.count > 0 else {
             return
         }
+        contactListView.alpha = 0
         contactListView.isHidden = false
+        UIView.animate(withDuration: 0.3, delay: 0.1, options: .curveLinear, animations: {
+            self.contactListView.alpha = 1
+        }) { (_) in
+            
+        }
         scrollView.setContentOffset(CGPoint(x: 0, y: 92), animated: true)
         scrollView.isScrollEnabled = false
     }

@@ -171,29 +171,21 @@
                                         <action selector="pressedSendButton:" destination="-1" eventType="touchUpInside" id="sZv-j6-GEK"/>
                                     </connections>
                                 </button>
-                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mfs-dw-Pii">
-                                    <rect key="frame" x="15" y="67" width="352" height="207"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </tableView>
                             </subviews>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="JlJ-XA-Yl0" secondAttribute="bottom" constant="19" id="03f-1R-ZA2"/>
                                 <constraint firstAttribute="trailing" secondItem="Cu0-Ap-5L8" secondAttribute="trailing" constant="15" id="17M-SG-eks"/>
                                 <constraint firstItem="Rte-SL-Gly" firstAttribute="top" secondItem="hqf-UR-h9I" secondAttribute="bottom" constant="8" id="2Qq-tF-QST"/>
-                                <constraint firstItem="mfs-dw-Pii" firstAttribute="leading" secondItem="Cu0-Ap-5L8" secondAttribute="leading" id="4Qe-9A-0r3"/>
                                 <constraint firstItem="lrj-AR-lcV" firstAttribute="trailing" secondItem="hqf-UR-h9I" secondAttribute="trailing" constant="12" id="5cx-Wj-Vyx"/>
                                 <constraint firstItem="izC-oD-GRt" firstAttribute="centerY" secondItem="yvt-JE-1ey" secondAttribute="centerY" id="6p2-z2-Py0"/>
                                 <constraint firstItem="lrj-AR-lcV" firstAttribute="centerY" secondItem="yvt-JE-1ey" secondAttribute="centerY" id="7sb-qS-zxR"/>
                                 <constraint firstItem="aje-gV-Iod" firstAttribute="trailing" secondItem="Cu0-Ap-5L8" secondAttribute="trailing" id="8BQ-BI-fwr"/>
                                 <constraint firstItem="hqf-UR-h9I" firstAttribute="leading" secondItem="4fJ-P7-xjN" secondAttribute="leading" constant="15" id="C1b-9C-P9Z"/>
-                                <constraint firstItem="JlJ-XA-Yl0" firstAttribute="top" secondItem="mfs-dw-Pii" secondAttribute="bottom" constant="15" id="CRY-aW-To9"/>
                                 <constraint firstItem="Rte-SL-Gly" firstAttribute="leading" secondItem="hqf-UR-h9I" secondAttribute="leading" id="LHr-qN-xNN"/>
                                 <constraint firstItem="Cu0-Ap-5L8" firstAttribute="leading" secondItem="4fJ-P7-xjN" secondAttribute="leading" constant="15" id="QAX-Zm-yqv"/>
                                 <constraint firstItem="lrj-AR-lcV" firstAttribute="leading" secondItem="izC-oD-GRt" secondAttribute="trailing" constant="-10" id="TqB-HP-d2j"/>
-                                <constraint firstItem="mfs-dw-Pii" firstAttribute="top" secondItem="Cu0-Ap-5L8" secondAttribute="bottom" constant="4" id="VXr-Uy-adU"/>
                                 <constraint firstItem="JlJ-XA-Yl0" firstAttribute="top" secondItem="yvt-JE-1ey" secondAttribute="bottom" constant="15" id="ZTg-Sb-2dD"/>
                                 <constraint firstItem="aje-gV-Iod" firstAttribute="centerY" secondItem="Cu0-Ap-5L8" secondAttribute="centerY" id="bSn-N7-rt6"/>
-                                <constraint firstItem="Cu0-Ap-5L8" firstAttribute="trailing" secondItem="mfs-dw-Pii" secondAttribute="trailing" id="biA-Vp-Jf2"/>
                                 <constraint firstItem="4pS-Um-wzl" firstAttribute="top" secondItem="Cu0-Ap-5L8" secondAttribute="bottom" constant="8" id="gie-cl-tQe"/>
                                 <constraint firstItem="4pS-Um-wzl" firstAttribute="leading" secondItem="Cu0-Ap-5L8" secondAttribute="leading" id="iUI-PP-a3r"/>
                                 <constraint firstAttribute="height" constant="352" id="jzc-Su-bmb"/>
@@ -245,13 +237,23 @@
                         <constraint firstAttribute="trailing" secondItem="cs7-0B-mb8" secondAttribute="trailing" constant="15" id="xJq-96-Op6"/>
                     </constraints>
                 </scrollView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mfs-dw-Pii">
+                    <rect key="frame" x="30" y="91" width="354" height="207"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="207" id="A2Z-6i-O3k"/>
+                    </constraints>
+                </tableView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="MAS-rZ-KS3" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="F1c-kK-za2"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="MAS-rZ-KS3" secondAttribute="trailing" id="Frt-Af-2Pm"/>
                 <constraint firstItem="MAS-rZ-KS3" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Hc5-WY-Vfs"/>
+                <constraint firstItem="mfs-dw-Pii" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="K8u-cI-MmC"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="MAS-rZ-KS3" secondAttribute="bottom" id="VRg-I5-bNn"/>
+                <constraint firstItem="mfs-dw-Pii" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="71" id="h54-Yb-N0m"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="mfs-dw-Pii" secondAttribute="trailing" constant="30" id="xdc-Qh-mLv"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="34.782608695652179" y="53.804347826086961"/>
