@@ -59,7 +59,7 @@ class NeoAPIRequest {
         body["jsonrpc"] = JSON("2.0")
         body["id"] = JSON(UUID().uuidString)
         
-        Request.post(body: body, url: RelayAPIConfiguration.neoURL) { data, _, error in
+        Request.post(body: body, url: RelayAPIConfiguration.neoURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
                 return

@@ -67,7 +67,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nQP-hb-vYH" customClass="GradientButton" customModule="loopr_ios" customModuleProvider="target">
-                                    <rect key="frame" x="15" y="198" width="315" height="44"/>
+                                    <rect key="frame" x="48" y="198" width="249" height="44"/>
                                     <color key="backgroundColor" name="Color-dark5"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="8ba-q0-mHY"/>
@@ -78,7 +78,7 @@
                                     </connections>
                                 </button>
                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rhz-mz-X8t" customClass="GradientButton" customModule="loopr_ios" customModuleProvider="target">
-                                    <rect key="frame" x="15" y="198" width="315" height="44"/>
+                                    <rect key="frame" x="48" y="198" width="249" height="44"/>
                                     <color key="backgroundColor" name="Color-dark5"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="WTT-tZ-mia"/>
@@ -101,10 +101,10 @@
                                 <constraint firstItem="zbF-4r-ct9" firstAttribute="leading" secondItem="z3h-4u-t38" secondAttribute="leading" constant="15" id="Xmb-pl-lBy"/>
                                 <constraint firstItem="Rhz-mz-X8t" firstAttribute="trailing" secondItem="nQP-hb-vYH" secondAttribute="trailing" id="cAH-Le-pYu"/>
                                 <constraint firstItem="Rhz-mz-X8t" firstAttribute="bottom" secondItem="nQP-hb-vYH" secondAttribute="bottom" id="e7T-Qc-tPX"/>
-                                <constraint firstAttribute="trailing" secondItem="nQP-hb-vYH" secondAttribute="trailing" constant="15" id="gbG-q1-O6c"/>
+                                <constraint firstAttribute="trailing" secondItem="nQP-hb-vYH" secondAttribute="trailing" constant="48" id="gbG-q1-O6c"/>
                                 <constraint firstItem="AcS-wc-s2K" firstAttribute="leading" secondItem="zbF-4r-ct9" secondAttribute="leading" id="hb7-pc-Tk0"/>
                                 <constraint firstItem="baQ-Vs-MNF" firstAttribute="leading" secondItem="8Hn-Qb-mVB" secondAttribute="leading" id="hmM-lk-mq7"/>
-                                <constraint firstItem="nQP-hb-vYH" firstAttribute="leading" secondItem="z3h-4u-t38" secondAttribute="leading" constant="15" id="iVC-uO-d9c"/>
+                                <constraint firstItem="nQP-hb-vYH" firstAttribute="leading" secondItem="z3h-4u-t38" secondAttribute="leading" constant="48" id="iVC-uO-d9c"/>
                                 <constraint firstAttribute="height" constant="270" id="m5K-M1-gS1"/>
                                 <constraint firstItem="AcS-wc-s2K" firstAttribute="top" secondItem="zbF-4r-ct9" secondAttribute="bottom" constant="8" id="nQ7-5N-YXe"/>
                                 <constraint firstAttribute="trailing" secondItem="8Hn-Qb-mVB" secondAttribute="trailing" constant="15" id="vgV-jC-Sug"/>

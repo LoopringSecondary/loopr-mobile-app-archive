@@ -74,18 +74,20 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func setupContent() {
-        SVProgressHUD.show(withStatus: LocalizedString("Loading Data", comment: ""))
+        SVProgressHUD.show(LocalizedString("Loading Data", comment: ""), maxTime: 10)
+        SVProgressHUD.setMaximumDismissTimeInterval(10)
         SendCurrentAppWalletDataManager.shared._getBindAddress { (result, _) in
             DispatchQueue.main.async {
                 if let result = result {
                     self.bindAddress = result
+                    self.addressTextField.text = self.bindAddress
                     NeoAPIRequest.neo_getAmount(bindAddress: result, completion: { (result, _) -> Void in
                         DispatchQueue.main.async {
                             if let result = result {
                                 let value = Asset.getAmount(fromWeiAmount: result.stack[0].value, of: 8)
                                 self.bindAmount = value?.withCommas(4)
+                                self.amountTextField.text = self.bindAmount
                                 _ = self.validateTime()
-                                _ = self.validateAddress() && self.validateAmount()
                             } else {
                                 let notificationTitle = LocalizedString("Airdrop empty", comment: "")
                                 let banner = NotificationBanner.generate(title: notificationTitle, style: .danger)
@@ -140,7 +142,7 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
     // To prove claiming only once a day
     func validateTime() -> Bool {
         var result = false
-        let date = UserDefaults.standard.object(forKey: self.bindAddress!)
+        let date = UserDefaults.standard.object(forKey: "\(UserDefaultsKeys.airdropDate.rawValue)\(self.bindAddress!)")
         if let date = date as? Date {
             let target = Calendar.current.date(byAdding: .hour, value: 24, to: date)
             if Date() < target! {
@@ -165,8 +167,8 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
                 if let result = response {
                     self.claimButton.isHidden = true
                     self.forwardButton.isHidden = false
-                    UserDefaults.standard.setValue(result, forKey: self.bindAddress!)
-                    UserDefaults.standard.setValue(Date(), forKey: self.bindAddress!)
+                    UserDefaults.standard.setValue(result, forKey: "\(UserDefaultsKeys.airdropTxID.rawValue)\(self.bindAddress!)")
+                    UserDefaults.standard.setValue(Date(), forKey: "\(UserDefaultsKeys.airdropDate.rawValue)\(self.bindAddress!)")
                     let notificationTitle = LocalizedString("Airdrop success", comment: "")
                     let banner = NotificationBanner.generate(title: notificationTitle, style: .success)
                     banner.duration = 3.0
@@ -182,7 +184,7 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
     }
 
     @IBAction func pressedForwardButton(_ sender: Any) {
-        if let url = UserDefaults.standard.string(forKey: self.bindAddress!) {
+        if let url = UserDefaults.standard.string(forKey: "\(UserDefaultsKeys.airdropTxID.rawValue)\(self.bindAddress!)") {
             let viewController = DefaultWebViewController()
             viewController.navigationTitle = LocalizedString("Airdrop browser", comment: "")
             viewController.url = URL.init(string: "https://neotracker.io/tx/\(url.drop0x())")

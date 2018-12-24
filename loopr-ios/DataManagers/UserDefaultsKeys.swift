@@ -28,6 +28,10 @@ enum UserDefaultsKeys: String {
     case showTradingFeature = "UserDefaultsKeys.showTradingFeature"
     case userContacts = "UserDefaultsKeys.userContacts"
     
+    // Airdrop
+    case airdropTxID = "UserDefaultsKeys.airdrop.txid."
+    case airdropDate = "UserDefaultsKeys.airdrop.date."
+    
     // ThirdParty
     // thirdParty is used to check whether users has skip or quit the third party
     case thirdParty = "UserDefaultsKeys.thirdParty"
