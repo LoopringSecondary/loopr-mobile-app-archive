@@ -75,6 +75,7 @@
     <string name="airdrop_no_bind">您尚未绑定LRN的空投地址，目前无法领取</string>
     <string name="airdrop_time_invalid">距您上次领取，还未到一天，请稍后领取</string>
     <string name="airdrop_neo_error">NEO节点访问失败，请稍后重试</string>
+    <string name="airdrop_next_date">下次可领时间</string>
     <string name="airdrop_browser">NEO Tracker</string>
 
     <string name="set_share">分享APP，获得撮合费20%收益</string>

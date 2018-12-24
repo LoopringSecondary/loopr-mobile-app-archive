@@ -56,7 +56,6 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
 
     private Animation shakeAnimation;
 
-
     public AirdropPresenter(AirdropActivity view, Context context) {
         super(view, context);
         this.neoService = new NeoService(context);
@@ -76,8 +75,8 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                             .getBindFunction(owner, 1).getOutputParameters();
                     List<Type> values = FunctionReturnDecoder.decode(ethCall.getValue(), typeReferences);
                     bindAddress = values.get(0).toString();
-                    view.airdropAddress.setText(bindAddress);
-                    setClaimButton(false);
+                    //                    view.airdropAddress.setText(bindAddress);
+                    //                    setClaimButton(false);
                     if (StringUtils.isEmpty(bindAddress)) {
                         return Observable.just("failed");
                     } else {
@@ -106,6 +105,7 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                             String value = NumberUtils.format1(bindAmount, 4);
                             view.airdropAmount.setText(value);
                         }
+                        view.airdropAddress.setText(bindAddress);
                         setClaimButton(false);
                         view.clLoading.setVisibility(View.GONE);
                     }
@@ -134,9 +134,9 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                         public void onNext(RelayResponseWrapper wrapper) {
                             if (wrapper.getError() == null) {
                                 RxToast.success(context.getString(R.string.airdrop_success));
-                                SPUtils.put(context, "claim_date", new Date());
+                                SPUtils.put(context, "claim_date_" + WalletUtil.getCurrentAddress(context), new Date());
                                 String txHash = Numeric.cleanHexPrefix(((ClaimBindAmount) wrapper.getResult()).getTxid());
-                                SPUtils.put(context, "airdrop_txhash", WalletUtil.getCurrentAddress(context) + "_" + txHash);
+                                SPUtils.put(context, "airdrop_txhash_" + WalletUtil.getCurrentAddress(context), txHash);
                             } else {
                                 RxToast.error(context.getString(R.string.airdrop_time_invalid));
                             }
@@ -151,7 +151,7 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
 
     public boolean isClaimTimeValid() {
         boolean result = true;
-        Date claimDate = SPUtils.getBean(context, bindAddress, Date.class);
+        Date claimDate = SPUtils.getBean(context, "claim_date_" + WalletUtil.getCurrentAddress(context), Date.class);
         if (claimDate != null) {
             Date dateTarget = DateUtil.addDateTime(claimDate, 24);
             result = DateUtil.compareDate(dateTarget, new Date());
@@ -176,8 +176,8 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
             view.claimButton.setOnClickListener(v -> RxToast.error(context.getString(R.string.airdrop_neo_error)));
             return;
         }
-        String txHash = (String) SPUtils.get(context, "airdrop_txhash", "");
-        if (!isClaimTimeValid() && !txHash.isEmpty() && txHash.startsWith(WalletUtil.getCurrentAddress(context) + "_")) {
+        String txHash = (String) SPUtils.get(context, "airdrop_txhash_" + WalletUtil.getCurrentAddress(context), "");
+        if (!isClaimTimeValid() && !txHash.isEmpty()) {
             view.claimButton.setText(context.getString(R.string.airdrop_forward));
             view.claimButton.setOnClickListener(v -> {
                 view.getOperation().addParameter("url", "https://neotracker.io/tx/" + txHash);
@@ -193,9 +193,11 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
             view.claimButton.setOnClickListener(v -> view.amountTip.startAnimation(shakeAnimation));
         } else {
             view.claimButton.setText(context.getString(R.string.airdrop_button));
-            if (!(ButtonClickUtil.isFastDoubleClick(1))) {
-                handleClaim();
-            }
+            view.claimButton.setOnClickListener(v -> {
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) {
+                    handleClaim();
+                }
+            });
         }
     }
 }
