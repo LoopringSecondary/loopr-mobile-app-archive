@@ -10,6 +10,7 @@ import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.model.LoginUser;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
+import leaf.prod.walletsdk.model.response.crawler.IndexResult;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import leaf.prod.walletsdk.model.response.relay.ClaimBindAmount;
 import leaf.prod.walletsdk.model.response.relay.GetBindAmount;
@@ -137,4 +138,7 @@ public interface RpcDelegate {
 
     @POST(Default.CRAWLER_RPC_URL)
     Observable<RelayResponseWrapper<NewsPageWrapper>> getNews(@Body RequestWrapper request);
+
+    @POST(Default.CRAWLER_RPC_URL)
+    Observable<RelayResponseWrapper<IndexResult>> updateIndex(@Body RequestWrapper request);
 }
