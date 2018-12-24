@@ -75,6 +75,7 @@
     <string name="airdrop_empty">You have no LRN bonus</string>
     <string name="airdrop_no_bind">You have not bind LRN address</string>
     <string name="airdrop_time_invalid">You can only claim LRN once a day</string>
+    <string name="airdrop_neo_error">NEO node access failed, please retry later</string>
     <string name="airdrop_browser">NEO Tracker</string>
 
     <string name="set_share">Share APP ,  harvest 20% of trading fee</string>

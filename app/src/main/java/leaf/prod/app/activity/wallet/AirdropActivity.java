@@ -35,9 +35,6 @@ public class AirdropActivity extends BaseActivity {
     @BindView(R.id.btn_claim)
     public Button claimButton;
 
-    @BindView(R.id.btn_claim_disable)
-    public Button claimButtonDisable;
-
     @BindView(R.id.cl_loading)
     public ConstraintLayout clLoading;
 
@@ -50,8 +47,6 @@ public class AirdropActivity extends BaseActivity {
     @BindView(R.id.amount_tip)
     public TextView amountTip;
 
-    private AirdropPresenter presenter;
-
     private static int REQUEST_CODE = 1;
 
     /**
@@ -59,7 +54,7 @@ public class AirdropActivity extends BaseActivity {
      */
     @Override
     protected void initPresenter() {
-        presenter = new AirdropPresenter(this, this);
+        new AirdropPresenter(this, this);
     }
 
     /**
