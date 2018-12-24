@@ -104,9 +104,9 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                     .subscribe(wrapper -> {
                         if (wrapper.getError() == null) {
                             RxToast.success(context.getString(R.string.airdrop_success));
-                            SPUtils.put(context, "claim_date", new Date());
                             String txHash = Numeric.cleanHexPrefix(((ClaimBindAmount) wrapper.getResult()).getTxid());
-                            SPUtils.put(context, "airdrop_txhash", WalletUtil.getCurrentAddress(context) + "_" + txHash);
+                            SPUtils.put(context, bindAddress, new Date());
+                            SPUtils.put(context, bindAddress, WalletUtil.getCurrentAddress(context) + "_" + txHash);
                             setClaimButton();
                         } else {
                             RxToast.error(context.getString(R.string.airdrop_time_invalid));
@@ -120,7 +120,7 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
 
     public boolean isClaimTimeValid() {
         boolean result = true;
-        Date claimDate = SPUtils.getBean(context, "claim_date", Date.class);
+        Date claimDate = SPUtils.getBean(context, bindAddress, Date.class);
         if (claimDate != null) {
             Date dateTarget = DateUtil.addDateTime(claimDate, 24);
             result = DateUtil.compareDate(dateTarget, new Date());
@@ -129,7 +129,7 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
     }
 
     public void setClaimButton() {
-        String txHash = (String) SPUtils.get(context, "airdrop_txhash", "");
+        String txHash = (String) SPUtils.get(context, bindAddress, "");
         if (!isClaimTimeValid() && !txHash.isEmpty() && txHash.startsWith(WalletUtil.getCurrentAddress(context) + "_")) {
             view.claimButton.setText(context.getString(R.string.airdrop_forward));
             view.claimButton.setOnClickListener(v -> {
