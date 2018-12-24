@@ -134,9 +134,9 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                         public void onNext(RelayResponseWrapper wrapper) {
                             if (wrapper.getError() == null) {
                                 RxToast.success(context.getString(R.string.airdrop_success));
-                                SPUtils.put(context, "claim_date_" + WalletUtil.getCurrentAddress(context), new Date());
+                                SPUtils.put(context, "claim_date_" + bindAddress, new Date());
                                 String txHash = Numeric.cleanHexPrefix(((ClaimBindAmount) wrapper.getResult()).getTxid());
-                                SPUtils.put(context, "airdrop_txhash_" + WalletUtil.getCurrentAddress(context), txHash);
+                                SPUtils.put(context, "airdrop_txhash_" + bindAddress, txHash);
                             } else {
                                 RxToast.error(context.getString(R.string.airdrop_time_invalid));
                             }
@@ -151,7 +151,7 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
 
     public boolean isClaimTimeValid() {
         boolean result = true;
-        Date claimDate = SPUtils.getBean(context, "claim_date_" + WalletUtil.getCurrentAddress(context), Date.class);
+        Date claimDate = SPUtils.getBean(context, "claim_date_" + bindAddress, Date.class);
         if (claimDate != null) {
             Date dateTarget = DateUtil.addDateTime(claimDate, 24);
             result = DateUtil.compareDate(dateTarget, new Date());
@@ -176,7 +176,7 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
             view.claimButton.setOnClickListener(v -> RxToast.error(context.getString(R.string.airdrop_neo_error)));
             return;
         }
-        String txHash = (String) SPUtils.get(context, "airdrop_txhash_" + WalletUtil.getCurrentAddress(context), "");
+        String txHash = (String) SPUtils.get(context, "airdrop_txhash_" + bindAddress, "");
         if (!isClaimTimeValid() && !txHash.isEmpty()) {
             view.claimButton.setText(context.getString(R.string.airdrop_forward));
             view.claimButton.setOnClickListener(v -> {
