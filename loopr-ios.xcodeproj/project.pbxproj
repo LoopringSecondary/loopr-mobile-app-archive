@@ -61,6 +61,7 @@
 		9461851421D0FA4900393432 /* IndexResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461851321D0FA4900393432 /* IndexResult.swift */; };
 		9461851621D0FAFD00393432 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461851521D0FAFD00393432 /* News.swift */; };
 		9461851821D0FD8700393432 /* NewsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461851721D0FD8700393432 /* NewsCategory.swift */; };
+		9461850E21D0BE7E00393432 /* SVProgressHUDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461850D21D0BE7E00393432 /* SVProgressHUDExtension.swift */; };
 		9464595E20AA9A4C00574485 /* TradeDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9464595D20AA9A4C00574485 /* TradeDataManagerTests.swift */; };
 		94678B2A210D902E00F550D3 /* SendResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94678B28210D902E00F550D3 /* SendResultViewController.swift */; };
 		94678B2B210D902E00F550D3 /* SendResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94678B29210D902E00F550D3 /* SendResultViewController.xib */; };
@@ -598,6 +599,7 @@
 		9461851321D0FA4900393432 /* IndexResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexResult.swift; sourceTree = "<group>"; };
 		9461851521D0FAFD00393432 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		9461851721D0FD8700393432 /* NewsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCategory.swift; sourceTree = "<group>"; };
+		9461850D21D0BE7E00393432 /* SVProgressHUDExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVProgressHUDExtension.swift; sourceTree = "<group>"; };
 		9464595D20AA9A4C00574485 /* TradeDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeDataManagerTests.swift; sourceTree = "<group>"; };
 		94678B28210D902E00F550D3 /* SendResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendResultViewController.swift; sourceTree = "<group>"; };
 		94678B29210D902E00F550D3 /* SendResultViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendResultViewController.xib; sourceTree = "<group>"; };
