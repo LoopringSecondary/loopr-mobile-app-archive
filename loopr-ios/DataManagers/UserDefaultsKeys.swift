@@ -52,10 +52,6 @@ enum UserDefaultsKeys: String {
     
     case largestSkipBuildVersion = "UserDefaultsKeys.largestSkipBuildVersion"
     
-    // Airdrop
-    case airdropDate = "UserDefaultsKeys.airdropDate"
-    case airdropUrl = "UserDefaultsKeys.airdropUrl"
-
     // MARK: - Deprecated
     // Keep these in the code to avoid using them again in the future.
     // case currentFont = "UserDefaultsKeys.currentcurrentFont"

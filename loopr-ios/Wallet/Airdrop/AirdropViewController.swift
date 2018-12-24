@@ -140,8 +140,7 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
     // To prove claiming only once a day
     func validateTime() -> Bool {
         var result = false
-        // FIXME: can't claim the airdrop if there are mutiple addresses.
-        let date = UserDefaults.standard.object(forKey: UserDefaultsKeys.airdropDate.rawValue)
+        let date = UserDefaults.standard.object(forKey: self.bindAddress!)
         if let date = date as? Date {
             let target = Calendar.current.date(byAdding: .hour, value: 24, to: date)
             if Date() < target! {
@@ -166,8 +165,8 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
                 if let result = response {
                     self.claimButton.isHidden = true
                     self.forwardButton.isHidden = false
-                    UserDefaults.standard.setValue(result, forKey: UserDefaultsKeys.airdropUrl.rawValue)
-                    UserDefaults.standard.setValue(Date(), forKey: UserDefaultsKeys.airdropDate.rawValue)
+                    UserDefaults.standard.setValue(result, forKey: self.bindAddress!)
+                    UserDefaults.standard.setValue(Date(), forKey: self.bindAddress!)
                     let notificationTitle = LocalizedString("Airdrop success", comment: "")
                     let banner = NotificationBanner.generate(title: notificationTitle, style: .success)
                     banner.duration = 3.0
@@ -183,7 +182,7 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
     }
 
     @IBAction func pressedForwardButton(_ sender: Any) {
-        if let url = UserDefaults.standard.string(forKey: UserDefaultsKeys.airdropUrl.rawValue) {
+        if let url = UserDefaults.standard.string(forKey: self.bindAddress!) {
             let viewController = DefaultWebViewController()
             viewController.navigationTitle = LocalizedString("Airdrop browser", comment: "")
             viewController.url = URL.init(string: "https://neotracker.io/tx/\(url.drop0x())")
