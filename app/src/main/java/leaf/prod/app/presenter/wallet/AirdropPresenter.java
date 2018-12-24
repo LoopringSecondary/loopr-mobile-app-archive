@@ -27,6 +27,7 @@ import leaf.prod.app.activity.wallet.AirdropActivity;
 import leaf.prod.app.activity.wallet.DefaultWebViewActivity;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
+import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.relay.ClaimBindAmount;
 import leaf.prod.walletsdk.service.Erc20Service;
 import leaf.prod.walletsdk.service.NeoService;
@@ -36,6 +37,7 @@ import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.StringUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -53,6 +55,7 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
     private double bindAmount = 0;
 
     private Animation shakeAnimation;
+
 
     public AirdropPresenter(AirdropActivity view, Context context) {
         super(view, context);
@@ -73,6 +76,8 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                             .getBindFunction(owner, 1).getOutputParameters();
                     List<Type> values = FunctionReturnDecoder.decode(ethCall.getValue(), typeReferences);
                     bindAddress = values.get(0).toString();
+                    view.airdropAddress.setText(bindAddress);
+                    setClaimButton(false);
                     if (StringUtils.isEmpty(bindAddress)) {
                         return Observable.just("failed");
                     } else {
@@ -80,18 +85,31 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                    if (!result.equals("failed")) {
-                        BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(result));
-                        BigInteger divider = BigInteger.valueOf(100000000L);
-                        bindAmount = bigInteger.divide(divider).doubleValue();
-                        String value = NumberUtils.format1(bindAmount, 4);
-                        view.airdropAddress.setText(bindAddress);
-                        view.airdropAmount.setText(value);
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
                     }
-                    view.airdropAmount.setText("0.0000");
-                    setClaimButton();
-                    view.clLoading.setVisibility(View.GONE);
+
+                    @Override
+                    public void onError(Throwable e) {
+                        setClaimButton(true);
+                        view.clLoading.setVisibility(View.GONE);
+                        RxToast.error(context.getString(R.string.airdrop_neo_error));
+                    }
+
+                    @Override
+                    public void onNext(String result) {
+                        if (!result.equals("failed")) {
+                            BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(result));
+                            BigInteger divider = BigInteger.valueOf(100000000L);
+                            bindAmount = bigInteger.divide(divider).doubleValue();
+                            String value = NumberUtils.format1(bindAmount, 4);
+                            view.airdropAmount.setText(value);
+                        }
+                        setClaimButton(false);
+                        view.airdropAmount.setText("0.0000");
+                        view.clLoading.setVisibility(View.GONE);
+                    }
                 });
     }
 
@@ -101,17 +119,31 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
             neoService.claimAirdrop(bindAddress)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(wrapper -> {
-                        if (wrapper.getError() == null) {
-                            RxToast.success(context.getString(R.string.airdrop_success));
-                            String txHash = Numeric.cleanHexPrefix(((ClaimBindAmount) wrapper.getResult()).getTxid());
-                            SPUtils.put(context, bindAddress, new Date());
-                            SPUtils.put(context, bindAddress, WalletUtil.getCurrentAddress(context) + "_" + txHash);
-                            setClaimButton();
-                        } else {
-                            RxToast.error(context.getString(R.string.airdrop_time_invalid));
+                    .subscribe(new Subscriber<RelayResponseWrapper>() {
+                        @Override
+                        public void onCompleted() {
                         }
-                        view.clLoading.setVisibility(View.GONE);
+
+                        @Override
+                        public void onError(Throwable e) {
+                            setClaimButton(true);
+                            view.clLoading.setVisibility(View.GONE);
+                            RxToast.error(context.getString(R.string.airdrop_neo_error));
+                        }
+
+                        @Override
+                        public void onNext(RelayResponseWrapper wrapper) {
+                            if (wrapper.getError() == null) {
+                                RxToast.success(context.getString(R.string.airdrop_success));
+                                SPUtils.put(context, "claim_date", new Date());
+                                String txHash = Numeric.cleanHexPrefix(((ClaimBindAmount) wrapper.getResult()).getTxid());
+                                SPUtils.put(context, "airdrop_txhash", WalletUtil.getCurrentAddress(context) + "_" + txHash);
+                            } else {
+                                RxToast.error(context.getString(R.string.airdrop_time_invalid));
+                            }
+                            setClaimButton(false);
+                            view.clLoading.setVisibility(View.GONE);
+                        }
                     });
         } else {
             RxToast.error(context.getString(R.string.airdrop_failed));
@@ -128,32 +160,29 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
         return result;
     }
 
-    public void setClaimButton() {
-        String txHash = (String) SPUtils.get(context, bindAddress, "");
+    public void setClaimButton(Boolean netError) {
+        if (netError) {
+            RxToast.error(context.getString(R.string.airdrop_neo_error));
+            view.claimButton.setOnClickListener(v -> RxToast.error(context.getString(R.string.airdrop_neo_error)));
+            return;
+        }
+        String txHash = (String) SPUtils.get(context, "airdrop_txhash", "");
         if (!isClaimTimeValid() && !txHash.isEmpty() && txHash.startsWith(WalletUtil.getCurrentAddress(context) + "_")) {
             view.claimButton.setText(context.getString(R.string.airdrop_forward));
             view.claimButton.setOnClickListener(v -> {
                 view.getOperation().addParameter("url", "https://neotracker.io/tx/" + txHash);
                 view.getOperation().forward(DefaultWebViewActivity.class);
             });
-            view.claimButton.setVisibility(View.VISIBLE);
-            view.claimButtonDisable.setVisibility(View.GONE);
         } else if (StringUtils.isEmpty(bindAddress)) {
             view.addressTip.setText(view.getString(R.string.airdrop_no_bind));
             view.addressTip.setTextColor(view.getResources().getColor(R.color.colorRed));
-            view.claimButtonDisable.setOnClickListener(v -> view.addressTip.startAnimation(shakeAnimation));
-            view.claimButton.setVisibility(View.GONE);
-            view.claimButtonDisable.setVisibility(View.VISIBLE);
+            view.claimButton.setOnClickListener(v -> view.addressTip.startAnimation(shakeAnimation));
         } else if (bindAmount == 0) {
             view.amountTip.setText(view.getString(R.string.airdrop_empty));
             view.amountTip.setTextColor(view.getResources().getColor(R.color.colorRed));
-            view.claimButtonDisable.setOnClickListener(v -> view.amountTip.startAnimation(shakeAnimation));
-            view.claimButton.setVisibility(View.GONE);
-            view.claimButtonDisable.setVisibility(View.VISIBLE);
+            view.claimButton.setOnClickListener(v -> view.amountTip.startAnimation(shakeAnimation));
         } else {
             view.claimButton.setText(context.getString(R.string.airdrop_button));
-            view.claimButton.setVisibility(View.VISIBLE);
-            view.claimButtonDisable.setVisibility(View.GONE);
             if (!(ButtonClickUtil.isFastDoubleClick(1))) {
                 handleClaim();
             }
