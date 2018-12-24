@@ -167,9 +167,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             }, completion: { (_) in
                 self.blurVisualEffectView.removeFromSuperview()
             })
-            
-            
-            
         }
         
         vc.skipClosure = {

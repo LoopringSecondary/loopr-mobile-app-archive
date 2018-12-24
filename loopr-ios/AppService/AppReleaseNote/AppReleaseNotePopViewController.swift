@@ -115,6 +115,14 @@ class AppReleaseNotePopViewController: UIViewController {
         skipClosure?()
         self.dismiss(animated: true, completion: {
         })
+        if popFromSettingViewController {
+            
+        } else {
+            AppServiceUpdateManager.shared.setLargestSkipBuildVersion()
+            Answers.logCustomEvent(withName: "App Update Notification v1",
+                                   customAttributes: [
+                                    "update": "false"])
+        }
     }
     
     @objc func backgroundViewTapped() {

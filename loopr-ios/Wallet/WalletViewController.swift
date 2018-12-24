@@ -27,6 +27,8 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var showTradingFeature: Bool = FeatureConfigDataManager.shared.getShowTradingFeature()
     
+    var blurVisualEffectView = UIView(frame: .zero)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -85,6 +87,10 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Adding the view below the refresh control
         assetTableView.insertSubview(backgroundView, at: 0)
         
+        blurVisualEffectView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        blurVisualEffectView.alpha = 1
+        blurVisualEffectView.frame = UIScreen.main.bounds
+
         NotificationCenter.default.addObserver(self, selector: #selector(needRelaunchCurrentAppWalletReceivedNotification), name: .needRelaunchCurrentAppWallet, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(processPasteboard), name: .needCheckStringInPasteboard, object: nil)
     }

@@ -10,21 +10,38 @@ import Foundation
 import UIKit
 import Crashlytics
 
-extension UIViewController {
+extension WalletViewController {
     
-    func old_displayUpdateNotification() {
-        let alert = UIAlertController(title: LocalizedString("A new version of app is ready to update", comment: ""), message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: LocalizedString("Skip_Update", comment: ""), style: .default, handler: { _ in
-            AppServiceUpdateManager.shared.setLargestSkipBuildVersion()
-            Answers.logCustomEvent(withName: "App Update Notification v1",
-                                   customAttributes: [
-                                    "update": "false"])
-        }))
-        alert.addAction(UIAlertAction(title: LocalizedString("Update", comment: ""), style: .default, handler: { _ in
+    func displayUpdateNotification() {
+        let vc = AppReleaseNotePopViewController()
+        
+        vc.popFromSettingViewController = false
+        
+        vc.modalPresentationStyle = .overFullScreen
+        vc.updateClosure = {
+            UIView.animate(withDuration: 0.1, animations: {
+                self.blurVisualEffectView.alpha = 0.0
+            }, completion: { (_) in
+                self.blurVisualEffectView.removeFromSuperview()
+            })
+        }
+        
+        vc.skipClosure = {
+            UIView.animate(withDuration: 0.1, animations: {
+                self.blurVisualEffectView.alpha = 0.0
+            }, completion: { (_) in
+                self.blurVisualEffectView.removeFromSuperview()
+            })
+        }
+        
+        self.present(vc, animated: true, completion: nil)
+        
+        self.navigationController?.view.addSubview(self.blurVisualEffectView)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.blurVisualEffectView.alpha = 1.0
+        }, completion: {(_) in
             
-        }))
-
-        self.present(alert, animated: true, completion: nil)
+        })
     }
 
 }

@@ -173,7 +173,6 @@ class AppWalletDataManager {
         
         // Public address
         let address = wallet.getKey(at: key).address
-        print(address.description)
         
         // Check if the address has been imported.
         if isDuplicatedAddress(address: address.description) {
