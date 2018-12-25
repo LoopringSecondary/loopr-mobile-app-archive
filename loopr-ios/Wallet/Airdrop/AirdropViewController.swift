@@ -172,6 +172,7 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
     func validateTime() -> Bool {
         var result = false
         let date = UserDefaults.standard.object(forKey: "\(UserDefaultsKeys.airdropDate.rawValue)\(self.bindAddress!)")
+        // If date is nil, it means the bindAddress has not been claimed in the app before. Then nextClaimDateTextField and nextClaimDateTipLabel are hidden.
         if let date = date as? Date {
             // The date has been added a 24 hours.
             let target = Calendar.current.date(byAdding: .hour, value: 24, to: date)
