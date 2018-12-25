@@ -78,8 +78,10 @@ class SettingAppVersionTableViewCell: UITableViewCell {
         
         if AppServiceUpdateManager.shared.shouldDisplayUpdateNotificationInSettingViewController() {
             updateNotificationLabel.isHidden = false
+            selectionStyle = .default
         } else {
             updateNotificationLabel.isHidden = true
+            selectionStyle = .none
         }
         
         // TODO: move this part to init method

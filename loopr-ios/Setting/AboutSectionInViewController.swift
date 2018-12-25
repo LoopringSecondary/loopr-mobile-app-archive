@@ -34,7 +34,11 @@ extension SettingViewController {
     func aboutSectionForCellDidSelected(didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            displayUpdateNotification()
+            if AppServiceUpdateManager.shared.shouldDisplayUpdateNotificationInSettingViewController() {
+                displayUpdateNotification()
+            } else {
+                
+            }
         case 1..<Production.getSocialMedia().count+1:
             if let url = Production.getSocialMedia()[indexPath.row-1].url {
                 UIApplication.shared.open(url)
@@ -42,6 +46,34 @@ extension SettingViewController {
         default:
             break
         }
+    }
+
+    func displayUpdateNotification() {
+        let vc = AppReleaseNotePopViewController()
+        vc.updateClosure = {
+            UIView.animate(withDuration: 0.1, animations: {
+                self.blurVisualEffectView.alpha = 0.0
+            }, completion: { (_) in
+                self.blurVisualEffectView.removeFromSuperview()
+            })
+        }
+        
+        vc.skipClosure = {
+            UIView.animate(withDuration: 0.1, animations: {
+                self.blurVisualEffectView.alpha = 0.0
+            }, completion: { (_) in
+                self.blurVisualEffectView.removeFromSuperview()
+            })
+        }
+        
+        self.present(vc, animated: true, completion: nil)
+        
+        self.navigationController?.view.addSubview(self.blurVisualEffectView)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.blurVisualEffectView.alpha = 1.0
+        }, completion: {(_) in
+            
+        })
     }
 
 }
