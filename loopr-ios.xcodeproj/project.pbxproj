@@ -55,6 +55,11 @@
 		945800232059006200E08DEF /* AssetDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945800222059006200E08DEF /* AssetDataManagerTests.swift */; };
 		94580025205921D600E08DEF /* PriceQuoteDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94580024205921D600E08DEF /* PriceQuoteDataManagerTests.swift */; };
 		9461850E21D0BE7E00393432 /* SVProgressHUDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461850D21D0BE7E00393432 /* SVProgressHUDExtension.swift */; };
+		9461851021D0F8E200393432 /* IndexType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461850F21D0F8E200393432 /* IndexType.swift */; };
+		9461851221D0F99D00393432 /* IndexAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461851121D0F99D00393432 /* IndexAction.swift */; };
+		9461851421D0FA4900393432 /* IndexResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461851321D0FA4900393432 /* IndexResult.swift */; };
+		9461851621D0FAFD00393432 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461851521D0FAFD00393432 /* News.swift */; };
+		9461851821D0FD8700393432 /* NewsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461851721D0FD8700393432 /* NewsCategory.swift */; };
 		9464595E20AA9A4C00574485 /* TradeDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9464595D20AA9A4C00574485 /* TradeDataManagerTests.swift */; };
 		94678B2A210D902E00F550D3 /* SendResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94678B28210D902E00F550D3 /* SendResultViewController.swift */; };
 		94678B2B210D902E00F550D3 /* SendResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94678B29210D902E00F550D3 /* SendResultViewController.xib */; };
@@ -586,6 +591,11 @@
 		945800222059006200E08DEF /* AssetDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDataManagerTests.swift; sourceTree = "<group>"; };
 		94580024205921D600E08DEF /* PriceQuoteDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceQuoteDataManagerTests.swift; sourceTree = "<group>"; };
 		9461850D21D0BE7E00393432 /* SVProgressHUDExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVProgressHUDExtension.swift; sourceTree = "<group>"; };
+		9461850F21D0F8E200393432 /* IndexType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexType.swift; sourceTree = "<group>"; };
+		9461851121D0F99D00393432 /* IndexAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexAction.swift; sourceTree = "<group>"; };
+		9461851321D0FA4900393432 /* IndexResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexResult.swift; sourceTree = "<group>"; };
+		9461851521D0FAFD00393432 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		9461851721D0FD8700393432 /* NewsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCategory.swift; sourceTree = "<group>"; };
 		9464595D20AA9A4C00574485 /* TradeDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeDataManagerTests.swift; sourceTree = "<group>"; };
 		94678B28210D902E00F550D3 /* SendResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendResultViewController.swift; sourceTree = "<group>"; };
 		94678B29210D902E00F550D3 /* SendResultViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendResultViewController.xib; sourceTree = "<group>"; };
@@ -2129,8 +2139,10 @@
 				AC06193D208417AF0060F416 /* QRCodeMethod.swift */,
 				AC4141FE20356A4D0089861D /* MarketSwipeViewType.swift */,
 				94CA6B5820BC037F000E4E8E /* OrderType.swift */,
+				9461850F21D0F8E200393432 /* IndexType.swift */,
 				94A39E1220C8E4FE00BC1B72 /* SignStatus.swift */,
 				9457416D20D0D23400110CFD /* CancelType.swift */,
+				9461851121D0F99D00393432 /* IndexAction.swift */,
 				9457416F20D0E9CD00110CFD /* CancelOrder.swift */,
 				AC2ACA9B2103075C009C77E7 /* WalletType.swift */,
 				AC2ACA9D21030775009C77E7 /* TradeFAQPage.swift */,
@@ -2145,6 +2157,9 @@
 				ACFD5FB621740F7400E161EE /* OrderIntervalTime.swift */,
 				ACFD5FB8217448E200E161EE /* SocialMedia.swift */,
 				947B1FDC21CBA0CC009AE556 /* AirdropAmount.swift */,
+				9461851321D0FA4900393432 /* IndexResult.swift */,
+				9461851521D0FAFD00393432 /* News.swift */,
+				9461851721D0FD8700393432 /* NewsCategory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2914,6 +2929,7 @@
 				AC31B949204A8DF400B16155 /* Scrypt.swift in Sources */,
 				AC8DBC6D20BE8B0C007AC862 /* MnemonicBackupModeCollectionViewCell.swift in Sources */,
 				ACB746E52043C5F5006C2BF5 /* QRCodeViewController.swift in Sources */,
+				9461851421D0FA4900393432 /* IndexResult.swift in Sources */,
 				ACE6F7242042228A0039273D /* GlobalPicker.swift in Sources */,
 				AC9DC45321156F3A002D7D23 /* MarketDetailDepthModalViewController.swift in Sources */,
 				ACB9117F2026385100F14644 /* SettingNavigationViewController.swift in Sources */,
@@ -2930,6 +2946,7 @@
 				AC4F601320773E9D00F1D954 /* EthType.swift in Sources */,
 				AC131A0D210E49FF001998A0 /* DefaultSwipeViewOptions.swift in Sources */,
 				AC3B48832103EA6B008A6771 /* TradeSelectionViewController.swift in Sources */,
+				9461851621D0FAFD00393432 /* News.swift in Sources */,
 				ACB9116E2025575A00F14644 /* MarketNavigationViewController.swift in Sources */,
 				947B1FD721CB789F009AE556 /* NeoAPIRequest.swift in Sources */,
 				AC2ACA9E21030775009C77E7 /* TradeFAQPage.swift in Sources */,
@@ -2986,6 +3003,7 @@
 				ACB9118C20266A9C00F14644 /* AssetDetailViewController.swift in Sources */,
 				94D94CE32084A9380000BBC8 /* ConfirmationResultViewController.swift in Sources */,
 				AC4141FF20356A4D0089861D /* MarketSwipeViewType.swift in Sources */,
+				9461851021D0F8E200393432 /* IndexType.swift in Sources */,
 				9BA3015021B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.swift in Sources */,
 				AC0CD58B20D393F300ABB7BA /* SendCurrentAppWalletDataManager.swift in Sources */,
 				940B45212060F67E00ADE2B9 /* PlaceOrderDataManager.swift in Sources */,
@@ -3064,6 +3082,7 @@
 				949629DF204E9C9800858F03 /* MinedRing.swift in Sources */,
 				94C11FDA208C2DE40050E180 /* SettingCurrencyTableViewCell.swift in Sources */,
 				AC9DC45921159084002D7D23 /* BaseAnimator.swift in Sources */,
+				9461851221D0F99D00393432 /* IndexAction.swift in Sources */,
 				AC4B894D21103EAF00643910 /* TradeType.swift in Sources */,
 				ACA677D3207DCF1900D34A2F /* RelayAPIConfiguration.swift in Sources */,
 				AC72AED8204C8AAD00E9D3B0 /* BackupMnemonicViewController.swift in Sources */,
@@ -3134,6 +3153,7 @@
 				948952D3205A74BE009B03FE /* Transaction.swift in Sources */,
 				AC0CD57F20D21F8400ABB7BA /* TabBarItemHighlightableContentView.swift in Sources */,
 				AC2CFAA120BB3BEE00387DB1 /* BiometricType.swift in Sources */,
+				9461851821D0FD8700393432 /* NewsCategory.swift in Sources */,
 				9BA3015521B0EBC000E55E49 /* MarketDetailViewControllerChart.swift in Sources */,
 				94DFE4052122BD48000E1831 /* BuyViewController.swift in Sources */,
 				AC4B894B2110262B00643910 /* MarketTradeHistoryDataManager.swift in Sources */,
