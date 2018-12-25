@@ -32,11 +32,6 @@ class SettingCurrencyViewController: UIViewController, UITableViewDelegate, UITa
         tableView.theme_backgroundColor = ColorPicker.backgroundColor
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if localCurrentCurrency != SettingDataManager.shared.getCurrentCurrency() {

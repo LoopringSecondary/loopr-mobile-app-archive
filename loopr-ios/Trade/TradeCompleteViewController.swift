@@ -123,11 +123,6 @@ class TradeCompleteViewController: UIViewController {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @IBAction func pressedDetailsButton(_ sender: UIButton) {
         if let original = self.order {
             let order = Order(originalOrder: original, orderStatus: .locked, dealtAmountB: "0.0", dealtAmountS: "0.0")

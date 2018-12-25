@@ -68,11 +68,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationItem.title = LocalizedString("Settings", comment: "")
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     //Table view configuration
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count

@@ -62,11 +62,6 @@ class SetLRCRatioFeeViewController: UIViewController, StepSliderDelegate {
         self.navigationItem.rightBarButtonItem = saveButon
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if !isViewDidAppear {

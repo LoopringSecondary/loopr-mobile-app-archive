@@ -183,12 +183,7 @@ class TradeReviewViewController: UIViewController {
         vc.order = self.order
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let order = self.order else { return }

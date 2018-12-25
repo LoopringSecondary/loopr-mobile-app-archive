@@ -26,11 +26,6 @@ class WalletNavigationViewController: UINavigationController {
         super.viewDidLayoutSubviews()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     func processExternalUrl() {
         if let vc = viewController as? WalletViewController {
             vc.processExternalUrl()

@@ -204,11 +204,6 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
 }
 

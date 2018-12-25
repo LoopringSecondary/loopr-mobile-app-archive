@@ -89,11 +89,6 @@ class AssetSwipeViewController: SwipeViewController {
         super.viewWillAppear(animated)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func setupChildViewControllers() {
         for (index, type) in types.enumerated() {
             let vc = AssetDetailViewController(type: type)

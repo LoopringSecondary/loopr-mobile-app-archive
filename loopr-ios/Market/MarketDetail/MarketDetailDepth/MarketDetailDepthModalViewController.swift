@@ -80,11 +80,6 @@ class MarketDetailDepthModalViewController: UIViewController, UITableViewDelegat
         view.addGestureRecognizer(tap)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         headerView.round(corners: [.topLeft, .topRight], radius: 12)

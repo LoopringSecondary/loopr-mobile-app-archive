@@ -58,12 +58,7 @@ class SettingManageWalletViewController: UIViewController, UITableViewDelegate, 
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         getAllBalanceFromRelay()
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
     private func getAllBalanceFromRelay() {
         for wallet in AppWalletDataManager.shared.getWallets() {
             AppWalletDataManager.shared.getTotalCurrencyValue(address: wallet.address, getPrice: false, completionHandlerInBackgroundThread: { (totalCurrencyValue, error) in

@@ -38,11 +38,6 @@ class SetupWalletViewController: UIViewController {
         generateWalletButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @objc func unlockWalletButtonPressed(_ sender: Any) {
         print("unlockWalletButtonPressed")
         let viewController = UnlockWalletSwipeViewController()

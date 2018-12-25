@@ -195,12 +195,7 @@ class OrderQRCodeViewController: UIViewController {
             print ("Error: \(error.domain)")
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let originalOrder = self.originalOrder, let image = self.qrcodeImageCIImage else { return }

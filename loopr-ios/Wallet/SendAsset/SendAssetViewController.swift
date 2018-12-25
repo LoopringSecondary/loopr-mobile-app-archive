@@ -204,11 +204,6 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         self.navigationItem.rightBarButtonItem = button
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // TODO: Update the transaction fee is needed. in SendCurrentAppWalletDataManager

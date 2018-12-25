@@ -41,11 +41,6 @@ class PrivateKeyViewController: UIViewController, UITextViewDelegate {
         privateKeyTextView.text = LocalizedString("Please enter your private key", comment: "")
         privateKeyTextView.keyboardAppearance = Themes.isDark() ? .dark : .default
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

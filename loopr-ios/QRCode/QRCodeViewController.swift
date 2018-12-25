@@ -78,11 +78,6 @@ class QRCodeViewController: UIViewController {
         generateQRCode(from: data!)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func setupShareView() {
         shareImageView.image = UIImage(named: "Share-wallet")
         logoImageView.image = UIImage(named: "\(Production.getProduct())_share_logo")

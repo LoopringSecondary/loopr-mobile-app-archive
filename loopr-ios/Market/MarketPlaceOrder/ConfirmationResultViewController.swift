@@ -121,12 +121,7 @@ class ConfirmationResultViewController: UIViewController, UIScrollViewDelegate {
             }
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
     @IBAction func pressedDetailsButton(_ sender: UIButton) {
         let vc = UpdatedOrderHistoryViewController()
         self.navigationController?.pushViewController(vc, animated: true)

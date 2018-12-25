@@ -84,11 +84,6 @@ class SetupWalletEnterPasswordViewController: UIViewController, UITextFieldDeleg
         errorInfoLabel.text = LocalizedString("The length of password needs to be larger than or equal to 6.", comment: "")
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         passwordTextField.becomeFirstResponder()

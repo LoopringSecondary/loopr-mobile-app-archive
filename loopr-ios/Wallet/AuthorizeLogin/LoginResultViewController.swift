@@ -42,11 +42,6 @@ class LoginResultViewController: UIViewController {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @IBAction func pressedDoneButton(_ sender: UIButton) {
         self.navigationController?.popToRootViewController(animated: true)
     }

@@ -42,11 +42,6 @@ class WalletCreateSuccessfullyPopViewController: UIViewController {
         view.addGestureRecognizer(tap)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @IBAction func pressedConfirmButton(_ sender: Any) {
         confirmClosure?()
         self.dismiss(animated: true, completion: {

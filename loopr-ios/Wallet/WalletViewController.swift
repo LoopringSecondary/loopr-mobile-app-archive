@@ -144,11 +144,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         isListeningSocketIO = false
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @objc func processPasteboard() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             // Check if the view is visible

@@ -42,11 +42,6 @@ class TokenViewController: UIViewController {
         totalPriceInFiatCurrency.theme_textColor = GlobalPicker.textLightColor
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     func updateIcon(symbol: String) {
         let icon = UIImage(named: "Token-\(symbol)-\(Themes.getTheme())") ?? nil
         if icon != nil {

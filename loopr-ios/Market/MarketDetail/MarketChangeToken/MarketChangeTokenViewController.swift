@@ -116,12 +116,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
         super.viewDidDisappear(animated)
         isSearching = false
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
     func reloadAfterSwipeViewUpdated(isSearching: Bool, searchText: String) {
         markets = MarketDataManager.shared.getMarketsWithoutReordered(type: type)
         self.isSearching = isSearching

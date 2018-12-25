@@ -123,11 +123,6 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
         blurVisualEffectView.frame = UIScreen.main.bounds
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setup()

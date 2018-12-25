@@ -148,11 +148,6 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
         NotificationCenter.default.removeObserver(self, name: .tickerResponseReceived, object: nil)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func reloadAfterSwipeViewUpdated(isSearching: Bool, searchText: String) {
         markets = MarketDataManager.shared.getMarketsWithoutReordered(type: type, tag: .whiteList)
         self.isSearching = isSearching

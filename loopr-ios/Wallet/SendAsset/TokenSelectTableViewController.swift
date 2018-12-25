@@ -44,11 +44,6 @@ class TokenSelectTableViewController: UITableViewController, UISearchBarDelegate
         self.navigationItem.title = LocalizedString("Tokens", comment: "")
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @objc func pressOrderSearchButton(_ button: UIBarButtonItem) {
         let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.pressSearchCancel))
         self.navigationItem.rightBarButtonItems = [cancelBarButton]

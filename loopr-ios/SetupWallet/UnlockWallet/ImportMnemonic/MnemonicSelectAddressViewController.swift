@@ -32,11 +32,6 @@ class MnemonicSelectAddressViewController: UIViewController, UITableViewDelegate
         tableView.theme_backgroundColor = ColorPicker.backgroundColor
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return MnemonicAddressTableViewCell.getHeight()
     }
