@@ -2,14 +2,16 @@ package leaf.prod.app.adapter.infomation;
 
 import java.text.SimpleDateFormat;
 
-import android.support.constraint.ConstraintLayout;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ramotion.garlandview.inner.InnerItem;
 
+import at.blogc.android.views.ExpandableTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
@@ -36,13 +38,7 @@ public class NewsBodyItem extends InnerItem {
     public TextView tvTitle;
 
     @BindView(R.id.cl_content)
-    public ConstraintLayout clContent;
-
-    @BindView(R.id.tv_content)
-    public TextView tvContent;
-
-    @BindView(R.id.tv_content_total)
-    public TextView tvContentTotal;
+    public ExpandableTextView clContent;
 
     @BindView(R.id.tv_share)
     public TextView tvShare;
@@ -59,28 +55,18 @@ public class NewsBodyItem extends InnerItem {
     @BindView(R.id.iv_token)
     public ImageView ivToken;
 
+    private boolean expand = false;
+
     public NewsBodyItem(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         innerLayout = ((ViewGroup) itemView).getChildAt(0);
+        clContent.setExpandInterpolator(new OvershootInterpolator());
+        clContent.setCollapseInterpolator(new OvershootInterpolator());
         clContent.setOnClickListener(view -> {
-            if (tvContent.getVisibility() == View.VISIBLE) {
-                tvContentTotal.setVisibility(View.VISIBLE);
-                tvContent.animate().alpha(0f).setDuration(500);
-                tvContentTotal.animate().alpha(1f).setDuration(500);
-                tvContent.setVisibility(View.GONE);
-            } else {
-                tvContent.setVisibility(View.VISIBLE);
-                tvContentTotal.animate().alpha(0f).setDuration(500);
-                tvContent.animate().alpha(1f).setDuration(500);
-                tvContentTotal.setVisibility(View.GONE);
+            if (!expand && !clContent.isExpanded() || expand && clContent.isExpanded()) {
+                expandView(expand = !expand);
             }
-            ViewGroup.LayoutParams lp = clContent.getLayoutParams();
-            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            clContent.setLayoutParams(lp);
-            lp = innerLayout.getLayoutParams();
-            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            innerLayout.setLayoutParams(lp);
         });
     }
 
@@ -89,19 +75,26 @@ public class NewsBodyItem extends InnerItem {
         return innerLayout;
     }
 
-    void setContent(News data) {
+    public void setContent(News data) {
         if (data == null)
             return;
         try {
             tvTime.setText(sdf2.format(sdf1.parse(data.getPublishTime())));
             tvSource.setText("来源:" + data.getSource());
             tvTitle.setText(data.getTitle());
-            tvContent.setText(data.getContent());
-            tvContentTotal.setText(data.getContent());
+            clContent.setText(data.getContent());
             //        tvShare.setText("分享" + data.getShareCount());
             //        tvBear.setText("利空" + data.getBearCount());
             //        tvBull.setText("利好" + data.getBullCount());
         } catch (Exception e) {
         }
+    }
+
+    public void expandView(boolean flag) {
+        clContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, flag ? clContent.getTextSize() + 6 : clContent.getTextSize() - 6);
+        clContent.toggle();
+        ViewGroup.LayoutParams lp = innerLayout.getLayoutParams();
+        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        innerLayout.setLayoutParams(lp);
     }
 }

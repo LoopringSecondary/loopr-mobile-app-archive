@@ -64,6 +64,7 @@ public class NewsFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        clLoading.setVisibility(View.VISIBLE);
         crawlerService = new CrawlerService();
         crawlerService.getFlash(CrawlerService.ALL, LanguageUtil.getSettingLanguage(getContext()), 1, 10)
                 .subscribeOn(Schedulers.io())
@@ -93,6 +94,7 @@ public class NewsFragment extends BaseFragment {
                         ((TailLayoutManager) recyclerView.getLayoutManager()).setPageTransformer(new HeaderTransformer());
                         recyclerView.setAdapter(new NewsHeaderAdapter(newsHeaderList));
                         new TailSnapHelper().attachToRecyclerView(recyclerView);
+                        clLoading.setVisibility(View.GONE);
                     }
                 });
     }
