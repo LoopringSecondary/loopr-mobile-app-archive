@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
-    <com.ramotion.garlandview.TailRecyclerView
+    <leaf.prod.app.layout.MyTailRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:clipChildren="false"
-        app:itemStart="12dp"/>
+        app:itemStart="20dp"/>
 
     <include layout="@layout/activity_loading"/>
 </android.support.constraint.ConstraintLayout>

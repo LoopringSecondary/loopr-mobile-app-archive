@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ramotion.garlandview.TailLayoutManager;
-import com.ramotion.garlandview.TailRecyclerView;
 import com.ramotion.garlandview.TailSnapHelper;
 import com.ramotion.garlandview.header.HeaderTransformer;
 
@@ -21,6 +20,7 @@ import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.infomation.NewsHeaderAdapter;
 import leaf.prod.app.fragment.BaseFragment;
+import leaf.prod.app.layout.MyTailRecyclerView;
 import leaf.prod.walletsdk.model.NewsHeader;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import leaf.prod.walletsdk.service.CrawlerService;
@@ -40,7 +40,7 @@ public class NewsFragment extends BaseFragment {
     public ConstraintLayout clLoading;
 
     @BindView(R.id.recycler_view)
-    public TailRecyclerView recyclerView;
+    public MyTailRecyclerView recyclerView;
 
     private CrawlerService crawlerService;
 

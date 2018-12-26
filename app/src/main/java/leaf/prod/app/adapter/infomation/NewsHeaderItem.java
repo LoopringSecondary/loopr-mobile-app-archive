@@ -84,6 +84,7 @@ public class NewsHeaderItem extends HeaderItem {
             }
         });
         headerRecyclerView.addItemDecoration(new HeaderDecorator(headerHeight, DpUtil.dp2Int(view.getContext(), 12)));
+        headerRecyclerView.setRecycledViewPool(pool);
     }
 
     @Override
