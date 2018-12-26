@@ -24,6 +24,8 @@ public class CrawlerService {
 
     private RpcDelegate rpcDelegate;
 
+    public static final String ALL = "ALL_CURRENCY";
+
     public CrawlerService() {
         String url = SDK.relayBase();
         rpcDelegate = RpcDelegate.getService(url);
