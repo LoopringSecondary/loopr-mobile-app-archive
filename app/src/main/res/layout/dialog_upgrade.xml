@@ -53,6 +53,7 @@
 
             <br.tiagohm.markdownview.MarkdownView
                 android:id="@+id/mv_content"
+                android:background="@color/colorBg2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

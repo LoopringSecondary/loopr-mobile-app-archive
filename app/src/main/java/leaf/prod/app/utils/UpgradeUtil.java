@@ -46,6 +46,8 @@ public class UpgradeUtil {
 
     private static View view;
 
+    private static AlertDialog.Builder builder;
+
     /**
      * 升级提示框
      */
@@ -53,23 +55,39 @@ public class UpgradeUtil {
         if (downloadManager == null) {
             downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         }
+
         if (!updateHint && getIgnoreVersion(context).isEmpty() || force) {
             appService.getLatestVersion(new Callback<AppResponseWrapper<VersionResp>>() {
                 @Override
                 public void onResponse(Call<AppResponseWrapper<VersionResp>> call, Response<AppResponseWrapper<VersionResp>> response) {
                     try {
                         VersionResp versionResult = response.body().getMessage();
-                        if (versionResult != null && AndroidUtils.getVersionName(context)
-                                .compareTo(versionResult.getVersion()) < 0) {
+                        if (versionResult != null && AndroidUtils.getVersionName(context).compareTo(versionResult.getVersion()) < 0) {
                             SPUtils.put(context, "latestVersion", versionResult.getVersion());
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogTheme);
-                            view = LayoutInflater.from(context).inflate(R.layout.dialog_upgrade, null);
+                            if(dialog == null) {
+                                builder = new AlertDialog.Builder(context, R.style.DialogTheme);
+                                view = LayoutInflater.from(context).inflate(R.layout.dialog_upgrade, null);
+                                view.findViewById(R.id.btn_skip).setOnClickListener(v -> {
+                                    updateHint = true;
+                                    SPUtils.put(context, "ignoreVersion", versionResult.getVersion());
+                                    dialog.hide();
+                                });
+                                view.findViewById(R.id.btn_confirm).setOnClickListener(v -> {
+                                    updateHint = true;
+                                    downloadApk(context, versionResult.getBaiduUri());
+                                    dialog.hide();
+                                });
+                                MarkdownView mvContent = view.findViewById(R.id.mv_content);
+                                InternalStyleSheet css = new InternalStyleSheet();
+                                css.addRule("body", "background-color:#21203A");
+                                css.addRule("body", "margin-bottom: 0px !important");
+                                mvContent.addStyleSheet(css);
+                                builder.setView(view);
+                                dialog = builder.create();
+                                dialog.getWindow().setGravity(Gravity.CENTER);
+                            }
                             MarkdownView mvContent = view.findViewById(R.id.mv_content);
-                            ((TextView)view.findViewById(R.id.tv_version)).setText(versionResult.getVersion());
-                            InternalStyleSheet css = new InternalStyleSheet();
-                            css.addRule("body", "background-color:#21203A");
-                            css.addRule("body", "margin-bottom: 0px !important");
-                            mvContent.addStyleSheet(css);
+                            ((TextView) view.findViewById(R.id.tv_version)).setText(versionResult.getVersion());
                             switch (LanguageUtil.getLanguage(context)) {
                                 case zh_CN:
                                     mvContent.loadMarkdown(StringUtils.isEmpty(versionResult.getReleaseNoteChs()) ? "" : versionResult
@@ -84,19 +102,6 @@ public class UpgradeUtil {
                                             .getReleaseNoteCht());
                                     break;
                             }
-                            view.findViewById(R.id.btn_skip).setOnClickListener(v -> {
-                                updateHint = true;
-                                SPUtils.put(context, "ignoreVersion", versionResult.getVersion());
-                                dialog.dismiss();
-                            });
-                            view.findViewById(R.id.btn_confirm).setOnClickListener(v -> {
-                                updateHint = true;
-                                downloadApk(context, versionResult.getBaiduUri());
-                                dialog.dismiss();
-                            });
-                            builder.setView(view);
-                            dialog = builder.create();
-                            dialog.getWindow().setGravity(Gravity.CENTER);
                             dialog.show();
                         }
                     } catch (Exception e) {
