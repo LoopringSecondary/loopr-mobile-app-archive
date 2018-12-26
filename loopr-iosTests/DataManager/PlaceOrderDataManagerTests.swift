@@ -45,7 +45,7 @@ class PlaceOrderDataManagerTests: XCTestCase {
         
         gethAccount = EthAccountCoordinator.default.launch(keystore: gethKeystore, password: wallet!.getKeystorePassword())
         
-        print("current address: \(gethAccount!.getAddress().getHex())")
+        // print("current address: \(gethAccount!.getAddress().getHex())")
         let end = Date()
         let timeInterval: Double = end.timeIntervalSince(start)
         print("Time to _keystore: \(timeInterval) seconds")
