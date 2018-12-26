@@ -203,11 +203,6 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         let button = UIBarButtonItem(image: icon, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.pressedScanButton))
         self.navigationItem.rightBarButtonItem = button
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

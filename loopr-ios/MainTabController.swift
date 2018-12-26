@@ -71,11 +71,6 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         super.viewDidAppear(animated)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     func setTabBarItems() {
         // ESTabBarController_swift doesn't work in iOS 12.1. However, it worked in in 12.0 and previous versions.
         /*

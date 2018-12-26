@@ -77,11 +77,6 @@ class QRCodeViewController: UIViewController {
         let data = address.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
         generateQRCode(from: data!)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     func setupShareView() {
         shareImageView.image = UIImage(named: "Share-wallet")

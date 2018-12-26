@@ -60,11 +60,6 @@ class SettingLRCFeeRatioViewController: UIViewController, StepSliderDelegate {
         saveButon.setTitleTextAttributes([NSAttributedStringKey.font: FontConfigManager.shared.getCharactorFont(size: 14)], for: .normal)
         self.navigationItem.rightBarButtonItem = saveButon
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()

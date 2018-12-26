@@ -42,12 +42,7 @@ class TradeSwipeViewController: SwipeViewController, QRCodeScanProtocol {
         }
         swipeView.reloadData(options: options, default: swipeView.currentIndex)
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+        
     func setNavigationBarItem() {
         let icon = UIImage.init(named: "dropdown-scan")
         let button = UIBarButtonItem(image: icon, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.pressedScanButton))

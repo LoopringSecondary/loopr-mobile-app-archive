@@ -36,11 +36,6 @@ class MarketDetailSwipeViewController: SwipeViewController {
         setupChildViewControllers()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     func setupChildViewControllers() {
         if Themes.isDark() {
             options.swipeTabView.itemView.textColor = UIColor(rgba: "#ffffff66")

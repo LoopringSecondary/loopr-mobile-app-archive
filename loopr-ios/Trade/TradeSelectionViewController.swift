@@ -59,11 +59,6 @@ class TradeSelectionViewController: UIViewController {
         button5.theme_setBackgroundImage(ColorPicker.buttonHighlight, forState: .highlighted)
         button5.addTarget(self, action: #selector(self.pressedButton5(_:)), for: .touchUpInside)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

@@ -55,11 +55,6 @@ class ConvertETHResultViewController: UIViewController {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     func update(asset: Asset) {
         if let errorMessage = self.errorMessage {

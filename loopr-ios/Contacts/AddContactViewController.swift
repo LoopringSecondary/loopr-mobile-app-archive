@@ -102,12 +102,7 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+        
     @objc func scrollViewTapped() {
         print("scrollViewTapped")
         addressTextField.resignFirstResponder()

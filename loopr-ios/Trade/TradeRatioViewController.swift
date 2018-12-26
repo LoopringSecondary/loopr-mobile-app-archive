@@ -55,11 +55,6 @@ class TradeRatioViewController: UIViewController, UIPickerViewDelegate, UIPicker
         tap.delegate = self
         view.addGestureRecognizer(tap)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     func close() {
         if let closure = self.dismissClosure {

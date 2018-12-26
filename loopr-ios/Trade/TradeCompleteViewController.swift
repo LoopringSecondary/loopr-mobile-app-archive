@@ -122,11 +122,6 @@ class TradeCompleteViewController: UIViewController {
             }
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @IBAction func pressedDetailsButton(_ sender: UIButton) {
         if let original = self.order {

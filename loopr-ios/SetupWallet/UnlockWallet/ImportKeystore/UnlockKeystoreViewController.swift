@@ -60,11 +60,6 @@ class UnlockKeystoreViewController: UIViewController, UITextViewDelegate, UIText
         scrollViewTap.numberOfTapsRequired = 1
         view.addGestureRecognizer(scrollViewTap)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @objc func scrollViewTapped() {
         print("scrollViewTapped")

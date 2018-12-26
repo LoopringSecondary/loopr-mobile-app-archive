@@ -44,11 +44,6 @@ class PreventScreenShotViewController: UIViewController {
         confirmButton.tintColor = UIColor.fail
         confirmButton.title = LocalizedString("Got it", comment: "")
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @IBAction func pressedConfirmButton(_ sender: UIButton) {
         close()

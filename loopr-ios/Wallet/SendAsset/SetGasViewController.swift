@@ -77,11 +77,6 @@ class SetGasViewController: UIViewController, StepSliderDelegate {
         self.maxGasValue = Double(recGasPriceInGwei * 2) <= 20 ? 20 : Double(recGasPriceInGwei * 2)
         update(self.gasPriceInGwei)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()

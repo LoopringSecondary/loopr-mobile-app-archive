@@ -19,9 +19,4 @@ class TradeSelectionNavigationViewController: UINavigationController {
         setViewControllers([tradeSelectionViewController], animated: false)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }

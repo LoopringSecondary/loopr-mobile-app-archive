@@ -30,11 +30,6 @@ class MnemonicEnterDerivationPathViewController: UIViewController, UITableViewDe
         tableView.tableFooterView = UIView(frame: .zero)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return WalletType.getList().count
     }
