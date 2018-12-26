@@ -99,9 +99,9 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                     @Override
                     public void onNext(String result) {
                         if (!result.equals("failed")) {
-                            BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(result));
+                            BigInteger bigInteger = new BigInteger(result, 10);
                             BigInteger divider = BigInteger.valueOf(100000000L);
-                            bindAmount = bigInteger.divide(divider).doubleValue();
+                            bindAmount = bigInteger.doubleValue() / divider.doubleValue();
                             String value = NumberUtils.format1(bindAmount, 4);
                             view.airdropAmount.setText(value);
                         }
