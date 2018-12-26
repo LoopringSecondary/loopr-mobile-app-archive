@@ -61,7 +61,6 @@
 		9461851421D0FA4900393432 /* IndexResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461851321D0FA4900393432 /* IndexResult.swift */; };
 		9461851621D0FAFD00393432 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461851521D0FAFD00393432 /* News.swift */; };
 		9461851821D0FD8700393432 /* NewsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461851721D0FD8700393432 /* NewsCategory.swift */; };
-		9461850E21D0BE7E00393432 /* SVProgressHUDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9461850D21D0BE7E00393432 /* SVProgressHUDExtension.swift */; };
 		9464595E20AA9A4C00574485 /* TradeDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9464595D20AA9A4C00574485 /* TradeDataManagerTests.swift */; };
 		94678B2A210D902E00F550D3 /* SendResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94678B28210D902E00F550D3 /* SendResultViewController.swift */; };
 		94678B2B210D902E00F550D3 /* SendResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94678B29210D902E00F550D3 /* SendResultViewController.xib */; };
@@ -124,6 +123,10 @@
 		94EE76A22113F1C5009D6A90 /* OrderHistorySwipeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94EE76A02113F1C5009D6A90 /* OrderHistorySwipeViewController.xib */; };
 		94EE76A42113F21B009D6A90 /* OrderHistorySwipeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EE76A32113F21B009D6A90 /* OrderHistorySwipeType.swift */; };
 		9AACD1A68297585D93FB6182 /* Pods_loopr_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFC6AA9DC8C999B66FFD8AA /* Pods_loopr_iosTests.framework */; };
+		9B2ED7E821D37FD300ACEE84 /* GarlandConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7E421D37FD300ACEE84 /* GarlandConfig.swift */; };
+		9B2ED7E921D37FD300ACEE84 /* GarlandPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7E521D37FD300ACEE84 /* GarlandPresentAnimationController.swift */; };
+		9B2ED7EA21D37FD300ACEE84 /* GarlandCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7E621D37FD300ACEE84 /* GarlandCollection.swift */; };
+		9B2ED7EB21D37FD300ACEE84 /* GarlandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7E721D37FD300ACEE84 /* GarlandViewController.swift */; };
 		9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */; };
 		9BA3014821B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */; };
 		9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */; };
@@ -599,7 +602,6 @@
 		9461851321D0FA4900393432 /* IndexResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexResult.swift; sourceTree = "<group>"; };
 		9461851521D0FAFD00393432 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		9461851721D0FD8700393432 /* NewsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCategory.swift; sourceTree = "<group>"; };
-		9461850D21D0BE7E00393432 /* SVProgressHUDExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVProgressHUDExtension.swift; sourceTree = "<group>"; };
 		9464595D20AA9A4C00574485 /* TradeDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeDataManagerTests.swift; sourceTree = "<group>"; };
 		94678B28210D902E00F550D3 /* SendResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendResultViewController.swift; sourceTree = "<group>"; };
 		94678B29210D902E00F550D3 /* SendResultViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendResultViewController.xib; sourceTree = "<group>"; };
@@ -661,6 +663,10 @@
 		94EE769F2113F1C5009D6A90 /* OrderHistorySwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistorySwipeViewController.swift; sourceTree = "<group>"; };
 		94EE76A02113F1C5009D6A90 /* OrderHistorySwipeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderHistorySwipeViewController.xib; sourceTree = "<group>"; };
 		94EE76A32113F21B009D6A90 /* OrderHistorySwipeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistorySwipeType.swift; sourceTree = "<group>"; };
+		9B2ED7E421D37FD300ACEE84 /* GarlandConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandConfig.swift; sourceTree = "<group>"; };
+		9B2ED7E521D37FD300ACEE84 /* GarlandPresentAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandPresentAnimationController.swift; sourceTree = "<group>"; };
+		9B2ED7E621D37FD300ACEE84 /* GarlandCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandCollection.swift; sourceTree = "<group>"; };
+		9B2ED7E721D37FD300ACEE84 /* GarlandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandViewController.swift; sourceTree = "<group>"; };
 		9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerDepth.swift; sourceTree = "<group>"; };
 		9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerTradeHistory.swift; sourceTree = "<group>"; };
 		9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerSwipe.swift; sourceTree = "<group>"; };
@@ -1223,6 +1229,17 @@
 				EB11C1F4817BFD28E305586E /* Pods-loopr-iosUITests.vivwallet.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		9B2ED7E321D37FBC00ACEE84 /* GarlandView */ = {
+			isa = PBXGroup;
+			children = (
+				9B2ED7E621D37FD300ACEE84 /* GarlandCollection.swift */,
+				9B2ED7E421D37FD300ACEE84 /* GarlandConfig.swift */,
+				9B2ED7E521D37FD300ACEE84 /* GarlandPresentAnimationController.swift */,
+				9B2ED7E721D37FD300ACEE84 /* GarlandViewController.swift */,
+			);
+			path = GarlandView;
 			sourceTree = "<group>";
 		};
 		9BA3014B21B097DB00E55E49 /* MarketDetailViewControllerExtension */ = {
@@ -2005,6 +2022,7 @@
 		ACB5DD85202AD74D00140A09 /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				9B2ED7E321D37FBC00ACEE84 /* GarlandView */,
 				AC0CD58220D2294D00ABB7BA /* TabBarItem */,
 				AC76E46E2047F1AE008BA229 /* CircleChart */,
 				ACE6F71A204210E80039273D /* DashedLineView */,
@@ -2930,6 +2948,7 @@
 				ACE9F0482186FD1A00695E37 /* AppDelegateNotificationExtension.swift in Sources */,
 				ACB5DD9C202D5B8000140A09 /* NumericKeyboardCell.swift in Sources */,
 				AC5E0991205F256500801738 /* AddTokenViewController.swift in Sources */,
+				9B2ED7EB21D37FD300ACEE84 /* GarlandViewController.swift in Sources */,
 				AC1BDECB2184E149002CF4ED /* LocalNotificationManager.swift in Sources */,
 				AC31B949204A8DF400B16155 /* Scrypt.swift in Sources */,
 				AC8DBC6D20BE8B0C007AC862 /* MnemonicBackupModeCollectionViewCell.swift in Sources */,
@@ -3012,6 +3031,7 @@
 				9BA3015021B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.swift in Sources */,
 				AC0CD58B20D393F300ABB7BA /* SendCurrentAppWalletDataManager.swift in Sources */,
 				940B45212060F67E00ADE2B9 /* PlaceOrderDataManager.swift in Sources */,
+				9B2ED7EA21D37FD300ACEE84 /* GarlandCollection.swift in Sources */,
 				ACBA47E6207890910032C2B4 /* SettingManageWalletTableViewCell.swift in Sources */,
 				AC31B94D204A8DF400B16155 /* KeyStore.swift in Sources */,
 				ACC8D0AA20CCF6C20049A741 /* AssetTransactionTableViewCell.swift in Sources */,
@@ -3106,6 +3126,7 @@
 				AC2C93D72105AE97004B8456 /* SetupWalletEnterRepeatPasswordViewController.swift in Sources */,
 				ACE65E412071F875001EE499 /* MnemonicCollectionViewController.swift in Sources */,
 				AC9DC45E211AC92C002D7D23 /* TokenViewController.swift in Sources */,
+				9B2ED7E821D37FD300ACEE84 /* GarlandConfig.swift in Sources */,
 				AC31B93A204A4F9000B16155 /* Language.swift in Sources */,
 				94E185992051455C00D86FFA /* SimpleRespond.swift in Sources */,
 				9457416E20D0D23400110CFD /* CancelType.swift in Sources */,
@@ -3152,6 +3173,7 @@
 				AC2ACA83210305F8009C77E7 /* TradeFAQViewController.swift in Sources */,
 				AC5E3E70205DFB700051ACFC /* SendAssetViewController.swift in Sources */,
 				AC99CF492083DF25000AE4BD /* ImportWalletUsingMnemonicDataManager.swift in Sources */,
+				9B2ED7E921D37FD300ACEE84 /* GarlandPresentAnimationController.swift in Sources */,
 				94E185972051451C00D86FFA /* Initable.swift in Sources */,
 				ACE6F7182041FDAD0039273D /* AssetTransactionDetailViewController.swift in Sources */,
 				AC865C1221B3989A000BFBCA /* TrendRange.swift in Sources */,
