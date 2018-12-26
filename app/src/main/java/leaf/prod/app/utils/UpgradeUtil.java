@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import br.tiagohm.markdownview.MarkdownView;
 import br.tiagohm.markdownview.css.InternalStyleSheet;
@@ -64,6 +65,7 @@ public class UpgradeUtil {
                             AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogTheme);
                             view = LayoutInflater.from(context).inflate(R.layout.dialog_upgrade, null);
                             MarkdownView mvContent = view.findViewById(R.id.mv_content);
+                            ((TextView)view.findViewById(R.id.tv_version)).setText(versionResult.getVersion());
                             InternalStyleSheet css = new InternalStyleSheet();
                             css.addRule("body", "background-color:#21203A");
                             css.addRule("body", "margin-bottom: 0px !important");
