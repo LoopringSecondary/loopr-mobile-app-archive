@@ -10,9 +10,9 @@ import Foundation
 
 enum NewsCategory: String, CustomStringConvertible {
     
-    case information = "information"
-    case flash = "flash"
-    case unknown = "unknown"
+    case information
+    case flash
+    case unknown
     
     var description: String {
         switch self {

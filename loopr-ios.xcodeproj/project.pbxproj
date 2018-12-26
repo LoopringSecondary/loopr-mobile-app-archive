@@ -47,6 +47,7 @@
 		943C1CB220CE26CE008A8CED /* LoginResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C1CB020CE26CE008A8CED /* LoginResultViewController.swift */; };
 		943C1CB320CE26CE008A8CED /* LoginResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943C1CB120CE26CE008A8CED /* LoginResultViewController.xib */; };
 		943C657A209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6579209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift */; };
+		943F8F2721D3516F00D4703C /* CrawlerAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943F8F2621D3516F00D4703C /* CrawlerAPIRequest.swift */; };
 		9453597221CA2E5900FA624E /* AirdropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453597021CA2E5900FA624E /* AirdropViewController.swift */; };
 		9453597321CA2E5900FA624E /* AirdropViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9453597121CA2E5900FA624E /* AirdropViewController.xib */; };
 		9457416E20D0D23400110CFD /* CancelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9457416D20D0D23400110CFD /* CancelType.swift */; };
@@ -583,6 +584,7 @@
 		943C1CB020CE26CE008A8CED /* LoginResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResultViewController.swift; sourceTree = "<group>"; };
 		943C1CB120CE26CE008A8CED /* LoginResultViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginResultViewController.xib; sourceTree = "<group>"; };
 		943C6579209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOrderDataManagerTests.swift; sourceTree = "<group>"; };
+		943F8F2621D3516F00D4703C /* CrawlerAPIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlerAPIRequest.swift; sourceTree = "<group>"; };
 		9453597021CA2E5900FA624E /* AirdropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropViewController.swift; sourceTree = "<group>"; };
 		9453597121CA2E5900FA624E /* AirdropViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AirdropViewController.xib; sourceTree = "<group>"; };
 		9457416D20D0D23400110CFD /* CancelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelType.swift; sourceTree = "<group>"; };
@@ -2244,6 +2246,7 @@
 				ACB911982027F65800F14644 /* LoopringAPIRequest.swift */,
 				ACB5DD94202C434B00140A09 /* EthereumAPIRequest.swift */,
 				947B1FD621CB789F009AE556 /* NeoAPIRequest.swift */,
+				943F8F2621D3516F00D4703C /* CrawlerAPIRequest.swift */,
 				940076B120554A4100DDA37D /* LoopringSocketIORequest.swift */,
 			);
 			path = RelayAPI;
@@ -3116,6 +3119,7 @@
 				ACFEFE9520C337BE00013921 /* PendingTransactionsDataManager.swift in Sources */,
 				AC4141F720352D6B0089861D /* SwipeView.swift in Sources */,
 				94B5CA8A204FB4E20081BA93 /* DefaultBlock.swift in Sources */,
+				943F8F2721D3516F00D4703C /* CrawlerAPIRequest.swift in Sources */,
 				AC299495212BE32E005C4D72 /* SearchTokenNoDataTableViewCell.swift in Sources */,
 				94768CA4210DCB2300B5977B /* TradeSwipeType.swift in Sources */,
 				AC9FFF252126BDF800957175 /* MarketChangeTokenSwipeViewController.swift in Sources */,
