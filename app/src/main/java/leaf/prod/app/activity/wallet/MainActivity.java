@@ -23,9 +23,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
-import leaf.prod.app.fragment.wallet.MainFragment;
+import leaf.prod.app.fragment.news.NewsFragment;
 import leaf.prod.app.fragment.setting.SettingFragment;
 import leaf.prod.app.fragment.trade.TradeFragment;
+import leaf.prod.app.fragment.wallet.MainFragment;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.UpgradeUtil;
 import leaf.prod.walletsdk.util.SPUtils;
@@ -55,6 +56,9 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.tv_trade)
     TextView tvTrade;
 
+    @BindView(R.id.tv_news)
+    TextView tvNews;
+
     @BindView(R.id.rl_trade)
     RelativeLayout rlTrade;
 
@@ -66,6 +70,9 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.rl_setting)
     RelativeLayout rlSetting;
+
+    @BindView(R.id.rl_news)
+    RelativeLayout rlNews;
 
     @BindView(R.id.ccl_main)
     LinearLayout cclMain;
@@ -86,7 +93,7 @@ public class MainActivity extends BaseActivity {
 
     private TextView[] textviews; //底部tab-textview集合
 
-    private Fragment Fragment1, Fragment2, Fragment3;
+    private Fragment fragment1, fragment2, fragment3, fragment4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,33 +138,43 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction transaction = manager.beginTransaction();
         switch (i) {
             case 0:
-                Fragment1 = manager.findFragmentByTag("TAG1");
+                fragment1 = manager.findFragmentByTag("TAG1");
                 hideTab(transaction);
-                if (Fragment1 == null) {
-                    Fragment1 = new MainFragment();
-                    transaction.add(R.id.main_frame, Fragment1, "TAG1");
+                if (fragment1 == null) {
+                    fragment1 = new MainFragment();
+                    transaction.add(R.id.main_frame, fragment1, "TAG1");
                 } else {
-                    transaction.show(Fragment1);
+                    transaction.show(fragment1);
                 }
                 break;
             case 1:
-                Fragment2 = manager.findFragmentByTag("TAG2");
+                fragment2 = manager.findFragmentByTag("TAG2");
                 hideTab(transaction);
-                if (Fragment2 == null) {
-                    Fragment2 = new TradeFragment();
-                    transaction.add(R.id.main_frame, Fragment2, "TAG2");
+                if (fragment2 == null) {
+                    fragment2 = new TradeFragment();
+                    transaction.add(R.id.main_frame, fragment2, "TAG2");
                 } else {
-                    transaction.show(Fragment2);
+                    transaction.show(fragment2);
                 }
                 break;
             case 2:
-                Fragment3 = manager.findFragmentByTag("TAG3");
+                fragment3 = manager.findFragmentByTag("TAG3");
                 hideTab(transaction);
-                if (Fragment3 == null) {
-                    Fragment3 = new SettingFragment();
-                    transaction.add(R.id.main_frame, Fragment3, "TAG3");
+                if (fragment3 == null) {
+                    fragment3 = new NewsFragment();
+                    transaction.add(R.id.main_frame, fragment3, "TAG3");
                 } else {
-                    transaction.show(Fragment3);
+                    transaction.show(fragment3);
+                }
+                break;
+            case 3:
+                fragment4 = manager.findFragmentByTag("TAG4");
+                hideTab(transaction);
+                if (fragment4 == null) {
+                    fragment4 = new SettingFragment();
+                    transaction.add(R.id.main_frame, fragment4, "TAG4");
+                } else {
+                    transaction.show(fragment4);
                 }
                 break;
         }
@@ -165,28 +182,33 @@ public class MainActivity extends BaseActivity {
     }
 
     private void hideTab(FragmentTransaction transaction) {
-        if (Fragment1 != null) {
-            transaction.hide(Fragment1);
+        if (fragment1 != null) {
+            transaction.hide(fragment1);
         }
-        if (Fragment2 != null) {
-            transaction.hide(Fragment2);
+        if (fragment2 != null) {
+            transaction.hide(fragment2);
         }
-        if (Fragment3 != null) {
-            transaction.hide(Fragment3);
+        if (fragment3 != null) {
+            transaction.hide(fragment3);
+        }
+        if (fragment4 != null) {
+            transaction.hide(fragment4);
         }
     }
 
     private void changeFragment() {
-        imagebuttons = new ImageView[3];
+        imagebuttons = new ImageView[4];
         imagebuttons[0] = (ImageView) findViewById(R.id.iv_main);
         imagebuttons[1] = (ImageView) findViewById(R.id.iv_trade);
-        imagebuttons[2] = (ImageView) findViewById(R.id.iv_setting);
+        imagebuttons[2] = (ImageView) findViewById(R.id.iv_news);
+        imagebuttons[3] = (ImageView) findViewById(R.id.iv_setting);
         imagebuttons[0].setSelected(true);
-        textviews = new TextView[3];
+        textviews = new TextView[4];
         textviews[0] = (TextView) findViewById(R.id.tv_main);
         textviews[1] = (TextView) findViewById(R.id.tv_trade);
-        textviews[2] = (TextView) findViewById(R.id.tv_setting);
-        textviews[0].setTextColor(0xFFFF2741);
+        textviews[2] = (TextView) findViewById(R.id.tv_news);
+        textviews[3] = (TextView) findViewById(R.id.tv_setting);
+        textviews[0].setTextColor(getResources().getColor(R.color.white));
     }
 
     //改变主界面的fragment
@@ -194,13 +216,13 @@ public class MainActivity extends BaseActivity {
         index = type;
         imagebuttons[currentTabIndex].setSelected(false);
         imagebuttons[index].setSelected(true);
-        textviews[currentTabIndex].setTextColor(0xFF333333);
-        textviews[index].setTextColor(0xFFFF2741);
+        textviews[currentTabIndex].setTextColor(getResources().getColor(R.color.colorFortyWhite));
+        textviews[index].setTextColor(getResources().getColor(R.color.white));
         currentTabIndex = index;
         setTabSelect(type);
     }
 
-    @OnClick({R.id.rl_main, R.id.rl_trade, R.id.rl_setting})
+    @OnClick({R.id.rl_main, R.id.rl_trade, R.id.rl_news, R.id.rl_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_main:
@@ -211,15 +233,19 @@ public class MainActivity extends BaseActivity {
                 index = 1;
                 setTabSelect(1);
                 break;
-            case R.id.rl_setting:
+            case R.id.rl_news:
                 index = 2;
                 setTabSelect(2);
+                break;
+            case R.id.rl_setting:
+                index = 3;
+                setTabSelect(3);
                 break;
         }
         imagebuttons[currentTabIndex].setSelected(false);
         imagebuttons[index].setSelected(true);
-        textviews[currentTabIndex].setTextColor(0xFF333333);
-        textviews[index].setTextColor(0xFFFF2741);
+        textviews[currentTabIndex].setTextColor(getResources().getColor(R.color.colorFortyWhite));
+        textviews[index].setTextColor(getResources().getColor(R.color.white));
         currentTabIndex = index;
     }
 
@@ -229,8 +255,8 @@ public class MainActivity extends BaseActivity {
         if ((Boolean) SPUtils.get(this, "isRecreate", false)) {//判断是否是更改语言设置后，执行了系统的recreate()方法,
             recreate();//判断是否是更改语言设置后，执行了系统的recreate()方法,
         } else {
-            if (Fragment1 != null && Fragment1.isVisible()) {
-                ((MainFragment) Fragment1).refresh();
+            if (fragment1 != null && fragment1.isVisible()) {
+                ((MainFragment) fragment1).refresh();
             }
         }
     }

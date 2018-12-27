@@ -6,6 +6,7 @@
  */
 package leaf.prod.walletsdk.model.response.crawler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Builder;
@@ -15,11 +16,15 @@ import lombok.Data;
 @Builder
 public class NewsPageWrapper {
 
-    private List<News> newsList;
+    private List<News> data;
 
     private Integer pageIndex;
 
     private Integer pageSize;
 
     private Integer total;
+
+    public static NewsPageWrapper emptyBean() {
+        return NewsPageWrapper.builder().data(new ArrayList<>()).pageIndex(0).pageSize(10).total(0).build();
+    }
 }

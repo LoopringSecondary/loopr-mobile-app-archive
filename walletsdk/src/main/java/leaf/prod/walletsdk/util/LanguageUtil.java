@@ -57,18 +57,11 @@ public class LanguageUtil {
     }
 
     public static Language getSettingLanguage(Context context) {
-        /*
-         * 通过language的状态来判断是否设置了显示英文还是中文，1为英文，2为中文,0为未设置，显示系统默认
-         */
-        switch ((int) SPUtils.get(context, "language", 0)) {
-            case 1:
-                return Language.en_US;
-            case 2:
-                return Language.zh_CN;
-            case 3:
-                return Language.zh_Hant;
-            default:
-                return getLanguage(context);
+        LoginDataManager manager = LoginDataManager.getInstance(context);
+        if (manager.getLocalUser() != null && !StringUtils.isEmpty(manager.getLocalUser().getLanguage())) {
+            String language = manager.getLocalUser().getLanguage();
+            return Language.getLanguage(language);
         }
+        return getLanguage(context);
     }
 }

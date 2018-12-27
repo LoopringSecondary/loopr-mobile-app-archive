@@ -6,6 +6,8 @@
  */
 package leaf.prod.walletsdk.model.response.crawler;
 
+import com.google.gson.annotations.SerializedName;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,11 +15,18 @@ import lombok.Data;
 @Builder
 public class News {
 
-    private String currency;
+    private String uuid;
+
+    @SerializedName("currency")
+    private String token;
 
     private String language;
 
     private String category;
+
+    private String title;
+
+    private String content;
 
     private String url;
 
