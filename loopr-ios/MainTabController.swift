@@ -53,6 +53,10 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showTradingFeatureChangedReceivedNotification(notification:)), name: .showTradingFeatureChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(localNotificationReceived), name: .publishLocalNotificationToMainTabController, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(switchToWalletViewControllerNotificationReceived), name: .switchToWalletViewController, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(switchToTradeViewControllerNotificationReceived), name: .switchToTradeViewController, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(switchToSettingViewControllerNotificationReceived), name: .switchToSettingViewController, object: nil)
     }
     
     override func viewWillLayoutSubviews() {
@@ -98,6 +102,27 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
             }
         }
         
+    }
+
+    @objc func switchToWalletViewControllerNotificationReceived() {
+        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+        selectedIndex = 0
+    }
+
+    @objc func switchToTradeViewControllerNotificationReceived() {
+        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+        if FeatureConfigDataManager.shared.getShowTradingFeature() {
+            selectedIndex = 1
+        }
+    }
+    
+    @objc func switchToSettingViewControllerNotificationReceived() {
+        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+        if FeatureConfigDataManager.shared.getShowTradingFeature() {
+            selectedIndex = 3
+        } else {
+            selectedIndex = 2
+        }
     }
     
     func processExternalUrl() {

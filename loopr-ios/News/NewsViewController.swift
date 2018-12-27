@@ -15,12 +15,14 @@ class NewsViewController: GarlandViewController {
     fileprivate let scrollViewContentOffsetMargin: CGFloat = -150.0
     fileprivate var headerIsSmall: Bool = false
 
+    @IBOutlet weak var fakeTradeButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         let nib = UINib(nibName: "CollectionCell", bundle: nil)
-        garlandCollection.register(nib, forCellWithReuseIdentifier: "Cell")
+        garlandCollection.register(nib, forCellWithReuseIdentifier: "CollectionCell")
         garlandCollection.delegate = self
         garlandCollection.dataSource = self
         
@@ -29,10 +31,39 @@ class NewsViewController: GarlandViewController {
         }
         setupHeader(header)
         
-        garlandCollection.frame = CGRect(x: 0, y: GarlandConfig.shared.headerVerticalOffset, width: view.bounds.width, height: view.bounds.height - GarlandConfig.shared.headerVerticalOffset - 49)
+        let window = UIApplication.shared.keyWindow
+        let bottomPadding = window?.safeAreaInsets.bottom ?? 0
+        
+        garlandCollection.frame = CGRect(x: 0, y: GarlandConfig.shared.headerVerticalOffset, width: view.bounds.width, height: view.bounds.height - GarlandConfig.shared.headerVerticalOffset - 49 - bottomPadding)
         view.backgroundColor = .clear
+        
+        if !FeatureConfigDataManager.shared.getShowTradingFeature() {
+            fakeTradeButton.isHidden = true
+        }
+    }
+    
+    func dismissChildViewControllers() {
+        guard let vc = nextViewController?(.left) else { return }
+        vc.dismiss(animated: false) {
+            
+        }
+    }
+    
+    @IBAction func clickedFakeButtonWallet(_ sender: Any) {
+        NotificationCenter.default.post(name: .switchToWalletViewController, object: nil, userInfo: nil)
+    }
+    
+    @IBAction func clickedFakeButtonTrade(_ sender: Any) {
+        NotificationCenter.default.post(name: .switchToTradeViewController, object: nil, userInfo: nil)
+    }
+    
+    @IBAction func clickedFakeButtonNews(_ sender: Any) {
+        
     }
 
+    @IBAction func clickedFakeButtonSettings(_ sender: Any) {
+        NotificationCenter.default.post(name: .switchToSettingViewController, object: nil, userInfo: nil)
+    }
 }
 
 extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -42,7 +73,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? CollectionCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath) as? CollectionCell else { return UICollectionViewCell() }
         
         return cell
     }
