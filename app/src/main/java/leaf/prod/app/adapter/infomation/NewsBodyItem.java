@@ -2,10 +2,12 @@ package leaf.prod.app.adapter.infomation;
 
 import java.text.SimpleDateFormat;
 
+import android.annotation.SuppressLint;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ramotion.garlandview.inner.InnerItem;
@@ -15,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.walletsdk.manager.TokenDataManager;
+import leaf.prod.walletsdk.model.NewsHeader;
 import leaf.prod.walletsdk.model.response.crawler.News;
 
 /**
@@ -54,6 +57,12 @@ public class NewsBodyItem extends InnerItem {
     @BindView(R.id.tv_source)
     public TextView tvSource;
 
+    @BindView(R.id.tv_token)
+    public TextView tvToken;
+
+    @BindView(R.id.iv_token)
+    public ImageView ivToken;
+
     private boolean expand = false;
 
     public NewsBodyItem(View itemView) {
@@ -75,18 +84,34 @@ public class NewsBodyItem extends InnerItem {
         return innerLayout;
     }
 
-    public void setContent(News data) {
+    @SuppressLint("SetTextI18n")
+    public void setContent(News data, NewsHeader.NewsType newsType) {
         if (data == null)
             return;
         try {
             tvTime.setText(sdf2.format(sdf1.parse(data.getPublishTime())));
-            tvSource.setText("来源:" + data.getSource());
+            tvSource.setText(innerLayout.getResources().getString(R.string.news_source) + ":" + data.getSource());
             tvTitle.setText(data.getTitle());
             clContent.setText(data.getContent());
-            tvShare.setText("分享" + (data.getForwardNum() > 0 ? data.getForwardNum() : ""));
-            tvBear.setText("利空" + (data.getBearIndex() > 0 ? data.getBearIndex() : ""));
-            tvBull.setText("利好" + (data.getBullIndex() > 0 ? data.getBullIndex() : ""));
+            tvShare.setText(innerLayout.getResources().getString(R.string.news_share) + (data.getForwardNum() > 0 ? data
+                    .getForwardNum() : ""));
+            tvBear.setText(innerLayout.getResources()
+                    .getString(R.string.news_bear) + (data.getBearIndex() > 0 ? data.getBearIndex() : ""));
+            tvBull.setText(innerLayout.getResources()
+                    .getString(R.string.news_bull) + (data.getBullIndex() > 0 ? data.getBullIndex() : ""));
+//            if (newsType == NewsHeader.NewsType.NEWS_INFO) {
+//                LyqbLogger.log(data.getToken());
+//                Token token = tokenDataManager.getTokenBySymbol(data.getToken());
+//                if (token != null) {
+//                    ivToken.setImageResource(token.getImageResId());
+//                    ivToken.setVisibility(View.VISIBLE);
+//                } else {
+//                    tvToken.setText(data.getToken());
+//                    tvToken.setVisibility(View.VISIBLE);
+//                }
+//            }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

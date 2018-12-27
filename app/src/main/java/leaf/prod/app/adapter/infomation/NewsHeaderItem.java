@@ -15,13 +15,20 @@ import com.ramotion.garlandview.header.HeaderDecorator;
 import com.ramotion.garlandview.header.HeaderItem;
 import com.ramotion.garlandview.inner.InnerLayoutManager;
 import com.ramotion.garlandview.inner.InnerRecyclerView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.walletsdk.model.NewsHeader;
 import leaf.prod.walletsdk.model.response.crawler.News;
+import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
+import leaf.prod.walletsdk.service.CrawlerService;
 import leaf.prod.walletsdk.util.DpUtil;
+import leaf.prod.walletsdk.util.LanguageUtil;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created with IntelliJ IDEA.
@@ -64,6 +71,15 @@ public class NewsHeaderItem extends HeaderItem {
     @BindView(R.id.header_alpha)
     public View headAlpha;
 
+    @BindView(R.id.refresh_layout)
+    public SmartRefreshLayout refreshLayout;
+
+    private CrawlerService crawlerService;
+
+    private NewsHeader.NewsType newsType;
+
+    private int index = 0;
+
     public NewsHeaderItem(View itemView, RecyclerView.RecycledViewPool pool) {
         super(itemView);
         ButterKnife.bind(this, itemView);
@@ -85,6 +101,21 @@ public class NewsHeaderItem extends HeaderItem {
         });
         headerRecyclerView.addItemDecoration(new HeaderDecorator(headerHeight, DpUtil.dp2Int(view.getContext(), 12)));
         headerRecyclerView.setRecycledViewPool(pool);
+        crawlerService = new CrawlerService();
+        refreshLayout.setOnRefreshListener(refreshLayout -> {
+            if (newsType == NewsHeader.NewsType.NEWS_FLASH) {
+                setFlash(index = 0);
+            } else {
+                setInformation(index = 0);
+            }
+        });
+        //        refreshLayout.setOnLoadMoreListener(refreshLayout -> {
+        //            if (newsType == NewsHeader.NewsType.NEWS_FLASH) {
+        //                setFlash(++index);
+        //            } else {
+        //                setInformation(++index);
+        //            }
+        //        });
     }
 
     @Override
@@ -98,6 +129,7 @@ public class NewsHeaderItem extends HeaderItem {
     }
 
     void setContent(@NonNull NewsHeader newsHeader) {
+        this.newsType = newsHeader.getNewsType();
         tvHeader1.setText(newsHeader.getTitle());
         tvHeader2.setText(newsHeader.getDescription());
         List<News> tail = new ArrayList<>();
@@ -105,7 +137,7 @@ public class NewsHeaderItem extends HeaderItem {
             tail = newsHeader.getNewsList().getData().subList(0, newsHeader.getNewsList().getData().size());
         }
         headerRecyclerView.setLayoutManager(new InnerLayoutManager());
-        ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(tail);
+        ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(tail, newsHeader.getNewsType());
     }
 
     void clearContent() {
@@ -132,6 +164,10 @@ public class NewsHeaderItem extends HeaderItem {
         final ViewGroup.LayoutParams lp = clHeader.getLayoutParams();
         lp.height = headerHeight - (int) (view.getResources().getDimensionPixelSize(R.dimen.dp10) * (1f - middleRatio));
         clHeader.setLayoutParams(lp);
+        int topRowVerticalPosition = (headerRecyclerView == null || headerRecyclerView.getChildCount() == 0) ? 0 : headerRecyclerView
+                .getChildAt(0)
+                .getTop();
+        refreshLayout.setEnabled(topRowVerticalPosition >= headerHeight + DpUtil.dp2Int(view.getContext(), 12));
     }
 
     @Override
@@ -142,5 +178,56 @@ public class NewsHeaderItem extends HeaderItem {
     @Override
     public View getHeaderAlphaView() {
         return headAlpha;
+    }
+
+    private void setInformation(int pageIndex) {
+        crawlerService.getInformation(CrawlerService.ALL, LanguageUtil.getSettingLanguage(view.getContext()), pageIndex, 10)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NewsPageWrapper>() {
+
+                    @Override
+                    public void onCompleted() {
+                        refreshLayout.finishRefresh();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        refreshLayout.finishRefresh();
+                    }
+
+                    @Override
+                    public void onNext(NewsPageWrapper newsPageWrapper) {
+                        ((NewsBodyAdapter) headerRecyclerView.getAdapter()).clearData();
+                        ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_INFO);
+                        refreshLayout.finishRefresh();
+                        unsubscribe();
+                    }
+                });
+    }
+
+    private void setFlash(int pageIndex) {
+        crawlerService.getFlash(CrawlerService.ALL, LanguageUtil.getSettingLanguage(view.getContext()), pageIndex, 10)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NewsPageWrapper>() {
+                    @Override
+                    public void onCompleted() {
+                        refreshLayout.finishRefresh();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        refreshLayout.finishRefresh();
+                    }
+
+                    @Override
+                    public void onNext(NewsPageWrapper newsPageWrapper) {
+                        ((NewsBodyAdapter) headerRecyclerView.getAdapter()).clearData();
+                        ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_INFO);
+                        refreshLayout.finishRefresh();
+                        unsubscribe();
+                    }
+                });
     }
 }

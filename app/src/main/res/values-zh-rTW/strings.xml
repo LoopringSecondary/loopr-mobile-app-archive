@@ -295,4 +295,10 @@
 
     <!-- 新闻相关 -->
     <string name="news">新聞</string>
+    <string name="news_flash">快訊</string>
+    <string name="news_information">動態</string>
+    <string name="news_source">來源</string>
+    <string name="news_bull">利好</string>
+    <string name="news_bear">利空</string>
+    <string name="news_share">分享</string>
 </resources>

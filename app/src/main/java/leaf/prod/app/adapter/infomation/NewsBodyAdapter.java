@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.ramotion.garlandview.inner.InnerAdapter;
 
 import leaf.prod.app.R;
+import leaf.prod.walletsdk.model.NewsHeader;
 import leaf.prod.walletsdk.model.response.crawler.News;
 
 public class NewsBodyAdapter extends InnerAdapter<NewsBodyItem> {
@@ -21,6 +22,8 @@ public class NewsBodyAdapter extends InnerAdapter<NewsBodyItem> {
     private Context context;
 
     private final List<News> mData = new ArrayList<>();
+
+    private NewsHeader.NewsType newsType;
 
     public NewsBodyAdapter(Context context) {
         this.context = context;
@@ -34,7 +37,7 @@ public class NewsBodyAdapter extends InnerAdapter<NewsBodyItem> {
 
     @Override
     public void onBindViewHolder(NewsBodyItem holder, int position) {
-        holder.setContent(mData.get(position));
+        holder.setContent(mData.get(position), newsType);
     }
 
     @Override
@@ -47,8 +50,9 @@ public class NewsBodyAdapter extends InnerAdapter<NewsBodyItem> {
         return R.layout.news_body_item;
     }
 
-    public void addData(@NonNull List<News> innerDataList) {
+    public void addData(@NonNull List<News> innerDataList, NewsHeader.NewsType newsType) {
         final int size = mData.size();
+        this.newsType = newsType;
         mData.addAll(innerDataList);
         notifyItemRangeInserted(size, innerDataList.size());
     }

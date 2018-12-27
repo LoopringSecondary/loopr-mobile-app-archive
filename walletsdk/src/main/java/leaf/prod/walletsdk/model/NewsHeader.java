@@ -14,9 +14,15 @@ import lombok.Data;
 @Builder
 public class NewsHeader {
 
+    public NewsType newsType;
+
     public String title;
 
     public String description;
 
     public NewsPageWrapper newsList;
+
+    public enum NewsType {
+        NEWS_INFO, NEWS_FLASH
+    }
 }

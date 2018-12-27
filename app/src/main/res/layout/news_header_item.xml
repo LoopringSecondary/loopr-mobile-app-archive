@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:clipChildren="false"
-             tools:ignore="MissingDefaultResource">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:clipChildren="false"
+                                             tools:ignore="MissingDefaultResource">
 
-    <com.ramotion.garlandview.inner.InnerRecyclerView
-        android:id="@+id/irv_header"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="false"/>
+        android:background="@color/colorLine"
+        app:srlHeaderInsetStart="170dp">
+
+        <com.scwang.smartrefresh.header.WaterDropHeader
+            android:id="@+id/head"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.ramotion.garlandview.inner.InnerRecyclerView
+            android:id="@+id/irv_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_header"
@@ -67,4 +79,4 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
     </android.support.constraint.ConstraintLayout>
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>
