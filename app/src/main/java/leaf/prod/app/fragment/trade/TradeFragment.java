@@ -12,8 +12,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.market.MarketsActivity;
 import leaf.prod.app.activity.trade.ConvertActivity;
-import leaf.prod.app.activity.trade.H5DexWebActivity;
 import leaf.prod.app.activity.trade.P2PActivity;
 import leaf.prod.app.fragment.BaseFragment;
 
@@ -69,8 +69,7 @@ public class TradeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ddex_layout:
-                getOperation().addParameter("url", "http://embeddex.upwallet.io/#/auth/tpwallet?to=/dex");
-                getOperation().forward(H5DexWebActivity.class);
+                getOperation().forward(MarketsActivity.class);
                 break;
             case R.id.p2p_layout:
                 getOperation().forward(P2PActivity.class);

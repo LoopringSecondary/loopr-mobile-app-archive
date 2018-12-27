@@ -10,8 +10,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
-import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.util.SPUtils;
 
 public class MarginSplitActivity extends BaseActivity {
 

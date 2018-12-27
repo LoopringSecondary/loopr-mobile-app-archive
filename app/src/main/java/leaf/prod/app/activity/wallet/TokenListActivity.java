@@ -26,13 +26,13 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.adapter.wallet.TokenListAdapter;
-import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.WalletEntity;
 import leaf.prod.app.utils.LyqbLogger;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.RecyclerViewBugLayoutManager;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.manager.TokenDataManager;
+import leaf.prod.walletsdk.model.WalletEntity;
 import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class TokenListActivity extends BaseActivity {
 

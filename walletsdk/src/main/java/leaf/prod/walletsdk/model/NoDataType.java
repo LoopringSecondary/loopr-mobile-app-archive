@@ -10,6 +10,7 @@ public enum NoDataType {
     asset("asset"),
     transation("transation"),
     p2p_order("p2p_order"),
+    market_order("market_order"),
     contact("contact");
 
     private final String description;

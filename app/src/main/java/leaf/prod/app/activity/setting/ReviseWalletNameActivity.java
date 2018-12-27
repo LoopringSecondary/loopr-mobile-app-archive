@@ -14,10 +14,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
+import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.WalletEntity;
 import leaf.prod.walletsdk.model.eventbusData.NameChangeData;
 import leaf.prod.walletsdk.util.WalletUtil;
-import leaf.prod.app.views.TitleView;
 
 public class ReviseWalletNameActivity extends BaseActivity {
 

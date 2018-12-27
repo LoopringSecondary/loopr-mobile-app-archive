@@ -37,8 +37,6 @@ public class P2PTradeFragment extends BaseFragment {
 
     public static String PASSWORD_TYPE = "P2P_ORDER";
 
-    Unbinder unbinder;
-
     @BindView(R.id.ll_switch)
     public LinearLayout llSwitch;
 
@@ -99,11 +97,7 @@ public class P2PTradeFragment extends BaseFragment {
     @BindView(R.id.seek_bar)
     public BubbleSeekBar seekBar;
 
-    private P2PTradePresenter presenter;
-
-    private P2POrderDataManager p2pManager;
-
-    private String currentToken, tradeType;
+    Unbinder unbinder;
 
     @SuppressLint("HandlerLeak")
     Handler handlerBalance = new Handler() {
@@ -117,6 +111,12 @@ public class P2PTradeFragment extends BaseFragment {
             }
         }
     };
+
+    private P2PTradePresenter presenter;
+
+    private P2POrderDataManager p2pManager;
+
+    private String currentToken, tradeType;
 
     @Nullable
     @Override

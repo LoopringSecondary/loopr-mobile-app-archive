@@ -46,6 +46,10 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     public BasePresenter presenter;
 
+    protected LoginDataManager loginDataManager;
+
+    protected Point mPoint = new Point();
+
     /**
      * 当前Activity的弱引用，防止内存泄露
      **/
@@ -60,11 +64,8 @@ public abstract class BaseActivity extends SwipeBackActivity {
     private ProgressDialog progressDialog;
 
     private MainNetworkReceiver mainNetworkReceiver;
+
     private NotificationReceiver notificationReceiver;
-
-    protected LoginDataManager loginDataManager;
-
-    protected Point mPoint = new Point();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +148,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
         mainNetworkReceiver = MainNetworkReceiver.getInstance(this);
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         this.registerReceiver(mainNetworkReceiver, intentFilter);
-
         notificationReceiver = NotificationReceiver.getInstance(this);
         intentFilter = new IntentFilter("leaf.prod.app.receiver.NotificationReceiver");
         this.registerReceiver(notificationReceiver, intentFilter);

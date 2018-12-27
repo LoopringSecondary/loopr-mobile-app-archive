@@ -23,11 +23,11 @@ import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.wallet.TokenChooseAdapter;
-import leaf.prod.walletsdk.manager.BalanceDataManager;
-import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.util.SPUtils;
 
 public class SendListChooseActivity extends BaseActivity {
 

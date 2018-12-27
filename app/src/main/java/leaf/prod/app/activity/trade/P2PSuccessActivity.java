@@ -8,7 +8,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
-import leaf.prod.app.activity.trade.P2PActivity;
 import leaf.prod.app.activity.wallet.MainActivity;
 import leaf.prod.app.views.TitleView;
 

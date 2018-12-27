@@ -290,7 +290,6 @@
     <string name="delete">delete</string>
     <string name="delete_contact_hint">Are you sure to delete current contact?</string>
     <string name="edit_contact">Edit this contact</string>
-    <string name="neo_tracker">Neo Tracker</string>
     <!-- 新闻相关 -->
     <string name="news">News</string>
     <string name="news_flash">Flash</string>
@@ -299,4 +298,8 @@
     <string name="news_bull">Bull</string>
     <string name="news_bear">Bear</string>
     <string name="news_share">Share</string>
+    <string name="markets">Markets</string>
+    <string name="Favorites">Favorites</string>
+    <string name="market">Market</string>
+    <string name="change">Change</string>
 </resources>

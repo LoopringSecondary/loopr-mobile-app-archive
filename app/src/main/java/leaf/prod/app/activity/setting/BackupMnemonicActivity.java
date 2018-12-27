@@ -59,8 +59,6 @@ public class BackupMnemonicActivity extends BaseActivity {
 
     private List<String> listMnemonic = new ArrayList<>();
 
-    private WalletEntity selectedWallet;
-
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
@@ -78,6 +76,8 @@ public class BackupMnemonicActivity extends BaseActivity {
             }
         }
     };
+
+    private WalletEntity selectedWallet;
 
     private String mnemonic;
 

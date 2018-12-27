@@ -50,10 +50,6 @@ public class NewsHeaderItem extends HeaderItem {
 
     private final static float MIDDLE_RATIO_DIFF = MIDDLE_RATIO_START - MIDDLE_RATIO_MAX;
 
-    private boolean mIsScrolling;
-
-    private View view;
-
     private static int headerHeight;
 
     @BindView(R.id.irv_header)
@@ -79,6 +75,10 @@ public class NewsHeaderItem extends HeaderItem {
     private NewsHeader.NewsType newsType;
 
     private int index = 0;
+
+    private boolean mIsScrolling;
+
+    private View view;
 
     public NewsHeaderItem(View itemView, RecyclerView.RecycledViewPool pool) {
         super(itemView);

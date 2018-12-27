@@ -27,9 +27,6 @@ import leaf.prod.walletsdk.util.NumberUtils;
 
 public class P2PTradeQrActivity extends BaseActivity {
 
-    @BindView(R.id.title)
-    TitleView title;
-
     @BindView(R.id.tv_sell_token)
     public TextView tvSellToken;
 
@@ -89,6 +86,9 @@ public class P2PTradeQrActivity extends BaseActivity {
 
     @BindView(R.id.price_B_sell)
     public TextView priceBSell;
+
+    @BindView(R.id.title)
+    TitleView title;
 
     private P2PTradeQrPresenter presenter;
 

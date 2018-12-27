@@ -25,6 +25,8 @@ import leaf.prod.walletsdk.model.QRCodeType;
 
 public class P2PActivity extends BaseActivity {
 
+    private static int REQUEST_CODE = 1;
+
     @BindView(R.id.title)
     TitleView title;
 
@@ -32,8 +34,6 @@ public class P2PActivity extends BaseActivity {
     TabLayout p2pTab;
 
     private P2PPresenter presenter;
-
-    private static int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

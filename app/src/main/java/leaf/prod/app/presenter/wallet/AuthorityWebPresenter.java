@@ -48,11 +48,11 @@ import rx.schedulers.Schedulers;
 
 public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
 
-    private AlertDialog passwordDialog;
-
     private static LoopringService loopringService = new LoopringService();
 
     private static Gson gson = new Gson();
+
+    private AlertDialog passwordDialog;
 
     private String value;
 

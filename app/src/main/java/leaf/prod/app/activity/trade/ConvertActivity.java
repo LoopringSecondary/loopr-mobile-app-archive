@@ -13,9 +13,9 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.presenter.trade.ConvertPresenter;
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.util.StringUtils;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class ConvertActivity extends BaseActivity {
 

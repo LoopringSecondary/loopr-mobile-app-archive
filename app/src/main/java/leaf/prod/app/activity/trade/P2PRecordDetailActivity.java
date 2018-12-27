@@ -110,6 +110,8 @@ P2PRecordDetailActivity extends BaseActivity {
     @BindView(R.id.price_B_sell)
     public TextView priceBSell;
 
+    P2PRecordDetailPresenter presenter;
+
     private Order order;
 
     private TokenDataManager tokenDataManager;
@@ -119,8 +121,6 @@ P2PRecordDetailActivity extends BaseActivity {
     private P2POrderDataManager p2pOrderManager;
 
     private MarketcapDataManager marketDataManager;
-
-    P2PRecordDetailPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,7 +194,6 @@ P2PRecordDetailActivity extends BaseActivity {
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         String ratioStr = formatter.format(ratio);
-
         String validSince = DateUtil.formatDateTime(order.getValidS() * 1000L, "MM-dd HH:mm");
         String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000L, "MM-dd HH:mm");
         ivTokenB.setImageDrawable(getResources().getDrawable(resourceB));
@@ -210,7 +209,6 @@ P2PRecordDetailActivity extends BaseActivity {
         tvFilled.setText(ratioStr);
         tvId.setText(order.getHash());
         tvLiveTime.setText(validSince + " ~ " + validUntil);
-
         sellInfo.setText(amountS + " " + order.getTokenS());
         buyInfo.setText(amountB + " " + order.getTokenB());
         tvValidUntil.setText(validUntil);

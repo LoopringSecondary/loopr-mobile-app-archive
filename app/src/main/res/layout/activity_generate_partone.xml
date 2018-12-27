@@ -168,8 +168,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
-            android:textAlignment="center"
             android:text="@string/good"
+            android:textAlignment="center"
             android:textColor="@color/colorNineText"
             android:textSize="@dimen/normal14Text"
             android:visibility="gone"/>

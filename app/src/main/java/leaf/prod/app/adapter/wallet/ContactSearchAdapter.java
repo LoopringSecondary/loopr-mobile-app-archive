@@ -12,7 +12,6 @@ import leaf.prod.walletsdk.model.Contact;
 
 public class ContactSearchAdapter extends BaseQuickAdapter<Contact, BaseViewHolder> {
 
-
     public ContactSearchAdapter(int layoutResId, @Nullable List<Contact> data) {
         super(layoutResId, data);
     }

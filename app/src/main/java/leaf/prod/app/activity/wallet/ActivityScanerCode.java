@@ -336,7 +336,6 @@ public class ActivityScanerCode extends ActivityBase {
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 photo.compress(Bitmap.CompressFormat.PNG, 100, bytes);
                 byte[] bitmapData = bytes.toByteArray();
-
                 photo = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
                 // 开始对图像资源解码
                 try {

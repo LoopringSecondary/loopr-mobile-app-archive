@@ -91,6 +91,34 @@ public class ConvertPresenter extends BasePresenter<ConvertActivity> {
 
     private AlertDialog passwordDialog;
 
+    @SuppressLint("HandlerLeak")
+    Handler handlerCreate = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            view.hideProgress();
+            switch (msg.what) {
+                case 0:
+                    // 成功
+                    view.getOperation().addParameter("tokenAmount", "-" + firstVal.getText() + " " + firstToken);
+                    view.getOperation().forwardClearTop(SendSuccessActivity.class);
+                    if (passwordDialog != null && passwordDialog.isShowing()) {
+                        passwordDialog.dismiss();
+                    }
+                    break;
+                case 1:
+                    // 密码错误
+                    RxToast.error(view.getResources().getString(R.string.keystore_psw_error));
+                    break;
+                case 2:
+                    // 转账错误
+                    view.getOperation().addParameter("error", view.getResources().getString(R.string.transfer_error));
+                    view.getOperation().forwardClearTop(SendErrorActivity.class);
+                    break;
+            }
+        }
+    };
+
     private TextView tvAmount;
 
     private TextView tvWalletInfo;
@@ -321,32 +349,4 @@ public class ConvertPresenter extends BasePresenter<ConvertActivity> {
                 break;
         }
     }
-
-    @SuppressLint("HandlerLeak")
-    Handler handlerCreate = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            view.hideProgress();
-            switch (msg.what) {
-                case 0:
-                    // 成功
-                    view.getOperation().addParameter("tokenAmount", "-" + firstVal.getText() + " " + firstToken);
-                    view.getOperation().forwardClearTop(SendSuccessActivity.class);
-                    if (passwordDialog != null && passwordDialog.isShowing()) {
-                        passwordDialog.dismiss();
-                    }
-                    break;
-                case 1:
-                    // 密码错误
-                    RxToast.error(view.getResources().getString(R.string.keystore_psw_error));
-                    break;
-                case 2:
-                    // 转账错误
-                    view.getOperation().addParameter("error", view.getResources().getString(R.string.transfer_error));
-                    view.getOperation().forwardClearTop(SendErrorActivity.class);
-                    break;
-            }
-        }
-    };
 }

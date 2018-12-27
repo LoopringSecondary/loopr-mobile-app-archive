@@ -11,9 +11,9 @@
         android:id="@+id/ll_tokens"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="12dp"
         android:background="@drawable/button_bg_pressed"
         android:gravity="center"
         android:orientation="horizontal"
@@ -58,8 +58,8 @@
                 android:id="@+id/switch_img"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
                 android:alpha="0.7"
                 android:src="@mipmap/icon_convert"/>
         </LinearLayout>
@@ -102,9 +102,9 @@
             android:id="@+id/ll_trade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="12dp"
             android:background="@drawable/button_bg_pressed"
             android:gravity="center"
             android:orientation="vertical">
@@ -112,9 +112,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/itemHeight"
+                android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="12dp"
                 android:background="@drawable/radius_white_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -177,10 +177,10 @@
                     android:id="@+id/tv_sell_hint"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="12dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="10dp"
                     android:layout_weight="5"
                     android:text="@string/available_balance"
                     android:textColor="@color/colorNineText"
@@ -190,8 +190,8 @@
                     android:id="@+id/market_price"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
+                    android:layout_marginStart="12dp"
                     android:gravity="center_vertical"
                     android:text="市价计算"
                     android:textColor="@color/colorCenter"
@@ -202,8 +202,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/itemHeight"
-                android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
                 android:background="@drawable/radius_white_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -266,10 +266,10 @@
                     android:id="@+id/tv_buy_hint"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="12dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="10dp"
                     android:layout_weight="5"
                     android:textColor="@color/colorNineText"
                     android:textSize="@dimen/text_11"/>
@@ -279,8 +279,8 @@
                 android:id="@+id/seek_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
                 app:bsb_bubble_text_size="@dimen/text_11"
                 app:bsb_hide_bubble="true"
                 app:bsb_is_float_type="true"
@@ -297,9 +297,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="12dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -352,9 +352,9 @@
                 android:id="@+id/ll_minimal_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -435,8 +435,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp">
 
                 <Button
                     android:id="@+id/btn_next"

@@ -11,19 +11,25 @@ import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
 import leaf.prod.walletsdk.model.CancelOrder;
+import leaf.prod.walletsdk.model.Depth;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.OrderStatus;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.Partner;
+import leaf.prod.walletsdk.model.Ticker;
+import leaf.prod.walletsdk.model.TickerSource;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.relayParam.AddTokenParam;
 import leaf.prod.walletsdk.model.request.relayParam.BalanceParam;
 import leaf.prod.walletsdk.model.request.relayParam.CancelOrderParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetAllowanceParam;
+import leaf.prod.walletsdk.model.request.relayParam.GetDepthsParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetFrozenParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetOrdersParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetSignParam;
+import leaf.prod.walletsdk.model.request.relayParam.GetTickersParam;
+import leaf.prod.walletsdk.model.request.relayParam.GetTokenParam;
 import leaf.prod.walletsdk.model.request.relayParam.MarketcapParam;
 import leaf.prod.walletsdk.model.request.relayParam.NonceParam;
 import leaf.prod.walletsdk.model.request.relayParam.NotifyScanParam;
@@ -181,12 +187,33 @@ public class LoopringService {
     }
 
     public Observable<List<Token>> getCustomToken(String owner) {
-        com.lyqb.walletsdk.model.request.param.GetTokenParam param = com.lyqb.walletsdk.model.request.param.GetTokenParam
-                .builder()
+        GetTokenParam param = GetTokenParam.builder()
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getCustomTokens", param);
         Observable<RelayResponseWrapper<List<Token>>> observable = rpcDelegate.getCustomToken(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    // 市场相关接口
+    public Observable<List<Ticker>> getTickers(TickerSource source) {
+        GetTickersParam param = GetTickersParam.builder()
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .tickerSource(source.name())
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_getTickerBySource", param);
+        Observable<RelayResponseWrapper<List<Ticker>>> observable = rpcDelegate.getTickers(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<List<Depth>> getDepths(String market, Integer length) {
+        GetDepthsParam param = GetDepthsParam.builder()
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .market(market)
+                .length(length)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_getDepth", param);
+        Observable<RelayResponseWrapper<List<Depth>>> observable = rpcDelegate.getDepths(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
@@ -250,7 +277,7 @@ public class LoopringService {
                 .owner(owner)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getFrozenLRCFee", param);
-        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.loopring_getFrozenLRCFee(request);
+        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.getFrozenLRCFee(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 

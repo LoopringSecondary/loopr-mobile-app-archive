@@ -24,8 +24,7 @@ import leaf.prod.app.views.TitleView;
 
 public class AirdropActivity extends BaseActivity {
 
-    @BindView(R.id.title)
-    TitleView title;
+    private static int REQUEST_CODE = 1;
 
     @BindView(R.id.airdrop_addr)
     public MaterialEditText airdropAddress;
@@ -54,11 +53,11 @@ public class AirdropActivity extends BaseActivity {
     @BindView(R.id.date_tip)
     public TextView dateTip;
 
-
     @BindView(R.id.airdrop_date)
     public MaterialEditText airdropDate;
 
-    private static int REQUEST_CODE = 1;
+    @BindView(R.id.title)
+    TitleView title;
 
     /**
      * 初始化P层

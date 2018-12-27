@@ -12,14 +12,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
+import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
+import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
-import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.model.Currency;
-import leaf.prod.walletsdk.service.LoopringService;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 

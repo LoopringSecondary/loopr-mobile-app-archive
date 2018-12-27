@@ -35,6 +35,8 @@ import rx.schedulers.Schedulers;
 
 public class P2PRecordsFragment extends BaseFragment {
 
+    public static String PASSWORD_TYPE = "P2P_CANCEL";
+
     Unbinder unbinder;
 
     @BindView(R.id.recycler_view)
@@ -55,8 +57,6 @@ public class P2PRecordsFragment extends BaseFragment {
     private List<Order> orderList = new ArrayList<>();
 
     private int currentPageIndex = 1, pageSize = 20, totalCount = 0;
-
-    public static String PASSWORD_TYPE = "P2P_CANCEL";
 
     @Nullable
     @Override

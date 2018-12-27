@@ -25,8 +25,8 @@ import leaf.prod.app.activity.setting.ThirdLoginActivity;
 import leaf.prod.app.activity.setupWallet.CoverActivity;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.FingerprintUtil;
-import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.manager.LoginDataManager;
+import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 

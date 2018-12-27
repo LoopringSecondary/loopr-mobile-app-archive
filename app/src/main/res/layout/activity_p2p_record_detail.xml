@@ -154,8 +154,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -186,8 +186,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -218,8 +218,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -250,8 +250,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -282,8 +282,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -316,8 +316,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -358,10 +358,10 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="70dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:gravity="top"
             android:text="@string/loopring_order"
             android:textSize="20sp"
@@ -384,10 +384,10 @@
             android:id="@+id/order_info"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="80dp"
+            android:layout_marginEnd="102dp"
             android:layout_marginStart="102dp"
             android:layout_marginTop="40dp"
-            android:layout_marginEnd="102dp"
-            android:layout_marginBottom="80dp"
             android:collapseColumns="2"
             android:shrinkColumns="0"
             android:stretchColumns="1"
@@ -520,8 +520,8 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
             android:layout_marginBottom="80dp"
+            android:layout_marginStart="64dp"
             android:text="UP Wallet"
             android:textSize="13sp"
             android:textStyle="bold"
@@ -542,8 +542,8 @@
             android:id="@+id/imageView3"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="64dp"
             android:layout_marginBottom="60dp"
+            android:layout_marginEnd="64dp"
             android:src="@mipmap/icon_share_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

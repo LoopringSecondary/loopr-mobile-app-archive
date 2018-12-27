@@ -55,16 +55,16 @@ public class UpgradeUtil {
         if (downloadManager == null) {
             downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         }
-
         if (!updateHint && getIgnoreVersion(context).isEmpty() || force) {
             appService.getLatestVersion(new Callback<AppResponseWrapper<VersionResp>>() {
                 @Override
                 public void onResponse(Call<AppResponseWrapper<VersionResp>> call, Response<AppResponseWrapper<VersionResp>> response) {
                     try {
                         VersionResp versionResult = response.body().getMessage();
-                        if (versionResult != null && AndroidUtils.getVersionName(context).compareTo(versionResult.getVersion()) < 0) {
+                        if (versionResult != null && AndroidUtils.getVersionName(context)
+                                .compareTo(versionResult.getVersion()) < 0) {
                             SPUtils.put(context, "latestVersion", versionResult.getVersion());
-                            if(dialog == null) {
+                            if (dialog == null) {
                                 builder = new AlertDialog.Builder(context, R.style.DialogTheme);
                                 view = LayoutInflater.from(context).inflate(R.layout.dialog_upgrade, null);
                                 view.findViewById(R.id.btn_skip).setOnClickListener(v -> {

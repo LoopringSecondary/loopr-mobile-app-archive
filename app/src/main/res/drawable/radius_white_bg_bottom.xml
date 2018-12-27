@@ -1,12 +1,12 @@
 <!--<?xml version="1.0" encoding="utf-8"?>-->
 <!--<shape xmlns:android="http://schemas.android.com/apk/res/android"-->
-       <!--android:shape="rectangle">-->
-    <!--<corners-->
-        <!--android:bottomLeftRadius="5dp" android:bottomRightRadius="5dp">-->
-    <!--</corners>-->
-    <!--<solid-->
-        <!--android:color="#ffffff">-->
-    <!--</solid>-->
+<!--android:shape="rectangle">-->
+<!--<corners-->
+<!--android:bottomLeftRadius="5dp" android:bottomRightRadius="5dp">-->
+<!--</corners>-->
+<!--<solid-->
+<!--android:color="#ffffff">-->
+<!--</solid>-->
 
 <!--</shape>-->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
@@ -23,10 +23,10 @@
     </item>
     <!-- 给View的上 下  右设置8dp的边框 -->
     <!-- http://blog.csdn.net/lowprofile_coding/article/details/47848245-->
-    <item  android:bottom="1dp" >
+    <item android:bottom="1dp">
         <shape>
             <!--     View填充颜色 -->
-            <solid android:color="@color/colorWhite" />
+            <solid android:color="@color/colorWhite"/>
             <corners
                 android:bottomLeftRadius="5dp"
                 android:bottomRightRadius="5dp">

@@ -32,10 +32,6 @@ public class NewsBodyItem extends InnerItem {
 
     private static SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd HH:mm");
 
-    private TokenDataManager tokenDataManager;
-
-    private View innerLayout;
-
     @BindView(R.id.tv_time)
     public TextView tvTime;
 
@@ -62,6 +58,10 @@ public class NewsBodyItem extends InnerItem {
 
     @BindView(R.id.iv_token)
     public ImageView ivToken;
+
+    private TokenDataManager tokenDataManager;
+
+    private View innerLayout;
 
     private boolean expand = false;
 

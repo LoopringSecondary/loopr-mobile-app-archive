@@ -13,8 +13,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/margSide"
-        android:layout_marginEnd="@dimen/margSide">
+        android:layout_marginEnd="@dimen/margSide"
+        android:layout_marginStart="@dimen/margSide">
 
         <View
             android:id="@+id/top_line"

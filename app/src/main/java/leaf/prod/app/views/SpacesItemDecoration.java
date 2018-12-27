@@ -11,8 +11,11 @@ import android.view.View;
 public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
 
     private int left;
+
     private int right;
+
     private int bottom;
+
     private int top;
 
     public SpacesItemDecoration(int left, int right, int bottom, int top) {

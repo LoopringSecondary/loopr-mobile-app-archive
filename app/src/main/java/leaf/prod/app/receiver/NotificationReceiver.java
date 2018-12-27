@@ -18,13 +18,13 @@ import leaf.prod.walletsdk.model.response.relay.Transaction;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
-    private Context context;
-
     private static final int NOTIFY_ID = 1;
 
     private static final String CHANNEL_ID = "my_channel_01";
 
     private static NotificationReceiver notificationReceiver;
+
+    private Context context;
 
     private NotificationReceiver(Context context) {
         this.context = context;

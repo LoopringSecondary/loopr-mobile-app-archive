@@ -4,7 +4,7 @@
  * Time: 2018-09-26 下午6:00
  * Cooperation: loopring.org 路印协议基金会
  */
-package com.lyqb.walletsdk.model.request.param;
+package leaf.prod.walletsdk.model.request.relayParam;
 
 import lombok.Builder;
 import lombok.Data;

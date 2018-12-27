@@ -5,18 +5,20 @@ import java.util.Map;
 
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
+import leaf.prod.walletsdk.model.Depth;
+import leaf.prod.walletsdk.model.LoginUser;
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.Partner;
-import leaf.prod.walletsdk.model.LoginUser;
+import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
-import leaf.prod.walletsdk.model.response.crawler.IndexResult;
-import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
-import leaf.prod.walletsdk.model.response.relay.ClaimBindAmount;
-import leaf.prod.walletsdk.model.response.relay.GetBindAmount;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.app.VersionResp;
+import leaf.prod.walletsdk.model.response.crawler.IndexResult;
+import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.model.response.relay.ClaimBindAmount;
+import leaf.prod.walletsdk.model.response.relay.GetBindAmount;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 import leaf.prod.walletsdk.model.response.relay.PageWrapper;
 import leaf.prod.walletsdk.model.response.relay.Token;
@@ -45,6 +47,30 @@ public interface RpcDelegate {
                 .build();
         return retrofitClient.create(RpcDelegate.class);
     }
+
+    @GET(Default.APP_RPC_URL + "/version/android/getLatest")
+    Call<AppResponseWrapper<VersionResp>> getLatestVersion();
+
+    @GET(Default.APP_RPC_URL + "/user/getUser")
+    Call<AppResponseWrapper<LoginUser>> getUser(@Query("account_token") String accountToken);
+
+    @POST(Default.APP_RPC_URL + "/user/addUser")
+    Call<AppResponseWrapper<String>> addUser(@Body LoginUser loginUser);
+
+    @DELETE(Default.APP_RPC_URL + "/user/deleteUser")
+    Call<AppResponseWrapper<String>> deleteUser(@Query("account_token") String accountToken);
+
+    @POST(Default.NEO_RPC_URL)
+    Observable<RelayResponseWrapper<GetBindAmount>> getAirdropAmount(@Body RequestWrapper request);
+
+    @POST(Default.NEO_RPC_URL)
+    Observable<RelayResponseWrapper<ClaimBindAmount>> claimAirdrop(@Body RequestWrapper request);
+
+    @POST(Default.CRAWLER_RPC_URL)
+    Observable<RelayResponseWrapper<NewsPageWrapper>> getNews(@Body RequestWrapper request);
+
+    @POST(Default.CRAWLER_RPC_URL)
+    Observable<RelayResponseWrapper<IndexResult>> updateIndex(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
     Observable<Map> send(@Body RequestWrapper request);
@@ -95,13 +121,19 @@ public interface RpcDelegate {
     Observable<RelayResponseWrapper<List<Token>>> getCustomToken(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<List<Ticker>>> getTickers(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<List<Depth>>> getDepths(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<PageWrapper<Order>>> getOrders(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<Order>> getOrderByHash(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<RelayResponseWrapper<String>> loopring_getFrozenLRCFee(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<String>> getFrozenLRCFee(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<String>> getEstimatedAllocatedAllowance(@Body RequestWrapper request);
@@ -117,28 +149,4 @@ public interface RpcDelegate {
 
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<String>> sumitRing(@Body RequestWrapper request);
-
-    @GET(Default.APP_RPC_URL + "/version/android/getLatest")
-    Call<AppResponseWrapper<VersionResp>> getLatestVersion();
-
-    @GET(Default.APP_RPC_URL + "/user/getUser")
-    Call<AppResponseWrapper<LoginUser>> getUser(@Query("account_token") String accountToken);
-
-    @POST(Default.APP_RPC_URL + "/user/addUser")
-    Call<AppResponseWrapper<String>> addUser(@Body LoginUser loginUser);
-
-    @DELETE(Default.APP_RPC_URL + "/user/deleteUser")
-    Call<AppResponseWrapper<String>> deleteUser(@Query("account_token") String accountToken);
-
-    @POST(Default.NEO_RPC_URL)
-    Observable<RelayResponseWrapper<GetBindAmount>> getAirdropAmount(@Body RequestWrapper request);
-
-    @POST(Default.NEO_RPC_URL)
-    Observable<RelayResponseWrapper<ClaimBindAmount>> claimAirdrop(@Body RequestWrapper request);
-
-    @POST(Default.CRAWLER_RPC_URL)
-    Observable<RelayResponseWrapper<NewsPageWrapper>> getNews(@Body RequestWrapper request);
-
-    @POST(Default.CRAWLER_RPC_URL)
-    Observable<RelayResponseWrapper<IndexResult>> updateIndex(@Body RequestWrapper request);
 }

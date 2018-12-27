@@ -51,9 +51,6 @@ public class H5DexWebActivity extends BaseActivity {
 
     public String password;
 
-    @BindView(R.id.title)
-    TitleView title;
-
     @BindView(R.id.ll_share_view)
     public ConstraintLayout clShareView;
 
@@ -81,6 +78,9 @@ public class H5DexWebActivity extends BaseActivity {
     @BindView(R.id.price_B_sell)
     public TextView priceBSell;
 
+    @BindView(R.id.title)
+    TitleView title;
+
     /**
      * 输入密码dialog
      */
@@ -91,6 +91,47 @@ public class H5DexWebActivity extends BaseActivity {
     private H5DexPresenter presenter;
 
     private String url;
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+        }
+
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            RxToast.success(getResources().getString(R.string.share_success));
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            if (t.getMessage().contains("2008")) {//错误码
+                RxToast.error(getResources().getString(R.string.share_failed_no_app));
+            } else {
+                RxToast.error(getResources().getString(R.string.share_failed, t.getMessage()));
+            }
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+        }
+    };
 
     /**
      * 初始化P层
@@ -151,47 +192,6 @@ public class H5DexWebActivity extends BaseActivity {
             presenter.scanContent = p2pOrder;
         }
     }
-
-    private UMShareListener umShareListener = new UMShareListener() {
-        /**
-         * @descrption 分享开始的回调
-         * @param platform 平台类型
-         */
-        @Override
-        public void onStart(SHARE_MEDIA platform) {
-        }
-
-        /**
-         * @descrption 分享成功的回调
-         * @param platform 平台类型
-         */
-        @Override
-        public void onResult(SHARE_MEDIA platform) {
-            RxToast.success(getResources().getString(R.string.share_success));
-        }
-
-        /**
-         * @descrption 分享失败的回调
-         * @param platform 平台类型
-         * @param t 错误原因
-         */
-        @Override
-        public void onError(SHARE_MEDIA platform, Throwable t) {
-            if (t.getMessage().contains("2008")) {//错误码
-                RxToast.error(getResources().getString(R.string.share_failed_no_app));
-            } else {
-                RxToast.error(getResources().getString(R.string.share_failed, t.getMessage()));
-            }
-        }
-
-        /**
-         * @descrption 分享取消的回调
-         * @param platform 平台类型
-         */
-        @Override
-        public void onCancel(SHARE_MEDIA platform) {
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

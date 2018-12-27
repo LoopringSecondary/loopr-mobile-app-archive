@@ -20,15 +20,19 @@ import leaf.prod.app.presenter.infomation.NewsPresenter;
  */
 public class NewsFragment extends BaseFragment {
 
-    Unbinder unbinder;
-
     @BindView(R.id.cl_loading)
     public ConstraintLayout clLoading;
 
     @BindView(R.id.recycler_view)
     public MyTailRecyclerView recyclerView;
 
+<<<<<<< HEAD
     private NewsPresenter presenter;
+=======
+    Unbinder unbinder;
+
+    private CrawlerService crawlerService;
+>>>>>>> add market feature
 
     @Nullable
     @Override

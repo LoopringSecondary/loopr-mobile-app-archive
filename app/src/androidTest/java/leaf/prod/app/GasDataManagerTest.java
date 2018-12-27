@@ -3,16 +3,17 @@ package leaf.prod.app;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 
 import leaf.prod.app.manager.GasDataManager;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 public class GasDataManagerTest {
 
     Context appContext;
+
     GasDataManager gasDataManager;
 
     @Before

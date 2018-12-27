@@ -35,6 +35,8 @@ import leaf.prod.walletsdk.util.StringUtils;
 
 public class AddContactActivity extends BaseActivity {
 
+    private static int REQUEST_CODE = 1;
+
     @BindView(R.id.title)
     TitleView title;
 
@@ -49,8 +51,6 @@ public class AddContactActivity extends BaseActivity {
 
     @BindView(R.id.btn_delete)
     Button btnDelete;
-
-    private static int REQUEST_CODE = 1;
 
     private AlertDialog.Builder confirmDelete;
 

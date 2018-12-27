@@ -14,5 +14,4 @@ public class AppInfoTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
         assertEquals(appContext.getPackageName(), "leaf.prod.app");
     }
-
 }

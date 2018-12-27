@@ -18,5 +18,4 @@ public class MarketcapDataManagerTest {
         Double price = marketcapDataManager.getPriceBySymbol("LRC");
         assertTrue(price > 0);
     }
-
 }

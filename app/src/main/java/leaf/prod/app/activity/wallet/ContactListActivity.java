@@ -25,8 +25,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
-import leaf.prod.app.adapter.wallet.ContactListAdapter;
 import leaf.prod.app.adapter.NoDataAdapter;
+import leaf.prod.app.adapter.wallet.ContactListAdapter;
 import leaf.prod.app.layout.IndexBarLayout;
 import leaf.prod.app.presenter.wallet.ContactListPresenter;
 import leaf.prod.app.views.RecyclerViewBugLayoutManager;
@@ -59,17 +59,17 @@ public class ContactListActivity extends BaseActivity {
     @BindView(R.id.et_search)
     public EditText etSearch;
 
-    private ContactListPresenter presenter;
-
     public ContactListAdapter adapter;
-
-    private NoDataAdapter emptyAdapter;
 
     public Map<String, Integer> indexMap = new HashMap<>();
 
     public Map<String, TextView> tvMap = new HashMap<>();
 
     public RecyclerViewBugLayoutManager layoutManager;
+
+    private ContactListPresenter presenter;
+
+    private NoDataAdapter emptyAdapter;
 
     private InputMethodManager imm;
 

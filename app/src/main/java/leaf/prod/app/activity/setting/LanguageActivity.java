@@ -10,10 +10,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
-import leaf.prod.walletsdk.util.LanguageUtil;
-import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.Language;
+import leaf.prod.walletsdk.util.LanguageUtil;
+import leaf.prod.walletsdk.util.SPUtils;
 
 public class LanguageActivity extends BaseActivity {
 

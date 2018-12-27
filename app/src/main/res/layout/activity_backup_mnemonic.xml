@@ -23,8 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:layout_marginLeft="@dimen/margSide"
-            android:layout_marginTop="12dp"
             android:layout_marginRight="@dimen/margSide"
+            android:layout_marginTop="12dp"
             android:background="@mipmap/mnemonic_one"
             >
 
@@ -34,8 +34,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="19dp"
-                android:layout_marginTop="30dp"
                 android:layout_marginRight="19dp"
+                android:layout_marginTop="30dp"
                 android:lineSpacingExtra="3dp"
                 android:text="@string/mnemonic_hint"
                 android:textColor="@color/colorWhite"
@@ -56,10 +56,10 @@
                 android:id="@+id/recycler_mnemonic_hint"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="@dimen/margSide"
-                android:layout_marginTop="15dp"
                 android:layout_marginRight="@dimen/margSide"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginTop="15dp"/>
         </RelativeLayout>
 
         <Button

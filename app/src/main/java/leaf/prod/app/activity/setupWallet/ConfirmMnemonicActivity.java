@@ -50,11 +50,11 @@ public class ConfirmMnemonicActivity extends BaseActivity {
     @BindView(R.id.confirm_mnemonic_word_info)
     public TextView confirmMnemonicWordInfo;
 
+    List<String> mneCheckedList = new LinkedList<>();//选中的助记词
+
     private List<String> listMnemonic = new ArrayList<>();
 
     private MnemonicWordAdapter mAdapter;
-
-    List<String> mneCheckedList = new LinkedList<>();//选中的助记词
 
     private String mnemonic;
 

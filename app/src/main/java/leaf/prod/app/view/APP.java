@@ -20,8 +20,8 @@ import com.umeng.socialize.UMShareAPI;
 import com.vondear.rxtool.RxTool;
 
 import leaf.prod.app.utils.AndroidUtils;
-import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.SDK;
+import leaf.prod.walletsdk.util.SPUtils;
 
 public class APP extends Application {
 
@@ -83,7 +83,6 @@ public class APP extends Application {
         UMConfigure.init(this, "5bc69f03f1f5569916000271", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "l4pdsyhzabhj5bipej3iimmw6ospj5ux");
         Config.DEBUG = true;
         SDK.initSDK();
-
     }
 
     @CallSuper
