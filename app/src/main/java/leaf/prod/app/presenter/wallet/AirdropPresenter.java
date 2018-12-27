@@ -75,8 +75,6 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
                             .getBindFunction(owner, 1).getOutputParameters();
                     List<Type> values = FunctionReturnDecoder.decode(ethCall.getValue(), typeReferences);
                     bindAddress = values.get(0).toString();
-                    //                    view.airdropAddress.setText(bindAddress);
-                    //                    setClaimButton(false);
                     if (StringUtils.isEmpty(bindAddress)) {
                         return Observable.just("failed");
                     } else {
