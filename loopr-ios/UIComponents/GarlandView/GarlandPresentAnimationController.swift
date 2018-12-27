@@ -25,7 +25,15 @@ public class GarlandAnimationController: NSObject, UIViewControllerAnimatedTrans
     }
     
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? GarlandViewController,
+        
+        var tmpVC: GarlandViewController?
+        if let tmpVC2 = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? NewsNavigationViewController {
+            tmpVC = tmpVC2.childViewControllers[0] as? GarlandViewController
+        } else if transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? GarlandViewController != nil {
+            tmpVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? GarlandViewController
+        }
+        
+        guard let fromVC = tmpVC,
               let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? GarlandViewController,
               let fromHeaderSnapshot = fromVC.headerView.snapshotView(afterScreenUpdates: true) else {
                 

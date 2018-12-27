@@ -56,17 +56,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
 
         // Setting RootViewController must be after AppWalletDataManager.shared.setup()
         
-        
+
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        
         self.window?.rootViewController = getRootViewController()
         self.window?.makeKeyAndVisible()
- 
         
         /*
         window = UIWindow.init(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
-        window?.rootViewController = NewsViewController()
+        window?.rootViewController = NewsNavigationViewController()
         window?.makeKeyAndVisible()
         */
         

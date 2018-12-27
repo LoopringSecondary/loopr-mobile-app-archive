@@ -28,6 +28,9 @@ class NewsViewController: GarlandViewController {
             return NewsViewController()
         }
         setupHeader(header)
+        
+        garlandCollection.frame = CGRect(x: 0, y: GarlandConfig.shared.headerVerticalOffset, width: view.bounds.width, height: view.bounds.height - GarlandConfig.shared.headerVerticalOffset - 49)
+        view.backgroundColor = .clear
     }
 
 }
