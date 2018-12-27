@@ -130,6 +130,14 @@ public class GarlandAnimationController: NSObject, UIViewControllerAnimatedTrans
         containerView.addSubview(toHeaderSnapshot)
         containerView.addSubview(fromHeaderSnapshot)
         
+        // TODO: ruby, replace fakeView with TabBar
+        let window = UIApplication.shared.keyWindow
+        let bottomPadding = window?.safeAreaInsets.bottom ?? 0
+        let fakeViewHeight = bottomPadding + 49
+        let fakeView = UIView.init(frame: CGRect(x: 0, y: fromVC.view.bounds.height - fakeViewHeight, width: fromVC.view.bounds.width, height: fakeViewHeight))
+        fakeView.backgroundColor = UIColor.red
+        containerView.addSubview(fakeView)
+        
         //hide origin views
         //fromFakeHeaderSnapshot.alpha = 0
         toFakeHeader.alpha = 0
@@ -207,6 +215,7 @@ public class GarlandAnimationController: NSObject, UIViewControllerAnimatedTrans
             rightFakeHeaderSnapshot.removeFromSuperview()
             fromHeaderSnapshot.removeFromSuperview()
             toHeaderSnapshot.removeFromSuperview()
+            fakeView.removeFromSuperview()
             fromVC.view.removeFromSuperview()
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         })
