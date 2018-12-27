@@ -55,26 +55,28 @@
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
+                android:lineSpacingMultiplier="1.3"
                 android:text="行情|数字币早班车"
                 android:textAlignment="textStart"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/cl_time"/>
 
             <at.blogc.android.views.ExpandableTextView
                 android:id="@+id/cl_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
                 android:ellipsize="end"
                 android:lineSpacingMultiplier="1.3"
                 android:maxLines="4"
+                android:minHeight="80dp"
                 android:text="walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星，让用户代码发布终于可以不只能选择 jenkins，支持各种web代码发布，php、java等代码的发布、回滚可以通过web来一键完成。walle 一个可自由配置项目，更人性化，高颜值，支持 git、多用户、多语言、多项目、多环境同时部署的开源上线部署系统。"
-                android:textSize="11sp"
                 android:textColor="@color/colorNineText"
+                android:textSize="11sp"
                 app:animation_duration="500"
                 app:layout_constraintTop_toBottomOf="@id/tv_title"/>
 
@@ -94,18 +96,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_content">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/iv_token"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@mipmap/icon_token_lrc"/>
-                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_share"

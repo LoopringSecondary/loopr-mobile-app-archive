@@ -6,7 +6,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ramotion.garlandview.inner.InnerItem;
@@ -15,6 +14,7 @@ import at.blogc.android.views.ExpandableTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
+import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.response.crawler.News;
 
 /**
@@ -28,6 +28,8 @@ public class NewsBodyItem extends InnerItem {
     private static SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private static SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd HH:mm");
+
+    private TokenDataManager tokenDataManager;
 
     private View innerLayout;
 
@@ -52,15 +54,13 @@ public class NewsBodyItem extends InnerItem {
     @BindView(R.id.tv_source)
     public TextView tvSource;
 
-    @BindView(R.id.iv_token)
-    public ImageView ivToken;
-
     private boolean expand = false;
 
     public NewsBodyItem(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         innerLayout = ((ViewGroup) itemView).getChildAt(0);
+        tokenDataManager = TokenDataManager.getInstance(innerLayout.getContext());
         clContent.setExpandInterpolator(new OvershootInterpolator());
         clContent.setCollapseInterpolator(new OvershootInterpolator());
         clContent.setOnClickListener(view -> {
@@ -83,9 +83,9 @@ public class NewsBodyItem extends InnerItem {
             tvSource.setText("来源:" + data.getSource());
             tvTitle.setText(data.getTitle());
             clContent.setText(data.getContent());
-            //        tvShare.setText("分享" + data.getShareCount());
-            //        tvBear.setText("利空" + data.getBearCount());
-            //        tvBull.setText("利好" + data.getBullCount());
+            tvShare.setText("分享" + (data.getForwardNum() > 0 ? data.getForwardNum() : ""));
+            tvBear.setText("利空" + (data.getBearIndex() > 0 ? data.getBearIndex() : ""));
+            tvBull.setText("利好" + (data.getBullIndex() > 0 ? data.getBullIndex() : ""));
         } catch (Exception e) {
         }
     }
