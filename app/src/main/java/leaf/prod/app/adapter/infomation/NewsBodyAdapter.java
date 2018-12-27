@@ -17,8 +17,6 @@ import leaf.prod.walletsdk.model.response.crawler.News;
 
 public class NewsBodyAdapter extends InnerAdapter<NewsBodyItem> {
 
-    private final List<News> mData = new ArrayList<>();
-
     private View view;
 
     private Context context;

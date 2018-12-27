@@ -14,11 +14,14 @@ import leaf.prod.app.R;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.layout.MyTailRecyclerView;
 import leaf.prod.app.presenter.infomation.NewsPresenter;
+import leaf.prod.walletsdk.service.CrawlerService;
 
 /**
  *
  */
 public class NewsFragment extends BaseFragment {
+
+    Unbinder unbinder;
 
     @BindView(R.id.cl_loading)
     public ConstraintLayout clLoading;
@@ -26,13 +29,9 @@ public class NewsFragment extends BaseFragment {
     @BindView(R.id.recycler_view)
     public MyTailRecyclerView recyclerView;
 
-<<<<<<< HEAD
     private NewsPresenter presenter;
-=======
-    Unbinder unbinder;
 
     private CrawlerService crawlerService;
->>>>>>> add market feature
 
     @Nullable
     @Override
