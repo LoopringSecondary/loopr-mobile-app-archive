@@ -133,12 +133,7 @@ public class GarlandAnimationController: NSObject, UIViewControllerAnimatedTrans
         // Create the UIImage to fake the tar bar items
         // TODO: move to NewsViewController
         let window = UIApplication.shared.keyWindow
-        UIGraphicsBeginImageContextWithOptions(CGSize(width: fromVC.view.bounds.width, height: fromVC.view.bounds.height), false, 0)
-        // UIGraphicsBeginImageContext(CGSize(width: fromVC.view.bounds.width, height: fromVC.view.bounds.height))
-        window!.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView(image: NewsNavigationViewController.tabBarFakeImage!)
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
         let imageViewHeight = bottomPadding + 49
         imageView.frame = CGRect(x: 0, y: fromVC.view.bounds.height - imageViewHeight, width: fromVC.view.bounds.width, height: imageViewHeight)

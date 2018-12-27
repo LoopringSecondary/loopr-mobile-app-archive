@@ -38,6 +38,9 @@ public struct GarlandConfig {
     /// Size of collectionView's header.
     public var headerSize = CGSize(width: round(UIScreen.main.bounds.width * 0.8) + 8, height: 128.0)
     
+    /// Size of collectionView's header.
+    public var fakeHeaderSize = CGSize(width: 8, height: 128.0/1.6)
+    
     /// Vertical header offset from the top edge 
     public var headerVerticalOffset: CGFloat = 60
     

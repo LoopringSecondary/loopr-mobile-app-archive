@@ -90,18 +90,22 @@ public extension GarlandViewController {
     
     fileprivate func setupFakeHeaders() {
         let config = GarlandConfig.shared
-        let size = CGSize(width: config.headerSize.width/1.6, height: config.headerSize.height/1.6)
+        // let size = CGSize(width: config.headerSize.width/1.6, height: config.headerSize.height/1.6)
+        let size = config.fakeHeaderSize
         let verticalPosition = garlandCollection.frame.origin.y + (GarlandConfig.shared.headerSize.height - size.height)/2
-        
+        let padding: CGFloat = 8
+
         rightFakeHeader.frame.size = size
-        rightFakeHeader.frame.origin.x = UIScreen.main.bounds.width - rightFakeHeader.frame.width/14
+        // rightFakeHeader.frame.origin.x = UIScreen.main.bounds.width - rightFakeHeader.frame.width/14
+        rightFakeHeader.frame.origin.x = UIScreen.main.bounds.width - rightFakeHeader.frame.width + padding
         rightFakeHeader.frame.origin.y = verticalPosition
         rightFakeHeader.backgroundColor = config.fakeHeaderColor
         rightFakeHeader.layer.cornerRadius = config.cardRadius
         view.addSubview(rightFakeHeader)
         
         leftFakeHeader.frame.size = size
-        leftFakeHeader.frame.origin.x = -leftFakeHeader.frame.width + leftFakeHeader.frame.width/14
+        // leftFakeHeader.frame.origin.x = -leftFakeHeader.frame.width + leftFakeHeader.frame.width/14
+        leftFakeHeader.frame.origin.x = -padding
         leftFakeHeader.frame.origin.y = verticalPosition
         leftFakeHeader.backgroundColor = config.fakeHeaderColor
         leftFakeHeader.layer.cornerRadius = config.cardRadius
