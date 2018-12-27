@@ -12,30 +12,22 @@ class NewsNavigationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        let newsViewController = NewsViewController()
-        /*
-        navigationBar.shadowImage = UIImage()
-        setViewControllers([tradeSelectionViewController], animated: false)
-        */
-
-        /*
-        newsViewController.view.frame = self.view.bounds;
-        newsViewController.willMove(toParentViewController: self)
-        self.view.addSubview(newsViewController.view)
-        self.addChildViewController(newsViewController)
-        newsViewController.didMove(toParentViewController: self)
-        */
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // TODO: Still too late to call
         let newsViewController = NewsViewController()
         newsViewController.modalPresentationStyle = .overCurrentContext
         present(newsViewController, animated: false) {
             
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
     }
 
 }

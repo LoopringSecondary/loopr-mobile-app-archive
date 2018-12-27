@@ -42,13 +42,6 @@ class NewsViewController: GarlandViewController {
         }
     }
     
-    func dismissChildViewControllers() {
-        guard let vc = nextViewController?(.left) else { return }
-        vc.dismiss(animated: false) {
-            
-        }
-    }
-    
     @IBAction func clickedFakeButtonWallet(_ sender: Any) {
         NotificationCenter.default.post(name: .switchToWalletViewController, object: nil, userInfo: nil)
     }
@@ -64,6 +57,8 @@ class NewsViewController: GarlandViewController {
     @IBAction func clickedFakeButtonSettings(_ sender: Any) {
         NotificationCenter.default.post(name: .switchToSettingViewController, object: nil, userInfo: nil)
     }
+    
+    
 }
 
 extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
