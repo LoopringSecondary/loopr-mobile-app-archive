@@ -116,7 +116,7 @@ public class NewsBodyItem extends InnerItem {
     }
 
     public void expandView(boolean flag) {
-        clContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, flag ? clContent.getTextSize() + 6 : clContent.getTextSize() - 6);
+        clContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, flag ? clContent.getTextSize() + 8 : clContent.getTextSize() - 8);
         clContent.toggle();
         ViewGroup.LayoutParams lp = innerLayout.getLayoutParams();
         lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;

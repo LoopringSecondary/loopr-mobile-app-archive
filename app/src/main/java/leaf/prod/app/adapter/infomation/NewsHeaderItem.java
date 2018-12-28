@@ -71,6 +71,8 @@ public class NewsHeaderItem extends HeaderItem {
     @BindView(R.id.refresh_layout)
     public SmartRefreshLayout refreshLayout;
 
+    private InnerLayoutManager layoutManager;
+
     private CrawlerService crawlerService;
 
     private NewsHeader.NewsType newsType;
@@ -137,7 +139,8 @@ public class NewsHeaderItem extends HeaderItem {
         if (newsHeader.getNewsList().getData().size() > 0) {
             tail = newsHeader.getNewsList().getData().subList(0, newsHeader.getNewsList().getData().size());
         }
-        headerRecyclerView.setLayoutManager(new InnerLayoutManager());
+        layoutManager = new InnerLayoutManager();
+        headerRecyclerView.setLayoutManager(layoutManager);
         ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(tail, newsHeader.getNewsType());
     }
 
@@ -170,7 +173,6 @@ public class NewsHeaderItem extends HeaderItem {
     }
 
     private boolean isBottom() {
-        InnerLayoutManager layoutManager = (InnerLayoutManager) headerRecyclerView.getLayoutManager();
         View lastChildView = layoutManager.getChildAt(headerRecyclerView.getLayoutManager().getChildCount() - 1);
         int lastChildBottom = lastChildView.getBottom() + DpUtil.dp2Int(headerRecyclerView.getContext(), 12);
         int recyclerBottom = headerRecyclerView.getBottom() - headerRecyclerView.getPaddingBottom();
@@ -236,6 +238,7 @@ public class NewsHeaderItem extends HeaderItem {
                             refreshLayout.finishRefresh();
                         } else {
                             ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_INFO);
+                            headerRecyclerView.scrollBy(0, 200);
                             refreshLayout.finishLoadMore();
                         }
                         unsubscribe();
@@ -276,6 +279,7 @@ public class NewsHeaderItem extends HeaderItem {
                             refreshLayout.finishRefresh();
                         } else {
                             ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_FLASH);
+                            headerRecyclerView.scrollBy(0, 200);
                             refreshLayout.finishLoadMore();
                         }
                         unsubscribe();
