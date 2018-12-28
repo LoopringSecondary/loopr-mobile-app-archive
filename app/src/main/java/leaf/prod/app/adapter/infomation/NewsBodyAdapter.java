@@ -31,13 +31,18 @@ public class NewsBodyAdapter extends InnerAdapter<NewsBodyItem> {
 
     @Override
     public NewsBodyItem onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(context).inflate(R.layout.news_body_item, null);
-        return new NewsBodyItem(view);
+        if (newsType == NewsHeader.NewsType.NEWS_FLASH) {
+            view = LayoutInflater.from(context).inflate(R.layout.news_flash_item, null);
+            return new NewsFlashItem(view);
+        } else {
+            view = LayoutInflater.from(context).inflate(R.layout.news_info_item, null);
+            return new NewsInfoItem(view);
+        }
     }
 
     @Override
     public void onBindViewHolder(NewsBodyItem holder, int position) {
-        holder.setContent(mData.get(position), newsType);
+        holder.setContent(mData.get(position));
     }
 
     @Override
@@ -47,7 +52,13 @@ public class NewsBodyAdapter extends InnerAdapter<NewsBodyItem> {
 
     @Override
     public int getItemViewType(int position) {
-        return R.layout.news_body_item;
+        switch (newsType) {
+            case NEWS_FLASH:
+                return R.layout.news_flash_item;
+            case NEWS_INFO:
+                return R.layout.news_info_item;
+        }
+        return R.layout.news_flash_item;
     }
 
     public void addData(@NonNull List<News> innerDataList, NewsHeader.NewsType newsType) {
