@@ -590,7 +590,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
                 self.numericKeyboardView.frame = CGRect(x: 0, y: destinateY, width: width, height: DefaultNumericKeyboard.height)
                 if amountY - self.scrollView.contentOffset.y < 0 || addressY - self.scrollView.contentOffset.y > self.scrollViewButtonLayoutConstraint.constant {
-                    self.scrollView.setContentOffset(CGPoint.init(x: 0, y: amountY - 120*UIStyleConfig.scale), animated: true)
+                    self.scrollView.setContentOffset(CGPoint.init(x: 0, y: amountY - 120), animated: true)
                 }
             }, completion: { _ in
                 self.isNumericKeyboardShow = true
