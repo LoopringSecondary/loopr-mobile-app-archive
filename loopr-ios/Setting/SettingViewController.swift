@@ -152,34 +152,5 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 51
     }
-    
-    func displayUpdateNotification() {
-        let vc = AppReleaseNotePopViewController()
-        vc.modalPresentationStyle = .overFullScreen
-        vc.updateClosure = {
-            UIView.animate(withDuration: 0.1, animations: {
-                self.blurVisualEffectView.alpha = 0.0
-            }, completion: { (_) in
-                self.blurVisualEffectView.removeFromSuperview()
-            })
-        }
-        
-        vc.skipClosure = {
-            UIView.animate(withDuration: 0.1, animations: {
-                self.blurVisualEffectView.alpha = 0.0
-            }, completion: { (_) in
-                self.blurVisualEffectView.removeFromSuperview()
-            })
-        }
-        
-        self.present(vc, animated: true, completion: nil)
-        
-        self.navigationController?.view.addSubview(self.blurVisualEffectView)
-        UIView.animate(withDuration: 0.3, animations: {
-            self.blurVisualEffectView.alpha = 1.0
-        }, completion: {(_) in
-            
-        })
-    }
 
 }
