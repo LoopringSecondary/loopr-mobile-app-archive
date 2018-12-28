@@ -36,7 +36,7 @@ class VerifyMnemonicViewController: UIViewController, MnemonicBackupModeCollecti
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         // mnemonics.shuffle()
         sortedMnemonics = GenerateWalletDataManager.shared.getMnemonics()
         sortedMnemonics.sort { (a, b) -> Bool in

@@ -40,7 +40,7 @@ class UpdatedOrderHistoryViewController: UIViewController, UITableViewDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         self.navigationItem.title = LocalizedString("Orders", comment: "")
         view.theme_backgroundColor = ColorPicker.backgroundColor
         historyTableView.theme_backgroundColor = ColorPicker.backgroundColor

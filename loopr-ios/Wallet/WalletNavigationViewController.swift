@@ -15,7 +15,7 @@ class WalletNavigationViewController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         navigationBar.shadowImage = UIImage()
         viewController = WalletViewController(nibName: nil, bundle: nil)
         self.setViewControllers([viewController], animated: false)

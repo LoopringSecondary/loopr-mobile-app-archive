@@ -31,8 +31,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+
         view.theme_backgroundColor = ColorPicker.backgroundColor
         
         assetTableView.dataSource = self

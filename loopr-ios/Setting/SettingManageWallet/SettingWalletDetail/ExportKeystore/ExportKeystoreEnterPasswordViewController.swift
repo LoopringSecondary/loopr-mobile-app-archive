@@ -23,7 +23,7 @@ class ExportKeystoreEnterPasswordViewController: UIViewController, UITextFieldDe
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationItem.title = LocalizedString("Enter Password", comment: "")
         setBackButton()

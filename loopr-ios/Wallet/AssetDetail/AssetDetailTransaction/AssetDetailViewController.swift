@@ -47,7 +47,7 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         getTransactionsFromRelay()
 
-        // Do any additional setup after loading the view.
+        
         setBackButton()
 
         view.theme_backgroundColor = ColorPicker.backgroundColor

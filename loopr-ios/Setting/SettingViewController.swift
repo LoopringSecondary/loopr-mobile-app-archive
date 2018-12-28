@@ -26,7 +26,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         self.navigationItem.title = LocalizedString("Settings", comment: "")
         
         view.theme_backgroundColor = ColorPicker.backgroundColor

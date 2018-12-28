@@ -24,7 +24,7 @@ class DisplayPrivateKeyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         self.navigationItem.title = navigationTitle
         setBackButton()
         view.theme_backgroundColor = ColorPicker.backgroundColor

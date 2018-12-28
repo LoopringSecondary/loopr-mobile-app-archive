@@ -50,7 +50,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
 
         marketTableView.dataSource = self
         marketTableView.delegate = self

@@ -18,7 +18,7 @@ class ExportKeystoreSwipeViewController: SwipeViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         self.navigationItem.title = LocalizedString("Export Keystore", comment: "")
         setBackButton()
         self.view.theme_backgroundColor = ColorPicker.backgroundColor

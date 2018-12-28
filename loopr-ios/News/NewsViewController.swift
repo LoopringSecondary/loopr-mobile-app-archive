@@ -19,8 +19,7 @@ class NewsViewController: GarlandViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+
         let nib = UINib(nibName: NewsCollectionCell.getCellIdentifier(), bundle: nil)
         garlandCollection.register(nib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())
         garlandCollection.delegate = self

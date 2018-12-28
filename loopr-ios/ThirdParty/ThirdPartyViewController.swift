@@ -22,7 +22,7 @@ class ThirdPartyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         loginTitle.setTitleCharFont()
         loginTitle.text = LocalizedString("Third title", comment: "")

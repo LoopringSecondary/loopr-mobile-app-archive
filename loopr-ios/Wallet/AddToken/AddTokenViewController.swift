@@ -26,7 +26,7 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         setBackButton()
         self.navigationItem.title = LocalizedString("Add Token", comment: "")
         

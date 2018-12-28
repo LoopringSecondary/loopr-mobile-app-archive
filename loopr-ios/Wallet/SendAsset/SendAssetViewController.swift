@@ -70,8 +70,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+
         setBackButton()
         setNavigationBarItem()
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false

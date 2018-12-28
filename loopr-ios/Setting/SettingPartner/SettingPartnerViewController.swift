@@ -24,7 +24,7 @@ class SettingPartnerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         setBackButton()
         self.navigationItem.title = LocalizedString("Partner_Title", comment: "")
         view.theme_backgroundColor = ColorPicker.backgroundColor

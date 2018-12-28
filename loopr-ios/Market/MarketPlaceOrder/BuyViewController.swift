@@ -92,7 +92,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         setBackButton()
         view.theme_backgroundColor = ColorPicker.backgroundColor
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor

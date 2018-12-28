@@ -33,7 +33,7 @@ class ConvertETHResultViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         
         let seperators = [seperatorA, seperatorB, seperatorC, seperatorD]

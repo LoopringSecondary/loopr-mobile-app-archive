@@ -27,7 +27,7 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         
         view.theme_backgroundColor = ColorPicker.backgroundColor
         historyTableView.theme_backgroundColor = ColorPicker.backgroundColor

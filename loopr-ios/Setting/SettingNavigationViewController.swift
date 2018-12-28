@@ -13,7 +13,7 @@ class SettingNavigationViewController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         navigationBar.shadowImage = UIImage()
 
         let viewController = SettingViewController(nibName: nil, bundle: nil)

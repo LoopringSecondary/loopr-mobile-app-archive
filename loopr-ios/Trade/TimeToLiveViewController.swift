@@ -30,7 +30,7 @@ class TimeToLiveViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         self.modalPresentationStyle = .custom
 
         seperateLine.theme_backgroundColor = ColorPicker.cardHighLightColor

@@ -17,8 +17,7 @@ class TradeFAQDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+
         setBackButton()
         
         contentTextView.contentInset = UIEdgeInsets.init(top: 0, left: 24, bottom: 0, right: 24)

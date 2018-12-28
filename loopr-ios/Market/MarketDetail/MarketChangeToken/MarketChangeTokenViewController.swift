@@ -46,7 +46,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         
         marketTableView.dataSource = self
         marketTableView.delegate = self
