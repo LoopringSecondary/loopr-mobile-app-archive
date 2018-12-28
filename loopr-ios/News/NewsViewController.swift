@@ -10,7 +10,7 @@ import UIKit
 
 class NewsViewController: GarlandViewController {
 
-    private let header: HeaderView = UIView.loadFromNib(withName: "HeaderView")!
+    private let header: NewsListHeaderView = UIView.loadFromNib(withName: "NewsListHeaderView")!
     
     fileprivate let scrollViewContentOffsetMargin: CGFloat = -150.0
     fileprivate var headerIsSmall: Bool = false
@@ -21,8 +21,8 @@ class NewsViewController: GarlandViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        let nib = UINib(nibName: "CollectionCell", bundle: nil)
-        garlandCollection.register(nib, forCellWithReuseIdentifier: "CollectionCell")
+        let nib = UINib(nibName: NewsCollectionCell.getCellIdentifier(), bundle: nil)
+        garlandCollection.register(nib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())
         garlandCollection.delegate = self
         garlandCollection.dataSource = self
         
@@ -57,8 +57,6 @@ class NewsViewController: GarlandViewController {
     @IBAction func clickedFakeButtonSettings(_ sender: Any) {
         NotificationCenter.default.post(name: .switchToSettingViewController, object: nil, userInfo: nil)
     }
-    
-    
 }
 
 extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -68,7 +66,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath) as? CollectionCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionCell.getCellIdentifier(), for: indexPath) as? NewsCollectionCell else { return UICollectionViewCell() }
         
         return cell
     }
@@ -88,11 +86,8 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         let divided = startOffset / 3
         let offsetCounter = startOffset / 1.5
         let height = max(minHeight, min(maxHeight, 1.0 - divided))
-        let alpha = max(minAlpha, min(maxHeight, 1.0 - offsetCounter * 2))
-        let collapsedViewSize = max(0, min(maxHeight, 1.0 - offsetCounter))
-        header.collapsedView.transform = CGAffineTransform(scaleX: 1.0, y: collapsedViewSize)
-        header.avatar.transform = header.collapsedView.transform
-        header.collapsedView.alpha = alpha
+        // let alpha = max(minAlpha, min(maxHeight, 1.0 - offsetCounter * 2))
+        // let collapsedViewSize = max(0, min(maxHeight, 1.0 - offsetCounter))
         header.frame.size.height = GarlandConfig.shared.headerSize.height * height
     }
     

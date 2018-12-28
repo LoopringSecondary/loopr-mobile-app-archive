@@ -130,15 +130,13 @@
 		9B2ED7EE21D446E900ACEE84 /* NewsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7ED21D446E900ACEE84 /* NewsNavigationViewController.swift */; };
 		9B2ED7F121D4485500ACEE84 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7EF21D4485500ACEE84 /* NewsViewController.swift */; };
 		9B2ED7F221D4485500ACEE84 /* NewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F021D4485500ACEE84 /* NewsViewController.xib */; };
-		9B2ED7F921D460EA00ACEE84 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F521D460EA00ACEE84 /* HeaderView.swift */; };
-		9B2ED7FA21D460EA00ACEE84 /* CollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* CollectionCell.xib */; };
-		9B2ED7FB21D460EA00ACEE84 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F721D460EA00ACEE84 /* HeaderView.xib */; };
-		9B2ED7FC21D460EA00ACEE84 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F821D460EA00ACEE84 /* CollectionCell.swift */; };
-		9B2ED80421D4652B00ACEE84 /* CardCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7FE21D4652B00ACEE84 /* CardCollectionCell.swift */; };
+		9B2ED7F921D460EA00ACEE84 /* NewsListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F521D460EA00ACEE84 /* NewsListHeaderView.swift */; };
+		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
+		9B2ED7FB21D460EA00ACEE84 /* NewsListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F721D460EA00ACEE84 /* NewsListHeaderView.xib */; };
+		9B2ED7FC21D460EA00ACEE84 /* NewsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */; };
 		9B2ED80521D4652B00ACEE84 /* UserCardDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7FF21D4652B00ACEE84 /* UserCardDismissAnimationController.swift */; };
 		9B2ED80621D4652B00ACEE84 /* UserCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED80021D4652B00ACEE84 /* UserCardViewController.xib */; };
 		9B2ED80721D4652B00ACEE84 /* UserCardPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80121D4652B00ACEE84 /* UserCardPresentAnimationController.swift */; };
-		9B2ED80821D4652B00ACEE84 /* CardCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED80221D4652B00ACEE84 /* CardCollectionCell.xib */; };
 		9B2ED80921D4652B00ACEE84 /* UserCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80321D4652B00ACEE84 /* UserCardViewController.swift */; };
 		9B2ED80E21D4656000ACEE84 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80B21D4655F00ACEE84 /* UIView.swift */; };
 		9B2ED80F21D4656000ACEE84 /* AlphaTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80D21D4656000ACEE84 /* AlphaTransition.swift */; };
@@ -685,15 +683,13 @@
 		9B2ED7ED21D446E900ACEE84 /* NewsNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsNavigationViewController.swift; sourceTree = "<group>"; };
 		9B2ED7EF21D4485500ACEE84 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		9B2ED7F021D4485500ACEE84 /* NewsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsViewController.xib; sourceTree = "<group>"; };
-		9B2ED7F521D460EA00ACEE84 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
-		9B2ED7F621D460EA00ACEE84 /* CollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionCell.xib; sourceTree = "<group>"; };
-		9B2ED7F721D460EA00ACEE84 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
-		9B2ED7F821D460EA00ACEE84 /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
-		9B2ED7FE21D4652B00ACEE84 /* CardCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCollectionCell.swift; sourceTree = "<group>"; };
+		9B2ED7F521D460EA00ACEE84 /* NewsListHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsListHeaderView.swift; sourceTree = "<group>"; };
+		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
+		9B2ED7F721D460EA00ACEE84 /* NewsListHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsListHeaderView.xib; sourceTree = "<group>"; };
+		9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsCollectionCell.swift; sourceTree = "<group>"; };
 		9B2ED7FF21D4652B00ACEE84 /* UserCardDismissAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCardDismissAnimationController.swift; sourceTree = "<group>"; };
 		9B2ED80021D4652B00ACEE84 /* UserCardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCardViewController.xib; sourceTree = "<group>"; };
 		9B2ED80121D4652B00ACEE84 /* UserCardPresentAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCardPresentAnimationController.swift; sourceTree = "<group>"; };
-		9B2ED80221D4652B00ACEE84 /* CardCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardCollectionCell.xib; sourceTree = "<group>"; };
 		9B2ED80321D4652B00ACEE84 /* UserCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCardViewController.swift; sourceTree = "<group>"; };
 		9B2ED80B21D4655F00ACEE84 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		9B2ED80D21D4656000ACEE84 /* AlphaTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlphaTransition.swift; sourceTree = "<group>"; };
@@ -1271,28 +1267,26 @@
 				9B2ED7ED21D446E900ACEE84 /* NewsNavigationViewController.swift */,
 				9B2ED7EF21D4485500ACEE84 /* NewsViewController.swift */,
 				9B2ED7F021D4485500ACEE84 /* NewsViewController.xib */,
-				9B2ED7F821D460EA00ACEE84 /* CollectionCell.swift */,
-				9B2ED7F621D460EA00ACEE84 /* CollectionCell.xib */,
-				9B2ED7F521D460EA00ACEE84 /* HeaderView.swift */,
-				9B2ED7F721D460EA00ACEE84 /* HeaderView.xib */,
+				9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */,
+				9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */,
+				9B2ED7F521D460EA00ACEE84 /* NewsListHeaderView.swift */,
+				9B2ED7F721D460EA00ACEE84 /* NewsListHeaderView.xib */,
 				9B2ED80A21D4655F00ACEE84 /* Extensions */,
 				9B2ED80C21D4656000ACEE84 /* Utility */,
-				9B2ED7FD21D4652B00ACEE84 /* UserCard */,
+				9B2ED7FD21D4652B00ACEE84 /* NewsDetail */,
 			);
 			path = News;
 			sourceTree = "<group>";
 		};
-		9B2ED7FD21D4652B00ACEE84 /* UserCard */ = {
+		9B2ED7FD21D4652B00ACEE84 /* NewsDetail */ = {
 			isa = PBXGroup;
 			children = (
-				9B2ED7FE21D4652B00ACEE84 /* CardCollectionCell.swift */,
 				9B2ED7FF21D4652B00ACEE84 /* UserCardDismissAnimationController.swift */,
-				9B2ED80021D4652B00ACEE84 /* UserCardViewController.xib */,
 				9B2ED80121D4652B00ACEE84 /* UserCardPresentAnimationController.swift */,
-				9B2ED80221D4652B00ACEE84 /* CardCollectionCell.xib */,
 				9B2ED80321D4652B00ACEE84 /* UserCardViewController.swift */,
+				9B2ED80021D4652B00ACEE84 /* UserCardViewController.xib */,
 			);
-			path = UserCard;
+			path = NewsDetail;
 			sourceTree = "<group>";
 		};
 		9B2ED80A21D4655F00ACEE84 /* Extensions */ = {
@@ -2680,14 +2674,13 @@
 				AC2ACA5420FA0EC3009C77E7 /* Rubik-BlackItalic.ttf in Resources */,
 				94768CA2210DCABE00B5977B /* TradeSwipeViewController.xib in Resources */,
 				AC8DBC7820BE8C13007AC862 /* MnemonicBackupModeCollectionViewController.xib in Resources */,
-				9B2ED80821D4652B00ACEE84 /* CardCollectionCell.xib in Resources */,
 				AC128D3A2199083600939F4E /* keys.plist in Resources */,
 				AC2ACA622102E7B2009C77E7 /* SettingStyleTableViewCell.xib in Resources */,
 				94EE76A22113F1C5009D6A90 /* OrderHistorySwipeViewController.xib in Resources */,
 				ACE5BFA720466EFD005D75DD /* Localizable.strings in Resources */,
 				ACB911852026388700F14644 /* SettingViewController.xib in Resources */,
 				AC56625C20563C05003C925C /* TradeViewController.xib in Resources */,
-				9B2ED7FB21D460EA00ACEE84 /* HeaderView.xib in Resources */,
+				9B2ED7FB21D460EA00ACEE84 /* NewsListHeaderView.xib in Resources */,
 				AC2ACA4E20FA0EC3009C77E7 /* SIL Open Font License.txt in Resources */,
 				ACA677CA2079D5A000D34A2F /* DisplayPrivateKeyViewController.xib in Resources */,
 				ACA677C52079990A00D34A2F /* DisplayKeystoreInQRCodeViewController.xib in Resources */,
@@ -2699,7 +2692,7 @@
 				AC37567D2038D80300AADC60 /* PrivateKeyViewController.xib in Resources */,
 				ACB911562024260E00F14644 /* WalletViewController.xib in Resources */,
 				AC9FFF2A2126C05000957175 /* MarketChangeTokenViewController.xib in Resources */,
-				9B2ED7FA21D460EA00ACEE84 /* CollectionCell.xib in Resources */,
+				9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */,
 				AC2ACAA621031F66009C77E7 /* fee_1_zh-Hans.md in Resources */,
 				AC952A152053A84800C78562 /* OrderHistoryViewController.xib in Resources */,
 				942C49F82129119C008A6B4F /* ConvertETHConfirmViewController.xib in Resources */,
@@ -3091,7 +3084,6 @@
 				9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */,
 				AC9280E92030C7440009B574 /* UIColorExtensions.swift in Sources */,
 				AC4141F920352DA70089861D /* SwipeTabView.swift in Sources */,
-				9B2ED80421D4652B00ACEE84 /* CardCollectionCell.swift in Sources */,
 				AC4141F320352C460089861D /* SwipeViewController.swift in Sources */,
 				9457417020D0E9CD00110CFD /* CancelOrder.swift in Sources */,
 				AC2D2C072089C08E00D619AD /* ImportWalletUsingPrivateKeyDataManager.swift in Sources */,
@@ -3151,7 +3143,7 @@
 				AC2ACA85210305F8009C77E7 /* TradeFAQDetailViewController.swift in Sources */,
 				948125672119B38E00453225 /* PartnerDataManager.swift in Sources */,
 				94E49ED4213CE99700CDDA02 /* PreventScreenShotViewController.swift in Sources */,
-				9B2ED7FC21D460EA00ACEE84 /* CollectionCell.swift in Sources */,
+				9B2ED7FC21D460EA00ACEE84 /* NewsCollectionCell.swift in Sources */,
 				AC9280E7202F5A010009B574 /* UIStyleConfig.swift in Sources */,
 				9BA3021421D0260300E55E49 /* AppReleaseNotePopViewController.swift in Sources */,
 				AC8866A4217C2D5500815DD1 /* GradientButton.swift in Sources */,
@@ -3235,7 +3227,7 @@
 				9B2ED80921D4652B00ACEE84 /* UserCardViewController.swift in Sources */,
 				AC2ACA9C2103075C009C77E7 /* WalletType.swift in Sources */,
 				AC0619422085D01E0060F416 /* SearchBarContainerView.swift in Sources */,
-				9B2ED7F921D460EA00ACEE84 /* HeaderView.swift in Sources */,
+				9B2ED7F921D460EA00ACEE84 /* NewsListHeaderView.swift in Sources */,
 				AC56625B20563C05003C925C /* TradeViewController.swift in Sources */,
 				AC31B95E204A8E4F00B16155 /* Mnemonic.swift in Sources */,
 				94C11FD6208C2DC60050E180 /* SettingCurrencyViewController.swift in Sources */,

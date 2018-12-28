@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserCardViewController">
+            <connections>
+                <outlet property="background" destination="MXB-mq-11R" id="qDS-lY-lf9"/>
+                <outlet property="card" destination="VEM-NS-j3Q" id="7C5-tT-Nm4"/>
+                <outlet property="closeButton" destination="HVf-VM-trq" id="LJP-bi-PDr"/>
+                <outlet property="detailsButton" destination="PKz-mk-yWq" id="diU-QS-AeO"/>
+                <outlet property="view" destination="iN0-l3-epB" id="RpE-dL-sP2"/>
+                <outletCollection property="cardConstraits" destination="5ad-dg-ct9" collectionClass="NSMutableArray" id="v8w-nU-JSN"/>
+                <outletCollection property="cardConstraits" destination="1IR-vP-N8Q" collectionClass="NSMutableArray" id="083-iU-XeX"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MXB-mq-11R">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                    <color key="backgroundColor" red="0.2627450980392157" green="0.28627450980392155" blue="0.3411764705882353" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VEM-NS-j3Q">
+                    <rect key="frame" x="37" y="140" width="301" height="575"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HVf-VM-trq">
+                    <rect key="frame" x="150.66666666666666" y="735" width="74" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="9CM-OM-0qH"/>
+                        <constraint firstAttribute="width" constant="74" id="XZD-WW-RDe"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="12"/>
+                    <inset key="contentEdgeInsets" minX="-10" minY="0.0" maxX="-10" maxY="15"/>
+                    <inset key="titleEdgeInsets" minX="-48" minY="0.0" maxX="0.0" maxY="-52"/>
+                    <inset key="imageEdgeInsets" minX="34" minY="6" maxX="34" maxY="12"/>
+                    <state key="normal" title="Close" image="Close_button"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DAS-fM-llg" userLabel="Connect Button">
+                    <rect key="frame" x="57" y="735" width="74" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="BMi-JC-U78"/>
+                        <constraint firstAttribute="width" constant="74" id="Hu9-5T-Cft"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="12"/>
+                    <inset key="contentEdgeInsets" minX="-10" minY="0.0" maxX="-10" maxY="15"/>
+                    <inset key="titleEdgeInsets" minX="-48" minY="0.0" maxX="0.0" maxY="-52"/>
+                    <inset key="imageEdgeInsets" minX="34" minY="6" maxX="34" maxY="12"/>
+                    <state key="normal" title="Connect" image="Connect_button"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PKz-mk-yWq">
+                    <rect key="frame" x="244" y="735" width="74" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="0YE-Po-iGV"/>
+                        <constraint firstAttribute="width" constant="74" id="Tai-M6-r6L"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <inset key="contentEdgeInsets" minX="-10" minY="0.0" maxX="-10" maxY="15"/>
+                    <inset key="titleEdgeInsets" minX="-48" minY="0.0" maxX="0.0" maxY="-52"/>
+                    <inset key="imageEdgeInsets" minX="34" minY="6" maxX="34" maxY="12"/>
+                    <state key="normal" title="Details" image="Details_button">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="MXB-mq-11R" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="0eX-cI-Hpx"/>
+                <constraint firstItem="VEM-NS-j3Q" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="21.5" id="1IR-vP-N8Q"/>
+                <constraint firstAttribute="trailing" secondItem="MXB-mq-11R" secondAttribute="trailing" id="1MX-OW-UuH"/>
+                <constraint firstItem="DAS-fM-llg" firstAttribute="top" secondItem="VEM-NS-j3Q" secondAttribute="bottom" constant="20" id="4po-fi-Smr"/>
+                <constraint firstItem="VEM-NS-j3Q" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="37" id="5ad-dg-ct9"/>
+                <constraint firstItem="PKz-mk-yWq" firstAttribute="top" secondItem="VEM-NS-j3Q" secondAttribute="bottom" constant="20" id="7Iq-BL-82Q"/>
+                <constraint firstItem="HVf-VM-trq" firstAttribute="top" secondItem="VEM-NS-j3Q" secondAttribute="bottom" constant="20" id="EFV-eE-YFS"/>
+                <constraint firstItem="VEM-NS-j3Q" firstAttribute="trailing" secondItem="PKz-mk-yWq" secondAttribute="trailing" constant="20" id="Pc8-Pd-met"/>
+                <constraint firstAttribute="bottom" secondItem="MXB-mq-11R" secondAttribute="bottom" id="QES-gJ-5fb"/>
+                <constraint firstItem="VEM-NS-j3Q" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="RFF-J4-RNd"/>
+                <constraint firstItem="MXB-mq-11R" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="SDL-LV-1S2"/>
+                <constraint firstItem="VEM-NS-j3Q" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="140" id="chI-vg-lUt"/>
+                <constraint firstItem="HVf-VM-trq" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="qlP-pl-Ek7"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="54"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Close_button" width="48" height="48"/>
+        <image name="Connect_button" width="44" height="44"/>
+        <image name="Details_button" width="45" height="45"/>
+    </resources>
+</document>

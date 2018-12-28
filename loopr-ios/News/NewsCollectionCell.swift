@@ -1,21 +1,19 @@
 //
-//  CollectionCell.swift
-//  GarlandView
+//  NewsCollectionCell.swift
+//  loopr-ios
 //
-//  Copyright © 2017 Ramotion. All rights reserved.
+//  Created by Ruby on 12/26/18.
+//  Copyright © 2018 Loopring. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class CollectionCell: UICollectionViewCell {
-    
-    @IBOutlet open var avatar: UIImageView!
+class NewsCollectionCell: UICollectionViewCell {
     
     open override func awakeFromNib() {
         super.awakeFromNib()
         
-        avatar.layer.masksToBounds = true
         contentView.layer.masksToBounds = false
         layer.masksToBounds = false
         
@@ -32,6 +30,10 @@ class CollectionCell: UICollectionViewCell {
     
     open override func layoutSubviews() {
         super.layoutSubviews()
-        avatar.layer.cornerRadius = avatar.frame.width/2
     }
+    
+    class func getCellIdentifier() -> String {
+        return "NewsCollectionCell"
+    }
+
 }

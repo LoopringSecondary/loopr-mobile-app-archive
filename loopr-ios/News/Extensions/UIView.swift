@@ -1,8 +1,9 @@
 //
 //  UIView.swift
-//  GarlandCollectionDemo
+//  loopr-ios
 //
-//  Copyright © 2017 Ramotion. All rights reserved.
+//  Created by Ruby on 12/26/18.
+//  Copyright © 2018 Loopring. All rights reserved.
 //
 
 import Foundation
