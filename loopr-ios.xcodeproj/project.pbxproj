@@ -132,7 +132,6 @@
 		9B2ED7F221D4485500ACEE84 /* NewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F021D4485500ACEE84 /* NewsViewController.xib */; };
 		9B2ED7F921D460EA00ACEE84 /* NewsListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F521D460EA00ACEE84 /* NewsListHeaderView.swift */; };
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
-		9B2ED7FB21D460EA00ACEE84 /* NewsListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F721D460EA00ACEE84 /* NewsListHeaderView.xib */; };
 		9B2ED7FC21D460EA00ACEE84 /* NewsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */; };
 		9B2ED80521D4652B00ACEE84 /* UserCardDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7FF21D4652B00ACEE84 /* UserCardDismissAnimationController.swift */; };
 		9B2ED80621D4652B00ACEE84 /* UserCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED80021D4652B00ACEE84 /* UserCardViewController.xib */; };
@@ -685,7 +684,6 @@
 		9B2ED7F021D4485500ACEE84 /* NewsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsViewController.xib; sourceTree = "<group>"; };
 		9B2ED7F521D460EA00ACEE84 /* NewsListHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsListHeaderView.swift; sourceTree = "<group>"; };
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
-		9B2ED7F721D460EA00ACEE84 /* NewsListHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsListHeaderView.xib; sourceTree = "<group>"; };
 		9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsCollectionCell.swift; sourceTree = "<group>"; };
 		9B2ED7FF21D4652B00ACEE84 /* UserCardDismissAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCardDismissAnimationController.swift; sourceTree = "<group>"; };
 		9B2ED80021D4652B00ACEE84 /* UserCardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCardViewController.xib; sourceTree = "<group>"; };
@@ -1270,7 +1268,6 @@
 				9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */,
 				9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */,
 				9B2ED7F521D460EA00ACEE84 /* NewsListHeaderView.swift */,
-				9B2ED7F721D460EA00ACEE84 /* NewsListHeaderView.xib */,
 				9B2ED80A21D4655F00ACEE84 /* Extensions */,
 				9B2ED80C21D4656000ACEE84 /* Utility */,
 				9B2ED7FD21D4652B00ACEE84 /* NewsDetail */,
@@ -2680,7 +2677,6 @@
 				ACE5BFA720466EFD005D75DD /* Localizable.strings in Resources */,
 				ACB911852026388700F14644 /* SettingViewController.xib in Resources */,
 				AC56625C20563C05003C925C /* TradeViewController.xib in Resources */,
-				9B2ED7FB21D460EA00ACEE84 /* NewsListHeaderView.xib in Resources */,
 				AC2ACA4E20FA0EC3009C77E7 /* SIL Open Font License.txt in Resources */,
 				ACA677CA2079D5A000D34A2F /* DisplayPrivateKeyViewController.xib in Resources */,
 				ACA677C52079990A00D34A2F /* DisplayKeystoreInQRCodeViewController.xib in Resources */,

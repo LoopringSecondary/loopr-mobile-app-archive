@@ -29,6 +29,7 @@ class NewsNavigationViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // TODO: Still too late to call
+        // Something is broken here. Fix it as soon as possible.
         let newsViewController = NewsViewController()
         newsViewController.modalPresentationStyle = .overCurrentContext
         present(newsViewController, animated: false) {

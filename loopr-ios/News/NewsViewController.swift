@@ -10,7 +10,7 @@ import UIKit
 
 class NewsViewController: GarlandViewController {
 
-    private let header: NewsListHeaderView = UIView.loadFromNib(withName: "NewsListHeaderView")!
+    private let header: NewsListHeaderView = NewsListHeaderView() // UIView.loadFromNib(withName: "NewsListHeaderView")!
     
     fileprivate let scrollViewContentOffsetMargin: CGFloat = -150.0
     fileprivate var headerIsSmall: Bool = false

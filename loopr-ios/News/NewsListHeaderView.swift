@@ -10,7 +10,9 @@ import Foundation
 import UIKit
 
 class NewsListHeaderView: UIView {
-
+    
+    
+/*
     @IBOutlet weak var baseView: UIImageView!
     
     open override func awakeFromNib() {
@@ -29,5 +31,5 @@ class NewsListHeaderView: UIView {
         baseView.image = UIImage(named: "wallet-selected-background" + ColorTheme.getTheme())
         baseView.contentMode = .scaleToFill
     }
-
+*/
 }
