@@ -20,6 +20,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
+import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.model.NewsHeader;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
@@ -109,13 +110,13 @@ public class NewsHeaderItem extends HeaderItem {
                 setInformation(index = 0);
             }
         });
-        //        refreshLayout.setOnLoadMoreListener(refreshLayout -> {
-        //            if (newsType == NewsHeader.NewsType.NEWS_FLASH) {
-        //                setFlash(++index);
-        //            } else {
-        //                setInformation(++index);
-        //            }
-        //        });
+        refreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            if (newsType == NewsHeader.NewsType.NEWS_FLASH) {
+                setFlash(++index);
+            } else {
+                setInformation(++index);
+            }
+        });
     }
 
     @Override
@@ -164,10 +165,31 @@ public class NewsHeaderItem extends HeaderItem {
         final ViewGroup.LayoutParams lp = clHeader.getLayoutParams();
         lp.height = headerHeight - (int) (view.getResources().getDimensionPixelSize(R.dimen.dp10) * (1f - middleRatio));
         clHeader.setLayoutParams(lp);
+        refreshLayout.setEnableRefresh(isTop());
+        refreshLayout.setEnableLoadMore(isBottom());
+    }
+
+    private boolean isBottom() {
+        InnerLayoutManager layoutManager = (InnerLayoutManager) headerRecyclerView.getLayoutManager();
+        View lastChildView = layoutManager.getChildAt(headerRecyclerView.getLayoutManager().getChildCount() - 1);
+        int lastChildBottom = lastChildView.getBottom() + DpUtil.dp2Int(headerRecyclerView.getContext(), 12);
+        int recyclerBottom = headerRecyclerView.getBottom() - headerRecyclerView.getPaddingBottom();
+        int lastPosition = layoutManager.getPosition(lastChildView);
+        if (lastChildBottom == recyclerBottom && lastPosition == layoutManager.getItemCount() - 1) {
+            LyqbLogger.log("bottom");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isTop() {
         int topRowVerticalPosition = (headerRecyclerView == null || headerRecyclerView.getChildCount() == 0) ? 0 : headerRecyclerView
-                .getChildAt(0)
-                .getTop();
-        refreshLayout.setEnabled(topRowVerticalPosition >= headerHeight + DpUtil.dp2Int(view.getContext(), 12));
+                .getChildAt(0).getTop();
+        if (topRowVerticalPosition >= headerHeight + DpUtil.dp2Int(view.getContext(), 12)) {
+            LyqbLogger.log("top");
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -188,19 +210,34 @@ public class NewsHeaderItem extends HeaderItem {
 
                     @Override
                     public void onCompleted() {
-                        refreshLayout.finishRefresh();
+                        if (index == 0) {
+                            refreshLayout.finishRefresh();
+                        } else {
+                            refreshLayout.finishLoadMore();
+                        }
+                        unsubscribe();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        refreshLayout.finishRefresh();
+                        if (index == 0) {
+                            refreshLayout.finishRefresh();
+                        } else {
+                            refreshLayout.finishLoadMore();
+                        }
+                        unsubscribe();
                     }
 
                     @Override
                     public void onNext(NewsPageWrapper newsPageWrapper) {
-                        ((NewsBodyAdapter) headerRecyclerView.getAdapter()).clearData();
-                        ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_INFO);
-                        refreshLayout.finishRefresh();
+                        if (index == 0) {
+                            ((NewsBodyAdapter) headerRecyclerView.getAdapter()).clearData();
+                            ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_INFO);
+                            refreshLayout.finishRefresh();
+                        } else {
+                            ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_INFO);
+                            refreshLayout.finishLoadMore();
+                        }
                         unsubscribe();
                     }
                 });
@@ -213,19 +250,34 @@ public class NewsHeaderItem extends HeaderItem {
                 .subscribe(new Subscriber<NewsPageWrapper>() {
                     @Override
                     public void onCompleted() {
-                        refreshLayout.finishRefresh();
+                        if (index == 0) {
+                            refreshLayout.finishRefresh();
+                        } else {
+                            refreshLayout.finishLoadMore();
+                        }
+                        unsubscribe();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        refreshLayout.finishRefresh();
+                        if (index == 0) {
+                            refreshLayout.finishRefresh();
+                        } else {
+                            refreshLayout.finishLoadMore();
+                        }
+                        unsubscribe();
                     }
 
                     @Override
                     public void onNext(NewsPageWrapper newsPageWrapper) {
-                        ((NewsBodyAdapter) headerRecyclerView.getAdapter()).clearData();
-                        ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_INFO);
-                        refreshLayout.finishRefresh();
+                        if (index == 0) {
+                            ((NewsBodyAdapter) headerRecyclerView.getAdapter()).clearData();
+                            ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_FLASH);
+                            refreshLayout.finishRefresh();
+                        } else {
+                            ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_FLASH);
+                            refreshLayout.finishLoadMore();
+                        }
                         unsubscribe();
                     }
                 });

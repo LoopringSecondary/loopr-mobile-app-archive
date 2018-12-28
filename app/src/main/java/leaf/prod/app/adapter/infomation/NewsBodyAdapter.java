@@ -51,10 +51,9 @@ public class NewsBodyAdapter extends InnerAdapter<NewsBodyItem> {
     }
 
     public void addData(@NonNull List<News> innerDataList, NewsHeader.NewsType newsType) {
-        final int size = mData.size();
         this.newsType = newsType;
         mData.addAll(innerDataList);
-        notifyItemRangeInserted(size, innerDataList.size());
+        notifyDataSetChanged();
     }
 
     public void clearData() {
