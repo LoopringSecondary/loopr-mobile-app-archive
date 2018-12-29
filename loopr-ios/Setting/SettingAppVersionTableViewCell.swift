@@ -23,23 +23,6 @@ class SettingAppVersionTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        seperateLineUp.backgroundColor = UIColor.dark3
-        seperateLineDown.backgroundColor = UIColor.dark3
-        
-        theme_backgroundColor = ColorPicker.cardBackgroundColor
-        
-        leftLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
-        leftLabel.theme_textColor = GlobalPicker.textColor
-        
-        updateNotificationLabel.font = FontConfigManager.shared.getRegularFont(size: 10)
-        updateNotificationLabel.textColor = .white
-        updateNotificationLabel.textAlignment = .center
-        updateNotificationLabel.backgroundColor = UIColor(named: "Color-red")!
-        updateNotificationLabel.cornerRadius = 4
-        updateNotificationLabel.clipsToBounds = true
-
-        rightLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
-        rightLabel.theme_textColor = GlobalPicker.textLightColor
     }
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
@@ -57,13 +40,31 @@ class SettingAppVersionTableViewCell: UITableViewCell {
         updateNotificationLabel.backgroundColor = UIColor(named: "Color-red")!
     }
 
-    func update(indexPath: IndexPath, isLastCell: Bool) {
+    func updateUIStyle(indexPath: IndexPath, isLastCell: Bool) {
+        seperateLineUp.backgroundColor = UIColor.dark3
+        seperateLineDown.backgroundColor = UIColor.dark3
+        
+        theme_backgroundColor = ColorPicker.cardBackgroundColor
+        
+        leftLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
+        leftLabel.theme_textColor = GlobalPicker.textColor
+
         leftLabel.text = LocalizedString("App Version", comment: "")
         leftLabelWidthLayoutConstraint.constant = leftLabel.text!.widthOfString(usingFont: leftLabel.font) + 4
 
+        updateNotificationLabel.font = FontConfigManager.shared.getRegularFont(size: 10)
+        updateNotificationLabel.textColor = .white
+        updateNotificationLabel.textAlignment = .center
+        updateNotificationLabel.backgroundColor = UIColor(named: "Color-red")!
+        updateNotificationLabel.cornerRadius = 4
+        updateNotificationLabel.clipsToBounds = true
+        
         updateNotificationLabel.text = LocalizedString("update", comment: "")
         updateNotificationWidthLayoutConstraint.constant = updateNotificationLabel.text!.widthOfString(usingFont: updateNotificationLabel.font) + 6
-
+        
+        rightLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
+        rightLabel.theme_textColor = GlobalPicker.textLightColor
+        
         if indexPath.row == 0 {
             seperateLineUp.isHidden = false
         } else {

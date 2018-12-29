@@ -33,23 +33,26 @@ class SettingStyleTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    func updateUIStyle(indexPath: IndexPath, isLastCell: Bool) {
+        selectionStyle = .default
+
         seperateLineUp.backgroundColor = UIColor.dark3
         seperateLineDown.backgroundColor = UIColor.dark3
         
         theme_backgroundColor = ColorPicker.cardBackgroundColor
-
+        
         leftLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         leftLabel.theme_textColor = GlobalPicker.textColor
         
         rightLabel.isHidden = true
         rightLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         rightLabel.theme_textColor = GlobalPicker.textLightColor
-
+        
         disclosureIndicator.theme_image = GlobalPicker.indicator
         disclosureIndicator.contentMode = .center
-    }
-    
-    func update(indexPath: IndexPath, isLastCell: Bool) {
+
         if indexPath.row == 0 {
             seperateLineUp.isHidden = false
         } else {

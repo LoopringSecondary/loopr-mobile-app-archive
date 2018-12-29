@@ -24,24 +24,10 @@ extension SettingViewController {
         if cell == nil {
             let nib = Bundle.main.loadNibNamed("SettingTouchIDAndFaceIDTableViewCell", owner: self, options: nil)
             cell = nib![0] as? SettingTouchIDAndFaceIDTableViewCell
-            cell?.selectionStyle = .none
         }
-        
-        if indexPath.row == 0 {
-            cell?.seperateLineUp.isHidden = false
-        } else {
-            cell?.seperateLineUp.isHidden = true
-        }
-        
-        if indexPath.row == settingsTableView.numberOfRows(inSection: indexPath.section) - 1 {
-            cell?.trailingSeperateLineDown.constant = 0
-        } else {
-            cell?.trailingSeperateLineDown.constant = 15
-        }
-        
         return cell!
     }
-    
+
     func userPreferencesSectionForCell(indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:

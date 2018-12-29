@@ -19,6 +19,11 @@ class SettingTouchIDAndFaceIDTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    func updateUIStyle(indexPath: IndexPath, isLastCell: Bool) {
+        selectionStyle = .none
+
         seperateLineUp.backgroundColor = UIColor.dark3
         seperateLineDown.backgroundColor = UIColor.dark3
         
@@ -38,6 +43,18 @@ class SettingTouchIDAndFaceIDTableViewCell: UITableViewCell {
             selectionStyle = .none
         } else {
             passcodeSwitch.isHidden = true
+        }
+        
+        if indexPath.row == 0 {
+            seperateLineUp.isHidden = false
+        } else {
+            seperateLineUp.isHidden = true
+        }
+        
+        if isLastCell {
+            trailingSeperateLineDown.constant = 0
+        } else {
+            trailingSeperateLineDown.constant = 15
         }
     }
     

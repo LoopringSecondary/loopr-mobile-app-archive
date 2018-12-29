@@ -22,7 +22,6 @@ extension SettingViewController {
                 let nib = Bundle.main.loadNibNamed("SettingAppVersionTableViewCell", owner: self, options: nil)
                 cell = nib![0] as? SettingAppVersionTableViewCell
             }
-            cell?.update(indexPath: indexPath, isLastCell: false)
             return cell!
         case 1..<Production.getSocialMedia().count+1:
             return createDetailTableCell(indexPath: indexPath, title: Production.getSocialMedia()[indexPath.row-1].description)
