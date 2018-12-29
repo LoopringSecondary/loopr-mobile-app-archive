@@ -77,6 +77,7 @@ public class MarketActivityPresenter extends BasePresenter<MarketsActivity> {
     }
 
     public void refreshTickers() {
+        view.clLoading.setVisibility(View.VISIBLE);
         marketManager.getLoopringService()
                 .getTickers(TickerSource.coinmarketcap)
                 .subscribeOn(Schedulers.io())

@@ -69,7 +69,6 @@ public class MarketsActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
-        clLoading.setVisibility(View.VISIBLE);
         presenter.setTabSelect(0);
     }
 
