@@ -119,8 +119,6 @@
 		94E49ED5213CE99700CDDA02 /* PreventScreenShotViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E49ED3213CE99700CDDA02 /* PreventScreenShotViewController.xib */; };
 		94E665E9207234C5001328BF /* OrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E665E7207234C5001328BF /* OrderTableViewCell.swift */; };
 		94E665EA207234C5001328BF /* OrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E665E8207234C5001328BF /* OrderTableViewCell.xib */; };
-		94EE76A12113F1C5009D6A90 /* OrderHistorySwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EE769F2113F1C5009D6A90 /* OrderHistorySwipeViewController.swift */; };
-		94EE76A22113F1C5009D6A90 /* OrderHistorySwipeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94EE76A02113F1C5009D6A90 /* OrderHistorySwipeViewController.xib */; };
 		94EE76A42113F21B009D6A90 /* OrderHistorySwipeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EE76A32113F21B009D6A90 /* OrderHistorySwipeType.swift */; };
 		9AACD1A68297585D93FB6182 /* Pods_loopr_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFC6AA9DC8C999B66FFD8AA /* Pods_loopr_iosTests.framework */; };
 		9B2ED7E821D37FD300ACEE84 /* GarlandConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7E421D37FD300ACEE84 /* GarlandConfig.swift */; };
@@ -380,8 +378,6 @@
 		AC9280E1202EC53D0009B574 /* TradeNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9280E0202EC53D0009B574 /* TradeNavigationViewController.swift */; };
 		AC9280E7202F5A010009B574 /* UIStyleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9280E6202F5A010009B574 /* UIStyleConfig.swift */; };
 		AC9280E92030C7440009B574 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9280E82030C7440009B574 /* UIColorExtensions.swift */; };
-		AC952A142053A84800C78562 /* OrderHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC952A122053A84800C78562 /* OrderHistoryViewController.swift */; };
-		AC952A152053A84800C78562 /* OrderHistoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC952A132053A84800C78562 /* OrderHistoryViewController.xib */; };
 		AC971EC820BB412300EDEDD0 /* AuthenticationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC971EC720BB412200EDEDD0 /* AuthenticationDataManager.swift */; };
 		AC97BAD2212E928A0013F7B5 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97BAD1212E928A0013F7B5 /* ColorPicker.swift */; };
 		AC99CF462083DD6A000AE4BD /* MnemonicEnterDerivationPathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC99CF442083DD6A000AE4BD /* MnemonicEnterDerivationPathViewController.swift */; };
@@ -673,8 +669,6 @@
 		94E49ED3213CE99700CDDA02 /* PreventScreenShotViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreventScreenShotViewController.xib; sourceTree = "<group>"; };
 		94E665E7207234C5001328BF /* OrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTableViewCell.swift; sourceTree = "<group>"; };
 		94E665E8207234C5001328BF /* OrderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderTableViewCell.xib; sourceTree = "<group>"; };
-		94EE769F2113F1C5009D6A90 /* OrderHistorySwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistorySwipeViewController.swift; sourceTree = "<group>"; };
-		94EE76A02113F1C5009D6A90 /* OrderHistorySwipeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderHistorySwipeViewController.xib; sourceTree = "<group>"; };
 		94EE76A32113F21B009D6A90 /* OrderHistorySwipeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistorySwipeType.swift; sourceTree = "<group>"; };
 		9B2ED7E421D37FD300ACEE84 /* GarlandConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandConfig.swift; sourceTree = "<group>"; };
 		9B2ED7E521D37FD300ACEE84 /* GarlandPresentAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandPresentAnimationController.swift; sourceTree = "<group>"; };
@@ -941,8 +935,6 @@
 		AC9280E0202EC53D0009B574 /* TradeNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeNavigationViewController.swift; sourceTree = "<group>"; };
 		AC9280E6202F5A010009B574 /* UIStyleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStyleConfig.swift; sourceTree = "<group>"; };
 		AC9280E82030C7440009B574 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
-		AC952A122053A84800C78562 /* OrderHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistoryViewController.swift; sourceTree = "<group>"; };
-		AC952A132053A84800C78562 /* OrderHistoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderHistoryViewController.xib; sourceTree = "<group>"; };
 		AC971EC720BB412200EDEDD0 /* AuthenticationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationDataManager.swift; sourceTree = "<group>"; };
 		AC97BAD1212E928A0013F7B5 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		AC99CF442083DD6A000AE4BD /* MnemonicEnterDerivationPathViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicEnterDerivationPathViewController.swift; sourceTree = "<group>"; };
@@ -1903,12 +1895,8 @@
 				94E665E42071DFE0001328BF /* HistoryDetail */,
 				ACFD5FB22171B8AB00E161EE /* UpdatedOrderHistoryViewController.swift */,
 				ACFD5FB32171B8AB00E161EE /* UpdatedOrderHistoryViewController.xib */,
-				AC952A122053A84800C78562 /* OrderHistoryViewController.swift */,
-				AC952A132053A84800C78562 /* OrderHistoryViewController.xib */,
 				94E665E7207234C5001328BF /* OrderTableViewCell.swift */,
 				94E665E8207234C5001328BF /* OrderTableViewCell.xib */,
-				94EE769F2113F1C5009D6A90 /* OrderHistorySwipeViewController.swift */,
-				94EE76A02113F1C5009D6A90 /* OrderHistorySwipeViewController.xib */,
 			);
 			path = OrderHistory;
 			sourceTree = "<group>";
@@ -2676,7 +2664,6 @@
 				AC8DBC7820BE8C13007AC862 /* MnemonicBackupModeCollectionViewController.xib in Resources */,
 				AC128D3A2199083600939F4E /* keys.plist in Resources */,
 				AC2ACA622102E7B2009C77E7 /* SettingStyleTableViewCell.xib in Resources */,
-				94EE76A22113F1C5009D6A90 /* OrderHistorySwipeViewController.xib in Resources */,
 				ACE5BFA720466EFD005D75DD /* Localizable.strings in Resources */,
 				ACB911852026388700F14644 /* SettingViewController.xib in Resources */,
 				AC56625C20563C05003C925C /* TradeViewController.xib in Resources */,
@@ -2694,7 +2681,6 @@
 				AC9FFF2A2126C05000957175 /* MarketChangeTokenViewController.xib in Resources */,
 				9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */,
 				AC2ACAA621031F66009C77E7 /* fee_1_zh-Hans.md in Resources */,
-				AC952A152053A84800C78562 /* OrderHistoryViewController.xib in Resources */,
 				942C49F82129119C008A6B4F /* ConvertETHConfirmViewController.xib in Resources */,
 				ACC8D0A720CC95A00049A741 /* AssetTableViewCell.xib in Resources */,
 				AC3B48842103EA6B008A6771 /* TradeSelectionViewController.xib in Resources */,
@@ -3125,7 +3111,6 @@
 				949774F021181E38001BF79D /* TradeRatioViewController.swift in Sources */,
 				AC31B951204A8DF400B16155 /* DataHex.swift in Sources */,
 				AC4141F520352D300089861D /* SwipeContentScrollView.swift in Sources */,
-				94EE76A12113F1C5009D6A90 /* OrderHistorySwipeViewController.swift in Sources */,
 				AC5288B4208300580002AEAD /* DateUtil.swift in Sources */,
 				940B45222060F67E00ADE2B9 /* PriceDataManager.swift in Sources */,
 				AC9A273D20A577E900DB04AC /* Double+Extension.swift in Sources */,
@@ -3266,7 +3251,6 @@
 				940B452B2060F67E00ADE2B9 /* SettingDataManager.swift in Sources */,
 				ACB41A6F20B54BB300A92C9D /* AuthenticationViewController.swift in Sources */,
 				ACEC978220AD6165003F9DEB /* P2POrderHistoryDataManager.swift in Sources */,
-				AC952A142053A84800C78562 /* OrderHistoryViewController.swift in Sources */,
 				ACE6232A217D979A007A60FE /* GradientOrientation.swift in Sources */,
 				ACFEFEA220C3792200013921 /* CoreDataManager.swift in Sources */,
 				AC99CF4E2083E4AF000AE4BD /* MnemonicSelectAddressViewController.swift in Sources */,
