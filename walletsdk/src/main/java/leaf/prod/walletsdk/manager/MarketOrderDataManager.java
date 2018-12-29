@@ -6,14 +6,18 @@
  */
 package leaf.prod.walletsdk.manager;
 
+import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
 
+import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 
 public class MarketOrderDataManager extends OrderDataManager {
+
+    private List<Order> orders;
 
     private static MarketOrderDataManager marketOrderManager = null;
 

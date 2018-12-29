@@ -12,8 +12,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.market.MarketRecordsActivity;
 import leaf.prod.app.activity.market.MarketsActivity;
-import leaf.prod.app.activity.trade.ConvertActivity;
 import leaf.prod.app.activity.trade.P2PActivity;
 import leaf.prod.app.fragment.BaseFragment;
 
@@ -75,7 +75,7 @@ public class TradeFragment extends BaseFragment {
                 getOperation().forward(P2PActivity.class);
                 break;
             case R.id.weth_wrap_layout:
-                getOperation().forward(ConvertActivity.class);
+                getOperation().forward(MarketRecordsActivity.class);
                 break;
             case R.id.order_layout:
                 break;
