@@ -16,7 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
-import leaf.prod.app.activity.trade.P2PRecordDetailActivity;
 import leaf.prod.app.adapter.market.MarketsAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.presenter.market.MarketFragmentPresenter;
@@ -46,10 +45,7 @@ public class MarketsFragment extends BaseFragment {
         // 布局导入
         layout = inflater.inflate(R.layout.fragment_markets, container, false);
         unbinder = ButterKnife.bind(this, layout);
-
-        refreshLayout.setOnRefreshListener(refreshLayout -> {
-            presenter.refreshTickers();
-        });
+        refreshLayout.setOnRefreshListener(refreshLayout -> presenter.refreshTickers());
         return layout;
     }
 
@@ -75,7 +71,7 @@ public class MarketsFragment extends BaseFragment {
         recyclerView.setAdapter(marketAdapter);
         marketAdapter.setOnItemClickListener((adapter, view, position) -> {
             getOperation().addParameter("ticker", getTickers().get(position));
-            getOperation().forward(P2PRecordDetailActivity.class);
+            //            getOperation().forward(P2PRecordDetailActivity.class);
         });
     }
 
@@ -117,8 +113,10 @@ public class MarketsFragment extends BaseFragment {
     }
 
     public void updateAdapter(List<Ticker> tickers) {
-        marketAdapter.setNewData(tickers);
-        marketAdapter.notifyDataSetChanged();
+        if (marketAdapter != null) {
+            marketAdapter.setNewData(tickers);
+            marketAdapter.notifyDataSetChanged();
+        }
     }
 
     public void setMarketsType(MarketsType marketsType) {

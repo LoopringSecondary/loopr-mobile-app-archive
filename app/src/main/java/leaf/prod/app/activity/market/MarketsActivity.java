@@ -70,12 +70,12 @@ public class MarketsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
         clLoading.setVisibility(View.VISIBLE);
+        presenter.setTabSelect(0);
     }
 
     @Override
     protected void initPresenter() {
         presenter = new MarketActivityPresenter(this, this);
-        presenter.setTabSelect(0);
     }
 
     @Override

@@ -63,10 +63,6 @@ public abstract class BaseFragment extends LazyFragment {
     protected void lazyLoad() {
     }
 
-    public void showProgress(int messageResId) {
-        showProgress(getString(messageResId));
-    }
-
     public void showProgress(String message) {
         showProgress(message, false);
     }
@@ -78,14 +74,7 @@ public abstract class BaseFragment extends LazyFragment {
                 progressDialog.setMessage(message);
                 progressDialog.setCancelable(cancelable);
                 progressDialog.show();
-                //				final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this,R.style.MyDialog);
-                //				View view= LayoutInflater.from(this).inflate(R.layout.progress_lottle,null);
-                //				builder.setView(view);
-                //				builder.setCancelable(false);
-                //				progressDialog = builder.create();
-                //				progressDialog.show();
             } else {
-                //				progressDialog.setMessage(message);
                 progressDialog.setCancelable(cancelable);
             }
         } catch (Exception e) {

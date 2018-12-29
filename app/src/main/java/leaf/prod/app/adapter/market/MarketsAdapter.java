@@ -16,16 +16,16 @@ import leaf.prod.walletsdk.util.NumberUtils;
 
 public class MarketsAdapter extends BaseQuickAdapter<Ticker, BaseViewHolder> {
 
+    private MarketsFragment fragment;
+
+    private LoginDataManager manager;
+
     public MarketsAdapter(int layoutResId, @Nullable List<Ticker> data, MarketsFragment fragment) {
         super(layoutResId, data);
+        this.fragment = fragment;
+        this.manager = LoginDataManager.getInstance(mContext);
     }
 
-    /**
-     * Implement this method and use the helper to adapt the view to the given item.
-     *
-     * @param helper A fully initialized helper.
-     * @param ticker   The item that needs to be displayed.
-     */
     @Override
     protected void convert(BaseViewHolder helper, Ticker ticker) {
         if (ticker == null) {
@@ -33,8 +33,7 @@ public class MarketsAdapter extends BaseQuickAdapter<Ticker, BaseViewHolder> {
         }
         setupChange(helper, ticker);
         setupFavIcon(helper, ticker);
-        setupFavButton(helper,ticker);
-
+        setupFavButton(helper, ticker);
         helper.setText(R.id.tv_token_s, ticker.getTradingPair().getTokenA());
         helper.setText(R.id.tv_token_b, ticker.getTradingPair().getTokenB());
         helper.setText(R.id.tv_volume, "Vol " + NumberUtils.numberformat2(ticker.getVol()));
@@ -44,14 +43,12 @@ public class MarketsAdapter extends BaseQuickAdapter<Ticker, BaseViewHolder> {
     }
 
     private void setupFavIcon(BaseViewHolder helper, Ticker ticker) {
-        List<TradingPair> favMarkets = LoginDataManager.getInstance(mContext).getLocalUser().getFavMarkets();
+        List<TradingPair> favMarkets = manager.getLocalUser().getFavMarkets();
         if (favMarkets != null) {
-            for (TradingPair favMarket : favMarkets) {
-                if (favMarket.getDescription().equalsIgnoreCase(ticker.getTradingPair().getDescription())) {
-                    helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_favorite);
-                } else {
-                    helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_unfavorite);
-                }
+            if (favMarkets.contains(ticker.getTradingPair())) {
+                helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_favorite);
+            } else {
+                helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_unfavorite);
             }
         } else {
             helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_unfavorite);
@@ -67,15 +64,13 @@ public class MarketsAdapter extends BaseQuickAdapter<Ticker, BaseViewHolder> {
     }
 
     private void setupFavButton(BaseViewHolder helper, Ticker ticker) {
-        LoginDataManager manager = LoginDataManager.getInstance(mContext);
         helper.setOnClickListener(R.id.btn_fav, v -> {
             if (manager.isFavorite(ticker.getTradingPair())) {
-                helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_unfavorite);
                 manager.removeFavorite(ticker.getTradingPair());
             } else {
-                helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_favorite);
                 manager.addFavorite(ticker.getTradingPair());
             }
+            fragment.updateAdapter();
         });
     }
 }

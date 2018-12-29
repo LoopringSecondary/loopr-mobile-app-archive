@@ -19,7 +19,7 @@
         android:layout_marginTop="25dp"
         android:background="@color/colorTitleBac"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/left_btn1"

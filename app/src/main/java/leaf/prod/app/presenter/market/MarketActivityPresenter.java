@@ -49,6 +49,7 @@ public class MarketActivityPresenter extends BasePresenter<MarketsActivity> {
         FragmentTransaction transaction = manager.beginTransaction();
         hideTab(transaction);
         MarketsFragment fragment = fragments[index];
+        fragment.updateAdapter();
         transaction.show(fragment);
         transaction.commitAllowingStateLoss();
     }
