@@ -75,8 +75,7 @@ open class GarlandViewController: UIViewController {
     }
 }
 
-
-//MARK: Setup
+// MARK: Setup
 public extension GarlandViewController {
     
     fileprivate func setupBackground() {

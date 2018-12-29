@@ -138,6 +138,7 @@
 		9B2ED80921D4652B00ACEE84 /* UserCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80321D4652B00ACEE84 /* UserCardViewController.swift */; };
 		9B2ED80E21D4656000ACEE84 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80B21D4655F00ACEE84 /* UIView.swift */; };
 		9B2ED80F21D4656000ACEE84 /* AlphaTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80D21D4656000ACEE84 /* AlphaTransition.swift */; };
+		9B2ED81521D73FFB00ACEE84 /* NewsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */; };
 		9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */; };
 		9BA3014821B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */; };
 		9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */; };
@@ -687,6 +688,7 @@
 		9B2ED80321D4652B00ACEE84 /* UserCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCardViewController.swift; sourceTree = "<group>"; };
 		9B2ED80B21D4655F00ACEE84 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		9B2ED80D21D4656000ACEE84 /* AlphaTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlphaTransition.swift; sourceTree = "<group>"; };
+		9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDataManager.swift; sourceTree = "<group>"; };
 		9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerDepth.swift; sourceTree = "<group>"; };
 		9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerTradeHistory.swift; sourceTree = "<group>"; };
 		9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerSwipe.swift; sourceTree = "<group>"; };
@@ -2261,6 +2263,7 @@
 				943C1CAD20CE1E0B008A8CED /* AuthorizeDataManager.swift */,
 				948125662119B38E00453225 /* PartnerDataManager.swift */,
 				9BA3016221C73D0400E55E49 /* ContactDataManager.swift */,
+				9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */,
 			);
 			path = DataManagers;
 			sourceTree = "<group>";
@@ -3162,6 +3165,7 @@
 				949629DF204E9C9800858F03 /* MinedRing.swift in Sources */,
 				94C11FDA208C2DE40050E180 /* SettingCurrencyTableViewCell.swift in Sources */,
 				AC9DC45921159084002D7D23 /* BaseAnimator.swift in Sources */,
+				9B2ED81521D73FFB00ACEE84 /* NewsDataManager.swift in Sources */,
 				9461851221D0F99D00393432 /* IndexAction.swift in Sources */,
 				AC4B894D21103EAF00643910 /* TradeType.swift in Sources */,
 				ACA677D3207DCF1900D34A2F /* RelayAPIConfiguration.swift in Sources */,

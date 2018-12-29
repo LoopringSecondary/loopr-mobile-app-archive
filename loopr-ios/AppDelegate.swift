@@ -55,18 +55,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         CurrentAppWalletDataManager.shared.setup()
 
         // Setting RootViewController must be after AppWalletDataManager.shared.setup()
-        
-
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = getRootViewController()
         self.window?.makeKeyAndVisible()
-        
-        /*
-        window = UIWindow.init(frame: UIScreen.main.bounds)
-        window?.backgroundColor = .white
-        window?.rootViewController = NewsNavigationViewController()
-        window?.makeKeyAndVisible()
-        */
         
         // Get the estimate gas price when launching the app.
         GasDataManager.shared.getEstimateGasPrice { (_, _) in }
@@ -78,6 +69,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             if error == nil {
                 MarketDataManager.shared.setMarkets(newMarkets: markets)
             }
+        }
+        
+        NewsDataManager.shared.getInformation { (_, _) in
+
         }
 
         PartnerDataManager.shared.createPartner()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewsViewController: GarlandViewController {
+class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLayout {
 
     private let header: NewsListHeaderView = UIView.loadFromNib(withName: "NewsListHeaderView")!
     
@@ -19,6 +19,8 @@ class NewsViewController: GarlandViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .clear
 
         let nib = UINib(nibName: NewsCollectionCell.getCellIdentifier(), bundle: nil)
         garlandCollection.register(nib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())
@@ -34,10 +36,16 @@ class NewsViewController: GarlandViewController {
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
         
         garlandCollection.frame = CGRect(x: 0, y: GarlandConfig.shared.headerVerticalOffset, width: view.bounds.width, height: view.bounds.height - GarlandConfig.shared.headerVerticalOffset - 49 - bottomPadding)
-        view.backgroundColor = .clear
+        garlandCollection.theme_backgroundColor = ColorPicker.backgroundColor
         
         if !FeatureConfigDataManager.shared.getShowTradingFeature() {
             fakeTradeButton.isHidden = true
+        }
+        
+        NewsDataManager.shared.getInformation { (_, _) in
+            DispatchQueue.main.async {
+                self.garlandCollection.reloadData()
+            }
         }
     }
     
@@ -59,15 +67,29 @@ class NewsViewController: GarlandViewController {
 }
 
 extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    
+        
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return NewsDataManager.shared.informationItems.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // revoke GarlandConfig.shared.cardsSize
+        return NewsCollectionCell.getSize()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionCell.getCellIdentifier(), for: indexPath) as? NewsCollectionCell else { return UICollectionViewCell() }
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? NewsCollectionCell {
+            let news = NewsDataManager.shared.informationItems[indexPath.row]
+            cell.updateUIStyle(news: news)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -39,5 +39,19 @@ class News {
         self.bullIndex = json["bullIndex"].intValue
         self.bearIndex = json["bearIndex"].intValue
         self.forwardNum = json["forwardNum"].intValue
+        
+        
+        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
+            .documentType: NSAttributedString.DocumentType.html,
+            .characterEncoding: String.Encoding.utf8.rawValue
+        ]
+        
+        let attributed = try! NSAttributedString(data: self.content.data(using: .unicode)!, options: options, documentAttributes: nil)
+        
+        var paragrahs = attributed.string.split(separator: "\n")
+        if paragrahs.count > 1 {
+            paragrahs = Array(paragrahs.dropFirst())
+        }
+        self.content = paragrahs.joined(separator: "\n")
     }
 }
