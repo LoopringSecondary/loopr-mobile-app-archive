@@ -74,11 +74,6 @@ class ContactDataManager {
         contacts = []
         return contacts
     }
-    
-    // TODO
-    func getContactsFromServer() -> [Contact] {
-        return []
-    }
 
     func toJson() -> JSON {
         let contacts = getContactsFromLocal()
