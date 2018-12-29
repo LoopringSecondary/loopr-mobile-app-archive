@@ -10,6 +10,23 @@ import Foundation
 import UIKit
 
 extension UIView {
+    
+    func findConstraints(attribute: NSLayoutAttribute) -> [NSLayoutConstraint] {
+        let result = self.constraints.filter { $0.firstAttribute == attribute && $0.firstItem as? NSObject == self }
+        return result
+    }
+    
+    func findSuperviewConstraints(attribute: NSLayoutAttribute) -> [NSLayoutConstraint] {
+        let result = superview?.constraints.filter { $0.firstAttribute == attribute && $0.firstItem as? NSObject == self }
+        return result ?? []
+    }
+    
+    func fromNib<T : UIView>() -> T {
+        return Bundle.main.loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
+    }
+}
+
+extension UIView {
 
     /**
      Rounds the given set of corners to the specified radius
@@ -67,5 +84,19 @@ private extension UIView {
         borderLayer.lineWidth = borderWidth
         borderLayer.frame = bounds
         layer.addSublayer(borderLayer)
+    }
+}
+
+extension UIView {
+    
+    class func loadFromNib<T>(withName nibName: String) -> T? {
+        let nib  = UINib.init(nibName: nibName, bundle: nil)
+        let nibObjects = nib.instantiate(withOwner: nil, options: nil)
+        for object in nibObjects {
+            if let result = object as? T {
+                return result
+            }
+        }
+        return nil
     }
 }

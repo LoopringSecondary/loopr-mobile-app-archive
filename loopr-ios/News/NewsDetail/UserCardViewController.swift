@@ -12,6 +12,7 @@ import UIKit
 class UserCardViewController: UIViewController {
     
     @IBOutlet var closeButton: UIButton!
+    @IBOutlet var detailsButton: UIButton!
     @IBOutlet open var card: UIView!
     @IBOutlet open var background: UIView!
     @IBOutlet open var cardConstraits: [NSLayoutConstraint]!

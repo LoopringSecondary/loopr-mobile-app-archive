@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="qDi-lm-7zG" userLabel="HeaderView" customClass="NewsListHeaderView" customModule="loopr_ios" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="292" height="128"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oL9-SQ-bXD">
+                    <rect key="frame" x="0.0" y="0.0" width="292" height="128"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="oL9-SQ-bXD" firstAttribute="bottom" secondItem="KbP-6W-tYD" secondAttribute="bottom" id="IqU-33-faZ"/>
+                <constraint firstItem="oL9-SQ-bXD" firstAttribute="top" secondItem="KbP-6W-tYD" secondAttribute="top" id="XkL-pD-cal"/>
+                <constraint firstItem="oL9-SQ-bXD" firstAttribute="trailing" secondItem="KbP-6W-tYD" secondAttribute="trailing" id="YGE-tT-1ID"/>
+                <constraint firstItem="oL9-SQ-bXD" firstAttribute="leading" secondItem="KbP-6W-tYD" secondAttribute="leading" id="c5o-38-GD7"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="KbP-6W-tYD"/>
+            <connections>
+                <outlet property="baseView" destination="oL9-SQ-bXD" id="LLS-tY-shh"/>
+            </connections>
+            <point key="canvasLocation" x="28.800000000000001" y="753.82308845577222"/>
+        </view>
+    </objects>
+</document>
