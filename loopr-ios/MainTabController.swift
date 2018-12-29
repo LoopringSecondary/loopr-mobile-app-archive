@@ -21,7 +21,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     
     var viewController1: UIViewController!
     var viewController2: UIViewController!
-    // var viewController3: UIViewController!
+    var viewController3: UIViewController!
     var viewController4: UIViewController!
 
     override func viewDidLoad() {
@@ -38,16 +38,16 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         viewController2 = TradeSelectionNavigationViewController()
 
         // News view controller
-        // viewController3 = NewsNavigationViewController()
+        viewController3 = NewsNavigationViewController()
         
         // Setting view controller
         viewController4 = SettingNavigationViewController()
 
         setTabBarItems()
         if FeatureConfigDataManager.shared.getShowTradingFeature() {
-            viewControllers = [viewController1, viewController2, viewController4]
+            viewControllers = [viewController1, viewController2, viewController3, viewController4]
         } else {
-            viewControllers = [viewController1, viewController4]
+            viewControllers = [viewController1, viewController3, viewController4]
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
@@ -85,7 +85,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
 
         viewController1.tabBarItem = UITabBarItem(title: LocalizedString("Wallet", comment: ""), image: UIImage(named: "Assets")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Assets-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
         viewController2.tabBarItem = UITabBarItem.init(title: LocalizedString("Trade", comment: ""), image: UIImage(named: "Trade")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Trade-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
-        // viewController3.tabBarItem = UITabBarItem(title: LocalizedString("News", comment: ""), image: UIImage(named: "News")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Settings-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
+        viewController3.tabBarItem = UITabBarItem(title: LocalizedString("News", comment: ""), image: UIImage(named: "News")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Settings-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
         viewController4.tabBarItem = UITabBarItem(title: LocalizedString("Settings", comment: ""), image: UIImage(named: "Settings")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Settings-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
     }
     
@@ -96,9 +96,9 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     @objc func showTradingFeatureChangedReceivedNotification(notification: NSNotification) {
         if let showTradingFeature: Bool = notification.userInfo?["showTradingFeature"] as? Bool {
             if showTradingFeature {
-                viewControllers = [viewController1, viewController2, viewController4]
+                viewControllers = [viewController1, viewController2, viewController3, viewController4]
             } else {
-                viewControllers = [viewController1, viewController4]
+                viewControllers = [viewController1, viewController3, viewController4]
             }
         }
         
