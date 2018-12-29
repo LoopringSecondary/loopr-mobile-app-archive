@@ -1,7 +1,13 @@
 package leaf.prod.walletsdk.model;
 
+import java.util.Objects;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,13 +16,27 @@ import lombok.Data;
  * Cooperation: loopring.org 路印协议基金会
  */
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
-class TradingPair {
+@RequiredArgsConstructor
+@AllArgsConstructor
+public class TradingPair {
 
     private String tokenA;
 
     private String tokenB;
 
     private String description;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof TradingPair))
+            return false;
+        TradingPair that = (TradingPair) o;
+        return Objects.equals(getDescription(), that.getDescription());
+    }
 }

@@ -44,7 +44,7 @@ public class NumberUtils {
      * @return
      */
     public static String numberformat2(Double d) {
-        DecimalFormat fmt = new DecimalFormat("##0");
+        DecimalFormat fmt = new DecimalFormat("#,##0");
         return fmt.format(d);
     }
 

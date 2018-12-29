@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,18 +26,15 @@ import leaf.prod.walletsdk.model.Ticker;
 
 public class MarketsFragment extends BaseFragment {
 
+    Unbinder unbinder;
+
     @BindView(R.id.recycler_view)
     public RecyclerView recyclerView;
 
     @BindView(R.id.refresh_layout)
     public RefreshLayout refreshLayout;
 
-    @BindView(R.id.cl_loading)
-    public ConstraintLayout clLoading;
-
-    public MarketsAdapter marketAdapter;
-
-    Unbinder unbinder;
+    private MarketsAdapter marketAdapter;
 
     private MarketsType marketsType;
 
@@ -50,7 +46,7 @@ public class MarketsFragment extends BaseFragment {
         // 布局导入
         layout = inflater.inflate(R.layout.fragment_markets, container, false);
         unbinder = ButterKnife.bind(this, layout);
-        clLoading.setVisibility(View.VISIBLE);
+
         refreshLayout.setOnRefreshListener(refreshLayout -> {
             presenter.refreshTickers();
         });
@@ -75,7 +71,7 @@ public class MarketsFragment extends BaseFragment {
     protected void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        marketAdapter = new MarketsAdapter(R.layout.adapter_item_p2p_record, null, this);
+        marketAdapter = new MarketsAdapter(R.layout.adapter_item_markets, null, this);
         recyclerView.setAdapter(marketAdapter);
         marketAdapter.setOnItemClickListener((adapter, view, position) -> {
             getOperation().addParameter("ticker", getTickers().get(position));
@@ -91,7 +87,6 @@ public class MarketsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        presenter.refreshTickers();
     }
 
     @Override
@@ -100,12 +95,33 @@ public class MarketsFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    public void setMarketsType(MarketsType marketsType) {
-        this.marketsType = marketsType;
+    public List<Ticker> getTickers() {
+        List<Ticker> result = null;
+        MarketPriceDataManager manager = MarketPriceDataManager.getInstance(getContext());
+        switch (this.marketsType) {
+            case Favorite:
+                result = manager.getFavTickers();
+                break;
+            case WETH:
+            case LRC:
+            case USDT:
+            case TUSD:
+                result = manager.getTickersBy(this.marketsType.name());
+                break;
+        }
+        return result;
     }
 
-    public List<Ticker> getTickers() {
-        MarketPriceDataManager manager = MarketPriceDataManager.getInstance(getContext());
-        return manager.getTickers();
+    public void updateAdapter() {
+        updateAdapter(getTickers());
+    }
+
+    public void updateAdapter(List<Ticker> tickers) {
+        marketAdapter.setNewData(tickers);
+        marketAdapter.notifyDataSetChanged();
+    }
+
+    public void setMarketsType(MarketsType marketsType) {
+        this.marketsType = marketsType;
     }
 }

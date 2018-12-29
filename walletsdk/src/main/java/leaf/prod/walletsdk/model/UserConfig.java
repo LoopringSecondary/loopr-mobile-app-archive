@@ -24,6 +24,8 @@ public class UserConfig {
 
     private List<Contact> contacts;
 
+    private List<TradingPair> favMarkets;
+
     @Data
     @Builder
     private static class WalletInfo {

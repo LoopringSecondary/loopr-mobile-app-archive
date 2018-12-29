@@ -38,7 +38,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="48dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/market"
@@ -53,6 +53,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/price"
+                    android:layout_marginStart="0dp"
                     android:textAlignment="textStart"
                     android:textColor="@color/colorNineText"
                     android:textStyle="bold"
@@ -61,11 +62,10 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.75"
                     android:gravity="center"
                     android:text="@string/change"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="center"
                     android:textColor="@color/colorNineText"
                     android:textStyle="bold"
                     tools:ignore="RtlCompat"/>

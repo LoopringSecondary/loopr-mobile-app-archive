@@ -15,6 +15,7 @@ import leaf.prod.walletsdk.model.Contact;
 import leaf.prod.walletsdk.model.Currency;
 import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.LoginUser;
+import leaf.prod.walletsdk.model.TradingPair;
 import leaf.prod.walletsdk.model.UserConfig;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.service.AppService;
@@ -270,7 +271,7 @@ public class LoginDataManager {
     public Contact getContact(String address) {
         List<Contact> contacts = userConfig.getContacts();
         if (contacts != null) {
-            for (Contact contact : contacts) {
+            for (Contact contact: contacts) {
                 if (contact.getAddress().equalsIgnoreCase(address))
                     return contact;
             }
@@ -328,6 +329,43 @@ public class LoginDataManager {
         userConfig.setContacts(contacts);
         updateRemote(userConfig);
         return true;
+    }
+
+    public void removeFavorite(TradingPair newPair) {
+        List<TradingPair> favorites = new ArrayList<>();
+        if (userConfig.getFavMarkets() != null) {
+            for (TradingPair tradingPair : userConfig.getFavMarkets()) {
+                if (!tradingPair.equals(newPair)) {
+                    favorites.add(tradingPair);
+                }
+            }
+            userConfig.setFavMarkets(favorites);
+            updateRemote(userConfig);
+        }
+    }
+
+    public void addFavorite(TradingPair newPair) {
+        List<TradingPair> favorites = userConfig.getFavMarkets() == null ? new ArrayList<>() : userConfig.getFavMarkets();
+        favorites.add(newPair);
+        userConfig.setFavMarkets(favorites);
+        Collections.sort(favorites, (favorite, t1) -> favorite.getTokenA().compareTo(t1.getTokenA()));
+        updateRemote(userConfig);
+    }
+
+    public boolean isFavorite(TradingPair newPair) {
+        List<TradingPair> favorites = userConfig.getFavMarkets() == null ? new ArrayList<>() : userConfig.getFavMarkets();
+        return favorites.contains(newPair);
+    }
+
+    public void toggleFavorite(TradingPair newPair) {
+        List<TradingPair> favorites = userConfig.getFavMarkets() == null ? new ArrayList<>() : userConfig.getFavMarkets();
+        if (favorites.contains(newPair)) {
+            favorites.remove(newPair);
+        } else {
+            favorites.add(newPair);
+        }
+        Collections.sort(favorites, (favorite, t1) -> favorite.getTokenA().compareTo(t1.getTokenA()));
+        updateRemote(userConfig);
     }
 
     public enum LoginType {

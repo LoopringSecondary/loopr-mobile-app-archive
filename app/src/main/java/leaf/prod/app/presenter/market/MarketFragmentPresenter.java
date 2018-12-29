@@ -3,7 +3,6 @@ package leaf.prod.app.presenter.market;
 import java.util.List;
 
 import android.content.Context;
-import android.view.View;
 
 import leaf.prod.app.fragment.market.MarketsFragment;
 import leaf.prod.app.presenter.BasePresenter;
@@ -32,23 +31,19 @@ public class MarketFragmentPresenter extends BasePresenter<MarketsFragment> {
                     @Override
                     public void onCompleted() {
                         view.refreshLayout.finishRefresh(true);
-                        view.clLoading.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         view.refreshLayout.finishRefresh(true);
-                        view.marketAdapter.loadMoreFail();
-                        view.clLoading.setVisibility(View.GONE);
                         unsubscribe();
                     }
 
                     @Override
                     public void onNext(List<Ticker> result) {
-                        marketManager.convert(result);
-                        view.marketAdapter.setNewData(marketManager.getTickers());
+                        marketManager.convertTickers(result);
+                        view.updateAdapter();
                         view.refreshLayout.finishRefresh(true);
-                        view.clLoading.setVisibility(View.GONE);
                         unsubscribe();
                     }
                 });

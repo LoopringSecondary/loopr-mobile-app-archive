@@ -2,28 +2,33 @@ package leaf.prod.walletsdk.model;
 
 import java.io.Serializable;
 
+import com.google.gson.annotations.SerializedName;
+
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class Ticker implements Serializable {
 
     private String market;
 
     private String exchange;
 
-    private TradingPair tradingPair; //
+    private TradingPair tradingPair;
 
-    private String currencyShown; //
+    private String currencyShown;
 
     private Double vol;
 
-    private String change; //
+    private String change;
 
-    private TickerTag tag; //
+    @SerializedName("label")
+    private TickerTag tag;
 
     private Integer decimals;
 
-    private String balanceShown; //
+    private String balanceShown;
 
     private Double open;
 
