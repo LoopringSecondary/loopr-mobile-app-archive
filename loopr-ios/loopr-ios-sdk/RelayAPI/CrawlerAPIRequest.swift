@@ -19,7 +19,7 @@ class CrawlerAPIRequest {
         body["method"] = JSON("queryNews")
         body["params"] = [["currency": token, "language": language.name, "category": NewsCategory.information.description, "pageIndex": pageIndex, "pageSize": pageSize]]
         
-        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL) { data, _, error in
+        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
                 return
@@ -52,7 +52,7 @@ class CrawlerAPIRequest {
         body["jsonrpc"] = JSON("2.0")
         body["params"] = [["currency": token, "language": language.name, "category": NewsCategory.flash.description, "pageIndex": pageIndex, "pageSize": pageSize]]
         
-        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL) { data, _, error in
+        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
                 return
@@ -84,7 +84,7 @@ class CrawlerAPIRequest {
         body["jsonrpc"] = JSON("2.0")
         body["params"] = [["uuid": uuid, "indexName": IndexType.bullIndex.description, "direction": IndexAction.confirm.rawValue]]
         
-        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL) { data, _, error in
+        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
                 return
@@ -112,7 +112,7 @@ class CrawlerAPIRequest {
         body["jsonrpc"] = JSON("2.0")
         body["params"] = [["uuid": uuid, "indexName": IndexType.bullIndex.description, "direction": IndexAction.cancel.rawValue]]
         
-        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL) { data, _, error in
+        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
                 return
@@ -140,7 +140,7 @@ class CrawlerAPIRequest {
         body["jsonrpc"] = JSON("2.0")
         body["params"] = [["uuid": uuid, "indexName": IndexType.bearIndex.description, "direction": IndexAction.confirm.rawValue]]
         
-        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL) { data, _, error in
+        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
                 return
@@ -168,7 +168,7 @@ class CrawlerAPIRequest {
         body["jsonrpc"] = JSON("2.0")
         body["params"] = [["uuid": uuid, "indexName": IndexType.bearIndex.description, "direction": IndexAction.cancel.rawValue]]
         
-        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL) { data, _, error in
+        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
                 return
@@ -196,7 +196,7 @@ class CrawlerAPIRequest {
         body["jsonrpc"] = JSON("2.0")
         body["params"] = [["uuid": uuid, "indexName": IndexType.forwardNum.description, "direction": IndexAction.confirm.rawValue]]
         
-        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL) { data, _, error in
+        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
                 return

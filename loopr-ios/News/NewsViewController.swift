@@ -92,6 +92,17 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedCardIndex = indexPath
+        /*
+        let news = NewsDataManager.shared.informationItems[indexPath.row]
+        if let url = URL(string: news.url) {
+            let config = SFSafariViewController.Configuration()
+            config.entersReaderIfAvailable = true
+            
+            let vc = SFSafariViewController(url: url, configuration: config)
+            present(vc, animated: true)
+        }
+        */
+        
         let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
         detailViewController.news = NewsDataManager.shared.informationItems[indexPath.row]
         present(detailViewController, animated: true, completion: nil)

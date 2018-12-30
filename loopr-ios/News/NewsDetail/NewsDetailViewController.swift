@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import SafariServices
 
 class NewsDetailViewController: UIViewController {
 
     var news: News!
-    
+    var isFirtTimeAppear: Bool = true
+
     @IBOutlet open var card: UIView!
     
     fileprivate let userCardPresentAnimationController = NewsDetailPresentAnimationController()
@@ -33,6 +35,38 @@ class NewsDetailViewController: UIViewController {
         card.layer.cornerRadius = GarlandConfig.shared.cardRadius
         card.theme_backgroundColor = ColorPicker.backgroundColor
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard isFirtTimeAppear else {
+            return
+        }
+        
+        isFirtTimeAppear = false
+        if let url = URL(string: self.news.url) {
+            let config = SFSafariViewController.Configuration()
+            config.entersReaderIfAvailable = true
+            config.barCollapsingEnabled = true
+            
+            let vc = SFSafariViewController(url: url, configuration: config)
+            vc.view.theme_backgroundColor = ColorPicker.backgroundColor
+            // navigationController is nil
+            self.navigationController?.navigationBar.isTranslucent = false
+            vc.preferredBarTintColor = UIColor(rgba: "#16162A")
+            vc.preferredControlTintColor = UIColor.white
+            vc.delegate = self
+
+            self.present(vc, animated: false, completion: {
+
+            })
+        }
+    }
 }
 
 // MARK: Actions
@@ -52,4 +86,14 @@ extension NewsDetailViewController: UIViewControllerTransitioningDelegate {
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return userCardDismissAnimationController
     }
+}
+
+extension NewsDetailViewController: SFSafariViewControllerDelegate {
+
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        self.dismiss(animated: true) {
+            
+        }
+    }
+    
 }

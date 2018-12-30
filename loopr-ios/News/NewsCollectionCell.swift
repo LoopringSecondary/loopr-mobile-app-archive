@@ -23,6 +23,7 @@ class NewsCollectionCell: UICollectionViewCell {
     open override func awakeFromNib() {
         super.awakeFromNib()
         
+        theme_backgroundColor = ColorPicker.cardBackgroundColor
         contentView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         
         contentView.layer.masksToBounds = false
