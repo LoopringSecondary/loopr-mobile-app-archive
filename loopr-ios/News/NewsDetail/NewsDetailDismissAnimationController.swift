@@ -9,14 +9,14 @@
 import Foundation
 import UIKit
 
-class UserCardDismissAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+class NewsDetailDismissAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return GarlandConfig.shared.animationDuration
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? UserCardViewController,
+        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? NewsDetailViewController,
             let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? GarlandViewController,
             let snapshotSubviews = fromVC.card.snapshotView(afterScreenUpdates: true),
             let cell = toVC.garlandCollection.cellForItem(at: toVC.selectedCardIndex) as? NewsCollectionCell else {

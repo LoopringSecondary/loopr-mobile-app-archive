@@ -40,6 +40,11 @@ class News {
         self.bearIndex = json["bearIndex"].intValue
         self.forwardNum = json["forwardNum"].intValue
         
+        var paragrahs = self.content.split(separator: "\n")
+        if paragrahs.count > 1 {
+            paragrahs = Array(paragrahs.dropFirst())
+        }
+        self.content = paragrahs.joined(separator: "\n")
         
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
@@ -47,11 +52,6 @@ class News {
         ]
         
         let attributed = try! NSAttributedString(data: self.content.data(using: .unicode)!, options: options, documentAttributes: nil)
-        
-        var paragrahs = attributed.string.split(separator: "\n")
-        if paragrahs.count > 1 {
-            paragrahs = Array(paragrahs.dropFirst())
-        }
-        self.content = paragrahs.joined(separator: "\n")
+        self.content = attributed.string
     }
 }

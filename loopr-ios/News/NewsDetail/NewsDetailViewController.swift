@@ -1,24 +1,21 @@
 //
-//  UserCardViewController.swift
+//  NewsDetailViewController.swift
 //  loopr-ios
 //
-//  Created by Ruby on 12/26/18.
+//  Created by Ruby on 12/29/18.
 //  Copyright © 2018 Loopring. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-class UserCardViewController: UIViewController {
+class NewsDetailViewController: UIViewController {
+
+    var news: News!
     
-    @IBOutlet var closeButton: UIButton!
-    @IBOutlet var detailsButton: UIButton!
     @IBOutlet open var card: UIView!
-    @IBOutlet open var background: UIView!
-    @IBOutlet open var cardConstraits: [NSLayoutConstraint]!
     
-    fileprivate let userCardPresentAnimationController = UserCardPresentAnimationController()
-    fileprivate let userCardDismissAnimationController = UserCardDismissAnimationController()
+    fileprivate let userCardPresentAnimationController = NewsDetailPresentAnimationController()
+    fileprivate let userCardDismissAnimationController = NewsDetailDismissAnimationController()
     
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -26,26 +23,27 @@ class UserCardViewController: UIViewController {
         transitioningDelegate = self
         
         view.frame = UIScreen.main.bounds
-        view.backgroundColor = .gray
+        view.theme_backgroundColor = ColorPicker.backgroundColor
         setupCard()
         
-        closeButton.addTarget(self, action: #selector(closeButtonAction), for: .touchDown)
+        // closeButton.addTarget(self, action: #selector(closeButtonAction), for: .touchDown)
     }
     
     fileprivate func setupCard() {
         card.layer.cornerRadius = GarlandConfig.shared.cardRadius
+        card.theme_backgroundColor = ColorPicker.backgroundColor
     }
 }
 
 // MARK: Actions
-extension UserCardViewController {
+extension NewsDetailViewController {
     @objc fileprivate func closeButtonAction() {
         dismiss(animated: true, completion: nil)
     }
 }
 
 // MARK: Transition delegate methods
-extension UserCardViewController: UIViewControllerTransitioningDelegate {
+extension NewsDetailViewController: UIViewControllerTransitioningDelegate {
     
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return userCardPresentAnimationController

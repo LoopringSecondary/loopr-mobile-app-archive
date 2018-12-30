@@ -132,13 +132,13 @@
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
 		9B2ED7FB21D460EA00ACEE84 /* NewsListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F721D460EA00ACEE84 /* NewsListHeaderView.xib */; };
 		9B2ED7FC21D460EA00ACEE84 /* NewsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */; };
-		9B2ED80521D4652B00ACEE84 /* UserCardDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7FF21D4652B00ACEE84 /* UserCardDismissAnimationController.swift */; };
-		9B2ED80621D4652B00ACEE84 /* UserCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED80021D4652B00ACEE84 /* UserCardViewController.xib */; };
-		9B2ED80721D4652B00ACEE84 /* UserCardPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80121D4652B00ACEE84 /* UserCardPresentAnimationController.swift */; };
-		9B2ED80921D4652B00ACEE84 /* UserCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80321D4652B00ACEE84 /* UserCardViewController.swift */; };
+		9B2ED80521D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7FF21D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift */; };
+		9B2ED80721D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80121D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift */; };
 		9B2ED80E21D4656000ACEE84 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80B21D4655F00ACEE84 /* UIView.swift */; };
 		9B2ED80F21D4656000ACEE84 /* AlphaTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80D21D4656000ACEE84 /* AlphaTransition.swift */; };
 		9B2ED81521D73FFB00ACEE84 /* NewsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */; };
+		9B2ED81A21D85DC700ACEE84 /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */; };
+		9B2ED81B21D85DC700ACEE84 /* NewsDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */; };
 		9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */; };
 		9BA3014821B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */; };
 		9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */; };
@@ -682,13 +682,13 @@
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
 		9B2ED7F721D460EA00ACEE84 /* NewsListHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsListHeaderView.xib; sourceTree = "<group>"; };
 		9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsCollectionCell.swift; sourceTree = "<group>"; };
-		9B2ED7FF21D4652B00ACEE84 /* UserCardDismissAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCardDismissAnimationController.swift; sourceTree = "<group>"; };
-		9B2ED80021D4652B00ACEE84 /* UserCardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCardViewController.xib; sourceTree = "<group>"; };
-		9B2ED80121D4652B00ACEE84 /* UserCardPresentAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCardPresentAnimationController.swift; sourceTree = "<group>"; };
-		9B2ED80321D4652B00ACEE84 /* UserCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCardViewController.swift; sourceTree = "<group>"; };
+		9B2ED7FF21D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailDismissAnimationController.swift; sourceTree = "<group>"; };
+		9B2ED80121D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailPresentAnimationController.swift; sourceTree = "<group>"; };
 		9B2ED80B21D4655F00ACEE84 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		9B2ED80D21D4656000ACEE84 /* AlphaTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlphaTransition.swift; sourceTree = "<group>"; };
 		9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDataManager.swift; sourceTree = "<group>"; };
+		9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
+		9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailViewController.xib; sourceTree = "<group>"; };
 		9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerDepth.swift; sourceTree = "<group>"; };
 		9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerTradeHistory.swift; sourceTree = "<group>"; };
 		9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerSwipe.swift; sourceTree = "<group>"; };
@@ -1275,10 +1275,10 @@
 		9B2ED7FD21D4652B00ACEE84 /* NewsDetail */ = {
 			isa = PBXGroup;
 			children = (
-				9B2ED7FF21D4652B00ACEE84 /* UserCardDismissAnimationController.swift */,
-				9B2ED80121D4652B00ACEE84 /* UserCardPresentAnimationController.swift */,
-				9B2ED80321D4652B00ACEE84 /* UserCardViewController.swift */,
-				9B2ED80021D4652B00ACEE84 /* UserCardViewController.xib */,
+				9B2ED7FF21D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift */,
+				9B2ED80121D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift */,
+				9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */,
+				9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */,
 			);
 			path = NewsDetail;
 			sourceTree = "<group>";
@@ -2687,6 +2687,7 @@
 				942C49F82129119C008A6B4F /* ConvertETHConfirmViewController.xib in Resources */,
 				ACC8D0A720CC95A00049A741 /* AssetTableViewCell.xib in Resources */,
 				AC3B48842103EA6B008A6771 /* TradeSelectionViewController.xib in Resources */,
+				9B2ED81B21D85DC700ACEE84 /* NewsDetailViewController.xib in Resources */,
 				ACB41A7020B54BB300A92C9D /* AuthenticationViewController.xib in Resources */,
 				94AEF3B7218AA6A900112AAC /* ThirdPartyViewController.xib in Resources */,
 				AC9FFF2E2126C07800957175 /* MarketChangeTokenTableViewCell.xib in Resources */,
@@ -2748,7 +2749,6 @@
 				94A8FEFD21CCB94700A25929 /* neo.json in Resources */,
 				ACA677D0207D1BEC00D34A2F /* SettingChangeWalletNameViewController.xib in Resources */,
 				AC88669F2174923800815DD1 /* SetLRCRatioFeeViewController.xib in Resources */,
-				9B2ED80621D4652B00ACEE84 /* UserCardViewController.xib in Resources */,
 				AC9FFF262126BDF800957175 /* MarketChangeTokenSwipeViewController.xib in Resources */,
 				AC798E4C2022B93A0071D477 /* Assets.xcassets in Resources */,
 				AC798E4A2022B93A0071D477 /* Main.storyboard in Resources */,
@@ -3213,7 +3213,6 @@
 				AC147BEC208D2E54008D5104 /* ImportWalletError.swift in Sources */,
 				ACC6E12521BA5A59001729EC /* OrderDataManager.swift in Sources */,
 				9475502321255A58003CFEBF /* UISwitchExtension.swift in Sources */,
-				9B2ED80921D4652B00ACEE84 /* UserCardViewController.swift in Sources */,
 				AC2ACA9C2103075C009C77E7 /* WalletType.swift in Sources */,
 				AC0619422085D01E0060F416 /* SearchBarContainerView.swift in Sources */,
 				9B2ED7F921D460EA00ACEE84 /* NewsListHeaderView.swift in Sources */,
@@ -3223,6 +3222,7 @@
 				9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */,
 				ACB8AD87207EE40300B478D6 /* TokenDataManager.swift in Sources */,
 				940B451F2060F67E00ADE2B9 /* AppWalletDataManager.swift in Sources */,
+				9B2ED81A21D85DC700ACEE84 /* NewsDetailViewController.swift in Sources */,
 				AC31B95C204A8E4F00B16155 /* HDKey.swift in Sources */,
 				AC061940208469970060F416 /* NotificationBannerStyle.swift in Sources */,
 				AC4F601720773E9D00F1D954 /* web3swift.swift in Sources */,
@@ -3238,12 +3238,12 @@
 				9B2ED7E921D37FD300ACEE84 /* GarlandPresentAnimationController.swift in Sources */,
 				94E185972051451C00D86FFA /* Initable.swift in Sources */,
 				ACE6F7182041FDAD0039273D /* AssetTransactionDetailViewController.swift in Sources */,
-				9B2ED80721D4652B00ACEE84 /* UserCardPresentAnimationController.swift in Sources */,
+				9B2ED80721D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift in Sources */,
 				AC865C1221B3989A000BFBCA /* TrendRange.swift in Sources */,
 				AC31B95D204A8E4F00B16155 /* DerivationPath.swift in Sources */,
 				948952D3205A74BE009B03FE /* Transaction.swift in Sources */,
 				AC0CD57F20D21F8400ABB7BA /* TabBarItemHighlightableContentView.swift in Sources */,
-				9B2ED80521D4652B00ACEE84 /* UserCardDismissAnimationController.swift in Sources */,
+				9B2ED80521D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift in Sources */,
 				AC2CFAA120BB3BEE00387DB1 /* BiometricType.swift in Sources */,
 				9461851821D0FD8700393432 /* NewsCategory.swift in Sources */,
 				9BA3015521B0EBC000E55E49 /* MarketDetailViewControllerChart.swift in Sources */,

@@ -92,8 +92,9 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedCardIndex = indexPath
-        let cardController = UserCardViewController.init(nibName: "UserCardViewController", bundle: nil)
-        present(cardController, animated: true, completion: nil)
+        let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
+        detailViewController.news = NewsDataManager.shared.informationItems[indexPath.row]
+        present(detailViewController, animated: true, completion: nil)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
