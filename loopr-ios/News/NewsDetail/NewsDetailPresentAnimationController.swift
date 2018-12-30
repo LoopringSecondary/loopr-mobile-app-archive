@@ -12,7 +12,7 @@ import UIKit
 class NewsDetailPresentAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return GarlandConfig.shared.animationDuration
+        return NewsDetailAnimationConfig.shared.presentAnimationDuration
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -21,7 +21,7 @@ class NewsDetailPresentAnimationController: NSObject, UIViewControllerAnimatedTr
             let _ = toVC.view.snapshotView(afterScreenUpdates: true),
             let fromCell = fromVC.garlandCollection.cellForItem(at: fromVC.selectedCardIndex) as? NewsCollectionCell else {
                 
-                CustomTransitionAnimator.alphaPresent(using: transitionContext, duration: GarlandConfig.shared.animationDuration)
+                CustomTransitionAnimator.alphaPresent(using: transitionContext, duration: NewsDetailAnimationConfig.shared.presentAnimationDuration)
                 return
         }
         

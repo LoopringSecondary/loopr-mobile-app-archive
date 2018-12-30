@@ -12,7 +12,7 @@ import UIKit
 class NewsDetailDismissAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return GarlandConfig.shared.animationDuration
+        return NewsDetailAnimationConfig.shared.dismissAnimationDuration
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -21,7 +21,7 @@ class NewsDetailDismissAnimationController: NSObject, UIViewControllerAnimatedTr
             let snapshotSubviews = fromVC.card.snapshotView(afterScreenUpdates: true),
             let cell = toVC.garlandCollection.cellForItem(at: toVC.selectedCardIndex) as? NewsCollectionCell else {
                 
-                CustomTransitionAnimator.alphaDismiss(using: transitionContext, duration: GarlandConfig.shared.animationDuration)
+                CustomTransitionAnimator.alphaDismiss(using: transitionContext, duration: NewsDetailAnimationConfig.shared.dismissAnimationDuration)
                 return
         } 
         

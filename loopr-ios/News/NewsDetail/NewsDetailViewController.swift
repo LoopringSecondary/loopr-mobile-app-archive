@@ -60,6 +60,9 @@ class NewsDetailViewController: UIViewController {
             self.navigationController?.navigationBar.isTranslucent = false
             vc.preferredBarTintColor = UIColor(rgba: "#16162A")
             vc.preferredControlTintColor = UIColor.white
+            
+            vc.view.backgroundColor = UIColor(rgba: "#16162A")
+            
             vc.delegate = self
 
             self.present(vc, animated: false, completion: {
