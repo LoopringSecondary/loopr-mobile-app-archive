@@ -97,8 +97,8 @@
             </constraints>
             <size key="customSize" width="284" height="120"/>
             <connections>
-                <outlet property="contentTextView" destination="kU5-lE-jir" id="AMI-K7-CMA"/>
                 <outlet property="dateLabel" destination="XAT-Bg-hXT" id="xUL-61-Dac"/>
+                <outlet property="descriptionTextView" destination="kU5-lE-jir" id="AMI-K7-CMA"/>
                 <outlet property="downVoteButton" destination="wHZ-gX-Xf6" id="N4k-Y0-ADD"/>
                 <outlet property="shareButton" destination="gzD-X7-KCV" id="MIp-5g-eUf"/>
                 <outlet property="sourceLabel" destination="8cV-VL-MOR" id="LXM-Ca-v2B"/>

@@ -24,6 +24,8 @@ class News {
     var bearIndex: Int
     var forwardNum: Int
     
+    var description: String
+    
     init(json: JSON) {
         self.uuid = json["uuid"].stringValue
         self.token = json["token"].stringValue
@@ -44,14 +46,13 @@ class News {
         if paragrahs.count > 1 {
             paragrahs = Array(paragrahs.dropFirst())
         }
-        self.content = paragrahs.joined(separator: "\n")
+        self.description = paragrahs.joined(separator: "\n")
         
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
             .characterEncoding: String.Encoding.utf8.rawValue
         ]
-        
-        let attributed = try! NSAttributedString(data: self.content.data(using: .unicode)!, options: options, documentAttributes: nil)
-        self.content = attributed.string
+        let attributed = try! NSAttributedString(data: self.description.data(using: .unicode)!, options: options, documentAttributes: nil)
+        self.description = attributed.string
     }
 }

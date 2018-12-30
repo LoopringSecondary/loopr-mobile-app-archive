@@ -14,7 +14,7 @@ class NewsCollectionCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var sourceLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var contentTextView: UITextView!
+    @IBOutlet weak var descriptionTextView: UITextView!
 
     @IBOutlet weak var upVoteButton: UIButton!
     @IBOutlet weak var downVoteButton: UIButton!
@@ -52,16 +52,16 @@ class NewsCollectionCell: UICollectionViewCell {
         titleLabel.font = FontConfigManager.shared.getMediumFont(size: 14)
         titleLabel.theme_textColor = GlobalPicker.textColor
         
-        contentTextView.font = FontConfigManager.shared.getRegularFont(size: 12)
-        contentTextView.theme_textColor = GlobalPicker.textLightColor
-        contentTextView.backgroundColor = .clear
-        contentTextView.isUserInteractionEnabled = false
-        contentTextView.isScrollEnabled = false
+        descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 12)
+        descriptionTextView.theme_textColor = GlobalPicker.textLightColor
+        descriptionTextView.backgroundColor = .clear
+        descriptionTextView.isUserInteractionEnabled = false
+        descriptionTextView.isScrollEnabled = false
         // contentTextView.textContainerInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
-        contentTextView.showsVerticalScrollIndicator = false
-        contentTextView.showsHorizontalScrollIndicator = false
-        let padding = contentTextView.textContainer.lineFragmentPadding
-        contentTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
+        descriptionTextView.showsVerticalScrollIndicator = false
+        descriptionTextView.showsHorizontalScrollIndicator = false
+        let padding = descriptionTextView.textContainer.lineFragmentPadding
+        descriptionTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
         
         upVoteButton.setTitle(LocalizedString("Up 20", comment: ""), for: .normal)
         upVoteButton.setTitleColor(UIColor.up, for: .normal)
@@ -84,7 +84,7 @@ class NewsCollectionCell: UICollectionViewCell {
         dateLabel.text = news.publishTime
         sourceLabel.text = news.source
         titleLabel.text = news.title
-        contentTextView.text = news.content
+        descriptionTextView.text = news.description
     }
     
     class func getSize() -> CGSize {
