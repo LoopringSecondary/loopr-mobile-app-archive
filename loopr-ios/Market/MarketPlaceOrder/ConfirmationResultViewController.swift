@@ -122,7 +122,7 @@ class ConfirmationResultViewController: UIViewController, UIScrollViewDelegate {
     }
         
     @IBAction func pressedDetailsButton(_ sender: UIButton) {
-        let vc = UpdatedOrderHistoryViewController()
+        let vc = OrderHistoryViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

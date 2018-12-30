@@ -1,5 +1,5 @@
 //
-//  UpdatedOrderHistoryViewController.swift
+//  OrderHistoryViewController.swift
 //  loopr-ios
 //
 //  Created by xiaoruby on 10/12/18.
@@ -9,7 +9,7 @@
 import UIKit
 import NotificationBannerSwift
 
-class UpdatedOrderHistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     @IBOutlet weak var historyTableView: UITableView!
 
@@ -341,7 +341,7 @@ class UpdatedOrderHistoryViewController: UIViewController, UITableViewDelegate, 
 
 }
 
-extension UpdatedOrderHistoryViewController {
+extension OrderHistoryViewController {
     
     func completion(_ txHash: String?, _ error: Error?) {
         var title: String = ""

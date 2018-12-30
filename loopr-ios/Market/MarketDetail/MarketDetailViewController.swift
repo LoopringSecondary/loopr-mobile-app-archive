@@ -127,7 +127,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
     
     @objc func pressHistoryButton(_ button: UIBarButtonItem) {
         print("pressStarButton")
-        let viewController = UpdatedOrderHistoryViewController()
+        let viewController = OrderHistoryViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
