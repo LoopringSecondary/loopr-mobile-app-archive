@@ -22,12 +22,10 @@ class DefaultWebViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
-        
         setBackButton()
         self.navigationItem.title = navigationTitle
         view.theme_backgroundColor = ["#fff", "#000"]
-        progressView.tintColor = UIColor.dark1
+        progressView.tintColor = UIColor.theme
         progressView.setProgress(0, animated: false)
         progressView.alpha = 0.0
         
