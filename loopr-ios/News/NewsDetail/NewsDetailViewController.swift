@@ -7,14 +7,16 @@
 //
 
 import UIKit
-import SafariServices
+import WebKit
 
-class NewsDetailViewController: UIViewController {
+class NewsDetailViewController: UIViewController, WKNavigationDelegate {
 
     var news: News!
     var isFirtTimeAppear: Bool = true
 
+    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet open var card: UIView!
+    @IBOutlet weak var webView: WKWebView!
     
     fileprivate let userCardPresentAnimationController = NewsDetailPresentAnimationController()
     fileprivate let userCardDismissAnimationController = NewsDetailDismissAnimationController()
@@ -49,27 +51,16 @@ class NewsDetailViewController: UIViewController {
         }
         
         isFirtTimeAppear = false
-        if let url = URL(string: self.news.url) {
-            let config = SFSafariViewController.Configuration()
-            config.entersReaderIfAvailable = true
-            config.barCollapsingEnabled = true
-            
-            let vc = SFSafariViewController(url: url, configuration: config)
-            vc.view.theme_backgroundColor = ColorPicker.backgroundColor
-            // navigationController is nil
-            self.navigationController?.navigationBar.isTranslucent = false
-            vc.preferredBarTintColor = UIColor(rgba: "#16162A")
-            vc.preferredControlTintColor = UIColor.white
-            
-            vc.view.backgroundColor = UIColor(rgba: "#16162A")
-            
-            vc.delegate = self
-
-            self.present(vc, animated: false, completion: {
-
-            })
-        }
+        webView.navigationDelegate = self
+        webView.loadHTMLString(news.content, baseURL: nil)
     }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        let cssString = "body { font-size: 50px; color: #f00 }"
+        let jsString = "var style = document.createElement('style'); style.innerHTML = '\(cssString)'; document.head.appendChild(style);"
+        webView.evaluateJavaScript(jsString, completionHandler: nil)
+    }
+
 }
 
 // MARK: Actions
@@ -91,12 +82,3 @@ extension NewsDetailViewController: UIViewControllerTransitioningDelegate {
     }
 }
 
-extension NewsDetailViewController: SFSafariViewControllerDelegate {
-
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        self.dismiss(animated: true) {
-            
-        }
-    }
-    
-}

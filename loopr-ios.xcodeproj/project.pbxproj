@@ -1283,9 +1283,9 @@
 			children = (
 				9B2ED7FF21D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift */,
 				9B2ED80121D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift */,
+				9B2ED81C21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift */,
 				9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */,
 				9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */,
-				9B2ED81C21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift */,
 				9B2ED81E21D8B95900ACEE84 /* NewsDetailViewController_v2.swift */,
 				9B2ED81F21D8B95900ACEE84 /* NewsDetailViewController_v2.xib */,
 			);

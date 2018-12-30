@@ -24,6 +24,8 @@ class News {
     var bearIndex: Int
     var forwardNum: Int
     
+    // not from API
+    var paragraphs: [String] = []
     var description: String
     
     init(json: JSON) {
@@ -42,11 +44,11 @@ class News {
         self.bearIndex = json["bearIndex"].intValue
         self.forwardNum = json["forwardNum"].intValue
         
-        var paragrahs = self.content.split(separator: "\n")
-        if paragrahs.count > 1 {
-            paragrahs = Array(paragrahs.dropFirst())
+        var paragraphs = self.content.split(separator: "\n")
+        if paragraphs.count > 1 {
+            paragraphs = Array(paragraphs.dropFirst())
         }
-        self.description = paragrahs.joined(separator: "\n")
+        self.description = paragraphs.joined(separator: "\n")
         
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
