@@ -140,6 +140,8 @@
 		9B2ED81A21D85DC700ACEE84 /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */; };
 		9B2ED81B21D85DC700ACEE84 /* NewsDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */; };
 		9B2ED81D21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81C21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift */; };
+		9B2ED82021D8B95900ACEE84 /* NewsDetailViewController_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81E21D8B95900ACEE84 /* NewsDetailViewController_v2.swift */; };
+		9B2ED82121D8B95900ACEE84 /* NewsDetailViewController_v2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED81F21D8B95900ACEE84 /* NewsDetailViewController_v2.xib */; };
 		9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */; };
 		9BA3014821B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */; };
 		9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */; };
@@ -691,6 +693,8 @@
 		9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailViewController.xib; sourceTree = "<group>"; };
 		9B2ED81C21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailAnimationConfig.swift; sourceTree = "<group>"; };
+		9B2ED81E21D8B95900ACEE84 /* NewsDetailViewController_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController_v2.swift; sourceTree = "<group>"; };
+		9B2ED81F21D8B95900ACEE84 /* NewsDetailViewController_v2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailViewController_v2.xib; sourceTree = "<group>"; };
 		9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerDepth.swift; sourceTree = "<group>"; };
 		9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerTradeHistory.swift; sourceTree = "<group>"; };
 		9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerSwipe.swift; sourceTree = "<group>"; };
@@ -1282,6 +1286,8 @@
 				9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */,
 				9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */,
 				9B2ED81C21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift */,
+				9B2ED81E21D8B95900ACEE84 /* NewsDetailViewController_v2.swift */,
+				9B2ED81F21D8B95900ACEE84 /* NewsDetailViewController_v2.xib */,
 			);
 			path = NewsDetail;
 			sourceTree = "<group>";
@@ -2764,6 +2770,7 @@
 				AC13B30420548767008A72C0 /* BuyAndSellSwipeViewController.xib in Resources */,
 				9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */,
 				AC31CE152057B5A400A30335 /* TradeReviewViewController.xib in Resources */,
+				9B2ED82121D8B95900ACEE84 /* NewsDetailViewController_v2.xib in Resources */,
 				AC3756792038D7E200AADC60 /* UnlockKeystoreViewController.xib in Resources */,
 				9BA3020F21CF77AE00E55E49 /* SettingAppVersionTableViewCell.xib in Resources */,
 				ACB91172202557B100F14644 /* MarketViewController.xib in Resources */,
@@ -3162,6 +3169,7 @@
 				AC29949B212BF611005C4D72 /* SettingPartnerViewController.swift in Sources */,
 				ACA677C0207997F400D34A2F /* DisplayKeystoreViewController.swift in Sources */,
 				ACFEFE9820C338BC00013921 /* TxType.swift in Sources */,
+				9B2ED82021D8B95900ACEE84 /* NewsDetailViewController_v2.swift in Sources */,
 				AC7BC85C2145B477004204D3 /* AppWalletExtension.swift in Sources */,
 				AC2D2C05208882BD00D619AD /* FoundationArray+Extension.swift in Sources */,
 				ACB5DD9E202D5B8D00140A09 /* NumericKeyboardItem.swift in Sources */,
