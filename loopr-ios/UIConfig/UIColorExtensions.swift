@@ -208,17 +208,17 @@ extension UIColor {
     // HongKong has the same color as Unite States.
     class var up: UIColor {
         if SettingDataManager.shared.getCurrentLanguage().name == "zh-Hans" {
-            return UIColor(named: "Color-green")! // #01B97F
+            return UIColor(named: "Color-red")!   // #FA4A6F, red
         } else {
-            return UIColor(named: "Color-red")!   // #FA4A6F
+            return UIColor(named: "Color-green")! // #01B97F, green
         }
     }
     
     class var down: UIColor {
         if SettingDataManager.shared.getCurrentLanguage().name == "zh-Hans" {
-            return UIColor(named: "Color-red")!   // #DD5252
+            return UIColor(named: "Color-green")! // #01B97F, green
         } else {
-            return UIColor(named: "Color-green")! // #01B97F
+            return UIColor(named: "Color-red")!   // #DD5252, red
         }
     }
     
