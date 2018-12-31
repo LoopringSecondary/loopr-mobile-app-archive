@@ -139,7 +139,7 @@
 		9B2ED81521D73FFB00ACEE84 /* NewsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */; };
 		9B2ED81A21D85DC700ACEE84 /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */; };
 		9B2ED81B21D85DC700ACEE84 /* NewsDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */; };
-		9B2ED81D21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81C21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift */; };
+		9B2ED81D21D8B0CF00ACEE84 /* NewsDetailUIStyleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81C21D8B0CF00ACEE84 /* NewsDetailUIStyleConfig.swift */; };
 		9B2ED82021D8B95900ACEE84 /* NewsDetailViewController_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81E21D8B95900ACEE84 /* NewsDetailViewController_v2.swift */; };
 		9B2ED82121D8B95900ACEE84 /* NewsDetailViewController_v2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED81F21D8B95900ACEE84 /* NewsDetailViewController_v2.xib */; };
 		9B2ED83321DA083600ACEE84 /* Inter-UI-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED82721DA083600ACEE84 /* Inter-UI-BoldItalic.ttf */; };
@@ -704,7 +704,7 @@
 		9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDataManager.swift; sourceTree = "<group>"; };
 		9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailViewController.xib; sourceTree = "<group>"; };
-		9B2ED81C21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailAnimationConfig.swift; sourceTree = "<group>"; };
+		9B2ED81C21D8B0CF00ACEE84 /* NewsDetailUIStyleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailUIStyleConfig.swift; sourceTree = "<group>"; };
 		9B2ED81E21D8B95900ACEE84 /* NewsDetailViewController_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController_v2.swift; sourceTree = "<group>"; };
 		9B2ED81F21D8B95900ACEE84 /* NewsDetailViewController_v2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailViewController_v2.xib; sourceTree = "<group>"; };
 		9B2ED82721DA083600ACEE84 /* Inter-UI-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -1307,7 +1307,7 @@
 			children = (
 				9B2ED7FF21D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift */,
 				9B2ED80121D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift */,
-				9B2ED81C21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift */,
+				9B2ED81C21D8B0CF00ACEE84 /* NewsDetailUIStyleConfig.swift */,
 				9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */,
 				9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */,
 				9B2ED81E21D8B95900ACEE84 /* NewsDetailViewController_v2.swift */,
@@ -3350,7 +3350,7 @@
 				AC4F8638209D483B002E62AB /* SettingLRCFeeRatioViewController.swift in Sources */,
 				942E2CAB2148B2E100041733 /* TikcerSource.swift in Sources */,
 				940076B220554A4100DDA37D /* LoopringSocketIORequest.swift in Sources */,
-				9B2ED81D21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift in Sources */,
+				9B2ED81D21D8B0CF00ACEE84 /* NewsDetailUIStyleConfig.swift in Sources */,
 				AC0CD57920D21BF100ABB7BA /* TabBarItemBasicContentView.swift in Sources */,
 				C8BF959D202696A900343B9A /* MainTabController.swift in Sources */,
 				ACB911522024254F00F14644 /* WalletNavigationViewController.swift in Sources */,

@@ -78,9 +78,14 @@ extension UIView {
         self.frame = self.frame.offsetBy(dx: 0, dy: y)
     }
     
-    func shake(for duration: TimeInterval = 0.5, withTranslation translation: CGFloat = 10) {
+    func shake(for duration: TimeInterval = 0.5, direction: String = "x", withTranslation translation: CGFloat = 10) {
         let propertyAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 0.3) {
-            self.transform = CGAffineTransform(translationX: translation, y: 0)
+            if direction == "x" {
+                self.transform = CGAffineTransform(translationX: translation, y: 0)
+            } else {
+                // move up
+                self.transform = CGAffineTransform(translationX: 0, y: -translation)
+            }
         }
         propertyAnimator.addAnimations({
             self.transform = CGAffineTransform(translationX: 0, y: 0)

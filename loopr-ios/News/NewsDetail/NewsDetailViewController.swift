@@ -24,6 +24,9 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
     
     override open func viewDidLoad() {
         super.viewDidLoad()
+
+        NewsDetailUIStyleConfig.shared.fontFammily = FontConfigManager.shared.getCharactorFont().familyName
+
         modalPresentationStyle = .custom
         transitioningDelegate = self
         

@@ -81,7 +81,7 @@ class NewsCollectionCell: UICollectionViewCell {
         downvoteButton.setTitleColor(UIColor.downInChart, for: .normal)
         downvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         downvoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
-        upvoteButton.addTarget(self, action: #selector(pressedDownvoteButton), for: .touchUpInside)
+        downvoteButton.addTarget(self, action: #selector(pressedDownvoteButton), for: .touchUpInside)
         
         shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
         // shareButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
@@ -99,8 +99,7 @@ class NewsCollectionCell: UICollectionViewCell {
         titleLabel.text = news.title
         descriptionTextView.text = news.description
         
-        upvoteButton.setTitle("\(LocalizedString("News_Up", comment: "")) \(news.bullIndex)", for: .normal)
-        downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex)", for: .normal)
+        udpateVoteButtons()
     }
     
     @IBAction func clickedCollectionCell(_ sender: Any) {
@@ -108,15 +107,34 @@ class NewsCollectionCell: UICollectionViewCell {
     }
     
     @objc func pressedUpvoteButton(_ sender: Any) {
+        upvoteButton.shake(direction: "y", withTranslation: 6)
+        NewsDataManager.shared.setVote(uuid: news.uuid, isUpvote: true)
         CrawlerAPIRequest.confirmBull(uuid: news.uuid) { (_, _) in
             
         }
+        udpateVoteButtons()
     }
     
     @objc func pressedDownvoteButton(_ sender: Any) {
+        downvoteButton.shake(direction: "y", withTranslation: 6)
+        NewsDataManager.shared.setVote(uuid: news.uuid, isUpvote: false)
         CrawlerAPIRequest.confirmBear(uuid: news.uuid) { (_, _) in
             
         }
+        udpateVoteButtons()
+    }
+    
+    func udpateVoteButtons() {
+        let localVote = NewsDataManager.shared.getVote(uuid: news.uuid)
+        var localUpvoteValue: Int = 0
+        var localDownvoteValue: Int = 0
+        if localVote > 0 {
+            localUpvoteValue = localVote
+        } else {
+            localDownvoteValue = -localVote
+        }
+        upvoteButton.setTitle("\(LocalizedString("News_Up", comment: "")) \(news.bullIndex+localUpvoteValue)", for: .normal)
+        downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex+localDownvoteValue)", for: .normal)
     }
     
     class func getSize() -> CGSize {

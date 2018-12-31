@@ -1,5 +1,5 @@
 //
-//  NewsDetailAnimationConfig.swift
+//  NewsDetailUIStyleConfig.swift
 //  loopr-ios
 //
 //  Created by Ruby on 12/29/18.
