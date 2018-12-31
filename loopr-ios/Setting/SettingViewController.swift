@@ -183,7 +183,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 10
+        let section = sections[section]
+        switch section {
+        case .partner:
+            return 0
+        default:
+            return 10
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
