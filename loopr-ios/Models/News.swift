@@ -43,13 +43,15 @@ class News {
         self.bullIndex = json["bullIndex"].intValue
         self.bearIndex = json["bearIndex"].intValue
         self.forwardNum = json["forwardNum"].intValue
-        
-        var paragraphs = self.content.split(separator: "\n")
-        if paragraphs.count > 1 {
-            paragraphs = Array(paragraphs.dropFirst())
-        }
+
+        // Remove all line breaks at the beginning of content
+        self.content = self.content.replacingOccurrences(of: "^\\s*", with: "", options: .regularExpression)
+
+        self.paragraphs = self.content.split(separator: "\n").map({ (paragraph) -> String in
+            return paragraph.replacingOccurrences(of: "^\\s*", with: "", options: .regularExpression)
+        })
+
         self.description = paragraphs.joined(separator: "\n")
-        
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
             .characterEncoding: String.Encoding.utf8.rawValue

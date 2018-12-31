@@ -147,6 +147,8 @@
 /* News */
 "News_Up" = "利好";
 "News_Down" = "利空";
+"News_information" = "新闻";
+"News_flash" = "快訊";
 
 /* DEX Trade page */
 "Loopring Order" = "路印订单";

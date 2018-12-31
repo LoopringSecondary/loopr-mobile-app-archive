@@ -11,13 +11,13 @@ import Foundation
 class CrawlerAPIRequest {
     
     // READY  获取  资讯  内容
-    static func getInformation(token: String, language: Language, pageIndex: UInt = 0, pageSize: UInt = 50, completion: @escaping (_ response: [News]?, _ error: Error?) -> Void) {
+    static func get(token: String, language: Language, category: NewsCategory, pageIndex: UInt = 0, pageSize: UInt = 50, completion: @escaping (_ response: [News]?, _ error: Error?) -> Void) {
         
         var body: JSON = JSON()
         body["id"] = JSON(UUID().uuidString)
         body["jsonrpc"] = JSON("2.0")
         body["method"] = JSON("queryNews")
-        body["params"] = [["currency": token, "language": language.name, "category": NewsCategory.information.description, "pageIndex": pageIndex, "pageSize": pageSize]]
+        body["params"] = [["currency": token, "language": language.name, "category": category.rawValue, "pageIndex": pageIndex, "pageSize": pageSize]]
         
         Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {
@@ -37,40 +37,7 @@ class CrawlerAPIRequest {
                 var userInfo: [String: Any] = [:]
                 userInfo["code"] = json["error"]["code"]
                 userInfo["message"] = json["error"]["message"]
-                let error = NSError(domain: "getInformation", code: 0, userInfo: userInfo)
-                completion(nil, error)
-            }
-        }
-    }
-
-    // READY  获取  短讯  内容
-    static func getFlash(token: String, language: Language, pageIndex: UInt = 0, pageSize: UInt = 50, completion: @escaping (_ response: [News]?, _ error: Error?) -> Void) {
-        
-        var body: JSON = JSON()
-        body["method"] = JSON("queryNews")
-        body["id"] = JSON(UUID().uuidString)
-        body["jsonrpc"] = JSON("2.0")
-        body["params"] = [["currency": token, "language": language.name, "category": NewsCategory.flash.description, "pageIndex": pageIndex, "pageSize": pageSize]]
-        
-        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
-            guard let data = data, error == nil else {
-                print("error=\(String(describing: error))")
-                return
-            }
-            let json = JSON(data)
-            let offerData = json["result"]
-            if offerData != JSON.null {
-                var newsArray: [News] = []
-                for subJson in offerData["data"].arrayValue {
-                    let news = News(json: subJson)
-                    newsArray.append(news)
-                }
-                completion(newsArray, nil)
-            } else if json["error"] != JSON.null {
-                var userInfo: [String: Any] = [:]
-                userInfo["code"] = json["error"]["code"]
-                userInfo["message"] = json["error"]["message"]
-                let error = NSError(domain: "getFlash", code: 0, userInfo: userInfo)
+                let error = NSError(domain: NewsCategory.information.description, code: 0, userInfo: userInfo)
                 completion(nil, error)
             }
         }

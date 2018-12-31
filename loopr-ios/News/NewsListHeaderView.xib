@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -19,6 +19,12 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oL9-SQ-bXD">
                     <rect key="frame" x="0.0" y="0.0" width="292" height="128"/>
                 </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSi-zL-Qxv">
+                    <rect key="frame" x="10" y="53.666666666666657" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
@@ -26,11 +32,14 @@
                 <constraint firstItem="oL9-SQ-bXD" firstAttribute="top" secondItem="KbP-6W-tYD" secondAttribute="top" id="XkL-pD-cal"/>
                 <constraint firstItem="oL9-SQ-bXD" firstAttribute="trailing" secondItem="KbP-6W-tYD" secondAttribute="trailing" id="YGE-tT-1ID"/>
                 <constraint firstItem="oL9-SQ-bXD" firstAttribute="leading" secondItem="KbP-6W-tYD" secondAttribute="leading" id="c5o-38-GD7"/>
+                <constraint firstItem="iSi-zL-Qxv" firstAttribute="leading" secondItem="KbP-6W-tYD" secondAttribute="leading" constant="10" id="mSN-CQ-C0O"/>
+                <constraint firstItem="iSi-zL-Qxv" firstAttribute="centerY" secondItem="oL9-SQ-bXD" secondAttribute="centerY" id="wAZ-Cn-8zh"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="KbP-6W-tYD"/>
             <connections>
                 <outlet property="baseView" destination="oL9-SQ-bXD" id="LLS-tY-shh"/>
+                <outlet property="titleLabel" destination="iSi-zL-Qxv" id="mUq-wz-6Rj"/>
             </connections>
             <point key="canvasLocation" x="28.800000000000001" y="753.82308845577222"/>
         </view>

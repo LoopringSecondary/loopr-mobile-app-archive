@@ -10,6 +10,9 @@ import UIKit
 
 class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLayout {
 
+    // News params
+    var newsCategory: NewsCategory = .flash
+
     private let header: NewsListHeaderView = UIView.loadFromNib(withName: "NewsListHeaderView")!
     
     fileprivate let scrollViewContentOffsetMargin: CGFloat = -150.0
@@ -28,9 +31,16 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
         garlandCollection.dataSource = self
         
         nextViewController = { _ in
-            return NewsViewController()
+            let vc = NewsViewController()
+            if self.newsCategory == .information {
+                vc.newsCategory = .flash
+            } else {
+                vc.newsCategory = .information
+            }
+            return vc
         }
         setupHeader(header)
+        header.titleLabel.text = newsCategory.description
         
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
@@ -42,11 +52,11 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
             fakeTradeButton.isHidden = true
         }
         
-        NewsDataManager.shared.getInformation { (_, _) in
+        NewsDataManager.shared.get(category: newsCategory, completion: { (_, _) in
             DispatchQueue.main.async {
                 self.garlandCollection.reloadData()
             }
-        }
+        })
     }
     
     @IBAction func clickedFakeButtonWallet(_ sender: Any) {
@@ -69,7 +79,11 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
 extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
         
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return NewsDataManager.shared.informationItems.count
+        if self.newsCategory == .information {
+            return NewsDataManager.shared.informationItems.count
+        } else {
+            return NewsDataManager.shared.flashItems.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -81,12 +95,25 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionCell.getCellIdentifier(), for: indexPath) as? NewsCollectionCell else { return UICollectionViewCell() }
-        let news = NewsDataManager.shared.informationItems[indexPath.row]
+        let news: News
+        if self.newsCategory == .information {
+            news = NewsDataManager.shared.informationItems[indexPath.row]
+        } else {
+            news = NewsDataManager.shared.flashItems[indexPath.row]
+        }
+        
         cell.updateUIStyle(news: news)
         cell.didClickedCollectionCellClosure = { (news) -> Void in
+            let news: News
+            if self.newsCategory == .information {
+                news = NewsDataManager.shared.informationItems[indexPath.row]
+            } else {
+                news = NewsDataManager.shared.flashItems[indexPath.row]
+            }
+            
             self.selectedCardIndex = indexPath
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
-            detailViewController.news = NewsDataManager.shared.informationItems[indexPath.row]
+            detailViewController.news = news
             self.present(detailViewController, animated: true, completion: nil)
         }
         return cell
@@ -112,7 +139,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let startOffset = (garlandCollection.contentOffset.y + GarlandConfig.shared.cardsSpacing + GarlandConfig.shared.headerSize.height) / GarlandConfig.shared.headerSize.height
         let maxHeight: CGFloat = 1.0
-        let minHeight: CGFloat = 0.7
+        let minHeight: CGFloat = 0.9
         let minAlpha: CGFloat = 0.0
         
         let divided = startOffset / 3

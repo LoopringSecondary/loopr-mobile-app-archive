@@ -11,6 +11,7 @@ import UIKit
 
 class NewsListHeaderView: UIView {
 
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var baseView: UIImageView!
     
     open override func awakeFromNib() {
@@ -28,6 +29,11 @@ class NewsListHeaderView: UIView {
         
         baseView.image = UIImage(named: "wallet-selected-background" + ColorTheme.getTheme())
         baseView.contentMode = .scaleToFill
+        baseView.backgroundColor = .clear
+        
+        // TODO: need to update to the font size
+        titleLabel.font = FontConfigManager.shared.getCharactorFont(size: 28)
+        titleLabel.textColor = UIColor.white
     }
 
 }

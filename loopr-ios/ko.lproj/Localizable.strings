@@ -140,6 +140,8 @@
 /* News */
 "News_Up" = "Up";
 "News_Down" = "Down";
+"News_information" = "News";
+"News_flash" = "Newsletter";
 
 /* DEX Trade page */
 "DEX Trade" = "DEX 거래";

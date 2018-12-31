@@ -71,9 +71,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             }
         }
         
-        NewsDataManager.shared.getInformation { (_, _) in
-
-        }
+        NewsDataManager.shared.get(category: .information, completion: { (_, _) in
+            
+        })
 
         PartnerDataManager.shared.createPartner()
         PartnerDataManager.shared.activatePartner()

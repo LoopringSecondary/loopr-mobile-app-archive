@@ -20,6 +20,7 @@ class NewsNavigationViewController: UIViewController {
         
         GarlandConfig.shared.animationDuration = 0.4
         GarlandConfig.shared.cardsSpacing = 8
+        GarlandConfig.shared.cardRadius = 6
         GarlandConfig.shared.headerVerticalOffset = topPadding + 10
         GarlandConfig.shared.headerSize = CGSize(width: UIScreen.main.bounds.width - 15*2, height: 134)
         GarlandConfig.shared.fakeHeaderSize = CGSize(width: 8*2, height: 100)

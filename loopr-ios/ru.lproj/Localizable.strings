@@ -147,6 +147,8 @@
 /* News */
 "News_Up" = "Up";
 "News_Down" = "Down";
+"News_information" = "News";
+"News_flash" = "Newsletter";
 
 /* DEX Trade page */
 "Loopring Order" = "Loopring Order";

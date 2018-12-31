@@ -19,10 +19,15 @@ class NewsDataManager {
         
     }
     
-    func getInformation(completion: @escaping (_ response: [News]?, _ error: Error?) -> Void) {
-        CrawlerAPIRequest.getInformation(token: "ALL_CURRENCY", language: SettingDataManager.shared.getCurrentLanguage()) { (news, error) in
-            self.informationItems = news ?? []
+    func get(category: NewsCategory, pageIndex: UInt = 0, pageSize: UInt = 50, completion: @escaping (_ response: [News]?, _ error: Error?) -> Void)  {
+        CrawlerAPIRequest.get(token: "ALL_CURRENCY", language: SettingDataManager.shared.getCurrentLanguage(), category: category) { (news, error) in
+            if category == .information {
+                self.informationItems = news ?? []
+            } else if category == .flash {
+                self.flashItems = news ?? []
+            }
             completion(news, error)
         }
     }
+
 }
