@@ -70,13 +70,15 @@ class NewsCollectionCell: UICollectionViewCell {
         descriptionTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
         
         upvoteButton.setTitle(LocalizedString("News_Up", comment: ""), for: .normal)
-        upvoteButton.setTitleColor(UIColor.up, for: .normal)
+        // upInChart color is better than up color here
+        upvoteButton.setTitleColor(UIColor.upInChart, for: .normal)
         upvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         upvoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         upvoteButton.addTarget(self, action: #selector(pressedUpvoteButton), for: .touchUpInside)
         
         downvoteButton.setTitle(LocalizedString("News_Down", comment: ""), for: .normal)
-        downvoteButton.setTitleColor(UIColor.down, for: .normal)
+        // downInChart color is better than down color here
+        downvoteButton.setTitleColor(UIColor.downInChart, for: .normal)
         downvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         downvoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         upvoteButton.addTarget(self, action: #selector(pressedDownvoteButton), for: .touchUpInside)
