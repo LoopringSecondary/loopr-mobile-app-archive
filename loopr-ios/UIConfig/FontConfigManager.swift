@@ -11,6 +11,7 @@ import UIKit
 
 enum SupportedFonts: String {
     case System
+    case InterUI
     case Rubik
 }
 
@@ -18,7 +19,7 @@ class FontConfigManager {
 
     static let shared = FontConfigManager()
     
-    var currentFont: SupportedFonts = .Rubik
+    var currentFont: SupportedFonts = .InterUI
     
     private init() {
         

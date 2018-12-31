@@ -142,6 +142,18 @@
 		9B2ED81D21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81C21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift */; };
 		9B2ED82021D8B95900ACEE84 /* NewsDetailViewController_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81E21D8B95900ACEE84 /* NewsDetailViewController_v2.swift */; };
 		9B2ED82121D8B95900ACEE84 /* NewsDetailViewController_v2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED81F21D8B95900ACEE84 /* NewsDetailViewController_v2.xib */; };
+		9B2ED83321DA083600ACEE84 /* Inter-UI-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED82721DA083600ACEE84 /* Inter-UI-BoldItalic.ttf */; };
+		9B2ED83421DA083600ACEE84 /* Inter-UI-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED82821DA083600ACEE84 /* Inter-UI-Medium.ttf */; };
+		9B2ED83521DA083600ACEE84 /* Inter-UI-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED82921DA083600ACEE84 /* Inter-UI-Bold.ttf */; };
+		9B2ED83621DA083600ACEE84 /* Inter-UI-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED82A21DA083600ACEE84 /* Inter-UI-BlackItalic.ttf */; };
+		9B2ED83721DA083600ACEE84 /* Inter-UI-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED82B21DA083600ACEE84 /* Inter-UI-ExtraBold.ttf */; };
+		9B2ED83821DA083600ACEE84 /* Inter-UI-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED82C21DA083600ACEE84 /* Inter-UI-Regular.ttf */; };
+		9B2ED83921DA083600ACEE84 /* Inter-UI-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED82D21DA083600ACEE84 /* Inter-UI-ExtraBoldItalic.ttf */; };
+		9B2ED83A21DA083600ACEE84 /* Inter-UI-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED82E21DA083600ACEE84 /* Inter-UI-SemiBold.ttf */; };
+		9B2ED83B21DA083600ACEE84 /* Inter-UI-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED82F21DA083600ACEE84 /* Inter-UI-SemiBoldItalic.ttf */; };
+		9B2ED83C21DA083600ACEE84 /* Inter-UI-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83021DA083600ACEE84 /* Inter-UI-Italic.ttf */; };
+		9B2ED83D21DA083600ACEE84 /* Inter-UI-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83121DA083600ACEE84 /* Inter-UI-MediumItalic.ttf */; };
+		9B2ED83E21DA083600ACEE84 /* Inter-UI-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83221DA083600ACEE84 /* Inter-UI-Black.ttf */; };
 		9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */; };
 		9BA3014821B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */; };
 		9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */; };
@@ -695,6 +707,18 @@
 		9B2ED81C21D8B0CF00ACEE84 /* NewsDetailAnimationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailAnimationConfig.swift; sourceTree = "<group>"; };
 		9B2ED81E21D8B95900ACEE84 /* NewsDetailViewController_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController_v2.swift; sourceTree = "<group>"; };
 		9B2ED81F21D8B95900ACEE84 /* NewsDetailViewController_v2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailViewController_v2.xib; sourceTree = "<group>"; };
+		9B2ED82721DA083600ACEE84 /* Inter-UI-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-BoldItalic.ttf"; sourceTree = "<group>"; };
+		9B2ED82821DA083600ACEE84 /* Inter-UI-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Medium.ttf"; sourceTree = "<group>"; };
+		9B2ED82921DA083600ACEE84 /* Inter-UI-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Bold.ttf"; sourceTree = "<group>"; };
+		9B2ED82A21DA083600ACEE84 /* Inter-UI-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-BlackItalic.ttf"; sourceTree = "<group>"; };
+		9B2ED82B21DA083600ACEE84 /* Inter-UI-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-ExtraBold.ttf"; sourceTree = "<group>"; };
+		9B2ED82C21DA083600ACEE84 /* Inter-UI-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Regular.ttf"; sourceTree = "<group>"; };
+		9B2ED82D21DA083600ACEE84 /* Inter-UI-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		9B2ED82E21DA083600ACEE84 /* Inter-UI-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-SemiBold.ttf"; sourceTree = "<group>"; };
+		9B2ED82F21DA083600ACEE84 /* Inter-UI-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		9B2ED83021DA083600ACEE84 /* Inter-UI-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Italic.ttf"; sourceTree = "<group>"; };
+		9B2ED83121DA083600ACEE84 /* Inter-UI-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-MediumItalic.ttf"; sourceTree = "<group>"; };
+		9B2ED83221DA083600ACEE84 /* Inter-UI-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Black.ttf"; sourceTree = "<group>"; };
 		9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerDepth.swift; sourceTree = "<group>"; };
 		9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerTradeHistory.swift; sourceTree = "<group>"; };
 		9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerSwipe.swift; sourceTree = "<group>"; };
@@ -1308,6 +1332,25 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
+		9B2ED82621DA083600ACEE84 /* Inter-UI */ = {
+			isa = PBXGroup;
+			children = (
+				9B2ED82721DA083600ACEE84 /* Inter-UI-BoldItalic.ttf */,
+				9B2ED82821DA083600ACEE84 /* Inter-UI-Medium.ttf */,
+				9B2ED82921DA083600ACEE84 /* Inter-UI-Bold.ttf */,
+				9B2ED82A21DA083600ACEE84 /* Inter-UI-BlackItalic.ttf */,
+				9B2ED82B21DA083600ACEE84 /* Inter-UI-ExtraBold.ttf */,
+				9B2ED82C21DA083600ACEE84 /* Inter-UI-Regular.ttf */,
+				9B2ED82D21DA083600ACEE84 /* Inter-UI-ExtraBoldItalic.ttf */,
+				9B2ED82E21DA083600ACEE84 /* Inter-UI-SemiBold.ttf */,
+				9B2ED82F21DA083600ACEE84 /* Inter-UI-SemiBoldItalic.ttf */,
+				9B2ED83021DA083600ACEE84 /* Inter-UI-Italic.ttf */,
+				9B2ED83121DA083600ACEE84 /* Inter-UI-MediumItalic.ttf */,
+				9B2ED83221DA083600ACEE84 /* Inter-UI-Black.ttf */,
+			);
+			path = "Inter-UI";
+			sourceTree = "<group>";
+		};
 		9BA3014B21B097DB00E55E49 /* MarketDetailViewControllerExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -1618,6 +1661,7 @@
 		AC54FD26204FC61C007E1DEB /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				9B2ED82621DA083600ACEE84 /* Inter-UI */,
 				AC2ACA4020FA0EC3009C77E7 /* Rubik */,
 			);
 			path = Fonts;
@@ -2672,17 +2716,21 @@
 				AC4141F0203524280089861D /* MarketSwipeViewController.xib in Resources */,
 				ACA677B92079970600D34A2F /* ExportKeystoreSwipeViewController.xib in Resources */,
 				AC2ACA5420FA0EC3009C77E7 /* Rubik-BlackItalic.ttf in Resources */,
+				9B2ED83D21DA083600ACEE84 /* Inter-UI-MediumItalic.ttf in Resources */,
+				9B2ED83521DA083600ACEE84 /* Inter-UI-Bold.ttf in Resources */,
 				94768CA2210DCABE00B5977B /* TradeSwipeViewController.xib in Resources */,
 				AC8DBC7820BE8C13007AC862 /* MnemonicBackupModeCollectionViewController.xib in Resources */,
 				AC128D3A2199083600939F4E /* keys.plist in Resources */,
 				AC2ACA622102E7B2009C77E7 /* SettingStyleTableViewCell.xib in Resources */,
 				ACE5BFA720466EFD005D75DD /* Localizable.strings in Resources */,
+				9B2ED83A21DA083600ACEE84 /* Inter-UI-SemiBold.ttf in Resources */,
 				ACB911852026388700F14644 /* SettingViewController.xib in Resources */,
 				AC56625C20563C05003C925C /* TradeViewController.xib in Resources */,
 				9B2ED7FB21D460EA00ACEE84 /* NewsListHeaderView.xib in Resources */,
 				AC2ACA4E20FA0EC3009C77E7 /* SIL Open Font License.txt in Resources */,
 				ACA677CA2079D5A000D34A2F /* DisplayPrivateKeyViewController.xib in Resources */,
 				ACA677C52079990A00D34A2F /* DisplayKeystoreInQRCodeViewController.xib in Resources */,
+				9B2ED83E21DA083600ACEE84 /* Inter-UI-Black.ttf in Resources */,
 				ACE6F7192041FDAD0039273D /* AssetTransactionDetailViewController.xib in Resources */,
 				AC37566E2038D37400AADC60 /* UnlockWalletSwipeViewController.xib in Resources */,
 				AC34A388215483F50083ADEC /* DisplayContractVersionViewController.xib in Resources */,
@@ -2691,6 +2739,7 @@
 				AC37567D2038D80300AADC60 /* PrivateKeyViewController.xib in Resources */,
 				ACB911562024260E00F14644 /* WalletViewController.xib in Resources */,
 				AC9FFF2A2126C05000957175 /* MarketChangeTokenViewController.xib in Resources */,
+				9B2ED83C21DA083600ACEE84 /* Inter-UI-Italic.ttf in Resources */,
 				9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */,
 				AC2ACAA621031F66009C77E7 /* fee_1_zh-Hans.md in Resources */,
 				942C49F82129119C008A6B4F /* ConvertETHConfirmViewController.xib in Resources */,
@@ -2704,14 +2753,17 @@
 				94AA0A9E211550440092D2CE /* PlaceOrderConfirmationViewController.xib in Resources */,
 				AC3756742038D64B00AADC60 /* MnemonicViewController.xib in Resources */,
 				ACB97C6E20707B6F00775D4C /* AddTokenTableViewCell.xib in Resources */,
+				9B2ED83321DA083600ACEE84 /* Inter-UI-BoldItalic.ttf in Resources */,
 				AC2ACA4D20FA0EC3009C77E7 /* Rubik-Bold.ttf in Resources */,
 				AC31CE1D205A2F0100A30335 /* SwitchTradeTokenViewController.xib in Resources */,
 				9BA3015D21C72DF000E55E49 /* ContactTableViewController.xib in Resources */,
 				ACC8D0AB20CCF6C30049A741 /* AssetTransactionTableViewCell.xib in Resources */,
+				9B2ED83821DA083600ACEE84 /* Inter-UI-Regular.ttf in Resources */,
 				AC5E3E71205DFB700051ACFC /* SendAssetViewController.xib in Resources */,
 				ACBA47E7207890910032C2B4 /* SettingManageWalletTableViewCell.xib in Resources */,
 				AC2ACA5120FA0EC3009C77E7 /* Rubik-Black.ttf in Resources */,
 				AC131A1521101AD0001998A0 /* MarketDetailTradeHistoryTableViewCell.xib in Resources */,
+				9B2ED83921DA083600ACEE84 /* Inter-UI-ExtraBoldItalic.ttf in Resources */,
 				ACBA47EF207932DA0032C2B4 /* ExportKeystoreEnterPasswordViewController.xib in Resources */,
 				943A9A4220909597008BCBFD /* DefaultWebViewController.xib in Resources */,
 				AC2ACA86210305F8009C77E7 /* TradeFAQViewController.xib in Resources */,
@@ -2727,6 +2779,7 @@
 				AC6466092083EE1E00EBEC97 /* MnemonicDerivationPathTableViewCell.xib in Resources */,
 				ACE65E422071F875001EE499 /* MnemonicCollectionViewController.xib in Resources */,
 				ACB8485A20BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.xib in Resources */,
+				9B2ED83721DA083600ACEE84 /* Inter-UI-ExtraBold.ttf in Resources */,
 				AC99CF472083DD6A000AE4BD /* MnemonicEnterDerivationPathViewController.xib in Resources */,
 				AC2C93D82105AE97004B8456 /* SetupWalletEnterRepeatPasswordViewController.xib in Resources */,
 				ACB9118D20266A9C00F14644 /* AssetDetailViewController.xib in Resources */,
@@ -2737,6 +2790,7 @@
 				94C11FD7208C2DC60050E180 /* SettingCurrencyViewController.xib in Resources */,
 				AC72AED9204C8AAD00E9D3B0 /* BackupMnemonicViewController.xib in Resources */,
 				9BA3016121C7346500E55E49 /* ContactTableViewCell.xib in Resources */,
+				9B2ED83621DA083600ACEE84 /* Inter-UI-BlackItalic.ttf in Resources */,
 				AC2ACAA221031AC2009C77E7 /* fee_0_zh-Hans.md in Resources */,
 				ACB729D1205DC27800DD4DF3 /* SwitchTradeTokenTableViewCell.xib in Resources */,
 				9BA3015121B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.xib in Resources */,
@@ -2755,6 +2809,7 @@
 				ACDA889C20F85F9C004FA10B /* InfoPlist.strings in Resources */,
 				AC68E10320C24BD900BFA837 /* ImportWalletEnterWalletNameViewController.xib in Resources */,
 				9B2ED7F221D4485500ACEE84 /* NewsViewController.xib in Resources */,
+				9B2ED83B21DA083600ACEE84 /* Inter-UI-SemiBoldItalic.ttf in Resources */,
 				94A8FEFD21CCB94700A25929 /* neo.json in Resources */,
 				ACA677D0207D1BEC00D34A2F /* SettingChangeWalletNameViewController.xib in Resources */,
 				AC88669F2174923800815DD1 /* SetLRCRatioFeeViewController.xib in Resources */,
@@ -2774,6 +2829,7 @@
 				AC3756792038D7E200AADC60 /* UnlockKeystoreViewController.xib in Resources */,
 				9BA3020F21CF77AE00E55E49 /* SettingAppVersionTableViewCell.xib in Resources */,
 				ACB91172202557B100F14644 /* MarketViewController.xib in Resources */,
+				9B2ED83421DA083600ACEE84 /* Inter-UI-Medium.ttf in Resources */,
 				948B418E21C34B0700594E1A /* AddContactViewController.xib in Resources */,
 				9401C4D321C0F89E00A01E0B /* data.json in Resources */,
 				ACA677C1207997F400D34A2F /* DisplayKeystoreViewController.xib in Resources */,
