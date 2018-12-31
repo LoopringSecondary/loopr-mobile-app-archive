@@ -144,6 +144,10 @@
 "Airdrop next claim date" = "下次可領取空投時間";
 "Airdrop last claim date" = "上次領取空投時間";
 
+/* News */
+"News_Up" = "利好";
+"News_Down" = "利空";
+
 /* DEX Trade page */
 "Loopring Order" = "路印訂單";
 "DEX Trade" = "去中心化交易所";

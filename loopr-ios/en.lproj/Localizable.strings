@@ -144,6 +144,10 @@
 "Airdrop next claim date" = "Next Claim Time";
 "Airdrop last claim date" = "Last Claim Time";
 
+/* News */
+"News_Up" = "Up";
+"News_Down" = "Down";
+
 /* DEX Trade page */
 "Loopring Order" = "Loopring Order";
 "DEX Trade" = "DEX Trade";

@@ -113,6 +113,34 @@
 "Decimals of Precision" = "정확도 소수점";
 "Adding..." = "등록하는중…";
 
+/* Add contact page */
+"Add Contact" = "Add Contact";
+"Contact Name" = "Name";
+"Contact Address" = "Address";
+"Contact Note" = "Note, e.g. salary (optional)";
+"Contact Input" = "Please input a valid name";
+"QRCode error tip" = "Please make sure the QR code is type of wallet address.";
+
+/* Airdrop page */
+"Airdrop" = "Airdrop";
+"Airdrop title" = "LRN claiming";
+"Airdrop address tip" = "Your LRN binding address";
+"Airdrop amount tip" = "Your LRN claiming amount for today";
+"Airdrop button" = "Claim Airdrop";
+"Airdrop success" = "Claim Airdrop Successfully";
+"Airdrop empty" = "You have no LRN bonus";
+"Airdrop failed" = "Claim Airdrop Failed, Please retry later";
+"Airdrop forward" = "Review on NEO Tracker";
+"Airdrop no bind" = "You have not bound LRN address";
+"Airdrop time invalid" = "You can only claim LRN once a day";
+"Airdrop browser" = "NEO Tracker";
+"Airdrop next claim date" = "Next Claim Time";
+"Airdrop last claim date" = "Last Claim Time";
+
+/* News */
+"News_Up" = "Up";
+"News_Down" = "Down";
+
 /* DEX Trade page */
 "DEX Trade" = "DEX 거래";
 "P2P Trade" = "P2P 거래";

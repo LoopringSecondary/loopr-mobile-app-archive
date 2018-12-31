@@ -83,6 +83,12 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionCell.getCellIdentifier(), for: indexPath) as? NewsCollectionCell else { return UICollectionViewCell() }
         let news = NewsDataManager.shared.informationItems[indexPath.row]
         cell.updateUIStyle(news: news)
+        cell.didClickedCollectionCellClosure = { (news) -> Void in
+            self.selectedCardIndex = indexPath
+            let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
+            detailViewController.news = NewsDataManager.shared.informationItems[indexPath.row]
+            self.present(detailViewController, animated: true, completion: nil)
+        }
         return cell
     }
     
@@ -91,7 +97,6 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.selectedCardIndex = indexPath
         /*
         let news = NewsDataManager.shared.informationItems[indexPath.row]
         if let url = URL(string: news.url) {
@@ -102,10 +107,6 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
             present(vc, animated: true)
         }
         */
-        
-        let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
-        detailViewController.news = NewsDataManager.shared.informationItems[indexPath.row]
-        present(detailViewController, animated: true, completion: nil)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

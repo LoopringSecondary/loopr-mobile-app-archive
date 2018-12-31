@@ -10,21 +10,27 @@ import Foundation
 import UIKit
 
 class NewsCollectionCell: UICollectionViewCell {
+    
+    var news: News!
 
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var sourceLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
 
-    @IBOutlet weak var upVoteButton: UIButton!
-    @IBOutlet weak var downVoteButton: UIButton!
+    @IBOutlet weak var buttonView: UIView!
+    @IBOutlet weak var upvoteButton: UIButton!
+    @IBOutlet weak var downvoteButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
+    
+    var didClickedCollectionCellClosure: ((News) -> Void)?
 
     open override func awakeFromNib() {
         super.awakeFromNib()
         
         theme_backgroundColor = ColorPicker.cardBackgroundColor
         contentView.theme_backgroundColor = ColorPicker.cardBackgroundColor
+        buttonView.backgroundColor = .clear
         
         contentView.layer.masksToBounds = false
         layer.masksToBounds = false
@@ -63,15 +69,17 @@ class NewsCollectionCell: UICollectionViewCell {
         let padding = descriptionTextView.textContainer.lineFragmentPadding
         descriptionTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
         
-        upVoteButton.setTitle(LocalizedString("Up 20", comment: ""), for: .normal)
-        upVoteButton.setTitleColor(UIColor.up, for: .normal)
-        upVoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
-        upVoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
+        upvoteButton.setTitle(LocalizedString("News_Up", comment: ""), for: .normal)
+        upvoteButton.setTitleColor(UIColor.up, for: .normal)
+        upvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
+        upvoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
+        upvoteButton.addTarget(self, action: #selector(pressedUpvoteButton), for: .touchUpInside)
         
-        downVoteButton.setTitle(LocalizedString("Down 20", comment: ""), for: .normal)
-        downVoteButton.setTitleColor(UIColor.down, for: .normal)
-        downVoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
-        downVoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
+        downvoteButton.setTitle(LocalizedString("News_Down", comment: ""), for: .normal)
+        downvoteButton.setTitleColor(UIColor.down, for: .normal)
+        downvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
+        downvoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
+        upvoteButton.addTarget(self, action: #selector(pressedDownvoteButton), for: .touchUpInside)
         
         shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
         shareButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
@@ -80,11 +88,32 @@ class NewsCollectionCell: UICollectionViewCell {
     }
     
     func updateUIStyle(news: News) {
+        self.news = news
+
         // parse data
         dateLabel.text = news.publishTime
         sourceLabel.text = news.source
         titleLabel.text = news.title
         descriptionTextView.text = news.description
+        
+        upvoteButton.setTitle("\(LocalizedString("News_Up", comment: "")) \(news.bullIndex)", for: .normal)
+        downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex)", for: .normal)
+    }
+    
+    @IBAction func clickedCollectionCell(_ sender: Any) {
+        didClickedCollectionCellClosure?(news)
+    }
+    
+    @objc func pressedUpvoteButton(_ sender: Any) {
+        CrawlerAPIRequest.confirmBull(uuid: news.uuid) { (_, _) in
+            
+        }
+    }
+    
+    @objc func pressedDownvoteButton(_ sender: Any) {
+        CrawlerAPIRequest.confirmBear(uuid: news.uuid) { (_, _) in
+            
+        }
     }
     
     class func getSize() -> CGSize {
