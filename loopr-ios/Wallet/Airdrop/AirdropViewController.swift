@@ -37,7 +37,6 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         setBackButton()
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         view.theme_backgroundColor = ColorPicker.backgroundColor
