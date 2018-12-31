@@ -154,6 +154,7 @@
 		9B2ED83C21DA083600ACEE84 /* Inter-UI-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83021DA083600ACEE84 /* Inter-UI-Italic.ttf */; };
 		9B2ED83D21DA083600ACEE84 /* Inter-UI-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83121DA083600ACEE84 /* Inter-UI-MediumItalic.ttf */; };
 		9B2ED83E21DA083600ACEE84 /* Inter-UI-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83221DA083600ACEE84 /* Inter-UI-Black.ttf */; };
+		9B4705D721DABC94001B74A1 /* ModalPushPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4705D621DABC94001B74A1 /* ModalPushPopAnimator.swift */; };
 		9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */; };
 		9BA3014821B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */; };
 		9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */; };
@@ -719,6 +720,7 @@
 		9B2ED83021DA083600ACEE84 /* Inter-UI-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Italic.ttf"; sourceTree = "<group>"; };
 		9B2ED83121DA083600ACEE84 /* Inter-UI-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-MediumItalic.ttf"; sourceTree = "<group>"; };
 		9B2ED83221DA083600ACEE84 /* Inter-UI-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Black.ttf"; sourceTree = "<group>"; };
+		9B4705D621DABC94001B74A1 /* ModalPushPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPushPopAnimator.swift; sourceTree = "<group>"; };
 		9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerDepth.swift; sourceTree = "<group>"; };
 		9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerTradeHistory.swift; sourceTree = "<group>"; };
 		9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerSwipe.swift; sourceTree = "<group>"; };
@@ -1307,6 +1309,7 @@
 			children = (
 				9B2ED7FF21D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift */,
 				9B2ED80121D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift */,
+				9B4705D621DABC94001B74A1 /* ModalPushPopAnimator.swift */,
 				9B2ED81C21D8B0CF00ACEE84 /* NewsDetailUIStyleConfig.swift */,
 				9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */,
 				9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */,
@@ -3351,6 +3354,7 @@
 				942E2CAB2148B2E100041733 /* TikcerSource.swift in Sources */,
 				940076B220554A4100DDA37D /* LoopringSocketIORequest.swift in Sources */,
 				9B2ED81D21D8B0CF00ACEE84 /* NewsDetailUIStyleConfig.swift in Sources */,
+				9B4705D721DABC94001B74A1 /* ModalPushPopAnimator.swift in Sources */,
 				AC0CD57920D21BF100ABB7BA /* TabBarItemBasicContentView.swift in Sources */,
 				C8BF959D202696A900343B9A /* MainTabController.swift in Sources */,
 				ACB911522024254F00F14644 /* WalletNavigationViewController.swift in Sources */,
