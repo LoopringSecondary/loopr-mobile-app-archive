@@ -26,6 +26,9 @@ extension SettingWalletDetailViewController {
             cell = nib![0] as? SettingStyleTableViewCell
         }
         
+        let isLastCell = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+        cell?.updateUIStyle(indexPath: indexPath, isLastCell: isLastCell)
+        
         if indexPath.section == 0 {
             if appWallet.setupWalletMethod == .create || appWallet.setupWalletMethod == .importUsingMnemonic {
                 if indexPath.row == 0 {
@@ -59,12 +62,6 @@ extension SettingWalletDetailViewController {
                     cell?.leftLabel.text = LocalizedString("View Address on Etherscan", comment: "")
                 }
             }
-            
-            if indexPath.row == getNumberOfRowsInWalletSection()-1 {
-                cell?.trailingSeperateLineDown.constant = 0
-            } else {
-                cell?.trailingSeperateLineDown.constant = 15
-            }
 
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
@@ -75,12 +72,6 @@ extension SettingWalletDetailViewController {
                 // cell?.disclosureIndicator.isHidden = true
                 cell?.trailingSeperateLineDown.constant = 0
             }
-        }
-        
-        if indexPath.row == 0 {
-            cell?.seperateLineUp.isHidden = false
-        } else {
-            cell?.seperateLineUp.isHidden = true
         }
 
         return cell!
