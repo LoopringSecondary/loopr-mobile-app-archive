@@ -56,5 +56,9 @@ class News {
         ]
         let attributed = try! NSAttributedString(data: self.description.data(using: .unicode)!, options: options, documentAttributes: nil)
         self.description = attributed.string
+        
+        // TODO: how to change the line distance in html and css?
+        self.content = self.content.replacingOccurrences(of: "\n\n", with: "\n")
+        self.content = self.content.replacingOccurrences(of: "\n", with: "\n\n")
     }
 }

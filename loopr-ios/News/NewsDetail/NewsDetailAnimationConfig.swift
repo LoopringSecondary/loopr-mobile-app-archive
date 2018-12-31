@@ -8,10 +8,18 @@
 
 import Foundation
 
-class NewsDetailAnimationConfig {
+class NewsDetailUIStyleConfig {
     
-    public static var shared = NewsDetailAnimationConfig()
+    public static var shared = NewsDetailUIStyleConfig()
     
     public var presentAnimationDuration: Double = 0.3
-    public var dismissAnimationDuration: Double = 0.15
+    public var dismissAnimationDuration: Double = 0.3
+    public var webAlphaAnimationDuration: Double = 0.5
+    
+    // css variables
+    public var fontFammily: String = "PingFangSC-Regular"
+    public var backgroundColor: String = "#16162A"
+    public var textColor: String = "#ffffffcc"
+    public var fontSize: Int = 6
+    
 }
