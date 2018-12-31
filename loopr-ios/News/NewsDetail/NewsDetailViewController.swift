@@ -22,6 +22,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
     fileprivate let userCardPresentAnimationController = NewsDetailPresentAnimationController()
     fileprivate let userCardDismissAnimationController = NewsDetailDismissAnimationController()
     
+    /*
+    let animator = ModalPushPopAnimator()
     var edgeView: UIView? {
         get {
             if (_edgeView == nil && isViewLoaded) {
@@ -40,7 +42,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
         }
     }
     private var _edgeView: UIView?
-    
+    */
+
     override open func viewDidLoad() {
         super.viewDidLoad()
 
@@ -59,6 +62,12 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
         
         setupCard()
         setupNavigationBar()
+        
+        /*
+        let recognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.handleGesture))
+        recognizer.edges = UIRectEdge.left
+        edgeView?.addGestureRecognizer(recognizer)
+        */
     }
     
     fileprivate func setupCard() {
@@ -124,6 +133,21 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
             UIApplication.shared.open(url)
         }
     }
+    
+    /*
+    @objc func handleGesture(recognizer: UIScreenEdgePanGestureRecognizer) {
+        self.animator.percentageDriven = true
+        let percentComplete = recognizer.location(in: view).x / view.bounds.size.width / 2.0
+        switch recognizer.state {
+        case .began: dismiss(animated: true, completion: nil)
+        case .changed: animator.update(percentComplete > 0.99 ? 0.99 : percentComplete)
+        case .ended, .cancelled:
+            (recognizer.velocity(in: view).x < 0) ? animator.cancel() : animator.finish()
+            self.animator.percentageDriven = false
+        default: ()
+        }
+    }
+    */
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         let cssString = "body { white-space: pre-wrap; color: \(NewsDetailUIStyleConfig.shared.textColor); background-color: \(NewsDetailUIStyleConfig.shared.backgroundColor); font-family: \"\(NewsDetailUIStyleConfig.shared.fontFammily)\"; font-size: 100%; padding-left: 40px; padding-right: 40px; } img { width: 100%; padding-top: 0px; padding-bottom: 0px; }"
@@ -144,10 +168,23 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
 extension NewsDetailViewController: UIViewControllerTransitioningDelegate {
     
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        // animator.dismissing = false
         return userCardPresentAnimationController
     }
     
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        // animator.dismissing = true
+        // return animator
         return userCardDismissAnimationController
+        
     }
+    
+    // TODO: interaction gesture doesn't work in iOS 12. Have to disable it
+    // https://stackoverflow.com/questions/26680311/interactive-delegate-methods-never-called
+    // Fix it later
+    /*
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return self.animator.percentageDriven ? self.animator : nil
+    }
+    */
 }

@@ -19,7 +19,7 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
     fileprivate var headerIsSmall: Bool = false
 
     @IBOutlet weak var fakeTradeButton: UIButton!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -114,7 +114,10 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.selectedCardIndex = indexPath
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
             detailViewController.news = news
-            self.present(detailViewController, animated: true, completion: nil)
+            
+            self.present(detailViewController, animated: true, completion: {
+                
+            })
         }
         return cell
     }
@@ -140,10 +143,10 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         let startOffset = (garlandCollection.contentOffset.y + GarlandConfig.shared.cardsSpacing + GarlandConfig.shared.headerSize.height) / GarlandConfig.shared.headerSize.height
         let maxHeight: CGFloat = 1.0
         let minHeight: CGFloat = 0.9
-        let minAlpha: CGFloat = 0.0
+        let _: CGFloat = 0.0
         
         let divided = startOffset / 3
-        let offsetCounter = startOffset / 1.5
+        _ = startOffset / 1.5
         let height = max(minHeight, min(maxHeight, 1.0 - divided))
         // let alpha = max(minAlpha, min(maxHeight, 1.0 - offsetCounter * 2))
         // let collapsedViewSize = max(0, min(maxHeight, 1.0 - offsetCounter))
