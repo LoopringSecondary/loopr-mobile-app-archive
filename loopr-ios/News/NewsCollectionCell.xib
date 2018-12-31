@@ -57,14 +57,14 @@
                         <rect key="frame" x="0.0" y="132" width="320" height="34"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Bu-T0-uhP">
-                                <rect key="frame" x="152" y="0.0" width="50" height="34"/>
+                                <rect key="frame" x="162" y="0.0" width="50" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="s30-zw-0HV"/>
                                 </constraints>
                                 <state key="normal" title="利好"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHZ-gX-Xf6">
-                                <rect key="frame" x="210" y="0.0" width="50" height="34"/>
+                                <rect key="frame" x="220" y="0.0" width="50" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="ePh-7u-vme"/>
                                 </constraints>
@@ -81,7 +81,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="wHZ-gX-Xf6" firstAttribute="height" secondItem="Xp6-GB-jZo" secondAttribute="height" id="0YG-4J-EEU"/>
-                            <constraint firstItem="gzD-X7-KCV" firstAttribute="leading" secondItem="wHZ-gX-Xf6" secondAttribute="trailing" constant="10" id="DBW-3C-G6h"/>
+                            <constraint firstItem="gzD-X7-KCV" firstAttribute="leading" secondItem="wHZ-gX-Xf6" secondAttribute="trailing" id="DBW-3C-G6h"/>
                             <constraint firstItem="wHZ-gX-Xf6" firstAttribute="leading" secondItem="2Bu-T0-uhP" secondAttribute="trailing" constant="8" id="Fgi-la-j3q"/>
                             <constraint firstItem="2Bu-T0-uhP" firstAttribute="centerY" secondItem="Xp6-GB-jZo" secondAttribute="centerY" id="Qrk-E6-upx"/>
                             <constraint firstItem="wHZ-gX-Xf6" firstAttribute="centerY" secondItem="Xp6-GB-jZo" secondAttribute="centerY" id="cd1-ZQ-l4n"/>

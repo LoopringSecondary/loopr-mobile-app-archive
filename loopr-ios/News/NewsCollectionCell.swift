@@ -84,7 +84,8 @@ class NewsCollectionCell: UICollectionViewCell {
         upvoteButton.addTarget(self, action: #selector(pressedDownvoteButton), for: .touchUpInside)
         
         shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
-        shareButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+        // shareButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+        shareButton.setTitleColor(UIColor.theme, for: .normal)
         shareButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         shareButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
     }
