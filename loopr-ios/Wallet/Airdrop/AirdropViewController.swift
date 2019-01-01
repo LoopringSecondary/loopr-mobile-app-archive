@@ -102,7 +102,6 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
 
     func setupContent() {
         SVProgressHUD.show(LocalizedString("Loading Data", comment: ""), maxTime: 10)
-        SVProgressHUD.setMaximumDismissTimeInterval(10)
         SendCurrentAppWalletDataManager.shared._getBindAddress { (result, _) in
             DispatchQueue.main.async {
                 if let result = result {
@@ -208,8 +207,10 @@ class AirdropViewController: UIViewController, UIScrollViewDelegate {
 
     @IBAction func pressedClaimButton(_ sender: Any) {
         guard validate() else { return }
+        SVProgressHUD.show(LocalizedString("Processing claiming Airdrop...", comment: ""), maxTime: 10)
         NeoAPIRequest.neo_claimAmount(bindAddress: bindAddress!) { (response, _) in
             DispatchQueue.main.async {
+                SVProgressHUD.dismiss()
                 if let result = response {
                     self.claimButton.isHidden = true
                     self.forwardButton.isHidden = false

@@ -136,6 +136,7 @@
 "Airdrop browser" = "NEO Tracker";
 "Airdrop next claim date" = "Next Claim Time";
 "Airdrop last claim date" = "Last Claim Time";
+"Processing claiming Airdrop..." = "Processing...";
 
 /* News */
 "News_Up" = "Up";

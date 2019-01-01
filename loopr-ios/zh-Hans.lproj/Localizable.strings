@@ -143,6 +143,7 @@
 "Airdrop browser" = "NEO瀏覽器";
 "Airdrop next claim date" = "下次可领取空投时间";
 "Airdrop last claim date" = "上次领取空投时间";
+"Processing claiming Airdrop..." = "正在处理领取空投...";
 
 /* News */
 "News_Up" = "利好";
