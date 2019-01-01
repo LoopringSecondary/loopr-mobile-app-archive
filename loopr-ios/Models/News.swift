@@ -28,15 +28,25 @@ class News {
     var paragraphs: [String] = []
     var description: String
     
-    init(json: JSON) {
+    init(json: JSON, category: NewsCategory) {
         self.uuid = json["uuid"].stringValue
         self.token = json["token"].stringValue
         self.language = Language(name: json["language"].stringValue)
-        self.category = NewsCategory(rawValue: json["category"].stringValue) ?? .unknown
+        
+        // TODO: category is not returned in json
+        // self.category = NewsCategory(rawValue: json["category"].stringValue) ?? .unknown
+        // print(category)
+        self.category = category
+
         self.title = json["title"].stringValue
         self.content = json["content"].stringValue
         self.url = json["url"].stringValue
+        
+        // TODO: publishTime is not UTC
         self.publishTime = json["publishTime"].stringValue
+        self.publishTime = self.publishTime.replacingOccurrences(of: "2018-", with: "")
+        self.publishTime = self.publishTime.replacingOccurrences(of: "2019-", with: "")
+        
         self.source = json["source"].stringValue
         self.author = json["author"].stringValue
         self.imageUrl = json["imageUrl"].stringValue

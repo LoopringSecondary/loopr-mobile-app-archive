@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 
-
 struct CustomTransitionAnimator {
     
     public static func alphaPresent(using transitionContext: UIViewControllerContextTransitioning, duration: TimeInterval) {

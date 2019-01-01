@@ -29,7 +29,7 @@ class CrawlerAPIRequest {
             if offerData != JSON.null {
                 var newsArray: [News] = []
                 for subJson in offerData["data"].arrayValue {
-                    let news = News(json: subJson)
+                    let news = News(json: subJson, category: category)
                     newsArray.append(news)
                 }
                 completion(newsArray, nil)

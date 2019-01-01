@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Social
 
 class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLayout {
 
@@ -90,7 +91,13 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         // revoke GarlandConfig.shared.cardsSize
-        return NewsCollectionCell.getSize()
+        let news: News
+        if self.newsCategory == .information {
+            news = NewsDataManager.shared.informationItems[indexPath.row]
+        } else {
+            news = NewsDataManager.shared.flashItems[indexPath.row]
+        }
+        return NewsCollectionCell.getSize(news: news)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -119,6 +126,17 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                 
             })
         }
+        
+        cell.didPressedShareButtonClosure = { (news) -> Void in
+            if let url = URL(string: news.url) {
+                let text = url.absoluteString
+                let shareAll = [text] as [Any]
+                let activityVC = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
+                activityVC.popoverPresentationController?.sourceView = self.view
+                self.present(activityVC, animated: true, completion: nil)
+            }
+        }
+
         return cell
     }
     

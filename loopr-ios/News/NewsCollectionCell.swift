@@ -17,6 +17,7 @@ class NewsCollectionCell: UICollectionViewCell {
     @IBOutlet weak var sourceLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
+    static let descriptionTextViewLineSpacing: CGFloat = 3
 
     @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var upvoteButton: UIButton!
@@ -24,6 +25,7 @@ class NewsCollectionCell: UICollectionViewCell {
     @IBOutlet weak var shareButton: UIButton!
     
     var didClickedCollectionCellClosure: ((News) -> Void)?
+    var didPressedShareButtonClosure: ((News) -> Void)?
 
     open override func awakeFromNib() {
         super.awakeFromNib()
@@ -55,11 +57,9 @@ class NewsCollectionCell: UICollectionViewCell {
         sourceLabel.theme_textColor = GlobalPicker.textLightColor
         sourceLabel.textAlignment = .right
         
-        titleLabel.font = FontConfigManager.shared.getMediumFont(size: 14)
+        titleLabel.font = FontConfigManager.shared.getMediumFont(size: 16)
         titleLabel.theme_textColor = GlobalPicker.textColor
-        
-        descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 12)
-        descriptionTextView.theme_textColor = GlobalPicker.textLightColor
+
         descriptionTextView.backgroundColor = .clear
         descriptionTextView.isUserInteractionEnabled = false
         descriptionTextView.isScrollEnabled = false
@@ -88,6 +88,7 @@ class NewsCollectionCell: UICollectionViewCell {
         shareButton.setTitleColor(UIColor.theme, for: .normal)
         shareButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         shareButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
+        shareButton.addTarget(self, action: #selector(pressedshareButton), for: .touchUpInside)
     }
     
     func updateUIStyle(news: News) {
@@ -97,9 +98,16 @@ class NewsCollectionCell: UICollectionViewCell {
         dateLabel.text = news.publishTime
         sourceLabel.text = news.source
         titleLabel.text = news.title
-        descriptionTextView.text = news.description
+
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = NewsCollectionCell.descriptionTextViewLineSpacing
+        let attributes = [NSAttributedStringKey.paragraphStyle: style]
+        descriptionTextView.attributedText = NSAttributedString(string: news.description, attributes: attributes)
+        descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
         
-        udpateVoteButtons()
+        descriptionTextView.theme_textColor = GlobalPicker.textLightColor
+
+        updateVoteButtons()
     }
     
     @IBAction func clickedCollectionCell(_ sender: Any) {
@@ -112,7 +120,7 @@ class NewsCollectionCell: UICollectionViewCell {
         CrawlerAPIRequest.confirmBull(uuid: news.uuid) { (_, _) in
             
         }
-        udpateVoteButtons()
+        updateVoteButtons()
     }
     
     @objc func pressedDownvoteButton(_ sender: Any) {
@@ -121,10 +129,14 @@ class NewsCollectionCell: UICollectionViewCell {
         CrawlerAPIRequest.confirmBear(uuid: news.uuid) { (_, _) in
             
         }
-        udpateVoteButtons()
+        updateVoteButtons()
     }
     
-    func udpateVoteButtons() {
+    @objc func pressedshareButton(_ sender: Any) {
+        didPressedShareButtonClosure?(news)
+    }
+    
+    func updateVoteButtons() {
         let localVote = NewsDataManager.shared.getVote(uuid: news.uuid)
         var localUpvoteValue: Int = 0
         var localDownvoteValue: Int = 0
@@ -137,8 +149,24 @@ class NewsCollectionCell: UICollectionViewCell {
         downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex+localDownvoteValue)", for: .normal)
     }
     
-    class func getSize() -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 166)
+    class func getSize(news: News) -> CGSize {
+        if news.category == .information {
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 190)
+        } else {
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 190)
+            // GarlandView doesn't support different height of collection view cell between view controllers.
+            /*
+            let width: CGFloat = UIScreen.main.bounds.width - 15*2
+            let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.7
+            let descriptionTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width, height: maxHeight))
+            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 12)
+            descriptionTextView.text = news.description
+            let numLines = (descriptionTextView.contentSize.height / descriptionTextView.font!.lineHeight) as CGFloat
+            let height = CGFloat(ceil(numLines)) * descriptionTextView.font!.lineHeight + CGFloat(ceil(numLines) - 1) * descriptionTextViewLineSpacing
+            let otherHeight: CGFloat = 109
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: height + otherHeight)
+            */
+        }
     }
     
     class func getCellIdentifier() -> String {

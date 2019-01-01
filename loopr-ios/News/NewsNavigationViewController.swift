@@ -24,7 +24,7 @@ class NewsNavigationViewController: UIViewController {
         GarlandConfig.shared.headerVerticalOffset = topPadding + 10
         GarlandConfig.shared.headerSize = CGSize(width: UIScreen.main.bounds.width - 15*2, height: 134)
         GarlandConfig.shared.fakeHeaderSize = CGSize(width: 8*2, height: 100)
-        GarlandConfig.shared.cardsSize = CGSize(width: UIScreen.main.bounds.width - 15*2, height: 120.0)
+        GarlandConfig.shared.cardsSize = CGSize(width: UIScreen.main.bounds.width - 15*2, height: 190)
         GarlandConfig.shared.backgroundHeaderColor = .clear
         GarlandConfig.shared.fakeHeaderColor = UIColor.theme.lighter(by: 10) ?? UIColor.theme
 

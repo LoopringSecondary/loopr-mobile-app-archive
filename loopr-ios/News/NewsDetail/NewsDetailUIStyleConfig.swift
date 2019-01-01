@@ -20,6 +20,6 @@ class NewsDetailUIStyleConfig {
     public var fontFammily: String = "PingFangSC-Regular"
     public var backgroundColor: String = "#16162A"
     public var textColor: String = "#ffffffcc"
-    public var fontSize: Int = 6
+    public var fontSize: String = "6"
     
 }
