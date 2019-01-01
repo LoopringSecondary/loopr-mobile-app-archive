@@ -8,6 +8,7 @@
 
 import UIKit
 import Social
+import SVProgressHUD
 
 class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLayout {
 
@@ -20,6 +21,8 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
     fileprivate var headerIsSmall: Bool = false
 
     @IBOutlet weak var fakeTradeButton: UIButton!
+
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +33,10 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
         garlandCollection.register(nib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())
         garlandCollection.delegate = self
         garlandCollection.dataSource = self
+
+        refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .newsViewController))
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        garlandCollection.refreshControl = refreshControl
         
         nextViewController = { _ in
             let vc = NewsViewController()
@@ -52,10 +59,30 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
         if !FeatureConfigDataManager.shared.getShowTradingFeature() {
             fakeTradeButton.isHidden = true
         }
-        
+
+        if self.newsCategory == .information {
+            if NewsDataManager.shared.informationItems.count == 0 {
+                SVProgressHUD.show(withStatus: LocalizedString("Loading Data", comment: ""))
+                getNewsFromAPIServer()
+            }
+        } else {
+            if NewsDataManager.shared.flashItems.count == 0 {
+                SVProgressHUD.show(withStatus: LocalizedString("Loading Data", comment: ""))
+                getNewsFromAPIServer()
+            }
+        }
+    }
+    
+    @objc private func refreshData(_ sender: Any) {
+        getNewsFromAPIServer()
+    }
+    
+    func getNewsFromAPIServer() {
         NewsDataManager.shared.get(category: newsCategory, completion: { (_, _) in
             DispatchQueue.main.async {
                 self.garlandCollection.reloadData()
+                SVProgressHUD.dismiss()
+                self.refreshControl.endRefreshing(refreshControlType: .newsViewController)
             }
         })
     }

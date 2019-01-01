@@ -63,7 +63,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
         view.theme_backgroundColor = ColorPicker.backgroundColor
         marketTableView.theme_backgroundColor = ColorPicker.backgroundColor
         
-        refreshControl.theme_tintColor = GlobalPicker.textColor
+        refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .marketViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         marketTableView.refreshControl = refreshControl
     }
@@ -100,7 +100,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
             MarketDataManager.shared.setMarkets(newMarkets: markets)
             DispatchQueue.main.async {
                 self.marketTableView.reloadData()
-                self.refreshControl.endRefreshing()
+                self.refreshControl.endRefreshing(refreshControlType: .marketViewController)
             }
         }
     }

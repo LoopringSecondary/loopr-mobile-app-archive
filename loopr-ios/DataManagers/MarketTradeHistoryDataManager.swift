@@ -24,7 +24,6 @@ class MarketTradeHistoryDataManager {
     
     func getTradeHistoryFromServer(market: String, completionHandler: @escaping (_ orderFills: [OrderFill], _ error: Error?) -> Void) {
         LoopringAPIRequest.getLatestFills(market: market, side: "buy", completionHandler: { (orderFills, error) in
-            print(orderFills?.count)
             guard orderFills != nil && error == nil else { return }
             self.market = market
             self.orderFills = orderFills!

@@ -376,6 +376,9 @@
 "Contacts" = "Contacts";
 "Manage Contacts" = "Manage Contacts";
 "Edit" = "Edit";
+"Updated" = "Updated";
+"AM" = "AM";
+"PM" = "PM";
 
 /* No data */
 "No search result" = "검색 결과가 없습니다";

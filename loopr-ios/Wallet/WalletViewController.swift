@@ -73,7 +73,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         // Add Refresh Control to Table View
         assetTableView.refreshControl = refreshControl
-        refreshControl.theme_tintColor = GlobalPicker.textColor
+        refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .walletViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         
         // Creating view for extending background color
@@ -99,7 +99,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @objc private func refreshData(_ sender: Any) {
-        // Fetch Data
         getDataFromRelay()
     }
 

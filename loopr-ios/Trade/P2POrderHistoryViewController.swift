@@ -43,7 +43,7 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
 
         // Add Refresh Control to Table View
         historyTableView.refreshControl = refreshControl
-        refreshControl.theme_tintColor = GlobalPicker.textColor
+        refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .p2POrderHistoryViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
 
         P2POrderHistoryDataManager.shared.shouldReloadData = false
@@ -79,7 +79,7 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
                 }
                 self.previousOrderCount = self.orders.count
                 self.historyTableView.reloadData()
-                self.refreshControl.endRefreshing()
+                self.refreshControl.endRefreshing(refreshControlType: .p2POrderHistoryViewController)
             }
         })
     }

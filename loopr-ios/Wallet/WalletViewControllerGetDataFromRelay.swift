@@ -66,7 +66,7 @@ extension WalletViewController {
                 let banner = NotificationBanner.generate(title: "Sorry. Network error", style: .info)
                 banner.duration = 2.0
                 banner.show()
-                self.refreshControl.endRefreshing()
+                self.refreshControl.endRefreshing(refreshControlType: .walletViewController)
                 return
             }
             dispatchGroup.leave()
@@ -144,7 +144,7 @@ extension WalletViewController {
                 self.processPasteboard()
             }
             self.assetTableView.reloadData()
-            self.refreshControl.endRefreshing()
+            self.refreshControl.endRefreshing(refreshControlType: .walletViewController)
         }
     }
     

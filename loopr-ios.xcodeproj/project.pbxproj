@@ -121,6 +121,8 @@
 		94E665EA207234C5001328BF /* OrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E665E8207234C5001328BF /* OrderTableViewCell.xib */; };
 		94EE76A42113F21B009D6A90 /* OrderHistorySwipeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EE76A32113F21B009D6A90 /* OrderHistorySwipeType.swift */; };
 		9AACD1A68297585D93FB6182 /* Pods_loopr_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFC6AA9DC8C999B66FFD8AA /* Pods_loopr_iosTests.framework */; };
+		9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */; };
+		9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */; };
 		9B2ED7E821D37FD300ACEE84 /* GarlandConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7E421D37FD300ACEE84 /* GarlandConfig.swift */; };
 		9B2ED7E921D37FD300ACEE84 /* GarlandPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7E521D37FD300ACEE84 /* GarlandPresentAnimationController.swift */; };
 		9B2ED7EA21D37FD300ACEE84 /* GarlandCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7E621D37FD300ACEE84 /* GarlandCollection.swift */; };
@@ -177,6 +179,7 @@
 		9BA3020F21CF77AE00E55E49 /* SettingAppVersionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3020D21CF77AE00E55E49 /* SettingAppVersionTableViewCell.xib */; };
 		9BA3021421D0260300E55E49 /* AppReleaseNotePopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3021221D0260300E55E49 /* AppReleaseNotePopViewController.swift */; };
 		9BA3021521D0260300E55E49 /* AppReleaseNotePopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */; };
+		9BBB4E4B21DB4BD300683673 /* RefreshControlDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */; };
 		9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */; };
 		9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */; };
 		AC061939208401EB0060F416 /* MnemonicAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC061937208401EB0060F416 /* MnemonicAddressTableViewCell.swift */; };
@@ -687,6 +690,8 @@
 		94E665E7207234C5001328BF /* OrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTableViewCell.swift; sourceTree = "<group>"; };
 		94E665E8207234C5001328BF /* OrderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderTableViewCell.xib; sourceTree = "<group>"; };
 		94EE76A32113F21B009D6A90 /* OrderHistorySwipeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistorySwipeType.swift; sourceTree = "<group>"; };
+		9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
+		9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlType.swift; sourceTree = "<group>"; };
 		9B2ED7E421D37FD300ACEE84 /* GarlandConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandConfig.swift; sourceTree = "<group>"; };
 		9B2ED7E521D37FD300ACEE84 /* GarlandPresentAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandPresentAnimationController.swift; sourceTree = "<group>"; };
 		9B2ED7E621D37FD300ACEE84 /* GarlandCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandCollection.swift; sourceTree = "<group>"; };
@@ -743,6 +748,7 @@
 		9BA3020D21CF77AE00E55E49 /* SettingAppVersionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingAppVersionTableViewCell.xib; sourceTree = "<group>"; };
 		9BA3021221D0260300E55E49 /* AppReleaseNotePopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReleaseNotePopViewController.swift; sourceTree = "<group>"; };
 		9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppReleaseNotePopViewController.xib; sourceTree = "<group>"; };
+		9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlDataManager.swift; sourceTree = "<group>"; };
 		9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailSummaryTableViewCell.xib; sourceTree = "<group>"; };
 		AC061937208401EB0060F416 /* MnemonicAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicAddressTableViewCell.swift; sourceTree = "<group>"; };
@@ -2180,6 +2186,7 @@
 				AC3B48852104383E008A6771 /* UISearchBarExtension.swift */,
 				9475502221255A58003CFEBF /* UISwitchExtension.swift */,
 				9461850D21D0BE7E00393432 /* SVProgressHUDExtension.swift */,
+				9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2291,6 +2298,7 @@
 				9461851321D0FA4900393432 /* IndexResult.swift */,
 				9461851521D0FAFD00393432 /* News.swift */,
 				9461851721D0FD8700393432 /* NewsCategory.swift */,
+				9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2320,6 +2328,7 @@
 				948125662119B38E00453225 /* PartnerDataManager.swift */,
 				9BA3016221C73D0400E55E49 /* ContactDataManager.swift */,
 				9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */,
+				9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */,
 			);
 			path = DataManagers;
 			sourceTree = "<group>";
@@ -3129,6 +3138,7 @@
 				AC4F601520773E9D00F1D954 /* EthFunction.swift in Sources */,
 				AC131A10210ED2BB001998A0 /* MarketDetailDepthTableViewCell.swift in Sources */,
 				948BAD8420C4EBFA001F279F /* RawTransaction.swift in Sources */,
+				9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */,
 				94A39E1320C8E4FE00BC1B72 /* SignStatus.swift in Sources */,
 				ACCCFDCE203BEF2200B98F99 /* UITextFieldExtension.swift in Sources */,
 				AC131A1421101AD0001998A0 /* MarketDetailTradeHistoryTableViewCell.swift in Sources */,
@@ -3301,6 +3311,7 @@
 				ACE65E4520720500001EE499 /* MnemonicCollectionViewCell.swift in Sources */,
 				ACB9117820256B0300F14644 /* Market.swift in Sources */,
 				941138C7210F12AD007FDC82 /* TimeToLiveViewController.swift in Sources */,
+				9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */,
 				94DAACB320BBF24B0097707E /* OrderQRCodeViewController.swift in Sources */,
 				AC2ACA83210305F8009C77E7 /* TradeFAQViewController.swift in Sources */,
 				AC5E3E70205DFB700051ACFC /* SendAssetViewController.swift in Sources */,
@@ -3359,6 +3370,7 @@
 				C8BF959D202696A900343B9A /* MainTabController.swift in Sources */,
 				ACB911522024254F00F14644 /* WalletNavigationViewController.swift in Sources */,
 				9BA3015C21C72DF000E55E49 /* ContactTableViewController.swift in Sources */,
+				9BBB4E4B21DB4BD300683673 /* RefreshControlDataManager.swift in Sources */,
 				9BA3020E21CF77AE00E55E49 /* SettingAppVersionTableViewCell.swift in Sources */,
 				AC2ACA5C21005C18009C77E7 /* UIButton+AlignedIcon.swift in Sources */,
 				AC147BEA208D0613008D5104 /* UIDeviceExtension.swift in Sources */,

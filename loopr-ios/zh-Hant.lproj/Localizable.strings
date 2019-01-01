@@ -410,6 +410,9 @@
 "Contacts" = "地址簿";
 "Manage Contacts" = "管理地址簿";
 "Edit" = "編輯";
+"Updated" = "上次更新";
+"AM" = "上午";
+"PM" = "下午";
 
 /* No data */
 "No search result" = "無搜尋結果";

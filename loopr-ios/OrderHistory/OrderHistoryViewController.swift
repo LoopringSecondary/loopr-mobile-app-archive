@@ -56,7 +56,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 10))
         historyTableView.tableHeaderView = headerView
         historyTableView.refreshControl = refreshControl
-        refreshControl.theme_tintColor = GlobalPicker.textColor
+        refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .orderHistoryViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         
         getOrderHistoryFromRelay()
@@ -138,7 +138,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
                 }
                 self.previousOrderCount = self.orders.count
                 self.historyTableView.reloadData()
-                self.refreshControl.endRefreshing()
+                self.refreshControl.endRefreshing(refreshControlType: .orderHistoryViewController)
             }
         })
     }
