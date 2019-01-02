@@ -104,13 +104,24 @@ class NewsCollectionCell: UICollectionViewCell {
         style.lineSpacing = NewsCollectionCell.descriptionTextViewLineSpacing
         let attributes = [NSAttributedStringKey.paragraphStyle: style]
         descriptionTextView.attributedText = NSAttributedString(string: news.description, attributes: attributes)
-        descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
         
+        // TODO: We have two ways to show an expanded cell
+        /*
+        descriptionTextView.theme_textColor = GlobalPicker.textLightColor
+        if isExpanded {
+            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+        } else {
+            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 10)
+        }
+        */
+        
+        descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
         if isExpanded {
             descriptionTextView.theme_textColor = GlobalPicker.textColor
         } else {
             descriptionTextView.theme_textColor = GlobalPicker.textLightColor
         }
+
         updateVoteButtons()
     }
     
