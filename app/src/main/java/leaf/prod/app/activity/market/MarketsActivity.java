@@ -54,7 +54,7 @@ public class MarketsActivity extends BaseActivity {
     public ConstraintLayout clLoading;
 
     @BindView(R.id.left_btn1)
-    public ImageView left_btn1;
+    public ImageView leftBtn1;
 
     private List<Ticker> list;
 
@@ -144,6 +144,7 @@ public class MarketsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         presenter.refreshTickers();
+        presenter.updateAdapter(false, list);
     }
 
     @OnClick({R.id.left_btn1, R.id.cancel_text})

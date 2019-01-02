@@ -30,7 +30,6 @@ import leaf.prod.app.fragment.wallet.MainFragment;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.UpgradeUtil;
 import leaf.prod.walletsdk.util.SPUtils;
-import leaf.prod.walletsdk.util.WalletUtil;
 
 /**
  * Created by niedengqiang on 2018/8/13.
@@ -113,9 +112,9 @@ public class MainActivity extends BaseActivity {
             ChangeMainFragment(3);
             SPUtils.put(this, "isRecreate", false);
         }
-        if (WalletUtil.getCurrentWallet(this).getAmount() >= 30) {
-            rlTrade.setVisibility(View.VISIBLE);
-        }
+        rlTrade.setVisibility(View.VISIBLE);
+//        if (WalletUtil.getCurrentWallet(this).getAmount() >= 30) {
+//        }
     }
 
     @Override

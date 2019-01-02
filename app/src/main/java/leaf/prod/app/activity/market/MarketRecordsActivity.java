@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,6 +56,9 @@ public class MarketRecordsActivity extends BaseActivity {
     @BindView(R.id.ll_search)
     LinearLayout llSearch;
 
+    @BindView(R.id.left_btn1)
+    ImageView leftBtn1;
+
     @BindView(R.id.refresh_layout)
     RefreshLayout refreshLayout;
 
@@ -67,9 +71,11 @@ public class MarketRecordsActivity extends BaseActivity {
 
     private List<Order> orderList = new ArrayList<>();
 
-    private List<Order> listSearch = new ArrayList<>();
+    private List<Order> searchList = new ArrayList<>();
 
     private MarketOrderDataManager marketManager;
+
+    private boolean isFiltering = false;
 
     private int currentPageIndex = 1, pageSize = 20, totalCount = 0;
 
@@ -81,24 +87,29 @@ public class MarketRecordsActivity extends BaseActivity {
         mSwipeBackLayout.setEnableGesture(false);
         clLoading.setVisibility(View.VISIBLE);
         refreshLayout.setOnRefreshListener(refreshLayout -> refreshOrders(1));
+        isFiltering = false;
+        refreshOrders(1);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        refreshOrders(1);
+        this.title.setVisibility(View.VISIBLE);
+        this.llSearch.setVisibility(View.GONE);
     }
 
     @Override
     protected void initPresenter() {
-
     }
 
     @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.orders));
         title.clickLeftGoBack(getWContext());
-        title.setRightImageButton(R.mipmap.icon_search, button -> llSearch.setVisibility(View.VISIBLE));
+        title.setRightImageButton(R.mipmap.icon_search, button -> {
+            title.setVisibility(View.GONE);
+            llSearch.setVisibility(View.VISIBLE);
+        });
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,13 +117,14 @@ public class MarketRecordsActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                listSearch.clear();
-                for (int i = 0; i < orderList.size(); i++) {
-                    if (orderList.get(i).getOriginOrder().getTokenS().contains(s.toString().toUpperCase()) ||
-                            orderList.get(i).getOriginOrder().getTokenB().contains(s.toString().toUpperCase())) {
-                        listSearch.add(orderList.get(i));
+                isFiltering = true;
+                searchList.clear();
+                for (Order order : orderList) {
+                    if (order.getOriginOrder().getMarket().contains(s.toString().toUpperCase())) {
+                        searchList.add(order);
                     }
                 }
+                setLoadMoreListener();
             }
 
             @Override
@@ -132,13 +144,9 @@ public class MarketRecordsActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         recordAdapter = new MarketRecordAdapter(R.layout.adapter_item_p2p_record, null, this);
         recyclerView.setAdapter(recordAdapter);
-        recordAdapter.setOnLoadMoreListener(() -> {
-            if (recordAdapter.getData().size() >= totalCount) {
-                recordAdapter.loadMoreEnd();
-            } else {
-                refreshOrders(currentPageIndex + 1);
-            }
-        }, recyclerView);
+
+        setLoadMoreListener();
+
         recordAdapter.setOnItemClickListener((adapter, view, position) -> {
             getOperation().addParameter("order", orderList.get(position));
             getOperation().forward(P2PRecordDetailActivity.class);
@@ -146,14 +154,36 @@ public class MarketRecordsActivity extends BaseActivity {
         emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.market_order);
     }
 
-    @OnClick({R.id.cancel_text})
+    private void setLoadMoreListener() {
+        if (isFiltering) {
+            recordAdapter.setNewData(searchList);
+            recordAdapter.setOnLoadMoreListener(() -> recordAdapter.loadMoreEnd(), recyclerView);
+        } else {
+            recordAdapter.setNewData(orderList);
+            recordAdapter.setOnLoadMoreListener(() -> {
+                if (recordAdapter.getData().size() >= totalCount) {
+                    recordAdapter.loadMoreEnd();
+                } else {
+                    refreshOrders(currentPageIndex + 1);
+                }
+            }, recyclerView);
+        }
+    }
+
+    @OnClick({R.id.left_btn1, R.id.cancel_text})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cancel_text:
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(this.getCurrentFocus()
                         .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                title.setVisibility(View.VISIBLE);
                 llSearch.setVisibility(View.GONE);
                 etSearch.setText("");
+                isFiltering = false;
+                setLoadMoreListener();
+                break;
+            case R.id.left_btn1:
+                finish();
                 break;
         }
     }
@@ -189,16 +219,19 @@ public class MarketRecordsActivity extends BaseActivity {
                             recyclerView.setAdapter(emptyAdapter);
                             emptyAdapter.refresh();
                         } else {
-                            List<Order> list = new ArrayList<>();
                             for (Order order : orderPageWrapper.getData()) {
-                                list.add(order.convert());
+                                boolean flag = true;
+                                for (Order order1 : orderList) {
+                                    if (order1.getOriginOrder().getHash()
+                                            .equalsIgnoreCase(order.getOriginOrder().getHash())) {
+                                        flag = false;
+                                        break;
+                                    }
+                                }
+                                if (flag) {
+                                    orderList.add(order.convert());
+                                }
                             }
-                            if (currentPageIndex == 1) {
-                                recordAdapter.setNewData(list);
-                            } else {
-                                recordAdapter.addData(list);
-                            }
-                            orderList = recordAdapter.getData();
                             refreshLayout.finishRefresh(true);
                         }
                         clLoading.setVisibility(View.GONE);

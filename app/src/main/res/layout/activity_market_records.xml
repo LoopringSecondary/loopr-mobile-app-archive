@@ -27,7 +27,7 @@
             android:visibility="gone">
 
             <ImageView
-                android:id="@+id/left_btn"
+                android:id="@+id/left_btn1"
                 style="@style/Text.Title_Button"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"

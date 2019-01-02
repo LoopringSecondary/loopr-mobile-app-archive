@@ -47,7 +47,7 @@
             android:orientation="vertical"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/p2p_layout">
+            app:layout_constraintRight_toLeftOf="@id/order_layout">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/p2p_layout"
+            android:id="@+id/order_layout"
             android:layout_width="0dp"
             android:layout_height="104dp"
             android:layout_marginEnd="@dimen/margSide"
@@ -81,15 +81,16 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
-                android:src="@mipmap/icon_p2p"/>
+                android:src="@mipmap/icon_orders"/>
 
             <TextView
                 style="@style/WrapWrap"
                 android:layout_marginTop="8dp"
-                android:text="@string/p2p"
+                android:text="@string/orders"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normal14Text"/>
         </LinearLayout>
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -113,7 +114,7 @@
             android:orientation="vertical"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/order_layout">
+            app:layout_constraintRight_toLeftOf="@id/p2p_layout">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -129,7 +130,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/order_layout"
+            android:id="@+id/p2p_layout"
             android:layout_width="0dp"
             android:layout_height="104dp"
             android:layout_marginEnd="@dimen/margSide"
@@ -140,7 +141,6 @@
             android:elevation="4dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="invisible"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toRightOf="@id/weth_wrap_layout"
             app:layout_constraintRight_toRightOf="parent">
@@ -148,15 +148,16 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
-                android:src="@mipmap/icon_orders"/>
+                android:src="@mipmap/icon_p2p"/>
 
             <TextView
                 style="@style/WrapWrap"
                 android:layout_marginTop="8dp"
-                android:text="@string/orders"
+                android:text="@string/p2p"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/normal14Text"/>
         </LinearLayout>
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -9,7 +9,7 @@
     <string name="order_completed">完全成交</string>
     <string name="order_locked">已鎖定</string>
     <string name="order_unknown">未知狀態</string>
-    <string name="order_cutoff">已中斷</string>
+    <string name="order_cutoff">已取消</string>
 
     <string name="R10001">抱歉，系統錯誤，請稍後重試</string>
     <string name="R32000">抱歉，用戶余額不足或者下單總量已經超過余額上限</string>
