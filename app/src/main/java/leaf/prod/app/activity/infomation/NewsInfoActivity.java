@@ -4,12 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.loopj.android.image.WebImage;
@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.layout.RoundSmartImageView;
+import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.util.DpUtil;
@@ -41,6 +42,9 @@ public class NewsInfoActivity extends BaseActivity {
 
     @BindView(R.id.ll_content)
     public LinearLayout llContent;
+
+    @BindView(R.id.sv_content)
+    public ScrollView svContent;
 
     private static int margin = 0;
 
@@ -74,21 +78,24 @@ public class NewsInfoActivity extends BaseActivity {
         Pattern p = Pattern.compile("<img src=\"([\\s\\S]*?)\">");
         Matcher m = p.matcher(news.getContent());
         int begin = 0;
+        int end = 0;
         while (m.find()) {
             String content = news.getContent().substring(begin, m.start());
             String image = news.getContent()
                     .substring(m.start(), m.end())
                     .replace("<img src=\"", "")
                     .replace("\">", "");
-            if (!content.trim().isEmpty()) {
-                addTextView(content.trim());
-            }
+            addTextView(content.trim());
             addImageView(image);
-            begin = m.end();
+            begin = end = m.end();
         }
         if (begin == 0) {
             addTextView(news.getContent());
         }
+        if (end < news.getContent().length() && !news.getContent().substring(end).trim().isEmpty()) {
+            addTextView(news.getContent().substring(end).trim());
+        }
+        svContent.post(() -> svContent.fullScroll(ScrollView.FOCUS_UP));
     }
 
     @Override
@@ -96,6 +103,8 @@ public class NewsInfoActivity extends BaseActivity {
     }
 
     private void addTextView(String content) {
+        if (content.trim().isEmpty())
+            return;
         TextView textView = new TextView(this);
         textView.setId(View.generateViewId());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -110,10 +119,11 @@ public class NewsInfoActivity extends BaseActivity {
     }
 
     private void addImageView(String url) {
+        LyqbLogger.log(url);
         WebImage webImage = new WebImage(url);
-        Bitmap bitmap = webImage.getBitmap(this);
-        if (bitmap == null || bitmap.getWidth() < 80)
-            return;
+        //        Bitmap bitmap = webImage.getBitmap(this);
+        //        if (bitmap == null || bitmap.getWidth() < 80)
+        //            return;
         RoundSmartImageView imageView = new RoundSmartImageView(this);
         imageView.setId(View.generateViewId());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -123,5 +133,10 @@ public class NewsInfoActivity extends BaseActivity {
         imageView.setAdjustViewBounds(true);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         llContent.addView(imageView);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

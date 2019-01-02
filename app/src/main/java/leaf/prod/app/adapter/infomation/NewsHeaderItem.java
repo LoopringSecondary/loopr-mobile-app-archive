@@ -20,7 +20,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
-import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.model.NewsHeader;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
@@ -178,7 +177,6 @@ public class NewsHeaderItem extends HeaderItem {
         int recyclerBottom = headerRecyclerView.getBottom() - headerRecyclerView.getPaddingBottom();
         int lastPosition = layoutManager.getPosition(lastChildView);
         if (lastChildBottom == recyclerBottom && lastPosition == layoutManager.getItemCount() - 1) {
-            LyqbLogger.log("bottom");
             return true;
         }
         return false;
@@ -188,7 +186,6 @@ public class NewsHeaderItem extends HeaderItem {
         int topRowVerticalPosition = (headerRecyclerView == null || headerRecyclerView.getChildCount() == 0) ? 0 : headerRecyclerView
                 .getChildAt(0).getTop();
         if (topRowVerticalPosition >= headerHeight + DpUtil.dp2Int(view.getContext(), 12)) {
-            LyqbLogger.log("top");
             return true;
         }
         return false;
