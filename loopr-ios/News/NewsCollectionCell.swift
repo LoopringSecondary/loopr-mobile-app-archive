@@ -42,7 +42,7 @@ class NewsCollectionCell: UICollectionViewCell {
         layer.shadowOffset = config.cardShadowOffset
         layer.shadowColor = config.cardShadowColor.cgColor
         layer.shadowOpacity = config.cardShadowOpacity
-        layer.shadowRadius = config.cardShadowRadius
+        layer.shadowRadius = 4
         
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale

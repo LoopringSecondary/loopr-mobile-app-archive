@@ -13,7 +13,13 @@ import SVProgressHUD
 class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLayout {
 
     // News params
-    var newsCategory: NewsCategory = .flash
+    // var newsCategory: NewsCategory = .flash
+    
+    var currentIndex: Int = 0
+    let newsParamsList: [NewsParams] = [
+        NewsParams(token: "ALL_CURRENCY", category: .flash),
+        NewsParams(token: "ALL_CURRENCY", category: .information)
+    ]
 
     private let header: NewsListHeaderView = UIView.loadFromNib(withName: "NewsListHeaderView")!
     
@@ -40,15 +46,15 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
         
         nextViewController = { _ in
             let vc = NewsViewController()
-            if self.newsCategory == .information {
-                vc.newsCategory = .flash
+            if self.currentIndex == self.newsParamsList.count - 1 {
+                vc.currentIndex = 0
             } else {
-                vc.newsCategory = .information
+                vc.currentIndex = self.currentIndex + 1
             }
             return vc
         }
         setupHeader(header)
-        header.titleLabel.text = newsCategory.description
+        header.titleLabel.text = newsParamsList[currentIndex].title
         
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
@@ -60,7 +66,7 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
             fakeTradeButton.isHidden = true
         }
 
-        if self.newsCategory == .information {
+        if newsParamsList[currentIndex].category == .information {
             if NewsDataManager.shared.informationItems.count == 0 {
                 SVProgressHUD.show(withStatus: LocalizedString("Loading Data", comment: ""))
                 getNewsFromAPIServer()
@@ -78,7 +84,7 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
     }
     
     func getNewsFromAPIServer() {
-        NewsDataManager.shared.get(category: newsCategory, completion: { (_, _) in
+        NewsDataManager.shared.get(category: newsParamsList[currentIndex].category, completion: { (_, _) in
             DispatchQueue.main.async {
                 self.garlandCollection.reloadData()
                 SVProgressHUD.dismiss()
@@ -107,7 +113,7 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
 extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
         
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if self.newsCategory == .information {
+        if newsParamsList[currentIndex].category == .information {
             return NewsDataManager.shared.informationItems.count
         } else {
             return NewsDataManager.shared.flashItems.count
@@ -119,7 +125,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         // revoke GarlandConfig.shared.cardsSize
         let news: News
-        if self.newsCategory == .information {
+        if newsParamsList[currentIndex].category == .information {
             news = NewsDataManager.shared.informationItems[indexPath.row]
         } else {
             news = NewsDataManager.shared.flashItems[indexPath.row]
@@ -130,7 +136,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionCell.getCellIdentifier(), for: indexPath) as? NewsCollectionCell else { return UICollectionViewCell() }
         let news: News
-        if self.newsCategory == .information {
+        if newsParamsList[currentIndex].category == .information {
             news = NewsDataManager.shared.informationItems[indexPath.row]
         } else {
             news = NewsDataManager.shared.flashItems[indexPath.row]
@@ -139,7 +145,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.updateUIStyle(news: news)
         cell.didClickedCollectionCellClosure = { (news) -> Void in
             let news: News
-            if self.newsCategory == .information {
+            if self.newsParamsList[self.currentIndex].category == .information {
                 news = NewsDataManager.shared.informationItems[indexPath.row]
             } else {
                 news = NewsDataManager.shared.flashItems[indexPath.row]

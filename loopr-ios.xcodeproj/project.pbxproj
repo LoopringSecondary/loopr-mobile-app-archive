@@ -179,6 +179,7 @@
 		9BA3020F21CF77AE00E55E49 /* SettingAppVersionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3020D21CF77AE00E55E49 /* SettingAppVersionTableViewCell.xib */; };
 		9BA3021421D0260300E55E49 /* AppReleaseNotePopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3021221D0260300E55E49 /* AppReleaseNotePopViewController.swift */; };
 		9BA3021521D0260300E55E49 /* AppReleaseNotePopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */; };
+		9BA4FC9C21DC4FC8005A3DC0 /* NewsParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FC9B21DC4FC8005A3DC0 /* NewsParams.swift */; };
 		9BBB4E4B21DB4BD300683673 /* RefreshControlDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */; };
 		9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */; };
 		9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */; };
@@ -748,6 +749,7 @@
 		9BA3020D21CF77AE00E55E49 /* SettingAppVersionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingAppVersionTableViewCell.xib; sourceTree = "<group>"; };
 		9BA3021221D0260300E55E49 /* AppReleaseNotePopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReleaseNotePopViewController.swift; sourceTree = "<group>"; };
 		9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppReleaseNotePopViewController.xib; sourceTree = "<group>"; };
+		9BA4FC9B21DC4FC8005A3DC0 /* NewsParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsParams.swift; sourceTree = "<group>"; };
 		9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlDataManager.swift; sourceTree = "<group>"; };
 		9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailSummaryTableViewCell.xib; sourceTree = "<group>"; };
@@ -1378,6 +1380,16 @@
 				9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */,
 			);
 			path = AppReleaseNote;
+			sourceTree = "<group>";
+		};
+		9BA4FC9A21DC4FA4005A3DC0 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				9461851521D0FAFD00393432 /* News.swift */,
+				9461851721D0FD8700393432 /* NewsCategory.swift */,
+				9BA4FC9B21DC4FC8005A3DC0 /* NewsParams.swift */,
+			);
+			path = News;
 			sourceTree = "<group>";
 		};
 		AC0CD58220D2294D00ABB7BA /* TabBarItem */ = {
@@ -2296,8 +2308,7 @@
 				ACFD5FB8217448E200E161EE /* SocialMedia.swift */,
 				947B1FDC21CBA0CC009AE556 /* AirdropAmount.swift */,
 				9461851321D0FA4900393432 /* IndexResult.swift */,
-				9461851521D0FAFD00393432 /* News.swift */,
-				9461851721D0FD8700393432 /* NewsCategory.swift */,
+				9BA4FC9A21DC4FA4005A3DC0 /* News */,
 				9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */,
 			);
 			path = Models;
@@ -3219,6 +3230,7 @@
 				AC128D3E21993BF300939F4E /* WalletViewControllerGetDataFromRelay.swift in Sources */,
 				AC1B6D7E2130FB510026C1B2 /* Bytes+SecureRandom.swift in Sources */,
 				AC4F601620773E9D00F1D954 /* EthTypeEncoder.swift in Sources */,
+				9BA4FC9C21DC4FC8005A3DC0 /* NewsParams.swift in Sources */,
 				ACBA47EE207932DA0032C2B4 /* ExportKeystoreEnterPasswordViewController.swift in Sources */,
 				ACC2A2CF209EC39E00F2B7A1 /* OrderExpire.swift in Sources */,
 				AC06193C208404FA0060F416 /* FoundationString+Extension.swift in Sources */,
