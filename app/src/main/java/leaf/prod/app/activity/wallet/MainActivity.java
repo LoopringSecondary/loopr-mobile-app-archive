@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity {
         changeFragment();
         setTabSelect(0);
         if ((Boolean) SPUtils.get(this, "isRecreate", false)) {//判断是否是更改语言设置后，执行了系统的recreate()方法,
-            ChangeMainFragment(2);
+            ChangeMainFragment(3);
             SPUtils.put(this, "isRecreate", false);
         }
         if (WalletUtil.getCurrentWallet(this).getAmount() >= 30) {

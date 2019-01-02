@@ -3,6 +3,7 @@ package leaf.prod.app.activity.setting;
 import java.util.List;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +40,9 @@ public class CurrencyActivity extends BaseActivity {
 
     @BindView(R.id.iv_usd_check)
     ImageView ivUsdCheck;
+
+    @BindView(R.id.cl_loading)
+    ConstraintLayout clLoading;
 
     private LoopringService loopringService;
 
@@ -99,6 +103,7 @@ public class CurrencyActivity extends BaseActivity {
     }
 
     private void updateWalletList(Currency currency) {
+        clLoading.setVisibility(View.VISIBLE);
         loopringService.getPriceQuoteByToken(currency.getText(), "ETH")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -113,8 +118,12 @@ public class CurrencyActivity extends BaseActivity {
                                 .setAmount(wallet.getAmount() / marketcapDataManager.getPriceBySymbol("ETH") * price);
                         wallets.get(wallets.indexOf(wallet))
                                 .setAmountShow(CurrencyUtil.format(this, wallet.getAmount()));
+                        if (wallet.getAddress().equalsIgnoreCase(WalletUtil.getCurrentAddress(this))) {
+                            WalletUtil.setCurrentWallet(this, wallet);
+                        }
                     }
                     WalletUtil.setWalletList(this, wallets);
+                    clLoading.setVisibility(View.GONE);
                 });
     }
 }
