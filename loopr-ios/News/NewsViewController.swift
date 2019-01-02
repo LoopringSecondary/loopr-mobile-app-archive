@@ -12,9 +12,6 @@ import SVProgressHUD
 
 class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLayout {
 
-    // News params
-    // var newsCategory: NewsCategory = .flash
-    
     var currentIndex: Int = 0
     let newsParamsList: [NewsParams] = [
         NewsParams(token: "ALL_CURRENCY", category: .flash),
@@ -29,6 +26,8 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
     @IBOutlet weak var fakeTradeButton: UIButton!
 
     let refreshControl = UIRefreshControl()
+
+    var pageIndex: UInt = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,11 +79,12 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
     }
     
     @objc private func refreshData(_ sender: Any) {
+        pageIndex = 0
         getNewsFromAPIServer()
     }
     
     func getNewsFromAPIServer() {
-        NewsDataManager.shared.get(category: newsParamsList[currentIndex].category, completion: { (_, _) in
+        NewsDataManager.shared.get(category: newsParamsList[currentIndex].category, pageIndex: pageIndex, completion: { (_, _) in
             DispatchQueue.main.async {
                 self.garlandCollection.reloadData()
                 SVProgressHUD.dismiss()
@@ -135,11 +135,22 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionCell.getCellIdentifier(), for: indexPath) as? NewsCollectionCell else { return UICollectionViewCell() }
+        
+        let isLastCell = indexPath.row == collectionView.numberOfItems(inSection: 0) - 1
+        
         let news: News
         if newsParamsList[currentIndex].category == .information {
             news = NewsDataManager.shared.informationItems[indexPath.row]
+            if NewsDataManager.shared.informationHasMoreData && isLastCell {
+                pageIndex += 1
+                getNewsFromAPIServer()
+            }
         } else {
             news = NewsDataManager.shared.flashItems[indexPath.row]
+            if NewsDataManager.shared.flashHasMoreData && isLastCell {
+                pageIndex += 1
+                getNewsFromAPIServer()
+            }
         }
         
         cell.updateUIStyle(news: news)

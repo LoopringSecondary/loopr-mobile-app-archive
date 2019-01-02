@@ -11,7 +11,7 @@ import Foundation
 class CrawlerAPIRequest {
     
     // READY  获取  资讯  内容
-    static func get(token: String, language: Language, category: NewsCategory, pageIndex: UInt = 0, pageSize: UInt = 50, completion: @escaping (_ response: [News]?, _ error: Error?) -> Void) {
+    static func get(token: String, language: Language, category: NewsCategory, pageIndex: UInt = 0, pageSize: UInt = 50, completion: @escaping (_ response: [News], _ error: Error?) -> Void) {
         
         var body: JSON = JSON()
         body["id"] = JSON(UUID().uuidString)
@@ -22,6 +22,7 @@ class CrawlerAPIRequest {
         Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
+                completion([], error)
                 return
             }
             let json = JSON(data)
@@ -38,7 +39,7 @@ class CrawlerAPIRequest {
                 userInfo["code"] = json["error"]["code"]
                 userInfo["message"] = json["error"]["message"]
                 let error = NSError(domain: NewsCategory.information.description, code: 0, userInfo: userInfo)
-                completion(nil, error)
+                completion([], error)
             }
         }
     }

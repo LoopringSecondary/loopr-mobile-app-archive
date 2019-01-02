@@ -71,7 +71,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             }
         }
         
-        NewsDataManager.shared.get(category: .information, completion: { (_, _) in
+        NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
+            
+        })
+        NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
             
         })
 

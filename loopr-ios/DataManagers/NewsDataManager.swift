@@ -12,8 +12,14 @@ class NewsDataManager {
     
     static let shared = NewsDataManager()
 
+    let pageSize: UInt = 50
+    
+    var informationHasMoreData: Bool = true
     var informationItems: [News] = []
+
+    var flashHasMoreData: Bool = true
     var flashItems: [News] = []
+
     var votes = [String: Int]()
 
     private init() {
@@ -53,16 +59,35 @@ class NewsDataManager {
         }
     }
 
-    func get(category: NewsCategory, pageIndex: UInt = 0, pageSize: UInt = 50, completion: @escaping (_ response: [News]?, _ error: Error?) -> Void)  {
-        CrawlerAPIRequest.get(token: "ALL_CURRENCY", language: SettingDataManager.shared.getCurrentLanguage(), category: category) { (news, error) in
+    func get(category: NewsCategory, pageIndex: UInt, completion: @escaping (_ newsItems: [News], _ error: Error?) -> Void) {
+        CrawlerAPIRequest.get(token: "ALL_CURRENCY", language: SettingDataManager.shared.getCurrentLanguage(), category: category, pageIndex: pageIndex, pageSize: pageSize) { (news, error) in
             // remove local votes
             self.votes.removeAll()
 
             if category == .information {
-                self.informationItems = news ?? []
-            } else if category == .flash {
-                self.flashItems = news ?? []
+                if pageIndex == 0 {
+                    self.informationItems = news
+                } else {
+                    self.informationItems += news
+                }
+                if news.count < self.pageSize {
+                    self.informationHasMoreData = false
+                } else {
+                    self.informationHasMoreData = true
+                }
+            } else {
+                if pageIndex == 0 {
+                    self.flashItems = news
+                } else {
+                    self.flashItems += news
+                }
+                if news.count < self.pageSize {
+                    self.flashHasMoreData = false
+                } else {
+                    self.flashHasMoreData = true
+                }
             }
+
             completion(news, error)
         }
     }
