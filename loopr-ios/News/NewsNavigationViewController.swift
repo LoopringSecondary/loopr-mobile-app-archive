@@ -18,7 +18,7 @@ class NewsNavigationViewController: UIViewController {
         let window = UIApplication.shared.keyWindow
         let topPadding = window?.safeAreaInsets.top ?? 0
         
-        GarlandConfig.shared.animationDuration = 0.4
+        GarlandConfig.shared.animationDuration = 0.3
         GarlandConfig.shared.cardsSpacing = 8
         GarlandConfig.shared.cardRadius = 6
         GarlandConfig.shared.headerVerticalOffset = topPadding + 10
