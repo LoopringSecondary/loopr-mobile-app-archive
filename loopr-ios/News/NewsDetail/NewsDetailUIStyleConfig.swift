@@ -16,10 +16,12 @@ class NewsDetailUIStyleConfig {
     public var dismissAnimationDuration: Double = 0.3
     public var webAlphaAnimationDuration: Double = 0.5
     
+    // The values in html are different from ones in iOS native.
     // css variables
     public var fontFammily: String = "PingFangSC-Regular"
     public var backgroundColor: String = "#16162A"
     public var textColor: String = "#ffffffcc"
     public var fontSize: String = "6"
+    public var imageCornerRadius: Int = 8
     
 }
