@@ -280,6 +280,7 @@
     <string name="buy_icon">买</string>
     <string name="trade_error">交易失败</string>
     <string name="no_data_p2p">您还没有场外交易记录</string>
+    <string name="no_data_market">您还没有市场交易记录</string>
     <string name="minimal_count_error">订单拆分份数至少为1</string>
     <string name="detail_qr_error">该P2P订单不在该手机产生，无法获取二维码。</string>
     <string name="qr_p2p_error_tip">请扫描P2P订单类型的二维码</string>

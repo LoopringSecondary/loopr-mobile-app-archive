@@ -144,9 +144,7 @@ public class MarketRecordsActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         recordAdapter = new MarketRecordAdapter(R.layout.adapter_item_p2p_record, null, this);
         recyclerView.setAdapter(recordAdapter);
-
         setLoadMoreListener();
-
         recordAdapter.setOnItemClickListener((adapter, view, position) -> {
             getOperation().addParameter("order", orderList.get(position));
             getOperation().forward(P2PRecordDetailActivity.class);
@@ -232,13 +230,12 @@ public class MarketRecordsActivity extends BaseActivity {
                                     orderList.add(order.convert());
                                 }
                             }
-                            refreshLayout.finishRefresh(true);
                         }
                         clLoading.setVisibility(View.GONE);
                         recordAdapter.loadMoreComplete();
+                        refreshLayout.finishRefresh(true);
                         unsubscribe();
                     }
                 });
     }
-
 }
