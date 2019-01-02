@@ -84,60 +84,6 @@ public class NewsPresenter extends BasePresenter<NewsFragment> {
                 });
     }
 
-    public void setInformation(int pageIndex) {
-        crawlerService.getInformation(CrawlerService.ALL, LanguageUtil.getSettingLanguage(context), pageIndex, 10)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NewsPageWrapper>() {
-
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(NewsPageWrapper newsPageWrapper) {
-                    }
-                });
-    }
-
-    public void setFlash(int pageIndex) {
-        crawlerService.getFlash(CrawlerService.ALL, LanguageUtil.getSettingLanguage(context), pageIndex, PAGE_SIZE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NewsPageWrapper>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(NewsPageWrapper newsPageWrapper) {
-                        List<NewsHeader> newsHeaderList = new ArrayList<>();
-                        newsHeaderList.add(NewsHeader.builder()
-                                .title("快讯")
-                                .description("快讯早知道")
-                                .newsList(newsPageWrapper != null ? newsPageWrapper : NewsPageWrapper.emptyBean())
-                                .build());
-                        newsHeaderList.add(NewsHeader.builder()
-                                .title("动态")
-                                .description("动态早知道")
-                                .newsList(newsPageWrapper != null ? newsPageWrapper : NewsPageWrapper.emptyBean())
-                                .build());
-                        ((TailLayoutManager) view.recyclerView.getLayoutManager()).setPageTransformer(new HeaderTransformer());
-                        view.recyclerView.setAdapter(new NewsHeaderAdapter(newsHeaderList));
-                        new TailSnapHelper().attachToRecyclerView(view.recyclerView);
-                        view.clLoading.setVisibility(View.GONE);
-                    }
-                });
-    }
-
     private class CombineObservable {
 
         private NewsPageWrapper flashNews;

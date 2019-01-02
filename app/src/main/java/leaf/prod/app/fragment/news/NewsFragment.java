@@ -14,7 +14,6 @@ import leaf.prod.app.R;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.layout.MyTailRecyclerView;
 import leaf.prod.app.presenter.infomation.NewsPresenter;
-import leaf.prod.walletsdk.service.CrawlerService;
 
 /**
  *
@@ -30,8 +29,6 @@ public class NewsFragment extends BaseFragment {
     public MyTailRecyclerView recyclerView;
 
     private NewsPresenter presenter;
-
-    private CrawlerService crawlerService;
 
     @Nullable
     @Override

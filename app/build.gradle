@@ -132,4 +132,5 @@ dependencies {
     implementation 'com.github.tiagohm.MarkdownView:library:0.19.0'
     implementation 'com.ramotion.garlandview:garland-view:0.3.2'
     implementation 'at.blogc:expandabletextview:1.0.5'
+    implementation 'me.biubiubiu.justifytext:library:1.1'
 }

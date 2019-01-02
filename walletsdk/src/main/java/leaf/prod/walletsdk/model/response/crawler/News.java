@@ -6,6 +6,8 @@
  */
 package leaf.prod.walletsdk.model.response.crawler;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Builder;
@@ -13,7 +15,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class News {
+public class News implements Serializable {
 
     private String uuid;
 

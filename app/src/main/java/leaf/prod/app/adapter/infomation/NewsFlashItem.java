@@ -53,7 +53,7 @@ public class NewsFlashItem extends NewsBodyItem {
     @BindView(R.id.tv_source)
     public TextView tvSource;
 
-    private CrawlerService crawlerService = new CrawlerService();
+    private static CrawlerService crawlerService = new CrawlerService();
 
     private boolean expand = false;
 

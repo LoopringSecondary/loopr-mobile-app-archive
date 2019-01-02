@@ -1,15 +1,18 @@
 package leaf.prod.app.adapter.infomation;
 
 import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.infomation.NewsInfoActivity;
 import leaf.prod.walletsdk.model.response.crawler.News;
-import leaf.prod.walletsdk.service.CrawlerService;
 
 /**
  * Created with IntelliJ IDEA.
@@ -41,8 +44,6 @@ public class NewsInfoItem extends NewsBodyItem {
     @BindView(R.id.tv_source)
     public TextView tvSource;
 
-    private CrawlerService crawlerService = new CrawlerService();
-
     public NewsInfoItem(View itemView) {
         super(itemView);
     }
@@ -56,9 +57,16 @@ public class NewsInfoItem extends NewsBodyItem {
             tvTime.setText(sdf2.format(sdf1.parse(data.getPublishTime())));
             tvSource.setText(innerLayout.getResources().getString(R.string.news_source) + ":" + data.getSource());
             tvTitle.setText(data.getTitle());
-            clContent.setText(data.getContent());
+            Pattern p = Pattern.compile("<img src=\"([\\s\\S]*?)\">");
+            Matcher m = p.matcher(data.getContent());
+            clContent.setText(m.replaceAll(""));
             tvShare.setText(innerLayout.getResources().getString(R.string.news_share) + (data.getForwardNum() > 0 ? data
                     .getForwardNum() : ""));
+            innerLayout.setOnClickListener(view -> {
+                Intent intent = new Intent(innerLayout.getContext(), NewsInfoActivity.class);
+                intent.putExtra("data", data);
+                innerLayout.getContext().startActivity(intent);
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
