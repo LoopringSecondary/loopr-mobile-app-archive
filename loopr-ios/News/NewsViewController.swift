@@ -29,6 +29,9 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
 
     var pageIndex: UInt = 0
     
+    var expandedNewsUuid: String?
+    var previousExpandedIndexPath: IndexPath?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,6 +41,7 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
         garlandCollection.register(nib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())
         garlandCollection.delegate = self
         garlandCollection.dataSource = self
+        garlandCollection.showsVerticalScrollIndicator = true
 
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .newsViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
@@ -120,9 +124,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // revoke GarlandConfig.shared.cardsSize
         let news: News
         if newsParamsList[currentIndex].category == .information {
@@ -130,7 +132,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         } else {
             news = NewsDataManager.shared.flashItems[indexPath.row]
         }
-        return NewsCollectionCell.getSize(news: news)
+        return NewsCollectionCell.getSize(news: news, isExpanded: news.uuid == expandedNewsUuid ?? "")
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -153,22 +155,27 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
         }
         
-        cell.updateUIStyle(news: news)
+        cell.updateUIStyle(news: news, isExpanded: news.uuid == expandedNewsUuid ?? "")
         cell.didClickedCollectionCellClosure = { (news) -> Void in
             let news: News
             if self.newsParamsList[self.currentIndex].category == .information {
                 news = NewsDataManager.shared.informationItems[indexPath.row]
+                self.selectedCardIndex = indexPath
+                let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
+                detailViewController.news = news
+                self.present(detailViewController, animated: true, completion: {
+                    
+                })
             } else {
                 news = NewsDataManager.shared.flashItems[indexPath.row]
+                self.expandedNewsUuid = news.uuid
+                if self.previousExpandedIndexPath != nil && self.previousExpandedIndexPath! != indexPath {
+                    collectionView.reloadItems(at: [indexPath, self.previousExpandedIndexPath!])
+                } else {
+                    collectionView.reloadItems(at: [indexPath])
+                }
+                self.previousExpandedIndexPath = indexPath
             }
-            
-            self.selectedCardIndex = indexPath
-            let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
-            detailViewController.news = news
-            
-            self.present(detailViewController, animated: true, completion: {
-                
-            })
         }
         
         cell.didPressedShareButtonClosure = { (news) -> Void in

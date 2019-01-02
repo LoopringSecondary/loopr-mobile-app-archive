@@ -51,7 +51,8 @@ class NewsCollectionCell: UICollectionViewCell {
         
         // update UI
         dateLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
-        dateLabel.theme_textColor = GlobalPicker.textLightColor
+        // dateLabel.theme_textColor = GlobalPicker.textLightColor
+        dateLabel.textColor = UIColor.theme
         
         sourceLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         sourceLabel.theme_textColor = GlobalPicker.textLightColor
@@ -91,7 +92,7 @@ class NewsCollectionCell: UICollectionViewCell {
         shareButton.addTarget(self, action: #selector(pressedshareButton), for: .touchUpInside)
     }
     
-    func updateUIStyle(news: News) {
+    func updateUIStyle(news: News, isExpanded: Bool) {
         self.news = news
 
         // parse data
@@ -105,8 +106,11 @@ class NewsCollectionCell: UICollectionViewCell {
         descriptionTextView.attributedText = NSAttributedString(string: news.description, attributes: attributes)
         descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
         
-        descriptionTextView.theme_textColor = GlobalPicker.textLightColor
-
+        if isExpanded {
+            descriptionTextView.theme_textColor = GlobalPicker.textColor
+        } else {
+            descriptionTextView.theme_textColor = GlobalPicker.textLightColor
+        }
         updateVoteButtons()
     }
     
@@ -149,22 +153,30 @@ class NewsCollectionCell: UICollectionViewCell {
         downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex+localDownvoteValue)", for: .normal)
     }
     
-    class func getSize(news: News) -> CGSize {
-        if news.category == .information {
-            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 190)
-        } else {
-            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 190)
-            // GarlandView doesn't support different height of collection view cell between view controllers.
-            /*
+    class func getSize(news: News, isExpanded: Bool) -> CGSize {
+        if isExpanded {
             let width: CGFloat = UIScreen.main.bounds.width - 15*2
             let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.7
             let descriptionTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width, height: maxHeight))
             descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 12)
             descriptionTextView.text = news.description
             let numLines = (descriptionTextView.contentSize.height / descriptionTextView.font!.lineHeight) as CGFloat
-            let height = CGFloat(ceil(numLines)) * descriptionTextView.font!.lineHeight + CGFloat(ceil(numLines) - 1) * descriptionTextViewLineSpacing
+            let textViewheight = CGFloat(ceil(numLines)) * descriptionTextView.font!.lineHeight + CGFloat(ceil(numLines) - 1) * descriptionTextViewLineSpacing
             let otherHeight: CGFloat = 109
-            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: height + otherHeight)
+            var height = textViewheight + otherHeight
+            if height <  190 {
+                height = 190
+            }
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: height)
+        }
+
+        if news.category == .information {
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 190)
+        } else {
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 190)
+            // GarlandView doesn't support different height of collection view cell between view controllers.
+            /*
+
             */
         }
     }

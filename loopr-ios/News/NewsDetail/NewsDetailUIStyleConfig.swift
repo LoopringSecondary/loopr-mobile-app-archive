@@ -18,7 +18,7 @@ class NewsDetailUIStyleConfig {
     
     // The values in html are different from ones in iOS native.
     // css variables
-    public var fontFammily: String = "PingFangSC-Regular"
+    public var fontFamily: String = "PingFangSC-Regular"
     public var backgroundColor: String = "#16162A"
     public var textColor: String = "#ffffffcc"
     public var fontSize: String = "6"
