@@ -47,7 +47,6 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, Order order) {
         if (order == null)
             return;
-        //        order.convert();
         helper.setText(R.id.tv_token_s, order.getOriginOrder().getTokenS());
         helper.setText(R.id.tv_token_b, order.getOriginOrder().getTokenB());
         helper.setGone(R.id.tv_sell_icon, false);
@@ -62,7 +61,7 @@ public class P2PRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
                     break;
             }
         }
-        helper.setText(R.id.tv_price, order.getPrice());
+        helper.setText(R.id.tv_price, order.getSellPrice());
         helper.setText(R.id.tv_amount, NumberUtils.format1(order.getOriginOrder()
                 .getAmountSell(), BalanceDataManager.getPrecision(order.getOriginOrder().getTokenS())));
         helper.setText(R.id.tv_filled, order.getFilled());

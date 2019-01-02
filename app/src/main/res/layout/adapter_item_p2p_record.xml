@@ -58,7 +58,8 @@
                 android:text="@string/sell_icon"
                 android:textColor="@color/colorWhite"
                 android:textSize="10dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tv_buy_icon"

@@ -315,6 +315,7 @@
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.market.MarketSelectActivity"/>
 
         <receiver
             android:name="leaf.prod.app.receiver.ApkInstallReceiver"

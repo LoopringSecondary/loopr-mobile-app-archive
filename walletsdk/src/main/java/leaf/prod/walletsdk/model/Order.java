@@ -11,7 +11,6 @@ import java.io.Serializable;
 import org.web3j.utils.Numeric;
 import com.google.gson.annotations.SerializedName;
 
-import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.util.NumberUtils;
 import lombok.Builder;
@@ -39,7 +38,9 @@ public class Order implements Serializable {
     // e.g. 0.2345
     private Double dealtAmountSell;
 
-    private String price;
+    private String buyPrice;
+
+    private String sellPrice;
 
     // e.g. 10.50%
     private String filled;
@@ -50,8 +51,8 @@ public class Order implements Serializable {
                 .toString());
         this.dealtAmountSell = TokenDataManager.getDouble(originOrder.getTokenS(), Numeric.toBigInt(dealtAmountS)
                 .toString());
-        this.price = NumberUtils.format1(originOrder.getAmountBuy() / originOrder.getAmountSell(), BalanceDataManager
-                .getPrecision(originOrder.getTokenB()));
+        this.buyPrice = NumberUtils.format1(originOrder.getAmountSell() / originOrder.getAmountBuy(), 8);
+        this.sellPrice = NumberUtils.format1(originOrder.getAmountBuy() / originOrder.getAmountSell(), 8);
         this.filled = NumberUtils.format1(dealtAmountSell / originOrder.getAmountSell() * 100, 2) + "%";
         return this;
     }

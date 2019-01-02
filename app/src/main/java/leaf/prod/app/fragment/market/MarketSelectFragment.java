@@ -10,43 +10,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
-import leaf.prod.app.activity.market.MarketSelectActivity;
-import leaf.prod.app.adapter.market.MarketsAdapter;
+import leaf.prod.app.adapter.market.MarketSelectAdapter;
 import leaf.prod.app.fragment.BaseFragment;
-import leaf.prod.app.presenter.market.MarketFragmentPresenter;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.MarketsType;
 import leaf.prod.walletsdk.model.Ticker;
 
-public class MarketsFragment extends BaseFragment {
+public class MarketSelectFragment extends BaseFragment {
 
     Unbinder unbinder;
 
     @BindView(R.id.recycler_view)
     public RecyclerView recyclerView;
 
-    @BindView(R.id.refresh_layout)
-    public RefreshLayout refreshLayout;
-
-    private MarketsAdapter marketAdapter;
+    private MarketSelectAdapter marketAdapter;
 
     private MarketsType marketsType;
-
-    private MarketFragmentPresenter presenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // 布局导入
-        layout = inflater.inflate(R.layout.fragment_markets, container, false);
+        layout = inflater.inflate(R.layout.fragment_market_select, container, false);
         unbinder = ButterKnife.bind(this, layout);
-        refreshLayout.setOnRefreshListener(refreshLayout -> presenter.refreshTickers());
         return layout;
     }
 
@@ -57,7 +47,6 @@ public class MarketsFragment extends BaseFragment {
 
     @Override
     protected void initPresenter() {
-        this.presenter = new MarketFragmentPresenter(this, getContext());
     }
 
     @Override
@@ -68,11 +57,11 @@ public class MarketsFragment extends BaseFragment {
     protected void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        marketAdapter = new MarketsAdapter(R.layout.adapter_item_markets, null, this);
+        marketAdapter = new MarketSelectAdapter(R.layout.adapter_item_market_select, null);
         recyclerView.setAdapter(marketAdapter);
         marketAdapter.setOnItemClickListener((adapter, view, position) -> {
-//            getOperation().addParameter("ticker", getTickers().get(position));
-            getOperation().forward(MarketSelectActivity.class);
+            getOperation().addParameter("ticker", getTickers().get(position));
+            //            getOperation().forward(P2PRecordDetailActivity.class);
         });
     }
 

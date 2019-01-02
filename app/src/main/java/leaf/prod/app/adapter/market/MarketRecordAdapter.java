@@ -24,6 +24,7 @@ import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.request.relayParam.NotifyScanParam;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SignUtils;
+import leaf.prod.walletsdk.util.StringUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -46,20 +47,21 @@ public class MarketRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder>
 
     @Override
     protected void convert(BaseViewHolder helper, Order order) {
-        if (order == null)
-            return;
-        helper.setText(R.id.tv_token_s, order.getOriginOrder().getTokenS());
-        helper.setText(R.id.tv_token_b, order.getOriginOrder().getTokenB());
-        helper.setGone(R.id.tv_sell_icon, false);
+        if (order == null)  return;
         helper.setGone(R.id.tv_buy_icon, false);
-        if (order.getOriginOrder().getSide() != null &&
+        helper.setGone(R.id.tv_sell_icon, false);
+        if (!StringUtils.isEmpty(order.getOriginOrder().getSide()) &&
                 order.getOriginOrder().getSide().equalsIgnoreCase("sell")) {
             helper.setVisible(R.id.tv_sell_icon, true);
+            helper.setText(R.id.tv_token_s, order.getOriginOrder().getTokenS());
+            helper.setText(R.id.tv_token_b, order.getOriginOrder().getTokenB());
+            helper.setText(R.id.tv_price, order.getSellPrice());
         } else {
             helper.setVisible(R.id.tv_buy_icon, true);
-
+            helper.setText(R.id.tv_token_s, order.getOriginOrder().getTokenB());
+            helper.setText(R.id.tv_token_b, order.getOriginOrder().getTokenS());
+            helper.setText(R.id.tv_price, order.getBuyPrice());
         }
-        helper.setText(R.id.tv_price, order.getPrice());
         helper.setText(R.id.tv_amount, NumberUtils.format1(order.getOriginOrder()
                 .getAmountSell(), BalanceDataManager.getPrecision(order.getOriginOrder().getTokenS())));
         helper.setText(R.id.tv_filled, order.getFilled());

@@ -58,7 +58,7 @@ public class GasDataManager {
         return gasDataManager;
     }
 
-    // get price limit from local json file
+    // get sellPrice limit from local json file
     private void loadGasLimitsFromJson() {
         try {
             InputStream is = context.getAssets().open("json/gas_limit.json");
@@ -78,7 +78,7 @@ public class GasDataManager {
         }.getType());
     }
 
-    // get recommend gas price through relay
+    // get recommend gas sellPrice through relay
     private void getGasPriceFromRelay() {
         if (this.gasObservable == null) {
             this.gasObservable = loopringService.getEstimateGasPrice()
