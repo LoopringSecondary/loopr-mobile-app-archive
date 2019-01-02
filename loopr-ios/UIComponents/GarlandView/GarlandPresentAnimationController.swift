@@ -25,14 +25,18 @@ public class GarlandAnimationController: NSObject, UIViewControllerAnimatedTrans
     }
 
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? GarlandViewController,
-            let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? GarlandViewController,
+        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? NewsViewController,
+            let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? NewsViewController,
             let fromHeaderSnapshot = fromVC.headerView.snapshotView(afterScreenUpdates: true) else {
                 
                 transitionContext.completeTransition(false)
                 return
         }
-        
+
+        if fromVC.previousExpandedIndexPath != nil {
+            fromVC.expandedNewsUuid = nil
+            fromVC.garlandCollection.reloadItems(at: [fromVC.previousExpandedIndexPath!])
+        }
         let fromCollection = fromVC.garlandCollection
         let toCollection = toVC.garlandCollection
         
