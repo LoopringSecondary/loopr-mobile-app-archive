@@ -72,21 +72,21 @@ class NewsCollectionCell: UICollectionViewCell {
         
         upvoteButton.setTitle(LocalizedString("News_Up", comment: ""), for: .normal)
         // upInChart color is better than up color here
-        upvoteButton.setTitleColor(UIColor.upInChart, for: .normal)
+        upvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+        
         upvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         upvoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         upvoteButton.addTarget(self, action: #selector(pressedUpvoteButton), for: .touchUpInside)
         
         downvoteButton.setTitle(LocalizedString("News_Down", comment: ""), for: .normal)
         // downInChart color is better than down color here
-        downvoteButton.setTitleColor(UIColor.downInChart, for: .normal)
+        downvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         downvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         downvoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         downvoteButton.addTarget(self, action: #selector(pressedDownvoteButton), for: .touchUpInside)
         
         shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
-        // shareButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
-        shareButton.setTitleColor(UIColor.theme, for: .normal)
+        shareButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         shareButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         shareButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         shareButton.addTarget(self, action: #selector(pressedshareButton), for: .touchUpInside)
@@ -130,20 +130,90 @@ class NewsCollectionCell: UICollectionViewCell {
     }
     
     @objc func pressedUpvoteButton(_ sender: Any) {
-        upvoteButton.shake(direction: "y", withTranslation: 6)
-        NewsDataManager.shared.setVote(uuid: news.uuid, isUpvote: true)
-        CrawlerAPIRequest.confirmBull(uuid: news.uuid) { (_, _) in
+        let vote = NewsDataManager.shared.getVote(uuid: news.uuid)
+        if vote > 0 {
+            CrawlerAPIRequest.cancelBull(uuid: news.uuid) { (_, _) in }
             
+            if NewsDataManager.shared.localUpvoteUpdates[news.uuid] != nil {
+                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 0
+            } else {
+                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = -1
+            }
+            NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 0
+            NewsDataManager.shared.votes[news.uuid] = 0
+        } else if vote < 0 {
+            CrawlerAPIRequest.confirmBull(uuid: news.uuid) { (_, _) in}
+            if NewsDataManager.shared.localUpvoteUpdates[news.uuid] != nil {
+                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 1
+            } else {
+                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 1
+            }
+            NewsDataManager.shared.votes[news.uuid] = 1
+            
+            if NewsDataManager.shared.localDownvoteUpdates[news.uuid] != nil {
+                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 0
+            } else {
+                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = -1
+            }
+            CrawlerAPIRequest.cancelBear(uuid: news.uuid) { (_, _) in }
+            
+        } else if vote == 0 {
+            CrawlerAPIRequest.confirmBull(uuid: news.uuid) { (_, _) in
+                
+            }
+            NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 1
+            NewsDataManager.shared.votes[news.uuid] = 1
         }
+
+        UserDefaults.standard.set(NewsDataManager.shared.votes, forKey: UserDefaultsKeys.newsUpvoteAndDownvote.rawValue)
+
+        upvoteButton.shake(direction: "y", withTranslation: 6)
         updateVoteButtons()
     }
     
     @objc func pressedDownvoteButton(_ sender: Any) {
-        downvoteButton.shake(direction: "y", withTranslation: 6)
-        NewsDataManager.shared.setVote(uuid: news.uuid, isUpvote: false)
-        CrawlerAPIRequest.confirmBear(uuid: news.uuid) { (_, _) in
+        let vote = NewsDataManager.shared.getVote(uuid: news.uuid)
+        if vote < 0 {
+            CrawlerAPIRequest.cancelBear(uuid: news.uuid) { (_, _) in }
             
+            NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 0
+
+            if NewsDataManager.shared.localDownvoteUpdates[news.uuid] != nil {
+                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 0
+            } else {
+                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = -1
+            }
+            
+            NewsDataManager.shared.votes[news.uuid] = 0
+        } else if vote > 0 {
+            CrawlerAPIRequest.confirmBear(uuid: news.uuid) { (_, _) in }
+
+            if NewsDataManager.shared.localDownvoteUpdates[news.uuid] != nil {
+                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 1
+            } else {
+                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 1
+            }
+            
+            NewsDataManager.shared.votes[news.uuid] = -1
+            
+            if NewsDataManager.shared.localUpvoteUpdates[news.uuid] != nil {
+                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 0
+            } else {
+                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = -1
+            }
+            CrawlerAPIRequest.cancelBull(uuid: news.uuid) { (_, _) in }
+
+        } else if vote == 0 {
+            CrawlerAPIRequest.confirmBear(uuid: news.uuid) { (_, _) in
+                
+            }
+            NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 1
+            NewsDataManager.shared.votes[news.uuid] = -1
         }
+
+        UserDefaults.standard.set(NewsDataManager.shared.votes, forKey: UserDefaultsKeys.newsUpvoteAndDownvote.rawValue)
+
+        downvoteButton.shake(direction: "y", withTranslation: 6)
         updateVoteButtons()
     }
     
@@ -152,19 +222,28 @@ class NewsCollectionCell: UICollectionViewCell {
     }
     
     func updateVoteButtons() {
-        let localVote = NewsDataManager.shared.getVote(uuid: news.uuid)
-        var localUpvoteValue: Int = 0
-        var localDownvoteValue: Int = 0
-        if localVote > 0 {
-            localUpvoteValue = localVote
+        let vote = NewsDataManager.shared.getVote(uuid: news.uuid)
+        if vote > 0 {
+            upvoteButton.setTitleColor(UIColor.upInChart, for: .normal)
+            downvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+        } else if vote < 0 {
+            upvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+            downvoteButton.setTitleColor(UIColor.downInChart, for: .normal)
         } else {
-            localDownvoteValue = -localVote
+            upvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+            downvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         }
+        
+        let localUpvoteValue: Int = NewsDataManager.shared.localUpvoteUpdates[news.uuid] ?? 0
+        let localDownvoteValue: Int = NewsDataManager.shared.localDownvoteUpdates[news.uuid] ?? 0
+
         upvoteButton.setTitle("\(LocalizedString("News_Up", comment: "")) \(news.bullIndex+localUpvoteValue)", for: .normal)
         downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex+localDownvoteValue)", for: .normal)
     }
     
     class func getSize(news: News, isExpanded: Bool) -> CGSize {
+        let minHeight: CGFloat = 190
+        
         if isExpanded {
             let width: CGFloat = UIScreen.main.bounds.width - 15*2
             let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.7
@@ -175,20 +254,16 @@ class NewsCollectionCell: UICollectionViewCell {
             let textViewheight = CGFloat(ceil(numLines)) * descriptionTextView.font!.lineHeight + CGFloat(ceil(numLines) - 1) * descriptionTextViewLineSpacing
             let otherHeight: CGFloat = 109
             var height = textViewheight + otherHeight
-            if height <  190 {
-                height = 190
+            if height <  minHeight {
+                height = minHeight
             }
             return CGSize(width: UIScreen.main.bounds.width - 15*2, height: height)
         }
 
         if news.category == .information {
-            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 190)
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: minHeight)
         } else {
-            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 190)
-            // GarlandView doesn't support different height of collection view cell between view controllers.
-            /*
-
-            */
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: minHeight)
         }
     }
     
