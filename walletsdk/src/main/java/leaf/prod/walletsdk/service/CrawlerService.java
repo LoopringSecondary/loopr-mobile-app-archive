@@ -16,6 +16,7 @@ import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.crawlerParam.IndexParam;
 import leaf.prod.walletsdk.model.request.crawlerParam.NewsParam;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
+import leaf.prod.walletsdk.model.response.crawler.BlogWrapper;
 import leaf.prod.walletsdk.model.response.crawler.IndexResult;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import rx.Observable;
@@ -109,6 +110,12 @@ public class CrawlerService {
                 .build();
         RequestWrapper request = new RequestWrapper("updateIndex", param);
         Observable<RelayResponseWrapper<IndexResult>> observable = rpcDelegate.updateIndex(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<BlogWrapper> getBlogs() {
+        RequestWrapper request = new RequestWrapper("queryScrollingInfo");
+        Observable<RelayResponseWrapper<BlogWrapper>> observable = rpcDelegate.getBlogs(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 }

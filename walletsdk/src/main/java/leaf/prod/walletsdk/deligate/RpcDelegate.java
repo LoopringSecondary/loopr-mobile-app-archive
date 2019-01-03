@@ -14,6 +14,7 @@ import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.app.VersionResp;
+import leaf.prod.walletsdk.model.response.crawler.BlogWrapper;
 import leaf.prod.walletsdk.model.response.crawler.IndexResult;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
@@ -71,6 +72,9 @@ public interface RpcDelegate {
 
     @POST(Default.CRAWLER_RPC_URL)
     Observable<RelayResponseWrapper<IndexResult>> updateIndex(@Body RequestWrapper request);
+
+    @POST(Default.CRAWLER_RPC_URL)
+    Observable<RelayResponseWrapper<BlogWrapper>> getBlogs(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
     Observable<Map> send(@Body RequestWrapper request);
