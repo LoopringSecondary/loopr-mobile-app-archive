@@ -98,29 +98,51 @@ walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星�
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_content">
 
-                <TextView
-                    android:id="@+id/tv_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="分享20"
-                    android:textColor="@color/colorNineText"
-                    android:textSize="11sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
 
-                <TextView
-                    android:id="@+id/tv_comment"
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/cl_share"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="评论10"
-                    android:textColor="@color/colorNineText"
-                    android:textSize="11sp"
-                    android:visibility="gone"
+                    android:layout_height="match_parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/tv_share"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/iv_share"
+                        android:layout_width="12dp"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.4"
+                        android:src="@mipmap/icon_share"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tv_share"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:gravity="center_vertical"
+                        android:text="分享"
+                        android:textColor="@color/colorNineText"
+                        android:textSize="11sp"
+                        app:layout_constraintLeft_toRightOf="@id/iv_share"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                </android.support.constraint.ConstraintLayout>
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_comment"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="20dp"-->
+                <!--android:text="评论10"-->
+                <!--android:textColor="@color/colorNineText"-->
+                <!--android:textSize="11sp"-->
+                <!--android:visibility="gone"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintLeft_toRightOf="@id/tv_share"-->
+                <!--app:layout_constraintTop_toTopOf="parent"/>-->
             </android.support.constraint.ConstraintLayout>
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>

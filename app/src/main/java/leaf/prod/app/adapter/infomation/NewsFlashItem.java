@@ -91,7 +91,7 @@ public class NewsFlashItem extends NewsBodyItem {
     @BindView(R.id.cl_bull)
     public ConstraintLayout clBull;
 
-    private static CrawlerService crawlerService = new CrawlerService();
+    private static CrawlerService crawlerService;
 
     private boolean expand = false;
 
@@ -106,6 +106,9 @@ public class NewsFlashItem extends NewsBodyItem {
                 expandView(expand = !expand);
             }
         });
+        if (crawlerService == null) {
+            crawlerService = new CrawlerService();
+        }
     }
 
     @SuppressLint("SetTextI18n")
