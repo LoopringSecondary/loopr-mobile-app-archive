@@ -54,8 +54,7 @@ public class GarlandAnimationController: NSObject, UIViewControllerAnimatedTrans
                 transitionContext.completeTransition(false)
                 return
         }
-        
-        
+
         let headerStartFrame = fromVC.view.convert(fromVC.headerView.frame, to: containerView)
         let headerFinalFrame = CGRect(origin: headerStartFrame.origin, size: toHeaderSnapshot.frame.size)
         
@@ -180,6 +179,10 @@ public class GarlandAnimationController: NSObject, UIViewControllerAnimatedTrans
                 fromFakeHeader.transform = CGAffineTransform(translationX: headerStartFrame.midX - headerToFrame.midX, y: 0)
                 
                 for (index, snapshot) in visibleToSnapshots.enumerated() {
+                    // fromCollection.visibleCells and toCollection.visibleCells may be different sizes
+                    if index > cellSize.count - 1 {
+                        continue
+                    }
                     snapshot.frame.origin = convertedFromCellCoords[index]
                     snapshot.alpha = 1.0
                     snapshot.frame.size.width = cellSize[index].width
