@@ -47,7 +47,7 @@ public class P2PRecordDetailPresenter extends BasePresenter<P2PRecordDetailActiv
             });
             dialogView.findViewById(R.id.btn_share).setOnClickListener(v -> {
                 shareDialog.hide();
-                ShareUtil.uShare(view, view.getResources()
+                ShareUtil.uShareImage(view, view.getResources()
                         .getString(R.string.share_order), ShareUtil.getBitmap(view.shareView));
             });
             builder.setView(dialogView);

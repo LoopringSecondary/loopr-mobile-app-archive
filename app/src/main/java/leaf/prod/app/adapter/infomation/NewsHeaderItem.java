@@ -3,6 +3,7 @@ package leaf.prod.app.adapter.infomation;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.ViewCompat;
@@ -82,13 +83,16 @@ public class NewsHeaderItem extends HeaderItem {
 
     private View view;
 
-    public NewsHeaderItem(View itemView, RecyclerView.RecycledViewPool pool) {
+    private Activity activity;
+
+    public NewsHeaderItem(View itemView, RecyclerView.RecycledViewPool pool, Activity activity) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.view = itemView;
+        this.activity = activity;
         headerHeight = DpUtil.dp2Int(view.getContext(), 170);
         // Init header
-        headerRecyclerView.setAdapter(new NewsBodyAdapter(headerRecyclerView.getContext()));
+        headerRecyclerView.setAdapter(new NewsBodyAdapter(headerRecyclerView.getContext(), activity));
         headerRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

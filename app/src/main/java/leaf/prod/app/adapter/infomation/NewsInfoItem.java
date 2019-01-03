@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
@@ -44,8 +45,8 @@ public class NewsInfoItem extends NewsBodyItem {
     @BindView(R.id.tv_source)
     public TextView tvSource;
 
-    public NewsInfoItem(View itemView) {
-        super(itemView);
+    public NewsInfoItem(View itemView, Activity activity) {
+        super(itemView, activity);
     }
 
     @SuppressLint("SetTextI18n")

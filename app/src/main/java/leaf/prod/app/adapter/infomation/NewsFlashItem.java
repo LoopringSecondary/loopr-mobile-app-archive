@@ -3,6 +3,7 @@ package leaf.prod.app.adapter.infomation;
 import java.text.SimpleDateFormat;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.View;
@@ -10,12 +11,17 @@ import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.vondear.rxtool.view.RxToast;
+
 import at.blogc.android.views.ExpandableTextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
+import leaf.prod.app.utils.ShareUtil;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.service.CrawlerService;
 import leaf.prod.walletsdk.util.SPUtils;
@@ -59,8 +65,8 @@ public class NewsFlashItem extends NewsBodyItem {
 
     private News data;
 
-    public NewsFlashItem(View itemView) {
-        super(itemView);
+    public NewsFlashItem(View itemView, Activity activity) {
+        super(itemView, activity);
         clContent.setExpandInterpolator(new OvershootInterpolator());
         clContent.setCollapseInterpolator(new OvershootInterpolator());
         clContent.setOnClickListener(view -> {
@@ -75,6 +81,8 @@ public class NewsFlashItem extends NewsBodyItem {
     public void setContent(News data) {
         if (data == null)
             return;
+        if (data.getUuid().equalsIgnoreCase("/joCLuUSUifKNfuFR8hnhqzAiMA="))
+            LyqbLogger.log(data.toString());
         try {
             this.data = data;
             tvTime.setText(sdf2.format(sdf1.parse(data.getPublishTime())));
@@ -112,6 +120,32 @@ public class NewsFlashItem extends NewsBodyItem {
                     setBear();
                     break;
                 case R.id.tv_share:
+                    ShareUtil.uShareUrl(activity, data.getTitle(), data.getUrl(), " ", new UMShareListener() {
+                        @Override
+                        public void onStart(SHARE_MEDIA platform) {
+                        }
+
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onResult(SHARE_MEDIA platform) {
+                            RxToast.success(activity.getResources().getString(R.string.share_success));
+                            crawlerService.confirmForward(data.getUuid());
+                            tvShare.setText(activity.getString(R.string.news_share) + " " + (data.getForwardNum() + 1));
+                        }
+
+                        @Override
+                        public void onError(SHARE_MEDIA platform, Throwable t) {
+                            if (t.getMessage().contains("2008")) {//错误码
+                                RxToast.error(activity.getResources().getString(R.string.share_failed_no_app));
+                            } else {
+                                RxToast.error(activity.getResources().getString(R.string.share_failed, t.getMessage()));
+                            }
+                        }
+
+                        @Override
+                        public void onCancel(SHARE_MEDIA platform) {
+                        }
+                    });
                     break;
             }
         }

@@ -90,7 +90,7 @@ walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星�
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="@dimen/margSide"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -117,6 +117,7 @@ walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星�
                     android:text="评论10"
                     android:textColor="@color/colorNineText"
                     android:textSize="11sp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/tv_share"
                     app:layout_constraintTop_toTopOf="parent"/>

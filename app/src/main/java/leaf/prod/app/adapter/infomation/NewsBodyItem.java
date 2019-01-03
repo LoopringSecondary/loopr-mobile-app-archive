@@ -1,5 +1,6 @@
 package leaf.prod.app.adapter.infomation;
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,12 +17,15 @@ import leaf.prod.walletsdk.model.response.crawler.News;
  */
 public class NewsBodyItem extends InnerItem {
 
+    protected Activity activity;
+
     protected View innerLayout;
 
-    public NewsBodyItem(View itemView) {
+    public NewsBodyItem(View itemView, Activity activity) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        innerLayout = ((ViewGroup) itemView).getChildAt(0);
+        this.innerLayout = ((ViewGroup) itemView).getChildAt(0);
+        this.activity = activity;
     }
 
     @Override

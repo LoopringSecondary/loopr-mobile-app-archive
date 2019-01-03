@@ -2,6 +2,7 @@ package leaf.prod.app.adapter.infomation;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,8 +27,11 @@ public class NewsHeaderAdapter extends TailAdapter<NewsHeaderItem> {
 
     private final RecyclerView.RecycledViewPool mPool;
 
-    public NewsHeaderAdapter(List<NewsHeader> data) {
+    private Activity activity;
+
+    public NewsHeaderAdapter(List<NewsHeader> data, Activity activity) {
         this.mData = data;
+        this.activity = activity;
         mPool = new RecyclerView.RecycledViewPool();
         mPool.setMaxRecycledViews(0, POOL_SIZE);
     }
@@ -35,7 +39,7 @@ public class NewsHeaderAdapter extends TailAdapter<NewsHeaderItem> {
     @Override
     public NewsHeaderItem onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        return new NewsHeaderItem(view, mPool);
+        return new NewsHeaderItem(view, mPool, activity);
     }
 
     @Override

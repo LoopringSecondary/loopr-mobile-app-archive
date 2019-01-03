@@ -76,7 +76,7 @@ public class NewsPresenter extends BasePresenter<NewsFragment> {
                                         .emptyBean())
                                 .build());
                         ((TailLayoutManager) view.recyclerView.getLayoutManager()).setPageTransformer(new HeaderTransformer());
-                        view.recyclerView.setAdapter(new NewsHeaderAdapter(newsHeaderList));
+                        view.recyclerView.setAdapter(new NewsHeaderAdapter(newsHeaderList, view.getActivity()));
                         new TailSnapHelper().attachToRecyclerView(view.recyclerView);
                         view.clLoading.setVisibility(View.GONE);
                         unsubscribe();

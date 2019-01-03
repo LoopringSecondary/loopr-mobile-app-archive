@@ -3,6 +3,7 @@ package leaf.prod.app.adapter.infomation;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -25,18 +26,21 @@ public class NewsBodyAdapter extends InnerAdapter<NewsBodyItem> {
 
     private NewsHeader.NewsType newsType;
 
-    public NewsBodyAdapter(Context context) {
+    private Activity activity;
+
+    public NewsBodyAdapter(Context context, Activity activity) {
         this.context = context;
+        this.activity = activity;
     }
 
     @Override
     public NewsBodyItem onCreateViewHolder(ViewGroup parent, int viewType) {
         if (newsType == NewsHeader.NewsType.NEWS_FLASH) {
             view = LayoutInflater.from(context).inflate(R.layout.news_flash_item, null);
-            return new NewsFlashItem(view);
+            return new NewsFlashItem(view, activity);
         } else {
             view = LayoutInflater.from(context).inflate(R.layout.news_info_item, null);
-            return new NewsInfoItem(view);
+            return new NewsInfoItem(view, activity);
         }
     }
 

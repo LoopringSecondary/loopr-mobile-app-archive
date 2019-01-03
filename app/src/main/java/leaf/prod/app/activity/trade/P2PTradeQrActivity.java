@@ -122,7 +122,7 @@ public class P2PTradeQrActivity extends BaseActivity {
         Operation operation = getOperation();
         operation.addParameter("tag", 1);
         title.clickLeftGoBack(getWContext(), operation, P2PActivity.class);
-        title.setRightImageButton(R.mipmap.icon_share, button -> ShareUtil.uShare(this, getString(R.string.share_order), ShareUtil
+        title.setRightImageButton(R.mipmap.icon_share, button -> ShareUtil.uShareImage(this, getString(R.string.share_order), ShareUtil
                 .getBitmap(shareView)));
     }
 

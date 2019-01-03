@@ -20,6 +20,7 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
@@ -32,7 +33,7 @@ import leaf.prod.app.R;
  */
 public class ShareUtil {
 
-    public static void uShare(Activity activity, String title, Bitmap bitmap) {
+    public static void uShareImage(Activity activity, String title, Bitmap bitmap) {
         UMImage umImage = new UMImage(activity, bitmap);
         umImage.setTitle(title);
         umImage.setDescription(title);
@@ -62,6 +63,16 @@ public class ShareUtil {
                     public void onCancel(SHARE_MEDIA platform) {
                     }
                 }).withMedia(umImage).open();
+    }
+
+    public static void uShareUrl(Activity activity, String title, String url, String description, UMShareListener umShareListener) {
+        UMWeb umWeb = new UMWeb(url);
+        umWeb.setTitle(title);
+        umWeb.setDescription(description);
+        ShareAction shareAction = new ShareAction(activity);
+        shareAction.setDisplayList(SHARE_MEDIA.QQ,
+                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.FACEBOOK)
+                .setCallback(umShareListener).withMedia(umWeb).open();
     }
 
     public static Bitmap getBitmap(ConstraintLayout layout) {
