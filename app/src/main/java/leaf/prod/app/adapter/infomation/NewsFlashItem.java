@@ -22,9 +22,15 @@ import leaf.prod.app.R;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.ShareUtil;
+import leaf.prod.walletsdk.model.response.crawler.IndexResult;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.service.CrawlerService;
 import leaf.prod.walletsdk.util.SPUtils;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created with IntelliJ IDEA.
@@ -81,20 +87,18 @@ public class NewsFlashItem extends NewsBodyItem {
     public void setContent(News data) {
         if (data == null)
             return;
-        if (data.getUuid().equalsIgnoreCase("/joCLuUSUifKNfuFR8hnhqzAiMA="))
-            LyqbLogger.log(data.toString());
         try {
             this.data = data;
             tvTime.setText(sdf2.format(sdf1.parse(data.getPublishTime())));
             tvSource.setText(innerLayout.getResources().getString(R.string.news_source) + ":" + data.getSource());
             tvTitle.setText(data.getTitle());
             clContent.setText(data.getContent());
-            tvShare.setText(innerLayout.getResources().getString(R.string.news_share) + (data.getForwardNum() > 0 ? data
-                    .getForwardNum() : ""));
+            tvShare.setText(innerLayout.getResources()
+                    .getString(R.string.news_share) + " " + (data.getForwardNum() > 0 ? data.getForwardNum() : ""));
             tvBear.setText(innerLayout.getResources()
-                    .getString(R.string.news_bear) + (data.getBearIndex() > 0 ? data.getBearIndex() : ""));
+                    .getString(R.string.news_bear) + " " + (data.getBearIndex() > 0 ? data.getBearIndex() : ""));
             tvBull.setText(innerLayout.getResources()
-                    .getString(R.string.news_bull) + (data.getBullIndex() > 0 ? data.getBullIndex() : ""));
+                    .getString(R.string.news_bull) + " " + (data.getBullIndex() > 0 ? data.getBullIndex() : ""));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -155,28 +159,89 @@ public class NewsFlashItem extends NewsBodyItem {
     private void setBull() {
         String result = (String) SPUtils.get(innerLayout.getContext(), "news_" + data.getUuid(), "");
         if (result.isEmpty()) {
-            SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "bull");
-            crawlerService.confirmBull(data.getUuid());
-            tvBull.setTypeface(null, Typeface.BOLD);
-            tvBear.setTypeface(null, Typeface.NORMAL);
-            tvBull.setText(innerLayout.getResources().getString(R.string.news_bull) + "  " + (data.getBullIndex() + 1));
+            crawlerService.confirmBull(data.getUuid())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<IndexResult>() {
+                        @Override
+                        public void onCompleted() {
+                            unsubscribe();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            RxToast.error("服务器出错");
+                            unsubscribe();
+                        }
+
+                        @Override
+                        public void onNext(IndexResult indexResult) {
+                            SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "bull");
+                            tvBull.setTypeface(null, Typeface.BOLD);
+                            tvBear.setTypeface(null, Typeface.NORMAL);
+                            tvBull.setText(innerLayout.getResources().getString(R.string.news_bull) + "  " + indexResult
+                                    .getBullIndex());
+                            unsubscribe();
+                        }
+                    });
         } else {
             if (result.equals("bull")) {
-                SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "");
-                crawlerService.cancelBull(data.getUuid());
-                tvBull.setTypeface(null, Typeface.NORMAL);
-                tvBull.setText(innerLayout.getResources()
-                        .getString(R.string.news_bull) + "  " + (data.getBullIndex() - 1 > 0 ? data.getBullIndex() - 1 : ""));
+                crawlerService.cancelBull(data.getUuid()).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<IndexResult>() {
+                            @Override
+                            public void onCompleted() {
+                                unsubscribe();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                RxToast.error("服务器出错");
+                                unsubscribe();
+                            }
+
+                            @Override
+                            public void onNext(IndexResult indexResult) {
+                                SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "");
+                                tvBull.setTypeface(null, Typeface.NORMAL);
+                                tvBull.setText(innerLayout.getResources()
+                                        .getString(R.string.news_bull) + "  " + (indexResult.getBullIndex() > 0 ? indexResult
+                                        .getBullIndex() : ""));
+                                unsubscribe();
+                            }
+                        });
             } else {
-                SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "bull");
-                crawlerService.confirmBull(data.getUuid());
-                crawlerService.cancelBear(data.getUuid());
-                tvBear.setTypeface(null, Typeface.NORMAL);
-                tvBull.setTypeface(null, Typeface.BOLD);
-                tvBull.setText(innerLayout.getResources()
-                        .getString(R.string.news_bull) + "  " + (data.getBullIndex() + 1));
-                tvBear.setText(innerLayout.getResources()
-                        .getString(R.string.news_bear) + "  " + (data.getBearIndex() - 1 > 0 ? data.getBullIndex() - 1 : ""));
+                crawlerService.confirmBull(data.getUuid())
+                        .flatMap((Func1<IndexResult, Observable<IndexResult>>) indexResult -> crawlerService.cancelBear(indexResult
+                                .getUuid()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<IndexResult>() {
+                            @Override
+                            public void onCompleted() {
+                                unsubscribe();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                RxToast.error("服务器出错");
+                                unsubscribe();
+                            }
+
+                            @Override
+                            public void onNext(IndexResult indexResult) {
+                                SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "bull");
+                                tvBear.setTypeface(null, Typeface.NORMAL);
+                                tvBull.setTypeface(null, Typeface.BOLD);
+                                tvBull.setText(innerLayout.getResources()
+                                        .getString(R.string.news_bull) + "  " + (indexResult.getBullIndex() > 0 ? indexResult
+                                        .getBullIndex() : ""));
+                                tvBear.setText(innerLayout.getResources()
+                                        .getString(R.string.news_bear) + "  " + (indexResult.getBearIndex() > 0 ? indexResult
+                                        .getBearIndex() : ""));
+                                unsubscribe();
+                            }
+                        });
             }
         }
     }
@@ -185,28 +250,89 @@ public class NewsFlashItem extends NewsBodyItem {
     private void setBear() {
         String result = (String) SPUtils.get(innerLayout.getContext(), "news_" + data.getUuid(), "");
         if (result.isEmpty()) {
-            SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "bear");
-            crawlerService.confirmBear(data.getUuid());
-            tvBear.setTypeface(null, Typeface.BOLD);
-            tvBull.setTypeface(null, Typeface.NORMAL);
-            tvBear.setText(innerLayout.getResources().getString(R.string.news_bear) + "  " + (data.getBullIndex() + 1));
+            crawlerService.confirmBear(data.getUuid())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<IndexResult>() {
+                        @Override
+                        public void onCompleted() {
+                            unsubscribe();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            RxToast.error("服务器出错");
+                            unsubscribe();
+                        }
+
+                        @Override
+                        public void onNext(IndexResult indexResult) {
+                            SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "bear");
+                            tvBear.setTypeface(null, Typeface.BOLD);
+                            tvBull.setTypeface(null, Typeface.NORMAL);
+                            tvBear.setText(innerLayout.getResources().getString(R.string.news_bear) + "  " + indexResult
+                                    .getBearIndex());
+                            unsubscribe();
+                        }
+                    });
         } else {
             if (result.equals("bear")) {
-                SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "");
-                crawlerService.cancelBear(data.getUuid());
-                tvBear.setTypeface(null, Typeface.NORMAL);
-                tvBear.setText(innerLayout.getResources()
-                        .getString(R.string.news_bear) + "  " + (data.getBearIndex() - 1 > 0 ? data.getBearIndex() - 1 : ""));
+                crawlerService.cancelBear(data.getUuid())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<IndexResult>() {
+                            @Override
+                            public void onCompleted() {
+                                unsubscribe();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                RxToast.error("服务器出错");
+                                unsubscribe();
+                            }
+
+                            @Override
+                            public void onNext(IndexResult indexResult) {
+                                SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "");
+                                tvBear.setTypeface(null, Typeface.NORMAL);
+                                tvBear.setText(innerLayout.getResources()
+                                        .getString(R.string.news_bear) + "  " + (indexResult.getBearIndex() > 0 ? indexResult
+                                        .getBearIndex() : ""));
+                                unsubscribe();
+                            }
+                        });
             } else {
-                SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "bear");
-                crawlerService.confirmBear(data.getUuid());
-                crawlerService.cancelBull(data.getUuid());
-                tvBear.setTypeface(null, Typeface.BOLD);
-                tvBull.setTypeface(null, Typeface.NORMAL);
-                tvBear.setText(innerLayout.getResources()
-                        .getString(R.string.news_bear) + "  " + (data.getBullIndex() + 1));
-                tvBull.setText(innerLayout.getResources()
-                        .getString(R.string.news_bull) + "  " + (data.getBearIndex() - 1 > 0 ? data.getBullIndex() - 1 : ""));
+                crawlerService.confirmBear(data.getUuid())
+                        .flatMap((Func1<IndexResult, Observable<IndexResult>>) indexResult -> crawlerService.cancelBull(data
+                                .getUuid()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<IndexResult>() {
+
+                            @Override
+                            public void onCompleted() {
+                                unsubscribe();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                RxToast.error("服务器出错");
+                                unsubscribe();
+                            }
+
+                            @Override
+                            public void onNext(IndexResult indexResult) {
+                                SPUtils.put(innerLayout.getContext(), "news_" + data.getUuid(), "bear");
+                                tvBear.setTypeface(null, Typeface.BOLD);
+                                tvBull.setTypeface(null, Typeface.NORMAL);
+                                tvBull.setText(innerLayout.getResources()
+                                        .getString(R.string.news_bull) + "  " + (data.getBullIndex() > 0 ? data.getBullIndex() : ""));
+                                tvBear.setText(innerLayout.getResources()
+                                        .getString(R.string.news_bear) + "  " + (data.getBearIndex() > 0 ? data.getBearIndex() : ""));
+                                unsubscribe();
+                            }
+                        });
             }
         }
     }
