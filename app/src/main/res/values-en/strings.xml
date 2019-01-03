@@ -303,4 +303,5 @@
     <string name="Favorites">Favorites</string>
     <string name="market">Market</string>
     <string name="change">Change</string>
+    <string name="service_error">Service Error</string>
 </resources>

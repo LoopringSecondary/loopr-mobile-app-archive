@@ -13,6 +13,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.loopj.android.image.WebImage;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +46,9 @@ public class NewsInfoActivity extends BaseActivity {
 
     @BindView(R.id.sv_content)
     public ScrollView svContent;
+
+    @BindView(R.id.refresh_layout)
+    public SmartRefreshLayout refreshLayout;
 
     private static int margin = 0;
 

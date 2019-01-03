@@ -98,7 +98,7 @@
                     android:id="@+id/iv_news"
                     android:layout_width="@dimen/mainTabIcon"
                     android:layout_height="@dimen/mainTabIcon"
-                    android:src="@drawable/icon_trade_select"/>
+                    android:src="@drawable/icon_news_select"/>
 
                 <TextView
                     android:id="@+id/tv_news"

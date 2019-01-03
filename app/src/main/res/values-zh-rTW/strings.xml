@@ -456,4 +456,5 @@
     <string name="Favorites">收藏</string>
     <string name="market">市场</string>
     <string name="change">涨跌</string>
+    <string name="service_error">服務器開小差了</string>
 </resources>
