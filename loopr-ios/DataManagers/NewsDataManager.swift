@@ -21,8 +21,6 @@ class NewsDataManager {
     var flashItems: [News] = []
 
     var votes = [String: Int]()
-    var localUpvoteUpdates = [String: Int]()
-    var localDownvoteUpdates = [String: Int]()
 
     private init() {
         if let votes = UserDefaults.standard.dictionary(forKey: UserDefaultsKeys.newsUpvoteAndDownvote.rawValue) as? [String: Int] {
@@ -38,16 +36,22 @@ class NewsDataManager {
         }
     }
     
-    func updateVote(uuid: String, updateBullValue: Int, updateBearValue: Int) {
-        
+    func updateVote(updatedNews: News) {
+        if updatedNews.category == .information {
+            if let firstNews = informationItems.index(where: { $0.uuid == updatedNews.uuid }) {
+                informationItems[firstNews] = updatedNews
+            }
+        } else {
+            if let firstNews = flashItems.index(where: { $0.uuid == updatedNews.uuid }) {
+                flashItems[firstNews] = updatedNews
+            }
+        }
     }
 
     func get(category: NewsCategory, pageIndex: UInt, completion: @escaping (_ newsItems: [News], _ error: Error?) -> Void) {
         CrawlerAPIRequest.get(token: "ALL_CURRENCY", language: SettingDataManager.shared.getCurrentLanguage(), category: category, pageIndex: pageIndex, pageSize: pageSize) { (news, error) in
             if category == .information {
                 if pageIndex == 0 {
-                    self.localUpvoteUpdates.removeAll()
-                    self.localDownvoteUpdates.removeAll()
                     self.informationItems = news
                 } else {
                     self.informationItems += news
@@ -59,8 +63,6 @@ class NewsDataManager {
                 }
             } else {
                 if pageIndex == 0 {
-                    self.localUpvoteUpdates.removeAll()
-                    self.localDownvoteUpdates.removeAll()
                     self.flashItems = news
                 } else {
                     self.flashItems += news

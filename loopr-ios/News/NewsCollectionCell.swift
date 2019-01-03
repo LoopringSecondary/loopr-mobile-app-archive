@@ -134,38 +134,27 @@ class NewsCollectionCell: UICollectionViewCell {
         if vote > 0 {
             CrawlerAPIRequest.cancelBull(uuid: news.uuid) { (_, _) in }
             
-            if NewsDataManager.shared.localUpvoteUpdates[news.uuid] != nil {
-                NewsDataManager.shared.localUpvoteUpdates.removeValue(forKey: news.uuid)
-            } else {
-                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = -1
-            }
-            NewsDataManager.shared.localDownvoteUpdates.removeValue(forKey: news.uuid)
+            news.bullIndex -= 1
+            NewsDataManager.shared.updateVote(updatedNews: news)
+            
             NewsDataManager.shared.votes[news.uuid] = 0
         } else if vote < 0 {
             CrawlerAPIRequest.confirmBull(uuid: news.uuid) { (_, _) in}
-            if NewsDataManager.shared.localUpvoteUpdates[news.uuid] != nil {
-                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 1
-            } else {
-                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 1
-            }
-            NewsDataManager.shared.votes[news.uuid] = 1
+
+            news.bullIndex += 1
+            news.bearIndex -= 1
+            NewsDataManager.shared.updateVote(updatedNews: news)
             
-            if NewsDataManager.shared.localDownvoteUpdates[news.uuid] != nil {
-                NewsDataManager.shared.localDownvoteUpdates.removeValue(forKey: news.uuid)
-            } else {
-                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = -1
-            }
+            NewsDataManager.shared.votes[news.uuid] = 1
+
             CrawlerAPIRequest.cancelBear(uuid: news.uuid) { (_, _) in }
             
         } else if vote == 0 {
-            CrawlerAPIRequest.confirmBull(uuid: news.uuid) { (_, _) in
-                
-            }
-            if NewsDataManager.shared.localUpvoteUpdates[news.uuid] != nil {
-                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 0
-            } else {
-                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 1
-            }
+            CrawlerAPIRequest.confirmBull(uuid: news.uuid) { (_, _) in }
+            
+            news.bullIndex += 1
+            NewsDataManager.shared.updateVote(updatedNews: news)
+            
             NewsDataManager.shared.votes[news.uuid] = 1
         }
 
@@ -180,42 +169,27 @@ class NewsCollectionCell: UICollectionViewCell {
         if vote < 0 {
             CrawlerAPIRequest.cancelBear(uuid: news.uuid) { (_, _) in }
             
-            NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 0
-
-            if NewsDataManager.shared.localDownvoteUpdates[news.uuid] != nil {
-                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 0
-            } else {
-                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = -1
-            }
+            news.bearIndex -= 1
+            NewsDataManager.shared.updateVote(updatedNews: news)
             
             NewsDataManager.shared.votes[news.uuid] = 0
         } else if vote > 0 {
             CrawlerAPIRequest.confirmBear(uuid: news.uuid) { (_, _) in }
 
-            if NewsDataManager.shared.localDownvoteUpdates[news.uuid] != nil {
-                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 1
-            } else {
-                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 1
-            }
+            news.bullIndex -= 1
+            news.bearIndex += 1
+            NewsDataManager.shared.updateVote(updatedNews: news)
             
             NewsDataManager.shared.votes[news.uuid] = -1
-            
-            if NewsDataManager.shared.localUpvoteUpdates[news.uuid] != nil {
-                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 0
-            } else {
-                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = -1
-            }
+
             CrawlerAPIRequest.cancelBull(uuid: news.uuid) { (_, _) in }
 
         } else if vote == 0 {
-            CrawlerAPIRequest.confirmBear(uuid: news.uuid) { (_, _) in
-                
-            }
-            if NewsDataManager.shared.localDownvoteUpdates[news.uuid] != nil {
-                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 0
-            } else {
-                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 1
-            }
+            CrawlerAPIRequest.confirmBear(uuid: news.uuid) { (_, _) in }
+
+            news.bearIndex += 1
+            NewsDataManager.shared.updateVote(updatedNews: news)
+            
             NewsDataManager.shared.votes[news.uuid] = -1
         }
 
@@ -241,12 +215,9 @@ class NewsCollectionCell: UICollectionViewCell {
             upvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
             downvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         }
-        
-        let localUpvoteValue: Int = NewsDataManager.shared.localUpvoteUpdates[news.uuid] ?? 0
-        let localDownvoteValue: Int = NewsDataManager.shared.localDownvoteUpdates[news.uuid] ?? 0
 
-        upvoteButton.setTitle("\(LocalizedString("News_Up", comment: "")) \(news.bullIndex+localUpvoteValue)", for: .normal)
-        downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex+localDownvoteValue)", for: .normal)
+        upvoteButton.setTitle("\(LocalizedString("News_Up", comment: "")) \(news.bullIndex)", for: .normal)
+        downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex)", for: .normal)
     }
     
     class func getSize(news: News, isExpanded: Bool) -> CGSize {
