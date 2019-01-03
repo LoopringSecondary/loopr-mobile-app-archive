@@ -135,11 +135,11 @@ class NewsCollectionCell: UICollectionViewCell {
             CrawlerAPIRequest.cancelBull(uuid: news.uuid) { (_, _) in }
             
             if NewsDataManager.shared.localUpvoteUpdates[news.uuid] != nil {
-                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 0
+                NewsDataManager.shared.localUpvoteUpdates.removeValue(forKey: news.uuid)
             } else {
                 NewsDataManager.shared.localUpvoteUpdates[news.uuid] = -1
             }
-            NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 0
+            NewsDataManager.shared.localDownvoteUpdates.removeValue(forKey: news.uuid)
             NewsDataManager.shared.votes[news.uuid] = 0
         } else if vote < 0 {
             CrawlerAPIRequest.confirmBull(uuid: news.uuid) { (_, _) in}
@@ -151,7 +151,7 @@ class NewsCollectionCell: UICollectionViewCell {
             NewsDataManager.shared.votes[news.uuid] = 1
             
             if NewsDataManager.shared.localDownvoteUpdates[news.uuid] != nil {
-                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 0
+                NewsDataManager.shared.localDownvoteUpdates.removeValue(forKey: news.uuid)
             } else {
                 NewsDataManager.shared.localDownvoteUpdates[news.uuid] = -1
             }
@@ -161,7 +161,11 @@ class NewsCollectionCell: UICollectionViewCell {
             CrawlerAPIRequest.confirmBull(uuid: news.uuid) { (_, _) in
                 
             }
-            NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 1
+            if NewsDataManager.shared.localUpvoteUpdates[news.uuid] != nil {
+                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 0
+            } else {
+                NewsDataManager.shared.localUpvoteUpdates[news.uuid] = 1
+            }
             NewsDataManager.shared.votes[news.uuid] = 1
         }
 
@@ -207,7 +211,11 @@ class NewsCollectionCell: UICollectionViewCell {
             CrawlerAPIRequest.confirmBear(uuid: news.uuid) { (_, _) in
                 
             }
-            NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 1
+            if NewsDataManager.shared.localDownvoteUpdates[news.uuid] != nil {
+                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 0
+            } else {
+                NewsDataManager.shared.localDownvoteUpdates[news.uuid] = 1
+            }
             NewsDataManager.shared.votes[news.uuid] = -1
         }
 

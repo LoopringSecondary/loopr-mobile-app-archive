@@ -37,6 +37,10 @@ class NewsDataManager {
             return 0
         }
     }
+    
+    func updateVote(uuid: String, updateBullValue: Int, updateBearValue: Int) {
+        
+    }
 
     func get(category: NewsCategory, pageIndex: UInt, completion: @escaping (_ newsItems: [News], _ error: Error?) -> Void) {
         CrawlerAPIRequest.get(token: "ALL_CURRENCY", language: SettingDataManager.shared.getCurrentLanguage(), category: category, pageIndex: pageIndex, pageSize: pageSize) { (news, error) in

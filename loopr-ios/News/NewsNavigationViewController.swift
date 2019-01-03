@@ -35,17 +35,19 @@ class NewsNavigationViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        takeSnapshot()
+
         // TODO: Still too late to call
         let newsViewController = NewsViewController()
         newsViewController.modalPresentationStyle = .overCurrentContext
         present(newsViewController, animated: false) {
             
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        takeSnapshot()
     }
 
     func takeSnapshot() {
