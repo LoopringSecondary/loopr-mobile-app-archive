@@ -27,6 +27,8 @@ class NewsCollectionCell: UICollectionViewCell {
     var didClickedCollectionCellClosure: ((News) -> Void)?
     var didPressedShareButtonClosure: ((News) -> Void)?
 
+    let iconTitlePadding: CGFloat = 8
+
     open override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -77,6 +79,7 @@ class NewsCollectionCell: UICollectionViewCell {
         upvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         upvoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         upvoteButton.addTarget(self, action: #selector(pressedUpvoteButton), for: .touchUpInside)
+        upvoteButton.set(image: UIImage.init(named: "Upvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         
         downvoteButton.setTitle(LocalizedString("News_Down", comment: ""), for: .normal)
         // downInChart color is better than down color here
@@ -84,12 +87,15 @@ class NewsCollectionCell: UICollectionViewCell {
         downvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         downvoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         downvoteButton.addTarget(self, action: #selector(pressedDownvoteButton), for: .touchUpInside)
-        
-        shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
-        shareButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+        downvoteButton.set(image: UIImage.init(named: "Downvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
+
+        // shareButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+        shareButton.setTitleColor(UIColor.theme, for: .normal)
         shareButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         shareButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         shareButton.addTarget(self, action: #selector(pressedshareButton), for: .touchUpInside)
+        shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
+        shareButton.set(image: UIImage.init(named: "News-share"), title: LocalizedString("Share", comment: ""), titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
     }
     
     func updateUIStyle(news: News, isExpanded: Bool) {
@@ -206,14 +212,24 @@ class NewsCollectionCell: UICollectionViewCell {
     func updateVoteButtons() {
         let vote = NewsDataManager.shared.getVote(uuid: news.uuid)
         if vote > 0 {
-            upvoteButton.setTitleColor(UIColor.upInChart, for: .normal)
+            // upvoteButton.setTitleColor(UIColor.upInChart, for: .normal)
+            upvoteButton.setTitleColor(UIColor.down, for: .normal)
+            upvoteButton.set(image: UIImage.init(named: "Upvote-selected"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
             downvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+            downvoteButton.set(image: UIImage.init(named: "Downvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         } else if vote < 0 {
             upvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
-            downvoteButton.setTitleColor(UIColor.downInChart, for: .normal)
+            upvoteButton.set(image: UIImage.init(named: "Upvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
+            
+            // downvoteButton.setTitleColor(UIColor.downInChart, for: .normal)
+            downvoteButton.setTitleColor(UIColor.up, for: .normal)
+            downvoteButton.set(image: UIImage.init(named: "Downvote-selected"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         } else {
             upvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+            upvoteButton.set(image: UIImage.init(named: "Upvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
+
             downvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+            downvoteButton.set(image: UIImage.init(named: "Downvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         }
 
         upvoteButton.setTitle("\(LocalizedString("News_Up", comment: "")) \(news.bullIndex)", for: .normal)
