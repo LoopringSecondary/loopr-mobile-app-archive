@@ -28,7 +28,7 @@ class News {
     var paragraphs: [String] = []
     var description: String
     
-    init(json: JSON, category: NewsCategory) {
+    init?(json: JSON, category: NewsCategory) {
         self.uuid = json["uuid"].stringValue
         self.token = json["token"].stringValue
         self.language = Language(name: json["language"].stringValue)
@@ -66,9 +66,14 @@ class News {
             .documentType: NSAttributedString.DocumentType.html,
             .characterEncoding: String.Encoding.utf8.rawValue
         ]
-        let attributed = try! NSAttributedString(data: self.description.data(using: .unicode)!, options: options, documentAttributes: nil)
-        self.description = attributed.string
         
+        do {
+            let attributed = try NSAttributedString(data: self.description.data(using: .unicode)!, options: options, documentAttributes: nil)
+            self.description = attributed.string
+        } catch {
+            return nil
+        }
+
         // TODO: how to change the line distance in html and css?
         self.content = self.content.replacingOccurrences(of: "\n\n", with: "\n")
         self.content = self.content.replacingOccurrences(of: "\n", with: "\n\n")

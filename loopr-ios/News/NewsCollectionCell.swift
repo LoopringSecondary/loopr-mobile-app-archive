@@ -237,6 +237,7 @@ class NewsCollectionCell: UICollectionViewCell {
     }
     
     class func getSize(news: News, isExpanded: Bool) -> CGSize {
+        let width: CGFloat = UIScreen.main.bounds.width - 15*2 - 6
         let minHeight: CGFloat = 190
         
         if isExpanded {
@@ -252,13 +253,13 @@ class NewsCollectionCell: UICollectionViewCell {
             if height <  minHeight {
                 height = minHeight
             }
-            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: height)
+            return CGSize(width: width, height: height)
         }
 
         if news.category == .information {
-            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: minHeight)
+            return CGSize(width: width, height: minHeight)
         } else {
-            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: minHeight)
+            return CGSize(width: width, height: minHeight)
         }
     }
     
