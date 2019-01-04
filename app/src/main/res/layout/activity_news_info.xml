@@ -90,41 +90,36 @@
                 android:layout_marginTop="12dp"
                 android:background="@color/lineBac"/>
 
-            <TextView
-                android:id="@+id/tv_bull"
-                android:layout_width="40dp"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_share"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/news_bull"
-                android:textAlignment="textStart"
-                android:textColor="@color/colorRed"
-                android:textSize="@dimen/text_11"
-                app:layout_constraintRight_toLeftOf="@id/tv_bear"
-                tools:ignore="RtlCompat"/>
-
-            <TextView
-                android:id="@+id/tv_bear"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/news_bear"
-                android:textAlignment="textStart"
-                android:textColor="@color/colorGreen"
-                android:textSize="@dimen/text_11"
-                app:layout_constraintRight_toLeftOf="@id/tv_share"
-                tools:ignore="RtlCompat"/>
-
-            <TextView
-                android:id="@+id/tv_share"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/news_share"
-                android:textAlignment="textStart"
-                android:textColor="@color/colorNineText"
-                android:textSize="@dimen/text_11"
+                android:layout_marginEnd="@dimen/margSide"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                tools:ignore="RtlCompat"/>
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_share"
+                    android:layout_width="12dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.4"
+                    android:src="@mipmap/icon_share"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_share"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:text="分享"
+                    android:textColor="@color/colorNineText"
+                    android:textSize="11sp"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
