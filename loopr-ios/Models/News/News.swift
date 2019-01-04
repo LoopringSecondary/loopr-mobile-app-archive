@@ -8,7 +8,7 @@
 
 import Foundation
 
-class News {
+class News: NewsProtocol {
     var uuid: String
     var token: String
     var language: Language

@@ -58,6 +58,13 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
         }
         setupHeader(header)
         header.titleLabel.text = newsParamsList[currentIndex].title
+        header.didClickedClosure = { (blog) -> Void in
+            let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
+            detailViewController.newsObject = blog
+            self.present(detailViewController, animated: true, completion: {
+                
+            })
+        }
         
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
@@ -162,7 +169,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                 news = NewsDataManager.shared.informationItems[indexPath.row]
                 self.selectedCardIndex = indexPath
                 let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
-                detailViewController.news = news
+                detailViewController.newsObject = news
                 self.present(detailViewController, animated: true, completion: {
                     
                 })

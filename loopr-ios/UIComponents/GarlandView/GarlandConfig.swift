@@ -17,7 +17,7 @@ public struct GarlandConfig {
     
     public var parallaxHeaderOffset: CGFloat = 40
     
-    public var cardRadius: CGFloat = 5
+    public var cardRadius: CGFloat = 6
     
     public var backgroundHeaderHeight: CGFloat = 250
     

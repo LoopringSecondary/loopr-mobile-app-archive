@@ -11,14 +11,17 @@ import WebKit
 
 class NewsDetailViewController: UIViewController, WKNavigationDelegate {
 
-    var news: News!
+    var newsObject: NewsProtocol!
     var isFirtTimeAppear: Bool = true
 
     @IBOutlet weak var navigationBar: UINavigationBar!
 
     @IBOutlet open var card: UIView!
     @IBOutlet weak var webView: WKWebView!
-    
+    @IBOutlet weak var progressView: UIProgressView!
+    var showProgressView: Bool = true
+    var progressKVOhandle: NSKeyValueObservation?
+
     fileprivate let userCardPresentAnimationController = NewsDetailPresentAnimationController()
     fileprivate let userCardDismissAnimationController = NewsDetailDismissAnimationController()
     
@@ -47,9 +50,12 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
     override open func viewDidLoad() {
         super.viewDidLoad()
 
-        modalPresentationStyle = .custom
-        transitioningDelegate = self
-        
+        if let news = newsObject as? News {
+            modalPresentationStyle = .custom
+            transitioningDelegate = self
+        } else {
+            
+        }
         view.frame = UIScreen.main.bounds
         view.theme_backgroundColor = ColorPicker.cardBackgroundColor
         webView.theme_backgroundColor = ColorPicker.cardBackgroundColor
@@ -57,6 +63,14 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
         webView.isOpaque = false
         webView.alpha = 0
         webView.isHidden = true
+        
+        progressView.theme_trackTintColor = ColorPicker.cardHighLightColor
+        progressView.theme_backgroundColor = ColorPicker.cardHighLightColor
+        progressView.tintColor = UIColor.theme
+        progressView.progressTintColor = UIColor.theme
+        progressView.setProgress(0, animated: false)
+        progressView.alpha = 0.0
+        webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil) // add observer for key path
         
         setupCard()
         setupNavigationBar()
@@ -74,7 +88,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
     }
     
     fileprivate func setupNavigationBar() {
-        let navigationItem = UINavigationItem(title: news.title)
+        let navigationItem = UINavigationItem(title: newsObject.title)
         
         // Back button
         let backButton = UIButton(type: UIButtonType.custom)
@@ -125,7 +139,15 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
         
         isFirtTimeAppear = false
         webView.navigationDelegate = self
-        webView.loadHTMLString("<body><font size='\(NewsDetailUIStyleConfig.shared.fontSize)'>\(news.content)</font></body>", baseURL: nil)
+        
+        if let news = newsObject as? News {
+            webView.loadHTMLString("<body><font size='\(NewsDetailUIStyleConfig.shared.fontSize)'>\(news.content)</font></body>", baseURL: nil)
+        } else if let blog = newsObject as? Blog {
+            let url = URL(string: blog.url)!
+            let request = URLRequest(url: url)
+            webView.navigationDelegate = self
+            webView.load(request)
+        }
     }
     
     @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {
@@ -133,9 +155,13 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
-        if let url = URL(string: news.url) {
+        if let url = URL(string: newsObject.url) {
             UIApplication.shared.open(url)
         }
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        progressView.progress = Float(webView.estimatedProgress)
     }
     
     /*
@@ -152,20 +178,50 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
         }
     }
     */
+    
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        if showProgressView {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            
+            progressView.alpha = 0.0
+            UIView.animate(withDuration: 0.33, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.progressView.alpha = 1.0
+            })
+        }
+    }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        if newsObject as? News != nil {
+            applyCss()
+        } else {
+            self.showWebView()
+        }
+        
+        showProgressView = false
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        progressView.alpha = 1.0
+        UIView.animate(withDuration: 0.33, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.progressView.alpha = 0.0
+        })
+    }
+    
+    func applyCss() {
         let bodyCssString = "body { white-space: pre-wrap; color: \(NewsDetailUIStyleConfig.shared.textColor); background-color: \(NewsDetailUIStyleConfig.shared.backgroundColor); font-family: \"\(NewsDetailUIStyleConfig.shared.fontFamily)\"; font-size: 100%; padding-left: 40px; padding-right: 40px; }"
         let imageCssString = "img { width: 100%; padding-top: 0px; padding-bottom: 0px; border-radius: \(NewsDetailUIStyleConfig.shared.imageCornerRadius)px;}"
         let cssString = "\(bodyCssString) \(imageCssString)"
         let jsString = "var style = document.createElement('style'); style.innerHTML = '\(cssString)'; document.head.appendChild(style);"
         webView.evaluateJavaScript(jsString) { (_, _) in
-            self.webView.isHidden = false
-            UIView.animate(withDuration: NewsDetailUIStyleConfig.shared.webAlphaAnimationDuration, delay: 0, options: .curveLinear, animations: {
-                self.webView.alpha = 1
-            }, completion: { (_) in
-                
-            })
+            self.showWebView()
         }
+    }
+    
+    func showWebView() {
+        self.webView.isHidden = false
+        UIView.animate(withDuration: NewsDetailUIStyleConfig.shared.webAlphaAnimationDuration, delay: 0, options: .curveLinear, animations: {
+            self.webView.alpha = 1
+        }, completion: { (_) in
+            
+        })
     }
 
 }

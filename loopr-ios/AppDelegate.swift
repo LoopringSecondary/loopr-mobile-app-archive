@@ -71,12 +71,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             }
         }
         
+        // Preload News data
         NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
             
         })
         NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
             
         })
+        NewsDataManager.shared.getBlogs { (_, _) in
+            
+        }
 
         PartnerDataManager.shared.createPartner()
         PartnerDataManager.shared.activatePartner()

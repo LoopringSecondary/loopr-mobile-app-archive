@@ -13,12 +13,12 @@ class DefaultWebViewController: UIViewController {
 
     @IBOutlet weak var wkWebView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
+    var showProgressView: Bool = true
+    var progressKVOhandle: NSKeyValueObservation?
 
     var url: URL?
     var navigationTitle: String = ""
-    var showProgressView: Bool = true
-    var progressKVOhandle: NSKeyValueObservation?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -370,6 +370,7 @@
 		AC72AEE2204D084500E9D3B0 /* AppWalletDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC72AEE1204D084500E9D3B0 /* AppWalletDataManagerTests.swift */; };
 		AC72AEE8204F020B00E9D3B0 /* OrderTradeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC72AEE7204F020B00E9D3B0 /* OrderTradeState.swift */; };
 		AC72AEEA204F038300E9D3B0 /* OrderTradeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC72AEE9204F038300E9D3B0 /* OrderTradeError.swift */; };
+		AC752C1521DF3C03001183F6 /* NewsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC752C1421DF3C03001183F6 /* NewsProtocol.swift */; };
 		AC76E4702047F1D3008BA229 /* CircleChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC76E46F2047F1D3008BA229 /* CircleChart.swift */; };
 		AC76E47320493CAE008BA229 /* SettingLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC76E47120493CAE008BA229 /* SettingLanguageViewController.swift */; };
 		AC76E47420493CAE008BA229 /* SettingLanguageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC76E47220493CAE008BA229 /* SettingLanguageViewController.xib */; };
@@ -943,6 +944,7 @@
 		AC72AEE1204D084500E9D3B0 /* AppWalletDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWalletDataManagerTests.swift; sourceTree = "<group>"; };
 		AC72AEE7204F020B00E9D3B0 /* OrderTradeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTradeState.swift; sourceTree = "<group>"; };
 		AC72AEE9204F038300E9D3B0 /* OrderTradeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTradeError.swift; sourceTree = "<group>"; };
+		AC752C1421DF3C03001183F6 /* NewsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsProtocol.swift; sourceTree = "<group>"; };
 		AC76E46F2047F1D3008BA229 /* CircleChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleChart.swift; sourceTree = "<group>"; };
 		AC76E47120493CAE008BA229 /* SettingLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingLanguageViewController.swift; sourceTree = "<group>"; };
 		AC76E47220493CAE008BA229 /* SettingLanguageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingLanguageViewController.xib; sourceTree = "<group>"; };
@@ -1388,6 +1390,7 @@
 			isa = PBXGroup;
 			children = (
 				9461851521D0FAFD00393432 /* News.swift */,
+				AC752C1421DF3C03001183F6 /* NewsProtocol.swift */,
 				94C556B721DDB4970039D121 /* Blog.swift */,
 				9461851721D0FD8700393432 /* NewsCategory.swift */,
 				9BA4FC9B21DC4FC8005A3DC0 /* NewsParams.swift */,
@@ -3311,6 +3314,7 @@
 				9475502321255A58003CFEBF /* UISwitchExtension.swift in Sources */,
 				AC2ACA9C2103075C009C77E7 /* WalletType.swift in Sources */,
 				AC0619422085D01E0060F416 /* SearchBarContainerView.swift in Sources */,
+				AC752C1521DF3C03001183F6 /* NewsProtocol.swift in Sources */,
 				9B2ED7F921D460EA00ACEE84 /* NewsListHeaderView.swift in Sources */,
 				AC56625B20563C05003C925C /* TradeViewController.swift in Sources */,
 				AC31B95E204A8E4F00B16155 /* Mnemonic.swift in Sources */,

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="card" destination="fSP-HW-2RS" id="ZBv-0v-EW6"/>
                 <outlet property="navigationBar" destination="rqP-qd-Ba7" id="pLe-49-QvI"/>
+                <outlet property="progressView" destination="27m-Q7-cQp" id="UIU-Mj-fwI"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="webView" destination="guX-87-TuL" id="WGT-Cm-Zu3"/>
             </connections>
@@ -43,12 +44,21 @@
                                 <wkPreferences key="preferences"/>
                             </wkWebViewConfiguration>
                         </wkWebView>
+                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="27m-Q7-cQp">
+                            <rect key="frame" x="0.0" y="44" width="414" height="2"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="2" id="6Hw-eM-VEM"/>
+                            </constraints>
+                        </progressView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="27m-Q7-cQp" firstAttribute="top" secondItem="rqP-qd-Ba7" secondAttribute="bottom" id="1yv-0U-XaA"/>
+                        <constraint firstItem="27m-Q7-cQp" firstAttribute="leading" secondItem="fSP-HW-2RS" secondAttribute="leading" id="CJw-6b-qw0"/>
                         <constraint firstItem="rqP-qd-Ba7" firstAttribute="leading" secondItem="fSP-HW-2RS" secondAttribute="leading" id="H2l-bY-o1O"/>
                         <constraint firstItem="rqP-qd-Ba7" firstAttribute="top" secondItem="fSP-HW-2RS" secondAttribute="top" id="MI6-Fo-mbv"/>
                         <constraint firstItem="guX-87-TuL" firstAttribute="leading" secondItem="fSP-HW-2RS" secondAttribute="leading" id="br6-4y-iTj"/>
+                        <constraint firstAttribute="trailing" secondItem="27m-Q7-cQp" secondAttribute="trailing" id="fxE-OO-CHL"/>
                         <constraint firstAttribute="trailing" secondItem="rqP-qd-Ba7" secondAttribute="trailing" id="k2z-fi-hrb"/>
                         <constraint firstAttribute="trailing" secondItem="guX-87-TuL" secondAttribute="trailing" id="kfq-rC-SDd"/>
                         <constraint firstItem="guX-87-TuL" firstAttribute="top" secondItem="rqP-qd-Ba7" secondAttribute="bottom" id="qbb-UV-WOa"/>

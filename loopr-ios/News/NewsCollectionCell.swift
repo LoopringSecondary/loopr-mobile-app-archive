@@ -241,7 +241,6 @@ class NewsCollectionCell: UICollectionViewCell {
         let minHeight: CGFloat = 190
         
         if isExpanded {
-            let width: CGFloat = UIScreen.main.bounds.width - 15*2
             let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.7
             let descriptionTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width, height: maxHeight))
             descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 12)
