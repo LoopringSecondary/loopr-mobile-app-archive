@@ -53,6 +53,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
         if let news = newsObject as? News {
             modalPresentationStyle = .custom
             transitioningDelegate = self
+            webView.alpha = 0
+            webView.isHidden = true
         } else {
             
         }
@@ -61,8 +63,6 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
         webView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         webView.scrollView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         webView.isOpaque = false
-        webView.alpha = 0
-        webView.isHidden = true
         
         progressView.theme_trackTintColor = ColorPicker.cardHighLightColor
         progressView.theme_backgroundColor = ColorPicker.cardHighLightColor
