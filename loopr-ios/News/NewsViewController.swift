@@ -195,8 +195,8 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         cell.didPressedShareButtonClosure = { (news) -> Void in
             if let url = URL(string: news.url) {
-                let text = url.absoluteString
-                let shareAll = [text] as [Any]
+                // let image = UIImage(named: "Order-qrcode-icon-green")!
+                let shareAll = [news.title, url] as [Any]
                 let activityVC = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
                 activityVC.popoverPresentationController?.sourceView = self.view
                 self.present(activityVC, animated: true, completion: nil)

@@ -84,6 +84,7 @@ class NewsDataManager {
     func getBlogs(completion: @escaping (_ blogs: [Blog], _ error: Error?) -> Void) {
         CrawlerAPIRequest.getBlogs { (blogs, error) in
             self.blogs = blogs
+            self.currentIndex = blogs.count - 1
             completion(blogs, error)
         }
     }
