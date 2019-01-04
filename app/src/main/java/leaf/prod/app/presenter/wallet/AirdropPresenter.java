@@ -179,6 +179,7 @@ public class AirdropPresenter extends BasePresenter<AirdropActivity> {
             view.claimButton.setText(context.getString(R.string.airdrop_forward));
             view.claimButton.setOnClickListener(v -> {
                 view.getOperation().addParameter("url", "https://neotracker.io/tx/" + txHash);
+                view.getOperation().addParameter("title", view.getResources().getString(R.string.airdrop_browser));
                 view.getOperation().forward(DefaultWebViewActivity.class);
             });
         } else if (StringUtils.isEmpty(bindAddress)) {

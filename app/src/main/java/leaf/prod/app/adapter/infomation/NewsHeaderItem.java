@@ -4,24 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ramotion.garlandview.header.HeaderDecorator;
 import com.ramotion.garlandview.header.HeaderItem;
 import com.ramotion.garlandview.inner.InnerLayoutManager;
 import com.ramotion.garlandview.inner.InnerRecyclerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.loader.ImageLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.wallet.DefaultWebViewActivity;
+import leaf.prod.app.layout.RoundSmartImageView;
 import leaf.prod.walletsdk.model.NewsHeader;
+import leaf.prod.walletsdk.model.response.crawler.Blog;
+import leaf.prod.walletsdk.model.response.crawler.BlogWrapper;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import leaf.prod.walletsdk.service.CrawlerService;
@@ -68,6 +78,9 @@ public class NewsHeaderItem extends HeaderItem {
     @BindView(R.id.header_alpha)
     public View headAlpha;
 
+    @BindView(R.id.header_banner)
+    public Banner headerBanner;
+
     @BindView(R.id.refresh_layout)
     public SmartRefreshLayout refreshLayout;
 
@@ -85,12 +98,12 @@ public class NewsHeaderItem extends HeaderItem {
 
     private Activity activity;
 
-    public NewsHeaderItem(View itemView, RecyclerView.RecycledViewPool pool, Activity activity) {
+    public NewsHeaderItem(View itemView, RecyclerView.RecycledViewPool pool, Activity activity, BlogWrapper blogWrapper) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.view = itemView;
         this.activity = activity;
-        headerHeight = DpUtil.dp2Int(view.getContext(), 170);
+        headerHeight = DpUtil.dp2Int(view.getContext(), 250);
         // Init header
         headerRecyclerView.setAdapter(new NewsBodyAdapter(headerRecyclerView.getContext(), activity));
         headerRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -121,6 +134,21 @@ public class NewsHeaderItem extends HeaderItem {
             } else {
                 setInformation(++index);
             }
+        });
+        List<String> imageList = new ArrayList<>();
+        List<String> titles = new ArrayList<>();
+        for (Blog blog : blogWrapper.getData()) {
+            imageList.add(blog.getImageUrl());
+            titles.add(blog.getTitle());
+        }
+        headerBanner.setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE);
+        headerBanner.update(imageList, titles);
+        headerBanner.setImageLoader(new GlideImageLoader()).start();
+        headerBanner.setOnBannerListener(position -> {
+            Intent intent = new Intent(activity, DefaultWebViewActivity.class);
+            intent.putExtra("title", "Loopring Blog");
+            intent.putExtra("url", blogWrapper.getData().get(position).getUrl());
+            activity.startActivity(intent);
         });
     }
 
@@ -166,10 +194,10 @@ public class NewsHeaderItem extends HeaderItem {
         final float ratio = computeRatio(recyclerView);
         final float answerRatio = Math.max(0, Math.min(ANSWER_RATIO_START, ratio) - ANSWER_RATIO_DIFF) / ANSWER_RATIO_MAX;
         final float middleRatio = Math.max(0, Math.min(MIDDLE_RATIO_START, ratio) - MIDDLE_RATIO_DIFF) / MIDDLE_RATIO_MAX;
-        ViewCompat.setAlpha(tvHeader1, answerRatio);
-        ViewCompat.setAlpha(tvHeader2, 1f - answerRatio);
+        //        ViewCompat.setAlpha(tvHeader1, answerRatio);
+        //        ViewCompat.setAlpha(tvHeader2, 1f - answerRatio);
         final ViewGroup.LayoutParams lp = clHeader.getLayoutParams();
-        lp.height = headerHeight - (int) (view.getResources().getDimensionPixelSize(R.dimen.dp10) * (1f - middleRatio));
+        lp.height = headerHeight - (int) (DpUtil.dp2Int(activity, 50) * (1f - middleRatio));
         clHeader.setLayoutParams(lp);
         refreshLayout.setEnableRefresh(isTop());
         refreshLayout.setEnableLoadMore(isBottom());
@@ -286,5 +314,22 @@ public class NewsHeaderItem extends HeaderItem {
                         unsubscribe();
                     }
                 });
+    }
+
+    class GlideImageLoader extends ImageLoader {
+
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            //具体方法内容自己去选择，次方法是为了减少banner过多的依赖第三方包，所以将这个权限开放给使用者去选择
+            Glide.with(context.getApplicationContext())
+                    .load(path)
+                    .into(imageView);
+        }
+
+        @Override
+        public ImageView createImageView(Context context) {
+            //圆角
+            return new RoundSmartImageView(context);
+        }
     }
 }

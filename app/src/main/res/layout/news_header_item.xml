@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorLine"
-        app:srlHeaderInsetStart="170dp">
+        app:srlHeaderInsetStart="250dp">
 
         <com.scwang.smartrefresh.header.WaterDropHeader
             android:id="@+id/head"
@@ -28,41 +28,55 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_header"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="250dp"
         android:background="@drawable/radius_gradient_bg"
-        android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <com.youth.banner.Banner
+            android:id="@+id/header_banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/radius_bg_29"
+            app:delay_time="6000"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/tv_header1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:alpha="1"
+            android:layout_marginEnd="16dp"
+            android:alpha="0"
             android:ellipsize="end"
-            android:gravity="start"
+            android:gravity="start|center_vertical"
             android:maxLines="1"
             android:text="The Lathe of Heaven"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/header_banner"/>
 
         <TextView
             android:id="@+id/tv_header2"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:alpha="0"
+            android:layout_marginEnd="16dp"
+            android:alpha="1"
+            android:shadowColor="@color/black"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="5"
             android:text="The Lathe of Heaven details"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorWhite"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -73,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0"
-            android:background="@drawable/radius_white_bg"
+            android:background="@drawable/radius_bg_29"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

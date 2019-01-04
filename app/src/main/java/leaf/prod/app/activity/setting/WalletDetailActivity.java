@@ -324,6 +324,7 @@ public class WalletDetailActivity extends BaseActivity {
         final String url = etherUrl;
         txAddress.setOnClickListener(v -> {
             getOperation().addParameter("url", url);
+            getOperation().addParameter("title", getString(R.string.etherscan));
             getOperation().forward(DefaultWebViewActivity.class);
         });
     }
@@ -335,6 +336,7 @@ public class WalletDetailActivity extends BaseActivity {
         final String url = etherUrl;
         txID.setOnClickListener(v -> {
             getOperation().addParameter("url", url);
+            getOperation().addParameter("title", getString(R.string.etherscan));
             getOperation().forward(DefaultWebViewActivity.class);
         });
     }

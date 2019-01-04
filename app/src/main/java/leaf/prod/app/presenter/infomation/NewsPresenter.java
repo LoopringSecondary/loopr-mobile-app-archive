@@ -15,12 +15,14 @@ import leaf.prod.app.adapter.infomation.NewsHeaderAdapter;
 import leaf.prod.app.fragment.news.NewsFragment;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.walletsdk.model.NewsHeader;
+import leaf.prod.walletsdk.model.response.crawler.BlogWrapper;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import leaf.prod.walletsdk.service.CrawlerService;
 import leaf.prod.walletsdk.util.LanguageUtil;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -42,12 +44,23 @@ public class NewsPresenter extends BasePresenter<NewsFragment> {
 
     public void initData() {
         view.clLoading.setVisibility(View.VISIBLE);
-        Observable.zip(crawlerService.getFlash(CrawlerService.ALL, LanguageUtil.getSettingLanguage(context), 0, PAGE_SIZE),
-                crawlerService.getInformation(CrawlerService.ALL, LanguageUtil.getSettingLanguage(context), 0, PAGE_SIZE),
-                CombineObservable::new)
+        List<NewsHeader> newsHeaderList = new ArrayList<>();
+        final BlogWrapper[] blogWrappers = {BlogWrapper.emptyBean()};
+        crawlerService.getBlogs().flatMap((Func1<BlogWrapper, Observable<NewsPageWrapper>>) b -> {
+            blogWrappers[0] = b;
+            return crawlerService.getFlash(CrawlerService.ALL, LanguageUtil.getSettingLanguage(context), 0, PAGE_SIZE);
+        }).flatMap((Func1<NewsPageWrapper, Observable<NewsPageWrapper>>) newsPageWrapper -> {
+            newsHeaderList.add(NewsHeader.builder()
+                    .newsType(NewsHeader.NewsType.NEWS_FLASH)
+                    .title(view.getResources().getString(R.string.news_flash))
+                    .description(view.getResources().getString(R.string.news_flash))
+                    .newsList(newsPageWrapper)
+                    .build());
+            return crawlerService.getInformation(CrawlerService.ALL, LanguageUtil.getSettingLanguage(context), 0, PAGE_SIZE);
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CombineObservable>() {
+                .subscribe(new Subscriber<NewsPageWrapper>() {
                     @Override
                     public void onCompleted() {
                         unsubscribe();
@@ -59,59 +72,19 @@ public class NewsPresenter extends BasePresenter<NewsFragment> {
                     }
 
                     @Override
-                    public void onNext(CombineObservable combineObservable) {
-                        List<NewsHeader> newsHeaderList = new ArrayList<>();
-                        newsHeaderList.add(NewsHeader.builder()
-                                .newsType(NewsHeader.NewsType.NEWS_FLASH)
-                                .title(view.getResources().getString(R.string.news_flash))
-                                .description(view.getResources().getString(R.string.news_flash))
-                                .newsList(combineObservable.getFlashNews() != null ? combineObservable.getFlashNews() : NewsPageWrapper
-                                        .emptyBean())
-                                .build());
+                    public void onNext(NewsPageWrapper newsPageWrapper) {
                         newsHeaderList.add(NewsHeader.builder()
                                 .newsType(NewsHeader.NewsType.NEWS_INFO)
                                 .title(view.getResources().getString(R.string.news_information))
                                 .description(view.getResources().getString(R.string.news_information))
-                                .newsList(combineObservable.getInfoNews() != null ? combineObservable.getInfoNews() : NewsPageWrapper
-                                        .emptyBean())
+                                .newsList(newsPageWrapper)
                                 .build());
                         ((TailLayoutManager) view.recyclerView.getLayoutManager()).setPageTransformer(new HeaderTransformer());
-                        view.recyclerView.setAdapter(new NewsHeaderAdapter(newsHeaderList, view.getActivity()));
+                        view.recyclerView.setAdapter(new NewsHeaderAdapter(blogWrappers[0], newsHeaderList, view.getActivity()));
                         new TailSnapHelper().attachToRecyclerView(view.recyclerView);
                         view.clLoading.setVisibility(View.GONE);
                         unsubscribe();
                     }
                 });
-    }
-
-    private class CombineObservable {
-
-        private NewsPageWrapper flashNews;
-
-        private NewsPageWrapper infoNews;
-
-        public CombineObservable() {
-        }
-
-        public CombineObservable(NewsPageWrapper flashNews, NewsPageWrapper infoNews) {
-            this.flashNews = flashNews;
-            this.infoNews = infoNews;
-        }
-
-        public NewsPageWrapper getFlashNews() {
-            return flashNews;
-        }
-
-        public void setFlashNews(NewsPageWrapper flashNews) {
-            this.flashNews = flashNews;
-        }
-
-        public NewsPageWrapper getInfoNews() {
-            return infoNews;
-        }
-
-        public void setInfoNews(NewsPageWrapper infoNews) {
-            this.infoNews = infoNews;
-        }
     }
 }

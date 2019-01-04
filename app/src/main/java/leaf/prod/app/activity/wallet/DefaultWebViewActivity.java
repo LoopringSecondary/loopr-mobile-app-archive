@@ -94,7 +94,7 @@ public class DefaultWebViewActivity extends BaseActivity {
      */
     @Override
     public void initTitle() {
-        title.setBTitle(getResources().getString(R.string.airdrop_browser));
+        title.setBTitle(getIntent().getStringExtra("title"));
         title.clickLeftGoBack(getWContext());
     }
 

@@ -12,6 +12,7 @@ import com.ramotion.garlandview.TailAdapter;
 
 import leaf.prod.app.R;
 import leaf.prod.walletsdk.model.NewsHeader;
+import leaf.prod.walletsdk.model.response.crawler.BlogWrapper;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,11 +26,14 @@ public class NewsHeaderAdapter extends TailAdapter<NewsHeaderItem> {
 
     private final List<NewsHeader> mData;
 
+    private final BlogWrapper blogWrapper;
+
     private final RecyclerView.RecycledViewPool mPool;
 
     private Activity activity;
 
-    public NewsHeaderAdapter(List<NewsHeader> data, Activity activity) {
+    public NewsHeaderAdapter(BlogWrapper blogWrapper, List<NewsHeader> data, Activity activity) {
+        this.blogWrapper = blogWrapper;
         this.mData = data;
         this.activity = activity;
         mPool = new RecyclerView.RecycledViewPool();
@@ -39,7 +43,7 @@ public class NewsHeaderAdapter extends TailAdapter<NewsHeaderItem> {
     @Override
     public NewsHeaderItem onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        return new NewsHeaderItem(view, mPool, activity);
+        return new NewsHeaderItem(view, mPool, activity, blogWrapper);
     }
 
     @Override
