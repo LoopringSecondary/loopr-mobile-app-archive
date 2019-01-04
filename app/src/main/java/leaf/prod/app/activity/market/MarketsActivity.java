@@ -137,7 +137,7 @@ public class MarketsActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        list = MarketPriceDataManager.getInstance(this).getTickers();
+        list = MarketPriceDataManager.getInstance(this).getAllTickers();
     }
 
     @Override

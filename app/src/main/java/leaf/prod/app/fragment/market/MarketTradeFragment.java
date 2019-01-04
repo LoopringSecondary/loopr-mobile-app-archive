@@ -1,7 +1,6 @@
-package leaf.prod.app.fragment.trade;
+package leaf.prod.app.fragment.market;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,11 +10,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.vondear.rxtool.view.RxToast;
 import com.xw.repo.BubbleSeekBar;
 
 import butterknife.BindView;
@@ -23,23 +22,18 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
-import leaf.prod.app.activity.trade.P2PTokenListActivity;
+import leaf.prod.app.activity.setting.LRCFeeRatioActivity;
 import leaf.prod.app.fragment.BaseFragment;
-import leaf.prod.app.presenter.trade.P2PTradePresenter;
+import leaf.prod.app.presenter.market.MarketTradeFragmentPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.MyViewUtils;
-import leaf.prod.walletsdk.manager.P2POrderDataManager;
+import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.model.TradeType;
 import leaf.prod.walletsdk.util.StringUtils;
 
-public class P2PTradeFragment extends BaseFragment {
+public class MarketTradeFragment extends BaseFragment {
 
-    public final static int BALANCE_SUCCESS = 1;
-
-    public static String PASSWORD_TYPE = "P2P_ORDER";
-
-    @BindView(R.id.ll_switch)
-    public LinearLayout llSwitch;
+    Unbinder unbinder;
 
     @BindView(R.id.ll_sell_token)
     public LinearLayout llSellToken;
@@ -59,17 +53,11 @@ public class P2PTradeFragment extends BaseFragment {
     @BindView(R.id.custom)
     public TextView customView;
 
-    @BindView(R.id.sell_amount)
-    public MaterialEditText sellAmount;
+    @BindView(R.id.trade_price)
+    public MaterialEditText tradePrice;
 
-    @BindView(R.id.buy_amount)
-    public MaterialEditText buyAmount;
-
-    @BindView(R.id.sell_count)
-    public MaterialEditText sellCount;
-
-    @BindView(R.id.market_price)
-    public TextView marketPrice;
+    @BindView(R.id.trade_amount)
+    public MaterialEditText tradeAmount;
 
     @BindView(R.id.tv_sell_token_symbol)
     public TextView tvSellTokenSymbol;
@@ -77,28 +65,30 @@ public class P2PTradeFragment extends BaseFragment {
     @BindView(R.id.tv_buy_token_symbol)
     public TextView tvBuyTokenSymbol;
 
-    @BindView(R.id.tv_sell_token_symbol2)
-    public TextView tvSellTokenSymbol2;
+    @BindView(R.id.tv_price_hint)
+    public TextView tvPriceHint;
 
-    @BindView(R.id.tv_buy_token_symbol2)
-    public TextView tvBuyTokenSymbol2;
-
-    @BindView(R.id.tv_sell_token_price)
-    public TextView tvSellTokenPrice;
-
-    @BindView(R.id.tv_buy_token_price)
-    public TextView tvBuyTokenPrice;
-
-    @BindView(R.id.tv_sell_hint)
-    public TextView tvSellHint;
-
-    @BindView(R.id.tv_buy_hint)
-    public TextView tvBuyHint;
+    @BindView(R.id.tv_amount_hint)
+    public TextView tvAmountHint;
 
     @BindView(R.id.seek_bar)
     public BubbleSeekBar seekBar;
 
-    Unbinder unbinder;
+    @BindView(R.id.btn_buy)
+    public Button buyButton;
+
+    @BindView(R.id.btn_sell)
+    public Button sellButton;
+
+    private TradeType tradeType;
+
+    private MarketTradeFragmentPresenter presenter;
+
+    private MarketOrderDataManager marketManager;
+
+    public final static int BALANCE_SUCCESS = 1;
+
+    public static String PASSWORD_TYPE = "P2P_ORDER";
 
     @SuppressLint("HandlerLeak")
     Handler handlerBalance = new Handler() {
@@ -113,18 +103,13 @@ public class P2PTradeFragment extends BaseFragment {
         }
     };
 
-    private P2PTradePresenter presenter;
-
-    private P2POrderDataManager p2pManager;
-
-    private String currentToken, tradeType;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // 布局导入
-        layout = inflater.inflate(R.layout.fragment_p2p_trade, container, false);
+        layout = inflater.inflate(R.layout.fragment_market_trade, container, false);
         unbinder = ButterKnife.bind(this, layout);
+        marketManager = MarketOrderDataManager.getInstance(getContext());
         return layout;
     }
 
@@ -135,7 +120,7 @@ public class P2PTradeFragment extends BaseFragment {
 
     @Override
     protected void initPresenter() {
-        presenter = new P2PTradePresenter(this, getContext());
+        presenter = new MarketTradeFragmentPresenter(this, getContext());
     }
 
     @Override
@@ -144,29 +129,14 @@ public class P2PTradeFragment extends BaseFragment {
         oneHourView.setText(getResources().getString(R.string.hour, "1"));
         oneDayView.setText(getResources().getString(R.string.day, "1"));
         oneMonthView.setText(getResources().getString(R.string.month, "1"));
-        sellAmount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+        setupPriceListener();
+        setupAmountListener();
+        setupButton();
+    }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Double sellAmountDouble = (editable.toString().isEmpty() || editable.toString()
-                        .equals(".") ? 0d : Double.valueOf(editable.toString()));
-                if (sellAmountDouble == 0) {
-                    presenter.setHint(0);
-                } else if (sellAmountDouble > presenter.getMaxAmount()) {
-                    presenter.setHint(1);
-                } else {
-                    presenter.setHint(3);
-                }
-            }
-        });
-        buyAmount.addTextChangedListener(new TextWatcher() {
+    private void setupPriceListener() {
+        tradePrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -179,17 +149,59 @@ public class P2PTradeFragment extends BaseFragment {
             public void afterTextChanged(Editable editable) {
                 String value = editable.toString();
                 if (StringUtils.isEmpty(value)) {
-                    presenter.setHint(4);
-                } else if (value.equals(".")) {
-                    presenter.setHint(5);
+                    presenter.setHint(0);
+                } else if (value.equals(".") || 0d == Double.valueOf(value)) {
+                    presenter.setHint(1);
                 } else {
-                    presenter.setHint(6);
+                    presenter.setHint(2);
                 }
             }
         });
     }
 
-    @OnClick({R.id.one_hour, R.id.one_day, R.id.one_month, R.id.custom, R.id.ll_switch, R.id.ll_sell_token, R.id.ll_buy_token, R.id.market_price, R.id.btn_next})
+    private void setupAmountListener() {
+        tradeAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String value = editable.toString();
+                if (StringUtils.isEmpty(value)) {
+                    presenter.setHint(3);
+                } else if (value.equals(".") || 0d == Double.valueOf(value)) {
+                    presenter.setHint(4);
+                } else {
+                    presenter.setHint(5);
+                }
+            }
+        });
+    }
+
+    private void setupButton() {
+        String title;
+        switch (this.tradeType) {
+            case buy:
+                sellButton.setVisibility(View.GONE);
+                buyButton.setVisibility(View.VISIBLE);
+                title = getContext().getString(R.string.buy) + " " + marketManager.getTokenS();
+                buyButton.setText(title);
+                break;
+            case sell:
+                buyButton.setVisibility(View.GONE);
+                sellButton.setVisibility(View.VISIBLE);
+                title = getContext().getString(R.string.sell) + " " + marketManager.getTokenS();
+                sellButton.setText(title);
+                break;
+        }
+    }
+
+    @OnClick({R.id.one_hour, R.id.one_day, R.id.one_month, R.id.custom, R.id.ll_sell_token, R.id.ll_buy_token, R.id.ll_lrc_fee, R.id.btn_buy, R.id.btn_sell})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.one_hour:
@@ -204,42 +216,24 @@ public class P2PTradeFragment extends BaseFragment {
             case R.id.custom:
                 presenter.setInterval(0);
                 break;
-            case R.id.ll_switch:
-                llSwitch.setOnClickListener(v -> presenter.switchToken());
-                break;
             case R.id.ll_sell_token:
-                Intent intent1 = new Intent(getContext(), P2PTokenListActivity.class);
-                currentToken = tvSellTokenSymbol2.getText().toString();
-                tradeType = TradeType.sell.name();
-                intent1.putExtra("ignoreSymbol", tvBuyTokenSymbol2.getText().toString());
-                intent1.putExtra("tokenType", tradeType);
-                startActivityForResult(intent1, 0);
                 break;
             case R.id.ll_buy_token:
-                Intent intent2 = new Intent(getContext(), P2PTokenListActivity.class);
-                currentToken = tvBuyTokenSymbol2.getText().toString();
-                tradeType = TradeType.buy.name();
-                intent2.putExtra("ignoreSymbol", tvSellTokenSymbol2.getText().toString());
-                intent2.putExtra("tokenType", tradeType);
-                startActivityForResult(intent2, 1);
                 break;
-            case R.id.market_price:
-                presenter.calMarketSell();
+            case R.id.ll_lrc_fee:
+                getOperation().forward(LRCFeeRatioActivity.class);
                 break;
-            case R.id.btn_next:
+            case R.id.btn_buy:
+            case R.id.btn_sell:
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-                    Double amountB = (buyAmount.getText().toString().isEmpty() || buyAmount.getText()
-                            .toString().equals(".") ? 0d : Double.valueOf(buyAmount.getText().toString()));
-                    Double amountS = (sellAmount.getText().toString().isEmpty() || sellAmount.getText()
-                            .toString().equals(".") ? 0d : Double.valueOf(sellAmount.getText().toString()));
-                    if (amountS == 0) {
-                        presenter.setHint(2);
-                    } else if (amountS > presenter.getMaxAmount()) {
+                    Double amount = (tradeAmount.getText().toString().isEmpty() || tradeAmount.getText()
+                            .toString().equals(".") ? 0d : Double.valueOf(tradeAmount.getText().toString()));
+                    Double price = (tradePrice.getText().toString().isEmpty() || tradePrice.getText()
+                            .toString().equals(".") ? 0d : Double.valueOf(tradePrice.getText().toString()));
+                    if (price == 0) {
                         presenter.setHint(1);
-                    } else if (amountB == 0) {
-                        presenter.setHint(5);
-                    } else if (sellCount.getText().toString().isEmpty()) {
-                        RxToast.warning(getResources().getString(R.string.minimal_count_error));
+                    } else if (amount == 0) {
+                        presenter.setHint(4);
                     } else {
                         MyViewUtils.hideInput(view);
                         presenter.showTradeDetailDialog();
@@ -251,7 +245,6 @@ public class P2PTradeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        p2pManager = P2POrderDataManager.getInstance(getContext());
     }
 
     @Override
@@ -271,17 +264,7 @@ public class P2PTradeFragment extends BaseFragment {
         presenter.destroyDialog();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (TradeType.sell.name().equals(tradeType) && !p2pManager.getTokenS().equals(currentToken)) {
-            presenter.setSeekbar(0);
-            buyAmount.setText("");
-            presenter.setHint(0);
-            tvBuyHint.setText("");
-        } else if (TradeType.buy.name().equals(tradeType) && !p2pManager.getTokenB().equals(currentToken)) {
-            buyAmount.setText("");
-            tvBuyHint.setText("");
-        }
-        presenter.initTokens();
+    public void setTradeType(TradeType tradeType) {
+        this.tradeType = tradeType;
     }
 }

@@ -253,6 +253,13 @@
     <string name="cancel_success">Order cancellation Successful.</string>
     <string name="canceling">Canceling</string>
 
+    <string name="markets">Markets</string>
+    <string name="Favorites">Favorites</string>
+    <string name="market">Market</string>
+    <string name="change">Change</string>
+    <string name="lrc_fee">LRC Fee Ratio</string>
+    <string name="amount">Amount</string>
+
     <string name="sell_amount">Amount to sell</string>
     <string name="buy_amount">Amount to buy</string>
     <string name="minimal_count">Minimal Count</string>
@@ -299,9 +306,5 @@
     <string name="news_bull">Bull</string>
     <string name="news_bear">Bear</string>
     <string name="news_share">Share</string>
-    <string name="markets">Markets</string>
-    <string name="Favorites">Favorites</string>
-    <string name="market">Market</string>
-    <string name="change">Change</string>
     <string name="service_error">Service Error</string>
 </resources>

@@ -20,6 +20,7 @@ import leaf.prod.app.activity.market.MarketSelectActivity;
 import leaf.prod.app.adapter.market.MarketsAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.presenter.market.MarketFragmentPresenter;
+import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.MarketsType;
 import leaf.prod.walletsdk.model.Ticker;
@@ -39,6 +40,10 @@ public class MarketsFragment extends BaseFragment {
     private MarketsType marketsType;
 
     private MarketFragmentPresenter presenter;
+
+    private MarketOrderDataManager orderManager;
+
+    private MarketPriceDataManager priceManager;
 
     @Nullable
     @Override
@@ -66,12 +71,16 @@ public class MarketsFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        orderManager = MarketOrderDataManager.getInstance(getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         marketAdapter = new MarketsAdapter(R.layout.adapter_item_markets, null, this);
         recyclerView.setAdapter(marketAdapter);
         marketAdapter.setOnItemClickListener((adapter, view, position) -> {
-//            getOperation().addParameter("ticker", getTickers().get(position));
+            Ticker ticker = getTickers().get(position);
+            orderManager.setTokenS(ticker.getTradingPair().getTokenA());
+            orderManager.setTokenB(ticker.getTradingPair().getTokenB());
+            // TODO: new activity
             getOperation().forward(MarketSelectActivity.class);
         });
     }

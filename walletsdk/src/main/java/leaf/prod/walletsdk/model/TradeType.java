@@ -7,5 +7,15 @@ package leaf.prod.walletsdk.model;
  * Cooperation: loopring.org 路印协议基金会
  */
 public enum TradeType {
-    buy, sell
+    buy, sell;
+
+    public static TradeType getByIndex(int index) {
+        TradeType result = buy;
+        for (TradeType tradeType : TradeType.values()) {
+            if (tradeType.ordinal() == index) {
+                result = tradeType;
+            }
+        }
+        return result;
+    }
 }

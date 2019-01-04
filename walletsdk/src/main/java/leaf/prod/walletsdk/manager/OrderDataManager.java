@@ -35,11 +35,13 @@ import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import lombok.Getter;
+import lombok.Setter;
 import rx.Observable;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 @Getter
+@Setter
 public class OrderDataManager {
 
     protected String owner;

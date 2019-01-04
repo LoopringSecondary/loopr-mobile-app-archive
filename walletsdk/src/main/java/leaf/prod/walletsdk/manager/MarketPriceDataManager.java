@@ -97,12 +97,16 @@ public class MarketPriceDataManager {
     }
 
     public List<Ticker> getTickers() {
+        return this.isFiltering ? this.filteredTickers : this.tickers;
+    }
+
+    public List<Ticker> getAllTickers() {
         return tickers;
     }
 
     public List<Ticker> getTickersBy(String token) {
         List<Ticker> result = new ArrayList<>();
-        List<Ticker> tickers = this.isFiltering ? this.filteredTickers : this.tickers;
+        List<Ticker> tickers = getTickers();
         for (Ticker ticker : tickers) {
             if (ticker.getTradingPair().getTokenB().equalsIgnoreCase(token)) {
                 result.add(ticker);
@@ -113,7 +117,7 @@ public class MarketPriceDataManager {
 
     private Ticker getTickersBy(TradingPair pair) {
         Ticker result = null;
-        List<Ticker> tickers = this.isFiltering ? this.filteredTickers : this.tickers;
+        List<Ticker> tickers = getTickers();
         for (Ticker ticker : tickers) {
             if (ticker.getTradingPair().equals(pair)) {
                 result = ticker;

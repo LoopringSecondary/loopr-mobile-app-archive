@@ -13,9 +13,12 @@ import android.content.Context;
 
 import leaf.prod.walletsdk.model.Order;
 import leaf.prod.walletsdk.model.OriginOrder;
+import leaf.prod.walletsdk.model.TradeType;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 
 public class MarketOrderDataManager extends OrderDataManager {
+
+    private TradeType type;
 
     private List<Order> orders;
 
@@ -30,6 +33,18 @@ public class MarketOrderDataManager extends OrderDataManager {
             marketOrderManager = new MarketOrderDataManager(context);
         }
         return marketOrderManager;
+    }
+
+    public void setType(TradeType type) {
+        this.type = type;
+    }
+
+    public String getTokenS() {
+        return this.type == TradeType.buy ? tokenS : tokenB;
+    }
+
+    public String getTokenB() {
+        return this.type == TradeType.buy ? tokenB : tokenS;
     }
 
     private void checkLRCEnough(OriginOrder order) {
@@ -143,4 +158,5 @@ public class MarketOrderDataManager extends OrderDataManager {
         }
         return balanceInfo;
     }
+
 }

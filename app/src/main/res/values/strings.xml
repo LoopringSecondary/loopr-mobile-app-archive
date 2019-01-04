@@ -254,6 +254,13 @@
     <string name="cancel_success">订单取消成功</string>
     <string name="canceling">取消中</string>
 
+    <string name="markets">市场</string>
+    <string name="Favorites">收藏</string>
+    <string name="market">市场</string>
+    <string name="change">涨跌</string>
+    <string name="lrc_fee">LRC费用比例</string>
+    <string name="amount">数量</string>
+
     <string name="sell_amount">卖出数额</string>
     <string name="buy_amount">买入数额</string>
     <string name="minimal_count">订单拆分份数</string>
@@ -265,7 +272,7 @@
     <string name="part">份</string>
     <string name="place_order">下单</string>
     <string name="place_order_tip">下单不会消耗油费</string>
-    <string name="price">价格</string>
+    <string name="price">单价</string>
     <string name="trading_fee">交易费</string>
     <string name="margin_split">分润比例</string>
     <string name="time_to_live">有效时间</string>
@@ -301,9 +308,5 @@
     <string name="news_bull">利好</string>
     <string name="news_bear">利空</string>
     <string name="news_share">分享</string>
-    <string name="markets">市场</string>
-    <string name="Favorites">收藏</string>
-    <string name="market">市场</string>
-    <string name="change">涨跌</string>
     <string name="service_error">服务器开小差了</string>
 </resources>

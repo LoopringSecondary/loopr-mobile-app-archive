@@ -62,6 +62,12 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private Map<String, String> errorMessage;
 
+    // token symbol, e.g. weth
+    protected String tokenS;
+
+    // token symbol, e.g. lrc
+    protected String tokenB;
+
     private String makerHash;
 
     private String makerPrivateKey;
