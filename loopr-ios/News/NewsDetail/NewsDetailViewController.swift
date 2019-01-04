@@ -51,9 +51,9 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
         transitioningDelegate = self
         
         view.frame = UIScreen.main.bounds
-        view.theme_backgroundColor = ColorPicker.backgroundColor
-        webView.theme_backgroundColor = ColorPicker.backgroundColor
-        webView.scrollView.theme_backgroundColor = ColorPicker.backgroundColor
+        view.theme_backgroundColor = ColorPicker.cardBackgroundColor
+        webView.theme_backgroundColor = ColorPicker.cardBackgroundColor
+        webView.scrollView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         webView.isOpaque = false
         webView.alpha = 0
         webView.isHidden = true
@@ -70,7 +70,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
     
     fileprivate func setupCard() {
         card.layer.cornerRadius = GarlandConfig.shared.cardRadius
-        card.theme_backgroundColor = ColorPicker.backgroundColor
+        card.theme_backgroundColor = ColorPicker.cardBackgroundColor
     }
     
     fileprivate func setupNavigationBar() {
@@ -105,9 +105,15 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
         navigationBar.pushItem(navigationItem, animated: false)
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        UINavigationBar.appearance().theme_barTintColor = ColorPicker.barTintColor
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        UINavigationBar.appearance().theme_barTintColor = ColorPicker.cardBackgroundColor
+        navigationBar.shadowImage = UIImage()
     }
     
     override func viewDidAppear(_ animated: Bool) {

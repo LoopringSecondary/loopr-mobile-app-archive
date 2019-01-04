@@ -14,12 +14,10 @@ class SetupNavigationController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
         navigationBar.shadowImage = UIImage()
         navigationBar.isTranslucent = false
         navigationBar.tintColor = UIColor.dark1
-        
+
         let viewController = SetupWalletViewController()
         self.setViewControllers([viewController], animated: false)
     }

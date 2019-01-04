@@ -12,9 +12,7 @@ class TradeNavigationViewController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationBar.shadowImage = UIImage()
-
         let viewController = TradeViewController()
         self.setViewControllers([viewController], animated: false)
     }

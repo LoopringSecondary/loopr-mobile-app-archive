@@ -12,10 +12,7 @@ class MarketNavigationViewController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
         navigationBar.shadowImage = UIImage()
-
         let viewController = MarketSwipeViewController(nibName: nil, bundle: nil)
         self.setViewControllers([viewController], animated: false)
     }
