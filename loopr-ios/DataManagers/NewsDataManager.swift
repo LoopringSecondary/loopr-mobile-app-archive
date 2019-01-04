@@ -88,9 +88,9 @@ class NewsDataManager {
         }
     }
 
-    func getNextBlog() -> Blog? {
+    func getNextBlog() -> (Blog?, Int) {
         guard blogs.count > 0 else {
-            return nil
+            return (nil, 0)
         }
         if currentIndex == blogs.count - 1 {
             currentIndex = 0
@@ -99,6 +99,6 @@ class NewsDataManager {
         } else {
             currentIndex = 0
         }
-        return blogs[currentIndex]
+        return (blogs[currentIndex], currentIndex)
     }
 }

@@ -18,7 +18,6 @@ class Blog: NewsProtocol {
         self.title = json["title"].stringValue
         self.url = json["url"].stringValue
         self.imageUrl = json["imageUrl"].stringValue
-        
         downloadImage(from: self.imageUrl)
     }
     

@@ -25,6 +25,7 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
 
     @IBOutlet weak var fakeTradeButton: UIButton!
 
+    var updateBlogTimer: Timer?
     let refreshControl = UIRefreshControl()
 
     var pageIndex: UInt = 0
@@ -66,6 +67,8 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
             })
         }
         
+        updateBlogTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.updateBlog), userInfo: nil, repeats: true)
+        
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
         
@@ -102,6 +105,11 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
                 self.refreshControl.endRefreshing(refreshControlType: .newsViewController)
             }
         })
+    }
+    
+    @objc func updateBlog() {
+        print("Switch blog")
+        // header.switchToNextBlog()
     }
     
     @IBAction func clickedFakeButtonWallet(_ sender: Any) {

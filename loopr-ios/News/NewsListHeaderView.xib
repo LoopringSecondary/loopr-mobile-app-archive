@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,6 +19,31 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oL9-SQ-bXD">
                     <rect key="frame" x="0.0" y="0.0" width="292" height="128"/>
                 </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SeD-93-jsQ">
+                    <rect key="frame" x="0.0" y="78" width="292" height="50"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="80s-yz-UZy">
+                            <rect key="frame" x="16" y="14.666666666666671" width="42" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hzo-Kg-Zvr">
+                            <rect key="frame" x="234" y="14.666666666666671" width="42" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="80s-yz-UZy" firstAttribute="leading" secondItem="SeD-93-jsQ" secondAttribute="leading" constant="16" id="33X-dz-qR4"/>
+                        <constraint firstAttribute="trailing" secondItem="Hzo-Kg-Zvr" secondAttribute="trailing" constant="16" id="4NN-9l-uC6"/>
+                        <constraint firstAttribute="height" constant="50" id="KyK-Cj-V12"/>
+                        <constraint firstItem="80s-yz-UZy" firstAttribute="centerY" secondItem="SeD-93-jsQ" secondAttribute="centerY" id="MS8-5S-D2q"/>
+                        <constraint firstItem="Hzo-Kg-Zvr" firstAttribute="centerY" secondItem="SeD-93-jsQ" secondAttribute="centerY" id="hrW-pg-4Q2"/>
+                    </constraints>
+                </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSi-zL-Qxv">
                     <rect key="frame" x="10" y="53.666666666666657" width="42" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -28,7 +53,10 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="SeD-93-jsQ" firstAttribute="trailing" secondItem="KbP-6W-tYD" secondAttribute="trailing" id="8SK-OO-ZzV"/>
                 <constraint firstItem="oL9-SQ-bXD" firstAttribute="bottom" secondItem="KbP-6W-tYD" secondAttribute="bottom" id="IqU-33-faZ"/>
+                <constraint firstItem="SeD-93-jsQ" firstAttribute="leading" secondItem="KbP-6W-tYD" secondAttribute="leading" id="PDe-RL-QCr"/>
+                <constraint firstItem="SeD-93-jsQ" firstAttribute="bottom" secondItem="KbP-6W-tYD" secondAttribute="bottom" id="Q1j-Yv-OWy"/>
                 <constraint firstItem="oL9-SQ-bXD" firstAttribute="top" secondItem="KbP-6W-tYD" secondAttribute="top" id="XkL-pD-cal"/>
                 <constraint firstItem="oL9-SQ-bXD" firstAttribute="trailing" secondItem="KbP-6W-tYD" secondAttribute="trailing" id="YGE-tT-1ID"/>
                 <constraint firstItem="oL9-SQ-bXD" firstAttribute="leading" secondItem="KbP-6W-tYD" secondAttribute="leading" id="c5o-38-GD7"/>
@@ -39,9 +67,12 @@
             <viewLayoutGuide key="safeArea" id="KbP-6W-tYD"/>
             <connections>
                 <outlet property="baseView" destination="oL9-SQ-bXD" id="LLS-tY-shh"/>
+                <outlet property="blogBackgroundView" destination="SeD-93-jsQ" id="byd-zM-aVF"/>
+                <outlet property="blogIndexLabel" destination="Hzo-Kg-Zvr" id="HBM-Dk-Ccd"/>
+                <outlet property="blogTitleLabel" destination="80s-yz-UZy" id="Twf-LQ-izK"/>
                 <outlet property="titleLabel" destination="iSi-zL-Qxv" id="mUq-wz-6Rj"/>
             </connections>
-            <point key="canvasLocation" x="28.800000000000001" y="753.82308845577222"/>
+            <point key="canvasLocation" x="27.536231884057973" y="753.26086956521749"/>
         </view>
     </objects>
 </document>
