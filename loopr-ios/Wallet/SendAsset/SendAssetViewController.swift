@@ -25,7 +25,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     
     // Address
     @IBOutlet weak var addressTextField: UITextField!
-    @IBOutlet weak var scanButton: UIButton!
+    @IBOutlet weak var contactButton: UIButton!
     @IBOutlet weak var addressInfoLabel: UILabel!
     
     // Amount
@@ -109,6 +109,8 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         addressTextField.setRightPaddingPoints(32)
         addressTextField.addTarget(self, action: #selector(addressTextFieldDidChange(_:)),
                             for: UIControlEvents.editingChanged)
+        
+        contactButton.addTarget(self, action: #selector(pressedContactButton(_:)), for: .touchUpInside)
         
         // Third row: Amount
         amountInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
@@ -471,12 +473,19 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     }
     
     @objc func pressedScanButton(_ sender: UIButton) {
-        let viewController = ContactTableViewController()
+        let viewController = ScanQRCodeViewController()
         viewController.delegate = self
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 
+    @objc func pressedContactButton(_ sender: UIButton) {
+        let viewController = ContactTableViewController()
+        viewController.delegate = self
+        viewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     // To avoid gesture conflicts in swiping to back and UISlider
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if touch.view != nil && touch.view!.isKind(of: UISlider.self) {

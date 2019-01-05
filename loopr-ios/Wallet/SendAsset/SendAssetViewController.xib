@@ -18,11 +18,11 @@
                 <outlet property="advancedButton" destination="lrj-AR-lcV" id="wzW-07-cov"/>
                 <outlet property="amountInfoLabel" destination="Rte-SL-Gly" id="Xd5-Rq-v60"/>
                 <outlet property="amountTextField" destination="hqf-UR-h9I" id="ib4-RI-tgB"/>
+                <outlet property="contactButton" destination="aje-gV-Iod" id="x6y-3v-oKF"/>
                 <outlet property="contactListView" destination="mfs-dw-Pii" id="NvE-YF-CNd"/>
                 <outlet property="contentView" destination="4fJ-P7-xjN" id="ymB-I9-TR1"/>
                 <outlet property="headerButton" destination="cs7-0B-mb8" id="b4d-wL-7TD"/>
                 <outlet property="iconView" destination="iyP-el-1pW" id="HK4-AI-mf4"/>
-                <outlet property="scanButton" destination="aje-gV-Iod" id="x6y-3v-oKF"/>
                 <outlet property="scrollView" destination="MAS-rZ-KS3" id="o9k-5g-0gj"/>
                 <outlet property="scrollViewButtonLayoutConstraint" destination="VRg-I5-bNn" id="AJO-by-ywe"/>
                 <outlet property="sendButton" destination="JlJ-XA-Yl0" id="W3R-iM-8cG"/>
@@ -112,9 +112,6 @@
                                         <constraint firstAttribute="height" constant="50" id="l5B-du-OxP"/>
                                     </constraints>
                                     <state key="normal" image="Contact-light"/>
-                                    <connections>
-                                        <action selector="pressedScanButton:" destination="-1" eventType="touchUpInside" id="WGw-QF-JE6"/>
-                                    </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rte-SL-Gly">
                                     <rect key="frame" x="15" y="159" width="42" height="21"/>
