@@ -104,6 +104,7 @@
 
     <string name="export_private_key">Export Private Key</string>
     <string name="export_keystore">Export Keystore</string>
+    <string name="view_address_on_etherscan">View Address on Etherscan</string>
     <string name="clear_records">Clear Records of this Wallet</string>
     <string name="switch_wallet">Switch to this Wallet</string>
     <string name="copy_private_key">Copy Private Key</string>

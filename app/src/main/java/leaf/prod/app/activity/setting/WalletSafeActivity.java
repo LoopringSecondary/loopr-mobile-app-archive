@@ -19,6 +19,7 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.activity.setupWallet.CoverActivity;
+import leaf.prod.app.activity.wallet.DefaultWebViewActivity;
 import leaf.prod.app.activity.wallet.MainActivity;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.PartnerDataManager;
@@ -42,6 +43,9 @@ public class WalletSafeActivity extends BaseActivity {
 
     @BindView(R.id.ll_export_keystore)
     LinearLayout llExportKeystore;
+
+    @BindView(R.id.ll_etherscan_url)
+    LinearLayout llEtherscanUrl;
 
     @BindView(R.id.ll_clear_records)
     LinearLayout llClearRecords;
@@ -99,7 +103,7 @@ public class WalletSafeActivity extends BaseActivity {
         partnerDataManager = PartnerDataManager.getInstance(this);
     }
 
-    @OnClick({R.id.ll_wallet_name, R.id.ll_backup_mnemonic, R.id.ll_export_private_key, R.id.ll_export_keystore, R.id.ll_clear_records, R.id.btn_switch})
+    @OnClick({R.id.ll_wallet_name, R.id.ll_backup_mnemonic, R.id.ll_export_private_key, R.id.ll_export_keystore, R.id.ll_etherscan_url, R.id.ll_clear_records, R.id.btn_switch})
     public void onViewClicked(View view) {
         getOperation().addParameter("selectedWallet", selectedWallet);
         switch (view.getId()) {
@@ -141,6 +145,13 @@ public class WalletSafeActivity extends BaseActivity {
                     confirmClear.setTitle(getResources().getString(R.string.hint));
                 }
                 confirmClear.show();
+                break;
+            case R.id.ll_etherscan_url:
+                String etherUrl = "https://etherscan.io/address/";
+                final String url = etherUrl + selectedWallet.getAddress();
+                getOperation().addParameter("url", url);
+                getOperation().addParameter("title", getString(R.string.etherscan));
+                getOperation().forward(DefaultWebViewActivity.class);
                 break;
             case R.id.btn_switch:
                 WalletUtil.setCurrentWallet(this, selectedWallet);

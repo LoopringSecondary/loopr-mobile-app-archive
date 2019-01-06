@@ -104,6 +104,7 @@
 
     <string name="export_private_key">導出私鑰</string>
     <string name="export_keystore">導出keystore文件</string>
+    <string name="view_address_on_etherscan">在Etherscan上查看地址</string>
     <string name="clear_records">刪除錢包並清除錢包數據</string>
     <string name="switch_wallet">使用該錢包</string>
     <string name="copy_private_key">複製私鑰</string>
