@@ -98,7 +98,7 @@ class SetGasViewController: UIViewController, StepSliderDelegate {
         if let etherPrice = PriceDataManager.shared.getPrice(of: "ETH") {
             let transactionFeeInFiat = totalGasInEther * etherPrice
             gasValueLabel.text = "\(totalGasInEther.withCommas(6)) ETH ≈ \(transactionFeeInFiat.currency)"
-            gasTipLabel.text = "\(LocalizedString("Gas Limit", comment: "")) (\(gasLimit.withCommas(0)))  \(LocalizedString("Gas Price", comment: "")) (\(gasPriceInGwei.withCommas(0)) Gwei)"
+            gasTipLabel.text = "\(LocalizedString("Gas Limit", comment: "")) x (\(gasLimit.withCommas(0)))  \(LocalizedString("Gas Price", comment: "")) (\(gasPriceInGwei.withCommas(0)) Gwei)"
         }
         
         print(Float(gasPriceInGwei-1)/Float(maxGasValue))
