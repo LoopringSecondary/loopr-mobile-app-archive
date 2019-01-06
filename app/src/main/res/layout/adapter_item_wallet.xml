@@ -50,7 +50,7 @@
             style="@style/WrapWrap"
             android:layout_below="@+id/wallet_title"
             android:layout_centerVertical="true"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="1dp"
             android:text="Loopring"
             android:textColor="@color/colorFortyWhite"
             android:textSize="13sp"/>
@@ -79,7 +79,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/wallet_money"
             android:layout_centerVertical="true"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="1dp"
             android:text="39,222.01"
             android:textColor="@color/colorFortyWhite"
             android:textSize="13sp"/>
