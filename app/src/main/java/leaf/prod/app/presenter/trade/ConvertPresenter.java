@@ -208,8 +208,8 @@ public class ConvertPresenter extends BasePresenter<ConvertActivity> {
                     tvAmount.setText(new StringBuilder(NumberUtils.format1(gasEthValue, BalanceDataManager.getPrecision("ETH")))
                             .append(" ETH ≈ ")
                             .append(CurrencyUtil.format(view.getContext(), gasEthValue * marketcapDataManager.getPriceBySymbol("ETH"))));
-                    tvWalletInfo.setText(new StringBuilder("Gas limit(").append(gasDataManager.getGasLimitByType("token_transfer"))
-                            .append(") * Gas Price(")
+                    tvWalletInfo.setText(new StringBuilder(view.getResources().getString(R.string.gas_limit)).append("(").append(gasDataManager.getGasLimitByType("token_transfer"))
+                            .append(") x ").append(view.getResources().getString(R.string.gas_price)).append("(")
                             .append((int) gasDataManager.getGasPriceInGwei())
                             .append(" Gwei)"));
                 }
@@ -234,8 +234,8 @@ public class ConvertPresenter extends BasePresenter<ConvertActivity> {
         }
         gasSeekBar.setProgress((float) gasDataManager.getGasPriceInGwei());
         tvAmount.setText(transactionFee.getText());
-        tvWalletInfo.setText(new StringBuilder("Gas limit(").append(gasDataManager.getGasLimitByType("token_transfer"))
-                .append(") * Gas Price(")
+        tvWalletInfo.setText(new StringBuilder(view.getResources().getString(R.string.gas_limit)).append("(").append(gasDataManager.getGasLimitByType("token_transfer"))
+                .append(") x ").append(view.getResources().getString(R.string.gas_price)).append("(")
                 .append((int) gasDataManager.getGasPriceInGwei())
                 .append(" Gwei)"));
         feeDialog.show();

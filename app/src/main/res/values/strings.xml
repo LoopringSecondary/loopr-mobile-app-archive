@@ -124,8 +124,8 @@
     <string name="transaction_fee">交易费</string>
     <string name="dialog_fee_title">设置油费</string>
     <string name="dialog_fee_recom">推荐油价</string>
-    <string name="gas_limit">Gas Limit</string>
-    <string name="gas_price">Gas Price</string>
+    <string name="gas_limit">邮费上限</string>
+    <string name="gas_price">油价</string>
     <string name="tokens">代币</string>
     <string name="match_password">请验证密码</string>
     <string name="share_title">Up Wallet 推广</string>

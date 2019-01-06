@@ -227,8 +227,8 @@ public class SendPresenter extends BasePresenter<SendActivity> {
                     tvAmount.setText(new StringBuilder(NumberUtils.format1(gasEthValue, BalanceDataManager.getPrecision("ETH")))
                             .append(" ETH ≈ ")
                             .append(CurrencyUtil.format(view.getContext(), gasEthValue * marketcapDataManager.getPriceBySymbol("ETH"))));
-                    tvWalletInfo.setText(new StringBuilder("Gas limit(").append(gasDataManager.getGasLimitByType(GAS_LIMIT_TYPE))
-                            .append(") * Gas Price(")
+                    tvWalletInfo.setText(new StringBuilder(view.getResources().getString(R.string.gas_limit)).append("(").append(gasDataManager.getGasLimitByType(GAS_LIMIT_TYPE))
+                            .append(") x ").append(view.getResources().getString(R.string.gas_price)).append("(")
                             .append((int) gasDataManager.getGasPriceInGwei())
                             .append(" Gwei)"));
                 }
@@ -253,8 +253,8 @@ public class SendPresenter extends BasePresenter<SendActivity> {
         }
         gasSeekBar.setProgress((float) gasDataManager.getGasPriceInGwei());
         tvAmount.setText(this.view.transactionFee.getText());
-        tvWalletInfo.setText(new StringBuilder("Gas limit(").append(gasDataManager.getGasLimitByType(GAS_LIMIT_TYPE))
-                .append(") * Gas Price(")
+        tvWalletInfo.setText(new StringBuilder(view.getResources().getString(R.string.gas_limit)).append("(").append(gasDataManager.getGasLimitByType(GAS_LIMIT_TYPE))
+                .append(") x ").append(view.getResources().getString(R.string.gas_price)).append("(")
                 .append((int) gasDataManager.getGasPriceInGwei())
                 .append(" Gwei)"));
         feeDialog.show();
