@@ -129,7 +129,7 @@ public class MarketPriceDataManager {
     public List<Ticker> getFavTickers() {
         List<Ticker> result = new ArrayList<>();
         UserConfig config = LoginDataManager.getInstance(context).getLocalUser();
-        if (config != null) {
+        if (config != null && config.getFavMarkets() != null) {
             for (TradingPair pair : config.getFavMarkets()) {
                 if (getTickersBy(pair) != null) {
                     result.add(getTickersBy(pair));
