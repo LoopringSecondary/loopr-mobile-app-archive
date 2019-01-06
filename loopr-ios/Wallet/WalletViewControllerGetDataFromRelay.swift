@@ -122,7 +122,7 @@ extension WalletViewController {
                             if SettingDataManager.shared.getCurrentCurrency().name != configuration["currency"].stringValue {
                                 let currency = Currency(name: configuration["currency"].stringValue)
                                 print("receive: " + currency.name)
-                                SettingDataManager.shared.setCurrentCurrency(currency)
+                                SettingDataManager.shared.setCurrentCurrency(currency, syncToServer: false)
                                 NotificationCenter.default.post(name: .needRelaunchCurrentAppWallet, object: nil)
                             }
                             

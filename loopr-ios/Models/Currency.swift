@@ -28,10 +28,10 @@ class Currency: Equatable, CustomStringConvertible {
         } else {
             if SettingDataManager.shared.getCurrentLanguage() == Language(name: "zh-Hans") {
                 self.name = "CNY"
-                SettingDataManager.shared.setCurrentCurrency(Currency(name: "CNY"))
+                SettingDataManager.shared.setCurrentCurrency(Currency(name: "CNY"), syncToServer: false)
             } else {
                 self.name = "USD"
-                SettingDataManager.shared.setCurrentCurrency(Currency(name: "USD"))
+                SettingDataManager.shared.setCurrentCurrency(Currency(name: "USD"), syncToServer: false)
             }
         }
 

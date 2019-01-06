@@ -81,7 +81,7 @@ class SettingCurrencyViewController: UIViewController, UITableViewDelegate, UITa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        SettingDataManager.shared.setCurrentCurrency(currencies[indexPath.row])
+        SettingDataManager.shared.setCurrentCurrency(currencies[indexPath.row], syncToServer: true)
         tableView.reloadData()
     }
 }

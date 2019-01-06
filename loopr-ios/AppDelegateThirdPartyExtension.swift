@@ -40,8 +40,6 @@ extension AppDelegate {
         configuration["language"] = JSON(SettingDataManager.shared.getCurrentLanguage().name)
         configuration["currency"] = JSON(SettingDataManager.shared.getCurrentCurrency().name)
         
-        // TODO: add contacts?
-        
         AppServiceUserManager.shared.getUserConfig(completion: { (config, _) in
             if config == nil {
                 // TODO: Why we need to update?
@@ -52,7 +50,7 @@ extension AppDelegate {
                 // TODO: If the www.loopring.mobi/api/v1/users doesn't use a config with language or currency,
                 // This part will crash.
                 _ = SetLanguage(configuration["language"].stringValue, syncToServer: false)
-                SettingDataManager.shared.setCurrentCurrency(Currency(name: configuration["currency"].stringValue))
+                SettingDataManager.shared.setCurrentCurrency(Currency(name: configuration["currency"].stringValue), syncToServer: false)
                 
                 var contacts: [Contact] = []
                 if configuration["contacts"].array != nil {
