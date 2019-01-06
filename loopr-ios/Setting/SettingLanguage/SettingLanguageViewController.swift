@@ -65,7 +65,7 @@ class SettingLanguageViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let result = SetLanguage(languages[indexPath.row].name)
+        let result = SetLanguage(languages[indexPath.row].name, syncToServer: true)
         print(result)
         
         tableView.deselectRow(at: indexPath, animated: true)

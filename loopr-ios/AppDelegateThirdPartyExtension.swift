@@ -33,6 +33,7 @@ extension AppDelegate {
         }
     }
     
+    // The method is only called in 
     private func loadConfigFromServerJustAfterGettingOpenID(openID: String, accessToken: String) {
         var configuration = JSON()
         configuration["userId"] = JSON(openID)
@@ -50,7 +51,7 @@ extension AppDelegate {
                 
                 // TODO: If the www.loopring.mobi/api/v1/users doesn't use a config with language or currency,
                 // This part will crash.
-                _ = SetLanguage(configuration["language"].stringValue)
+                _ = SetLanguage(configuration["language"].stringValue, syncToServer: false)
                 SettingDataManager.shared.setCurrentCurrency(Currency(name: configuration["currency"].stringValue))
                 
                 var contacts: [Contact] = []

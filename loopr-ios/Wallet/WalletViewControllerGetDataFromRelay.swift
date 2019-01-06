@@ -116,7 +116,7 @@ extension WalletViewController {
 
                             // Updating language or currency will trigger a sequence of API requests.
                             if SettingDataManager.shared.getCurrentLanguage().name != configuration["language"].stringValue {
-                                _ = SetLanguage(configuration["language"].stringValue)
+                                _ = SetLanguage(configuration["language"].stringValue, syncToServer: false)
                             }
                             
                             if SettingDataManager.shared.getCurrentCurrency().name != configuration["currency"].stringValue {
@@ -136,7 +136,6 @@ extension WalletViewController {
                                     }
                                 }
                             }
-
                         }
                     })
                 }

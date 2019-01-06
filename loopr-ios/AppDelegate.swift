@@ -72,6 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         }
         
         // Preload News data
+        /*
         NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
             
         })
@@ -81,6 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         NewsDataManager.shared.getBlogs { (_, _) in
             
         }
+        */
 
         PartnerDataManager.shared.createPartner()
         PartnerDataManager.shared.activatePartner()
