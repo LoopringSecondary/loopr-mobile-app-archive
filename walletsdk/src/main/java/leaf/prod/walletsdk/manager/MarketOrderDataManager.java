@@ -16,8 +16,10 @@ import org.web3j.utils.Numeric;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.util.WalletUtil;
+import rx.Observable;
 
 public class MarketOrderDataManager extends OrderDataManager {
 
@@ -50,7 +52,9 @@ public class MarketOrderDataManager extends OrderDataManager {
         return this.tokenSell;
     }
 
-    public String getTokenB() { return this.tokenBuy; }
+    public String getTokenB() {
+        return this.tokenBuy;
+    }
 
     public String getTokenSell() {
         return this.type == TradeType.buy ? tokenBuy : tokenSell;
@@ -83,11 +87,9 @@ public class MarketOrderDataManager extends OrderDataManager {
         Double priceLRC = marketManager.getPriceBySymbol("LRC");
         Double priceETH = marketManager.getPriceBySymbol("ETH");
         Double priceTokenS = marketManager.getPriceBySymbol(order.getTokenS());
-
         Double lrcFeeMin = gasManager.getGasAmountInETH("eth_transfer") * priceETH;
         Double lrcFeeCalc = priceTokenS * order.getAmountSell() * settingManager.getLrcFeeFloat();
         Double lrcFee = lrcFeeMin > lrcFeeCalc ? lrcFeeMin : lrcFeeCalc;
-
         return lrcFee / priceLRC;
     }
 
@@ -173,7 +175,7 @@ public class MarketOrderDataManager extends OrderDataManager {
                 balanceInfo.put("GAS_LRC", 2d);
             }
         } else {
-            return 0d;
+            result = 0d;
         }
         return result;
     }
@@ -214,4 +216,12 @@ public class MarketOrderDataManager extends OrderDataManager {
         return balanceInfo;
     }
 
+    @Override
+    protected Observable<RelayResponseWrapper> submit() {
+        Observable<RelayResponseWrapper> result = null;
+        if (order != null) {
+            result = loopringService.submitOrder(order);
+        }
+        return result;
+    }
 }

@@ -32,8 +32,9 @@ import com.xw.repo.BubbleSeekBar;
 
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.market.MarketErrorActivity;
+import leaf.prod.app.activity.market.MarketSuccessActivity;
 import leaf.prod.app.activity.trade.P2PErrorActivity;
-import leaf.prod.app.activity.trade.P2PTradeQrActivity;
 import leaf.prod.app.fragment.market.MarketTradeFragment;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.app.utils.PasswordDialogUtil;
@@ -216,15 +217,15 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
      */
     @SuppressLint("SetTextI18n")
     public void showTradeDetailDialog() {
-        setupDialog();
         OriginOrder order = constuctOrder();
-        setToken(order);
-        setPrice(order);
+        setupDialog();
+        setupToken(order);
+        setupPrice(order);
         setValidTime(order);
         marketTradeDialog.show();
     }
 
-    private void setToken(OriginOrder order) {
+    private void setupToken(OriginOrder order) {
         int tokenBID = tokenDataManager.getTokenBySymbol(order.getTokenB()).getImageResId();
         int tokenSID = tokenDataManager.getTokenBySymbol(order.getTokenS()).getImageResId();
         String tokenBTip = view.getResources().getString(R.string.buy) + " " + order.getTokenB();
@@ -236,7 +237,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_token)).setText(tokenSTip);
     }
 
-    private void setPrice(OriginOrder order) {
+    private void setupPrice(OriginOrder order) {
         String amountB = NumberUtils.format7(order.getAmountBuy(), 0, 6);
         String amountS = NumberUtils.format7(order.getAmountSell(), 0, 6);
         String amountBPrice = CurrencyUtil.format(context, marketcapDataManager
@@ -359,10 +360,10 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                     .subscribe(response -> {
                         view.getActivity().finish();
                         if (response.getError() == null) {
-                            view.getOperation().forward(P2PTradeQrActivity.class);
+                            view.getOperation().forward(MarketSuccessActivity.class);
                         } else {
                             view.getOperation().addParameter("error", response.getError().getMessage());
-                            view.getOperation().forward(P2PErrorActivity.class);
+                            view.getOperation().forward(MarketErrorActivity.class);
                         }
                         view.hideProgress();
                     });

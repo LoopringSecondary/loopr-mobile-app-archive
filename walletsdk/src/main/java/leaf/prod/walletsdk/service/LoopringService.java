@@ -283,6 +283,7 @@ public class LoopringService {
 
     // support for MARKET order submit
     public Observable<RelayResponseWrapper> submitOrder(OriginOrder order) {
+        String p2p = order.getP2pSide() == null ? "" : order.getP2pSide().getDescription();
         SubmitOrderParam param = SubmitOrderParam.builder()
                 .delegateAddress(Default.DELEGATE_ADDRESS)
                 .protocol(Default.PROTOCOL_ADDRESS)
@@ -302,14 +303,14 @@ public class LoopringService {
                 .marginSplitPercentage(order.getMargin())
                 .powNonce(order.getPowNonce())
                 .orderType(order.getOrderType().getDescription())
-                .p2pSide(order.getP2pSide().getDescription())
+                .p2pSide(p2p)
                 .v(Numeric.toBigInt(order.getV()).intValue())
                 .r(order.getR())
                 .s(order.getS())
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_submitOrder", param);
         Observable<RelayResponseWrapper<String>> observable = rpcDelegate.sumitOrder(request);
-        return observable.map(response -> response);
+        return observable.map(stringRelayResponseWrapper -> stringRelayResponseWrapper);
     }
 
     // support for P2P TAKER order submit

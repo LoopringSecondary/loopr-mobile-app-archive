@@ -217,23 +217,20 @@ public class MarketRecordsActivity extends BaseActivity {
                             recyclerView.setAdapter(emptyAdapter);
                             emptyAdapter.refresh();
                         } else {
+                            List<Order> list = new ArrayList<>();
                             for (Order order : orderPageWrapper.getData()) {
-                                boolean flag = true;
-                                for (Order order1 : orderList) {
-                                    if (order1.getOriginOrder().getHash()
-                                            .equalsIgnoreCase(order.getOriginOrder().getHash())) {
-                                        flag = false;
-                                        break;
-                                    }
-                                }
-                                if (flag) {
-                                    orderList.add(order.convert());
-                                }
+                                list.add(order.convert());
                             }
+                            if (currentPageIndex == 1) {
+                                recordAdapter.setNewData(list);
+                            } else {
+                                recordAdapter.addData(list);
+                            }
+                            orderList = recordAdapter.getData();
+                            refreshLayout.finishRefresh(true);
                         }
                         clLoading.setVisibility(View.GONE);
                         recordAdapter.loadMoreComplete();
-                        refreshLayout.finishRefresh(true);
                         unsubscribe();
                     }
                 });

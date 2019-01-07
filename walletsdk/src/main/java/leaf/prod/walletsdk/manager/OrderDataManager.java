@@ -42,7 +42,7 @@ import rx.schedulers.Schedulers;
 
 @Getter
 @Setter
-public class OrderDataManager {
+public abstract class OrderDataManager {
 
     protected String owner;
 
@@ -208,10 +208,6 @@ public class OrderDataManager {
         return result;
     }
 
-    protected Observable<RelayResponseWrapper> submit() {
-        return null;
-    }
-
     protected Observable<String> approve(String symbol, Double value) {
         Transfer transfer = new Transfer(credentials);
         String contract = token.getTokenBySymbol(symbol).getProtocol();
@@ -246,4 +242,6 @@ public class OrderDataManager {
                     return manager.approve(credentials, contract, Default.DELEGATE_ADDRESS, value1);
                 });
     }
+
+    protected abstract Observable<RelayResponseWrapper> submit();
 }
