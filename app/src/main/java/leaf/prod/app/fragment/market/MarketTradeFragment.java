@@ -188,13 +188,13 @@ public class MarketTradeFragment extends BaseFragment {
             case buy:
                 sellButton.setVisibility(View.GONE);
                 buyButton.setVisibility(View.VISIBLE);
-                title = getContext().getString(R.string.buy) + " " + marketManager.getTokenB();
+                title = getContext().getString(R.string.buy) + " " + marketManager.getTokenBuy();
                 buyButton.setText(title);
                 break;
             case sell:
                 buyButton.setVisibility(View.GONE);
                 sellButton.setVisibility(View.VISIBLE);
-                title = getContext().getString(R.string.sell) + " " + marketManager.getTokenB();
+                title = getContext().getString(R.string.sell) + " " + marketManager.getTokenBuy();
                 sellButton.setText(title);
                 break;
         }

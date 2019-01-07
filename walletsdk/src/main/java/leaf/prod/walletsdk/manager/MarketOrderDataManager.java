@@ -46,16 +46,22 @@ public class MarketOrderDataManager extends OrderDataManager {
         return order;
     }
 
-    public String getTokenS() {
-        return this.type == TradeType.buy ? tokenB : tokenS;
+    public String getTokenA() {
+        return this.tokenSell;
     }
 
-    public String getTokenB() {
-        return this.type == TradeType.buy ? tokenS : tokenB;
+    public String getTokenB() { return this.tokenBuy; }
+
+    public String getTokenSell() {
+        return this.type == TradeType.buy ? tokenBuy : tokenSell;
+    }
+
+    public String getTokenBuy() {
+        return this.type == TradeType.buy ? tokenSell : tokenBuy;
     }
 
     public String getTradePair() {
-        return this.tokenS + "/" + this.tokenB;
+        return this.tokenSell + "/" + this.tokenBuy;
     }
 
     public OriginOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {

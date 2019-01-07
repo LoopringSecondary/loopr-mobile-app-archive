@@ -83,8 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sell LRC"
-                        android:textColor="@color/colorRed"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/colorRed"/>
 
                     <TextView
                         android:id="@+id/tv_sell_amount"
@@ -92,8 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="506.122"
-                        android:textColor="@color/colorNineText"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/colorNineText"/>
 
                     <TextView
                         android:id="@+id/tv_sell_price"
@@ -101,8 +99,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="$1"
-                        android:textColor="@color/colorNineText"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/colorNineText"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -124,8 +121,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Buy ARP"
-                        android:textColor="@color/colorGreen"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/colorGreen"/>
 
                     <TextView
                         android:id="@+id/tv_buy_amount"
@@ -133,8 +129,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="2345.6234"
-                        android:textColor="@color/colorNineText"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/colorNineText"/>
 
                     <TextView
                         android:id="@+id/tv_buy_price"
@@ -142,8 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="$1"
-                        android:textColor="@color/colorNineText"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/colorNineText"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

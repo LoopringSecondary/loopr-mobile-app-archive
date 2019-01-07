@@ -6,16 +6,24 @@
  */
 package leaf.prod.app.activity.market;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.WindowManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
-import leaf.prod.app.presenter.market.MarketTradeActivityPresenter;
+import leaf.prod.app.adapter.ViewPageAdapter;
+import leaf.prod.app.fragment.market.MarketTradeFragment;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.manager.MarketOrderDataManager;
+import leaf.prod.walletsdk.model.TradeType;
 
 public class MarketTradeActivity extends BaseActivity {
 
@@ -25,7 +33,11 @@ public class MarketTradeActivity extends BaseActivity {
     @BindView(R.id.trade_tab)
     TabLayout tradeTab;
 
-    private MarketTradeActivityPresenter presenter;
+    @BindView(R.id.view_pager)
+    public
+    ViewPager viewPager;
+
+    private MarketOrderDataManager orderDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,33 +50,46 @@ public class MarketTradeActivity extends BaseActivity {
 
     @Override
     protected void initPresenter() {
-        presenter = new MarketTradeActivityPresenter(this, this);
-        presenter.setTabSelect(0);
+        orderDataManager = MarketOrderDataManager.getInstance(this);
     }
 
     @Override
     public void initTitle() {
-        title.setBTitle(getResources().getString(R.string.p2p_title));
+        title.setBTitle(orderDataManager.getTradePair().replace("/", "-"));
         title.clickLeftGoBack(getWContext());
     }
 
     @Override
     public void initView() {
-        tradeTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        List<Fragment> fragments = new ArrayList<>();
+        String[] titles = new String[TradeType.values().length];
+        for (TradeType type : TradeType.values()) {
+            MarketTradeFragment fragment = new MarketTradeFragment();
+            fragment.setTradeType(type);
+            fragments.add(type.ordinal(), fragment);
+        }
+        titles[0] = getString(R.string.buy);
+        titles[1] = getString(R.string.sell);
+        setupViewPager(fragments, titles);
+    }
+
+    private void setupViewPager(List<Fragment> fragments, String[] titles) {
+        viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), fragments, titles));
+        tradeTab.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                presenter.setTabSelect(tab.getPosition());
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                orderDataManager.setType(TradeType.getByIndex(position));
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+            public void onPageSelected(int position) {
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onPageScrollStateChanged(int state) {
             }
         });
-        tradeTab.getTabAt(getIntent().getIntExtra("tag", 0)).select();
     }
 
     @Override

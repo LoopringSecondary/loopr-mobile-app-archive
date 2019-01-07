@@ -62,12 +62,6 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private Map<String, String> errorMessage;
 
-    // token symbol, e.g. weth
-    protected String tokenS;
-
-    // token symbol, e.g. lrc
-    protected String tokenB;
-
     private String makerHash;
 
     private String makerPrivateKey;
@@ -88,8 +82,8 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private P2POrderDataManager(Context context) {
         super(context);
-        this.tokenS = (String) SPUtils.get(context, "tokenS", "WETH");
-        this.tokenB = (String) SPUtils.get(context, "tokenB", "LRC");
+        this.tokenSell = (String) SPUtils.get(context, "tokenSell", "WETH");
+        this.tokenBuy = (String) SPUtils.get(context, "tokenBuy", "LRC");
         this.updatePair();
         this.setupErrorMessage();
         this.ringParameters = new ArrayList<>();
@@ -124,27 +118,27 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private void updatePair() {
-        this.tradePair = String.format("%s-%s", this.tokenS, this.tokenB);
+        this.tradePair = String.format("%s-%s", this.tokenSell, this.tokenBuy);
     }
 
     // use for pressing switch button in p2p trade activity
     public void swapToken() {
-        String temp = this.tokenB;
-        changeToTokenB(this.tokenS);
+        String temp = this.tokenBuy;
+        changeToTokenB(this.tokenSell);
         changeToTokenS(temp);
     }
 
-    // use for pressing switch tokenS in p2p trade activity
+    // use for pressing switch tokenSell in p2p trade activity
     public void changeToTokenS(String symbol) {
-        this.tokenS = symbol;
-        SPUtils.put(context, "tokenS", symbol);
+        this.tokenSell = symbol;
+        SPUtils.put(context, "tokenSell", symbol);
         updatePair();
     }
 
-    // use for pressing switch tokenB in p2p trade activity
+    // use for pressing switch tokenBuy in p2p trade activity
     public void changeToTokenB(String symbol) {
-        this.tokenB = symbol;
-        SPUtils.put(context, "tokenB", symbol);
+        this.tokenBuy = symbol;
+        SPUtils.put(context, "tokenBuy", symbol);
         updatePair();
     }
 
@@ -176,22 +170,22 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private OriginOrder constructTaker(OriginOrder maker) {
-        // tokenS, tokenB
-        this.tokenB = maker.getTokenS();
-        this.tokenS = maker.getTokenB();
-        String tokenBuy = token.getTokenBySymbol(this.tokenB).getProtocol();
-        String tokenSell = token.getTokenBySymbol(this.tokenS).getProtocol();
+        // tokenSell, tokenBuy
+        this.tokenBuy = maker.getTokenS();
+        this.tokenSell = maker.getTokenB();
+        String tokenBuy = token.getTokenBySymbol(this.tokenBuy).getProtocol();
+        String tokenSell = token.getTokenBySymbol(this.tokenSell).getProtocol();
         updatePair();
 
         // amountB, amountBuy, amountS, amountSell
         BigInteger amountB = Numeric.toBigInt(maker.getAmountS()).divide(sellCount);
-        Double amountBuy = token.getDoubleFromWei(tokenB, new BigDecimal(amountB));
+        Double amountBuy = token.getDoubleFromWei(this.tokenBuy, new BigDecimal(amountB));
         BigInteger amountS = Numeric.toBigInt(maker.getAmountB()).divide(sellCount);
         BigInteger mod = Numeric.toBigInt(maker.getAmountB()).mod(sellCount);
         if (!mod.equals(BigInteger.ZERO)) {
             amountS.add(BigInteger.ONE);
         }
-        Double amountSell = token.getDoubleFromWei(tokenS, new BigDecimal(amountS));
+        Double amountSell = token.getDoubleFromWei(this.tokenSell, new BigDecimal(amountS));
 
         // validSince, validUntil
         Integer validS = Numeric.toBigInt(maker.getValidSince()).intValue();
@@ -205,7 +199,7 @@ public class P2POrderDataManager extends OrderDataManager {
             RandomWallet randomWallet = WalletUtil.getRandomWallet();
             order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
                     .owner(WalletUtil.getCurrentAddress(context)).market(tradePair)
-                    .tokenS(tokenS).tokenSell(tokenSell).tokenB(tokenB).tokenBuy(tokenBuy)
+                    .tokenS(this.tokenSell).tokenSell(tokenSell).tokenB(this.tokenBuy).tokenBuy(tokenBuy)
                     .amountB(Numeric.toHexStringWithPrefix(amountB)).amountBuy(amountBuy)
                     .amountS(Numeric.toHexStringWithPrefix(amountS)).amountSell(amountSell)
                     .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)

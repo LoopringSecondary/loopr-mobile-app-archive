@@ -273,12 +273,12 @@ public class P2PTradeFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (TradeType.sell.name().equals(tradeType) && !p2pManager.getTokenS().equals(currentToken)) {
+        if (TradeType.sell.name().equals(tradeType) && !p2pManager.getTokenSell().equals(currentToken)) {
             presenter.setSeekbar(0);
             buyAmount.setText("");
             presenter.setHint(0);
             tvBuyHint.setText("");
-        } else if (TradeType.buy.name().equals(tradeType) && !p2pManager.getTokenB().equals(currentToken)) {
+        } else if (TradeType.buy.name().equals(tradeType) && !p2pManager.getTokenBuy().equals(currentToken)) {
             buyAmount.setText("");
             tvBuyHint.setText("");
         }

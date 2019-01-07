@@ -85,8 +85,8 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
 
     @SuppressLint("SetTextI18n")
     public void initTokens() {
-        view.tvSellTokenSymbol.setText(marketOrderDataManager.getTokenS());
-        view.tvBuyTokenSymbol.setText(marketOrderDataManager.getTokenB());
+        view.tvSellTokenSymbol.setText(marketOrderDataManager.getTokenSell());
+        view.tvBuyTokenSymbol.setText(marketOrderDataManager.getTokenBuy());
         setInterval((int) SPUtils.get(context, "time_to_live", 1));
         setHint(0);
     }
@@ -108,7 +108,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         view.seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(marketOrderDataManager.getTokenS());
+                BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(marketOrderDataManager.getTokenSell());
                 view.tradePrice.setText(NumberUtils.format1(asset.getValue() * progressFloat / 100, asset.getPrecision()));
             }
 
@@ -325,8 +325,8 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
             case 5: // shuzi
                 view.tvAmountHint.setVisibility(View.VISIBLE);
                 view.tvAmountHint.setText(view.getResources().getString(R.string.available_balance,
-                        balanceDataManager.getAssetBySymbol(marketOrderDataManager.getTokenS())
-                                .getValueShown()) + " " + marketOrderDataManager.getTokenS());
+                        balanceDataManager.getAssetBySymbol(marketOrderDataManager.getTokenA())
+                                .getValueShown()) + " " + marketOrderDataManager.getTokenA());
                 view.tvAmountHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
                 break;
         }

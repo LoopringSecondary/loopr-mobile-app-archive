@@ -47,10 +47,10 @@ public class OrderDataManager {
     protected String owner;
 
     // token symbol, e.g. weth
-    protected String tokenS;
+    protected String tokenSell;
 
     // token symbol, e.g. lrc
-    protected String tokenB;
+    protected String tokenBuy;
 
     // e.g. lrc-weth
     protected String tradePair;
@@ -82,16 +82,16 @@ public class OrderDataManager {
     public OriginOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {
         OriginOrder order = null;
         try {
-            String tokenBuy = token.getTokenBySymbol(getTokenB()).getProtocol();
-            String tokenSell = token.getTokenBySymbol(getTokenS()).getProtocol();
-            String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(getTokenB(), amountBuy));
-            String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(getTokenS(), amountSell));
+            String tokenBuy = token.getTokenBySymbol(getTokenBuy()).getProtocol();
+            String tokenSell = token.getTokenBySymbol(getTokenSell()).getProtocol();
+            String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(getTokenBuy(), amountBuy));
+            String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(getTokenSell(), amountSell));
             String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
             String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
             RandomWallet randomWallet = WalletUtil.getRandomWallet();
             order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
                     .owner(WalletUtil.getCurrentAddress(context)).market(tradePair)
-                    .tokenS(getTokenS()).tokenSell(tokenSell).tokenB(getTokenB()).tokenBuy(tokenBuy)
+                    .tokenS(getTokenSell()).tokenSell(tokenSell).tokenB(getTokenBuy()).tokenBuy(tokenBuy)
                     .amountS(amountS).amountSell(amountSell).amountB(amountB).amountBuy(amountBuy)
                     .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
                     .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
