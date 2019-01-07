@@ -14,6 +14,7 @@ import leaf.prod.app.R;
 import leaf.prod.app.adapter.infomation.NewsHeaderAdapter;
 import leaf.prod.app.fragment.news.NewsFragment;
 import leaf.prod.app.presenter.BasePresenter;
+import leaf.prod.walletsdk.manager.NewsDataManager;
 import leaf.prod.walletsdk.model.NewsHeader;
 import leaf.prod.walletsdk.model.response.crawler.BlogWrapper;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
@@ -37,9 +38,12 @@ public class NewsPresenter extends BasePresenter<NewsFragment> {
 
     private CrawlerService crawlerService;
 
+    private NewsDataManager newsDataManager;
+
     public NewsPresenter(NewsFragment view, Context context) {
         super(view, context);
         crawlerService = new CrawlerService();
+        newsDataManager = NewsDataManager.getInstance(context);
     }
 
     public void initData() {
@@ -79,6 +83,7 @@ public class NewsPresenter extends BasePresenter<NewsFragment> {
                                 .description(view.getResources().getString(R.string.news_information))
                                 .newsList(newsPageWrapper)
                                 .build());
+                        newsDataManager.setNews(newsPageWrapper);
                         ((TailLayoutManager) view.recyclerView.getLayoutManager()).setPageTransformer(new HeaderTransformer());
                         view.recyclerView.setAdapter(new NewsHeaderAdapter(blogWrappers[0], newsHeaderList, view.getActivity()));
                         new TailSnapHelper().attachToRecyclerView(view.recyclerView);

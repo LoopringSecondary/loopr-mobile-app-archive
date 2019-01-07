@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.wallet.DefaultWebViewActivity;
 import leaf.prod.app.layout.RoundSmartImageView;
+import leaf.prod.walletsdk.manager.NewsDataManager;
 import leaf.prod.walletsdk.model.NewsHeader;
 import leaf.prod.walletsdk.model.response.crawler.Blog;
 import leaf.prod.walletsdk.model.response.crawler.BlogWrapper;
@@ -88,7 +89,11 @@ public class NewsHeaderItem extends HeaderItem {
 
     private CrawlerService crawlerService;
 
+    private NewsDataManager newsDataManager;
+
     private NewsHeader.NewsType newsType;
+
+    private static List<News> newsList = new ArrayList<>();
 
     private int index = 0;
 
@@ -104,6 +109,7 @@ public class NewsHeaderItem extends HeaderItem {
         this.view = itemView;
         this.activity = activity;
         headerHeight = DpUtil.dp2Int(view.getContext(), 250);
+        newsDataManager = NewsDataManager.getInstance(activity);
         // Init header
         headerRecyclerView.setAdapter(new NewsBodyAdapter(headerRecyclerView.getContext(), activity));
         headerRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -150,6 +156,7 @@ public class NewsHeaderItem extends HeaderItem {
             intent.putExtra("url", blogWrapper.getData().get(position).getUrl());
             activity.startActivity(intent);
         });
+        newsList = newsDataManager.getNews().getData();
     }
 
     @Override
@@ -264,12 +271,16 @@ public class NewsHeaderItem extends HeaderItem {
                         if (index == 0) {
                             ((NewsBodyAdapter) headerRecyclerView.getAdapter()).clearData();
                             ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_INFO);
+                            newsList = newsPageWrapper.getData();
                             refreshLayout.finishRefresh();
                         } else {
                             ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_INFO);
                             headerRecyclerView.scrollBy(0, 200);
                             refreshLayout.finishLoadMore();
+                            newsList.addAll(newsPageWrapper.getData());
+                            newsPageWrapper.setData(newsList);
                         }
+                        newsDataManager.setNews(newsPageWrapper);
                         unsubscribe();
                     }
                 });

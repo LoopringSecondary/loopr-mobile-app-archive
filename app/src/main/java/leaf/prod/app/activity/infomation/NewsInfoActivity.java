@@ -1,18 +1,16 @@
 package leaf.prod.app.activity.infomation;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.TypedValue;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.loopj.android.image.WebImage;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.vondear.rxtool.view.RxToast;
@@ -22,15 +20,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
-import leaf.prod.app.layout.RoundSmartImageView;
+import leaf.prod.app.adapter.infomation.NewsInfoDetailAdapter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.ShareUtil;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.manager.NewsDataManager;
 import leaf.prod.walletsdk.model.response.crawler.IndexResult;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.service.CrawlerService;
-import leaf.prod.walletsdk.util.DpUtil;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -40,38 +38,39 @@ public class NewsInfoActivity extends BaseActivity {
     @BindView(R.id.title)
     public TitleView title;
 
-    @BindView(R.id.tv_title)
-    public TextView tvTitle;
-    //    @BindView(R.id.tv_content)
-    //    public TextView tvContent;
-
-    @BindView(R.id.tv_time)
-    public TextView tvTime;
-
-    @BindView(R.id.tv_source)
-    public TextView tvSource;
-
-    @BindView(R.id.ll_content)
-    public LinearLayout llContent;
-
-    @BindView(R.id.sv_content)
-    public ScrollView svContent;
+    @BindView(R.id.recycler_view)
+    public RecyclerView recyclerView;
 
     @BindView(R.id.tv_share)
     public TextView tvShare;
 
+    @BindView(R.id.tv_pre)
+    public TextView tvPre;
+
+    @BindView(R.id.tv_next)
+    public TextView tvNext;
+
+    private NewsInfoDetailAdapter adapter;
+
     private static CrawlerService crawlerService;
 
-    private static int margin = 0;
-
     private News news;
+
+    private List<News> newsList = new ArrayList();
+
+    private int position = 1;
+
+    private LinearLayoutManager layoutManager;
+
+    private NewsDataManager newsDataManager;
+
+    private LinearSnapHelper pagerSnapHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_news_info);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
-        margin = DpUtil.dp2Int(this, 12);
         if (crawlerService == null) {
             crawlerService = new CrawlerService();
         }
@@ -90,78 +89,54 @@ public class NewsInfoActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     @Override
     public void initView() {
-        margin = DpUtil.dp2Int(this, 12);
+        newsDataManager = NewsDataManager.getInstance(this);
         news = (News) getIntent().getSerializableExtra("data");
-        tvTitle.setText(news.getTitle());
-        //        tvContent.setText(news.getContent());
-        tvTime.setText(news.getPublishTime());
-        tvSource.setText(getString(R.string.news_source) + ": " + news.getSource());
-        tvShare.setText(getString(R.string.news_share) + " " + (news.getForwardNum() > 0 ? news.getForwardNum() : ""));
-        Pattern p = Pattern.compile("<img src=\"([\\s\\S]*?)\">");
-        Matcher m = p.matcher(news.getContent());
-        int begin = 0;
-        int end = 0;
-        while (m.find()) {
-            String content = news.getContent().substring(begin, m.start());
-            String image = news.getContent()
-                    .substring(m.start(), m.end())
-                    .replace("<img src=\"", "")
-                    .replace("\">", "");
-            addTextView(content.trim());
-            addImageView(image);
-            begin = end = m.end();
+        News preNews = newsDataManager.getPreNews(news);
+        if (preNews == null) {
+            position = 0;
+        } else {
+            newsList.add(preNews);
         }
-        if (begin == 0) {
-            addTextView(news.getContent());
+        newsList.add(news);
+        News nextNews = newsDataManager.getNextNews(news);
+        if (nextNews != null) {
+            newsList.add(newsDataManager.getNextNews(news));
         }
-        if (end < news.getContent().length() && !news.getContent().substring(end).trim().isEmpty()) {
-            addTextView(news.getContent().substring(end).trim());
-        }
-        svContent.post(() -> svContent.fullScroll(ScrollView.FOCUS_UP));
     }
 
     @Override
     public void initData() {
+        layoutManager = new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        pagerSnapHelper = new LinearSnapHelper();
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new NewsInfoDetailAdapter(R.layout.adapter_news_info, newsList, this);
+        recyclerView.setAdapter(adapter);
+        pagerSnapHelper.attachToRecyclerView(recyclerView);
+        layoutManager.scrollToPositionWithOffset(position, 0);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LyqbLogger.log(recyclerView.getChildAt(0).getMeasuredHeightAndState() + "");
+            }
+        });
     }
 
-    private void addTextView(String content) {
-        if (content.trim().isEmpty())
-            return;
-        TextView textView = new TextView(this);
-        textView.setId(View.generateViewId());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(0, margin, 0, 0);
-        textView.setLayoutParams(lp);
-        textView.setTextIsSelectable(true);
-        textView.setText(content);
-        textView.setTextColor(getResources().getColor(R.color.colorNineText));
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        textView.setLineSpacing(0, 1.5f);
-        llContent.addView(textView);
-    }
-
-    private void addImageView(String url) {
-        LyqbLogger.log(url);
-        WebImage webImage = new WebImage(url);
-        //        Bitmap bitmap = webImage.getBitmap(this);
-        //        if (bitmap == null || bitmap.getWidth() < 80)
-        //            return;
-        RoundSmartImageView imageView = new RoundSmartImageView(this);
-        imageView.setId(View.generateViewId());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(0, margin, 0, 0);
-        imageView.setLayoutParams(lp);
-        imageView.setImage(webImage);
-        imageView.setAdjustViewBounds(true);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        llContent.addView(imageView);
-    }
-
-    @OnClick({R.id.cl_share})
+    @OnClick({R.id.cl_share, R.id.tv_pre, R.id.tv_next})
     public void onViewClicked(View view) {
-        if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-            switch (view.getId()) {
-                case R.id.cl_share:
+        switch (view.getId()) {
+            case R.id.cl_share:
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
                     ShareUtil.uShareUrl(this, news.getTitle(), news.getUrl(), " ", new UMShareListener() {
                         @Override
                         public void onStart(SHARE_MEDIA platform) {
@@ -204,8 +179,30 @@ public class NewsInfoActivity extends BaseActivity {
                         public void onCancel(SHARE_MEDIA platform) {
                         }
                     });
-                    break;
-            }
+                }
+                break;
         }
+    }
+
+    public void goPre() {
+        if (position == 0) {
+            RxToast.error("到顶了");
+            return;
+        }
+        position = adapter.goPre(position);
+        newsList = adapter.getNewsList();
+        //        recyclerView.smoothScrollToPosition(position);
+        layoutManager.scrollToPositionWithOffset(position, 0);
+    }
+
+    public void goNext() {
+        if (position == newsList.size() - 1) {
+            RxToast.error("到底了");
+            return;
+        }
+        position = adapter.goNext(position);
+        newsList = adapter.getNewsList();
+        //        recyclerView.smoothScrollToPosition(position);
+        layoutManager.scrollToPositionWithOffset(position, 0);
     }
 }
