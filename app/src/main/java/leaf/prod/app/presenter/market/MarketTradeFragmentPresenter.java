@@ -56,12 +56,6 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
     @SuppressLint("SimpleDateFormat")
     private static SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
 
-    private String sellPrice = "0", buyPrice = "0";
-
-    private Date validSince;
-
-    private Date validUntil;
-
     private MarketcapDataManager marketcapDataManager;
 
     private BalanceDataManager balanceDataManager;
@@ -85,22 +79,16 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         balanceDataManager = BalanceDataManager.getInstance(context);
         tokenDataManager = TokenDataManager.getInstance(context);
         marketOrderDataManager = MarketOrderDataManager.getInstance(context);
-        initTokens();
         shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.shake_x);
+        initTokens();
     }
 
     @SuppressLint("SetTextI18n")
     public void initTokens() {
-        view.tvSellTokenSymbol.setText(marketOrderDataManager.getTokenB());
-        view.tvBuyTokenSymbol.setText(marketOrderDataManager.getTokenS());
-        Double tokenPrice1 = marketcapDataManager.getPriceBySymbol(marketOrderDataManager.getTokenB());
-        Double tokenPrice2 = marketcapDataManager.getPriceBySymbol(marketOrderDataManager.getTokenS());
-        sellPrice = NumberUtils.format1(tokenPrice2 != 0 ? tokenPrice1 / tokenPrice2 : 0, BalanceDataManager.getPrecision(marketOrderDataManager
-                .getTokenS()));
-        buyPrice = NumberUtils.format1(tokenPrice1 != 0 ? tokenPrice2 / tokenPrice1 : 0, BalanceDataManager.getPrecision(marketOrderDataManager
-                .getTokenB()));
-        setHint(0);
+        view.tvSellTokenSymbol.setText(marketOrderDataManager.getTokenS());
+        view.tvBuyTokenSymbol.setText(marketOrderDataManager.getTokenB());
         setInterval((int) SPUtils.get(context, "time_to_live", 1));
+        setHint(0);
     }
 
     /**
@@ -223,22 +211,67 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         }
     }
 
-    public void calMarketSell() {
-        try {
-            Double amountS = Double.parseDouble(view.tradePrice.getText().toString());
-            Double priceS = Double.parseDouble(sellPrice);
-            int precision = balanceDataManager.getAssetBySymbol(marketOrderDataManager.getTokenB()).getPrecision();
-            view.tradeAmount.setText(NumberUtils.format1(amountS * priceS, precision));
-        } catch (Exception e) {
-            view.tradeAmount.setText("0");
-        }
-    }
-
     /**
      * 下单弹窗
      */
     @SuppressLint("SetTextI18n")
     public void showTradeDetailDialog() {
+        setupDialog();
+        OriginOrder order = constuctOrder();
+        setToken(order);
+        setPrice(order);
+        setValidTime(order);
+        marketTradeDialog.show();
+    }
+
+    private void setToken(OriginOrder order) {
+        int tokenBID = tokenDataManager.getTokenBySymbol(order.getTokenB()).getImageResId();
+        int tokenSID = tokenDataManager.getTokenBySymbol(order.getTokenS()).getImageResId();
+        String tokenBTip = view.getResources().getString(R.string.buy) + " " + order.getTokenB();
+        String tokenSTip = view.getResources().getString(R.string.sell) + " " + order.getTokenS();
+
+        ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_b)).setImageDrawable(view.getResources().getDrawable(tokenBID));
+        ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_s)).setImageDrawable(view.getResources().getDrawable(tokenSID));
+        ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_token)).setText(tokenBTip);
+        ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_token)).setText(tokenSTip);
+    }
+
+    private void setPrice(OriginOrder order) {
+        String amountB = NumberUtils.format7(order.getAmountBuy(), 0, 6);
+        String amountS = NumberUtils.format7(order.getAmountSell(), 0, 6);
+        String amountBPrice = CurrencyUtil.format(context, marketcapDataManager
+                .getPriceBySymbol(order.getTokenB()) * order.getAmountBuy());
+        String amountSPrice = CurrencyUtil.format(context, marketcapDataManager
+                .getPriceBySymbol(order.getTokenS()) * order.getAmountSell());
+        String priceQuote = view.tradePrice.getText() + " " + marketOrderDataManager.getTradePair();
+        String lrcFee = NumberUtils.format1(order.getLrc(), 3) +
+                " LRC ≈ " + CurrencyUtil.format(context, marketcapDataManager.getAmountBySymbol("LRC", order.getLrc()));
+
+        ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_amount)).setText(amountB);
+        ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_amount)).setText(amountS);
+        ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_price)).setText(amountBPrice);
+        ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_price)).setText(amountSPrice);
+        ((TextView) marketTradeDialogView.findViewById(R.id.tv_price)).setText(priceQuote);
+        ((TextView) marketTradeDialogView.findViewById(R.id.tv_trading_fee)).setText(lrcFee);
+    }
+
+    private void setValidTime(OriginOrder order) {
+        String validSince = sdf.format(order.getValidS());
+        String validUntil = sdf.format(order.getValidU());
+        ((TextView) marketTradeDialogView.findViewById(R.id.tv_live_time)).setText(validSince + " ~ " + validUntil);
+    }
+
+    private OriginOrder constuctOrder() {
+        Double amountBuy = view.getAmountBuy();
+        Double amountSell = view.getAmountSell();
+        Date now = new Date();
+        Integer validS = (int) (now.getTime() / 1000);
+        int time = (int) SPUtils.get(context, "time_to_live", 1);
+        Integer validU = (int) (DateUtil.addDateTime(now, time).getTime() / 1000);
+        return marketOrderDataManager.constructOrder(amountBuy, amountSell, validS, validU);
+    }
+
+    private void setupDialog() {
         if (marketTradeDialog == null) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogTheme);
             marketTradeDialogView = LayoutInflater.from(context).inflate(R.layout.dialog_p2p_trade_detail, null);
@@ -260,32 +293,6 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
             marketTradeDialog.setCanceledOnTouchOutside(true);
             marketTradeDialog.getWindow().setGravity(Gravity.CENTER);
         }
-        ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_s)).setImageDrawable(view.getResources()
-                .getDrawable(tokenDataManager.getTokenBySymbol(marketOrderDataManager.getTokenB()).getImageResId()));
-        ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_b)).setImageDrawable(view.getResources()
-                .getDrawable(tokenDataManager.getTokenBySymbol(marketOrderDataManager.getTokenS()).getImageResId()));
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_token)).setText(view.getResources()
-                .getString(R.string.sell) + " " + marketOrderDataManager.getTokenB());
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_token)).setText(view.getResources()
-                .getString(R.string.buy) + " " + marketOrderDataManager.getTokenS());
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_price)).setText("≈" + CurrencyUtil.format(context, marketcapDataManager
-                .getPriceBySymbol(marketOrderDataManager.getTokenB()) * Double.parseDouble(view.tradePrice.getText()
-                .toString()) * Double.parseDouble(view.tradeAmount.getText().toString())));
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_price)).setText("≈" + CurrencyUtil.format(context, marketcapDataManager
-                .getPriceBySymbol(marketOrderDataManager.getTokenS()) * Double.parseDouble(view.tradeAmount.getText()
-                .toString())));
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_amount)).setText(NumberUtils.format1(Double.parseDouble(view.tradeAmount.getText()
-                .toString()) * Double.parseDouble(view.tradePrice.getText().toString()), 4));
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_amount)).setText(view.tradeAmount.getText());
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_price)).setText(view.tradePrice.getText() + " " + marketOrderDataManager
-                .getTokenS() + "/" + marketOrderDataManager.getTokenB());
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_trading_fee)).setText("0 LRC ≈ " + CurrencyUtil.format(context, 0));
-        validSince = new Date();
-        int time = (int) SPUtils.get(context, "time_to_live", 1);
-        validUntil = DateUtil.addDateTime(validSince, time);
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_live_time)).setText(sdf.format(validSince) + " ~ " +
-                sdf.format(validUntil));
-        marketTradeDialog.show();
     }
 
     @SuppressLint("SetTextI18n")
@@ -306,7 +313,6 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                         .getTokenB()) * Double.parseDouble(view.tradePrice.getText().toString())));
                 view.tvPriceHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
                 break;
-
             case 3: // empty
                 view.tvAmountHint.setVisibility(View.INVISIBLE);
                 break;
@@ -326,10 +332,6 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         }
     }
 
-    public double getMaxAmount() {
-        return balanceDataManager.getAssetBySymbol(marketOrderDataManager.getTokenS()).getValue();
-    }
-
     public void destroyDialog() {
         if (marketTradeDialog != null) {
             marketTradeDialog.dismiss();
@@ -338,13 +340,8 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
     }
 
     public void processOrder(String password) {
-        Double amountBuy = Double.parseDouble(view.tradeAmount.getText().toString());
-        Double amountSell = Double.parseDouble(view.tradePrice.getText().toString());
-        Integer validS = (int) (validSince.getTime() / 1000);
-        Integer validU = (int) (validUntil.getTime() / 1000);
-        OriginOrder order = marketOrderDataManager.constructOrder(amountBuy, amountSell, validS, validU);
         try {
-            marketOrderDataManager.verify(order);
+            marketOrderDataManager.verify(password);
         } catch (Exception e) {
             view.hideProgress();
             PasswordDialogUtil.clearPassword();

@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.manager.SettingDataManager;
 
 public class LRCFeeRatioActivity extends BaseActivity {
 
@@ -24,7 +24,7 @@ public class LRCFeeRatioActivity extends BaseActivity {
     @BindView(R.id.seekBar)
     BubbleSeekBar seekBar;
 
-    private int value;
+    private SettingDataManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,24 +36,20 @@ public class LRCFeeRatioActivity extends BaseActivity {
 
     @Override
     protected void initPresenter() {
+        manager = SettingDataManager.getInstance(this);
     }
 
     @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.set_lrc_proportion));
         title.clickLeftGoBack(getWContext());
-        title.setRightText(getResources().getString(R.string.save), button -> {
-            SPUtils.put(LRCFeeRatioActivity.this, "ratio", value);
-            finish();
-        });
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void initView() {
-        value = (int) SPUtils.get(LRCFeeRatioActivity.this, "ratio", 2);
-        seekBar.setProgress(value);
-        tvRatio.setText(getResources().getString(R.string.set_lrc_proportion) + value + "‰");
+        seekBar.setProgress(manager.getLrcFeeFloat() * 1000);
+        tvRatio.setText(getResources().getString(R.string.set_lrc_proportion) + " " + manager.getLrcFeeString());
     }
 
     @Override
@@ -62,8 +58,8 @@ public class LRCFeeRatioActivity extends BaseActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                value = progress;
-                tvRatio.setText(getResources().getString(R.string.set_lrc_proportion) + bubbleSeekBar.getProgress() + "‰");
+                manager.setLrcFee(progress);
+                tvRatio.setText(getResources().getString(R.string.set_lrc_proportion) + manager.getLrcFeeString());
             }
 
             @Override

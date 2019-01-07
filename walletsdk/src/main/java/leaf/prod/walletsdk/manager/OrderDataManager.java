@@ -82,16 +82,16 @@ public class OrderDataManager {
     public OriginOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {
         OriginOrder order = null;
         try {
-            String tokenBuy = token.getTokenBySymbol(this.tokenB).getProtocol();
-            String tokenSell = token.getTokenBySymbol(this.tokenS).getProtocol();
-            String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(this.tokenB, amountBuy));
-            String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(this.tokenS, amountSell));
+            String tokenBuy = token.getTokenBySymbol(getTokenB()).getProtocol();
+            String tokenSell = token.getTokenBySymbol(getTokenS()).getProtocol();
+            String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(getTokenB(), amountBuy));
+            String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(getTokenS(), amountSell));
             String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
             String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
             RandomWallet randomWallet = WalletUtil.getRandomWallet();
             order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
                     .owner(WalletUtil.getCurrentAddress(context)).market(tradePair)
-                    .tokenS(tokenS).tokenSell(tokenSell).tokenB(tokenB).tokenBuy(tokenBuy)
+                    .tokenS(getTokenS()).tokenSell(tokenSell).tokenB(getTokenB()).tokenBuy(tokenBuy)
                     .amountS(amountS).amountSell(amountSell).amountB(amountB).amountBuy(amountBuy)
                     .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
                     .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))

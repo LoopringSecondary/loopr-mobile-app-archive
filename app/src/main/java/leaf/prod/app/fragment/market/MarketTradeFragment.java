@@ -129,7 +129,6 @@ public class MarketTradeFragment extends BaseFragment {
         oneHourView.setText(getResources().getString(R.string.hour, "1"));
         oneDayView.setText(getResources().getString(R.string.day, "1"));
         oneMonthView.setText(getResources().getString(R.string.month, "1"));
-
         setupPriceListener();
         setupAmountListener();
         setupButton();
@@ -189,13 +188,13 @@ public class MarketTradeFragment extends BaseFragment {
             case buy:
                 sellButton.setVisibility(View.GONE);
                 buyButton.setVisibility(View.VISIBLE);
-                title = getContext().getString(R.string.buy) + " " + marketManager.getTokenS();
+                title = getContext().getString(R.string.buy) + " " + marketManager.getTokenB();
                 buyButton.setText(title);
                 break;
             case sell:
                 buyButton.setVisibility(View.GONE);
                 sellButton.setVisibility(View.VISIBLE);
-                title = getContext().getString(R.string.sell) + " " + marketManager.getTokenS();
+                title = getContext().getString(R.string.sell) + " " + marketManager.getTokenB();
                 sellButton.setText(title);
                 break;
         }
@@ -266,5 +265,31 @@ public class MarketTradeFragment extends BaseFragment {
 
     public void setTradeType(TradeType tradeType) {
         this.tradeType = tradeType;
+    }
+
+    public Double getAmountBuy() {
+        Double result = 0d;
+        switch (this.tradeType) {
+            case buy:
+                result = Double.parseDouble(tradeAmount.getText().toString());
+                break;
+            case sell:
+                result = Double.parseDouble(tradeAmount.getText().toString()) * Double.parseDouble(tradePrice.getText().toString());
+                break;
+        }
+        return result;
+    }
+
+    public Double getAmountSell() {
+        Double result = 0d;
+        switch (this.tradeType) {
+            case buy:
+                result = Double.parseDouble(tradeAmount.getText().toString()) * Double.parseDouble(tradePrice.getText().toString());
+                break;
+            case sell:
+                result = Double.parseDouble(tradeAmount.getText().toString());
+                break;
+        }
+        return result;
     }
 }

@@ -6,21 +6,24 @@
  */
 package leaf.prod.walletsdk.manager;
 
-import java.util.List;
+import java.math.BigInteger;
 import java.util.Map;
 
 import android.content.Context;
 
-import leaf.prod.walletsdk.model.Order;
+import org.web3j.utils.Numeric;
+
+import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.TradeType;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class MarketOrderDataManager extends OrderDataManager {
 
     private TradeType type;
 
-    private List<Order> orders;
+    private OriginOrder order;
 
     private static MarketOrderDataManager marketOrderManager = null;
 
@@ -39,12 +42,52 @@ public class MarketOrderDataManager extends OrderDataManager {
         this.type = type;
     }
 
+    public OriginOrder getOrder() {
+        return order;
+    }
+
     public String getTokenS() {
-        return this.type == TradeType.buy ? tokenS : tokenB;
+        return this.type == TradeType.buy ? tokenB : tokenS;
     }
 
     public String getTokenB() {
-        return this.type == TradeType.buy ? tokenB : tokenS;
+        return this.type == TradeType.buy ? tokenS : tokenB;
+    }
+
+    public String getTradePair() {
+        return this.tokenS + "/" + this.tokenB;
+    }
+
+    public OriginOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {
+        OriginOrder originOrder = super.constructOrder(amountBuy, amountSell, validS, validU);
+        originOrder.setSide(type.name());
+        originOrder.setOrderType(OrderType.MARKET);
+        Double lrcFee = calculateLrcFee(originOrder);
+        String lrcFeeHex = calculateLrcFeeString(originOrder);
+        originOrder.setLrc(lrcFee);
+        originOrder.setLrcFee(lrcFeeHex);
+        this.order = originOrder;
+        return originOrder;
+    }
+
+    private Double calculateLrcFee(OriginOrder order) {
+        GasDataManager gasManager = GasDataManager.getInstance(context);
+        SettingDataManager settingManager = SettingDataManager.getInstance(context);
+        MarketcapDataManager marketManager = MarketcapDataManager.getInstance(context);
+        Double priceLRC = marketManager.getPriceBySymbol("LRC");
+        Double priceETH = marketManager.getPriceBySymbol("ETH");
+        Double priceTokenS = marketManager.getPriceBySymbol(order.getTokenS());
+
+        Double lrcFeeMin = gasManager.getGasAmountInETH("eth_transfer") * priceETH;
+        Double lrcFeeCalc = priceTokenS * order.getAmountSell() * settingManager.getLrcFeeFloat();
+        Double lrcFee = lrcFeeMin > lrcFeeCalc ? lrcFeeMin : lrcFeeCalc;
+
+        return lrcFee / priceLRC;
+    }
+
+    private String calculateLrcFeeString(OriginOrder order) {
+        BigInteger valueInWei = TokenDataManager.getInstance(context).getWeiFromDouble("LRC", order.getLrc());
+        return Numeric.toHexStringWithPrefix(valueInWei);
     }
 
     private void checkLRCEnough(OriginOrder order) {
@@ -129,6 +172,11 @@ public class MarketOrderDataManager extends OrderDataManager {
         return result;
     }
 
+    private void completeOrder(String password) throws Exception {
+        this.credentials = WalletUtil.getCredential(context, password);
+        this.order = signOrder(order);
+    }
+
     /*
      1. LRC FEE 比较的是当前订单lrc fee + getFrozenLrcfee() <> 账户lrc 余额 不够失败
      2. 如果够了，看lrc授权够不够，够则成功，如果不够需要授权是否等于=0，如果不是，先授权lrc = 0， 再授权lrc = max，
@@ -138,8 +186,9 @@ public class MarketOrderDataManager extends OrderDataManager {
         需要lrc fee + getFrozenLrcfee() + amounts(lrc) + loopring_getEstimatedAllocatedAllowance() <> 账户授权lrc
      4. buy lrc不看前两点，只要3满足即可
      */
-    public Map verify(OriginOrder order) {
+    public Map verify(String password) throws Exception {
         balanceInfo.clear();
+        completeOrder(password);
         if (order.getSide().equalsIgnoreCase("buy")) {
             if (order.getTokenB().equalsIgnoreCase("LRC")) {
                 checkGasEnough(order, false);

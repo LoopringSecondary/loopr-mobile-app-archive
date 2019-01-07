@@ -147,6 +147,13 @@ public class NumberUtils {
         return Double.parseDouble(ds);
     }
 
+    public static String format7(double d, int minPrecision, int maxPrecision) {
+        DecimalFormat formater = new DecimalFormat();
+        formater.setMinimumFractionDigits(minPrecision);
+        formater.setMaximumFractionDigits(maxPrecision);
+        return formater.format(d);
+    }
+
     public static String formatSix(String s1, String s2) {
         BigDecimal d1 = new BigDecimal(s1);
         BigDecimal d2 = new BigDecimal(s2);
