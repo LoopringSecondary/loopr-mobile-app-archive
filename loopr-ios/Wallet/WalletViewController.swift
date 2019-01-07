@@ -29,6 +29,9 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var blurVisualEffectView = UIView(frame: .zero)
     
+    // available after iPhone 7
+    let impact = UIImpactFeedbackGenerator()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -99,6 +102,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @objc private func refreshData(_ sender: Any) {
+        impact.impactOccurred()
         getDataFromRelay()
     }
 
