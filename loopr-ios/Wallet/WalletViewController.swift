@@ -298,6 +298,15 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("scrollView y: \(scrollView.contentOffset.y)")
+        
+        if scrollView.contentOffset.y < -100 {
+            let newsViewController = NewsNavigationViewController()
+            // newsViewController.modalPresentationStyle = .overCurrentContext
+            present(newsViewController, animated: true) {
+         
+            }
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

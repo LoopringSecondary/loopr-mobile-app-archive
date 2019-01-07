@@ -177,6 +177,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                 news = NewsDataManager.shared.informationItems[indexPath.row]
                 self.selectedCardIndex = indexPath
                 let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
+                detailViewController.currentIndex = indexPath.row
                 detailViewController.newsObject = news
                 self.present(detailViewController, animated: true, completion: {
                     

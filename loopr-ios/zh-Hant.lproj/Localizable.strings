@@ -150,7 +150,9 @@
 "News_Up" = "利好";
 "News_Down" = "利空";
 "News_information" = "新聞";
-"News_flash" = "Newsletter";
+"News_flash" = "快訊";
+"Pull to read more" = "上拉閱讀全文";
+"Release to read more" = "鬆開閱讀全文";
 
 /* DEX Trade page */
 "Loopring Order" = "路印訂單";

@@ -144,6 +144,8 @@
 "News_Down" = "Down";
 "News_information" = "News";
 "News_flash" = "Newsletter";
+"Pull to read more" = "Pull to read more";
+"Release to read more" = "Release to read more";
 
 /* DEX Trade page */
 "DEX Trade" = "DEX 거래";

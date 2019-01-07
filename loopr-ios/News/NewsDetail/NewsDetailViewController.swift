@@ -9,8 +9,9 @@
 import UIKit
 import WebKit
 
-class NewsDetailViewController: UIViewController, WKNavigationDelegate {
+class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScrollViewDelegate {
 
+    var currentIndex: Int = 0
     var newsObject: NewsProtocol!
     var isFirtTimeAppear: Bool = true
 
@@ -25,6 +26,14 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
     fileprivate let userCardPresentAnimationController = NewsDetailPresentAnimationController()
     fileprivate let userCardDismissAnimationController = NewsDetailDismissAnimationController()
     
+    var enablePullToNextPage: Bool = false
+    var isPullToNextPageImageViewAnimating: Bool = false
+    var isPullToNextPageImageViewUp: Bool = true
+    let pullToNextPageBottomViewHeight: CGFloat = 140
+    let pullToNextPageBottomView = UIView()
+    let pullToNextPageTitleLabel = UILabel()
+    let pullToNextPageImageView = UIImageView()
+
     /*
     let animator = ModalPushPopAnimator()
     var edgeView: UIView? {
@@ -139,6 +148,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
         
         isFirtTimeAppear = false
         webView.navigationDelegate = self
+        webView.scrollView.delegate = self
         
         if let news = newsObject as? News {
             webView.loadHTMLString("<body><font size='\(NewsDetailUIStyleConfig.shared.fontSize)'>\(news.content)</font></body>", baseURL: nil)
@@ -148,6 +158,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
             webView.navigationDelegate = self
             webView.load(request)
         }
+        
+        setupRefreshControlAtBottom()
     }
     
     @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {
@@ -179,6 +191,82 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate {
     }
     */
     
+    func setupRefreshControlAtBottom() {
+        pullToNextPageBottomView.frame = CGRect(x: 0, y: webView.height, width: webView.width, height: pullToNextPageBottomViewHeight)
+        webView.addSubview(pullToNextPageBottomView)
+
+        pullToNextPageTitleLabel.frame = CGRect(x: 0, y: 10, width: pullToNextPageBottomView.width, height: 30)
+        pullToNextPageTitleLabel.theme_textColor = GlobalPicker.textColor
+        pullToNextPageTitleLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
+        pullToNextPageTitleLabel.textAlignment = .center
+        pullToNextPageTitleLabel.text = LocalizedString("Pull to read more", comment: "")
+        pullToNextPageBottomView.addSubview(pullToNextPageTitleLabel)
+        
+        pullToNextPageImageView.frame = CGRect(x: (pullToNextPageTitleLabel.width-30)*0.5, y: pullToNextPageTitleLabel.frame.maxY + 4, width: 30, height: 30)
+        pullToNextPageImageView.image = UIImage(named: "News-pull-refresh-bottom")
+        pullToNextPageImageView.contentMode = .scaleAspectFit
+        pullToNextPageBottomView.addSubview(pullToNextPageImageView)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("scrollView y: \(scrollView.contentOffset.y)")
+        let bottomY = scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom
+        print("the bottom of scrollView: \(bottomY)")
+        if scrollView.contentOffset.y > bottomY {
+            let delta = scrollView.contentOffset.y  - bottomY
+            pullToNextPageBottomView.isHidden = false
+            pullToNextPageBottomView.frame = CGRect(x: 0, y: webView.height - delta, width: scrollView.contentSize.width, height: pullToNextPageBottomViewHeight)
+            if delta > pullToNextPageBottomView.height {
+                pullToNextPageTitleLabel.text = LocalizedString("Release to read more", comment: "")
+                if !isPullToNextPageImageViewAnimating && isPullToNextPageImageViewUp {
+                    isPullToNextPageImageViewAnimating = true
+                    self.pullToNextPageBottomView.layoutIfNeeded()
+                    UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                        self.pullToNextPageImageView.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi))
+                        self.pullToNextPageBottomView.layoutIfNeeded()
+                    }) { (finished) in
+                        print(finished)
+                        self.enablePullToNextPage = true
+                        self.isPullToNextPageImageViewUp = false
+                        self.isPullToNextPageImageViewAnimating = false
+                    }
+                }
+            } else {
+                pullToNextPageTitleLabel.text = LocalizedString("Pull to read more", comment: "")
+                enablePullToNextPage = false
+                if !isPullToNextPageImageViewAnimating && !isPullToNextPageImageViewUp {
+                    isPullToNextPageImageViewAnimating = true
+                    self.pullToNextPageBottomView.layoutIfNeeded()
+                    UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                        self.pullToNextPageImageView.transform = CGAffineTransform(rotationAngle: CGFloat(-1/180*Double.pi))
+                        self.pullToNextPageBottomView.layoutIfNeeded()
+                    }) { (finished) in
+                        print(finished)
+                        self.enablePullToNextPage = false
+                        self.isPullToNextPageImageViewUp = true
+                        self.isPullToNextPageImageViewAnimating = false
+                    }
+                }
+            }
+        } else {
+            pullToNextPageBottomView.isHidden = true
+        }
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        if enablePullToNextPage {
+            if newsObject as? News != nil {
+                let news = NewsDataManager.shared.informationItems[currentIndex+1]
+                let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
+                detailViewController.currentIndex = currentIndex+1
+                detailViewController.newsObject = news
+                self.present(detailViewController, animated: true, completion: {
+                    
+                })
+            }
+        }
+    }
+
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         if showProgressView {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
