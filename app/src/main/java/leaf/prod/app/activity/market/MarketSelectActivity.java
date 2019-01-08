@@ -142,9 +142,9 @@ public class MarketSelectActivity extends BaseActivity {
     }
 
     private void setupViewPager(List<Fragment> fragments, String[] titles) {
-        viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), fragments, titles));
         marketTab.setupWithViewPager(viewPager);
-        viewPager.setCurrentItem(0);
+        viewPager.setOffscreenPageLimit(titles.length - 1);
+        viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), fragments, titles));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
