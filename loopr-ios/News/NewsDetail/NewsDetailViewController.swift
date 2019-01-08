@@ -29,10 +29,12 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     var enablePullToNextPage: Bool = false
     var isPullToNextPageImageViewAnimating: Bool = false
     var isPullToNextPageImageViewUp: Bool = true
-    let pullToNextPageBottomViewHeight: CGFloat = 140
+    let pullToNextPageBottomViewHeight: CGFloat = 120
     let pullToNextPageBottomView = UIView()
     let pullToNextPageTitleLabel = UILabel()
     let pullToNextPageImageView = UIImageView()
+
+    var didCloseButtonClosure: (() -> Void)?
 
     /*
     let animator = ModalPushPopAnimator()
@@ -137,6 +139,16 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         super.viewWillAppear(animated)
         UINavigationBar.appearance().theme_barTintColor = ColorPicker.cardBackgroundColor
         navigationBar.shadowImage = UIImage()
+        
+        if let news = newsObject as? News {
+            webView.loadHTMLString("<body><font size='\(NewsDetailUIStyleConfig.shared.fontSize)'>\(news.content)</font></body>", baseURL: nil)
+        } else if let blog = newsObject as? Blog {
+            let url = URL(string: blog.url)!
+            let request = URLRequest(url: url)
+            webView.navigationDelegate = self
+            webView.load(request)
+        }
+        setupRefreshControlAtBottom()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -149,21 +161,11 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         isFirtTimeAppear = false
         webView.navigationDelegate = self
         webView.scrollView.delegate = self
-        
-        if let news = newsObject as? News {
-            webView.loadHTMLString("<body><font size='\(NewsDetailUIStyleConfig.shared.fontSize)'>\(news.content)</font></body>", baseURL: nil)
-        } else if let blog = newsObject as? Blog {
-            let url = URL(string: blog.url)!
-            let request = URLRequest(url: url)
-            webView.navigationDelegate = self
-            webView.load(request)
-        }
-        
-        setupRefreshControlAtBottom()
     }
     
     @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
+        didCloseButtonClosure?()
     }
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
@@ -195,7 +197,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         pullToNextPageBottomView.frame = CGRect(x: 0, y: webView.height, width: webView.width, height: pullToNextPageBottomViewHeight)
         webView.addSubview(pullToNextPageBottomView)
 
-        pullToNextPageTitleLabel.frame = CGRect(x: 0, y: 10, width: pullToNextPageBottomView.width, height: 30)
+        pullToNextPageTitleLabel.frame = CGRect(x: 0, y: 20, width: pullToNextPageBottomView.width, height: 30)
         pullToNextPageTitleLabel.theme_textColor = GlobalPicker.textColor
         pullToNextPageTitleLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         pullToNextPageTitleLabel.textAlignment = .center
@@ -204,6 +206,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         
         pullToNextPageImageView.frame = CGRect(x: (pullToNextPageTitleLabel.width-30)*0.5, y: pullToNextPageTitleLabel.frame.maxY + 4, width: 30, height: 30)
         pullToNextPageImageView.image = UIImage(named: "News-pull-refresh-bottom")
+        pullToNextPageImageView.transform = CGAffineTransform(rotationAngle: CGFloat(-1/180*Double.pi))
         pullToNextPageImageView.contentMode = .scaleAspectFit
         pullToNextPageBottomView.addSubview(pullToNextPageImageView)
     }
@@ -260,6 +263,11 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
                 let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
                 detailViewController.currentIndex = currentIndex+1
                 detailViewController.newsObject = news
+                detailViewController.didCloseButtonClosure = {
+                    self.dismiss(animated: false, completion: {
+                        
+                    })
+                }
                 self.present(detailViewController, animated: true, completion: {
                     
                 })
