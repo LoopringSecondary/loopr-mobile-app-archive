@@ -25,4 +25,5 @@ public class MyRecyclerView extends RecyclerView {
         super(context, attrs, defStyle);
     }
 
+
 }

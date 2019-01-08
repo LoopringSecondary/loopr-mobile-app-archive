@@ -5,8 +5,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -60,11 +58,7 @@ public class NewsInfoActivity extends BaseActivity {
 
     private int position = 1;
 
-    private LinearLayoutManager layoutManager;
-
     private NewsDataManager newsDataManager;
-
-    private LinearSnapHelper pagerSnapHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,29 +100,8 @@ public class NewsInfoActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        layoutManager = new LinearLayoutManager(this) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
-        pagerSnapHelper = new LinearSnapHelper();
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new NewsInfoDetailAdapter(R.layout.adapter_news_info, newsList, this);
+        adapter = new NewsInfoDetailAdapter(R.layout.adapter_news_info, newsList, position, recyclerView);
         recyclerView.setAdapter(adapter);
-        pagerSnapHelper.attachToRecyclerView(recyclerView);
-        layoutManager.scrollToPositionWithOffset(position, 0);
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
     }
 
     @OnClick({R.id.cl_share, R.id.tv_pre, R.id.tv_next})
@@ -181,27 +154,5 @@ public class NewsInfoActivity extends BaseActivity {
                 }
                 break;
         }
-    }
-
-    public void goPre() {
-        if (position == 0) {
-            RxToast.error("到顶了");
-            return;
-        }
-        position = adapter.goPre(position);
-        newsList = adapter.getNewsList();
-        //        recyclerView.smoothScrollToPosition(position);
-        layoutManager.scrollToPositionWithOffset(position, 0);
-    }
-
-    public void goNext() {
-        if (position == newsList.size() - 1) {
-            RxToast.error("到底了");
-            return;
-        }
-        position = adapter.goNext(position);
-        newsList = adapter.getNewsList();
-        //        recyclerView.smoothScrollToPosition(position);
-        layoutManager.scrollToPositionWithOffset(position, 0);
     }
 }

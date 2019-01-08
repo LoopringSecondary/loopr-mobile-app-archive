@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +20,6 @@ import com.loopj.android.image.WebImage;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import leaf.prod.app.R;
-import leaf.prod.app.activity.infomation.NewsInfoActivity;
 import leaf.prod.app.layout.RoundSmartImageView;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.manager.NewsDataManager;
@@ -26,7 +28,7 @@ import leaf.prod.walletsdk.util.DpUtil;
 
 public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
 
-    private NewsInfoActivity activity;
+    private RecyclerView recyclerView;
 
     private static int margin = 0;
 
@@ -34,12 +36,29 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
 
     private NewsDataManager newsDataManager;
 
-    public NewsInfoDetailAdapter(int layoutResId, List<News> news, NewsInfoActivity activity) {
+    private int index = 1;
+
+    private LinearLayoutManager layoutManager;
+
+    private PagerSnapHelper pagerSnapHelper;
+
+    public NewsInfoDetailAdapter(int layoutResId, List<News> news, int index, RecyclerView recyclerView) {
         super(layoutResId, news);
         this.newsList = news;
-        this.activity = activity;
-        margin = DpUtil.dp2Int(activity, 12);
-        newsDataManager = NewsDataManager.getInstance(activity);
+        this.index = index;
+        this.recyclerView = recyclerView;
+        layoutManager = new LinearLayoutManager(recyclerView.getContext()) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        this.recyclerView.setLayoutManager(layoutManager);
+        pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(this.recyclerView);
+        layoutManager.scrollToPositionWithOffset(index, 0);
+        margin = DpUtil.dp2Int(recyclerView.getContext(), 12);
+        newsDataManager = NewsDataManager.getInstance(recyclerView.getContext());
     }
 
     @Override
@@ -50,7 +69,7 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         ((LinearLayout) helper.getView(R.id.ll_content)).removeAllViews();
         helper.setText(R.id.tv_title, item.getTitle());
         helper.setText(R.id.tv_time, item.getPublishTime());
-        helper.setText(R.id.tv_source, activity.getResources()
+        helper.setText(R.id.tv_source, recyclerView.getContext().getResources()
                 .getString(R.string.news_source) + ": " + item.getSource());
         Pattern p = Pattern.compile("<img src=\"([\\s\\S]*?)\">");
         Matcher m = p.matcher(item.getContent());
@@ -74,65 +93,58 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         }
         ScrollView svContent = helper.getView(R.id.sv_content);
         svContent.scrollTo(0, 0);
-        //        svContent.post(() -> {
-        ////            svContent.fullScroll(ScrollView.FOCUS_UP);
-        //        });
         ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).setOnRefreshListener(refreshLayout -> {
-            activity.goPre();
+            goPre();
+            layoutManager.scrollToPositionWithOffset(index, 0);
             ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).finishRefresh();
         });
         ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).setOnLoadMoreListener(refreshLayout -> {
-            activity.goNext();
+            goNext();
+            layoutManager.scrollToPositionWithOffset(index, 0);
             ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).finishLoadMore();
         });
     }
 
-    public int goPre(int position) {
-        if (position > 1) {
-            position = position - 1;
+    public void goPre() {
+        if (index > 1) {
+            index--;
         } else {
             News preNews = newsDataManager.getPreNews(newsList.get(0));
             if (preNews == null) {
-                position = 0;
+                index = 0;
             } else {
                 newsList.add(0, preNews);
                 notifyItemInserted(0);
             }
         }
         notifyDataSetChanged();
-        return position;
     }
 
-    public int goNext(int position) {
-        if (position < newsList.size() - 2) {
-            position++;
+    public void goNext() {
+        if (index < newsList.size() - 2) {
+            index++;
         } else {
             News nextNews = newsDataManager.getNextNews(newsList.get(newsList.size() - 1));
             if (nextNews != null) {
                 newsList.add(nextNews);
                 notifyItemInserted(newsList.size() - 1);
             }
-            position++;
+            index++;
         }
         notifyDataSetChanged();
-        return position;
-    }
-
-    public List<News> getNewsList() {
-        return newsList;
     }
 
     private void addTextView(BaseViewHolder holder, String content) {
         if (content.trim().isEmpty())
             return;
-        TextView textView = new TextView(activity);
+        TextView textView = new TextView(recyclerView.getContext());
         textView.setId(View.generateViewId());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.setMargins(0, margin, 0, 0);
         textView.setLayoutParams(lp);
         textView.setTextIsSelectable(true);
         textView.setText(content);
-        textView.setTextColor(activity.getResources().getColor(R.color.colorNineText));
+        textView.setTextColor(recyclerView.getContext().getResources().getColor(R.color.colorNineText));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         textView.setLineSpacing(0, 1.5f);
         ((LinearLayout) holder.getView(R.id.ll_content)).addView(textView);
@@ -140,7 +152,7 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
 
     private void addImageView(BaseViewHolder holder, String url) {
         WebImage webImage = new WebImage(url);
-        RoundSmartImageView imageView = new RoundSmartImageView(activity);
+        RoundSmartImageView imageView = new RoundSmartImageView(recyclerView.getContext());
         imageView.setId(View.generateViewId());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.setMargins(0, margin, 0, 0);
