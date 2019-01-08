@@ -108,12 +108,11 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
             position++;
         } else {
             News nextNews = newsDataManager.getNextNews(newsList.get(newsList.size() - 1));
-            if (nextNews == null) {
-                position++;
-            } else {
+            if (nextNews != null) {
                 newsList.add(nextNews);
                 notifyItemInserted(newsList.size() - 1);
             }
+            position++;
         }
         notifyDataSetChanged();
         return position;
