@@ -73,7 +73,7 @@ public class MarketOrderDataManager extends OrderDataManager {
         originOrder.setSide(type.name());
         originOrder.setOrderType(OrderType.MARKET);
         Double lrcFee = calculateLrcFee(originOrder);
-        String lrcFeeHex = calculateLrcFeeString(originOrder);
+        String lrcFeeHex = calculateLrcFeeString(lrcFee);
         originOrder.setLrc(lrcFee);
         originOrder.setLrcFee(lrcFeeHex);
         this.order = originOrder;
@@ -93,8 +93,8 @@ public class MarketOrderDataManager extends OrderDataManager {
         return lrcFee / priceLRC;
     }
 
-    private String calculateLrcFeeString(OriginOrder order) {
-        BigInteger valueInWei = TokenDataManager.getInstance(context).getWeiFromDouble("LRC", order.getLrc());
+    private String calculateLrcFeeString(Double lrcFee) {
+        BigInteger valueInWei = TokenDataManager.getInstance(context).getWeiFromDouble("LRC", lrcFee);
         return Numeric.toHexStringWithPrefix(valueInWei);
     }
 
