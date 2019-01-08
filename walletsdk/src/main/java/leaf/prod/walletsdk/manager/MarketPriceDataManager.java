@@ -121,6 +121,7 @@ public class MarketPriceDataManager {
         for (Ticker ticker : tickers) {
             if (ticker.getTradingPair().equals(pair)) {
                 result = ticker;
+                break;
             }
         }
         return result;

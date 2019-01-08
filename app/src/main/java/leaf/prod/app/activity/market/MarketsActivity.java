@@ -13,6 +13,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -28,9 +30,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
+import leaf.prod.app.adapter.ViewPageAdapter;
+import leaf.prod.app.fragment.market.MarketsFragment;
 import leaf.prod.app.presenter.market.MarketActivityPresenter;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
+import leaf.prod.walletsdk.model.MarketsType;
 import leaf.prod.walletsdk.model.Ticker;
 
 public class MarketsActivity extends BaseActivity {
@@ -56,6 +61,9 @@ public class MarketsActivity extends BaseActivity {
     @BindView(R.id.left_btn1)
     public ImageView leftBtn1;
 
+    @BindView(R.id.view_pager)
+    public ViewPager viewPager;
+
     private List<Ticker> list;
 
     private List<Ticker> listSearch = new ArrayList<>();
@@ -69,7 +77,8 @@ public class MarketsActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
-        presenter.setTabSelect(0);
+        presenter.refreshTickers();
+        presenter.updateAdapter(false, list);
     }
 
     @Override
@@ -119,18 +128,35 @@ public class MarketsActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        marketTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        List<Fragment> fragments = new ArrayList<>();
+        String[] titles = new String[MarketsType.values().length];
+        for (MarketsType type : MarketsType.values()) {
+            MarketsFragment fragment = new MarketsFragment();
+            fragment.setMarketsType(type);
+            fragments.add(type.ordinal(), fragment);
+            titles[type.ordinal()] = type.name();
+        }
+        titles[0] = getString(R.string.Favorites);
+        presenter.setFragments(fragments);
+        setupViewPager(fragments, titles);
+    }
+
+    private void setupViewPager(List<Fragment> fragments, String[] titles) {
+        viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), fragments, titles));
+        marketTab.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                presenter.setTabSelect(tab.getPosition());
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+            public void onPageSelected(int position) {
+                MarketsFragment fragment = (MarketsFragment) fragments.get(position);
+                fragment.updateAdapter();
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onPageScrollStateChanged(int state) {
             }
         });
     }
@@ -138,13 +164,6 @@ public class MarketsActivity extends BaseActivity {
     @Override
     public void initData() {
         list = MarketPriceDataManager.getInstance(this).getAllTickers();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.refreshTickers();
-        presenter.updateAdapter(false, list);
     }
 
     @OnClick({R.id.left_btn1, R.id.cancel_text})

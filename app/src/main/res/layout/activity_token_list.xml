@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimary"
@@ -23,11 +24,16 @@
         <ImageView
             android:id="@+id/left_btn"
             style="@style/Text.Title_Button"
-            android:layout_width="wrap_content"
-            android:layout_height="22dp"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_vertical"
-            android:minWidth="60dip"
-            android:src="@mipmap/title_back"/>
+            android:layout_marginStart="@dimen/margSide"
+            android:layout_weight="0.1"
+            android:paddingBottom="14dp"
+            android:paddingTop="14dp"
+            android:scaleType="fitStart"
+            android:src="@mipmap/icon_back"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
         <EditText
             android:id="@+id/et_search"

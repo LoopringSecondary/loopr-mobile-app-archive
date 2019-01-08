@@ -94,8 +94,7 @@ public class MarketRecordsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        this.title.setVisibility(View.VISIBLE);
-        this.llSearch.setVisibility(View.GONE);
+        this.hideSearch();
     }
 
     @Override
@@ -117,13 +116,13 @@ public class MarketRecordsActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                isFiltering = true;
                 searchList.clear();
                 for (Order order : orderList) {
                     if (order.getOriginOrder().getMarket().contains(s.toString().toUpperCase())) {
                         searchList.add(order);
                     }
                 }
+                isFiltering = true;
                 setLoadMoreListener();
             }
 
@@ -174,11 +173,7 @@ public class MarketRecordsActivity extends BaseActivity {
             case R.id.cancel_text:
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(this.getCurrentFocus()
                         .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                title.setVisibility(View.VISIBLE);
-                llSearch.setVisibility(View.GONE);
-                etSearch.setText("");
-                isFiltering = false;
-                setLoadMoreListener();
+                hideSearch();
                 break;
             case R.id.left_btn1:
                 finish();
@@ -212,6 +207,7 @@ public class MarketRecordsActivity extends BaseActivity {
 
                     @Override
                     public void onNext(PageWrapper<Order> orderPageWrapper) {
+                        hideSearch();
                         totalCount = orderPageWrapper.getTotal();
                         if (totalCount == 0) {
                             recyclerView.setAdapter(emptyAdapter);
@@ -234,5 +230,13 @@ public class MarketRecordsActivity extends BaseActivity {
                         unsubscribe();
                     }
                 });
+    }
+
+    private void hideSearch() {
+        etSearch.setText("");
+        isFiltering = false;
+        setLoadMoreListener();
+        title.setVisibility(View.VISIBLE);
+        llSearch.setVisibility(View.GONE);
     }
 }

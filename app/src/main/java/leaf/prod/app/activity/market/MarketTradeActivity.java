@@ -34,8 +34,7 @@ public class MarketTradeActivity extends BaseActivity {
     TabLayout tradeTab;
 
     @BindView(R.id.view_pager)
-    public
-    ViewPager viewPager;
+    public ViewPager viewPager;
 
     private MarketOrderDataManager orderDataManager;
 
