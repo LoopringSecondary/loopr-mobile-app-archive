@@ -302,9 +302,10 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     }
     
     func applyCss() {
-        let bodyCssString = "body { white-space: pre-wrap; color: \(NewsDetailUIStyleConfig.shared.textColor); background-color: \(NewsDetailUIStyleConfig.shared.backgroundColor); font-family: \"\(NewsDetailUIStyleConfig.shared.fontFamily)\"; font-size: 100%; padding-left: 40px; padding-right: 40px; }"
+        let bodyCssString = "body { white-space: pre-wrap; color: \(NewsDetailUIStyleConfig.shared.textColor); background-color: \(NewsDetailUIStyleConfig.shared.backgroundColor); font-family: \"\(NewsDetailUIStyleConfig.shared.fontFamily)\"; font-size: 100%; padding-left: 40px; padding-right: 40px; text-decoration: none; }"
         let imageCssString = "img { width: 100%; padding-top: 0px; padding-bottom: 0px; border-radius: \(NewsDetailUIStyleConfig.shared.imageCornerRadius)px;}"
-        let cssString = "\(bodyCssString) \(imageCssString)"
+        let aLinkCssString = "a:link { color: \(NewsDetailUIStyleConfig.shared.textColor);}"
+        let cssString = "\(bodyCssString) \(imageCssString) \(aLinkCssString)"
         let jsString = "var style = document.createElement('style'); style.innerHTML = '\(cssString)'; document.head.appendChild(style);"
         webView.evaluateJavaScript(jsString) { (_, _) in
             self.showWebView()
