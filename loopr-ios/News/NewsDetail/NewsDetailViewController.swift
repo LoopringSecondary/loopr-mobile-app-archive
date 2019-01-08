@@ -64,6 +64,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         if let news = newsObject as? News {
             modalPresentationStyle = .custom
             transitioningDelegate = self
+
             webView.alpha = 0
             webView.isHidden = true
         } else {

@@ -15,7 +15,9 @@ class NewsCollectionCell: UICollectionViewCell {
 
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var sourceLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleTextView: UITextView!
+    @IBOutlet weak var titleTextViewHeightLayout: NSLayoutConstraint!
+    
     @IBOutlet weak var descriptionTextView: UITextView!
     static let descriptionTextViewLineSpacing: CGFloat = 3
 
@@ -60,16 +62,21 @@ class NewsCollectionCell: UICollectionViewCell {
         sourceLabel.theme_textColor = GlobalPicker.textLightColor
         sourceLabel.textAlignment = .right
         
-        titleLabel.font = FontConfigManager.shared.getMediumFont(size: 16)
-        titleLabel.theme_textColor = GlobalPicker.textColor
+        let padding = descriptionTextView.textContainer.lineFragmentPadding
+        titleTextView.font = FontConfigManager.shared.getMediumFont(size: 16)
+        titleTextView.theme_textColor = GlobalPicker.textColor
+        titleTextView.backgroundColor = .clear
+        titleTextView.isUserInteractionEnabled = false
+        titleTextView.isScrollEnabled = false
+        titleTextView.showsVerticalScrollIndicator = false
+        titleTextView.showsHorizontalScrollIndicator = false
+        titleTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
 
         descriptionTextView.backgroundColor = .clear
         descriptionTextView.isUserInteractionEnabled = false
         descriptionTextView.isScrollEnabled = false
-        // contentTextView.textContainerInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
         descriptionTextView.showsVerticalScrollIndicator = false
         descriptionTextView.showsHorizontalScrollIndicator = false
-        let padding = descriptionTextView.textContainer.lineFragmentPadding
         descriptionTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
         
         upvoteButton.setTitle(LocalizedString("News_Up", comment: ""), for: .normal)
@@ -104,7 +111,7 @@ class NewsCollectionCell: UICollectionViewCell {
         // parse data
         dateLabel.text = news.publishTime
         sourceLabel.text = news.source
-        titleLabel.text = news.title
+        titleTextView.text = news.title
 
         let style = NSMutableParagraphStyle()
         style.lineSpacing = NewsCollectionCell.descriptionTextViewLineSpacing
@@ -129,6 +136,25 @@ class NewsCollectionCell: UICollectionViewCell {
         }
 
         updateVoteButtons()
+
+        let rawLineNumber = numberOfLines(textView: titleTextView)
+        let numLines = CGFloat(rawLineNumber)
+        titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines
+    }
+    
+    func numberOfLines(textView: UITextView) -> Int {
+        let layoutManager = textView.layoutManager
+        let numberOfGlyphs = layoutManager.numberOfGlyphs
+        var lineRange: NSRange = NSMakeRange(0, 1)
+        var index = 0
+        var numberOfLines = 0
+        
+        while index < numberOfGlyphs {
+            layoutManager.lineFragmentRect(forGlyphAt: index, effectiveRange: &lineRange)
+            index = NSMaxRange(lineRange)
+            numberOfLines += 1
+        }
+        return numberOfLines
     }
     
     @IBAction func clickedCollectionCell(_ sender: Any) {
