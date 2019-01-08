@@ -30,8 +30,8 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
 
     var pageIndex: UInt = 0
     
-    var expandedNewsUuid: String?
-    var previousExpandedIndexPath: IndexPath?
+    static var expandedNewsUuids: Set<String> = []
+    var expandedIndexPathes: Set<IndexPath> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -147,7 +147,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         } else {
             news = NewsDataManager.shared.flashItems[indexPath.row]
         }
-        return NewsCollectionCell.getSize(news: news, isExpanded: news.uuid == expandedNewsUuid ?? "")
+        return NewsCollectionCell.getSize(news: news, isExpanded: NewsViewController.expandedNewsUuids.contains(news.uuid))
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -170,7 +170,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
         }
         
-        cell.updateUIStyle(news: news, isExpanded: news.uuid == expandedNewsUuid ?? "")
+        cell.updateUIStyle(news: news, isExpanded: NewsViewController.expandedNewsUuids.contains(news.uuid))
         cell.didClickedCollectionCellClosure = { (news) -> Void in
             let news: News
             if self.newsParamsList[self.currentIndex].category == .information {
@@ -184,13 +184,14 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                 })
             } else {
                 news = NewsDataManager.shared.flashItems[indexPath.row]
-                self.expandedNewsUuid = news.uuid
-                if self.previousExpandedIndexPath != nil && self.previousExpandedIndexPath! != indexPath {
-                    collectionView.reloadItems(at: [indexPath, self.previousExpandedIndexPath!])
+                if NewsViewController.expandedNewsUuids.contains(news.uuid) {
+                    NewsViewController.expandedNewsUuids.remove(news.uuid)
+                    self.expandedIndexPathes.remove(indexPath)
                 } else {
-                    collectionView.reloadItems(at: [indexPath])
+                    NewsViewController.expandedNewsUuids.insert(news.uuid)
+                    self.expandedIndexPathes.insert(indexPath)
                 }
-                self.previousExpandedIndexPath = indexPath
+                collectionView.reloadItems(at: [indexPath])
             }
         }
         

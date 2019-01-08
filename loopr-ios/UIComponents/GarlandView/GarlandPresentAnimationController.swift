@@ -33,10 +33,9 @@ public class GarlandAnimationController: NSObject, UIViewControllerAnimatedTrans
                 return
         }
 
-        if fromVC.previousExpandedIndexPath != nil {
-            fromVC.expandedNewsUuid = nil
-            fromVC.garlandCollection.reloadItems(at: [fromVC.previousExpandedIndexPath!])
-        }
+        NewsViewController.expandedNewsUuids.removeAll()
+        fromVC.garlandCollection.reloadItems(at: Array(fromVC.expandedIndexPathes))
+
         let fromCollection = fromVC.garlandCollection
         let toCollection = toVC.garlandCollection
         
