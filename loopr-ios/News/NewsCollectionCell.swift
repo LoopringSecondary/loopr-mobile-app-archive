@@ -113,10 +113,13 @@ class NewsCollectionCell: UICollectionViewCell {
         sourceLabel.text = news.source
         titleTextView.text = news.title
 
+        // TODO: this causes slow scrolling
         let style = NSMutableParagraphStyle()
         style.lineSpacing = NewsCollectionCell.descriptionTextViewLineSpacing
         let attributes = [NSAttributedStringKey.paragraphStyle: style]
         descriptionTextView.attributedText = NSAttributedString(string: news.description, attributes: attributes)
+ 
+        // descriptionTextView.text = news.description
         
         // TODO: We have two ways to show an expanded cell
         /*
@@ -137,12 +140,12 @@ class NewsCollectionCell: UICollectionViewCell {
 
         updateVoteButtons()
 
-        let rawLineNumber = numberOfLines(textView: titleTextView)
+        let rawLineNumber = NewsCollectionCell.numberOfLines(textView: titleTextView)
         let numLines = CGFloat(rawLineNumber)
         titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines
     }
     
-    func numberOfLines(textView: UITextView) -> Int {
+    class func numberOfLines(textView: UITextView) -> Int {
         let layoutManager = textView.layoutManager
         let numberOfGlyphs = layoutManager.numberOfGlyphs
         var lineRange: NSRange = NSMakeRange(0, 1)
@@ -268,13 +271,20 @@ class NewsCollectionCell: UICollectionViewCell {
         
         if isExpanded {
             let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.7
-            let descriptionTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width, height: maxHeight))
-            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 12)
+            let descriptionTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width-10*2, height: maxHeight))
+            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
             descriptionTextView.text = news.description
-            let numLines = (descriptionTextView.contentSize.height / descriptionTextView.font!.lineHeight) as CGFloat
-            let textViewheight = CGFloat(ceil(numLines)) * descriptionTextView.font!.lineHeight + CGFloat(ceil(numLines) - 1) * descriptionTextViewLineSpacing
-            let otherHeight: CGFloat = 109
-            var height = textViewheight + otherHeight
+            let numLines = CGFloat(numberOfLines(textView: descriptionTextView)) + 1
+            let textViewheight = CGFloat((numLines)) * descriptionTextView.font!.lineHeight + CGFloat((numLines) - 1) * descriptionTextViewLineSpacing
+            
+            let titleTextView = UITextView(frame: CGRect(x: 0, y: 0, width: width-10*2, height: maxHeight))
+            titleTextView.font = FontConfigManager.shared.getMediumFont(size: 16)
+            titleTextView.text = news.title
+            let rawLineNumber = CGFloat(numberOfLines(textView: titleTextView))
+            let titleHeight = titleTextView.font!.lineHeight*rawLineNumber
+            
+            let otherHeight: CGFloat = 74
+            var height = textViewheight + otherHeight + titleHeight
             if height <  minHeight {
                 height = minHeight
             }
