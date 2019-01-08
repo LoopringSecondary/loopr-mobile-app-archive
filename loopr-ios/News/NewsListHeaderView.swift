@@ -47,7 +47,7 @@ class NewsListHeaderView: UIView {
         baseView.layer.masksToBounds = true
         
         // blogBackgroundView.backgroundColor = UIColor(rgba: "#2B2C47").withAlphaComponent(0.9)
-        blogBackgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        blogBackgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         blogTitleLabel.font = FontConfigManager.shared.getMediumFont(size: 16)
         blogTitleLabel.theme_textColor = GlobalPicker.textColor
         

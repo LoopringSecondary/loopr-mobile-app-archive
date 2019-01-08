@@ -21,7 +21,9 @@ class NewsDetailUIStyleConfig {
     public var fontFamily: String = "PingFangSC-Regular"
     public var backgroundColor: String = "#21203A"
     public var textColor: String = "#ffffffcc"
-    public var fontSize: String = "6"
+    public var titleFontSize: String = "10pt"
+    public var subTitleFontSize: String = "6px"
+    public var fontSize: String = "6pt"
     public var imageCornerRadius: Int = 8
     
 }

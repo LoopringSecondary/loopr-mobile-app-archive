@@ -99,7 +99,13 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     }
     
     fileprivate func setupNavigationBar() {
-        let navigationItem = UINavigationItem(title: newsObject.title)
+        let title: String
+        if let news = newsObject as? News {
+            title = news.category.description
+        } else {
+            title = "Loopring"
+        }
+        let navigationItem = UINavigationItem(title: title)
         
         // Back button
         let backButton = UIButton(type: UIButtonType.custom)
@@ -141,7 +147,10 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         navigationBar.shadowImage = UIImage()
         
         if let news = newsObject as? News {
-            webView.loadHTMLString("<body><font size='\(NewsDetailUIStyleConfig.shared.fontSize)'>\(news.content)</font></body>", baseURL: nil)
+            let titleHtml = "<h2 style=\"color:white;\"><font size='\(NewsDetailUIStyleConfig.shared.titleFontSize)'>\(news.title)</font></h2>"
+            let subTitleHtml = "<font size='\(NewsDetailUIStyleConfig.shared.subTitleFontSize)'><p>\(news.publishTime)  来源:\(news.source)</p></font>"
+            let contentHtml = "<font size='\(NewsDetailUIStyleConfig.shared.fontSize)'>\(news.content)</font>"
+            webView.loadHTMLString("<body>\(titleHtml)\(subTitleHtml)<br><br>\(contentHtml)</body>", baseURL: nil)
         } else if let blog = newsObject as? Blog {
             let url = URL(string: blog.url)!
             let request = URLRequest(url: url)
@@ -164,8 +173,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     }
     
     @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
         didCloseButtonClosure?()
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
@@ -194,10 +203,10 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     */
     
     func setupRefreshControlAtBottom() {
-        pullToNextPageBottomView.frame = CGRect(x: 0, y: webView.height, width: webView.width, height: pullToNextPageBottomViewHeight)
+        pullToNextPageBottomView.frame = CGRect(x: 0, y: webView.height, width: UIScreen.main.bounds.width, height: pullToNextPageBottomViewHeight)
         webView.addSubview(pullToNextPageBottomView)
 
-        pullToNextPageTitleLabel.frame = CGRect(x: 0, y: 20, width: pullToNextPageBottomView.width, height: 30)
+        pullToNextPageTitleLabel.frame = CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: 30)
         pullToNextPageTitleLabel.theme_textColor = GlobalPicker.textColor
         pullToNextPageTitleLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         pullToNextPageTitleLabel.textAlignment = .center
@@ -218,7 +227,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         if scrollView.contentOffset.y > bottomY {
             let delta = scrollView.contentOffset.y  - bottomY
             pullToNextPageBottomView.isHidden = false
-            pullToNextPageBottomView.frame = CGRect(x: 0, y: webView.height - delta, width: scrollView.contentSize.width, height: pullToNextPageBottomViewHeight)
+            pullToNextPageBottomView.frame = CGRect(x: 0, y: webView.height - delta, width: UIScreen.main.bounds.width, height: pullToNextPageBottomViewHeight)
             if delta > pullToNextPageBottomView.height {
                 pullToNextPageTitleLabel.text = LocalizedString("Release to read more", comment: "")
                 if !isPullToNextPageImageViewAnimating && isPullToNextPageImageViewUp {
@@ -264,6 +273,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
                 detailViewController.currentIndex = currentIndex+1
                 detailViewController.newsObject = news
                 detailViewController.didCloseButtonClosure = {
+                    self.didCloseButtonClosure?()
                     self.dismiss(animated: false, completion: {
                         
                     })
