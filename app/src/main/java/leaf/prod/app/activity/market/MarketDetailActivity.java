@@ -20,17 +20,18 @@ import butterknife.ButterKnife;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.adapter.ViewPageAdapter;
-import leaf.prod.app.fragment.market.MarketTradeFragment;
+import leaf.prod.app.fragment.market.MarketDepthFragment;
+import leaf.prod.app.fragment.market.MarketHistoryFragment;
+import leaf.prod.app.presenter.market.MarketDetailPresenter;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
-import leaf.prod.walletsdk.model.TradeType;
 
-public class MarketTradeActivity extends BaseActivity {
+public class MarketDetailActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TitleView title;
 
-    @BindView(R.id.trade_tab)
+    @BindView(R.id.market_tab)
     TabLayout tradeTab;
 
     @BindView(R.id.view_pager)
@@ -38,10 +39,12 @@ public class MarketTradeActivity extends BaseActivity {
 
     private MarketOrderDataManager orderDataManager;
 
+    private List<Fragment> fragments;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        setContentView(R.layout.activity_market_trade);
+        setContentView(R.layout.activity_market_detail);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
@@ -50,6 +53,7 @@ public class MarketTradeActivity extends BaseActivity {
     @Override
     protected void initPresenter() {
         orderDataManager = MarketOrderDataManager.getInstance(this);
+        presenter = new MarketDetailPresenter(this, this, orderDataManager.getTradePair());
     }
 
     @Override
@@ -60,19 +64,16 @@ public class MarketTradeActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        List<Fragment> fragments = new ArrayList<>();
-        String[] titles = new String[TradeType.values().length];
-        for (TradeType type : TradeType.values()) {
-            MarketTradeFragment fragment = new MarketTradeFragment();
-            fragment.setTradeType(type);
-            fragments.add(type.ordinal(), fragment);
-        }
-        titles[0] = getString(R.string.buy);
-        titles[1] = getString(R.string.sell);
-        setupViewPager(fragments, titles);
+        String[] titles = new String[2];
+        titles[0] = getString(R.string.order_submitted);
+        titles[1] = getString(R.string.order_completed);
+        fragments = new ArrayList<>();
+        fragments.add(0, new MarketDepthFragment());
+        fragments.add(1, new MarketHistoryFragment());
+        setupViewPager(titles);
     }
 
-    private void setupViewPager(List<Fragment> fragments, String[] titles) {
+    private void setupViewPager(String[] titles) {
         viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), fragments, titles));
         tradeTab.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -82,7 +83,13 @@ public class MarketTradeActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                orderDataManager.setType(TradeType.getByIndex(position));
+                if (position == 0) {
+                    MarketDepthFragment fragment = (MarketDepthFragment) fragments.get(position);
+                    fragment.updateAdapter();
+                } else if (position == 1) {
+                    MarketHistoryFragment fragment = (MarketHistoryFragment) fragments.get(position);
+                    fragment.updateAdapter();
+                }
             }
 
             @Override
@@ -93,5 +100,19 @@ public class MarketTradeActivity extends BaseActivity {
 
     @Override
     public void initData() {
+    }
+
+    public void updateAdapter(int index) {
+        if (index == 0) {
+            MarketDepthFragment depthFragment = (MarketDepthFragment) fragments.get(0);
+            if (depthFragment != null) {
+                depthFragment.updateAdapter();
+            }
+        } else if (index == 1) {
+            MarketHistoryFragment historyFragment = (MarketHistoryFragment) fragments.get(1);
+            if (historyFragment != null) {
+                historyFragment.updateAdapter();
+            }
+        }
     }
 }

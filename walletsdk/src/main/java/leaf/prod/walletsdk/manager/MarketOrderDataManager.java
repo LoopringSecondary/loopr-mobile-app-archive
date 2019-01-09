@@ -65,7 +65,7 @@ public class MarketOrderDataManager extends OrderDataManager {
     }
 
     public String getTradePair() {
-        return this.tokenSell + "/" + this.tokenBuy;
+        return this.tokenSell + "-" + this.tokenBuy;
     }
 
     public OriginOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {

@@ -244,7 +244,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                 .getPriceBySymbol(order.getTokenB()) * order.getAmountBuy());
         String amountSPrice = CurrencyUtil.format(context, marketcapDataManager
                 .getPriceBySymbol(order.getTokenS()) * order.getAmountSell());
-        String priceQuote = view.tradePrice.getText() + " " + marketOrderDataManager.getTradePair();
+        String priceQuote = view.tradePrice.getText() + " " + marketOrderDataManager.getTradePair().replace("-", "/");
         String lrcFee = NumberUtils.format1(order.getLrc(), 3) +
                 " LRC ≈ " + CurrencyUtil.format(context, marketcapDataManager.getAmountBySymbol("LRC", order.getLrc()));
 

@@ -1,10 +1,14 @@
 package leaf.prod.walletsdk.manager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
 
+import leaf.prod.walletsdk.model.Depth;
+import leaf.prod.walletsdk.model.OrderFill;
 import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.TradingPair;
 import leaf.prod.walletsdk.model.UserConfig;
@@ -22,6 +26,10 @@ public class MarketPriceDataManager {
     private List<Ticker> tickers;
 
     private List<Ticker> filteredTickers;
+
+    private Depth depth;
+
+    private List<OrderFill> orderFills;
 
     protected LoopringService loopringService;
 
@@ -146,5 +154,28 @@ public class MarketPriceDataManager {
 
     public void setFilteredTickers(List<Ticker> filteredTickers) {
         this.filteredTickers = filteredTickers;
+    }
+
+    public void convertDepths(Depth result) {
+        List<String[]> list = Arrays.asList(result.getDepth().getSell());
+        Collections.sort(list, (o1, o2) -> o1[0].compareTo(o2[0]));
+        result.getDepth().setSell((String[][]) list.toArray());
+        this.depth = result;
+    }
+
+    public List<String[]> getDepths(String side) {
+        if (side.equals("buy")) {
+            return Arrays.asList(depth.getDepth().getBuy());
+        } else {
+            return Arrays.asList(depth.getDepth().getSell());
+        }
+    }
+
+    public void convertOrderFills(List<OrderFill> result) {
+        this.orderFills = result;
+    }
+
+    public List<OrderFill> getOrderFills() {
+        return orderFills;
     }
 }

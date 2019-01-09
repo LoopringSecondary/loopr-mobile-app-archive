@@ -1,0 +1,83 @@
+/**
+ * Created with IntelliJ IDEA.
+ * User: kenshin wangchen@loopring.org
+ * Time: 2018-12-29 4:15 PM
+ * Cooperation: loopring.org 路印协议基金会
+ */
+package leaf.prod.app.presenter.market;
+
+import java.util.List;
+
+import android.content.Context;
+
+import leaf.prod.app.activity.market.MarketDetailActivity;
+import leaf.prod.app.presenter.BasePresenter;
+import leaf.prod.walletsdk.manager.MarketPriceDataManager;
+import leaf.prod.walletsdk.model.Depth;
+import leaf.prod.walletsdk.model.OrderFill;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+public class MarketDetailPresenter extends BasePresenter<MarketDetailActivity> {
+
+    private String market;
+
+    private MarketPriceDataManager marketManager;
+
+    public MarketDetailPresenter(MarketDetailActivity view, Context context, String market) {
+        super(view, context);
+        this.market = market;
+        this.marketManager = MarketPriceDataManager.getInstance(context);
+        this.getDepths();
+        this.getOrderFills();
+    }
+
+    public void getDepths() {
+        marketManager.getLoopringService()
+                .getDepths(market, 20)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Depth>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        unsubscribe();
+                    }
+
+                    @Override
+                    public void onNext(Depth result) {
+                        marketManager.convertDepths(result);
+                        view.updateAdapter(0);
+                        unsubscribe();
+                    }
+                });
+    }
+
+    public void getOrderFills() {
+        marketManager.getLoopringService()
+                .getOrderFills(market, "buy")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<OrderFill>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        unsubscribe();
+                    }
+
+                    @Override
+                    public void onNext(List<OrderFill> result) {
+                        marketManager.convertOrderFills(result);
+                        view.updateAdapter(1);
+                        unsubscribe();
+                    }
+                });
+    }
+}

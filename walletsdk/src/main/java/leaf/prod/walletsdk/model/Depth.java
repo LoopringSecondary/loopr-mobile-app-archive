@@ -1,21 +1,24 @@
 package leaf.prod.walletsdk.model;
 
+import java.io.Serializable;
+
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class Depth {
+public class Depth implements Serializable {
 
-    private String pair;
+    private String market;
 
-    private String price;
+    private Datum depth;
 
-    private Double amountA;
+    @Data
+    @Builder
+    public static class Datum {
 
-    private String amountAShown;
+        private String[][] buy;
 
-    private Double amountB;
-
-    private String amountBShown;
+        private String[][] sell;
+    }
 }

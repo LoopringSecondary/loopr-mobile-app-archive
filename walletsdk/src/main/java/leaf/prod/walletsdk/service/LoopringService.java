@@ -13,6 +13,7 @@ import leaf.prod.walletsdk.deligate.RpcDelegate;
 import leaf.prod.walletsdk.model.CancelOrder;
 import leaf.prod.walletsdk.model.Depth;
 import leaf.prod.walletsdk.model.Order;
+import leaf.prod.walletsdk.model.OrderFill;
 import leaf.prod.walletsdk.model.OrderStatus;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
@@ -26,6 +27,7 @@ import leaf.prod.walletsdk.model.request.relayParam.CancelOrderParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetAllowanceParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetDepthsParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetFrozenParam;
+import leaf.prod.walletsdk.model.request.relayParam.GetOrderFillsParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetOrdersParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetSignParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetTickersParam;
@@ -206,14 +208,25 @@ public class LoopringService {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    public Observable<List<Depth>> getDepths(String market, Integer length) {
+    public Observable<Depth> getDepths(String market, Integer length) {
         GetDepthsParam param = GetDepthsParam.builder()
                 .delegateAddress(Default.DELEGATE_ADDRESS)
                 .market(market)
                 .length(length)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getDepth", param);
-        Observable<RelayResponseWrapper<List<Depth>>> observable = rpcDelegate.getDepths(request);
+        Observable<RelayResponseWrapper<Depth>> observable = rpcDelegate.getDepths(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<List<OrderFill>> getOrderFills(String market, String side) {
+        GetOrderFillsParam param = GetOrderFillsParam.builder()
+                .delegateAddress(Default.DELEGATE_ADDRESS)
+                .market(market)
+                .side(side)
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_getLatestFills", param);
+        Observable<RelayResponseWrapper<List<OrderFill>>> observable = rpcDelegate.getOrderFills(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
@@ -342,7 +355,6 @@ public class LoopringService {
                 .s(order.getS())
                 .build();
         Gson gson = new Gson();
-        String json = gson.toJson(param);
         RequestWrapper request = new RequestWrapper("loopring_submitOrderForP2P", param);
         Observable<RelayResponseWrapper<String>> observable = rpcDelegate.sumitOrderForP2P(request);
         return observable.map(response -> response);

@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
-import leaf.prod.app.activity.market.MarketSelectActivity;
+import leaf.prod.app.activity.market.MarketDetailActivity;
 import leaf.prod.app.adapter.market.MarketsAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.presenter.market.MarketFragmentPresenter;
@@ -43,8 +43,6 @@ public class MarketsFragment extends BaseFragment {
     private MarketFragmentPresenter presenter;
 
     private MarketOrderDataManager orderManager;
-
-    private MarketPriceDataManager priceManager;
 
     @Nullable
     @Override
@@ -84,7 +82,7 @@ public class MarketsFragment extends BaseFragment {
 
             // TODO: new activity
             orderManager.setType(TradeType.buy);
-            getOperation().forward(MarketSelectActivity.class);
+            getOperation().forward(MarketDetailActivity.class);
         });
     }
 
