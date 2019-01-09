@@ -22,7 +22,7 @@
             android:id="@+id/left_btn"
             style="@style/Text.Title_Button"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margSide"
             android:layout_weight="0.5"
@@ -35,7 +35,7 @@
         <TextView
             android:id="@+id/title_text"
             style="@style/Text.Title"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ellipsize="end"
@@ -50,12 +50,27 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
+            android:id="@+id/drop_down_btn"
+            style="@style/Text.Title_Button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:padding="7dp"
+            android:src="@mipmap/icon_dropdown"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@id/title_text"
+            app:layout_constraintRight_toLeftOf="@id/mid_btn"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
             android:id="@+id/mid_btn"
             style="@style/Text.Title_Button"
-            android:layout_width="0dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            android:minWidth="30dip"
+            android:layout_marginEnd="24dp"
             android:src="@mipmap/ic_launcher"
             android:textColor="#ffffff"
             android:visibility="invisible"
@@ -66,10 +81,10 @@
         <ImageView
             android:id="@+id/right_btn"
             style="@style/Text.Title_Button"
-            android:layout_width="0dp"
+            android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            android:minWidth="30dip"
+            android:layout_marginEnd="@dimen/margSide"
             android:src="@mipmap/ic_launcher"
             android:textColor="#ffffff"
             android:visibility="invisible"
@@ -91,6 +106,5 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
-
 
 </LinearLayout>

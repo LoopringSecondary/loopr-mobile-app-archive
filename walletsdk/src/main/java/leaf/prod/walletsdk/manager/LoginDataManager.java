@@ -357,17 +357,6 @@ public class LoginDataManager {
         return favorites.contains(newPair);
     }
 
-    public void toggleFavorite(TradingPair newPair) {
-        List<TradingPair> favorites = userConfig.getFavMarkets() == null ? new ArrayList<>() : userConfig.getFavMarkets();
-        if (favorites.contains(newPair)) {
-            favorites.remove(newPair);
-        } else {
-            favorites.add(newPair);
-        }
-        Collections.sort(favorites, (favorite, t1) -> favorite.getTokenA().compareTo(t1.getTokenA()));
-        updateRemote(userConfig);
-    }
-
     public enum LoginType {
         LOGIN,
         LOGOUT,

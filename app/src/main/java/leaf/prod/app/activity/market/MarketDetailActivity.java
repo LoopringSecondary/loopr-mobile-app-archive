@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.view.WindowManager;
 
 import butterknife.BindView;
@@ -37,9 +39,12 @@ public class MarketDetailActivity extends BaseActivity {
     @BindView(R.id.view_pager)
     public ViewPager viewPager;
 
-    private MarketOrderDataManager orderDataManager;
+    @BindView(R.id.cl_loading)
+    public ConstraintLayout clLoading;
 
     private List<Fragment> fragments;
+
+    private MarketOrderDataManager orderDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,7 @@ public class MarketDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         mSwipeBackLayout.setEnableGesture(false);
+        clLoading.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -60,6 +66,9 @@ public class MarketDetailActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(orderDataManager.getTradePair());
         title.clickLeftGoBack(getWContext());
+        title.setDropdownImageButton(R.mipmap.icon_dropdown, button -> {
+            getOperation().forward(MarketSelectActivity.class);
+        });
     }
 
     @Override

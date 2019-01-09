@@ -64,7 +64,7 @@ public class MarketsAdapter extends BaseQuickAdapter<Ticker, BaseViewHolder> {
     }
 
     private void setupFavButton(BaseViewHolder helper, Ticker ticker) {
-        helper.setOnClickListener(R.id.btn_fav, v -> {
+        helper.setOnClickListener(R.id.ll_favorite, v -> {
             if (manager.isFavorite(ticker.getTradingPair())) {
                 manager.removeFavorite(ticker.getTradingPair());
             } else {

@@ -33,7 +33,7 @@ public class MarketPriceDataManager {
 
     protected LoopringService loopringService;
 
-    private static MarketPriceDataManager marketDataManager;
+    private static MarketPriceDataManager marketPriceManager;
 
     private MarketPriceDataManager(Context context) {
         this.context = context;
@@ -44,10 +44,10 @@ public class MarketPriceDataManager {
     }
 
     public static MarketPriceDataManager getInstance(Context context) {
-        if (marketDataManager == null) {
-            marketDataManager = new MarketPriceDataManager(context);
+        if (marketPriceManager == null) {
+            marketPriceManager = new MarketPriceDataManager(context);
         }
-        return marketDataManager;
+        return marketPriceManager;
     }
 
     public void convertTickers(List<Ticker> tickers) {

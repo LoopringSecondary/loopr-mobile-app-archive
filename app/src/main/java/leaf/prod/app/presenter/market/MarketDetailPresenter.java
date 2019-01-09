@@ -9,6 +9,7 @@ package leaf.prod.app.presenter.market;
 import java.util.List;
 
 import android.content.Context;
+import android.view.View;
 
 import leaf.prod.app.activity.market.MarketDetailActivity;
 import leaf.prod.app.presenter.BasePresenter;
@@ -41,10 +42,12 @@ public class MarketDetailPresenter extends BasePresenter<MarketDetailActivity> {
                 .subscribe(new Subscriber<Depth>() {
                     @Override
                     public void onCompleted() {
+                        view.clLoading.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        view.clLoading.setVisibility(View.GONE);
                         unsubscribe();
                     }
 
@@ -52,6 +55,7 @@ public class MarketDetailPresenter extends BasePresenter<MarketDetailActivity> {
                     public void onNext(Depth result) {
                         marketManager.convertDepths(result);
                         view.updateAdapter(0);
+                        view.clLoading.setVisibility(View.GONE);
                         unsubscribe();
                     }
                 });
