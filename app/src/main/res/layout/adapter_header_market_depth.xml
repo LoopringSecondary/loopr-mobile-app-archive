@@ -3,8 +3,9 @@
               android:id="@+id/wallet_item"
               android:layout_width="match_parent"
               android:layout_height="40dp"
-              android:layout_marginTop="0dp"
-              android:background="@color/colorBg2"
+              android:layout_marginTop="8dp"
+              android:layout_marginBottom="2dp"
+              android:background="@drawable/radius_top_bg_29"
               android:gravity="center"
               android:orientation="horizontal">
 
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/price"
+            android:textColor="@color/colorNineText"
             android:textSize="12sp"/>
 
     </LinearLayout>
@@ -40,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:text="@string/amount"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorNineText"
             android:textSize="12sp"/>
     </LinearLayout>
 </LinearLayout>
