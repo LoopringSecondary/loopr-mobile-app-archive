@@ -49,7 +49,7 @@ public class NewsDataManager {
 
     public News getPreNews(News news) {
         int index = newsPageWrapper.getData().indexOf(news);
-        if (index == 0)
+        if (index < 1)
             return null;
         return newsPageWrapper.getData().get(index - 1);
     }

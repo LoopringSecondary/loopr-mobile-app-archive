@@ -80,12 +80,16 @@ public class NewsInfoActivity extends BaseActivity {
         title.clickLeftGoBack(getWContext());
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void initView() {
+    }
+
+    @Override
+    public void initData() {
         newsDataManager = NewsDataManager.getInstance(this);
         news = (News) getIntent().getSerializableExtra("data");
         News preNews = newsDataManager.getPreNews(news);
+        boolean isTop = false, isBottom = false;
         if (preNews == null) {
             position = 0;
         } else {
@@ -96,10 +100,6 @@ public class NewsInfoActivity extends BaseActivity {
         if (nextNews != null) {
             newsList.add(newsDataManager.getNextNews(news));
         }
-    }
-
-    @Override
-    public void initData() {
         adapter = new NewsInfoDetailAdapter(R.layout.adapter_news_info, newsList, position, recyclerView);
         recyclerView.setAdapter(adapter);
     }

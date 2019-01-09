@@ -9,6 +9,7 @@ import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -18,10 +19,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.loopj.android.image.WebImage;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
 import leaf.prod.app.layout.RoundSmartImageView;
-import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.manager.NewsDataManager;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.util.DpUtil;
@@ -41,6 +42,8 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
     private LinearLayoutManager layoutManager;
 
     private PagerSnapHelper pagerSnapHelper;
+
+    private static int animate = 0;
 
     public NewsInfoDetailAdapter(int layoutResId, List<News> news, int index, RecyclerView recyclerView) {
         super(layoutResId, news);
@@ -65,7 +68,6 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
     protected void convert(BaseViewHolder helper, News item) {
         if (item == null)
             return;
-        LyqbLogger.log(item.getTitle());
         ((LinearLayout) helper.getView(R.id.ll_content)).removeAllViews();
         helper.setText(R.id.tv_title, item.getTitle());
         helper.setText(R.id.tv_time, item.getPublishTime());
@@ -92,20 +94,37 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
             addTextView(helper, item.getContent().substring(end).trim());
         }
         ScrollView svContent = helper.getView(R.id.sv_content);
+        svContent.post(() -> svContent.scrollTo(0, 0));
         svContent.scrollTo(0, 0);
         ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).setOnRefreshListener(refreshLayout -> {
-            goPre();
-            layoutManager.scrollToPositionWithOffset(index, 0);
-            ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).finishRefresh();
+            if (index > 0) {
+                goPre();
+                svContent.startAnimation(AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.translate_between_interface_bottom_in));
+                layoutManager.scrollToPositionWithOffset(index, 0);
+            } else {
+                RxToast.warning("已经是第一篇");
+            }
+            refreshLayout.finishRefresh();
         });
         ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).setOnLoadMoreListener(refreshLayout -> {
-            goNext();
-            layoutManager.scrollToPositionWithOffset(index, 0);
-            ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).finishLoadMore();
+            if (index < newsList.size() - 1) {
+                goNext();
+                svContent.startAnimation(AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.translate_between_interface_top_in));
+                layoutManager.scrollToPositionWithOffset(index, 0);
+            } else {
+                RxToast.warning("已经是最后一篇");
+            }
+            refreshLayout.finishLoadMore();
         });
+        if (animate == 1) {
+            svContent.startAnimation(AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.translate_between_interface_top_in));
+        } else if (animate == 2) {
+            svContent.startAnimation(AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.translate_between_interface_bottom_in));
+        }
+        animate = 0;
     }
 
-    public void goPre() {
+    private void goPre() {
         if (index > 1) {
             index--;
         } else {
@@ -117,10 +136,11 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
                 notifyItemInserted(0);
             }
         }
+        animate = 1;
         notifyDataSetChanged();
     }
 
-    public void goNext() {
+    private void goNext() {
         if (index < newsList.size() - 2) {
             index++;
         } else {
@@ -128,9 +148,11 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
             if (nextNews != null) {
                 newsList.add(nextNews);
                 notifyItemInserted(newsList.size() - 1);
+            } else {
             }
             index++;
         }
+        animate = 2;
         notifyDataSetChanged();
     }
 
