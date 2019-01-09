@@ -19,7 +19,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.loopj.android.image.WebImage;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
 import leaf.prod.app.layout.RoundSmartImageView;
@@ -101,20 +100,20 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
                 goPre();
                 svContent.startAnimation(AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.translate_between_interface_bottom_in));
                 layoutManager.scrollToPositionWithOffset(index, 0);
+                refreshLayout.finishRefresh(true);
             } else {
-                RxToast.warning("已经是第一篇");
+                refreshLayout.finishRefresh(false);
             }
-            refreshLayout.finishRefresh();
         });
         ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).setOnLoadMoreListener(refreshLayout -> {
             if (index < newsList.size() - 1) {
                 goNext();
                 svContent.startAnimation(AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.translate_between_interface_top_in));
                 layoutManager.scrollToPositionWithOffset(index, 0);
+                refreshLayout.finishLoadMore();
             } else {
-                RxToast.warning("已经是最后一篇");
+                refreshLayout.finishLoadMoreWithNoMoreData();
             }
-            refreshLayout.finishLoadMore();
         });
         if (animate == 1) {
             svContent.startAnimation(AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.translate_between_interface_top_in));

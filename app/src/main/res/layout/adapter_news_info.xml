@@ -19,8 +19,11 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/cl_footer"
             app:layout_constraintTop_toTopOf="parent"
-            app:srlTextPulling="下拉加载上一篇"
-            app:srlTextRelease="松手加载上一篇"/>
+            app:srlEnableLastTime="false"
+            app:srlTextFailed="@string/news_latest"
+            app:srlTextPulling="@string/news_pulling_pre"
+            app:srlTextRelease="@string/news_release_pre"
+            app:srlTextUpdate="@string/news_loading"/>
 
         <ScrollView
             android:id="@+id/sv_content"
@@ -82,8 +85,7 @@
             android:id="@+id/footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srlTextPulling="上拉加载下一篇"
-            app:srlTextRelease="松手加载下一篇"
-            />
+            app:srlTextPulling="@string/news_pulling_next"
+            app:srlTextRelease="@string/news_release_next"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </RelativeLayout>

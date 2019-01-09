@@ -12,17 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorLine"
+        app:srlEnableAutoLoadMore="false"
         app:srlHeaderInsetStart="250dp">
 
         <com.scwang.smartrefresh.header.WaterDropHeader
             android:id="@+id/head"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
 
         <com.ramotion.garlandview.inner.InnerRecyclerView
             android:id="@+id/irv_header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="never"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <android.support.constraint.ConstraintLayout

@@ -19,6 +19,7 @@ import com.ramotion.garlandview.header.HeaderDecorator;
 import com.ramotion.garlandview.header.HeaderItem;
 import com.ramotion.garlandview.inner.InnerLayoutManager;
 import com.ramotion.garlandview.inner.InnerRecyclerView;
+import com.scwang.smartrefresh.header.WaterDropHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -65,25 +66,28 @@ public class NewsHeaderItem extends HeaderItem {
     private static int headerHeight;
 
     @BindView(R.id.irv_header)
-    public InnerRecyclerView headerRecyclerView;
+    InnerRecyclerView headerRecyclerView;
 
     @BindView(R.id.tv_header1)
-    public TextView tvHeader1;
+    TextView tvHeader1;
 
     @BindView(R.id.tv_header2)
-    public TextView tvHeader2;
+    TextView tvHeader2;
 
     @BindView(R.id.cl_header)
-    public ConstraintLayout clHeader;
+    ConstraintLayout clHeader;
 
     @BindView(R.id.header_alpha)
-    public View headAlpha;
+    View headAlpha;
 
     @BindView(R.id.header_banner)
-    public Banner headerBanner;
+    Banner headerBanner;
 
     @BindView(R.id.refresh_layout)
-    public SmartRefreshLayout refreshLayout;
+    SmartRefreshLayout refreshLayout;
+
+    @BindView(R.id.head)
+    WaterDropHeader waterDropHeader;
 
     private InnerLayoutManager layoutManager;
 
@@ -206,7 +210,13 @@ public class NewsHeaderItem extends HeaderItem {
         final ViewGroup.LayoutParams lp = clHeader.getLayoutParams();
         lp.height = headerHeight - (int) (DpUtil.dp2Int(activity, 50) * (1f - middleRatio));
         clHeader.setLayoutParams(lp);
-        refreshLayout.setEnableRefresh(isTop());
+        if (isTop()) {
+            refreshLayout.setEnableRefresh(true);
+            waterDropHeader.setVisibility(View.VISIBLE);
+        } else {
+            refreshLayout.setEnableRefresh(false);
+            waterDropHeader.setVisibility(View.GONE);
+        }
         refreshLayout.setEnableLoadMore(isBottom());
     }
 
@@ -275,9 +285,12 @@ public class NewsHeaderItem extends HeaderItem {
                             refreshLayout.finishRefresh();
                         } else {
                             ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_INFO);
-                            headerRecyclerView.scrollBy(0, 200);
-                            refreshLayout.finishLoadMore();
                             newsList.addAll(newsPageWrapper.getData());
+                            if (headerRecyclerView.getAdapter().getItemCount() == newsPageWrapper.getTotal()) {
+                                refreshLayout.finishLoadMoreWithNoMoreData();
+                            } else {
+                                refreshLayout.finishLoadMore();
+                            }
                             newsPageWrapper.setData(newsList);
                         }
                         newsDataManager.setNews(newsPageWrapper);
@@ -319,8 +332,11 @@ public class NewsHeaderItem extends HeaderItem {
                             refreshLayout.finishRefresh();
                         } else {
                             ((NewsBodyAdapter) headerRecyclerView.getAdapter()).addData(newsPageWrapper.getData(), NewsHeader.NewsType.NEWS_FLASH);
-                            headerRecyclerView.scrollBy(0, 200);
-                            refreshLayout.finishLoadMore();
+                            if (headerRecyclerView.getAdapter().getItemCount() == newsPageWrapper.getTotal()) {
+                                refreshLayout.finishLoadMoreWithNoMoreData();
+                            } else {
+                                refreshLayout.finishLoadMore();
+                            }
                         }
                         unsubscribe();
                     }
