@@ -82,7 +82,7 @@ public class MarketDepthFragment extends BaseFragment {
             View header = LayoutInflater.from(getContext())
                     .inflate(R.layout.adapter_header_market_depth, item.getValue(), false);
             View footer = LayoutInflater.from(getContext())
-                    .inflate(R.layout.adapter_footer_market_depth, item.getValue(), false);
+                    .inflate(R.layout.adapter_footer, item.getValue(), false);
             if (item.getKey().equals("buy")) {
                 ((TextView) header.findViewById(R.id.tv_price)).setText(getString(R.string.buy_price) + "(" + orderDataManager
                         .getTokenA() + ")");

@@ -90,6 +90,10 @@ public class P2PRecordsFragment extends BaseFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recordAdapter = new P2PRecordAdapter(R.layout.adapter_item_p2p_record, null, this);
+        recordAdapter.addHeaderView(LayoutInflater.from(getContext())
+                .inflate(R.layout.adapter_header_order, recyclerView, false));
+        recordAdapter.addFooterView(LayoutInflater.from(getContext())
+                .inflate(R.layout.adapter_footer, recyclerView, false));
         recyclerView.setAdapter(recordAdapter);
         recordAdapter.setOnLoadMoreListener(() -> {
             if (recordAdapter.getData().size() >= totalCount) {
