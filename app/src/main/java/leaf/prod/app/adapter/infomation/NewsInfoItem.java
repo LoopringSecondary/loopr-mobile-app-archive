@@ -6,10 +6,10 @@ import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.vondear.rxtool.view.RxToast;
@@ -17,7 +17,6 @@ import com.vondear.rxtool.view.RxToast;
 import butterknife.BindView;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.activity.infomation.NewsInfoActivity;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.ShareUtil;
@@ -85,9 +84,7 @@ public class NewsInfoItem extends NewsBodyItem {
                     .getString(R.string.news_share) + " " + (data.getForwardNum() > 0 ? data
                     .getForwardNum() : ""));
             innerLayout.setOnClickListener(view -> {
-                Intent intent = new Intent(innerLayout.getContext(), NewsInfoActivity.class);
-                intent.putExtra("data", data);
-                innerLayout.getContext().startActivity(intent);
+                EventBus.getDefault().post(data);
             });
         } catch (Exception e) {
             e.printStackTrace();

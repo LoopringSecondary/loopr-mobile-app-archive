@@ -89,7 +89,6 @@ public class NewsInfoActivity extends BaseActivity {
         newsDataManager = NewsDataManager.getInstance(this);
         news = (News) getIntent().getSerializableExtra("data");
         News preNews = newsDataManager.getPreNews(news);
-        boolean isTop = false, isBottom = false;
         if (preNews == null) {
             position = 0;
         } else {
