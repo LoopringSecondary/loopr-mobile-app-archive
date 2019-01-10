@@ -7,6 +7,8 @@ import java.util.List;
 
 import android.content.Context;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import leaf.prod.walletsdk.model.Depth;
 import leaf.prod.walletsdk.model.OrderFill;
 import leaf.prod.walletsdk.model.Ticker;
@@ -157,10 +159,34 @@ public class MarketPriceDataManager {
     }
 
     public void convertDepths(Depth result) {
-        List<String[]> list = Arrays.asList(result.getDepth().getSell());
+        String[][] appendArray;
+        String[][] buyArray = result.getDepth().getBuy();
+        String[][] sellArray = result.getDepth().getSell();
+
+        int length = Math.max(buyArray.length, sellArray.length);
+        if (buyArray.length < length) {
+            appendArray = constructAppendArray(length - buyArray.length);
+            buyArray = ArrayUtils.addAll(buyArray, appendArray);
+            result.getDepth().setBuy(buyArray);
+        } else if (sellArray.length < length) {
+            appendArray = constructAppendArray(length - sellArray.length);
+            sellArray = ArrayUtils.addAll(sellArray, appendArray);
+        }
+        List<String[]> list = Arrays.asList(sellArray);
         Collections.sort(list, (o1, o2) -> o1[0].compareTo(o2[0]));
         result.getDepth().setSell((String[][]) list.toArray());
         this.depth = result;
+    }
+
+    private String[][] constructAppendArray(int length) {
+        String[][] array = new String[length][3];
+        for (int i = 0; i < length; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                String field = "";
+                array[i][j] = field;
+            }
+        }
+        return array;
     }
 
     public List<String[]> getDepths(String side) {

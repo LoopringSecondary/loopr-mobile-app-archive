@@ -23,12 +23,17 @@ public class MarketDepthAdapter extends BaseQuickAdapter<String[], BaseViewHolde
     @Override
     protected void convert(BaseViewHolder helper, String[] depth) {
         if (depth == null || depth.length != 3 || StringUtils.isEmpty(side)) { return; }
-        helper.setText(R.id.tv_price, NumberUtils.format1(Double.valueOf(depth[0]), 8));
-        helper.setText(R.id.tv_amount, NumberUtils.format7(Double.valueOf(depth[1]), 0, 2));
-        if (side.equals("buy")) {
-            helper.setTextColor(R.id.tv_price, mContext.getResources().getColor(R.color.colorGreen));
+        if (StringUtils.isEmpty(depth[0]) || StringUtils.isEmpty(depth[1])) {
+            helper.setText(R.id.tv_price, "");
+            helper.setText(R.id.tv_amount, "");
         } else {
-            helper.setTextColor(R.id.tv_price, mContext.getResources().getColor(R.color.colorRed));
+            helper.setText(R.id.tv_price, NumberUtils.format1(Double.valueOf(depth[0]), 8));
+            helper.setText(R.id.tv_amount, NumberUtils.format7(Double.valueOf(depth[1]), 0, 2));
+            if (side.equals("buy")) {
+                helper.setTextColor(R.id.tv_price, mContext.getResources().getColor(R.color.colorGreen));
+            } else {
+                helper.setTextColor(R.id.tv_price, mContext.getResources().getColor(R.color.colorRed));
+            }
         }
     }
 }
