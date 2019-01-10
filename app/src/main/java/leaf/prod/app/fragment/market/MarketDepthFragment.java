@@ -81,25 +81,20 @@ public class MarketDepthFragment extends BaseFragment {
             item.getValue().setLayoutManager(layoutManager);
             View header = LayoutInflater.from(getContext())
                     .inflate(R.layout.adapter_header_market_depth, item.getValue(), false);
-            View footer = LayoutInflater.from(getContext())
-                    .inflate(R.layout.adapter_footer, item.getValue(), false);
             if (item.getKey().equals("buy")) {
                 ((TextView) header.findViewById(R.id.tv_price)).setText(getString(R.string.buy_price) + "(" + orderDataManager
                         .getTokenA() + ")");
                 ((TextView) header.findViewById(R.id.tv_amount)).setText(getString(R.string.amount) + "(" + orderDataManager
                         .getTokenB() + ")");
                 header.setBackground(getContext().getDrawable(R.drawable.radius_left_top_bg_29));
-                footer.setBackground(getContext().getDrawable(R.drawable.radius_left_bottom_bg_29));
             } else {
                 ((TextView) header.findViewById(R.id.tv_price)).setText(getString(R.string.sell_price) + "(" + orderDataManager
                         .getTokenA() + ")");
                 ((TextView) header.findViewById(R.id.tv_amount)).setText(getString(R.string.amount) + "(" + orderDataManager
                         .getTokenB() + ")");
                 header.setBackground(getContext().getDrawable(R.drawable.radius_right_top_bg_29));
-                footer.setBackground(getContext().getDrawable(R.drawable.radius_right_bottom_bg_29));
             }
             marketAdapter.setHeaderView(header);
-            marketAdapter.setFooterView(footer);
             adapters.put(item.getKey(), marketAdapter);
         }
     }

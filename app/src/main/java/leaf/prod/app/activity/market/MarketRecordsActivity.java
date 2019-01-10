@@ -146,8 +146,6 @@ public class MarketRecordsActivity extends BaseActivity {
         recyclerView.setAdapter(recordAdapter);
         recordAdapter.addHeaderView(LayoutInflater.from(this)
                 .inflate(R.layout.adapter_header_order, recyclerView, false));
-        recordAdapter.addFooterView(LayoutInflater.from(this)
-                .inflate(R.layout.adapter_footer, recyclerView, false));
         setLoadMoreListener();
         recordAdapter.setOnItemClickListener((adapter, view, position) -> {
             getOperation().addParameter("order", orderList.get(position));
