@@ -17,6 +17,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +79,11 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
 
     private Animation shakeAnimation;
 
+    /**
+     * seekbar和edittext联动标志位
+     */
+    private boolean moneyAmountChange = false;
+
     public P2PTradePresenter(P2PTradeFragment view, Context context) {
         super(view, context);
         ButterKnife.bind(this, Objects.requireNonNull(view.getView()));
@@ -100,7 +107,8 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                 .getTokenBuy()));
         buyPrice = NumberUtils.format1(tokenPrice1 != 0 ? tokenPrice2 / tokenPrice1 : 0, BalanceDataManager.getPrecision(p2pOrderManager
                 .getTokenSell()));
-        view.tvSellTokenPrice.setText(" 1 " + p2pOrderManager.getTokenSell() + " ≈ " + sellPrice + " " + p2pOrderManager.getTokenBuy());
+        view.tvSellTokenPrice.setText(" 1 " + p2pOrderManager.getTokenSell() + " ≈ " + sellPrice + " " + p2pOrderManager
+                .getTokenBuy());
         view.tvBuyTokenPrice.setText("1 " + p2pOrderManager.getTokenBuy() + " ≈ " + buyPrice + " " + p2pOrderManager.getTokenSell());
         setHint(0);
         setInterval((int) SPUtils.get(context, "time_to_live", 1));
@@ -112,7 +120,8 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         String tPrice = sellPrice;
         view.tvSellTokenSymbol.setText(p2pOrderManager.getTokenSell());
         view.tvBuyTokenSymbol.setText(p2pOrderManager.getTokenBuy());
-        view.tvSellTokenPrice.setText(" 1 " + p2pOrderManager.getTokenSell() + " ≈ " + sellPrice + " " + p2pOrderManager.getTokenBuy());
+        view.tvSellTokenPrice.setText(" 1 " + p2pOrderManager.getTokenSell() + " ≈ " + sellPrice + " " + p2pOrderManager
+                .getTokenBuy());
         view.tvBuyTokenPrice.setText("1 " + p2pOrderManager.getTokenBuy() + " ≈ " + buyPrice + " " + p2pOrderManager.getTokenSell());
         view.tvSellTokenSymbol2.setText(p2pOrderManager.getTokenSell());
         view.tvBuyTokenSymbol2.setText(p2pOrderManager.getTokenBuy());
@@ -140,6 +149,10 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         view.seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+                if (moneyAmountChange) {
+                    moneyAmountChange = false;
+                    return;
+                }
                 BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell());
                 view.sellAmount.setText(NumberUtils.format1(asset.getValue() * progressFloat / 100, asset.getPrecision()));
             }
@@ -150,6 +163,36 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
 
             @Override
             public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+            }
+        });
+    }
+
+    public void setSellAmount() {
+        view.sellAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Double sellAmountDouble = (editable.toString().isEmpty() || editable.toString()
+                        .equals(".") ? 0d : Double.valueOf(editable.toString()));
+                moneyAmountChange = true;
+                if (sellAmountDouble == 0) {
+                    setHint(0);
+                    view.seekBar.setProgress(0);
+                } else if (sellAmountDouble > getMaxAmount()) {
+                    setHint(1);
+                    view.seekBar.setProgress(100);
+                } else {
+                    setHint(3);
+                    double amountTotal = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell()).getValue();
+                    view.seekBar.setProgress((float) (amountTotal != 0 ? sellAmountDouble / amountTotal * 100 : 0));
+                }
             }
         });
     }

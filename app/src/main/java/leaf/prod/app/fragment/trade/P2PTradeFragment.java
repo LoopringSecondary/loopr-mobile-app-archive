@@ -144,28 +144,7 @@ public class P2PTradeFragment extends BaseFragment {
         oneHourView.setText(getResources().getString(R.string.hour, "1"));
         oneDayView.setText(getResources().getString(R.string.day, "1"));
         oneMonthView.setText(getResources().getString(R.string.month, "1"));
-        sellAmount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Double sellAmountDouble = (editable.toString().isEmpty() || editable.toString()
-                        .equals(".") ? 0d : Double.valueOf(editable.toString()));
-                if (sellAmountDouble == 0) {
-                    presenter.setHint(0);
-                } else if (sellAmountDouble > presenter.getMaxAmount()) {
-                    presenter.setHint(1);
-                } else {
-                    presenter.setHint(3);
-                }
-            }
-        });
+        presenter.setSellAmount();
         buyAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
