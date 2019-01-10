@@ -18,7 +18,6 @@ class SetupWalletViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         backgroundImageView.theme_backgroundColor = ColorPicker.backgroundColor
         // backgroundImageView.image = UIImage(named: "Background" + ColorTheme.getTheme())
         
