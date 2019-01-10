@@ -16,9 +16,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.adapter.ViewPageAdapter;
@@ -27,6 +29,7 @@ import leaf.prod.app.fragment.market.MarketHistoryFragment;
 import leaf.prod.app.presenter.market.MarketDetailPresenter;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
+import leaf.prod.walletsdk.model.TradeType;
 
 public class MarketDetailActivity extends BaseActivity {
 
@@ -38,6 +41,12 @@ public class MarketDetailActivity extends BaseActivity {
 
     @BindView(R.id.view_pager)
     public ViewPager viewPager;
+
+    @BindView(R.id.btn_buy)
+    public Button buyButton;
+
+    @BindView(R.id.btn_sell)
+    public Button sellButton;
 
     @BindView(R.id.cl_loading)
     public ConstraintLayout clLoading;
@@ -67,7 +76,7 @@ public class MarketDetailActivity extends BaseActivity {
         title.setBTitle(orderDataManager.getTradePair());
         title.clickLeftGoBack(getWContext());
         title.setDropdownImageButton(R.mipmap.icon_dropdown, button -> {
-            getOperation().forward(MarketSelectActivity.class);
+            getOperation().forwardUp(MarketSelectActivity.class);
         });
     }
 
@@ -80,6 +89,8 @@ public class MarketDetailActivity extends BaseActivity {
         fragments.add(0, new MarketDepthFragment());
         fragments.add(1, new MarketHistoryFragment());
         setupViewPager(titles);
+        buyButton.setText(getString(R.string.buy_token, orderDataManager.getTokenA()));
+        sellButton.setText(getString(R.string.sell_token, orderDataManager.getTokenA()));
     }
 
     private void setupViewPager(String[] titles) {
@@ -122,6 +133,20 @@ public class MarketDetailActivity extends BaseActivity {
             if (historyFragment != null) {
                 historyFragment.updateAdapter();
             }
+        }
+    }
+
+    @OnClick({R.id.btn_buy, R.id.btn_sell})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_buy:
+                orderDataManager.setType(TradeType.buy);
+                getOperation().forward(MarketTradeActivity.class);
+                break;
+            case R.id.btn_sell:
+                orderDataManager.setType(TradeType.sell);
+                getOperation().forward(MarketTradeActivity.class);
+                break;
         }
     }
 }

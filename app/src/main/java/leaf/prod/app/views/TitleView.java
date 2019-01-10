@@ -101,7 +101,10 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
     public void clickLeftGoBack(int imgResource, final WeakReference<Activity> context) {
         mLeftBtn.setVisibility(View.VISIBLE);
         mLeftBtn.setImageResource(imgResource);
-        mOnLeftButtonClickListener = button -> context.get().finish();
+        mOnLeftButtonClickListener = button -> {
+            context.get().finish();
+            context.get().overridePendingTransition(R.anim.translate_between_interface_bottom_in, R.anim.translate_between_interface_top_out);
+        };
     }
 
     public void clickLeftGoBack(final WeakReference<Activity> context, Operation operation, Class<? extends Activity> clazz) {

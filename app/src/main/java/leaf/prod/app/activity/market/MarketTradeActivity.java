@@ -73,8 +73,9 @@ public class MarketTradeActivity extends BaseActivity {
     }
 
     private void setupViewPager(List<Fragment> fragments, String[] titles) {
-        viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), fragments, titles));
         tradeTab.setupWithViewPager(viewPager);
+        viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), fragments, titles));
+        viewPager.setCurrentItem(orderDataManager.getType().ordinal());
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

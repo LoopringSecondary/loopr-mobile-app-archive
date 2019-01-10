@@ -89,7 +89,7 @@ public class MarketSelectActivity extends BaseActivity {
     @Override
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.markets));
-        title.clickLeftGoBack(getWContext());
+        title.clickLeftGoBack(R.mipmap.icon_remove, getWContext());
         title.setRightImageButton(R.mipmap.icon_search, button -> {
             title.setVisibility(View.GONE);
             llSearch.setVisibility(View.VISIBLE);

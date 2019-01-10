@@ -24,7 +24,6 @@ import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.MarketsType;
 import leaf.prod.walletsdk.model.Ticker;
-import leaf.prod.walletsdk.model.TradeType;
 
 public class MarketsFragment extends BaseFragment {
 
@@ -79,9 +78,6 @@ public class MarketsFragment extends BaseFragment {
             Ticker ticker = getTickers().get(position);
             orderManager.setTokenSell(ticker.getTradingPair().getTokenA());
             orderManager.setTokenBuy(ticker.getTradingPair().getTokenB());
-
-            // TODO: new activity
-            orderManager.setType(TradeType.buy);
             getOperation().forward(MarketDetailActivity.class);
         });
     }

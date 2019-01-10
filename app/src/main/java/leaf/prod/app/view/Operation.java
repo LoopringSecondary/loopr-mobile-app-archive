@@ -40,10 +40,10 @@ public class Operation {
         AppManager.getAppManager().show();
     }
 
-    public void forwardPopup(Class<? extends Activity> activity) {
+    public void forwardUp(Class<? extends Activity> activity) {
         mIntent.setClass(mContext, activity);
         mContext.startActivity(mIntent);
-        mContext.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_enter);
+        mContext.overridePendingTransition(R.anim.translate_between_interface_top_in, R.anim.translate_between_interface_bottom_out);
         AppManager.getAppManager().show();
     }
 

@@ -31,6 +31,7 @@ public class MarketOrderDataManager extends OrderDataManager {
 
     private MarketOrderDataManager(Context context) {
         super(context);
+        this.type = TradeType.buy;
     }
 
     public static MarketOrderDataManager getInstance(Context context) {
@@ -42,6 +43,10 @@ public class MarketOrderDataManager extends OrderDataManager {
 
     public void setType(TradeType type) {
         this.type = type;
+    }
+
+    public TradeType getType() {
+        return this.type;
     }
 
     public OriginOrder getOrder() {
