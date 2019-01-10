@@ -55,6 +55,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
+            android:layout_marginTop="3dp"
             android:padding="7dp"
             android:src="@mipmap/icon_dropdown"
             android:visibility="invisible"

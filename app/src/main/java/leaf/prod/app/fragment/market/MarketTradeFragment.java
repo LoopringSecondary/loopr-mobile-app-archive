@@ -130,7 +130,14 @@ public class MarketTradeFragment extends BaseFragment {
         oneMonthView.setText(getResources().getString(R.string.month, "1"));
         setupPriceListener();
         presenter.setupAmountListener();
+        setupPrice();
         setupButton();
+    }
+
+    private void setupPrice() {
+        if (!StringUtils.isEmpty(marketManager.getPriceFromDepth())) {
+            tradePrice.setText(marketManager.getPriceFromDepth());
+        }
     }
 
     private void setupPriceListener() {

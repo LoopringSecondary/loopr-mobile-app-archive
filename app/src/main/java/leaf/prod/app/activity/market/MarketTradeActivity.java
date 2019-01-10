@@ -94,5 +94,6 @@ public class MarketTradeActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        orderDataManager.setPriceFromDepth(getIntent().getStringExtra("priceFromDepth"));
     }
 }

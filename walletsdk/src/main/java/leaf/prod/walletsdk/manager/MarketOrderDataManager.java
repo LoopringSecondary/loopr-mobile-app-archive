@@ -27,6 +27,8 @@ public class MarketOrderDataManager extends OrderDataManager {
 
     private OriginOrder order;
 
+    private String priceFromDepth;
+
     private static MarketOrderDataManager marketOrderManager = null;
 
     private MarketOrderDataManager(Context context) {
@@ -71,6 +73,14 @@ public class MarketOrderDataManager extends OrderDataManager {
 
     public String getTradePair() {
         return this.tokenSell + "-" + this.tokenBuy;
+    }
+
+    public String getPriceFromDepth() {
+        return priceFromDepth;
+    }
+
+    public void setPriceFromDepth(String priceFromDepth) {
+        this.priceFromDepth = priceFromDepth;
     }
 
     public OriginOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {

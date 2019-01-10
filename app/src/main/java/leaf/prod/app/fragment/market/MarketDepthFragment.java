@@ -3,6 +3,7 @@ package leaf.prod.app.fragment.market;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,10 +18,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.market.MarketTradeActivity;
 import leaf.prod.app.adapter.market.MarketDepthAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
+import leaf.prod.walletsdk.model.TradeType;
 
 public class MarketDepthFragment extends BaseFragment {
 
@@ -73,30 +76,43 @@ public class MarketDepthFragment extends BaseFragment {
         for (Map.Entry<String, RecyclerView> item : recyclerViews.entrySet()) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             MarketDepthAdapter marketAdapter = new MarketDepthAdapter(R.layout.adapter_item_market_depth, null, item.getKey());
-            marketAdapter.setOnItemClickListener((adapter, view, position) -> {
-                getOperation().addParameter("depth", manager.getDepths(item.getKey()).get(position));
-                //            getOperation().forward(P2PRecordDetailActivity.class);
-            });
+            marketAdapter.setOnItemClickListener((adapter, view, position) -> handleClick(item, position));
             item.getValue().setAdapter(marketAdapter);
             item.getValue().setLayoutManager(layoutManager);
-            View header = LayoutInflater.from(getContext())
-                    .inflate(R.layout.adapter_header_market_depth, item.getValue(), false);
-            if (item.getKey().equals("buy")) {
-                ((TextView) header.findViewById(R.id.tv_price)).setText(getString(R.string.buy_price) + "(" + orderDataManager
-                        .getTokenA() + ")");
-                ((TextView) header.findViewById(R.id.tv_amount)).setText(getString(R.string.amount) + "(" + orderDataManager
-                        .getTokenB() + ")");
-                header.setBackground(getContext().getDrawable(R.drawable.radius_left_top_bg_29));
-            } else {
-                ((TextView) header.findViewById(R.id.tv_price)).setText(getString(R.string.sell_price) + "(" + orderDataManager
-                        .getTokenA() + ")");
-                ((TextView) header.findViewById(R.id.tv_amount)).setText(getString(R.string.amount) + "(" + orderDataManager
-                        .getTokenB() + ")");
-                header.setBackground(getContext().getDrawable(R.drawable.radius_right_top_bg_29));
-            }
-            marketAdapter.setHeaderView(header);
+            this.setHeader(marketAdapter, item);
             adapters.put(item.getKey(), marketAdapter);
         }
+    }
+
+    private void handleClick(Map.Entry<String, RecyclerView> item, int position) {
+        String[] values = manager.getDepths(item.getKey()).get(position);
+        if (item.getKey().equals("buy")) {
+            orderDataManager.setType(TradeType.buy);
+        } else if (item.getKey().equals("sell")) {
+            orderDataManager.setType(TradeType.sell);
+        }
+        Objects.requireNonNull(getActivity()).finish();
+        getOperation().addParameter("priceFromDepth", values[0]);
+        getOperation().forward(MarketTradeActivity.class);
+    }
+
+    private void setHeader(MarketDepthAdapter marketAdapter, Map.Entry<String, RecyclerView> item) {
+        View header = LayoutInflater.from(getContext())
+                .inflate(R.layout.adapter_header_market_depth, item.getValue(), false);
+        if (item.getKey().equals("buy")) {
+            ((TextView) header.findViewById(R.id.tv_price)).setText(getString(R.string.buy_price) + "(" + orderDataManager
+                    .getTokenA() + ")");
+            ((TextView) header.findViewById(R.id.tv_amount)).setText(getString(R.string.amount) + "(" + orderDataManager
+                    .getTokenB() + ")");
+            header.setBackground(getContext().getDrawable(R.drawable.radius_left_top_bg_29));
+        } else {
+            ((TextView) header.findViewById(R.id.tv_price)).setText(getString(R.string.sell_price) + "(" + orderDataManager
+                    .getTokenA() + ")");
+            ((TextView) header.findViewById(R.id.tv_amount)).setText(getString(R.string.amount) + "(" + orderDataManager
+                    .getTokenB() + ")");
+            header.setBackground(getContext().getDrawable(R.drawable.radius_right_top_bg_29));
+        }
+        marketAdapter.setHeaderView(header);
     }
 
     @Override
