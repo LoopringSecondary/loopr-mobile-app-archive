@@ -120,9 +120,8 @@ public class MarketTradeFragment extends BaseFragment {
 
     @Override
     protected void initPresenter() {
-        presenter = new MarketTradeFragmentPresenter(this, getContext());
+        presenter = new MarketTradeFragmentPresenter(this, getContext(), tradeType);
     }
-
     @Override
     protected void initView() {
         presenter.setSeekbar(0);
@@ -130,7 +129,7 @@ public class MarketTradeFragment extends BaseFragment {
         oneDayView.setText(getResources().getString(R.string.day, "1"));
         oneMonthView.setText(getResources().getString(R.string.month, "1"));
         setupPriceListener();
-        setupAmountListener();
+        presenter.setupAmountListener();
         setupButton();
     }
 
@@ -147,36 +146,14 @@ public class MarketTradeFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 String value = editable.toString();
+                seekBar.setEnabled(false);
                 if (StringUtils.isEmpty(value)) {
                     presenter.setHint(0);
                 } else if (value.equals(".") || 0d == Double.valueOf(value)) {
                     presenter.setHint(1);
                 } else {
                     presenter.setHint(2);
-                }
-            }
-        });
-    }
-
-    private void setupAmountListener() {
-        tradeAmount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String value = editable.toString();
-                if (StringUtils.isEmpty(value)) {
-                    presenter.setHint(3);
-                } else if (value.equals(".") || 0d == Double.valueOf(value)) {
-                    presenter.setHint(4);
-                } else {
-                    presenter.setHint(5);
+                    seekBar.setEnabled(true);
                 }
             }
         });
@@ -274,7 +251,8 @@ public class MarketTradeFragment extends BaseFragment {
                 result = Double.parseDouble(tradeAmount.getText().toString());
                 break;
             case sell:
-                result = Double.parseDouble(tradeAmount.getText().toString()) * Double.parseDouble(tradePrice.getText().toString());
+                result = Double.parseDouble(tradeAmount.getText().toString()) * Double.parseDouble(tradePrice.getText()
+                        .toString());
                 break;
         }
         return result;
@@ -284,7 +262,8 @@ public class MarketTradeFragment extends BaseFragment {
         Double result = 0d;
         switch (this.tradeType) {
             case buy:
-                result = Double.parseDouble(tradeAmount.getText().toString()) * Double.parseDouble(tradePrice.getText().toString());
+                result = Double.parseDouble(tradeAmount.getText().toString()) * Double.parseDouble(tradePrice.getText()
+                        .toString());
                 break;
             case sell:
                 result = Double.parseDouble(tradeAmount.getText().toString());

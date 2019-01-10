@@ -17,6 +17,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,11 +45,13 @@ import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.OriginOrder;
+import leaf.prod.walletsdk.model.TradeType;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SPUtils;
+import leaf.prod.walletsdk.util.StringUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -73,7 +77,13 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
 
     private Animation shakeAnimation;
 
-    public MarketTradeFragmentPresenter(MarketTradeFragment view, Context context) {
+    private boolean moneyAmountChange = false;
+
+    private TradeType tradeType;
+
+    private double maxTradeAmount = 0;
+
+    public MarketTradeFragmentPresenter(MarketTradeFragment view, Context context, TradeType tradeType) {
         super(view, context);
         ButterKnife.bind(this, Objects.requireNonNull(view.getView()));
         marketcapDataManager = MarketcapDataManager.getInstance(context);
@@ -81,6 +91,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         tokenDataManager = TokenDataManager.getInstance(context);
         marketOrderDataManager = MarketOrderDataManager.getInstance(context);
         shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.shake_x);
+        this.tradeType = tradeType;
         initTokens();
     }
 
@@ -106,11 +117,29 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
             array.put(4, "100%");
             return array;
         });
+        if (tradeType == TradeType.buy) {
+            String priceStr = view.tradePrice.getText().toString();
+            view.seekBar.setEnabled(!priceStr.isEmpty() && !priceStr.equals(".") && Double.parseDouble(priceStr) > 0);
+        }
         view.seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+                if (!view.seekBar.isEnabled()) {
+                    setHint(1);
+                    return;
+                }
+                if (moneyAmountChange) {
+                    moneyAmountChange = false;
+                    return;
+                }
                 BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(marketOrderDataManager.getTokenSell());
-                view.tradePrice.setText(NumberUtils.format1(asset.getValue() * progressFloat / 100, asset.getPrecision()));
+                if (tradeType == TradeType.buy) {
+                    double tradePrice = Double.parseDouble(view.tradePrice.getText().toString());
+                    maxTradeAmount = asset.getValue() / tradePrice;
+                    view.tradeAmount.setText(NumberUtils.format7(progressFloat / 100 * maxTradeAmount, 0, 8));
+                } else {
+                    view.tradeAmount.setText(NumberUtils.format7(progressFloat / 100 * asset.getValue(), 0, 8));
+                }
             }
 
             @Override
@@ -119,6 +148,50 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
 
             @Override
             public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+            }
+        });
+    }
+
+    public void setupAmountListener() {
+        view.tradeAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                moneyAmountChange = true;
+                String value = editable.toString();
+                if (StringUtils.isEmpty(value)) {
+                    setHint(3);
+                    view.seekBar.setProgress(0);
+                } else if (value.equals(".") || 0d == Double.valueOf(value)) {
+                    setHint(4);
+                    view.seekBar.setProgress(0);
+                } else {
+                    setHint(5);
+                    BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(marketOrderDataManager.getTokenSell());
+                    double tradeAmount = Double.parseDouble(value);
+                    if (tradeType == TradeType.buy) {
+                        double tradePrice = Double.parseDouble(view.tradePrice.getText().toString());
+                        maxTradeAmount = asset.getValue() / tradePrice;
+                        if (tradeAmount > maxTradeAmount) {
+                            view.seekBar.setProgress(100);
+                        } else {
+                            view.seekBar.setProgress((float) (maxTradeAmount != 0 ? tradeAmount / maxTradeAmount * 100 : 0));
+                        }
+                    } else {
+                        if (asset.getValue() >= tradeAmount) {
+                            view.seekBar.setProgress((float) (asset.getValue() != 0 ? tradeAmount / asset.getValue() * 100 : 0));
+                        } else {
+                            view.seekBar.setProgress(100);
+                        }
+                    }
+                }
             }
         });
     }
@@ -230,9 +303,10 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         int tokenSID = tokenDataManager.getTokenBySymbol(order.getTokenS()).getImageResId();
         String tokenBTip = view.getResources().getString(R.string.buy) + " " + order.getTokenB();
         String tokenSTip = view.getResources().getString(R.string.sell) + " " + order.getTokenS();
-
-        ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_b)).setImageDrawable(view.getResources().getDrawable(tokenBID));
-        ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_s)).setImageDrawable(view.getResources().getDrawable(tokenSID));
+        ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_b)).setImageDrawable(view.getResources()
+                .getDrawable(tokenBID));
+        ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_s)).setImageDrawable(view.getResources()
+                .getDrawable(tokenSID));
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_token)).setText(tokenBTip);
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_token)).setText(tokenSTip);
     }
@@ -247,7 +321,6 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         String priceQuote = view.tradePrice.getText() + " " + marketOrderDataManager.getTradePair().replace("-", "/");
         String lrcFee = NumberUtils.format1(order.getLrc(), 3) +
                 " LRC ≈ " + CurrencyUtil.format(context, marketcapDataManager.getAmountBySymbol("LRC", order.getLrc()));
-
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_amount)).setText(amountB);
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_amount)).setText(amountS);
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_price)).setText(amountBPrice);
@@ -325,10 +398,16 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                 break;
             case 5: // shuzi
                 view.tvAmountHint.setVisibility(View.VISIBLE);
-                view.tvAmountHint.setText(view.getResources().getString(R.string.available_balance,
-                        balanceDataManager.getAssetBySymbol(marketOrderDataManager.getTokenA())
-                                .getValueShown()) + " " + marketOrderDataManager.getTokenA());
                 view.tvAmountHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
+                if (tradeType == TradeType.sell) {
+                    view.tvAmountHint.setText(view.getResources().getString(R.string.available_balance,
+                            balanceDataManager.getAssetBySymbol(marketOrderDataManager.getTokenA())
+                                    .getValueShown()) + " " + marketOrderDataManager.getTokenA());
+                } else {
+                    view.tvAmountHint.setText(view.getResources()
+                            .getString(R.string.market_max_buy, NumberUtils.format7(maxTradeAmount, 0, 8) + " " + marketOrderDataManager
+                                    .getTokenBuy()));
+                }
                 break;
         }
     }
