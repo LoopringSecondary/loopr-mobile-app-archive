@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/wallet_item"
+              android:layout_width="match_parent"
+              android:layout_height="30dp"
+              android:layout_marginTop="10dp"
+              android:background="@drawable/radius_top_bg_29"
+              android:gravity="center"
+              android:orientation="horizontal">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="40dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/market"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorNineText"
+        android:textStyle="bold"
+        tools:ignore="RtlCompat"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/price"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorNineText"
+        android:textStyle="bold"
+        tools:ignore="RtlCompat"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.75"
+        android:gravity="center"
+        android:text="@string/change"
+        android:textAlignment="center"
+        android:textColor="@color/colorNineText"
+        android:textStyle="bold"
+        tools:ignore="RtlCompat"/>
+</LinearLayout>
+
