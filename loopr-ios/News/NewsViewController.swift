@@ -62,9 +62,13 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
         header.didClickedClosure = { (blog) -> Void in
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
             detailViewController.newsObject = blog
+            /*
             self.present(detailViewController, animated: true, completion: {
                 
             })
+            */
+            detailViewController.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(detailViewController, animated: true)
         }
         
         updateBlogTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.updateBlog), userInfo: nil, repeats: true)
@@ -72,7 +76,7 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
         
-        garlandCollection.frame = CGRect(x: 0, y: GarlandConfig.shared.headerVerticalOffset, width: view.bounds.width, height: view.bounds.height - GarlandConfig.shared.headerVerticalOffset - 49 - bottomPadding)
+        garlandCollection.frame = CGRect(x: 0, y: GarlandConfig.shared.headerVerticalOffset, width: view.bounds.width, height: view.bounds.height - GarlandConfig.shared.headerVerticalOffset)
         garlandCollection.theme_backgroundColor = ColorPicker.backgroundColor
         
         if !FeatureConfigDataManager.shared.getShowTradingFeature() {
@@ -179,9 +183,13 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                 let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
                 detailViewController.currentIndex = indexPath.row
                 detailViewController.newsObject = news
+                /*
                 self.present(detailViewController, animated: true, completion: {
                     
                 })
+                */
+                detailViewController.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(detailViewController, animated: true)
             } else {
                 news = NewsDataManager.shared.flashItems[indexPath.row]
                 if NewsViewController.expandedNewsUuids.contains(news.uuid) {

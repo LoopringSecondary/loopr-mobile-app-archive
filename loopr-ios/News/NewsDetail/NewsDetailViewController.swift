@@ -62,8 +62,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         super.viewDidLoad()
 
         if let news = newsObject as? News {
-            modalPresentationStyle = .custom
-            transitioningDelegate = self
+            // modalPresentationStyle = .custom
+            // transitioningDelegate = self
 
             webView.alpha = 0
             webView.isHidden = true
@@ -85,6 +85,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil) // add observer for key path
         
         setupCard()
+        
+        setBackButton()
         setupNavigationBar()
         
         /*
@@ -174,8 +176,13 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     }
     
     @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {
-        didCloseButtonClosure?()
-        dismiss(animated: true, completion: nil)
+        // didCloseButtonClosure?()
+        // dismiss(animated: true, completion: nil)
+        if self.navigationController != nil {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
@@ -280,7 +287,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
                     })
                 }
                 self.present(detailViewController, animated: true, completion: {
-                    
+                    self.navigationController?.popViewController(animated: false)
                 })
             }
         }

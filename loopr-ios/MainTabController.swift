@@ -38,7 +38,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         viewController2 = TradeSelectionNavigationViewController()
 
         // News view controller
-        viewController3 = NewsNavigationViewController()
+        viewController3 = NewsNavigationViewController_v2()
         
         // Setting view controller
         viewController4 = SettingNavigationViewController()

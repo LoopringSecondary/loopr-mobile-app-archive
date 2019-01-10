@@ -39,9 +39,9 @@ open class GarlandViewController: UIViewController {
         setupBackground()
         setupFakeHeaders()
         
-        //add horizontal pan gesture recognizer
+        // add horizontal pan gesture recognizer
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleGesture))
-        view.addGestureRecognizer(panGesture)
+        // view.addGestureRecognizer(panGesture)
     }
     
     @objc func handleGesture(gesture: UIPanGestureRecognizer) {
