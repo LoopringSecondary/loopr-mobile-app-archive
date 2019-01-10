@@ -47,6 +47,13 @@ public class Operation {
         AppManager.getAppManager().show();
     }
 
+    public void forwardDown(Class<? extends Activity> activity) {
+        mIntent.setClass(mContext, activity);
+        mContext.startActivity(mIntent);
+        mContext.overridePendingTransition(R.anim.translate_between_interface_bottom_in, R.anim.translate_between_interface_top_out);
+        AppManager.getAppManager().show();
+    }
+
     /**
      * 跳转Activity
      *

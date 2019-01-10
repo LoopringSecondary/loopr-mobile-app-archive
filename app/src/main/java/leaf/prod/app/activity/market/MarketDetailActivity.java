@@ -55,6 +55,8 @@ public class MarketDetailActivity extends BaseActivity {
 
     private MarketOrderDataManager orderDataManager;
 
+    private MarketDetailPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -76,6 +78,7 @@ public class MarketDetailActivity extends BaseActivity {
         title.setBTitle(orderDataManager.getTradePair());
         title.clickLeftGoBack(getWContext());
         title.setDropdownImageButton(R.mipmap.icon_dropdown, button -> {
+            finish();
             getOperation().forwardUp(MarketSelectActivity.class);
         });
     }
@@ -89,6 +92,10 @@ public class MarketDetailActivity extends BaseActivity {
         fragments.add(0, new MarketDepthFragment());
         fragments.add(1, new MarketHistoryFragment());
         setupViewPager(titles);
+        setupButtons();
+    }
+
+    private void setupButtons() {
         buyButton.setText(getString(R.string.buy_token, orderDataManager.getTokenA()));
         sellButton.setText(getString(R.string.sell_token, orderDataManager.getTokenA()));
     }

@@ -14,8 +14,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.market.MarketDetailActivity;
 import leaf.prod.app.adapter.market.MarketSelectAdapter;
 import leaf.prod.app.fragment.BaseFragment;
+import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.MarketsType;
 import leaf.prod.walletsdk.model.Ticker;
@@ -27,9 +29,11 @@ public class MarketSelectFragment extends BaseFragment {
     @BindView(R.id.recycler_view)
     public RecyclerView recyclerView;
 
+    private MarketsType marketsType;
+
     private MarketSelectAdapter marketAdapter;
 
-    private MarketsType marketsType;
+    private MarketOrderDataManager marketManager;
 
     @Nullable
     @Override
@@ -47,6 +51,7 @@ public class MarketSelectFragment extends BaseFragment {
 
     @Override
     protected void initPresenter() {
+        marketManager = MarketOrderDataManager.getInstance(getContext());
     }
 
     @Override
@@ -60,8 +65,11 @@ public class MarketSelectFragment extends BaseFragment {
         marketAdapter = new MarketSelectAdapter(R.layout.adapter_item_market_select, null);
         recyclerView.setAdapter(marketAdapter);
         marketAdapter.setOnItemClickListener((adapter, view, position) -> {
-            getOperation().addParameter("ticker", getTickers().get(position));
-            //            getOperation().forward(P2PRecordDetailActivity.class);
+            Ticker ticker = getTickers().get(position);
+            marketManager.setTokenBuy(ticker.getTradingPair().getTokenB());
+            marketManager.setTokenSell(ticker.getTradingPair().getTokenA());
+            getActivity().finish();
+            getOperation().forwardDown(MarketDetailActivity.class);
         });
     }
 

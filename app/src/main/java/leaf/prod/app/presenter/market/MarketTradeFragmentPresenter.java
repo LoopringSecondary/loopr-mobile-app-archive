@@ -97,8 +97,8 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
 
     @SuppressLint("SetTextI18n")
     public void initTokens() {
-        view.tvSellTokenSymbol.setText(marketOrderDataManager.getTokenSell());
-        view.tvBuyTokenSymbol.setText(marketOrderDataManager.getTokenBuy());
+        view.tvSellTokenSymbol.setText(marketOrderDataManager.getTokenB());
+        view.tvBuyTokenSymbol.setText(marketOrderDataManager.getTokenA());
         setInterval((int) SPUtils.get(context, "time_to_live", 1));
         setHint(0);
     }
