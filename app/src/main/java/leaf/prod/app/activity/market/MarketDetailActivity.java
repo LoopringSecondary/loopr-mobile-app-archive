@@ -81,6 +81,7 @@ public class MarketDetailActivity extends BaseActivity {
             finish();
             getOperation().forwardUp(MarketSelectActivity.class);
         });
+        title.setRightImageButton(R.mipmap.icon_order_history, button -> getOperation().forward(MarketRecordsActivity.class));
     }
 
     @Override

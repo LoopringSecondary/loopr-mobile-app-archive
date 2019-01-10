@@ -56,6 +56,7 @@ public class MarketTradeActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(orderDataManager.getTradePair());
         title.clickLeftGoBack(getWContext());
+        title.setRightImageButton(R.mipmap.icon_order_history, button -> getOperation().forward(MarketRecordsActivity.class));
     }
 
     @Override
