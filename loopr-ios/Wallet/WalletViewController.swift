@@ -32,6 +32,9 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // available after iPhone 7
     let impact = UIImpactFeedbackGenerator()
     
+    let newsViewController_v2 = NewsViewController_v2()
+    var newsViewControllerEnabled: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -95,6 +98,10 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         NotificationCenter.default.addObserver(self, selector: #selector(needRelaunchCurrentAppWalletReceivedNotification), name: .needRelaunchCurrentAppWallet, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(processPasteboard), name: .needCheckStringInPasteboard, object: nil)
+        
+        addChildViewController(newsViewController_v2)
+        view.addSubview(newsViewController_v2.view)
+        view.bringSubview(toFront: newsViewController_v2.view)
     }
     
     @objc func needRelaunchCurrentAppWalletReceivedNotification() {
@@ -135,6 +142,8 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidAppear(animated)
         isListeningSocketIO = true
         CurrentAppWalletDataManager.shared.startGetBalance()
+
+        newsViewController_v2.view.frame = CGRect(x: 0, y: -view.frame.height, width: view.frame.height, height: view.frame.width)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -144,6 +153,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         CurrentAppWalletDataManager.shared.stopGetBalance()
         isListeningSocketIO = false
+        newsViewControllerEnabled = false
     }
     
     @objc func processPasteboard() {
@@ -300,12 +310,29 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print("scrollView y: \(scrollView.contentOffset.y)")
         
+        /*
         if scrollView.contentOffset.y < -100 {
             let newsViewController = NewsNavigationViewController()
             // newsViewController.modalPresentationStyle = .overCurrentContext
             present(newsViewController, animated: true) {
          
             }
+        }
+        */
+        
+        if !newsViewControllerEnabled {
+            newsViewController_v2.view.frame = CGRect(x: 0, y: -view.frame.height-scrollView.contentOffset.y, width: view.frame.width, height: view.frame.height)
+        }
+        
+        if scrollView.contentOffset.y < -140 && !newsViewControllerEnabled {
+            newsViewControllerEnabled = true
+            UIView.animate(withDuration: 3, delay: 0.2, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+                self.newsViewController_v2.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+                self.assetTableView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
+            }) { (_) in
+                
+            }
+            // assetTableView.setContentOffset(CGPoint(x: 0, y: view.frame.height), animated: true)
         }
     }
     
