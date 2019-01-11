@@ -124,7 +124,7 @@ public class MarketRecordsActivity extends BaseActivity {
                     }
                 }
                 isFiltering = true;
-                setLoadMoreListener();
+                setupListeners();
             }
 
             @Override
@@ -146,7 +146,7 @@ public class MarketRecordsActivity extends BaseActivity {
         recyclerView.setAdapter(recordAdapter);
         recordAdapter.addHeaderView(LayoutInflater.from(this)
                 .inflate(R.layout.adapter_header_order, recyclerView, false));
-        setLoadMoreListener();
+        setupListeners();
         recordAdapter.setOnItemClickListener((adapter, view, position) -> {
             getOperation().addParameter("order", orderList.get(position));
             getOperation().forward(P2PRecordDetailActivity.class);
@@ -154,10 +154,14 @@ public class MarketRecordsActivity extends BaseActivity {
         emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.market_order);
     }
 
-    private void setLoadMoreListener() {
+    private void setupListeners() {
         if (isFiltering) {
             recordAdapter.setNewData(searchList);
             recordAdapter.setOnLoadMoreListener(() -> recordAdapter.loadMoreEnd(), recyclerView);
+            recordAdapter.setOnItemClickListener((adapter, view, position) -> {
+                getOperation().addParameter("order", searchList.get(position));
+                getOperation().forward(P2PRecordDetailActivity.class);
+            });
         } else {
             recordAdapter.setNewData(orderList);
             recordAdapter.setOnLoadMoreListener(() -> {
@@ -167,6 +171,10 @@ public class MarketRecordsActivity extends BaseActivity {
                     refreshOrders(currentPageIndex + 1);
                 }
             }, recyclerView);
+            recordAdapter.setOnItemClickListener((adapter, view, position) -> {
+                getOperation().addParameter("order", orderList.get(position));
+                getOperation().forward(P2PRecordDetailActivity.class);
+            });
         }
     }
 
@@ -238,7 +246,7 @@ public class MarketRecordsActivity extends BaseActivity {
     private void hideSearch() {
         etSearch.setText("");
         isFiltering = false;
-        setLoadMoreListener();
+        setupListeners();
         title.setVisibility(View.VISIBLE);
         llSearch.setVisibility(View.GONE);
     }

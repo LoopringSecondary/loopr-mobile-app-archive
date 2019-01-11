@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
               android:id="@+id/wallet_item"
               android:layout_width="match_parent"
               android:layout_height="30dp"
@@ -23,8 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/price"
-            android:textColor="@color/colorNineText"
-            android:textStyle="bold"/>
+            android:textColor="@color/colorNineText"/>
 
     </LinearLayout>
 
@@ -41,8 +39,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="@string/amount"
-            android:textColor="@color/colorNineText"
-            android:textStyle="bold"/>
+            android:textColor="@color/colorNineText"/>
 
     </LinearLayout>
 
@@ -60,8 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:text="@string/time"
-            android:textColor="@color/colorNineText"
-            android:textStyle="bold"/>
+            android:textColor="@color/colorNineText"/>
     </LinearLayout>
 </LinearLayout>
 

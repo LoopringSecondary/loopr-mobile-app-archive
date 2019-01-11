@@ -17,7 +17,6 @@
         android:text="@string/market"
         android:textAlignment="textStart"
         android:textColor="@color/colorNineText"
-        android:textStyle="bold"
         tools:ignore="RtlCompat"/>
 
     <TextView
@@ -29,7 +28,6 @@
         android:text="@string/price"
         android:textAlignment="textStart"
         android:textColor="@color/colorNineText"
-        android:textStyle="bold"
         tools:ignore="RtlCompat"/>
 
     <TextView
@@ -40,7 +38,6 @@
         android:text="@string/change"
         android:textAlignment="center"
         android:textColor="@color/colorNineText"
-        android:textStyle="bold"
         tools:ignore="RtlCompat"/>
 </LinearLayout>
 

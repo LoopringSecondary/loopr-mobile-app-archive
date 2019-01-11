@@ -28,7 +28,7 @@ import com.youth.banner.loader.ImageLoader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import leaf.prod.app.R;
-import leaf.prod.app.activity.wallet.DefaultWebViewActivity;
+import leaf.prod.app.activity.DefaultWebViewActivity;
 import leaf.prod.app.layout.RoundSmartImageView;
 import leaf.prod.walletsdk.manager.NewsDataManager;
 import leaf.prod.walletsdk.model.NewsHeader;

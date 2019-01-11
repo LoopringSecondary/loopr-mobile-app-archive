@@ -1,4 +1,4 @@
-package leaf.prod.app.activity;
+package leaf.prod.app.activity.wallet;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,6 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.util.WalletUtil;
 import permissions.dispatcher.NeedsPermission;

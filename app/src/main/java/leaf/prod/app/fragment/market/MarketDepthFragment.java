@@ -19,10 +19,12 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.market.MarketTradeActivity;
+import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.market.MarketDepthAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
+import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.TradeType;
 
 public class MarketDepthFragment extends BaseFragment {
@@ -39,9 +41,11 @@ public class MarketDepthFragment extends BaseFragment {
 
     private MarketOrderDataManager orderDataManager;
 
-    private Map<String, RecyclerView> recyclerViews;
+    private NoDataAdapter emptyAdapter;
 
     private Map<String, MarketDepthAdapter> adapters;
+
+    private Map<String, RecyclerView> recyclerViews;
 
     @Nullable
     @Override
@@ -81,6 +85,7 @@ public class MarketDepthFragment extends BaseFragment {
             item.getValue().setLayoutManager(layoutManager);
             this.setHeader(marketAdapter, item);
             adapters.put(item.getKey(), marketAdapter);
+            emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.market_depth);
         }
     }
 
@@ -135,8 +140,13 @@ public class MarketDepthFragment extends BaseFragment {
         for (Map.Entry<String, MarketDepthAdapter> item : adapters.entrySet()) {
             if (item != null && item.getKey() != null && item.getValue() != null) {
                 List<String[]> depths = manager.getDepths(item.getKey());
-                item.getValue().setNewData(depths);
-                item.getValue().notifyDataSetChanged();
+                if (depths == null || depths.size() == 0) {
+                    recyclerViews.get(item.getKey()).setAdapter(emptyAdapter);
+                    emptyAdapter.refresh();
+                } else {
+                    item.getValue().setNewData(depths);
+                    item.getValue().notifyDataSetChanged();
+                }
             }
         }
     }

@@ -55,8 +55,6 @@ public class MarketDetailActivity extends BaseActivity {
 
     private MarketOrderDataManager orderDataManager;
 
-    private MarketDetailPresenter presenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);

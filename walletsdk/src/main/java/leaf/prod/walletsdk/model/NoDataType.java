@@ -11,6 +11,8 @@ public enum NoDataType {
     transation("transation"),
     p2p_order("p2p_order"),
     market_order("market_order"),
+    market_depth("market_depth"),
+    market_history("market_history"),
     contact("contact");
 
     private final String description;

@@ -24,7 +24,7 @@ import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.wallet.AirdropActivity;
-import leaf.prod.app.activity.wallet.DefaultWebViewActivity;
+import leaf.prod.app.activity.DefaultWebViewActivity;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;

@@ -122,11 +122,11 @@
             android:exported="false"
             android:launchMode="standard"/>
         <activity
-            android:name=".activity.setting.WalletDetailActivity"
+            android:name=".activity.wallet.WalletDetailActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.ReceiveActivity"
+            android:name=".activity.wallet.ReceiveActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
@@ -212,7 +212,7 @@
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.wallet.DefaultWebViewActivity"
+            android:name=".activity.DefaultWebViewActivity"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity

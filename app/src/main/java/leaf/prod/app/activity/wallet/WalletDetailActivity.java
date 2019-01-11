@@ -1,4 +1,4 @@
-package leaf.prod.app.activity.setting;
+package leaf.prod.app.activity.wallet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +26,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
-import leaf.prod.app.activity.ReceiveActivity;
+import leaf.prod.app.activity.DefaultWebViewActivity;
 import leaf.prod.app.activity.trade.ConvertActivity;
-import leaf.prod.app.activity.wallet.DefaultWebViewActivity;
-import leaf.prod.app.activity.wallet.SendActivity;
 import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.setupwallet.WalletAllAdapter;
 import leaf.prod.app.views.TitleView;

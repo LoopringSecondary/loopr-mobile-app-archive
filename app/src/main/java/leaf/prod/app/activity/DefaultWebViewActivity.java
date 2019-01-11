@@ -4,7 +4,7 @@
  * Time: 2018-09-20 下午5:47
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.app.activity.wallet;
+package leaf.prod.app.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -23,7 +23,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
-import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.layout.WebLayout;
 import leaf.prod.app.views.TitleView;
 

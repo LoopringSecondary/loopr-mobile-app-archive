@@ -14,9 +14,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
+import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.market.MarketHistoryAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
+import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.OrderFill;
 
 public class MarketHistoryFragment extends BaseFragment {
@@ -25,6 +27,8 @@ public class MarketHistoryFragment extends BaseFragment {
 
     @BindView(R.id.recycler_view)
     public RecyclerView recyclerView;
+
+    private NoDataAdapter emptyAdapter;
 
     private MarketHistoryAdapter marketAdapter;
 
@@ -61,6 +65,7 @@ public class MarketHistoryFragment extends BaseFragment {
         marketAdapter.setHeaderView(LayoutInflater.from(getContext())
                 .inflate(R.layout.adapter_header_markets_history, recyclerView, false));
         recyclerView.setAdapter(marketAdapter);
+        emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.market_history);
     }
 
     @Override
@@ -82,8 +87,13 @@ public class MarketHistoryFragment extends BaseFragment {
     public void updateAdapter() {
         if (marketAdapter != null) {
             List<OrderFill> orderFills = manager.getOrderFills();
-            marketAdapter.setNewData(orderFills);
-            marketAdapter.notifyDataSetChanged();
+            if (orderFills == null || orderFills.size() == 0) {
+                recyclerView.setAdapter(emptyAdapter);
+                emptyAdapter.refresh();
+            } else {
+                marketAdapter.setNewData(orderFills);
+                marketAdapter.notifyDataSetChanged();
+            }
         }
     }
 }
