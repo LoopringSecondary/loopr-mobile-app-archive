@@ -200,8 +200,8 @@ public class MarketTradeFragment extends BaseFragment {
                 presenter.setInterval(0);
                 break;
             case R.id.ll_sell_token:
-                break;
             case R.id.ll_buy_token:
+                presenter.showTradePriceDialog();
                 break;
             case R.id.ll_lrc_fee:
                 getOperation().forward(LRCFeeRatioActivity.class);

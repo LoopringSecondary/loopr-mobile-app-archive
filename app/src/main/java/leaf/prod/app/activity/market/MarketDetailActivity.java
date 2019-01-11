@@ -85,8 +85,8 @@ public class MarketDetailActivity extends BaseActivity {
     @Override
     public void initView() {
         String[] titles = new String[2];
-        titles[0] = getString(R.string.order_submitted);
-        titles[1] = getString(R.string.order_completed);
+        titles[0] = getString(R.string.order_book);
+        titles[1] = getString(R.string.dealt_order);
         fragments = new ArrayList<>();
         fragments.add(0, new MarketDepthFragment());
         fragments.add(1, new MarketHistoryFragment());

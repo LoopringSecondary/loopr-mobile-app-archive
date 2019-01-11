@@ -41,7 +41,7 @@ public class MarketDepthFragment extends BaseFragment {
 
     private MarketOrderDataManager orderDataManager;
 
-    private NoDataAdapter emptyAdapter;
+    private Map<String, NoDataAdapter> emptyAdapters;
 
     private Map<String, MarketDepthAdapter> adapters;
 
@@ -71,6 +71,7 @@ public class MarketDepthFragment extends BaseFragment {
     protected void initView() {
         adapters = new HashMap<>();
         recyclerViews = new HashMap<>();
+        emptyAdapters = new HashMap<>();
         recyclerViews.put("buy", recyclerViewBuy);
         recyclerViews.put("sell", recyclerViewSell);
     }
@@ -85,7 +86,9 @@ public class MarketDepthFragment extends BaseFragment {
             item.getValue().setLayoutManager(layoutManager);
             this.setHeader(marketAdapter, item);
             adapters.put(item.getKey(), marketAdapter);
-            emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.market_depth);
+            NoDataType type = NoDataType.getNoDataType(item.getKey());
+            NoDataAdapter emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, type);
+            emptyAdapters.put(item.getKey(), emptyAdapter);
         }
     }
 
@@ -141,8 +144,9 @@ public class MarketDepthFragment extends BaseFragment {
             if (item != null && item.getKey() != null && item.getValue() != null) {
                 List<String[]> depths = manager.getDepths(item.getKey());
                 if (depths == null || depths.size() == 0) {
-                    recyclerViews.get(item.getKey()).setAdapter(emptyAdapter);
-                    emptyAdapter.refresh();
+                    NoDataAdapter adapter = emptyAdapters.get(item.getKey());
+                    recyclerViews.get(item.getKey()).setAdapter(adapter);
+                    adapter.refresh();
                 } else {
                     item.getValue().setNewData(depths);
                     item.getValue().notifyDataSetChanged();

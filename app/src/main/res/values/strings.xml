@@ -305,6 +305,12 @@
     <string name="market_max_buy">最多可买入%s</string>
     <string name="buy_token">买入%s</string>
     <string name="sell_token">卖出%s</string>
+    <string name="order_book">挂单</string>
+    <string name="dealt_order">成交</string>
+    <string name="latest_price">最新单价</string>
+    <string name="no_depth_buy">还没有买单记录</string>
+    <string name="no_depth_sell">还没有卖单记录</string>
+    <string name="no_order_fill">还没有成交记录</string>
 
     <!-- 新闻相关 -->
     <string name="news">新闻</string>
@@ -321,4 +327,5 @@
     <string name="news_pulling_next">上拉加载下一篇</string>
     <string name="news_release_next">松手加载下一篇</string>
     <string name="news_loading">正在刷新</string>
+
 </resources>

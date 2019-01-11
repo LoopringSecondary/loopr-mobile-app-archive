@@ -11,7 +11,8 @@ public enum NoDataType {
     transation("transation"),
     p2p_order("p2p_order"),
     market_order("market_order"),
-    market_depth("market_depth"),
+    market_depth_buy("buy"),
+    market_depth_sell("sell"),
     market_history("market_history"),
     contact("contact");
 
@@ -23,5 +24,16 @@ public enum NoDataType {
 
     public String getDescription() {
         return description;
+    }
+
+    public static NoDataType getNoDataType(String description) {
+        NoDataType result = NoDataType.asset;
+        for (NoDataType noDataType : NoDataType.values()) {
+            if (noDataType.description.equalsIgnoreCase(description)) {
+                result = noDataType;
+                break;
+            }
+        }
+        return result;
     }
 }
