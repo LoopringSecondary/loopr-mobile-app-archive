@@ -18,6 +18,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.github.mikephil.charting.charts.CandleStickChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,7 +33,9 @@ import leaf.prod.app.fragment.market.MarketHistoryFragment;
 import leaf.prod.app.presenter.market.MarketDetailPresenter;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
+import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.model.Trend;
 
 public class MarketDetailActivity extends BaseActivity {
 
@@ -51,9 +57,14 @@ public class MarketDetailActivity extends BaseActivity {
     @BindView(R.id.cl_loading)
     public ConstraintLayout clLoading;
 
+    @BindView(R.id.chart)
+    public CandleStickChart chart;
+
     private List<Fragment> fragments;
 
     private MarketOrderDataManager orderDataManager;
+
+    private MarketPriceDataManager priceDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +79,7 @@ public class MarketDetailActivity extends BaseActivity {
     @Override
     protected void initPresenter() {
         orderDataManager = MarketOrderDataManager.getInstance(this);
+        priceDataManager = MarketPriceDataManager.getInstance(this);
         presenter = new MarketDetailPresenter(this, this, orderDataManager.getTradePair());
     }
 
@@ -90,8 +102,23 @@ public class MarketDetailActivity extends BaseActivity {
         fragments = new ArrayList<>();
         fragments.add(0, new MarketDepthFragment());
         fragments.add(1, new MarketHistoryFragment());
+        setupChart();
         setupViewPager(titles);
         setupButtons();
+    }
+
+    private void setupChart() {
+        chart.getDescription().setEnabled(false);
+        chart.setMaxVisibleValueCount(60);
+        chart.setPinchZoom(false);
+        chart.setDrawGridBackground(false);
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setEnabled(false);
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setEnabled(false);
+        YAxis rightAxis = chart.getAxisRight();
+        rightAxis.setEnabled(false);
+        chart.getLegend().setEnabled(false);
     }
 
     private void setupButtons() {
@@ -126,6 +153,14 @@ public class MarketDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
+    }
+
+    private void updateKLineCharts() {
+        List<Trend> trends = priceDataManager.getTrends();
+    }
+
+    public void updateAdapter() {
+        updateKLineCharts();
     }
 
     public void updateAdapter(int index) {

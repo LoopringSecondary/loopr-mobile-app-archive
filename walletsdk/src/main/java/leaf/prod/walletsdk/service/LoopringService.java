@@ -20,6 +20,8 @@ import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.TickerSource;
+import leaf.prod.walletsdk.model.Trend;
+import leaf.prod.walletsdk.model.TrendInterval;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.relayParam.AddTokenParam;
 import leaf.prod.walletsdk.model.request.relayParam.BalanceParam;
@@ -32,6 +34,7 @@ import leaf.prod.walletsdk.model.request.relayParam.GetOrdersParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetSignParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetTickersParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetTokenParam;
+import leaf.prod.walletsdk.model.request.relayParam.GetTrendsParam;
 import leaf.prod.walletsdk.model.request.relayParam.MarketcapParam;
 import leaf.prod.walletsdk.model.request.relayParam.NonceParam;
 import leaf.prod.walletsdk.model.request.relayParam.NotifyScanParam;
@@ -205,6 +208,16 @@ public class LoopringService {
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getTickerBySource", param);
         Observable<RelayResponseWrapper<List<Ticker>>> observable = rpcDelegate.getTickers(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<List<Trend>> getTrend(String market, TrendInterval interval) {
+        GetTrendsParam param = GetTrendsParam.builder()
+                .market(market)
+                .interval(interval.getDescription())
+                .build();
+        RequestWrapper request = new RequestWrapper("loopring_getTrend", param);
+        Observable<RelayResponseWrapper<List<Trend>>> observable = rpcDelegate.getTrend(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 

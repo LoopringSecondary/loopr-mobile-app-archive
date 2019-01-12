@@ -16,6 +16,8 @@ import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.Depth;
 import leaf.prod.walletsdk.model.OrderFill;
+import leaf.prod.walletsdk.model.Trend;
+import leaf.prod.walletsdk.model.TrendInterval;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -30,13 +32,39 @@ public class MarketDetailPresenter extends BasePresenter<MarketDetailActivity> {
         super(view, context);
         this.market = market;
         this.marketManager = MarketPriceDataManager.getInstance(context);
+        this.getTrend();
         this.getDepths();
         this.getOrderFills();
     }
 
-    public void getDepths() {
-        marketManager.getLoopringService()
-                .getDepths(market, 20)
+    private void getTrend() {
+        marketManager.getLoopringService().getTrend(market, TrendInterval.ONE_WEEK)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Trend>>() {
+                    @Override
+                    public void onCompleted() {
+                        view.clLoading.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.clLoading.setVisibility(View.GONE);
+                        unsubscribe();
+                    }
+
+                    @Override
+                    public void onNext(List<Trend> trends) {
+                        marketManager.convertTrend(trends);
+                        view.updateAdapter();
+                        view.clLoading.setVisibility(View.GONE);
+                        unsubscribe();
+                    }
+                });
+    }
+
+    private void getDepths() {
+        marketManager.getLoopringService().getDepths(market, 20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Depth>() {
@@ -61,18 +89,19 @@ public class MarketDetailPresenter extends BasePresenter<MarketDetailActivity> {
                 });
     }
 
-    public void getOrderFills() {
-        marketManager.getLoopringService()
-                .getOrderFills(market, "buy")
+    private void getOrderFills() {
+        marketManager.getLoopringService().getOrderFills(market, "buy")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<OrderFill>>() {
                     @Override
                     public void onCompleted() {
+                        view.clLoading.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        view.clLoading.setVisibility(View.GONE);
                         unsubscribe();
                     }
 

@@ -10,12 +10,17 @@ import android.content.Context;
 import org.apache.commons.lang3.ArrayUtils;
 
 import leaf.prod.walletsdk.model.Depth;
+import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.OrderFill;
 import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.TradingPair;
+import leaf.prod.walletsdk.model.Trend;
+import leaf.prod.walletsdk.model.TrendInterval;
 import leaf.prod.walletsdk.model.UserConfig;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
+import leaf.prod.walletsdk.util.DateUtil;
+import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.StringUtils;
 
@@ -29,6 +34,8 @@ public class MarketPriceDataManager {
 
     private List<Ticker> filteredTickers;
 
+    private List<Trend> trends;
+
     private Depth depth;
 
     private List<OrderFill> orderFills;
@@ -41,6 +48,7 @@ public class MarketPriceDataManager {
         this.context = context;
         this.isFiltering = false;
         this.tickers = new ArrayList<>();
+        this.trends = new ArrayList<>();
         this.filteredTickers = new ArrayList<>();
         this.loopringService = new LoopringService();
     }
@@ -125,7 +133,7 @@ public class MarketPriceDataManager {
         return result;
     }
 
-    private Ticker getTickersBy(TradingPair pair) {
+    public Ticker getTickersBy(TradingPair pair) {
         Ticker result = null;
         List<Ticker> tickers = getTickers();
         for (Ticker ticker : tickers) {
@@ -156,6 +164,73 @@ public class MarketPriceDataManager {
 
     public void setFilteredTickers(List<Ticker> filteredTickers) {
         this.filteredTickers = filteredTickers;
+    }
+
+    public void convertTrend(List<Trend> trends) {
+        this.trends.clear();
+        for (Trend trend : trends) {
+            getTrendValue(trend);
+            getTrendInterval(trend);
+            this.trends.add(trend);
+        }
+    }
+
+    private void getTrendInterval(Trend trend) {
+        String start = "", end = "";
+        TrendInterval interval = TrendInterval.getInterval(trend.getIntervals());
+        switch (interval) {
+            case ONE_HOUR:
+            case TWO_HOURS:
+            case FOUR_HOURS:
+                if (LanguageUtil.getLanguage(context) == Language.zh_CN) {
+                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MM-dd HH:mm");
+                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "HH:mm");
+                } else {
+                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MMM dd HH:mm");
+                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "HH:mm");
+                }
+                break;
+            case ONE_DAY:
+                if (LanguageUtil.getLanguage(context) == Language.zh_CN) {
+                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MM-dd HH:mm");
+                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "MM-dd HH:mm");
+                } else {
+                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MMM dd HH:mm");
+                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "MMM dd HH:mm");
+                }
+                break;
+            case ONE_WEEK:
+                if (LanguageUtil.getLanguage(context) == Language.zh_CN) {
+                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "yyyy-MM-dd");
+                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "MM-dd");
+                } else {
+                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MMM dd, yyyy");
+                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "MMM dd");
+                }
+                break;
+        }
+        trend.setRange(start + "~" + end);
+    }
+
+    private void getTrendValue(Trend trend) {
+        if (trend.getHigh() > 2 * Math.max(trend.getOpen(), trend.getClose())) {
+            trend.setHigh(2 * Math.max(trend.getOpen(), trend.getClose()));
+        }
+        if (trend.getLow() < 0.5 * Math.min(trend.getOpen(), trend.getClose())) {
+            trend.setLow(0.5 * Math.min(trend.getOpen(), trend.getClose()));
+        }
+        double change = (trend.getClose() - trend.getOpen()) / trend.getOpen();
+        if (change == 0) {
+            trend.setChange("--");
+        } else if (change > 0) {
+            trend.setChange("↑" + NumberUtils.format1(change * 100, 2) + "%");
+        } else if (change < 0) {
+            trend.setChange("↓" + NumberUtils.format1(-change * 100, 2) + "%");
+        }
+    }
+
+    public List<Trend> getTrends() {
+        return trends;
     }
 
     public void convertDepths(Depth result) {
