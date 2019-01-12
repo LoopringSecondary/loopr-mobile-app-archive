@@ -32,7 +32,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // available after iPhone 7
     let impact = UIImpactFeedbackGenerator()
     
-    let newsViewController_v2 = NewsViewController_v2()
+    let newsViewController_v2 = NewsSwipeViewController()
     var newsViewControllerEnabled: Bool = false
     
     override func viewDidLoad() {
@@ -326,6 +326,8 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if scrollView.contentOffset.y < -140 && !newsViewControllerEnabled {
             newsViewControllerEnabled = true
+            newsViewController_v2.viewControllers[0].collectionView.reloadData()
+            newsViewController_v2.viewControllers[1].collectionView.reloadData()
             UIView.animate(withDuration: 3, delay: 0.2, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
                 self.newsViewController_v2.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
                 self.assetTableView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)

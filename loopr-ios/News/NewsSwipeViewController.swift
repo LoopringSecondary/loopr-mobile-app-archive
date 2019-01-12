@@ -8,9 +8,9 @@
 
 import UIKit
 
-class NewsViewController_v2: SwipeViewController {
+class NewsSwipeViewController: SwipeViewController {
 
-    private var viewControllers: [NewsViewController_v3] = []
+    var viewControllers: [NewsViewController_v3] = []
     
     var options = SwipeViewOptions.getDefault()
     

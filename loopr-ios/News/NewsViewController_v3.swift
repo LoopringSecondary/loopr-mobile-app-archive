@@ -43,6 +43,11 @@ class NewsViewController_v3: UIViewController, UICollectionViewDelegateFlowLayou
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+    }
 
     @objc private func refreshData(_ sender: Any) {
         pageIndex = 0
@@ -60,7 +65,6 @@ class NewsViewController_v3: UIViewController, UICollectionViewDelegateFlowLayou
     }
 
 }
-
 
 extension NewsViewController_v3: UICollectionViewDataSource, UICollectionViewDelegate {
     

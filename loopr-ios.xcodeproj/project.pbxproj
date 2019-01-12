@@ -516,8 +516,8 @@
 		ACCCFDCE203BEF2200B98F99 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCCFDCD203BEF2200B98F99 /* UITextFieldExtension.swift */; };
 		ACDA889920F5D899004FA10B /* Localizator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDA889820F5D899004FA10B /* Localizator.swift */; };
 		ACDA889C20F85F9C004FA10B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ACDA889E20F85F9C004FA10B /* InfoPlist.strings */; };
-		ACDBA19521E72CE600CE2D22 /* NewsViewController_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBA19321E72CE600CE2D22 /* NewsViewController_v2.swift */; };
-		ACDBA19621E72CE600CE2D22 /* NewsViewController_v2.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACDBA19421E72CE600CE2D22 /* NewsViewController_v2.xib */; };
+		ACDBA19521E72CE600CE2D22 /* NewsSwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBA19321E72CE600CE2D22 /* NewsSwipeViewController.swift */; };
+		ACDBA19621E72CE600CE2D22 /* NewsSwipeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACDBA19421E72CE600CE2D22 /* NewsSwipeViewController.xib */; };
 		ACDBA19821E72D5200CE2D22 /* NewsNavigationViewController_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBA19721E72D5200CE2D22 /* NewsNavigationViewController_v2.swift */; };
 		ACE58B8520BE796A005BC1C8 /* VerifyMnemonicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE58B8320BE796A005BC1C8 /* VerifyMnemonicViewController.swift */; };
 		ACE58B8620BE796A005BC1C8 /* VerifyMnemonicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACE58B8420BE796A005BC1C8 /* VerifyMnemonicViewController.xib */; };
@@ -1102,8 +1102,8 @@
 		ACDA889820F5D899004FA10B /* Localizator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizator.swift; sourceTree = "<group>"; };
 		ACDA889D20F85F9C004FA10B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ACDA889F20F85F9E004FA10B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		ACDBA19321E72CE600CE2D22 /* NewsViewController_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController_v2.swift; sourceTree = "<group>"; };
-		ACDBA19421E72CE600CE2D22 /* NewsViewController_v2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsViewController_v2.xib; sourceTree = "<group>"; };
+		ACDBA19321E72CE600CE2D22 /* NewsSwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsSwipeViewController.swift; sourceTree = "<group>"; };
+		ACDBA19421E72CE600CE2D22 /* NewsSwipeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsSwipeViewController.xib; sourceTree = "<group>"; };
 		ACDBA19721E72D5200CE2D22 /* NewsNavigationViewController_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsNavigationViewController_v2.swift; sourceTree = "<group>"; };
 		ACE58B8320BE796A005BC1C8 /* VerifyMnemonicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyMnemonicViewController.swift; sourceTree = "<group>"; };
 		ACE58B8420BE796A005BC1C8 /* VerifyMnemonicViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VerifyMnemonicViewController.xib; sourceTree = "<group>"; };
@@ -1316,8 +1316,8 @@
 				ACDBA19721E72D5200CE2D22 /* NewsNavigationViewController_v2.swift */,
 				9BA4FC9F21E9CA20005A3DC0 /* NewsViewController_v3.swift */,
 				9BA4FCA021E9CA20005A3DC0 /* NewsViewController_v3.xib */,
-				ACDBA19321E72CE600CE2D22 /* NewsViewController_v2.swift */,
-				ACDBA19421E72CE600CE2D22 /* NewsViewController_v2.xib */,
+				ACDBA19321E72CE600CE2D22 /* NewsSwipeViewController.swift */,
+				ACDBA19421E72CE600CE2D22 /* NewsSwipeViewController.xib */,
 				9B2ED7EF21D4485500ACEE84 /* NewsViewController.swift */,
 				9B2ED7F021D4485500ACEE84 /* NewsViewController.xib */,
 				9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */,
@@ -2773,7 +2773,7 @@
 				9B2ED7FB21D460EA00ACEE84 /* NewsListHeaderView.xib in Resources */,
 				AC2ACA4E20FA0EC3009C77E7 /* SIL Open Font License.txt in Resources */,
 				ACA677CA2079D5A000D34A2F /* DisplayPrivateKeyViewController.xib in Resources */,
-				ACDBA19621E72CE600CE2D22 /* NewsViewController_v2.xib in Resources */,
+				ACDBA19621E72CE600CE2D22 /* NewsSwipeViewController.xib in Resources */,
 				ACA677C52079990A00D34A2F /* DisplayKeystoreInQRCodeViewController.xib in Resources */,
 				9B2ED83E21DA083600ACEE84 /* Inter-UI-Black.ttf in Resources */,
 				ACE6F7192041FDAD0039273D /* AssetTransactionDetailViewController.xib in Resources */,
@@ -3156,7 +3156,7 @@
 				ACC6E12221B517F6001729EC /* FeatureConfigDataManager.swift in Sources */,
 				ACB97C6D20707B6F00775D4C /* AddTokenTableViewCell.swift in Sources */,
 				ACB8AD89207F299700B478D6 /* UIViewController+BackButton.swift in Sources */,
-				ACDBA19521E72CE600CE2D22 /* NewsViewController_v2.swift in Sources */,
+				ACDBA19521E72CE600CE2D22 /* NewsSwipeViewController.swift in Sources */,
 				AC7BC8592144E102004204D3 /* WalletCreateSuccessfullyPopViewController.swift in Sources */,
 				AC34A387215483F50083ADEC /* DisplayContractVersionViewController.swift in Sources */,
 				94AD1FE5208B910D00C443E6 /* Currency.swift in Sources */,

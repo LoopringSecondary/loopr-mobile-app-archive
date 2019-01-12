@@ -13,7 +13,7 @@ class NewsNavigationViewController_v2: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationBar.shadowImage = UIImage()
-        let viewController = NewsViewController_v2(nibName: nil, bundle: nil)
+        let viewController = NewsSwipeViewController(nibName: nil, bundle: nil)
         self.setViewControllers([viewController], animated: false)
         view.theme_backgroundColor = ["#fff", "#000"]
         
