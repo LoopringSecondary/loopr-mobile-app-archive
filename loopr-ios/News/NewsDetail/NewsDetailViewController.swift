@@ -23,9 +23,6 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     var showProgressView: Bool = true
     var progressKVOhandle: NSKeyValueObservation?
 
-    fileprivate let userCardPresentAnimationController = NewsDetailPresentAnimationController()
-    fileprivate let userCardDismissAnimationController = NewsDetailDismissAnimationController()
-    
     var enablePullToNextPage: Bool = false
     var isPullToNextPageImageViewAnimating: Bool = false
     var isPullToNextPageImageViewUp: Bool = true
@@ -339,29 +336,4 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         })
     }
 
-}
-
-// MARK: Transition delegate methods
-extension NewsDetailViewController: UIViewControllerTransitioningDelegate {
-    
-    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        // animator.dismissing = false
-        return userCardPresentAnimationController
-    }
-    
-    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        // animator.dismissing = true
-        // return animator
-        return userCardDismissAnimationController
-        
-    }
-    
-    // TODO: interaction gesture doesn't work in iOS 12. Have to disable it
-    // https://stackoverflow.com/questions/26680311/interactive-delegate-methods-never-called
-    // Fix it later
-    /*
-    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return self.animator.percentageDriven ? self.animator : nil
-    }
-    */
 }

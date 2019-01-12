@@ -15,14 +15,10 @@ class NewsDetailViewController_v2: UIViewController {
     var isFirtTimeAppear: Bool = true
     
     @IBOutlet open var card: UIView!
-    
-    fileprivate let userCardPresentAnimationController = NewsDetailPresentAnimationController()
-    fileprivate let userCardDismissAnimationController = NewsDetailDismissAnimationController()
-    
+
     override open func viewDidLoad() {
         super.viewDidLoad()
         modalPresentationStyle = .custom
-        transitioningDelegate = self
         
         view.frame = UIScreen.main.bounds
         view.theme_backgroundColor = ColorPicker.backgroundColor
@@ -76,18 +72,6 @@ class NewsDetailViewController_v2: UIViewController {
 extension NewsDetailViewController_v2 {
     @objc fileprivate func closeButtonAction() {
         dismiss(animated: true, completion: nil)
-    }
-}
-
-// MARK: Transition delegate methods
-extension NewsDetailViewController_v2: UIViewControllerTransitioningDelegate {
-    
-    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return userCardPresentAnimationController
-    }
-    
-    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return userCardDismissAnimationController
     }
 }
 

@@ -25,16 +25,16 @@ public class GarlandAnimationController: NSObject, UIViewControllerAnimatedTrans
     }
 
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? NewsViewController,
-            let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? NewsViewController,
+        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? GarlandViewController,
+            let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? GarlandViewController,
             let fromHeaderSnapshot = fromVC.headerView.snapshotView(afterScreenUpdates: true) else {
                 
                 transitionContext.completeTransition(false)
                 return
         }
 
-        NewsViewController.expandedNewsUuids.removeAll()
-        fromVC.garlandCollection.reloadItems(at: Array(fromVC.expandedIndexPathes))
+        // NewsViewController_.expandedNewsUuids.removeAll()
+        // fromVC.garlandCollection.reloadItems(at: Array(fromVC.expandedIndexPathes))
 
         let fromCollection = fromVC.garlandCollection
         let toCollection = toVC.garlandCollection
@@ -134,15 +134,17 @@ public class GarlandAnimationController: NSObject, UIViewControllerAnimatedTrans
         
         // Create the UIImage to fake the tar bar items
         // TODO: move to NewsViewController
+        /*
         let window = UIApplication.shared.keyWindow
-        let imageView = UIImageView(image: NewsNavigationViewController.tabBarFakeImage!)
+        // let imageView = UIImageView(image: NewsNavigationViewController.tabBarFakeImage!)
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
         let imageViewHeight = bottomPadding + 49
         imageView.frame = CGRect(x: 0, y: fromVC.view.bounds.height - imageViewHeight, width: fromVC.view.bounds.width, height: imageViewHeight)
         imageView.contentMode = .bottom
         imageView.clipsToBounds = true        
         containerView.addSubview(imageView)
-        
+        */
+
         //hide origin views
         //fromFakeHeaderSnapshot.alpha = 0
         toFakeHeader.alpha = 0
@@ -224,7 +226,7 @@ public class GarlandAnimationController: NSObject, UIViewControllerAnimatedTrans
             rightFakeHeaderSnapshot.removeFromSuperview()
             fromHeaderSnapshot.removeFromSuperview()
             toHeaderSnapshot.removeFromSuperview()
-            imageView.removeFromSuperview()
+            // imageView.removeFromSuperview()
             fromVC.view.removeFromSuperview()
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         })

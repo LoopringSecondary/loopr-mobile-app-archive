@@ -1,101 +1,54 @@
 //
-//  NewsViewController.swift
+//  NewsViewController_v3.swift
 //  loopr-ios
 //
-//  Created by Ruby on 12/26/18.
-//  Copyright © 2018 Loopring. All rights reserved.
+//  Created by Ruby on 1/11/19.
+//  Copyright © 2019 Loopring. All rights reserved.
 //
 
 import UIKit
 import Social
 import SVProgressHUD
 
-class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLayout {
+class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     var currentIndex: Int = 0
     let newsParamsList: [NewsParams] = [
         NewsParams(token: "ALL_CURRENCY", category: .flash),
         NewsParams(token: "ALL_CURRENCY", category: .information)
     ]
-
-    private let header: NewsListHeaderView = UIView.loadFromNib(withName: "NewsListHeaderView")!
     
-    fileprivate let scrollViewContentOffsetMargin: CGFloat = -150.0
-    fileprivate var headerIsSmall: Bool = false
-
-    @IBOutlet weak var fakeTradeButton: UIButton!
-
-    var updateBlogTimer: Timer?
     let refreshControl = UIRefreshControl()
-
+    
     var pageIndex: UInt = 0
     
     static var expandedNewsUuids: Set<String> = []
     var expandedIndexPathes: Set<IndexPath> = []
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.theme_backgroundColor = ColorPicker.backgroundColor
+        collectionView.theme_backgroundColor = ColorPicker.backgroundColor
         
-        view.backgroundColor = .clear
-
         let nib = UINib(nibName: NewsCollectionCell.getCellIdentifier(), bundle: nil)
-        garlandCollection.register(nib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())
-        garlandCollection.delegate = self
-        garlandCollection.dataSource = self
-        garlandCollection.showsVerticalScrollIndicator = true
-
+        collectionView.register(nib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.showsVerticalScrollIndicator = true
+        
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .newsViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
-        garlandCollection.refreshControl = refreshControl
-        
-        nextViewController = { _ in
-            let vc = NewsViewController()
-            if self.currentIndex == self.newsParamsList.count - 1 {
-                vc.currentIndex = 0
-            } else {
-                vc.currentIndex = self.currentIndex + 1
-            }
-            return vc
-        }
-        setupHeader(header)
-        header.titleLabel.text = newsParamsList[currentIndex].title
-        header.didClickedClosure = { (blog) -> Void in
-            let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
-            detailViewController.newsObject = blog
-            /*
-            self.present(detailViewController, animated: true, completion: {
-                
-            })
-            */
-            detailViewController.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(detailViewController, animated: true)
-        }
-        
-        updateBlogTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.updateBlog), userInfo: nil, repeats: true)
-        
-        let window = UIApplication.shared.keyWindow
-        let bottomPadding = window?.safeAreaInsets.bottom ?? 0
-        
-        garlandCollection.frame = CGRect(x: 0, y: GarlandConfig.shared.headerVerticalOffset, width: view.bounds.width, height: view.bounds.height - GarlandConfig.shared.headerVerticalOffset)
-        garlandCollection.theme_backgroundColor = ColorPicker.backgroundColor
-        
-        if !FeatureConfigDataManager.shared.getShowTradingFeature() {
-            fakeTradeButton.isHidden = true
-        }
-
-        if newsParamsList[currentIndex].category == .information {
-            if NewsDataManager.shared.informationItems.count == 0 {
-                SVProgressHUD.show(withStatus: LocalizedString("Loading Data", comment: ""))
-                getNewsFromAPIServer()
-            }
-        } else {
-            if NewsDataManager.shared.flashItems.count == 0 {
-                SVProgressHUD.show(withStatus: LocalizedString("Loading Data", comment: ""))
-                getNewsFromAPIServer()
-            }
-        }
+        collectionView.refreshControl = refreshControl
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+    }
+
     @objc private func refreshData(_ sender: Any) {
         pageIndex = 0
         getNewsFromAPIServer()
@@ -104,37 +57,17 @@ class NewsViewController: GarlandViewController, UICollectionViewDelegateFlowLay
     func getNewsFromAPIServer() {
         NewsDataManager.shared.get(category: newsParamsList[currentIndex].category, pageIndex: pageIndex, completion: { (_, _) in
             DispatchQueue.main.async {
-                self.garlandCollection.reloadData()
+                self.collectionView.reloadData()
                 SVProgressHUD.dismiss()
                 self.refreshControl.endRefreshing(refreshControlType: .newsViewController)
             }
         })
     }
-    
-    @objc func updateBlog() {
-        print("Switch blog")
-        // header.switchToNextBlog()
-    }
-    
-    @IBAction func clickedFakeButtonWallet(_ sender: Any) {
-        NotificationCenter.default.post(name: .switchToWalletViewController, object: nil, userInfo: nil)
-    }
-    
-    @IBAction func clickedFakeButtonTrade(_ sender: Any) {
-        NotificationCenter.default.post(name: .switchToTradeViewController, object: nil, userInfo: nil)
-    }
-    
-    @IBAction func clickedFakeButtonNews(_ sender: Any) {
-        
-    }
 
-    @IBAction func clickedFakeButtonSettings(_ sender: Any) {
-        NotificationCenter.default.post(name: .switchToSettingViewController, object: nil, userInfo: nil)
-    }
 }
 
 extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-        
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if newsParamsList[currentIndex].category == .information {
             return NewsDataManager.shared.informationItems.count
@@ -179,15 +112,14 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
             let news: News
             if self.newsParamsList[self.currentIndex].category == .information {
                 news = NewsDataManager.shared.informationItems[indexPath.row]
-                self.selectedCardIndex = indexPath
                 let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
                 detailViewController.currentIndex = indexPath.row
                 detailViewController.newsObject = news
                 /*
-                self.present(detailViewController, animated: true, completion: {
-                    
-                })
-                */
+                 self.present(detailViewController, animated: true, completion: {
+                 
+                 })
+                 */
                 detailViewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(detailViewController, animated: true)
             } else {
@@ -212,48 +144,32 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                 self.present(activityVC, animated: true, completion: nil)
             }
         }
-
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         /*
-        let news = NewsDataManager.shared.informationItems[indexPath.row]
-        if let url = URL(string: news.url) {
-            let config = SFSafariViewController.Configuration()
-            config.entersReaderIfAvailable = true
-            
-            let vc = SFSafariViewController(url: url, configuration: config)
-            present(vc, animated: true)
-        }
-        */
+         let news = NewsDataManager.shared.informationItems[indexPath.row]
+         if let url = URL(string: news.url) {
+         let config = SFSafariViewController.Configuration()
+         config.entersReaderIfAvailable = true
+         
+         let vc = SFSafariViewController(url: url, configuration: config)
+         present(vc, animated: true)
+         }
+         */
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let startOffset = (garlandCollection.contentOffset.y + GarlandConfig.shared.cardsSpacing + GarlandConfig.shared.headerSize.height) / GarlandConfig.shared.headerSize.height
-        let maxHeight: CGFloat = 1.0
-        let minHeight: CGFloat = 0.9
-        let _: CGFloat = 0.0
         
-        let divided = startOffset / 3
-        _ = startOffset / 1.5
-        let height = max(minHeight, min(maxHeight, 1.0 - divided))
-        // let alpha = max(minAlpha, min(maxHeight, 1.0 - offsetCounter * 2))
-        // let collapsedViewSize = max(0, min(maxHeight, 1.0 - offsetCounter))
-        header.frame.size.height = GarlandConfig.shared.headerSize.height * height
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if scrollView.contentOffset.y > scrollViewContentOffsetMargin, !headerIsSmall {
-            headerIsSmall = true
-            scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: 0.0), animated: true)
-        } else if scrollView.contentOffset.y < 0.0, headerIsSmall {
-            headerIsSmall = false
-            scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: -164.0), animated: true)
-        }
+        
     }
 }

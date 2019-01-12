@@ -128,17 +128,10 @@
 		9B2ED7E921D37FD300ACEE84 /* GarlandPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7E521D37FD300ACEE84 /* GarlandPresentAnimationController.swift */; };
 		9B2ED7EA21D37FD300ACEE84 /* GarlandCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7E621D37FD300ACEE84 /* GarlandCollection.swift */; };
 		9B2ED7EB21D37FD300ACEE84 /* GarlandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7E721D37FD300ACEE84 /* GarlandViewController.swift */; };
-		9B2ED7EE21D446E900ACEE84 /* NewsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7ED21D446E900ACEE84 /* NewsNavigationViewController.swift */; };
-		9B2ED7F121D4485500ACEE84 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7EF21D4485500ACEE84 /* NewsViewController.swift */; };
-		9B2ED7F221D4485500ACEE84 /* NewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F021D4485500ACEE84 /* NewsViewController.xib */; };
 		9B2ED7F921D460EA00ACEE84 /* NewsListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F521D460EA00ACEE84 /* NewsListHeaderView.swift */; };
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
 		9B2ED7FB21D460EA00ACEE84 /* NewsListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F721D460EA00ACEE84 /* NewsListHeaderView.xib */; };
 		9B2ED7FC21D460EA00ACEE84 /* NewsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */; };
-		9B2ED80521D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED7FF21D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift */; };
-		9B2ED80721D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80121D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift */; };
-		9B2ED80E21D4656000ACEE84 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80B21D4655F00ACEE84 /* UIView.swift */; };
-		9B2ED80F21D4656000ACEE84 /* AlphaTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED80D21D4656000ACEE84 /* AlphaTransition.swift */; };
 		9B2ED81521D73FFB00ACEE84 /* NewsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */; };
 		9B2ED81A21D85DC700ACEE84 /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */; };
 		9B2ED81B21D85DC700ACEE84 /* NewsDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */; };
@@ -157,7 +150,6 @@
 		9B2ED83C21DA083600ACEE84 /* Inter-UI-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83021DA083600ACEE84 /* Inter-UI-Italic.ttf */; };
 		9B2ED83D21DA083600ACEE84 /* Inter-UI-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83121DA083600ACEE84 /* Inter-UI-MediumItalic.ttf */; };
 		9B2ED83E21DA083600ACEE84 /* Inter-UI-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83221DA083600ACEE84 /* Inter-UI-Black.ttf */; };
-		9B4705D721DABC94001B74A1 /* ModalPushPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4705D621DABC94001B74A1 /* ModalPushPopAnimator.swift */; };
 		9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */; };
 		9BA3014821B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */; };
 		9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */; };
@@ -181,8 +173,8 @@
 		9BA3021421D0260300E55E49 /* AppReleaseNotePopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3021221D0260300E55E49 /* AppReleaseNotePopViewController.swift */; };
 		9BA3021521D0260300E55E49 /* AppReleaseNotePopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */; };
 		9BA4FC9C21DC4FC8005A3DC0 /* NewsParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FC9B21DC4FC8005A3DC0 /* NewsParams.swift */; };
-		9BA4FCA121E9CA20005A3DC0 /* NewsViewController_v3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FC9F21E9CA20005A3DC0 /* NewsViewController_v3.swift */; };
-		9BA4FCA221E9CA20005A3DC0 /* NewsViewController_v3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA4FCA021E9CA20005A3DC0 /* NewsViewController_v3.xib */; };
+		9BA4FCA121E9CA20005A3DC0 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FC9F21E9CA20005A3DC0 /* NewsViewController.swift */; };
+		9BA4FCA221E9CA20005A3DC0 /* NewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA4FCA021E9CA20005A3DC0 /* NewsViewController.xib */; };
 		9BBB4E4B21DB4BD300683673 /* RefreshControlDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */; };
 		9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */; };
 		9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */; };
@@ -518,7 +510,6 @@
 		ACDA889C20F85F9C004FA10B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ACDA889E20F85F9C004FA10B /* InfoPlist.strings */; };
 		ACDBA19521E72CE600CE2D22 /* NewsSwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBA19321E72CE600CE2D22 /* NewsSwipeViewController.swift */; };
 		ACDBA19621E72CE600CE2D22 /* NewsSwipeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACDBA19421E72CE600CE2D22 /* NewsSwipeViewController.xib */; };
-		ACDBA19821E72D5200CE2D22 /* NewsNavigationViewController_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBA19721E72D5200CE2D22 /* NewsNavigationViewController_v2.swift */; };
 		ACE58B8520BE796A005BC1C8 /* VerifyMnemonicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE58B8320BE796A005BC1C8 /* VerifyMnemonicViewController.swift */; };
 		ACE58B8620BE796A005BC1C8 /* VerifyMnemonicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACE58B8420BE796A005BC1C8 /* VerifyMnemonicViewController.xib */; };
 		ACE5BFA720466EFD005D75DD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ACE5BFA920466EFD005D75DD /* Localizable.strings */; };
@@ -705,17 +696,10 @@
 		9B2ED7E521D37FD300ACEE84 /* GarlandPresentAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandPresentAnimationController.swift; sourceTree = "<group>"; };
 		9B2ED7E621D37FD300ACEE84 /* GarlandCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandCollection.swift; sourceTree = "<group>"; };
 		9B2ED7E721D37FD300ACEE84 /* GarlandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarlandViewController.swift; sourceTree = "<group>"; };
-		9B2ED7ED21D446E900ACEE84 /* NewsNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsNavigationViewController.swift; sourceTree = "<group>"; };
-		9B2ED7EF21D4485500ACEE84 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
-		9B2ED7F021D4485500ACEE84 /* NewsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsViewController.xib; sourceTree = "<group>"; };
 		9B2ED7F521D460EA00ACEE84 /* NewsListHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsListHeaderView.swift; sourceTree = "<group>"; };
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
 		9B2ED7F721D460EA00ACEE84 /* NewsListHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsListHeaderView.xib; sourceTree = "<group>"; };
 		9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsCollectionCell.swift; sourceTree = "<group>"; };
-		9B2ED7FF21D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailDismissAnimationController.swift; sourceTree = "<group>"; };
-		9B2ED80121D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailPresentAnimationController.swift; sourceTree = "<group>"; };
-		9B2ED80B21D4655F00ACEE84 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
-		9B2ED80D21D4656000ACEE84 /* AlphaTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlphaTransition.swift; sourceTree = "<group>"; };
 		9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDataManager.swift; sourceTree = "<group>"; };
 		9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailViewController.xib; sourceTree = "<group>"; };
@@ -734,7 +718,6 @@
 		9B2ED83021DA083600ACEE84 /* Inter-UI-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Italic.ttf"; sourceTree = "<group>"; };
 		9B2ED83121DA083600ACEE84 /* Inter-UI-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-MediumItalic.ttf"; sourceTree = "<group>"; };
 		9B2ED83221DA083600ACEE84 /* Inter-UI-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Black.ttf"; sourceTree = "<group>"; };
-		9B4705D621DABC94001B74A1 /* ModalPushPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPushPopAnimator.swift; sourceTree = "<group>"; };
 		9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerDepth.swift; sourceTree = "<group>"; };
 		9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerTradeHistory.swift; sourceTree = "<group>"; };
 		9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerSwipe.swift; sourceTree = "<group>"; };
@@ -758,8 +741,8 @@
 		9BA3021221D0260300E55E49 /* AppReleaseNotePopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReleaseNotePopViewController.swift; sourceTree = "<group>"; };
 		9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppReleaseNotePopViewController.xib; sourceTree = "<group>"; };
 		9BA4FC9B21DC4FC8005A3DC0 /* NewsParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsParams.swift; sourceTree = "<group>"; };
-		9BA4FC9F21E9CA20005A3DC0 /* NewsViewController_v3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController_v3.swift; sourceTree = "<group>"; };
-		9BA4FCA021E9CA20005A3DC0 /* NewsViewController_v3.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsViewController_v3.xib; sourceTree = "<group>"; };
+		9BA4FC9F21E9CA20005A3DC0 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
+		9BA4FCA021E9CA20005A3DC0 /* NewsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsViewController.xib; sourceTree = "<group>"; };
 		9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlDataManager.swift; sourceTree = "<group>"; };
 		9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailSummaryTableViewCell.xib; sourceTree = "<group>"; };
@@ -1104,7 +1087,6 @@
 		ACDA889F20F85F9E004FA10B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		ACDBA19321E72CE600CE2D22 /* NewsSwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsSwipeViewController.swift; sourceTree = "<group>"; };
 		ACDBA19421E72CE600CE2D22 /* NewsSwipeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsSwipeViewController.xib; sourceTree = "<group>"; };
-		ACDBA19721E72D5200CE2D22 /* NewsNavigationViewController_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsNavigationViewController_v2.swift; sourceTree = "<group>"; };
 		ACE58B8320BE796A005BC1C8 /* VerifyMnemonicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyMnemonicViewController.swift; sourceTree = "<group>"; };
 		ACE58B8420BE796A005BC1C8 /* VerifyMnemonicViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VerifyMnemonicViewController.xib; sourceTree = "<group>"; };
 		ACE5BFA1204543CA005D75DD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -1312,20 +1294,14 @@
 		9B2ED7EC21D4468000ACEE84 /* News */ = {
 			isa = PBXGroup;
 			children = (
-				9B2ED7ED21D446E900ACEE84 /* NewsNavigationViewController.swift */,
-				ACDBA19721E72D5200CE2D22 /* NewsNavigationViewController_v2.swift */,
-				9BA4FC9F21E9CA20005A3DC0 /* NewsViewController_v3.swift */,
-				9BA4FCA021E9CA20005A3DC0 /* NewsViewController_v3.xib */,
+				9BA4FC9F21E9CA20005A3DC0 /* NewsViewController.swift */,
+				9BA4FCA021E9CA20005A3DC0 /* NewsViewController.xib */,
 				ACDBA19321E72CE600CE2D22 /* NewsSwipeViewController.swift */,
 				ACDBA19421E72CE600CE2D22 /* NewsSwipeViewController.xib */,
-				9B2ED7EF21D4485500ACEE84 /* NewsViewController.swift */,
-				9B2ED7F021D4485500ACEE84 /* NewsViewController.xib */,
 				9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */,
 				9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */,
 				9B2ED7F521D460EA00ACEE84 /* NewsListHeaderView.swift */,
 				9B2ED7F721D460EA00ACEE84 /* NewsListHeaderView.xib */,
-				9B2ED80A21D4655F00ACEE84 /* Extensions */,
-				9B2ED80C21D4656000ACEE84 /* Utility */,
 				9B2ED7FD21D4652B00ACEE84 /* NewsDetail */,
 			);
 			path = News;
@@ -1334,9 +1310,6 @@
 		9B2ED7FD21D4652B00ACEE84 /* NewsDetail */ = {
 			isa = PBXGroup;
 			children = (
-				9B2ED7FF21D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift */,
-				9B2ED80121D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift */,
-				9B4705D621DABC94001B74A1 /* ModalPushPopAnimator.swift */,
 				9B2ED81C21D8B0CF00ACEE84 /* NewsDetailUIStyleConfig.swift */,
 				9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */,
 				9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */,
@@ -1344,22 +1317,6 @@
 				9B2ED81F21D8B95900ACEE84 /* NewsDetailViewController_v2.xib */,
 			);
 			path = NewsDetail;
-			sourceTree = "<group>";
-		};
-		9B2ED80A21D4655F00ACEE84 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				9B2ED80B21D4655F00ACEE84 /* UIView.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		9B2ED80C21D4656000ACEE84 /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				9B2ED80D21D4656000ACEE84 /* AlphaTransition.swift */,
-			);
-			path = Utility;
 			sourceTree = "<group>";
 		};
 		9B2ED82621DA083600ACEE84 /* Inter-UI */ = {
@@ -2853,7 +2810,6 @@
 				942C49FE21292FF8008A6B4F /* ConvertETHResultViewController.xib in Resources */,
 				ACDA889C20F85F9C004FA10B /* InfoPlist.strings in Resources */,
 				AC68E10320C24BD900BFA837 /* ImportWalletEnterWalletNameViewController.xib in Resources */,
-				9B2ED7F221D4485500ACEE84 /* NewsViewController.xib in Resources */,
 				9B2ED83B21DA083600ACEE84 /* Inter-UI-SemiBoldItalic.ttf in Resources */,
 				94A8FEFD21CCB94700A25929 /* neo.json in Resources */,
 				ACA677D0207D1BEC00D34A2F /* SettingChangeWalletNameViewController.xib in Resources */,
@@ -2881,7 +2837,7 @@
 				94678B2B210D902E00F550D3 /* SendResultViewController.xib in Resources */,
 				ACB9117620255A6600F14644 /* MarketTableViewCell.xib in Resources */,
 				949774F321181EE9001BF79D /* TradeRatioViewController.xib in Resources */,
-				9BA4FCA221E9CA20005A3DC0 /* NewsViewController_v3.xib in Resources */,
+				9BA4FCA221E9CA20005A3DC0 /* NewsViewController.xib in Resources */,
 				ACB729D5205DE21B00DD4DF3 /* TradeConfirmationViewController.xib in Resources */,
 				94BB338421115FD6002D44DA /* OrderDetailViewController.xib in Resources */,
 				AC5E0992205F256500801738 /* AddTokenViewController.xib in Resources */,
@@ -3075,7 +3031,6 @@
 				AC76E4702047F1D3008BA229 /* CircleChart.swift in Sources */,
 				AC2ACA612102E7B2009C77E7 /* SettingStyleTableViewCell.swift in Sources */,
 				94CA6B5920BC037F000E4E8E /* OrderType.swift in Sources */,
-				9B2ED80E21D4656000ACEE84 /* UIView.swift in Sources */,
 				AC4F600E20773E9D00F1D954 /* Sign.swift in Sources */,
 				940B452A2060F67E00ADE2B9 /* MarketDataManager.swift in Sources */,
 				9BA3016321C73D0400E55E49 /* ContactDataManager.swift in Sources */,
@@ -3165,7 +3120,6 @@
 				ACFD5FB42171B8AB00E161EE /* OrderHistoryViewController.swift in Sources */,
 				AC0CD57B20D21C1100ABB7BA /* TabBarItemBouncesContentView.swift in Sources */,
 				942C4A02212A9D89008A6B4F /* P2PType.swift in Sources */,
-				9B2ED7F121D4485500ACEE84 /* NewsViewController.swift in Sources */,
 				ACE9F04A218AAB4300695E37 /* AppServiceUserManager.swift in Sources */,
 				AC88669E2174923800815DD1 /* SetLRCRatioFeeViewController.swift in Sources */,
 				AC1B6D7F2130FB510026C1B2 /* Secp256k1Helper.swift in Sources */,
@@ -3178,7 +3132,6 @@
 				ACCCFDCE203BEF2200B98F99 /* UITextFieldExtension.swift in Sources */,
 				AC131A1421101AD0001998A0 /* MarketDetailTradeHistoryTableViewCell.swift in Sources */,
 				AC2D2C0B2089CE1F00D619AD /* ImportWalletUsingKeystoreDataManager.swift in Sources */,
-				ACDBA19821E72D5200CE2D22 /* NewsNavigationViewController_v2.swift in Sources */,
 				ACACB8B5213B90BF00F5ACC5 /* PushNotificationDeviceDataManager.swift in Sources */,
 				AC9DC45A21159084002D7D23 /* MiniToLargeViewInteractive.swift in Sources */,
 				AC120758214DA02300EEDC49 /* SetupWalletViewController.swift in Sources */,
@@ -3286,7 +3239,7 @@
 				9B2ED81521D73FFB00ACEE84 /* NewsDataManager.swift in Sources */,
 				9461851221D0F99D00393432 /* IndexAction.swift in Sources */,
 				AC4B894D21103EAF00643910 /* TradeType.swift in Sources */,
-				9BA4FCA121E9CA20005A3DC0 /* NewsViewController_v3.swift in Sources */,
+				9BA4FCA121E9CA20005A3DC0 /* NewsViewController.swift in Sources */,
 				ACA677D3207DCF1900D34A2F /* RelayAPIConfiguration.swift in Sources */,
 				AC72AED8204C8AAD00E9D3B0 /* BackupMnemonicViewController.swift in Sources */,
 				9453597221CA2E5900FA624E /* AirdropViewController.swift in Sources */,
@@ -3311,7 +3264,6 @@
 				AC31B961204A8E4F00B16155 /* MnemonicWords.swift in Sources */,
 				AC3756662038CD7E00AADC60 /* SetupNavigationController.swift in Sources */,
 				ACE6F71C204211470039273D /* DashedLineView.swift in Sources */,
-				9B2ED80F21D4656000ACEE84 /* AlphaTransition.swift in Sources */,
 				AC31B94A204A8DF400B16155 /* KeystoreKeyHeader.swift in Sources */,
 				943BDED32056350000D5BF81 /* PriceQuote.swift in Sources */,
 				9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */,
@@ -3359,12 +3311,10 @@
 				9B2ED7E921D37FD300ACEE84 /* GarlandPresentAnimationController.swift in Sources */,
 				94E185972051451C00D86FFA /* Initable.swift in Sources */,
 				ACE6F7182041FDAD0039273D /* AssetTransactionDetailViewController.swift in Sources */,
-				9B2ED80721D4652B00ACEE84 /* NewsDetailPresentAnimationController.swift in Sources */,
 				AC865C1221B3989A000BFBCA /* TrendRange.swift in Sources */,
 				AC31B95D204A8E4F00B16155 /* DerivationPath.swift in Sources */,
 				948952D3205A74BE009B03FE /* Transaction.swift in Sources */,
 				AC0CD57F20D21F8400ABB7BA /* TabBarItemHighlightableContentView.swift in Sources */,
-				9B2ED80521D4652B00ACEE84 /* NewsDetailDismissAnimationController.swift in Sources */,
 				AC2CFAA120BB3BEE00387DB1 /* BiometricType.swift in Sources */,
 				9461851821D0FD8700393432 /* NewsCategory.swift in Sources */,
 				9BA3015521B0EBC000E55E49 /* MarketDetailViewControllerChart.swift in Sources */,
@@ -3405,7 +3355,6 @@
 				942E2CAB2148B2E100041733 /* TikcerSource.swift in Sources */,
 				940076B220554A4100DDA37D /* LoopringSocketIORequest.swift in Sources */,
 				9B2ED81D21D8B0CF00ACEE84 /* NewsDetailUIStyleConfig.swift in Sources */,
-				9B4705D721DABC94001B74A1 /* ModalPushPopAnimator.swift in Sources */,
 				AC0CD57920D21BF100ABB7BA /* TabBarItemBasicContentView.swift in Sources */,
 				C8BF959D202696A900343B9A /* MainTabController.swift in Sources */,
 				ACB911522024254F00F14644 /* WalletNavigationViewController.swift in Sources */,
@@ -3423,7 +3372,6 @@
 				940B452D2061206900ADE2B9 /* Token.swift in Sources */,
 				AC7BC856214386AF004204D3 /* PushNotificationSettingManager.swift in Sources */,
 				ACB911A320296B9900F14644 /* OriginalOrder.swift in Sources */,
-				9B2ED7EE21D446E900ACEE84 /* NewsNavigationViewController.swift in Sources */,
 				940B451E2060F67E00ADE2B9 /* GenerateWalletDataManager.swift in Sources */,
 				AC4141EF203524280089861D /* MarketSwipeViewController.swift in Sources */,
 				AC06193E208417AF0060F416 /* QRCodeMethod.swift in Sources */,

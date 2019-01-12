@@ -28,9 +28,4 @@ extension Notification.Name {
     
     // Publish a local notification to MainTabController
     static let publishLocalNotificationToMainTabController = NSNotification.Name("publishLocalNotificationToMainTabController")
-
-    // For GarlandView
-    static let switchToWalletViewController = NSNotification.Name("switchToWalletViewController")
-    static let switchToTradeViewController = NSNotification.Name("switchToTradeViewController")
-    static let switchToSettingViewController = NSNotification.Name("switchToSettingViewController")
 }
