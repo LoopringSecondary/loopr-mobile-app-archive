@@ -10,7 +10,7 @@ import UIKit
 
 class NewsViewController_v2: SwipeViewController {
 
-    private var viewControllers: [NewsViewController] = []
+    private var viewControllers: [NewsViewController_v3] = []
     
     var options = SwipeViewOptions.getDefault()
     
@@ -35,10 +35,10 @@ class NewsViewController_v2: SwipeViewController {
     }
 
     func setupChildViewControllers() {
-        let vc0 = NewsViewController()
+        let vc0 = NewsViewController_v3()
         vc0.currentIndex = 0
 
-        let vc1 = NewsViewController()
+        let vc1 = NewsViewController_v3()
         vc1.currentIndex = 1
 
         viewControllers = [vc0, vc1]

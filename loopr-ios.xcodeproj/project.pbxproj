@@ -181,6 +181,8 @@
 		9BA3021421D0260300E55E49 /* AppReleaseNotePopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3021221D0260300E55E49 /* AppReleaseNotePopViewController.swift */; };
 		9BA3021521D0260300E55E49 /* AppReleaseNotePopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */; };
 		9BA4FC9C21DC4FC8005A3DC0 /* NewsParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FC9B21DC4FC8005A3DC0 /* NewsParams.swift */; };
+		9BA4FCA121E9CA20005A3DC0 /* NewsViewController_v3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FC9F21E9CA20005A3DC0 /* NewsViewController_v3.swift */; };
+		9BA4FCA221E9CA20005A3DC0 /* NewsViewController_v3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA4FCA021E9CA20005A3DC0 /* NewsViewController_v3.xib */; };
 		9BBB4E4B21DB4BD300683673 /* RefreshControlDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */; };
 		9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */; };
 		9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */; };
@@ -756,6 +758,8 @@
 		9BA3021221D0260300E55E49 /* AppReleaseNotePopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReleaseNotePopViewController.swift; sourceTree = "<group>"; };
 		9BA3021321D0260300E55E49 /* AppReleaseNotePopViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppReleaseNotePopViewController.xib; sourceTree = "<group>"; };
 		9BA4FC9B21DC4FC8005A3DC0 /* NewsParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsParams.swift; sourceTree = "<group>"; };
+		9BA4FC9F21E9CA20005A3DC0 /* NewsViewController_v3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController_v3.swift; sourceTree = "<group>"; };
+		9BA4FCA021E9CA20005A3DC0 /* NewsViewController_v3.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsViewController_v3.xib; sourceTree = "<group>"; };
 		9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlDataManager.swift; sourceTree = "<group>"; };
 		9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailSummaryTableViewCell.xib; sourceTree = "<group>"; };
@@ -1310,6 +1314,8 @@
 			children = (
 				9B2ED7ED21D446E900ACEE84 /* NewsNavigationViewController.swift */,
 				ACDBA19721E72D5200CE2D22 /* NewsNavigationViewController_v2.swift */,
+				9BA4FC9F21E9CA20005A3DC0 /* NewsViewController_v3.swift */,
+				9BA4FCA021E9CA20005A3DC0 /* NewsViewController_v3.xib */,
 				ACDBA19321E72CE600CE2D22 /* NewsViewController_v2.swift */,
 				ACDBA19421E72CE600CE2D22 /* NewsViewController_v2.xib */,
 				9B2ED7EF21D4485500ACEE84 /* NewsViewController.swift */,
@@ -2875,6 +2881,7 @@
 				94678B2B210D902E00F550D3 /* SendResultViewController.xib in Resources */,
 				ACB9117620255A6600F14644 /* MarketTableViewCell.xib in Resources */,
 				949774F321181EE9001BF79D /* TradeRatioViewController.xib in Resources */,
+				9BA4FCA221E9CA20005A3DC0 /* NewsViewController_v3.xib in Resources */,
 				ACB729D5205DE21B00DD4DF3 /* TradeConfirmationViewController.xib in Resources */,
 				94BB338421115FD6002D44DA /* OrderDetailViewController.xib in Resources */,
 				AC5E0992205F256500801738 /* AddTokenViewController.xib in Resources */,
@@ -3279,6 +3286,7 @@
 				9B2ED81521D73FFB00ACEE84 /* NewsDataManager.swift in Sources */,
 				9461851221D0F99D00393432 /* IndexAction.swift in Sources */,
 				AC4B894D21103EAF00643910 /* TradeType.swift in Sources */,
+				9BA4FCA121E9CA20005A3DC0 /* NewsViewController_v3.swift in Sources */,
 				ACA677D3207DCF1900D34A2F /* RelayAPIConfiguration.swift in Sources */,
 				AC72AED8204C8AAD00E9D3B0 /* BackupMnemonicViewController.swift in Sources */,
 				9453597221CA2E5900FA624E /* AirdropViewController.swift in Sources */,
