@@ -15,19 +15,23 @@ protocol NewsSwipeViewControllerDelegate: class {
 class NewsSwipeViewController: SwipeViewController {
 
     weak var delegate: NewsSwipeViewControllerDelegate?
-
-    var viewControllers: [NewsViewController] = []
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    
+    var viewControllers: [NewsViewController] = [NewsViewController(), NewsViewController()]
     
     var options = SwipeViewOptions.getDefault()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        headerView.theme_backgroundColor = ColorPicker.backgroundColor
         view.theme_backgroundColor = ColorPicker.backgroundColor
 
         options.swipeContentScrollView.isScrollEnabled = true
         setupChildViewControllers()
         
         // Back button
+        let navigationItem = UINavigationItem(title: "")
         let backButton = UIButton(type: UIButtonType.custom)
         
         backButton.theme_setImage(GlobalPicker.close, forState: .normal)
@@ -40,6 +44,9 @@ class NewsSwipeViewController: SwipeViewController {
         backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        navigationBar.setItems([navigationItem], animated: false)
+        
+        topConstraint = 44
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -55,10 +62,10 @@ class NewsSwipeViewController: SwipeViewController {
     }
 
     func setupChildViewControllers() {
-        let vc0 = NewsViewController()
+        let vc0 = viewControllers[0]
         vc0.currentIndex = 0
 
-        let vc1 = NewsViewController()
+        let vc1 = viewControllers[1]
         vc1.currentIndex = 1
 
         viewControllers = [vc0, vc1]

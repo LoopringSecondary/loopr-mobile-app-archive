@@ -38,7 +38,8 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = true
-        
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .newsViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         collectionView.refreshControl = refreshControl
@@ -87,6 +88,10 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         return NewsCollectionCell.getSize(news: news, isExpanded: NewsViewController.expandedNewsUuids.contains(news.uuid))
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 8
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionCell.getCellIdentifier(), for: indexPath) as? NewsCollectionCell else { return UICollectionViewCell() }
         
@@ -115,11 +120,6 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                 let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
                 detailViewController.currentIndex = indexPath.row
                 detailViewController.news = news
-                /*
-                 self.present(detailViewController, animated: true, completion: {
-                 
-                 })
-                 */
                 detailViewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(detailViewController, animated: true)
                 

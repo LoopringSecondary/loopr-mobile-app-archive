@@ -23,8 +23,8 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var viewController2: UIViewController!
     var viewController4: UIViewController!
 
-    
-    let newsViewController = NewsNavigationViewController()
+    var newsViewControllerHeight: CGFloat = 4 * NewsCollectionCell.minHeight
+    let newsViewController = NewsSwipeViewController()
     var newsViewControllerEnabled: Bool = false
 
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         // Setting view controller
         viewController4 = SettingNavigationViewController()
         
-        newsViewController.viewController.delegate = self
+        newsViewController.delegate = self
 
         setTabBarItems()
         if FeatureConfigDataManager.shared.getShowTradingFeature() {
@@ -62,10 +62,10 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         
         // Preload News data
         NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
-            self.newsViewController.viewController.viewControllers[0].collectionView.reloadData()
+            self.newsViewController.viewControllers[0].collectionView.reloadData()
         })
         NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
-            self.newsViewController.viewController.viewControllers[1].collectionView.reloadData()
+            self.newsViewController.viewControllers[1].collectionView.reloadData()
         })
     }
     
@@ -83,8 +83,12 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        self.newsViewController.view.frame = CGRect(x: 0, y: -self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
+        // 44 is the height of navigation bar
+        self.newsViewControllerHeight = 4 * (NewsCollectionCell.minHeight + 8) + 44
+        if self.newsViewControllerHeight < UIScreen.main.bounds.size.height {
+            self.newsViewControllerHeight = 5 * (NewsCollectionCell.minHeight + 8) + 44
+        }
+        self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
     }
 
     func setTabBarItems() {
@@ -163,13 +167,13 @@ extension MainTabController: WalletViewControllerDelegate {
 
     func scrollViewDidScroll(y: CGFloat) {
         if !newsViewControllerEnabled {
-            newsViewController.view.frame = CGRect(x: 0, y: -view.frame.height-y, width: view.frame.width, height: view.frame.height)
+            newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight-y, width: view.frame.width, height: self.newsViewControllerHeight)
         }
-        
+
         if y < -140 && !newsViewControllerEnabled {
             newsViewControllerEnabled = true
             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
-                self.newsViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+                self.newsViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: self.newsViewControllerHeight)
                 self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
             }) { (_) in
                 
@@ -183,9 +187,8 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
     
     func closeButtonAction() {
         newsViewControllerEnabled = false
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 2
-            , options: .curveEaseInOut, animations: {
-            self.newsViewController.view.frame = CGRect(x: 0, y: -self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
+            self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
             self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         }) { (_) in
             

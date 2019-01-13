@@ -266,9 +266,10 @@ class NewsCollectionCell: UICollectionViewCell {
         downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex)", for: .normal)
     }
     
+    static let minHeight: CGFloat = 190
+    
     class func getSize(news: News, isExpanded: Bool) -> CGSize {
         let width: CGFloat = UIScreen.main.bounds.width - 15*2
-        let minHeight: CGFloat = 190
         
         if isExpanded {
             let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.7
