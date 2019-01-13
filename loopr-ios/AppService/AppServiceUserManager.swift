@@ -48,7 +48,7 @@ class AppServiceUserManager {
                         completion(nil, NSError())
                     }
                 } catch {
-                    
+                    completion(nil, NSError())
                 }
             }
         } else {

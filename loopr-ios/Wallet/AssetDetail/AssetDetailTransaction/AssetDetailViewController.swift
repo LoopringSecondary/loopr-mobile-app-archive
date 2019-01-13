@@ -47,7 +47,6 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         getTransactionsFromRelay()
 
-        // Do any additional setup after loading the view.
         setBackButton()
 
         view.theme_backgroundColor = ColorPicker.backgroundColor
@@ -65,6 +64,8 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         // Add Refresh Control to Table View
         tableView.refreshControl = refreshControl
+        
+        // TODO: how to handle different tokens.
         refreshControl.theme_tintColor = GlobalPicker.textColor
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         

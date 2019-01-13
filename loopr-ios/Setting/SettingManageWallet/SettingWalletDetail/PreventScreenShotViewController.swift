@@ -23,7 +23,7 @@ class PreventScreenShotViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         self.modalPresentationStyle = .custom
         view.backgroundColor = .clear
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
@@ -44,7 +44,7 @@ class PreventScreenShotViewController: UIViewController {
         confirmButton.tintColor = UIColor.fail
         confirmButton.title = LocalizedString("Got it", comment: "")
     }
-
+    
     @IBAction func pressedConfirmButton(_ sender: UIButton) {
         close()
     }

@@ -54,7 +54,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         setBackButton()
         view.backgroundColor = UIColor.clear
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
@@ -124,7 +124,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         tap.delegate = self
         view.addGestureRecognizer(tap)
     }
-
+       
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let order = self.order {

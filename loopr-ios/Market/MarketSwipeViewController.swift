@@ -24,13 +24,13 @@ class MarketSwipeViewController: SwipeViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         view.theme_backgroundColor = ColorPicker.backgroundColor
 
         setupSearchBar()
         setBackButton()
         self.navigationItem.title = LocalizedString("Markets", comment: "")
 
+        options.swipeContentScrollView.isScrollEnabled = true
         setupChildViewControllers()
     }
 
@@ -93,7 +93,7 @@ class MarketSwipeViewController: SwipeViewController, UISearchBarDelegate {
             viewControllers[0].viewAppear = true
         }
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isSearching {

@@ -11,6 +11,7 @@ import UIKit
 
 enum SupportedFonts: String {
     case System
+    case InterUI
     case Rubik
 }
 
@@ -18,7 +19,7 @@ class FontConfigManager {
 
     static let shared = FontConfigManager()
     
-    var currentFont: SupportedFonts = .Rubik
+    var currentFont: SupportedFonts = .InterUI
     
     private init() {
         
@@ -41,7 +42,7 @@ class FontConfigManager {
     
     func getRegularFont(size: CGFloat = 16.0) -> UIFont {
         let fontName = getRegular()
-        let fontSize = size * UIStyleConfig.scale
+        let fontSize = size
         return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
     }
 
@@ -51,7 +52,7 @@ class FontConfigManager {
     
     func getLightFont(size: CGFloat = 16.0) -> UIFont {
         let fontName = getLight()
-        let fontSize = size * UIStyleConfig.scale
+        let fontSize = size
         return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize, weight: UIFont.Weight.light)
     }
 
@@ -61,7 +62,7 @@ class FontConfigManager {
     
     func getMediumFont(size: CGFloat = 16.0) -> UIFont {
         let fontName = getMedium()
-        let fontSize = size * UIStyleConfig.scale
+        let fontSize = size
         return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize, weight: UIFont.Weight.medium)
     }
 
@@ -71,7 +72,7 @@ class FontConfigManager {
     
     func getBoldFont(size: CGFloat = 16.0) -> UIFont {
         let fontName = getBold()
-        let fontSize = size * UIStyleConfig.scale
+        let fontSize = size
         return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize, weight: UIFont.Weight.bold)
     }
 
@@ -81,7 +82,7 @@ class FontConfigManager {
     
     func getCharactorFont(size: CGFloat = 16.0) -> UIFont {
         var font: UIFont
-        let fontSize = size * UIStyleConfig.scale
+        let fontSize = size
         if SettingDataManager.shared.getCurrentLanguage().name == "en" {
             font = getMediumFont(size: size)
         } else if SettingDataManager.shared.getCurrentLanguage().name == "zh-Hans" || SettingDataManager.shared.getCurrentLanguage().name  == "zh-Hant" {

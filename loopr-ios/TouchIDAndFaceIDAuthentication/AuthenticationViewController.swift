@@ -19,7 +19,7 @@ class AuthenticationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         print("Show AuthenticationViewController")
 
         let screenSize: CGRect = UIScreen.main.bounds
@@ -44,7 +44,7 @@ class AuthenticationViewController: UIViewController {
         
         self.navigationController?.isNavigationBarHidden = true
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         

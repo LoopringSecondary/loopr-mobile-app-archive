@@ -12,10 +12,8 @@ class TradeSelectionNavigationViewController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        let tradeSelectionViewController = TradeSelectionViewController()
         navigationBar.shadowImage = UIImage()
+        let tradeSelectionViewController = TradeSelectionViewController()
         setViewControllers([tradeSelectionViewController], animated: false)
     }
 

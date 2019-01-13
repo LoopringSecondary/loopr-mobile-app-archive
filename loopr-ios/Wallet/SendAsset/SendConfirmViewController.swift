@@ -39,7 +39,7 @@ class SendConfirmViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         self.modalPresentationStyle = .custom
         view.backgroundColor = .clear
         
@@ -84,7 +84,7 @@ class SendConfirmViewController: UIViewController {
         tap.delegate = self
         view.addGestureRecognizer(tap)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }

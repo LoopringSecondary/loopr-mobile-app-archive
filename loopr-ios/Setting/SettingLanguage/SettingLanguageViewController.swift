@@ -17,7 +17,7 @@ class SettingLanguageViewController: UIViewController, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -30,7 +30,7 @@ class SettingLanguageViewController: UIViewController, UITableViewDelegate, UITa
         view.theme_backgroundColor = ColorPicker.backgroundColor
         tableView.theme_backgroundColor = ColorPicker.backgroundColor
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return languages.count
     }
@@ -65,7 +65,7 @@ class SettingLanguageViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let result = SetLanguage(languages[indexPath.row].name)
+        let result = SetLanguage(languages[indexPath.row].name, syncToServer: true)
         print(result)
         
         tableView.deselectRow(at: indexPath, animated: true)

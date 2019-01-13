@@ -22,7 +22,7 @@ class UnlockKeystoreViewController: UIViewController, UITextViewDelegate, UIText
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         view.theme_backgroundColor = ColorPicker.backgroundColor
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
@@ -60,7 +60,7 @@ class UnlockKeystoreViewController: UIViewController, UITextViewDelegate, UIText
         scrollViewTap.numberOfTapsRequired = 1
         view.addGestureRecognizer(scrollViewTap)
     }
-
+    
     @objc func scrollViewTapped() {
         print("scrollViewTapped")
         // Hide the keyboard and adjust the position

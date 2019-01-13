@@ -130,7 +130,7 @@
 
 /* Airdrop page */
 "Airdrop" = "Airdrop";
-"Airdrop title" = "LRN claiming";
+"Airdrop title" = "LRN Airdrop";
 "Airdrop address tip" = "Your LRN binding address";
 "Airdrop amount tip" = "Your LRN claiming amount for today";
 "Airdrop button" = "Claim Airdrop";
@@ -138,11 +138,21 @@
 "Airdrop empty" = "You have no LRN bonus";
 "Airdrop failed" = "Claim Airdrop Failed, Please retry later";
 "Airdrop forward" = "Review on NEO Tracker";
-"Airdrop no bind" = "You have not bound LRN address";
+"Airdrop no bind" = "You have not bound any LRN addresses";
 "Airdrop time invalid" = "You can only claim LRN once a day";
 "Airdrop browser" = "NEO Tracker";
 "Airdrop next claim date" = "Next Claim Time";
 "Airdrop last claim date" = "Last Claim Time";
+"Processing claiming Airdrop..." = "Processing...";
+
+/* News */
+"News" = "News";
+"News_Up" = "Up";
+"News_Down" = "Down";
+"News_information" = "News";
+"News_flash" = "Newsletter";
+"Pull to read more" = "Pull to read more";
+"Release to read more" = "Release to read more";
 
 /* DEX Trade page */
 "Loopring Order" = "Loopring Order";
@@ -403,6 +413,9 @@
 "Contacts" = "Contacts";
 "Manage Contacts" = "Manage Contacts";
 "Edit" = "Edit";
+"Updated" = "Updated";
+"AM" = "AM";
+"PM" = "PM";
 
 /* No data */
 "No search result" = "No search result";

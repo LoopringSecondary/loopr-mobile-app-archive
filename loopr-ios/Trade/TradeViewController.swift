@@ -81,7 +81,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationItem.title = LocalizedString("P2P Trade", comment: "")
         setBackButton()
@@ -234,7 +234,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
         blurVisualEffectView.alpha = 1
         blurVisualEffectView.frame = UIScreen.main.bounds
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         update()

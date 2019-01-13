@@ -57,7 +57,7 @@ class TradeReviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         setBackButton()
         setupShareButton()
         self.view.theme_backgroundColor = ColorPicker.backgroundColor
@@ -183,7 +183,7 @@ class TradeReviewViewController: UIViewController {
         vc.order = self.order
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
+        
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let order = self.order else { return }

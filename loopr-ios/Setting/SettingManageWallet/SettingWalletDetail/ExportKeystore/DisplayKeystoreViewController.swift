@@ -20,7 +20,7 @@ class DisplayKeystoreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         view.theme_backgroundColor = ColorPicker.backgroundColor
 
         keystoreTextView.contentInset = UIEdgeInsets.init(top: 15, left: 15, bottom: 15, right: 15)

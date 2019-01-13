@@ -26,7 +26,7 @@ class TradeSelectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         
         button1.cornerRadius = 8
@@ -59,7 +59,7 @@ class TradeSelectionViewController: UIViewController {
         button5.theme_setBackgroundImage(ColorPicker.buttonHighlight, forState: .highlighted)
         button5.addTarget(self, action: #selector(self.pressedButton5(_:)), for: .touchUpInside)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -137,7 +137,7 @@ class TradeSelectionViewController: UIViewController {
     
     @objc func pressedButton2(_ button: UIButton) {
         print("pressedItem2Button")
-        let viewController = UpdatedOrderHistoryViewController()
+        let viewController = OrderHistoryViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }

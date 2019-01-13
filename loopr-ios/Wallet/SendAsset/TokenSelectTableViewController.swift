@@ -43,7 +43,7 @@ class TokenSelectTableViewController: UITableViewController, UISearchBarDelegate
         
         self.navigationItem.title = LocalizedString("Tokens", comment: "")
     }
-
+    
     @objc func pressOrderSearchButton(_ button: UIBarButtonItem) {
         let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.pressSearchCancel))
         self.navigationItem.rightBarButtonItems = [cancelBarButton]

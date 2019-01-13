@@ -23,18 +23,20 @@ extension SettingViewController {
                 cell = nib![0] as? SettingStyleTableViewCell
             }
             
-            cell?.leftLabel.textColor = .success
-            cell?.leftLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
             cell?.leftLabel.text = LocalizedString("Partner_Slogan", comment: "")
-            cell?.rightLabel.isHidden = true
-            cell?.disclosureIndicator.isHidden = false
-            
-            cell?.update(indexPath: indexPath, isLastCell: true)
 
             return cell!
         default:
             return UITableViewCell(frame: .zero)
         }
+    }
+    
+    func partnerSectionForCell(willDisplay cell: SettingStyleTableViewCell) {
+        cell.leftLabel.textColor = .success
+        cell.leftLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
+        
+        cell.rightLabel.isHidden = true
+        cell.disclosureIndicator.isHidden = false
     }
 
     func partnerSectionForCellDidSelected(didSelectRowAt indexPath: IndexPath) {

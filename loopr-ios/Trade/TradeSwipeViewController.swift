@@ -19,8 +19,7 @@ class TradeSwipeViewController: SwipeViewController, QRCodeScanProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+
         view.theme_backgroundColor = ColorPicker.backgroundColor
         navigationItem.title = LocalizedString("P2P Trade", comment: "")
         setBackButton()
@@ -42,7 +41,7 @@ class TradeSwipeViewController: SwipeViewController, QRCodeScanProtocol {
         }
         swipeView.reloadData(options: options, default: swipeView.currentIndex)
     }
-
+        
     func setNavigationBarItem() {
         let icon = UIImage.init(named: "dropdown-scan")
         let button = UIBarButtonItem(image: icon, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.pressedScanButton))

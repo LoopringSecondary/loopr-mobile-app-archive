@@ -34,7 +34,7 @@ class MarketDetailDepthModalViewController: UIViewController, UITableViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         view.backgroundColor = UIColor.clear // UIColor.black.withAlphaComponent(0.8)
 
         headerView.theme_backgroundColor = ColorPicker.backgroundColor
@@ -79,7 +79,7 @@ class MarketDetailDepthModalViewController: UIViewController, UITableViewDelegat
         tap.delegate = self
         view.addGestureRecognizer(tap)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         headerView.round(corners: [.topLeft, .topRight], radius: 12)

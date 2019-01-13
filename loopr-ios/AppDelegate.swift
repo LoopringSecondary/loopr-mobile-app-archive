@@ -56,8 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
 
         // Setting RootViewController must be after AppWalletDataManager.shared.setup()
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        self.window?.makeKeyAndVisible()
         self.window?.rootViewController = getRootViewController()
+        self.window?.makeKeyAndVisible()
         
         // Get the estimate gas price when launching the app.
         GasDataManager.shared.getEstimateGasPrice { (_, _) in }

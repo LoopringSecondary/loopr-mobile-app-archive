@@ -26,7 +26,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         self.navigationItem.title = LocalizedString("Settings", comment: "")
         
         view.theme_backgroundColor = ColorPicker.backgroundColor
@@ -89,6 +88,46 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    // If you configure things like the label text color in the tableView:cellForRowAtIndexPath: method, your changes will be lost at some point before the cell is actually displayed.
+    // https://stackoverflow.com/questions/1890265/what-is-uitableviewdelegate-willdisplaycellforrowatindexpath-for?noredirect=1&lq=1
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+
+        let section = sections[indexPath.section]
+        let isLastCell = indexPath.row == settingsTableView.numberOfRows(inSection: indexPath.section) - 1
+
+        if let cell = cell as? SettingStyleTableViewCell {
+            // Common UI setting
+            cell.updateUIStyle(indexPath: indexPath, isLastCell: isLastCell)
+
+            // Customized UI setting in each section.
+            switch section {
+            case .partner:
+                partnerSectionForCell(willDisplay: cell)
+                
+            default:
+                return
+            }
+        }
+        
+        if let cell = cell as? SettingTouchIDAndFaceIDTableViewCell {
+            switch section {
+            case .userPreferences:
+                cell.updateUIStyle(indexPath: indexPath, isLastCell: isLastCell)
+            default:
+                return
+            }
+        }
+        
+        if let cell = cell as? SettingAppVersionTableViewCell {
+            switch section {
+            case .about:
+                cell.updateUIStyle(indexPath: indexPath, isLastCell: isLastCell)
+            default:
+                return
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let section = sections[indexPath.section]
@@ -133,9 +172,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell?.rightLabel.isHidden = true
         cell?.disclosureIndicator.isHidden = false
 
-        let isLastCell = indexPath.row == settingsTableView.numberOfRows(inSection: indexPath.section) - 1
-        cell?.update(indexPath: indexPath, isLastCell: isLastCell)
-
         return cell!
     }
     
@@ -146,7 +182,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 10
+        let section = sections[section]
+        switch section {
+        case .partner:
+            return 0
+        default:
+            return 10
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

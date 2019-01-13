@@ -66,7 +66,7 @@ extension WalletViewController {
                 let banner = NotificationBanner.generate(title: "Sorry. Network error", style: .info)
                 banner.duration = 2.0
                 banner.show()
-                self.refreshControl.endRefreshing()
+                self.refreshControl.endRefreshing(refreshControlType: .walletViewController)
                 return
             }
             dispatchGroup.leave()
@@ -116,13 +116,13 @@ extension WalletViewController {
 
                             // Updating language or currency will trigger a sequence of API requests.
                             if SettingDataManager.shared.getCurrentLanguage().name != configuration["language"].stringValue {
-                                _ = SetLanguage(configuration["language"].stringValue)
+                                _ = SetLanguage(configuration["language"].stringValue, syncToServer: false)
                             }
                             
                             if SettingDataManager.shared.getCurrentCurrency().name != configuration["currency"].stringValue {
                                 let currency = Currency(name: configuration["currency"].stringValue)
                                 print("receive: " + currency.name)
-                                SettingDataManager.shared.setCurrentCurrency(currency)
+                                SettingDataManager.shared.setCurrentCurrency(currency, syncToServer: false)
                                 NotificationCenter.default.post(name: .needRelaunchCurrentAppWallet, object: nil)
                             }
                             
@@ -136,7 +136,6 @@ extension WalletViewController {
                                     }
                                 }
                             }
-
                         }
                     })
                 }
@@ -144,7 +143,7 @@ extension WalletViewController {
                 self.processPasteboard()
             }
             self.assetTableView.reloadData()
-            self.refreshControl.endRefreshing()
+            self.refreshControl.endRefreshing(refreshControlType: .walletViewController)
         }
     }
     

@@ -32,8 +32,7 @@ class ConfirmationResultViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+
         // self.navigationController?.setNavigationBarHidden(true, animated: false)
         view.theme_backgroundColor = ColorPicker.backgroundColor
         setBackButton()
@@ -121,9 +120,9 @@ class ConfirmationResultViewController: UIViewController, UIScrollViewDelegate {
             }
         }
     }
-
+        
     @IBAction func pressedDetailsButton(_ sender: UIButton) {
-        let vc = UpdatedOrderHistoryViewController()
+        let vc = OrderHistoryViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -70,7 +70,7 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         setBackButton()
         self.navigationItem.title = LocalizedString("Scan QR Code", comment: "")
         
@@ -122,7 +122,7 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
         
         imagePicker.delegate = self
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if captureSession.isRunning == false {

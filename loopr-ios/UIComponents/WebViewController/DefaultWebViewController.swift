@@ -13,21 +13,19 @@ class DefaultWebViewController: UIViewController {
 
     @IBOutlet weak var wkWebView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
+    var showProgressView: Bool = true
+    var progressKVOhandle: NSKeyValueObservation?
 
     var url: URL?
     var navigationTitle: String = ""
-    var showProgressView: Bool = true
-    var progressKVOhandle: NSKeyValueObservation?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
         setBackButton()
         self.navigationItem.title = navigationTitle
         view.theme_backgroundColor = ["#fff", "#000"]
-        progressView.tintColor = UIColor.dark1
+        progressView.tintColor = UIColor.theme
         progressView.setProgress(0, animated: false)
         progressView.alpha = 0.0
         

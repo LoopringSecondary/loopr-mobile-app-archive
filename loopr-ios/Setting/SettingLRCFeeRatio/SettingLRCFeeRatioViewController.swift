@@ -21,7 +21,7 @@ class SettingLRCFeeRatioViewController: UIViewController, StepSliderDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         // self.navigationItem.title = LocalizedString("LRC Fee Ratio", comment: "")
         setBackButton()
         view.theme_backgroundColor = ColorPicker.backgroundColor
@@ -60,7 +60,7 @@ class SettingLRCFeeRatioViewController: UIViewController, StepSliderDelegate {
         saveButon.setTitleTextAttributes([NSAttributedStringKey.font: FontConfigManager.shared.getCharactorFont(size: 14)], for: .normal)
         self.navigationItem.rightBarButtonItem = saveButon
     }
-
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if !isViewDidAppear {

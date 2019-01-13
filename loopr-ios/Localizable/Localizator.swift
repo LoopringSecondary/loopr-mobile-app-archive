@@ -12,8 +12,8 @@ func LocalizedString(_ key: String, comment: String) -> String {
     return Localizator.sharedInstance.localizedStringForKey(key)
 }
 
-func SetLanguage(_ language: String) -> Bool {
-    return Localizator.sharedInstance.setLanguage(language)
+func SetLanguage(_ language: String, syncToServer: Bool) -> Bool {
+    return Localizator.sharedInstance.setLanguage(language, syncToServer: syncToServer)
 }
 
 class Localizator {
@@ -100,7 +100,7 @@ class Localizator {
     }
 
     // Use SetLanguage() to update the language
-    fileprivate func setLanguage(_ newLanguage: String) -> Bool {
+    fileprivate func setLanguage(_ newLanguage: String, syncToServer: Bool) -> Bool {
         if (newLanguage == updatedLanguage) || !availableLanguagesArray.contains(newLanguage) {
             return false
         }
@@ -109,9 +109,11 @@ class Localizator {
             // Update the setting. It only works when the application is restarted.
             UserDefaults.standard.set([newLanguage], forKey: "AppleLanguages")
             UserDefaults.standard.synchronize()
-
-            AppServiceUserManager.shared.updateUserConfigWithUserDefaults()
             
+            if syncToServer{
+                AppServiceUserManager.shared.updateUserConfigWithUserDefaults()
+            }
+
             // runtime at main thread.
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: .languageChanged, object: nil)

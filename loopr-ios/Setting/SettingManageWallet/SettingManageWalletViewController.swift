@@ -18,7 +18,7 @@ class SettingManageWalletViewController: UIViewController, UITableViewDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+
         view.theme_backgroundColor = ColorPicker.backgroundColor
         tableView.theme_backgroundColor = ColorPicker.backgroundColor
 
@@ -58,7 +58,7 @@ class SettingManageWalletViewController: UIViewController, UITableViewDelegate, 
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         getAllBalanceFromRelay()
     }
-
+        
     private func getAllBalanceFromRelay() {
         for wallet in AppWalletDataManager.shared.getWallets() {
             AppWalletDataManager.shared.getTotalCurrencyValue(address: wallet.address, getPrice: false, completionHandlerInBackgroundThread: { (totalCurrencyValue, error) in

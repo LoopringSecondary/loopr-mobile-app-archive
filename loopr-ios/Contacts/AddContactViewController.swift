@@ -27,8 +27,7 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+
         setBackButton()
         setNavigationBarItem()
         self.navigationItem.title = LocalizedString("Add Contact", comment: "")
@@ -102,7 +101,7 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-
+        
     @objc func scrollViewTapped() {
         print("scrollViewTapped")
         addressTextField.resignFirstResponder()

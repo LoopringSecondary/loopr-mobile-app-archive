@@ -56,6 +56,12 @@ enum UserDefaultsKeys: String {
     
     case largestSkipBuildVersion = "UserDefaultsKeys.largestSkipBuildVersion"
     
+    // Refresh Controller
+    case refreshControl = "UserDefaultsKeys.refreshController."
+    
+    // News
+    case newsUpvoteAndDownvote = "UserDefaultsKeys.newsUpvoteAndDownvote"
+    
     // MARK: - Deprecated
     // Keep these in the code to avoid using them again in the future.
     // case currentFont = "UserDefaultsKeys.currentcurrentFont"

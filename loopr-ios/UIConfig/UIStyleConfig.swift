@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 
 enum UIStyleConfig {
-
-    static let scale = UIScreen.main.scale / UIScreen.main.nativeScale
       
     static func getChangeColor(change: String, down: Bool? = nil) -> UIColor {
         let firstChar = change.first?.description ?? ""

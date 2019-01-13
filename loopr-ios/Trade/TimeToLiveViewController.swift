@@ -30,7 +30,7 @@ class TimeToLiveViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         self.modalPresentationStyle = .custom
 
         seperateLine.theme_backgroundColor = ColorPicker.cardHighLightColor
@@ -48,7 +48,7 @@ class TimeToLiveViewController: UIViewController, UIPickerViewDelegate, UIPicker
         tap.delegate = self
         view.addGestureRecognizer(tap)
     }
-
+    
     func close() {
         if let closure = self.dismissClosure {
             closure()

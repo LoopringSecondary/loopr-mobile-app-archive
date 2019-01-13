@@ -51,7 +51,7 @@ class OrderQRCodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         view.backgroundColor = UIColor.clear
         
         titleLabel.setTitleCharFont()
@@ -195,7 +195,7 @@ class OrderQRCodeViewController: UIViewController {
             print ("Error: \(error.domain)")
         }
     }
-
+        
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let originalOrder = self.originalOrder, let image = self.qrcodeImageCIImage else { return }

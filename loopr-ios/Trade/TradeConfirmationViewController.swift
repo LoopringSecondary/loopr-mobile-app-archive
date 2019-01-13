@@ -49,7 +49,7 @@ class TradeConfirmationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         self.setBackButton()
         self.navigationItem.title = LocalizedString("Trade_Confirm", comment: "")
 
@@ -127,7 +127,7 @@ class TradeConfirmationViewController: UIViewController {
         tap.delegate = self
         view.addGestureRecognizer(tap)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let order = self.order {

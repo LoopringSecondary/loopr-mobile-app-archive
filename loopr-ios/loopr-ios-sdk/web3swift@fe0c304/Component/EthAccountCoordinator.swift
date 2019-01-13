@@ -76,7 +76,7 @@ open class EthAccountCoordinator {
         }
         print("in launch")
         _account = _createAccount(keystore, password: password)
-        print("current address: \(_account?.getAddress().getHex())")
+        // print("current address: \(_account?.getAddress().getHex())")
         return _account
     }
 

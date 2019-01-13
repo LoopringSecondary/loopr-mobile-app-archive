@@ -32,7 +32,7 @@ class SendResultViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
@@ -45,7 +45,7 @@ class SendResultViewController: UIViewController {
             update(asset: asset)
         }
     }
-
+    
     func update(asset: Asset) {
         if let errorMessage = self.errorMessage {
             statusIcon.image = UIImage.init(named: "Result-header-fail")

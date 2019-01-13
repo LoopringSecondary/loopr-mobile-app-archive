@@ -26,7 +26,7 @@ class AssetSwipeViewController: SwipeViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         self.navigationItem.title = asset?.symbol
         view.theme_backgroundColor = ColorPicker.backgroundColor
         self.topConstraint = 140
@@ -88,7 +88,7 @@ class AssetSwipeViewController: SwipeViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-
+    
     func setupChildViewControllers() {
         for (index, type) in types.enumerated() {
             let vc = AssetDetailViewController(type: type)

@@ -50,7 +50,6 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
 
         marketTableView.dataSource = self
         marketTableView.delegate = self
@@ -69,7 +68,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
         view.theme_backgroundColor = ColorPicker.backgroundColor
         marketTableView.theme_backgroundColor = ColorPicker.backgroundColor
 
-        refreshControl.theme_tintColor = GlobalPicker.textColor
+        refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .marketViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         marketTableView.refreshControl = refreshControl
     }
@@ -109,7 +108,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
             DispatchQueue.main.async {
                 self.marketTableView.reloadData()
-                self.refreshControl.endRefreshing()
+                self.refreshControl.endRefreshing(refreshControlType: .marketViewController)
             }
         }
     }
@@ -147,7 +146,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
         isListeningSocketIO = false
         NotificationCenter.default.removeObserver(self, name: .tickerResponseReceived, object: nil)
     }
-
+    
     func reloadAfterSwipeViewUpdated(isSearching: Bool, searchText: String) {
         markets = MarketDataManager.shared.getMarketsWithoutReordered(type: type, tag: .whiteList)
         self.isSearching = isSearching

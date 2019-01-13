@@ -20,7 +20,7 @@ class SettingWalletDetailViewController: UIViewController, UITableViewDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         setBackButton()
         self.navigationItem.title = appWallet.name
 
@@ -43,7 +43,7 @@ class SettingWalletDetailViewController: UIViewController, UITableViewDelegate, 
         print(appWallet.name)
         self.tableView.reloadData()
     }
-
+    
     @IBAction func pressedSwitchWalletButton(_ sender: Any) {
         CurrentAppWalletDataManager.shared.setCurrentAppWallet(self.appWallet, completionHandler: {})
         

@@ -19,9 +19,14 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainTabController") as! MainTabController
     }
     
-    var viewController1: UIViewController!
+    var viewController1 = WalletNavigationViewController()
     var viewController2: UIViewController!
-    var viewController3: UIViewController!
+    var viewController4: UIViewController!
+
+    // Use ViewController to avoid the tab bar
+    let newsViewController = NewsSwipeViewController()
+    var newsViewControllerHeight: CGFloat = 4 * NewsCollectionCell.minHeight
+    var newsViewControllerEnabled: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,24 +36,46 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         self.tabBar.barTintColor = Themes.isDark() ? .dark2 : .white
         
         // Asset view controller
-        viewController1 = WalletNavigationViewController()
+        viewController1.viewController.delegate = self
 
         // Trade view controller
         viewController2 = TradeSelectionNavigationViewController()
 
         // Setting view controller
-        viewController3 = SettingNavigationViewController()
+        viewController4 = SettingNavigationViewController()
+        
+        newsViewController.delegate = self
 
         setTabBarItems()
         if FeatureConfigDataManager.shared.getShowTradingFeature() {
-            viewControllers = [viewController1, viewController2, viewController3]
+            viewControllers = [viewController1, viewController2, viewController4]
         } else {
-            viewControllers = [viewController1, viewController3]
+            viewControllers = [viewController1, viewController4]
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showTradingFeatureChangedReceivedNotification(notification:)), name: .showTradingFeatureChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(localNotificationReceived), name: .publishLocalNotificationToMainTabController, object: nil)
+
+        newsViewController.willMove(toParentViewController: self)
+        view.addSubview(newsViewController.view)
+        
+        // TODO: self.navigationController? is nil. call addChildViewController(newsViewController) will cause viewWillAppear not firing
+        self.navigationController?.addChildViewController(newsViewController)
+        // view.bringSubview(toFront: newsViewController.view)
+        self.newsViewController.didMove(toParentViewController: self)
+        
+        // Preload News data
+        NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
+            DispatchQueue.main.async {
+                self.newsViewController.viewControllers[0].viewController.collectionView.reloadData()
+            }
+        })
+        NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
+            DispatchQueue.main.async {
+                self.newsViewController.viewControllers[1].viewController.collectionView.reloadData()
+            }
+        })
     }
     
     override func viewWillLayoutSubviews() {
@@ -65,6 +92,12 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        // 44 is the height of navigation bar
+        self.newsViewControllerHeight = 4 * (NewsCollectionCell.minHeight + 8) + 44
+        if self.newsViewControllerHeight < UIScreen.main.bounds.size.height {
+            self.newsViewControllerHeight = 5 * (NewsCollectionCell.minHeight + 8) + 44
+        }
+        self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
     }
 
     func setTabBarItems() {
@@ -77,7 +110,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
 
         viewController1.tabBarItem = UITabBarItem(title: LocalizedString("Wallet", comment: ""), image: UIImage(named: "Assets")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Assets-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
         viewController2.tabBarItem = UITabBarItem.init(title: LocalizedString("Trade", comment: ""), image: UIImage(named: "Trade")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Trade-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
-        viewController3.tabBarItem = UITabBarItem(title: LocalizedString("Settings", comment: ""), image: UIImage(named: "Settings")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Settings-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
+        viewController4.tabBarItem = UITabBarItem(title: LocalizedString("Settings", comment: ""), image: UIImage(named: "Settings")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Settings-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
     }
     
     @objc func languageChangedReceivedNotification() {
@@ -87,18 +120,16 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     @objc func showTradingFeatureChangedReceivedNotification(notification: NSNotification) {
         if let showTradingFeature: Bool = notification.userInfo?["showTradingFeature"] as? Bool {
             if showTradingFeature {
-                viewControllers = [viewController1, viewController2, viewController3]
+                viewControllers = [viewController1, viewController2, viewController4]
             } else {
-                viewControllers = [viewController1, viewController3]
+                viewControllers = [viewController1, viewController4]
             }
         }
         
     }
-    
+
     func processExternalUrl() {
-        if let vc = viewController1 as? WalletNavigationViewController {
-            vc.processExternalUrl()
-        }
+        viewController1.processExternalUrl()
     }
     
 }
@@ -139,4 +170,40 @@ extension MainTabController {
         }
 
     }
+}
+
+extension MainTabController: WalletViewControllerDelegate {
+
+    func scrollViewDidScroll(y: CGFloat) {
+        if !newsViewControllerEnabled {
+            newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight-y, width: view.frame.width, height: self.newsViewControllerHeight)
+        }
+
+        if y < -140 && !newsViewControllerEnabled {
+            newsViewControllerEnabled = true
+            
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
+                self.newsViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: self.newsViewControllerHeight)
+                self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
+            }) { (_) in
+                
+            }
+        }
+    }
+    
+}
+
+extension MainTabController: NewsSwipeViewControllerDelegate {
+    
+    func closeButtonAction() {
+        newsViewControllerEnabled = false
+        self.newsViewController.removeFromParentViewController()
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
+            self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
+            self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        }) { (_) in
+            
+        }
+    }
+
 }

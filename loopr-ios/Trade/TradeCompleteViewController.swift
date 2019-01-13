@@ -33,7 +33,7 @@ class TradeCompleteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         
         setBackToTopViewContollersButton()
@@ -122,7 +122,7 @@ class TradeCompleteViewController: UIViewController {
             }
         }
     }
-
+    
     @IBAction func pressedDetailsButton(_ sender: UIButton) {
         if let original = self.order {
             let order = Order(originalOrder: original, orderStatus: .locked, dealtAmountB: "0.0", dealtAmountS: "0.0")

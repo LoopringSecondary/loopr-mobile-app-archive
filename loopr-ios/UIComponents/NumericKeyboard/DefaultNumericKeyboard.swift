@@ -10,10 +10,10 @@ import UIKit
 
 open class DefaultNumericKeyboard: NumericKeyboard, NumericKeyboardDelegate {
     
-    static let height: CGFloat = 220 * UIStyleConfig.scale
+    static let height: CGFloat = 220
     
     var textColor: UIColor! = UIColor.black
-    var font: UIFont! = UIFont.init(name: FontConfigManager.shared.getLight(), size: 34*UIStyleConfig.scale) ?? UIFont.systemFont(ofSize: 34*UIStyleConfig.scale)
+    var font: UIFont! = UIFont.init(name: FontConfigManager.shared.getLight(), size: 34) ?? UIFont.systemFont(ofSize: 34)
     
     open weak var delegate2: DefaultNumericKeyboardDelegate?
     var currentText: String = ""

@@ -23,7 +23,7 @@ class ExportKeystoreEnterPasswordViewController: UIViewController, UITextFieldDe
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationItem.title = LocalizedString("Enter Password", comment: "")
         setBackButton()
@@ -62,7 +62,7 @@ class ExportKeystoreEnterPasswordViewController: UIViewController, UITextFieldDe
         errorInfoLabel.alpha = 0.0
         view.addSubview(errorInfoLabel)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         repeatPasswordTextField.becomeFirstResponder()

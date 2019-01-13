@@ -208,17 +208,17 @@ extension UIColor {
     // HongKong has the same color as Unite States.
     class var up: UIColor {
         if SettingDataManager.shared.getCurrentLanguage().name == "zh-Hans" {
-            return UIColor(named: "Color-green")! // #01B97F
+            return UIColor(named: "Color-red")!   // #FA4A6F, red
         } else {
-            return UIColor(named: "Color-red")!   // #FA4A6F
+            return UIColor(named: "Color-green")! // #01B97F, green
         }
     }
     
     class var down: UIColor {
         if SettingDataManager.shared.getCurrentLanguage().name == "zh-Hans" {
-            return UIColor(named: "Color-red")!   // #DD5252
+            return UIColor(named: "Color-green")! // #01B97F, green
         } else {
-            return UIColor(named: "Color-green")! // #01B97F
+            return UIColor(named: "Color-red")!   // #DD5252, red
         }
     }
     
@@ -242,4 +242,25 @@ extension UIColor {
     class var pending: UIColor {
         return UIColor(named: "Color-yellow")!
     }
+    
+    func lighter(by percentage: CGFloat = 30.0) -> UIColor? {
+        return self.adjust(by: abs(percentage) )
+    }
+    
+    func darker(by percentage: CGFloat = 30.0) -> UIColor? {
+        return self.adjust(by: -1 * abs(percentage) )
+    }
+    
+    func adjust(by percentage: CGFloat = 30.0) -> UIColor? {
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        if self.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
+            return UIColor(red: min(red + percentage/100, 1.0),
+                           green: min(green + percentage/100, 1.0),
+                           blue: min(blue + percentage/100, 1.0),
+                           alpha: alpha)
+        } else {
+            return nil
+        }
+    }
+
 }

@@ -143,6 +143,16 @@
 "Airdrop browser" = "NEO Tracker";
 "Airdrop next claim date" = "下次可領取空投時間";
 "Airdrop last claim date" = "上次領取空投時間";
+"Processing claiming Airdrop..." = "正在處理領取空投...";
+
+/* News */
+"News" = "資訊";
+"News_Up" = "利好";
+"News_Down" = "利空";
+"News_information" = "新聞";
+"News_flash" = "快訊";
+"Pull to read more" = "上拉閱讀全文";
+"Release to read more" = "鬆開閱讀全文";
 
 /* DEX Trade page */
 "Loopring Order" = "路印訂單";
@@ -403,6 +413,9 @@
 "Contacts" = "地址簿";
 "Manage Contacts" = "管理地址簿";
 "Edit" = "編輯";
+"Updated" = "上次更新";
+"AM" = "上午";
+"PM" = "下午";
 
 /* No data */
 "No search result" = "無搜尋結果";

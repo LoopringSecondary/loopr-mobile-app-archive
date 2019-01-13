@@ -42,7 +42,7 @@ class QRCodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         self.navigationItem.title = navigationTitle
         
         view.theme_backgroundColor = ColorPicker.backgroundColor
@@ -77,7 +77,7 @@ class QRCodeViewController: UIViewController {
         let data = address.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
         generateQRCode(from: data!)
     }
-
+    
     func setupShareView() {
         shareImageView.image = UIImage(named: "Share-wallet")
         logoImageView.image = UIImage(named: "\(Production.getProduct())_share_logo")

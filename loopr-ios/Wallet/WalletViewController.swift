@@ -11,8 +11,14 @@ import NotificationBannerSwift
 import MKDropdownMenu
 import SVProgressHUD
 
+protocol WalletViewControllerDelegate: class {
+    func scrollViewDidScroll(y: CGFloat)
+}
+
 class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, QRCodeScanProtocol {
 
+    weak var delegate: WalletViewControllerDelegate?
+    
     @IBOutlet weak var assetTableView: UITableView!
     let refreshControl = UIRefreshControl()
 
@@ -31,8 +37,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+
         view.theme_backgroundColor = ColorPicker.backgroundColor
         
         assetTableView.dataSource = self
@@ -74,7 +79,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         // Add Refresh Control to Table View
         assetTableView.refreshControl = refreshControl
-        refreshControl.theme_tintColor = GlobalPicker.textColor
+        refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .walletViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         
         // Creating view for extending background color
@@ -100,7 +105,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @objc private func refreshData(_ sender: Any) {
-        // Fetch Data
         getDataFromRelay()
     }
 
@@ -143,7 +147,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         CurrentAppWalletDataManager.shared.stopGetBalance()
         isListeningSocketIO = false
     }
-
+    
     @objc func processPasteboard() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             // Check if the view is visible
@@ -296,8 +300,10 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("scrollView y: \(scrollView.contentOffset.y)")
+        delegate?.scrollViewDidScroll(y: scrollView.contentOffset.y)
     }
-    
+
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         print("scrollViewDidEndDecelerating")
         isListeningSocketIO = true

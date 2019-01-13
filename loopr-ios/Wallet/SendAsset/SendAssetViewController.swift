@@ -25,7 +25,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     
     // Address
     @IBOutlet weak var addressTextField: UITextField!
-    @IBOutlet weak var scanButton: UIButton!
+    @IBOutlet weak var contactButton: UIButton!
     @IBOutlet weak var addressInfoLabel: UILabel!
     
     // Amount
@@ -70,8 +70,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+
         setBackButton()
         setNavigationBarItem()
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
@@ -110,6 +109,8 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         addressTextField.setRightPaddingPoints(32)
         addressTextField.addTarget(self, action: #selector(addressTextFieldDidChange(_:)),
                             for: UIControlEvents.editingChanged)
+        
+        contactButton.addTarget(self, action: #selector(pressedContactButton(_:)), for: .touchUpInside)
         
         // Third row: Amount
         amountInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
@@ -203,7 +204,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         let button = UIBarButtonItem(image: icon, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.pressedScanButton))
         self.navigationItem.rightBarButtonItem = button
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // TODO: Update the transaction fee is needed. in SendCurrentAppWalletDataManager
@@ -472,12 +473,19 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
     }
     
     @objc func pressedScanButton(_ sender: UIButton) {
-        let viewController = ContactTableViewController()
+        let viewController = ScanQRCodeViewController()
         viewController.delegate = self
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 
+    @objc func pressedContactButton(_ sender: UIButton) {
+        let viewController = ContactTableViewController()
+        viewController.delegate = self
+        viewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     // To avoid gesture conflicts in swiping to back and UISlider
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if touch.view != nil && touch.view!.isKind(of: UISlider.self) {
@@ -590,7 +598,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
                 self.numericKeyboardView.frame = CGRect(x: 0, y: destinateY, width: width, height: DefaultNumericKeyboard.height)
                 if amountY - self.scrollView.contentOffset.y < 0 || addressY - self.scrollView.contentOffset.y > self.scrollViewButtonLayoutConstraint.constant {
-                    self.scrollView.setContentOffset(CGPoint.init(x: 0, y: amountY - 120*UIStyleConfig.scale), animated: true)
+                    self.scrollView.setContentOffset(CGPoint.init(x: 0, y: amountY - 120), animated: true)
                 }
             }, completion: { _ in
                 self.isNumericKeyboardShow = true

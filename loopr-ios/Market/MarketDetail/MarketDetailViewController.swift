@@ -45,7 +45,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         setBackButton()
         setupMarket()
@@ -91,7 +91,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
             self.trends = MarketDataManager.shared.getTrends(trendRange: TrendRange.oneMonth)
         }
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -127,7 +127,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
     
     @objc func pressHistoryButton(_ button: UIBarButtonItem) {
         print("pressStarButton")
-        let viewController = UpdatedOrderHistoryViewController()
+        let viewController = OrderHistoryViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }

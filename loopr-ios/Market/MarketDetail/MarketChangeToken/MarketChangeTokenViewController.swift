@@ -46,7 +46,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         
         marketTableView.dataSource = self
         marketTableView.delegate = self
@@ -63,7 +63,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
         view.theme_backgroundColor = ColorPicker.backgroundColor
         marketTableView.theme_backgroundColor = ColorPicker.backgroundColor
         
-        refreshControl.theme_tintColor = GlobalPicker.textColor
+        refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .marketViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         marketTableView.refreshControl = refreshControl
     }
@@ -100,7 +100,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
             MarketDataManager.shared.setMarkets(newMarkets: markets)
             DispatchQueue.main.async {
                 self.marketTableView.reloadData()
-                self.refreshControl.endRefreshing()
+                self.refreshControl.endRefreshing(refreshControlType: .marketViewController)
             }
         }
     }
@@ -116,7 +116,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
         super.viewDidDisappear(animated)
         isSearching = false
     }
-
+        
     func reloadAfterSwipeViewUpdated(isSearching: Bool, searchText: String) {
         markets = MarketDataManager.shared.getMarketsWithoutReordered(type: type)
         self.isSearching = isSearching

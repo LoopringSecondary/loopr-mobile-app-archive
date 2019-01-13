@@ -55,11 +55,13 @@ class SettingDataManager {
         return currencies
     }
     
-    func setCurrentCurrency(_ currency: Currency) {
+    func setCurrentCurrency(_ currency: Currency, syncToServer: Bool) {
         let defaults = UserDefaults.standard
         defaults.set(currency.name, forKey: UserDefaultsKeys.currentCurrency.rawValue)
         PriceDataManager.shared.startGetPriceQuote()
-        AppServiceUserManager.shared.updateUserConfigWithUserDefaults()
+        if syncToServer {
+            AppServiceUserManager.shared.updateUserConfigWithUserDefaults()
+        }
     }
     
     func getCurrentCurrency() -> Currency {
@@ -69,10 +71,10 @@ class SettingDataManager {
         } else {
             // TODO: we don't support hongkong dollar now.
             if getCurrentLanguage() == Language(name: "zh-Hans") {
-                setCurrentCurrency(Currency(name: "CNY"))
+                setCurrentCurrency(Currency(name: "CNY"), syncToServer: false)
                 return Currency(name: "CNY")
             } else {
-                setCurrentCurrency(Currency(name: "USD"))
+                setCurrentCurrency(Currency(name: "USD"), syncToServer: false)
                 return Currency(name: "USD")
             }
         }

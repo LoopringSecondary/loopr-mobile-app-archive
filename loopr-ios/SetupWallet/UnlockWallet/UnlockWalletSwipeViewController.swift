@@ -20,7 +20,6 @@ class UnlockWalletSwipeViewController: SwipeViewController, QRCodeScanProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         view.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationItem.title = LocalizedString("Import Wallet", comment: "")
         setBackButton()
@@ -34,6 +33,7 @@ class UnlockWalletSwipeViewController: SwipeViewController, QRCodeScanProtocol {
             options.swipeTabView.itemView.textColor = UIColor(rgba: "#00000099")
             options.swipeTabView.itemView.selectedTextColor = UIColor(rgba: "#000000cc")
         }
+        options.swipeContentScrollView.isScrollEnabled = true
         swipeView.reloadData(options: options)
         
         let button = UIBarButtonItem(image: Themes.isDark() ? UIImage.init(named: "scan-topbar-dark") : UIImage.init(named: "scan-topbar-light"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.pressScanButton(_:)))
@@ -41,14 +41,11 @@ class UnlockWalletSwipeViewController: SwipeViewController, QRCodeScanProtocol {
     }
 
     func setResultOfScanningQRCode(valueSent: String, type: QRCodeType) {
-//        print("value from QR Controller: \(valueSent)")
-//        let controller = self.viewControllers[2] as! PrivateKeyViewController
-//        controller.privateKeyTextView.text = valueSent
         print("value from scanning: \(valueSent)")
         self.valueFromQRCodeScanning = valueSent
         self.typeFromQRCodeScanning = type
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = false

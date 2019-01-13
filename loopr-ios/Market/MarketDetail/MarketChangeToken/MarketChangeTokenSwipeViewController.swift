@@ -25,8 +25,7 @@ class MarketChangeTokenSwipeViewController: SwipeViewController, UISearchBarDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+
         view.theme_backgroundColor = ColorPicker.backgroundColor
         
         setupSearchBar()
@@ -115,7 +114,7 @@ class MarketChangeTokenSwipeViewController: SwipeViewController, UISearchBarDele
             viewControllers[0].viewAppear = true
         }
     }
-
+        
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isSearching {

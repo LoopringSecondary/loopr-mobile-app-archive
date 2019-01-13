@@ -44,7 +44,7 @@ class AssetTransactionDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         view.backgroundColor = UIColor.clear
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         
@@ -134,7 +134,7 @@ class AssetTransactionDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-    
+        
     func update(transaction: Transaction) {
         switch transaction.type {
         case .convert_income:
