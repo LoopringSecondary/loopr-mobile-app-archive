@@ -48,6 +48,12 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         collectionView.reloadData()
+        // self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     @objc private func refreshData(_ sender: Any) {
@@ -117,7 +123,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
             let news: News
             if self.newsParamsList[self.currentIndex].category == .information {
                 news = NewsDataManager.shared.informationItems[indexPath.row]
-                let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
+                let detailViewController = NewsDetailViewController()
                 detailViewController.currentIndex = indexPath.row
                 detailViewController.news = news
                 detailViewController.hidesBottomBarWhenPushed = true

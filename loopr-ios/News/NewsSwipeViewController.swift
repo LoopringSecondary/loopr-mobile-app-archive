@@ -18,7 +18,7 @@ class NewsSwipeViewController: SwipeViewController {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var navigationBar: UINavigationBar!
     
-    var viewControllers: [NewsViewController] = [NewsViewController(), NewsViewController()]
+    var viewControllers: [NewsNavigationViewController] = [NewsNavigationViewController(), NewsNavigationViewController()]
     
     var options = SwipeViewOptions.getDefault()
     
@@ -49,24 +49,25 @@ class NewsSwipeViewController: SwipeViewController {
         topConstraint = 44
     }
 
+    // Not firing if NewsSwipeViewController is addChildViewController
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         // Show the Navigation Bar
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        // self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
+        super.viewWillDisappear(animated)
         // Hide the Navigation Bar
         // self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     func setupChildViewControllers() {
         let vc0 = viewControllers[0]
-        vc0.currentIndex = 0
+        vc0.setCurrentIndex(0)
 
         let vc1 = viewControllers[1]
-        vc1.currentIndex = 1
+        vc1.setCurrentIndex(1)
 
         viewControllers = [vc0, vc1]
         for viewController in viewControllers {

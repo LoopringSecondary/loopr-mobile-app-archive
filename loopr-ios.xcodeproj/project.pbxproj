@@ -510,6 +510,7 @@
 		ACDA889C20F85F9C004FA10B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ACDA889E20F85F9C004FA10B /* InfoPlist.strings */; };
 		ACDBA19521E72CE600CE2D22 /* NewsSwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBA19321E72CE600CE2D22 /* NewsSwipeViewController.swift */; };
 		ACDBA19621E72CE600CE2D22 /* NewsSwipeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACDBA19421E72CE600CE2D22 /* NewsSwipeViewController.xib */; };
+		ACDBA19C21EB39DC00CE2D22 /* NewsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBA19B21EB39DC00CE2D22 /* NewsNavigationViewController.swift */; };
 		ACE58B8520BE796A005BC1C8 /* VerifyMnemonicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE58B8320BE796A005BC1C8 /* VerifyMnemonicViewController.swift */; };
 		ACE58B8620BE796A005BC1C8 /* VerifyMnemonicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACE58B8420BE796A005BC1C8 /* VerifyMnemonicViewController.xib */; };
 		ACE5BFA720466EFD005D75DD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ACE5BFA920466EFD005D75DD /* Localizable.strings */; };
@@ -1087,6 +1088,7 @@
 		ACDA889F20F85F9E004FA10B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		ACDBA19321E72CE600CE2D22 /* NewsSwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsSwipeViewController.swift; sourceTree = "<group>"; };
 		ACDBA19421E72CE600CE2D22 /* NewsSwipeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsSwipeViewController.xib; sourceTree = "<group>"; };
+		ACDBA19B21EB39DC00CE2D22 /* NewsNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsNavigationViewController.swift; sourceTree = "<group>"; };
 		ACE58B8320BE796A005BC1C8 /* VerifyMnemonicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyMnemonicViewController.swift; sourceTree = "<group>"; };
 		ACE58B8420BE796A005BC1C8 /* VerifyMnemonicViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VerifyMnemonicViewController.xib; sourceTree = "<group>"; };
 		ACE5BFA1204543CA005D75DD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -1296,6 +1298,7 @@
 			children = (
 				ACDBA19321E72CE600CE2D22 /* NewsSwipeViewController.swift */,
 				ACDBA19421E72CE600CE2D22 /* NewsSwipeViewController.xib */,
+				ACDBA19B21EB39DC00CE2D22 /* NewsNavigationViewController.swift */,
 				9BA4FC9F21E9CA20005A3DC0 /* NewsViewController.swift */,
 				9BA4FCA021E9CA20005A3DC0 /* NewsViewController.xib */,
 				9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */,
@@ -3040,6 +3043,7 @@
 				AC5E3E6B205DEAC00051ACFC /* TradeCompleteViewController.swift in Sources */,
 				AC88669B21747B4B00815DD1 /* WalletViewControllerExtensionAppService.swift in Sources */,
 				ACE9F0462186FB5800695E37 /* WalletViewControllerDropdownMenu.swift in Sources */,
+				ACDBA19C21EB39DC00CE2D22 /* NewsNavigationViewController.swift in Sources */,
 				943A9A4120909597008BCBFD /* DefaultWebViewController.swift in Sources */,
 				942C4A0021293022008A6B4F /* ConvertETHResultViewController.swift in Sources */,
 				AC0CD58120D226C500ABB7BA /* TabBarItemAnimateTipsContentView.swift in Sources */,

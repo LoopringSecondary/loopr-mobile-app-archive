@@ -56,17 +56,25 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showTradingFeatureChangedReceivedNotification(notification:)), name: .showTradingFeatureChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(localNotificationReceived), name: .publishLocalNotificationToMainTabController, object: nil)
-        
-        addChildViewController(newsViewController)
+
+        newsViewController.willMove(toParentViewController: self)
         view.addSubview(newsViewController.view)
-        view.bringSubview(toFront: newsViewController.view)
+        
+        // TODO: self.navigationController? is nil. call addChildViewController(newsViewController) will cause viewWillAppear not firing
+        self.navigationController?.addChildViewController(newsViewController)
+        // view.bringSubview(toFront: newsViewController.view)
+        self.newsViewController.didMove(toParentViewController: self)
         
         // Preload News data
         NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
-            self.newsViewController.viewControllers[0].collectionView.reloadData()
+            DispatchQueue.main.async {
+                self.newsViewController.viewControllers[0].viewController.collectionView.reloadData()
+            }
         })
         NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
-            self.newsViewController.viewControllers[1].collectionView.reloadData()
+            DispatchQueue.main.async {
+                self.newsViewController.viewControllers[1].viewController.collectionView.reloadData()
+            }
         })
     }
     
@@ -173,6 +181,7 @@ extension MainTabController: WalletViewControllerDelegate {
 
         if y < -140 && !newsViewControllerEnabled {
             newsViewControllerEnabled = true
+            
             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
                 self.newsViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: self.newsViewControllerHeight)
                 self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
@@ -188,6 +197,7 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
     
     func closeButtonAction() {
         newsViewControllerEnabled = false
+        self.newsViewController.removeFromParentViewController()
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
             self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
             self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
