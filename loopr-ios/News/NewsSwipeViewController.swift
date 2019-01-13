@@ -37,6 +37,7 @@ class NewsSwipeViewController: SwipeViewController {
         topConstraint = 44
         
         NotificationCenter.default.addObserver(self, selector: #selector(pushedNewsDetailViewControllerReceivedNotification), name: .pushedNewsDetailViewController, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willShowNewsViewControllerReceivedNotification), name: .willShowNewsViewController, object: nil)
     }
 
     // Not firing if NewsSwipeViewController is addChildViewController
@@ -120,10 +121,16 @@ class NewsSwipeViewController: SwipeViewController {
         headerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         navigationBar.theme_barTintColor = ColorPicker.cardBackgroundColor
     }
+    
+    @objc func willShowNewsViewControllerReceivedNotification() {
+        setupCloseButtton()
+        swipeView.swipeContentScrollView?.isScrollEnabled = true
+    }
 
     @objc func pushedNewsDetailViewControllerReceivedNotification() {
         print("pushedNewsDetailViewControllerReceivedNotification")
         setupBackButton()
+        swipeView.swipeContentScrollView?.isScrollEnabled = false
     }
 
     @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {

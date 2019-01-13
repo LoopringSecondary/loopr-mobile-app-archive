@@ -32,4 +32,5 @@ extension Notification.Name {
     // News
     static let pushedNewsDetailViewController = NSNotification.Name("pushedNewsDetailViewController")
     static let tiggerPopNewsDetailViewController = NSNotification.Name("tiggerPopNewsDetailViewController")
+    static let willShowNewsViewController = NSNotification.Name("willShowNewsViewController")
 }
