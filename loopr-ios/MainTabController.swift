@@ -53,10 +53,6 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
             viewControllers = [viewController1, viewController4]
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showTradingFeatureChangedReceivedNotification(notification:)), name: .showTradingFeatureChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(localNotificationReceived), name: .publishLocalNotificationToMainTabController, object: nil)
-
         newsViewController.willMove(toParentViewController: self)
         view.addSubview(newsViewController.view)
         
@@ -76,6 +72,11 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
                 self.newsViewController.viewControllers[1].viewController.collectionView.reloadData()
             }
         })
+
+        // Setup notifications
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showTradingFeatureChangedReceivedNotification(notification:)), name: .showTradingFeatureChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(localNotificationReceived), name: .publishLocalNotificationToMainTabController, object: nil)
     }
     
     override func viewWillLayoutSubviews() {

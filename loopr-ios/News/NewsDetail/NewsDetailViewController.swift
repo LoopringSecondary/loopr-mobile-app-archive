@@ -53,6 +53,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         
         setBackButton()
         // setupNavigationBar()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(tiggerPopNewsDetailViewControllerReceivedNotification), name: .tiggerPopNewsDetailViewController, object: nil)
     }
 
     fileprivate func setupNavigationBar() {
@@ -107,7 +109,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        NotificationCenter.default.post(name: .pushedNewsDetailViewController, object: nil)
+
         guard isFirtTimeAppear else {
             return
         }
@@ -115,6 +118,11 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         isFirtTimeAppear = false
         webView.navigationDelegate = self
         webView.scrollView.delegate = self
+    }
+    
+    @objc func tiggerPopNewsDetailViewControllerReceivedNotification() {
+        print("tiggerPopNewsDetailViewControllerReceivedNotification")
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {

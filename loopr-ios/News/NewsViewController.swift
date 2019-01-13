@@ -48,12 +48,13 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         collectionView.reloadData()
-        // self.navigationController?.setNavigationBarHidden(false, animated: false)
+        // This line of code works
+        // self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        // self.navigationController?.setNavigationBarHidden(true, animated: false)
+        // self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     @objc private func refreshData(_ sender: Any) {
