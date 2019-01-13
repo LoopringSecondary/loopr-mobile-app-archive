@@ -50,6 +50,7 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         collectionView.reloadData()
         // This line of code works
         // self.navigationController?.setNavigationBarHidden(true, animated: false)
+        NotificationCenter.default.post(name: .willShowNewsViewController, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
