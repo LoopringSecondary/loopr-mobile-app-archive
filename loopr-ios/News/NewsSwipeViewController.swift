@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol NewsSwipeViewControllerDelegate: class {
+    func closeButtonAction()
+}
+
 class NewsSwipeViewController: SwipeViewController {
+
+    weak var delegate: NewsSwipeViewControllerDelegate?
 
     var viewControllers: [NewsViewController] = []
     
@@ -20,6 +26,20 @@ class NewsSwipeViewController: SwipeViewController {
 
         options.swipeContentScrollView.isScrollEnabled = true
         setupChildViewControllers()
+        
+        // Back button
+        let backButton = UIButton(type: UIButtonType.custom)
+        
+        backButton.theme_setImage(GlobalPicker.close, forState: .normal)
+        backButton.theme_setImage(GlobalPicker.closeHighlight, forState: .highlighted)
+        
+        // Default left padding is 20. It should be 12 in our design.
+        backButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: -16, bottom: 0, right: 8)
+        backButton.addTarget(self, action: #selector(closeButtonAction(_:)), for: UIControlEvents.touchUpInside)
+        // The size of the image.
+        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +77,10 @@ class NewsSwipeViewController: SwipeViewController {
         options.swipeTabView.height = 0
         options.swipeTabView.underlineView.height = 0
         swipeView.reloadData(options: options)
+    }
+    
+    @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {
+        delegate?.closeButtonAction()
     }
     
     // MARK: - DataSource

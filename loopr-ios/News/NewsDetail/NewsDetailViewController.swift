@@ -30,8 +30,6 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     let pullToNextPageTitleLabel = UILabel()
     let pullToNextPageImageView = UIImageView()
 
-    var didCloseButtonClosure: (() -> Void)?
-
     override open func viewDidLoad() {
         super.viewDidLoad()
 
@@ -54,7 +52,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         */
         
         setBackButton()
-        setupNavigationBar()
+        // setupNavigationBar()
     }
 
     fileprivate func setupNavigationBar() {
@@ -120,7 +118,6 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     }
     
     @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {
-        // didCloseButtonClosure?()
         // dismiss(animated: true, completion: nil)
         if self.navigationController != nil {
             self.navigationController?.popViewController(animated: true)
@@ -189,8 +186,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
                     UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
                         self.pullToNextPageImageView.transform = CGAffineTransform(rotationAngle: CGFloat(-1/180*Double.pi))
                         self.pullToNextPageBottomView.layoutIfNeeded()
-                    }) { (finished) in
-                        print(finished)
+                    }) { (_) in
                         self.enablePullToNextPage = false
                         self.isPullToNextPageImageViewUp = true
                         self.isPullToNextPageImageViewAnimating = false
@@ -208,12 +204,6 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
             detailViewController.currentIndex = currentIndex+1
             detailViewController.news = news
-            detailViewController.didCloseButtonClosure = {
-                self.didCloseButtonClosure?()
-                self.dismiss(animated: false, completion: {
-                    
-                })
-            }
             self.present(detailViewController, animated: true, completion: {
                 self.navigationController?.popViewController(animated: false)
             })

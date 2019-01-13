@@ -122,6 +122,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                  */
                 detailViewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(detailViewController, animated: true)
+                
             } else {
                 news = NewsDataManager.shared.flashItems[indexPath.row]
                 if NewsViewController.expandedNewsUuids.contains(news.uuid) {
@@ -153,16 +154,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        /*
-         let news = NewsDataManager.shared.informationItems[indexPath.row]
-         if let url = URL(string: news.url) {
-         let config = SFSafariViewController.Configuration()
-         config.entersReaderIfAvailable = true
-         
-         let vc = SFSafariViewController(url: url, configuration: config)
-         present(vc, animated: true)
-         }
-         */
+
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

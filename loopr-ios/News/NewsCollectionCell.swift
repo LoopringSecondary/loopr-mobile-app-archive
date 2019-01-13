@@ -235,6 +235,7 @@ class NewsCollectionCell: UICollectionViewCell {
     }
     
     @objc func pressedshareButton(_ sender: Any) {
+        shareButton.shake(direction: "y", withTranslation: 6)
         didPressedShareButtonClosure?(news)
     }
     
@@ -266,7 +267,7 @@ class NewsCollectionCell: UICollectionViewCell {
     }
     
     class func getSize(news: News, isExpanded: Bool) -> CGSize {
-        let width: CGFloat = UIScreen.main.bounds.width - 15*2 - 6
+        let width: CGFloat = UIScreen.main.bounds.width - 15*2
         let minHeight: CGFloat = 190
         
         if isExpanded {

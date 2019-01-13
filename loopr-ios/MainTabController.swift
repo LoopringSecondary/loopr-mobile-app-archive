@@ -24,7 +24,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var viewController4: UIViewController!
 
     
-    let newsViewController_v2 = NewsNavigationViewController()
+    let newsViewController = NewsNavigationViewController()
     var newsViewControllerEnabled: Bool = false
 
     override func viewDidLoad() {
@@ -42,6 +42,8 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
 
         // Setting view controller
         viewController4 = SettingNavigationViewController()
+        
+        newsViewController.viewController.delegate = self
 
         setTabBarItems()
         if FeatureConfigDataManager.shared.getShowTradingFeature() {
@@ -54,16 +56,16 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(showTradingFeatureChangedReceivedNotification(notification:)), name: .showTradingFeatureChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(localNotificationReceived), name: .publishLocalNotificationToMainTabController, object: nil)
         
-        addChildViewController(newsViewController_v2)
-        view.addSubview(newsViewController_v2.view)
-        view.bringSubview(toFront: newsViewController_v2.view)
+        addChildViewController(newsViewController)
+        view.addSubview(newsViewController.view)
+        view.bringSubview(toFront: newsViewController.view)
         
         // Preload News data
         NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
-            self.newsViewController_v2.viewController.viewControllers[0].collectionView.reloadData()
+            self.newsViewController.viewController.viewControllers[0].collectionView.reloadData()
         })
         NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
-            self.newsViewController_v2.viewController.viewControllers[1].collectionView.reloadData()
+            self.newsViewController.viewController.viewControllers[1].collectionView.reloadData()
         })
     }
     
@@ -82,7 +84,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        newsViewController_v2.view.frame = CGRect(x: 0, y: -view.frame.height, width: view.frame.height, height: view.frame.width)
+        self.newsViewController.view.frame = CGRect(x: 0, y: -self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
     }
 
     func setTabBarItems() {
@@ -114,9 +116,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     }
 
     func processExternalUrl() {
-        if let vc = viewController1 as? WalletNavigationViewController {
-            vc.processExternalUrl()
-        }
+        viewController1.processExternalUrl()
     }
     
 }
@@ -163,17 +163,33 @@ extension MainTabController: WalletViewControllerDelegate {
 
     func scrollViewDidScroll(y: CGFloat) {
         if !newsViewControllerEnabled {
-            newsViewController_v2.view.frame = CGRect(x: 0, y: -view.frame.height-y, width: view.frame.width, height: view.frame.height)
+            newsViewController.view.frame = CGRect(x: 0, y: -view.frame.height-y, width: view.frame.width, height: view.frame.height)
         }
         
         if y < -140 && !newsViewControllerEnabled {
             newsViewControllerEnabled = true
-            UIView.animate(withDuration: 3, delay: 0.2, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-                self.newsViewController_v2.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
+                self.newsViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+                self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
             }) { (_) in
                 
             }
         }
     }
     
+}
+
+extension MainTabController: NewsSwipeViewControllerDelegate {
+    
+    func closeButtonAction() {
+        newsViewControllerEnabled = false
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 2
+            , options: .curveEaseInOut, animations: {
+            self.newsViewController.view.frame = CGRect(x: 0, y: -self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
+            self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        }) { (_) in
+            
+        }
+    }
+
 }
