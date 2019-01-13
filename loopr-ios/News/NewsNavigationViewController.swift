@@ -17,6 +17,8 @@ class NewsNavigationViewController: UINavigationController {
         navigationBar.shadowImage = UIImage()
         self.setViewControllers([viewController], animated: false)
         view.backgroundColor = UIColor.red
+        
+        // Hide navigation bar
         self.setNavigationBarHidden(true, animated: false)
     }
     

@@ -28,4 +28,8 @@ extension Notification.Name {
     
     // Publish a local notification to MainTabController
     static let publishLocalNotificationToMainTabController = NSNotification.Name("publishLocalNotificationToMainTabController")
+    
+    // News
+    static let pushedNewsDetailViewController = NSNotification.Name("pushedNewsDetailViewController")
+    static let tiggerPopNewsDetailViewController = NSNotification.Name("tiggerPopNewsDetailViewController")
 }
