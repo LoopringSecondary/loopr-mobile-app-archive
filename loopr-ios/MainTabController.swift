@@ -23,8 +23,9 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var viewController2: UIViewController!
     var viewController4: UIViewController!
 
-    var newsViewControllerHeight: CGFloat = 4 * NewsCollectionCell.minHeight
+    // Use ViewController to avoid the tab bar
     let newsViewController = NewsSwipeViewController()
+    var newsViewControllerHeight: CGFloat = 4 * NewsCollectionCell.minHeight
     var newsViewControllerEnabled: Bool = false
 
     override func viewDidLoad() {
