@@ -11,8 +11,15 @@ import NotificationBannerSwift
 import MKDropdownMenu
 import SVProgressHUD
 
+protocol WalletViewControllerDelegate: class {
+    func scrollViewDidScroll(y: CGFloat)
+}
+
 class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, QRCodeScanProtocol {
 
+    weak var delegate: WalletViewControllerDelegate?
+    var newsViewControllerEnabled: Bool = false
+    
     @IBOutlet weak var assetTableView: UITableView!
     let refreshControl = UIRefreshControl()
 
@@ -28,12 +35,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var showTradingFeature: Bool = FeatureConfigDataManager.shared.getShowTradingFeature()
     
     var blurVisualEffectView = UIView(frame: .zero)
-    
-    // available after iPhone 7
-    let impact = UIImpactFeedbackGenerator()
-    
-    let newsViewController_v2 = NewsSwipeViewController()
-    var newsViewControllerEnabled: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,10 +99,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         NotificationCenter.default.addObserver(self, selector: #selector(needRelaunchCurrentAppWalletReceivedNotification), name: .needRelaunchCurrentAppWallet, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(processPasteboard), name: .needCheckStringInPasteboard, object: nil)
-        
-        addChildViewController(newsViewController_v2)
-        view.addSubview(newsViewController_v2.view)
-        view.bringSubview(toFront: newsViewController_v2.view)
     }
     
     @objc func needRelaunchCurrentAppWalletReceivedNotification() {
@@ -109,7 +106,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @objc private func refreshData(_ sender: Any) {
-        impact.impactOccurred()
         getDataFromRelay()
     }
 
@@ -143,7 +139,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         isListeningSocketIO = true
         CurrentAppWalletDataManager.shared.startGetBalance()
 
-        newsViewController_v2.view.frame = CGRect(x: 0, y: -view.frame.height, width: view.frame.height, height: view.frame.width)
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -153,7 +149,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         CurrentAppWalletDataManager.shared.stopGetBalance()
         isListeningSocketIO = false
-        newsViewControllerEnabled = false
     }
     
     @objc func processPasteboard() {
@@ -310,26 +305,12 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print("scrollView y: \(scrollView.contentOffset.y)")
         
-        /*
-        if scrollView.contentOffset.y < -100 {
-            let newsViewController = NewsNavigationViewController()
-            // newsViewController.modalPresentationStyle = .overCurrentContext
-            present(newsViewController, animated: true) {
-         
-            }
-        }
-        */
-        
-        if !newsViewControllerEnabled {
-            newsViewController_v2.view.frame = CGRect(x: 0, y: -view.frame.height-scrollView.contentOffset.y, width: view.frame.width, height: view.frame.height)
-        }
+        delegate?.scrollViewDidScroll(y: scrollView.contentOffset.y)
         
         if scrollView.contentOffset.y < -140 && !newsViewControllerEnabled {
             newsViewControllerEnabled = true
-            newsViewController_v2.viewControllers[0].collectionView.reloadData()
-            newsViewController_v2.viewControllers[1].collectionView.reloadData()
             UIView.animate(withDuration: 3, delay: 0.2, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-                self.newsViewController_v2.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+                // self.newsViewController_v2.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
                 self.assetTableView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
             }) { (_) in
                 

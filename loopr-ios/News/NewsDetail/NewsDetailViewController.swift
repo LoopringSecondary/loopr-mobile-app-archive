@@ -12,14 +12,13 @@ import WebKit
 class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScrollViewDelegate {
 
     var currentIndex: Int = 0
-    var newsObject: NewsProtocol!
+    var news: News!
     var isFirtTimeAppear: Bool = true
 
-    @IBOutlet weak var navigationBar: UINavigationBar!
+    // @IBOutlet weak var navigationBar: UINavigationBar!
 
-    @IBOutlet open var card: UIView!
     @IBOutlet weak var webView: WKWebView!
-    @IBOutlet weak var progressView: UIProgressView!
+    // @IBOutlet weak var progressView: UIProgressView!
     var showProgressView: Bool = true
     var progressKVOhandle: NSKeyValueObservation?
 
@@ -33,46 +32,18 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
 
     var didCloseButtonClosure: (() -> Void)?
 
-    /*
-    let animator = ModalPushPopAnimator()
-    var edgeView: UIView? {
-        get {
-            if (_edgeView == nil && isViewLoaded) {
-                _edgeView = UIView()
-                _edgeView?.translatesAutoresizingMaskIntoConstraints = false
-                view.addSubview(_edgeView!)
-                _edgeView?.backgroundColor = UIColor(white: 1.0, alpha: 0.005)
-                let bindings = ["edgeView": _edgeView!]
-                let options = NSLayoutFormatOptions(rawValue: 0)
-                let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "|-0-[edgeView(5)]", options: options, metrics: nil, views: bindings)
-                let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[edgeView]-0-|", options: options, metrics: nil, views: bindings)
-                view?.addConstraints(hConstraints)
-                view?.addConstraints(vConstraints)
-            }
-            return _edgeView
-        }
-    }
-    private var _edgeView: UIView?
-    */
-
     override open func viewDidLoad() {
         super.viewDidLoad()
 
-        if let news = newsObject as? News {
-            // modalPresentationStyle = .custom
-            // transitioningDelegate = self
-
-            webView.alpha = 0
-            webView.isHidden = true
-        } else {
-            
-        }
-        view.frame = UIScreen.main.bounds
+        // webView.alpha = 0
+        // webView.isHidden = true
+        
         view.theme_backgroundColor = ColorPicker.cardBackgroundColor
         webView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         webView.scrollView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         webView.isOpaque = false
         
+        /*
         progressView.theme_trackTintColor = ColorPicker.cardHighLightColor
         progressView.theme_backgroundColor = ColorPicker.cardHighLightColor
         progressView.tintColor = UIColor.theme
@@ -80,31 +51,14 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         progressView.setProgress(0, animated: false)
         progressView.alpha = 0.0
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil) // add observer for key path
-        
-        setupCard()
+        */
         
         setBackButton()
         setupNavigationBar()
-        
-        /*
-        let recognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.handleGesture))
-        recognizer.edges = UIRectEdge.left
-        edgeView?.addGestureRecognizer(recognizer)
-        */
     }
-    
-    fileprivate func setupCard() {
-        card.layer.cornerRadius = GarlandConfig.shared.cardRadius
-        card.theme_backgroundColor = ColorPicker.cardBackgroundColor
-    }
-    
+
     fileprivate func setupNavigationBar() {
-        let title: String
-        if let news = newsObject as? News {
-            title = news.category.description
-        } else {
-            title = "Loopring"
-        }
+        let title: String = news.category.description
         let navigationItem = UINavigationItem(title: title)
         
         // Back button
@@ -133,7 +87,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         let shareBarButton = UIBarButtonItem(customView: safariButton)
         navigationItem.rightBarButtonItem = shareBarButton
         
-        navigationBar.pushItem(navigationItem, animated: false)
+        // navigationBar.pushItem(navigationItem, animated: false)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -144,19 +98,12 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UINavigationBar.appearance().theme_barTintColor = ColorPicker.cardBackgroundColor
-        navigationBar.shadowImage = UIImage()
+        // navigationBar.shadowImage = UIImage()
         
-        if let news = newsObject as? News {
-            let titleHtml = "<h2 style=\"color:white;\"><font size='\(NewsDetailUIStyleConfig.shared.titleFontSize)'>\(news.title)</font></h2>"
-            let subTitleHtml = "<font size='\(NewsDetailUIStyleConfig.shared.subTitleFontSize)'><p>\(news.publishTime)  来源:\(news.source)</p></font>"
-            let contentHtml = "<font size='\(NewsDetailUIStyleConfig.shared.fontSize)'>\(news.content)</font>"
-            webView.loadHTMLString("<body>\(titleHtml)\(subTitleHtml)<br><br>\(contentHtml)</body>", baseURL: nil)
-        } else if let blog = newsObject as? Blog {
-            let url = URL(string: blog.url)!
-            let request = URLRequest(url: url)
-            webView.navigationDelegate = self
-            webView.load(request)
-        }
+        let titleHtml = "<h2 style=\"color:white;\"><font size='\(NewsDetailUIStyleConfig.shared.titleFontSize)'>\(news.title)</font></h2>"
+        let subTitleHtml = "<font size='\(NewsDetailUIStyleConfig.shared.subTitleFontSize)'><p>\(news.publishTime)  来源:\(news.source)</p></font>"
+        let contentHtml = "<font size='\(NewsDetailUIStyleConfig.shared.fontSize)'>\(news.content)</font>"
+        webView.loadHTMLString("<body>\(titleHtml)\(subTitleHtml)<br><br>\(contentHtml)</body>", baseURL: nil)
         setupRefreshControlAtBottom()
     }
     
@@ -183,30 +130,15 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     }
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
-        if let url = URL(string: newsObject.url) {
+        if let url = URL(string: news.url) {
             UIApplication.shared.open(url)
         }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        progressView.progress = Float(webView.estimatedProgress)
+        // progressView.progress = Float(webView.estimatedProgress)
     }
-    
-    /*
-    @objc func handleGesture(recognizer: UIScreenEdgePanGestureRecognizer) {
-        self.animator.percentageDriven = true
-        let percentComplete = recognizer.location(in: view).x / view.bounds.size.width / 2.0
-        switch recognizer.state {
-        case .began: dismiss(animated: true, completion: nil)
-        case .changed: animator.update(percentComplete > 0.99 ? 0.99 : percentComplete)
-        case .ended, .cancelled:
-            (recognizer.velocity(in: view).x < 0) ? animator.cancel() : animator.finish()
-            self.animator.percentageDriven = false
-        default: ()
-        }
-    }
-    */
-    
+
     func setupRefreshControlAtBottom() {
         pullToNextPageBottomView.frame = CGRect(x: 0, y: webView.height, width: UIScreen.main.bounds.width, height: pullToNextPageBottomViewHeight)
         webView.addSubview(pullToNextPageBottomView)
@@ -272,21 +204,19 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         if enablePullToNextPage {
-            if newsObject as? News != nil {
-                let news = NewsDataManager.shared.informationItems[currentIndex+1]
-                let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
-                detailViewController.currentIndex = currentIndex+1
-                detailViewController.newsObject = news
-                detailViewController.didCloseButtonClosure = {
-                    self.didCloseButtonClosure?()
-                    self.dismiss(animated: false, completion: {
-                        
-                    })
-                }
-                self.present(detailViewController, animated: true, completion: {
-                    self.navigationController?.popViewController(animated: false)
+            let news = NewsDataManager.shared.informationItems[currentIndex+1]
+            let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
+            detailViewController.currentIndex = currentIndex+1
+            detailViewController.news = news
+            detailViewController.didCloseButtonClosure = {
+                self.didCloseButtonClosure?()
+                self.dismiss(animated: false, completion: {
+                    
                 })
             }
+            self.present(detailViewController, animated: true, completion: {
+                self.navigationController?.popViewController(animated: false)
+            })
         }
     }
 
@@ -294,26 +224,26 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         if showProgressView {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             
+            /*
             progressView.alpha = 0.0
             UIView.animate(withDuration: 0.33, delay: 0.0, options: .curveEaseInOut, animations: {
                 self.progressView.alpha = 1.0
             })
+            */
         }
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if newsObject as? News != nil {
-            applyCss()
-        } else {
-            self.showWebView()
-        }
-        
+        applyCss()
+
         showProgressView = false
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        /*
         progressView.alpha = 1.0
         UIView.animate(withDuration: 0.33, delay: 0.0, options: .curveEaseInOut, animations: {
             self.progressView.alpha = 0.0
         })
+        */
     }
     
     func applyCss() {

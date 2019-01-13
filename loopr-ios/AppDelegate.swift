@@ -70,14 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                 MarketDataManager.shared.setMarkets(newMarkets: markets)
             }
         }
-        
-        // Preload News data
-        NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
-            
-        })
-        NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
-            
-        })
 
         PartnerDataManager.shared.createPartner()
         PartnerDataManager.shared.activatePartner()

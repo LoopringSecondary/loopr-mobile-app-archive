@@ -19,9 +19,13 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainTabController") as! MainTabController
     }
     
-    var viewController1: UIViewController!
+    var viewController1 = WalletNavigationViewController()
     var viewController2: UIViewController!
     var viewController4: UIViewController!
+
+    
+    let newsViewController_v2 = NewsNavigationViewController()
+    var newsViewControllerEnabled: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +35,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         self.tabBar.barTintColor = Themes.isDark() ? .dark2 : .white
         
         // Asset view controller
-        viewController1 = WalletNavigationViewController()
+        viewController1.viewController.delegate = self
 
         // Trade view controller
         viewController2 = TradeSelectionNavigationViewController()
@@ -49,6 +53,18 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showTradingFeatureChangedReceivedNotification(notification:)), name: .showTradingFeatureChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(localNotificationReceived), name: .publishLocalNotificationToMainTabController, object: nil)
+        
+        addChildViewController(newsViewController_v2)
+        view.addSubview(newsViewController_v2.view)
+        view.bringSubview(toFront: newsViewController_v2.view)
+        
+        // Preload News data
+        NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
+            self.newsViewController_v2.viewController.viewControllers[0].collectionView.reloadData()
+        })
+        NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
+            self.newsViewController_v2.viewController.viewControllers[1].collectionView.reloadData()
+        })
     }
     
     override func viewWillLayoutSubviews() {
@@ -65,6 +81,8 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        newsViewController_v2.view.frame = CGRect(x: 0, y: -view.frame.height, width: view.frame.height, height: view.frame.width)
     }
 
     func setTabBarItems() {
@@ -139,4 +157,23 @@ extension MainTabController {
         }
 
     }
+}
+
+extension MainTabController: WalletViewControllerDelegate {
+
+    func scrollViewDidScroll(y: CGFloat) {
+        if !newsViewControllerEnabled {
+            newsViewController_v2.view.frame = CGRect(x: 0, y: -view.frame.height-y, width: view.frame.width, height: view.frame.height)
+        }
+        
+        if y < -140 && !newsViewControllerEnabled {
+            newsViewControllerEnabled = true
+            UIView.animate(withDuration: 3, delay: 0.2, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+                self.newsViewController_v2.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+            }) { (_) in
+                
+            }
+        }
+    }
+    
 }
