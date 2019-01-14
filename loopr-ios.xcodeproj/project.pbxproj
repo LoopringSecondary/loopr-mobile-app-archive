@@ -105,7 +105,6 @@
 		94C11FD7208C2DC60050E180 /* SettingCurrencyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94C11FD5208C2DC60050E180 /* SettingCurrencyViewController.xib */; };
 		94C11FDA208C2DE40050E180 /* SettingCurrencyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C11FD8208C2DE40050E180 /* SettingCurrencyTableViewCell.swift */; };
 		94C11FDB208C2DE40050E180 /* SettingCurrencyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94C11FD9208C2DE40050E180 /* SettingCurrencyTableViewCell.xib */; };
-		94C556B821DDB4970039D121 /* Blog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C556B721DDB4970039D121 /* Blog.swift */; };
 		94CA6B5920BC037F000E4E8E /* OrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CA6B5820BC037F000E4E8E /* OrderType.swift */; };
 		94CC15AE2111A46E00B54D71 /* OrderQRCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94CC15AD2111A46E00B54D71 /* OrderQRCodeViewController.xib */; };
 		94D94CE32084A9380000BBC8 /* ConfirmationResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D94CE12084A9380000BBC8 /* ConfirmationResultViewController.swift */; };
@@ -676,7 +675,6 @@
 		94C11FD5208C2DC60050E180 /* SettingCurrencyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingCurrencyViewController.xib; sourceTree = "<group>"; };
 		94C11FD8208C2DE40050E180 /* SettingCurrencyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCurrencyTableViewCell.swift; sourceTree = "<group>"; };
 		94C11FD9208C2DE40050E180 /* SettingCurrencyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingCurrencyTableViewCell.xib; sourceTree = "<group>"; };
-		94C556B721DDB4970039D121 /* Blog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blog.swift; sourceTree = "<group>"; };
 		94CA6B5820BC037F000E4E8E /* OrderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderType.swift; sourceTree = "<group>"; };
 		94CC15AD2111A46E00B54D71 /* OrderQRCodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OrderQRCodeViewController.xib; path = "loopr-ios/OrderHistory/HistoryDetail/OrderQRCodeViewController.xib"; sourceTree = SOURCE_ROOT; };
 		94D94CE12084A9380000BBC8 /* ConfirmationResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationResultViewController.swift; sourceTree = "<group>"; };
@@ -1369,7 +1367,6 @@
 			children = (
 				9461851521D0FAFD00393432 /* News.swift */,
 				9BA4FCA721EC0020005A3DC0 /* NewsParagraph.swift */,
-				94C556B721DDB4970039D121 /* Blog.swift */,
 				9461851721D0FD8700393432 /* NewsCategory.swift */,
 				9BA4FC9B21DC4FC8005A3DC0 /* NewsParams.swift */,
 			);
@@ -3207,7 +3204,6 @@
 				9475A2EE207EF81300200155 /* OrderDetailViewController.swift in Sources */,
 				AC2ACA85210305F8009C77E7 /* TradeFAQDetailViewController.swift in Sources */,
 				948125672119B38E00453225 /* PartnerDataManager.swift in Sources */,
-				94C556B821DDB4970039D121 /* Blog.swift in Sources */,
 				94E49ED4213CE99700CDDA02 /* PreventScreenShotViewController.swift in Sources */,
 				9B2ED7FC21D460EA00ACEE84 /* NewsCollectionCell.swift in Sources */,
 				AC9280E7202F5A010009B574 /* UIStyleConfig.swift in Sources */,
