@@ -8,7 +8,7 @@
 
 import Foundation
 
-class News: NewsProtocol {
+class News {
     var uuid: String
     var token: String
     var language: Language
@@ -25,9 +25,9 @@ class News: NewsProtocol {
     var forwardNum: Int
     
     // not from API
-    var paragraphs: [String] = []
+    var paragraphs: [NewsParagraph] = []
     var description: String
-    
+
     init?(json: JSON, category: NewsCategory) {
         self.uuid = json["uuid"].stringValue
         self.token = json["token"].stringValue
@@ -57,11 +57,18 @@ class News: NewsProtocol {
         // Remove all line breaks at the beginning of content
         self.content = self.content.replacingOccurrences(of: "^\\s*", with: "", options: .regularExpression)
 
-        self.paragraphs = self.content.split(separator: "\n").map({ (paragraph) -> String in
+        let contentParagraphs = self.content.split(separator: "\n").map({ (paragraph) -> String in
             return paragraph.replacingOccurrences(of: "^\\s*", with: "", options: .regularExpression)
         })
-
-        self.description = paragraphs.joined(separator: "\n")
+        
+        for contentParagraph in contentParagraphs {
+            if let newsParagraph = NewsParagraph(content: contentParagraph) {
+                paragraphs.append(newsParagraph)
+            }
+        }
+        
+        // Description
+        self.description = contentParagraphs.joined(separator: "\n")
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
             .characterEncoding: String.Encoding.utf8.rawValue
@@ -77,5 +84,7 @@ class News: NewsProtocol {
         // TODO: how to change the line distance in html and css?
         self.content = self.content.replacingOccurrences(of: "\n\n", with: "\n")
         self.content = self.content.replacingOccurrences(of: "\n", with: "\n\n")
+        
     }
+
 }

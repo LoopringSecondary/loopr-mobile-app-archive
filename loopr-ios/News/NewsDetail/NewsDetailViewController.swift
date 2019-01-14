@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScrollViewDelegate {
+class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
 
     var currentIndex: Int = 0
     var news: News!
@@ -17,11 +17,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
 
     // @IBOutlet weak var navigationBar: UINavigationBar!
 
-    @IBOutlet weak var webView: WKWebView!
-    // @IBOutlet weak var progressView: UIProgressView!
-    var showProgressView: Bool = true
-    var progressKVOhandle: NSKeyValueObservation?
-
+    @IBOutlet weak var tableView: UITableView!
+    
     var enablePullToNextPage: Bool = false
     var isPullToNextPageImageViewAnimating: Bool = false
     var isPullToNextPageImageViewUp: Bool = true
@@ -32,15 +29,16 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
 
     override open func viewDidLoad() {
         super.viewDidLoad()
+        
+        NewsDataManager.shared.currentIndex = currentIndex
 
-        // webView.alpha = 0
-        // webView.isHidden = true
-        
         view.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        webView.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        webView.scrollView.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        webView.isOpaque = false
         
+        tableView.delegate = self
+        tableView.dataSource = self
+
+        tableView.separatorStyle = .none
+
         /*
         progressView.theme_trackTintColor = ColorPicker.cardHighLightColor
         progressView.theme_backgroundColor = ColorPicker.cardHighLightColor
@@ -52,42 +50,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         */
         
         setBackButton()
-        // setupNavigationBar()
         
         NotificationCenter.default.addObserver(self, selector: #selector(tiggerPopNewsDetailViewControllerReceivedNotification), name: .tiggerPopNewsDetailViewController, object: nil)
-    }
-
-    fileprivate func setupNavigationBar() {
-        let title: String = news.category.description
-        let navigationItem = UINavigationItem(title: title)
-        
-        // Back button
-        let backButton = UIButton(type: UIButtonType.custom)
-        
-        backButton.theme_setImage(GlobalPicker.close, forState: .normal)
-        backButton.theme_setImage(GlobalPicker.closeHighlight, forState: .highlighted)
-        
-        // Default left padding is 20. It should be 12 in our design.
-        backButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: -16, bottom: 0, right: 8)
-        backButton.addTarget(self, action: #selector(closeButtonAction(_:)), for: UIControlEvents.touchUpInside)
-        // The size of the image.
-        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-        navigationItem.hidesBackButton = true
-        
-        // Safari button
-        let safariButton = UIButton(type: UIButtonType.custom)
-        safariButton.setImage(UIImage(named: "Safari-item-button"), for: .normal)
-        safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.3), for: .highlighted)
-        safariButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
-        safariButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
-        // The size of the image.
-        safariButton.frame = CGRect(x: 0, y: 0, width: 23, height: 23)
-        let shareBarButton = UIBarButtonItem(customView: safariButton)
-        navigationItem.rightBarButtonItem = shareBarButton
-        
-        // navigationBar.pushItem(navigationItem, animated: false)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -97,13 +61,8 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UINavigationBar.appearance().theme_barTintColor = ColorPicker.cardBackgroundColor
         // navigationBar.shadowImage = UIImage()
-        
-        let titleHtml = "<h2 style=\"color:white;\"><font size='\(NewsDetailUIStyleConfig.shared.titleFontSize)'>\(news.title)</font></h2>"
-        let subTitleHtml = "<font size='\(NewsDetailUIStyleConfig.shared.subTitleFontSize)'><p>\(news.publishTime)  来源:\(news.source)</p></font>"
-        let contentHtml = "<font size='\(NewsDetailUIStyleConfig.shared.fontSize)'>\(news.content)</font>"
-        webView.loadHTMLString("<body>\(titleHtml)\(subTitleHtml)<br><br>\(contentHtml)</body>", baseURL: nil)
+
         setupRefreshControlAtBottom()
     }
     
@@ -116,35 +75,17 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         }
         
         isFirtTimeAppear = false
-        webView.navigationDelegate = self
-        webView.scrollView.delegate = self
     }
     
     @objc func tiggerPopNewsDetailViewControllerReceivedNotification() {
         print("tiggerPopNewsDetailViewControllerReceivedNotification")
         self.navigationController?.popViewController(animated: true)
     }
-    
-    @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {
-        // dismiss(animated: true, completion: nil)
-        if self.navigationController != nil {
-            self.navigationController?.popViewController(animated: true)
-        } else {
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    @objc func pressedSafariButton(_ button: UIBarButtonItem) {
-        if let url = URL(string: news.url) {
-            UIApplication.shared.open(url)
-        }
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        // progressView.progress = Float(webView.estimatedProgress)
-    }
+
+
 
     func setupRefreshControlAtBottom() {
+        /*
         pullToNextPageBottomView.frame = CGRect(x: 0, y: webView.height, width: UIScreen.main.bounds.width, height: pullToNextPageBottomViewHeight)
         webView.addSubview(pullToNextPageBottomView)
 
@@ -160,10 +101,12 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         pullToNextPageImageView.transform = CGAffineTransform(rotationAngle: CGFloat(-1/180*Double.pi))
         pullToNextPageImageView.contentMode = .scaleAspectFit
         pullToNextPageBottomView.addSubview(pullToNextPageImageView)
+        */
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print("scrollView y: \(scrollView.contentOffset.y)")
+        /*
         let bottomY = scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom
         print("the bottom of scrollView: \(bottomY)")
         if scrollView.contentOffset.y > bottomY {
@@ -204,6 +147,7 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         } else {
             pullToNextPageBottomView.isHidden = true
         }
+        */
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
@@ -218,50 +162,38 @@ class NewsDetailViewController: UIViewController, WKNavigationDelegate, UIScroll
         }
     }
 
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        if showProgressView {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
-            
-            /*
-            progressView.alpha = 0.0
-            UIView.animate(withDuration: 0.33, delay: 0.0, options: .curveEaseInOut, animations: {
-                self.progressView.alpha = 1.0
-            })
-            */
-        }
-    }
-
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        applyCss()
-
-        showProgressView = false
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        /*
-        progressView.alpha = 1.0
-        UIView.animate(withDuration: 0.33, delay: 0.0, options: .curveEaseInOut, animations: {
-            self.progressView.alpha = 0.0
-        })
-        */
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return news.paragraphs.count
     }
     
-    func applyCss() {
-        let bodyCssString = "body { white-space: pre-wrap; color: \(NewsDetailUIStyleConfig.shared.textColor); background-color: \(NewsDetailUIStyleConfig.shared.backgroundColor); font-family: \"\(NewsDetailUIStyleConfig.shared.fontFamily)\"; font-size: 100%; padding-left: 40px; padding-right: 40px; text-decoration: none; }"
-        let imageCssString = "img { width: 100%; padding-top: 0px; padding-bottom: 0px; border-radius: \(NewsDetailUIStyleConfig.shared.imageCornerRadius)px;}"
-        let aLinkCssString = "a:link { color: \(NewsDetailUIStyleConfig.shared.textColor);}"
-        let cssString = "\(bodyCssString) \(imageCssString) \(aLinkCssString)"
-        let jsString = "var style = document.createElement('style'); style.innerHTML = '\(cssString)'; document.head.appendChild(style);"
-        webView.evaluateJavaScript(jsString) { (_, _) in
-            self.showWebView()
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let newsParagraph = news.paragraphs[indexPath.row]
+        if newsParagraph.isString {
+            return NewsDetailStringTableViewCell.getHeight(content: newsParagraph.content)
+        } else {
+            return NewsDetailImageTableViewCell.getHeight(image: newsParagraph.image!)
         }
     }
     
-    func showWebView() {
-        self.webView.isHidden = false
-        UIView.animate(withDuration: NewsDetailUIStyleConfig.shared.webAlphaAnimationDuration, delay: 0, options: .curveLinear, animations: {
-            self.webView.alpha = 1
-        }, completion: { (_) in
-            
-        })
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let newsParagraph = news.paragraphs[indexPath.row]
+        if newsParagraph.isString {
+            var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailStringTableViewCell.getCellIdentifier()) as? NewsDetailStringTableViewCell
+            if cell == nil {
+                let nib = Bundle.main.loadNibNamed("NewsDetailStringTableViewCell", owner: self, options: nil)
+                cell = nib![0] as? NewsDetailStringTableViewCell
+            }
+            cell?.update(content: newsParagraph.content)
+            return cell!
+        } else {
+            var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailImageTableViewCell.getCellIdentifier()) as? NewsDetailImageTableViewCell
+            if cell == nil {
+                let nib = Bundle.main.loadNibNamed("NewsDetailImageTableViewCell", owner: self, options: nil)
+                cell = nib![0] as? NewsDetailImageTableViewCell
+            }
+            cell?.backgroundImageView.image = newsParagraph.image
+            return cell!
+        }
     }
-
+    
 }

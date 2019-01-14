@@ -182,7 +182,8 @@ extension MainTabController: WalletViewControllerDelegate {
 
         if y < -140 && !newsViewControllerEnabled {
             newsViewControllerEnabled = true
-            
+            view.bringSubview(toFront: newsViewController.view)
+
             UIView.animate(withDuration: 1, delay: 0.1, usingSpringWithDamping: 0.75, initialSpringVelocity: 2, options: .curveEaseInOut, animations: {
                 self.newsViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: self.newsViewControllerHeight)
                 self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: self.viewController1.viewController.assetTableView.frame.height, width: self.view.frame.width, height: self.viewController1.viewController.assetTableView.frame.height)

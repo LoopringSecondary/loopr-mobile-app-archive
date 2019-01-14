@@ -20,8 +20,7 @@ class NewsDataManager {
     var flashHasMoreData: Bool = true
     var flashItems: [News] = []
     
-    private var currentIndex: Int = 0
-    var blogs: [Blog] = []
+    var currentIndex: Int = 0
 
     var votes = [String: Int]()
 
@@ -29,6 +28,10 @@ class NewsDataManager {
         if let votes = UserDefaults.standard.dictionary(forKey: UserDefaultsKeys.newsUpvoteAndDownvote.rawValue) as? [String: Int] {
             self.votes = votes
         }
+    }
+    
+    func getCurrentInformationItem() -> News {
+        return informationItems[currentIndex]
     }
 
     func getVote(uuid: String) -> Int {
@@ -81,25 +84,4 @@ class NewsDataManager {
         }
     }
 
-    func getBlogs(completion: @escaping (_ blogs: [Blog], _ error: Error?) -> Void) {
-        CrawlerAPIRequest.getBlogs { (blogs, error) in
-            self.blogs = blogs
-            self.currentIndex = blogs.count - 1
-            completion(blogs, error)
-        }
-    }
-
-    func getNextBlog() -> (Blog?, Int) {
-        guard blogs.count > 0 else {
-            return (nil, 0)
-        }
-        if currentIndex == blogs.count - 1 {
-            currentIndex = 0
-        } else if currentIndex < blogs.count - 1 {
-            currentIndex += 1
-        } else {
-            currentIndex = 0
-        }
-        return (blogs[currentIndex], currentIndex)
-    }
 }
