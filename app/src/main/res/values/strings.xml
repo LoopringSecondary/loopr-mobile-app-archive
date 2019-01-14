@@ -261,6 +261,12 @@
     <string name="change">涨跌</string>
     <string name="lrc_fee">LRC费用比例</string>
     <string name="amount">数量</string>
+    <string name="market_low">最低</string>
+    <string name="market_high">最高</string>
+    <string name="market_vol">交易量</string>
+    <string name="market_open">开盘</string>
+    <string name="market_close">收盘</string>
+    <string name="market_change">涨跌</string>
 
     <string name="sell_amount">卖出数额</string>
     <string name="buy_amount">买入数额</string>
@@ -327,5 +333,7 @@
     <string name="news_pulling_next">上拉加载下一篇</string>
     <string name="news_release_next">松手加载下一篇</string>
     <string name="news_loading">正在刷新</string>
+    <string name="market_24_change">24H 涨跌:</string>
+    <string name="market_24_vol">24H 交易量:</string>
 
 </resources>

@@ -260,6 +260,12 @@
     <string name="change">Change</string>
     <string name="lrc_fee">LRC Fee Ratio</string>
     <string name="amount">Amount</string>
+    <string name="market_low">Lowest</string>
+    <string name="market_high">Highest</string>
+    <string name="market_vol">Volume</string>
+    <string name="market_open">Open</string>
+    <string name="market_close">Close</string>
+    <string name="market_change">Change</string>
 
     <string name="sell_amount">Amount to sell</string>
     <string name="buy_amount">Amount to buy</string>
@@ -326,4 +332,7 @@
     <string name="news_pulling_next">Pulling to load next</string>
     <string name="news_release_next">Release to load next</string>
     <string name="news_loading">loading</string>
+    <string name="market_24_change">24H Change:</string>
+    <string name="market_24_vol">24H Volume:</string>
+
 </resources>

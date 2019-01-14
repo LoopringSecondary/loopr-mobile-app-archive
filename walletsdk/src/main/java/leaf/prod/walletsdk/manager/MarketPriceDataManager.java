@@ -173,6 +173,7 @@ public class MarketPriceDataManager {
             getTrendInterval(trend);
             this.trends.add(trend);
         }
+        Collections.sort(this.trends, (o1, o2) -> (int) (o1.getCreateTime() - o2.getCreateTime()));
     }
 
     private void getTrendInterval(Trend trend) {
@@ -209,7 +210,7 @@ public class MarketPriceDataManager {
                 }
                 break;
         }
-        trend.setRange(start + "~" + end);
+        trend.setRange(start + " ~ " + end);
     }
 
     private void getTrendValue(Trend trend) {
