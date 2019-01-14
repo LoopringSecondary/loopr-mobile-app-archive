@@ -84,19 +84,22 @@ class NewsSwipeViewController: SwipeViewController {
         let navigationItem = UINavigationItem(title: "")
         let button = UIButton(type: UIButtonType.custom)
         
-        button.theme_setImage(GlobalPicker.close, forState: .normal)
-        button.theme_setImage(GlobalPicker.closeHighlight, forState: .highlighted)
-        
+        // button.theme_setImage(GlobalPicker.close, forState: .normal)
+        // button.theme_setImage(GlobalPicker.closeHighlight, forState: .highlighted)
+        button.setImage(UIImage(named: "News-close-dark"), for: .normal)
+        button.setImage(UIImage(named: "News-close-dark")?.alpha(0.6), for: .normal)
+
         // Default left padding is 20. It should be 12 in our design.
-        button.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: -16, bottom: 0, right: 8)
+        // button.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -16)
+        button.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 6, bottom: 0, right: -14)
         button.addTarget(self, action: #selector(closeButtonAction(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
         
         // right is nil
-        navigationItem.rightBarButtonItem = nil
+        navigationItem.leftBarButtonItem = nil
         
         navigationBar.setItems([navigationItem], animated: true)
         
