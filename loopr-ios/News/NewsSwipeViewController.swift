@@ -12,7 +12,7 @@ protocol NewsSwipeViewControllerDelegate: class {
     func closeButtonAction()
 }
 
-class NewsSwipeViewController: SwipeViewController {
+class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
 
     weak var delegate: NewsSwipeViewControllerDelegate?
     @IBOutlet weak var headerView: UIView!
@@ -38,6 +38,8 @@ class NewsSwipeViewController: SwipeViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(pushedNewsDetailViewControllerReceivedNotification), name: .pushedNewsDetailViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willShowNewsViewControllerReceivedNotification), name: .willShowNewsViewController, object: nil)
+        
+        swipeView.swipeContentScrollView?.delegate = self
     }
 
     // Not firing if NewsSwipeViewController is addChildViewController
@@ -180,4 +182,19 @@ class NewsSwipeViewController: SwipeViewController {
     override func swipeView(_ swipeView: SwipeView, viewControllerForPageAt index: Int) -> UIViewController {
         return viewControllers[index]
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // UIView.animate(withDuration: 0.3) {
+            self.viewControllers[0].viewController.rightFakeView.alpha = 0
+            self.viewControllers[1].viewController.leftFakeView.alpha = 0
+        // }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        UIView.animate(withDuration: 0.6) {
+            self.viewControllers[0].viewController.rightFakeView.alpha = 1
+            self.viewControllers[1].viewController.leftFakeView.alpha = 1
+        }
+    }
+
 }

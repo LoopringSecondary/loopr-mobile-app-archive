@@ -13,7 +13,6 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     var currentIndex: Int = 0
     var news: News!
-    var isFirtTimeAppear: Bool = true
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -53,17 +52,11 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         // navigationBar.shadowImage = UIImage()
 
         setupRefreshControlAtBottom()
+        NotificationCenter.default.post(name: .pushedNewsDetailViewController, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.post(name: .pushedNewsDetailViewController, object: nil)
-
-        guard isFirtTimeAppear else {
-            return
-        }
-        
-        isFirtTimeAppear = false
     }
     
     @objc func tiggerPopNewsDetailViewControllerReceivedNotification() {

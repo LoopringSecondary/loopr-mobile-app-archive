@@ -92,4 +92,10 @@ class FontConfigManager {
         }
         return font
     }
+    
+    func getNewsTitleFont() -> UIFont {
+        let font = UIFont(name: "FZDaBiaoSong-B06S", size: 30)!
+        return font
+    }
+
 }

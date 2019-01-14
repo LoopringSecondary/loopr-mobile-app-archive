@@ -12,6 +12,10 @@ import SVProgressHUD
 
 class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
+    @IBOutlet weak var headerView: UIImageView!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var leftFakeView: UIView!
+    @IBOutlet weak var rightFakeView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     var currentIndex: Int = 0
@@ -32,6 +36,28 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
         view.theme_backgroundColor = ColorPicker.backgroundColor
         collectionView.theme_backgroundColor = ColorPicker.backgroundColor
+        
+        headerView.cornerRadius = 6
+        headerView.image = UIImage(named: "wallet-selected-background" + ColorTheme.getTheme())
+        headerView.contentMode = .scaleToFill
+        
+        categoryLabel.font = FontConfigManager.shared.getNewsTitleFont() // FontConfigManager.shared.getMediumFont(size: 20)
+        categoryLabel.textColor = .white
+        categoryLabel.text = newsParamsList[currentIndex].title
+        
+        leftFakeView.round(corners: [.topRight, .bottomRight], radius: 2)
+        leftFakeView.backgroundColor = UIColor(rgba: "#fdbc4c")
+        
+        rightFakeView.round(corners: [.topLeft, .bottomLeft], radius: 2)
+        rightFakeView.backgroundColor = UIColor(rgba: "#eec71c")
+        
+        if currentIndex == 0 {
+            leftFakeView.isHidden = true
+            rightFakeView.isHidden = false
+        } else {
+            leftFakeView.isHidden = false
+            rightFakeView.isHidden = true
+        }
         
         let nib = UINib(nibName: NewsCollectionCell.getCellIdentifier(), bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())

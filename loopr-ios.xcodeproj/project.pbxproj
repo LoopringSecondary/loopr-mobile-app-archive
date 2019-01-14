@@ -180,6 +180,7 @@
 		9BB789EF21EC22C90095631D /* NewsDetailTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BB789ED21EC22C90095631D /* NewsDetailTitleTableViewCell.xib */; };
 		9BB789F221EC23250095631D /* NewsDetailSubtitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB789F021EC23250095631D /* NewsDetailSubtitleTableViewCell.swift */; };
 		9BB789F321EC23250095631D /* NewsDetailSubtitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BB789F121EC23250095631D /* NewsDetailSubtitleTableViewCell.xib */; };
+		9BB789F521EC74060095631D /* 方正大标宋简体.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BB789F421EC73FE0095631D /* 方正大标宋简体.ttf */; };
 		9BBB4E4B21DB4BD300683673 /* RefreshControlDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */; };
 		9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */; };
 		9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */; };
@@ -753,6 +754,7 @@
 		9BB789ED21EC22C90095631D /* NewsDetailTitleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailTitleTableViewCell.xib; sourceTree = "<group>"; };
 		9BB789F021EC23250095631D /* NewsDetailSubtitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailSubtitleTableViewCell.swift; sourceTree = "<group>"; };
 		9BB789F121EC23250095631D /* NewsDetailSubtitleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailSubtitleTableViewCell.xib; sourceTree = "<group>"; };
+		9BB789F421EC73FE0095631D /* 方正大标宋简体.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "方正大标宋简体.ttf"; sourceTree = "<group>"; };
 		9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlDataManager.swift; sourceTree = "<group>"; };
 		9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailSummaryTableViewCell.xib; sourceTree = "<group>"; };
@@ -1675,6 +1677,7 @@
 		AC54FD26204FC61C007E1DEB /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				9BB789F421EC73FE0095631D /* 方正大标宋简体.ttf */,
 				9B2ED82621DA083600ACEE84 /* Inter-UI */,
 				AC2ACA4020FA0EC3009C77E7 /* Rubik */,
 			);
@@ -2799,6 +2802,7 @@
 				AC6466092083EE1E00EBEC97 /* MnemonicDerivationPathTableViewCell.xib in Resources */,
 				ACE65E422071F875001EE499 /* MnemonicCollectionViewController.xib in Resources */,
 				ACB8485A20BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.xib in Resources */,
+				9BB789F521EC74060095631D /* 方正大标宋简体.ttf in Resources */,
 				9B2ED83721DA083600ACEE84 /* Inter-UI-ExtraBold.ttf in Resources */,
 				AC99CF472083DD6A000AE4BD /* MnemonicEnterDerivationPathViewController.xib in Resources */,
 				AC2C93D82105AE97004B8456 /* SetupWalletEnterRepeatPasswordViewController.xib in Resources */,
