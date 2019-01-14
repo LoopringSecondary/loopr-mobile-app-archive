@@ -87,6 +87,7 @@
             android:id="@+id/rl_news"
             style="@style/AutoMatch"
             android:layout_gravity="bottom"
+            android:visibility="gone"
             android:clickable="true">
 
             <LinearLayout

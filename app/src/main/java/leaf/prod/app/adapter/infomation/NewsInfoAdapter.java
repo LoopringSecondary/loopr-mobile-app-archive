@@ -1,21 +1,18 @@
 package leaf.prod.app.adapter.infomation;
 
 import java.text.SimpleDateFormat;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.view.View;
-import android.widget.TextView;
+import android.support.annotation.Nullable;
 
-import org.greenrobot.eventbus.EventBus;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.vondear.rxtool.view.RxToast;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
@@ -27,76 +24,44 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created with IntelliJ IDEA.
- * User: laiyanyan
- * Time: 2018-12-22 4:25 PM
- * Cooperation: loopring.org 路印协议基金会
- */
-public class NewsInfoItem extends NewsBodyItem {
+public class NewsInfoAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
+
+    private Activity activity;
 
     private static SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private static SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd HH:mm");
 
-    @BindView(R.id.tv_time)
-    public TextView tvTime;
+    private boolean expand = false;
 
-    @BindView(R.id.tv_title)
-    public TextView tvTitle;
-
-    @BindView(R.id.cl_content)
-    public TextView clContent;
-
-    @BindView(R.id.tv_share)
-    public TextView tvShare;
-    //    @BindView(R.id.tv_comment)
-    //    public TextView tvComment;
-
-    @BindView(R.id.tv_source)
-    public TextView tvSource;
-
-    private News data;
+    private List<News> newsList;
 
     private static CrawlerService crawlerService;
 
-    public NewsInfoItem(View itemView, Activity activity) {
-        super(itemView, activity);
+    public NewsInfoAdapter(int layoutResId, @Nullable List<News> news, Activity activity) {
+        super(layoutResId, news);
+        this.activity = activity;
+        this.newsList = news;
         if (crawlerService == null) {
             crawlerService = new CrawlerService();
         }
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
-    public void setContent(News data) {
-        if (data == null)
+    protected void convert(BaseViewHolder helper, News news) {
+        if (news == null)
             return;
         try {
-            this.data = data;
-            tvTime.setText(sdf2.format(sdf1.parse(data.getPublishTime())));
-            tvSource.setText(innerLayout.getResources().getString(R.string.news_source) + ":" + data.getSource());
-            tvTitle.setText(data.getTitle());
-            Pattern p = Pattern.compile("<img src=\"([\\s\\S]*?)\">");
-            Matcher m = p.matcher(data.getContent());
-            clContent.setText(m.replaceAll(""));
-            tvShare.setText(innerLayout.getResources()
-                    .getString(R.string.news_share) + " " + (data.getForwardNum() > 0 ? data
+            helper.setText(R.id.tv_time, sdf2.format(sdf1.parse(news.getPublishTime())));
+            helper.setText(R.id.tv_source, activity.getString(R.string.news_source) + ":" + news
+                    .getSource());
+            helper.setText(R.id.tv_title, news.getTitle());
+            helper.setText(R.id.cl_content, news.getContent());
+            helper.setText(R.id.tv_share, activity.getString(R.string.news_share) + " " + (news.getForwardNum() > 0 ? news
                     .getForwardNum() : ""));
-            innerLayout.setOnClickListener(view -> {
-                EventBus.getDefault().post(data);
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @OnClick({R.id.cl_share})
-    public void onViewClicked(View view) {
-        if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-            switch (view.getId()) {
-                case R.id.cl_share:
-                    ShareUtil.uShareUrl(activity, data.getTitle(), data.getUrl(), " ", new UMShareListener() {
+            helper.setOnClickListener(R.id.cl_share, view -> {
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) {
+                    ShareUtil.uShareUrl(activity, news.getTitle(), news.getUrl(), " ", new UMShareListener() {
                         @Override
                         public void onStart(SHARE_MEDIA platform) {
                         }
@@ -105,7 +70,7 @@ public class NewsInfoItem extends NewsBodyItem {
                         @Override
                         public void onResult(SHARE_MEDIA platform) {
                             RxToast.success(activity.getResources().getString(R.string.share_success));
-                            crawlerService.confirmForward(data.getUuid())
+                            crawlerService.confirmForward(news.getUuid())
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<IndexResult>() {
@@ -120,7 +85,8 @@ public class NewsInfoItem extends NewsBodyItem {
 
                                         @Override
                                         public void onNext(IndexResult indexResult) {
-                                            tvShare.setText(activity.getString(R.string.news_share) + " " + indexResult.getForwardNum());
+                                            helper.setText(R.id.tv_share, activity.getString(R.string.news_share) + " " + indexResult
+                                                    .getForwardNum());
                                         }
                                     });
                         }
@@ -138,8 +104,10 @@ public class NewsInfoItem extends NewsBodyItem {
                         public void onCancel(SHARE_MEDIA platform) {
                         }
                     });
-                    break;
-            }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

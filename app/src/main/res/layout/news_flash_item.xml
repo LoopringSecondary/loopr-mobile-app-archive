@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/ll_main"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_gravity="center"
+              android:layout_marginTop="10dp"
               android:clickable="true"
               android:focusable="true"
               android:orientation="vertical">
@@ -11,8 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
         android:background="@drawable/radius_bg_29"
         android:orientation="vertical">
 
@@ -74,6 +74,7 @@
                 android:lineSpacingMultiplier="1.3"
                 android:maxLines="4"
                 android:minLines="4"
+                android:minHeight="80dp"
                 android:text="walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星，让用户代码发布终于可以不只能选择 jenkins，支持各种web代码发布，php、java等代码的发布、回滚可以通过web来一键完成。walle 一个可自由配置项目，更人性化，高颜值，支持 git、多用户、多语言、多项目、多环境同时部署的开源上线部署系统。"
                 android:textColor="@color/colorNineText"
                 android:textSize="11sp"

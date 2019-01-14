@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
-import leaf.prod.app.fragment.news.NewsFragment;
+import leaf.prod.app.fragment.infomation.NewsFragment;
 import leaf.prod.app.fragment.setting.SettingFragment;
 import leaf.prod.app.fragment.trade.TradeFragment;
 import leaf.prod.app.fragment.wallet.MainFragment;
@@ -94,6 +95,8 @@ public class MainActivity extends BaseActivity {
 
     private Fragment fragment1, fragment2, fragment3, fragment4;
 
+    private MyTouchListener myTouchListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
@@ -113,8 +116,8 @@ public class MainActivity extends BaseActivity {
             SPUtils.put(this, "isRecreate", false);
         }
         rlTrade.setVisibility(View.VISIBLE);
-//        if (WalletUtil.getCurrentWallet(this).getAmount() >= 30) {
-//        }
+        //        if (WalletUtil.getCurrentWallet(this).getAmount() >= 30) {
+        //        }
     }
 
     @Override
@@ -254,9 +257,9 @@ public class MainActivity extends BaseActivity {
         if ((Boolean) SPUtils.get(this, "isRecreate", false)) {//判断是否是更改语言设置后，执行了系统的recreate()方法,
             recreate();//判断是否是更改语言设置后，执行了系统的recreate()方法,
         } else {
-            if (fragment1 != null && fragment1.isVisible()) {
-                ((MainFragment) fragment1).refresh();
-            }
+            //            if (fragment1 != null && fragment1.isVisible()) {
+            //                ((MainFragment) fragment1).refresh();
+            //            }
         }
     }
 
@@ -303,5 +306,28 @@ public class MainActivity extends BaseActivity {
 
     public void showLoading(boolean show) {
         clLoading.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    /**
+     * 在fragment回调触摸事件获得坐标
+     *
+     * @param ev
+     * @return
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (null != myTouchListener) {
+            myTouchListener.onTouch(ev);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public void registerMyTouchListener(MyTouchListener myTouchListener) {
+        this.myTouchListener = myTouchListener;
+    }
+
+    public interface MyTouchListener {
+
+        void onTouch(MotionEvent ev);
     }
 }
