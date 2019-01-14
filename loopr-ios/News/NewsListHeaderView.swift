@@ -14,13 +14,6 @@ class NewsListHeaderView: UIView {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var baseView: UIImageView!
 
-    var blog: Blog?
-    var index: Int = 0
-    var didClickedClosure: ((Blog) -> Void)?
-    
-    let animationDuration: TimeInterval = 1
-    let switchingInterval: TimeInterval = 10
-    
     open override func awakeFromNib() {
         super.awakeFromNib()
         

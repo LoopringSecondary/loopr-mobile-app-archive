@@ -184,38 +184,5 @@ class CrawlerAPIRequest {
             }
         }
     }
-    
-    // READY  获取blog信息 最多每次5条博客，官网爬取
-    static func getBlogs(completion: @escaping (_ response: [Blog], _ error: Error?) -> Void) {
-        var body: JSON = JSON()
-        body["method"] = JSON("queryScrollingInfo")
-        body["id"] = JSON(UUID().uuidString)
-        body["jsonrpc"] = JSON("2.0")
-        body["params"] = []
-        
-        Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
-            guard let data = data, error == nil else {
-                print("error=\(String(describing: error))")
-                completion([], error)
-                return
-            }
-            let json = JSON(data)
-            let offerData = json["result"]
-            if offerData != JSON.null {
-                var blogArray: [Blog] = []
-                for subJson in offerData["data"].arrayValue {
-                    let blog = Blog(json: subJson)
-                    blogArray.append(blog)
-                }
-                completion(blogArray, nil)
-            } else if json["error"] != JSON.null {
-                var userInfo: [String: Any] = [:]
-                userInfo["code"] = json["error"]["code"]
-                userInfo["message"] = json["error"]["message"]
-                let error = NSError(domain: "confirmForward", code: 0, userInfo: userInfo)
-                completion([], error)
-            }
-        }
-    }
-    
+
 }
