@@ -176,6 +176,10 @@
 		9BA4FCA821EC0020005A3DC0 /* NewsParagraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FCA721EC0020005A3DC0 /* NewsParagraph.swift */; };
 		9BA4FCAB21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FCA921EC05EF005A3DC0 /* NewsDetailImageTableViewCell.swift */; };
 		9BA4FCAC21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA4FCAA21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.xib */; };
+		9BB789EE21EC22C90095631D /* NewsDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB789EC21EC22C90095631D /* NewsDetailTitleTableViewCell.swift */; };
+		9BB789EF21EC22C90095631D /* NewsDetailTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BB789ED21EC22C90095631D /* NewsDetailTitleTableViewCell.xib */; };
+		9BB789F221EC23250095631D /* NewsDetailSubtitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB789F021EC23250095631D /* NewsDetailSubtitleTableViewCell.swift */; };
+		9BB789F321EC23250095631D /* NewsDetailSubtitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BB789F121EC23250095631D /* NewsDetailSubtitleTableViewCell.xib */; };
 		9BBB4E4B21DB4BD300683673 /* RefreshControlDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */; };
 		9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */; };
 		9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */; };
@@ -745,6 +749,10 @@
 		9BA4FCA721EC0020005A3DC0 /* NewsParagraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsParagraph.swift; sourceTree = "<group>"; };
 		9BA4FCA921EC05EF005A3DC0 /* NewsDetailImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailImageTableViewCell.swift; sourceTree = "<group>"; };
 		9BA4FCAA21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailImageTableViewCell.xib; sourceTree = "<group>"; };
+		9BB789EC21EC22C90095631D /* NewsDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
+		9BB789ED21EC22C90095631D /* NewsDetailTitleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailTitleTableViewCell.xib; sourceTree = "<group>"; };
+		9BB789F021EC23250095631D /* NewsDetailSubtitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailSubtitleTableViewCell.swift; sourceTree = "<group>"; };
+		9BB789F121EC23250095631D /* NewsDetailSubtitleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailSubtitleTableViewCell.xib; sourceTree = "<group>"; };
 		9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlDataManager.swift; sourceTree = "<group>"; };
 		9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailSummaryTableViewCell.xib; sourceTree = "<group>"; };
@@ -1315,6 +1323,10 @@
 			children = (
 				9B2ED81821D85DC700ACEE84 /* NewsDetailViewController.swift */,
 				9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */,
+				9BB789EC21EC22C90095631D /* NewsDetailTitleTableViewCell.swift */,
+				9BB789ED21EC22C90095631D /* NewsDetailTitleTableViewCell.xib */,
+				9BB789F021EC23250095631D /* NewsDetailSubtitleTableViewCell.swift */,
+				9BB789F121EC23250095631D /* NewsDetailSubtitleTableViewCell.xib */,
 				9BA4FCA321EBF8B7005A3DC0 /* NewsDetailStringTableViewCell.swift */,
 				9BA4FCA421EBF8B7005A3DC0 /* NewsDetailStringTableViewCell.xib */,
 				9BA4FCA921EC05EF005A3DC0 /* NewsDetailImageTableViewCell.swift */,
@@ -2746,6 +2758,7 @@
 				ACB911562024260E00F14644 /* WalletViewController.xib in Resources */,
 				AC9FFF2A2126C05000957175 /* MarketChangeTokenViewController.xib in Resources */,
 				9B2ED83C21DA083600ACEE84 /* Inter-UI-Italic.ttf in Resources */,
+				9BB789EF21EC22C90095631D /* NewsDetailTitleTableViewCell.xib in Resources */,
 				9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */,
 				AC2ACAA621031F66009C77E7 /* fee_1_zh-Hans.md in Resources */,
 				942C49F82129119C008A6B4F /* ConvertETHConfirmViewController.xib in Resources */,
@@ -2844,6 +2857,7 @@
 				9BA4FCA221E9CA20005A3DC0 /* NewsViewController.xib in Resources */,
 				ACB729D5205DE21B00DD4DF3 /* TradeConfirmationViewController.xib in Resources */,
 				94BB338421115FD6002D44DA /* OrderDetailViewController.xib in Resources */,
+				9BB789F321EC23250095631D /* NewsDetailSubtitleTableViewCell.xib in Resources */,
 				AC5E0992205F256500801738 /* AddTokenViewController.xib in Resources */,
 				AC2ACA5020FA0EC3009C77E7 /* Rubik-Medium.ttf in Resources */,
 				AC120759214DA02300EEDC49 /* SetupWalletViewController.xib in Resources */,
@@ -3184,6 +3198,7 @@
 				AC31B95F204A8E4F00B16155 /* WalletDescriptor.swift in Sources */,
 				9461850E21D0BE7E00393432 /* SVProgressHUDExtension.swift in Sources */,
 				AC37566D2038D37400AADC60 /* UnlockWalletSwipeViewController.swift in Sources */,
+				9BB789F221EC23250095631D /* NewsDetailSubtitleTableViewCell.swift in Sources */,
 				942E2CAD2148F15F00041733 /* TickerTag.swift in Sources */,
 				949774F021181E38001BF79D /* TradeRatioViewController.swift in Sources */,
 				AC31B951204A8DF400B16155 /* DataHex.swift in Sources */,
@@ -3217,6 +3232,7 @@
 				9BA4FC9C21DC4FC8005A3DC0 /* NewsParams.swift in Sources */,
 				ACBA47EE207932DA0032C2B4 /* ExportKeystoreEnterPasswordViewController.swift in Sources */,
 				ACC2A2CF209EC39E00F2B7A1 /* OrderExpire.swift in Sources */,
+				9BB789EE21EC22C90095631D /* NewsDetailTitleTableViewCell.swift in Sources */,
 				AC06193C208404FA0060F416 /* FoundationString+Extension.swift in Sources */,
 				ACBA47EA207897C60032C2B4 /* SettingWalletDetailViewController.swift in Sources */,
 				AC54FD92204FD291007E1DEB /* FontConfigManager.swift in Sources */,

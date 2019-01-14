@@ -33,7 +33,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         NewsDataManager.shared.currentIndex = currentIndex
 
         view.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        
+        tableView.theme_backgroundColor = ColorPicker.cardBackgroundColor
+
         tableView.delegate = self
         tableView.dataSource = self
 
@@ -81,8 +82,6 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         print("tiggerPopNewsDetailViewControllerReceivedNotification")
         self.navigationController?.popViewController(animated: true)
     }
-
-
 
     func setupRefreshControlAtBottom() {
         /*
@@ -163,36 +162,60 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return news.paragraphs.count
+        return news.paragraphs.count + 2
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let newsParagraph = news.paragraphs[indexPath.row]
-        if newsParagraph.isString {
-            return NewsDetailStringTableViewCell.getHeight(content: newsParagraph.content)
+        if indexPath.row == 0 {
+            return NewsDetailTitleTableViewCell.getHeight(content: news.title)
+        } else if indexPath.row == 1 {
+            return NewsDetailSubtitleTableViewCell.getHeight()
         } else {
-            return NewsDetailImageTableViewCell.getHeight(image: newsParagraph.image!)
+            let newsParagraph = news.paragraphs[indexPath.row-2]
+            if newsParagraph.isString {
+                return NewsDetailStringTableViewCell.getHeight(content: newsParagraph.content)
+            } else {
+                return NewsDetailImageTableViewCell.getHeight(image: newsParagraph.image)
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let newsParagraph = news.paragraphs[indexPath.row]
-        if newsParagraph.isString {
-            var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailStringTableViewCell.getCellIdentifier()) as? NewsDetailStringTableViewCell
+        if indexPath.row == 0 {
+            var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailTitleTableViewCell.getCellIdentifier()) as? NewsDetailTitleTableViewCell
             if cell == nil {
-                let nib = Bundle.main.loadNibNamed("NewsDetailStringTableViewCell", owner: self, options: nil)
-                cell = nib![0] as? NewsDetailStringTableViewCell
+                let nib = Bundle.main.loadNibNamed("NewsDetailTitleTableViewCell", owner: self, options: nil)
+                cell = nib![0] as? NewsDetailTitleTableViewCell
             }
-            cell?.update(content: newsParagraph.content)
+            cell?.update(content: news.title)
+            return cell!
+        } else if indexPath.row == 1 {
+            var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailSubtitleTableViewCell.getCellIdentifier()) as? NewsDetailSubtitleTableViewCell
+            if cell == nil {
+                let nib = Bundle.main.loadNibNamed("NewsDetailSubtitleTableViewCell", owner: self, options: nil)
+                cell = nib![0] as? NewsDetailSubtitleTableViewCell
+            }
+            cell?.update(news: news)
             return cell!
         } else {
-            var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailImageTableViewCell.getCellIdentifier()) as? NewsDetailImageTableViewCell
-            if cell == nil {
-                let nib = Bundle.main.loadNibNamed("NewsDetailImageTableViewCell", owner: self, options: nil)
-                cell = nib![0] as? NewsDetailImageTableViewCell
+            let newsParagraph = news.paragraphs[indexPath.row-2]
+            if newsParagraph.isString {
+                var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailStringTableViewCell.getCellIdentifier()) as? NewsDetailStringTableViewCell
+                if cell == nil {
+                    let nib = Bundle.main.loadNibNamed("NewsDetailStringTableViewCell", owner: self, options: nil)
+                    cell = nib![0] as? NewsDetailStringTableViewCell
+                }
+                cell?.update(content: newsParagraph.content)
+                return cell!
+            } else {
+                var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailImageTableViewCell.getCellIdentifier()) as? NewsDetailImageTableViewCell
+                if cell == nil {
+                    let nib = Bundle.main.loadNibNamed("NewsDetailImageTableViewCell", owner: self, options: nil)
+                    cell = nib![0] as? NewsDetailImageTableViewCell
+                }
+                cell?.backgroundImageView.image = newsParagraph.image
+                return cell!
             }
-            cell?.backgroundImageView.image = newsParagraph.image
-            return cell!
         }
     }
     
