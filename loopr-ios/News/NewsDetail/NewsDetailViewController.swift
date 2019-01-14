@@ -15,8 +15,6 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var news: News!
     var isFirtTimeAppear: Bool = true
 
-    // @IBOutlet weak var navigationBar: UINavigationBar!
-
     @IBOutlet weak var tableView: UITableView!
     
     var enablePullToNextPage: Bool = false
@@ -40,16 +38,6 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
         tableView.separatorStyle = .none
 
-        /*
-        progressView.theme_trackTintColor = ColorPicker.cardHighLightColor
-        progressView.theme_backgroundColor = ColorPicker.cardHighLightColor
-        progressView.tintColor = UIColor.theme
-        progressView.progressTintColor = UIColor.theme
-        progressView.setProgress(0, animated: false)
-        progressView.alpha = 0.0
-        webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil) // add observer for key path
-        */
-        
         setBackButton()
         
         NotificationCenter.default.addObserver(self, selector: #selector(tiggerPopNewsDetailViewControllerReceivedNotification), name: .tiggerPopNewsDetailViewController, object: nil)
