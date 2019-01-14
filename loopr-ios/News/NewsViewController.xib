@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="categoryLabel" destination="xuV-Wi-ouO" id="YRe-dd-NAC"/>
                 <outlet property="collectionView" destination="USo-aH-chy" id="fd9-h9-FdK"/>
+                <outlet property="footerView" destination="XW0-fx-l3R" id="Xdp-Em-55c"/>
                 <outlet property="headerView" destination="jFm-6a-lLr" id="EBt-dq-SRV"/>
                 <outlet property="leftFakeView" destination="uXZ-cm-sXG" id="UaS-9H-Pft"/>
                 <outlet property="rightFakeView" destination="oEv-op-oeT" id="wgD-re-T4Z"/>
@@ -26,7 +27,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="USo-aH-chy">
-                    <rect key="frame" x="0.0" y="148" width="414" height="588"/>
+                    <rect key="frame" x="0.0" y="148" width="414" height="538"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mkm-QN-DOk">
                         <size key="itemSize" width="50" height="50"/>
@@ -58,6 +59,13 @@
                     <rect key="frame" x="0.0" y="32" width="6" height="96"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XW0-fx-l3R">
+                    <rect key="frame" x="82.666666666666671" y="732" width="248.66666666666663" height="4"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="4" id="ilD-ex-GaC"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -71,11 +79,14 @@
                 <constraint firstItem="xuV-Wi-ouO" firstAttribute="centerY" secondItem="jFm-6a-lLr" secondAttribute="centerY" id="IiX-ce-rx2"/>
                 <constraint firstItem="USo-aH-chy" firstAttribute="top" secondItem="jFm-6a-lLr" secondAttribute="bottom" constant="8" id="KOD-so-SDP"/>
                 <constraint firstItem="jFm-6a-lLr" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="R8h-4t-EcV"/>
-                <constraint firstItem="USo-aH-chy" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="WeW-lk-MFM"/>
+                <constraint firstItem="USo-aH-chy" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" constant="-50" id="WeW-lk-MFM"/>
                 <constraint firstItem="USo-aH-chy" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="YDa-56-WRc"/>
                 <constraint firstItem="USo-aH-chy" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="dHM-k6-lQC"/>
                 <constraint firstItem="uXZ-cm-sXG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="hl8-6W-f1M"/>
+                <constraint firstItem="XW0-fx-l3R" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="ihJ-N1-V6U"/>
                 <constraint firstItem="oEv-op-oeT" firstAttribute="centerY" secondItem="jFm-6a-lLr" secondAttribute="centerY" id="kNp-zz-EOB"/>
+                <constraint firstItem="XW0-fx-l3R" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="ob4-ph-Fxd"/>
+                <constraint firstItem="XW0-fx-l3R" firstAttribute="width" secondItem="fnl-2z-Ty3" secondAttribute="width" multiplier="0.6" id="q6e-2x-FDC"/>
                 <constraint firstItem="oEv-op-oeT" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="tvI-Fy-bwT"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
