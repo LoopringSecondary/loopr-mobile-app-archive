@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Blog: NewsProtocol {
+class Blog {
     var title: String
     var url: String
     var imageUrl: String
@@ -23,7 +23,7 @@ class Blog: NewsProtocol {
         getImage()
     }
     
-    func getImage() {
+    private func getImage() {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let filePath = documentsURL.appendingPathComponent("\(localFileName).png").path
         if FileManager.default.fileExists(atPath: filePath) {
