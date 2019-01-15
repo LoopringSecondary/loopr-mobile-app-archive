@@ -23,7 +23,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let refreshControl = UIRefreshControl()
 
     var isLaunching: Bool = true
-    var isListeningSocketIO: Bool = false
     var numberOfRowsInSection1: Int = 0
     
     var isDropdownMenuExpanded: Bool = false
@@ -135,8 +134,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        isListeningSocketIO = true
-        CurrentAppWalletDataManager.shared.startGetBalance()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -144,8 +141,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         guard CurrentAppWalletDataManager.shared.getCurrentAppWallet() != nil else {
             return
         }
-        CurrentAppWalletDataManager.shared.stopGetBalance()
-        isListeningSocketIO = false
     }
     
     @objc func processPasteboard() {
@@ -295,8 +290,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         print("scrollViewWillBeginDragging")
-        CurrentAppWalletDataManager.shared.stopGetBalance()
-        isListeningSocketIO = false
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -306,8 +299,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         print("scrollViewDidEndDecelerating")
-        isListeningSocketIO = true
-        CurrentAppWalletDataManager.shared.startGetBalance()
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
