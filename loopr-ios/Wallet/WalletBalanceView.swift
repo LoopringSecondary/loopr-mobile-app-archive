@@ -1,44 +1,27 @@
 //
-//  WalletBalanceTableViewCell.swift
+//  WalletBalanceView.swift
 //  loopr-ios
 //
-//  Created by xiaoruby on 2/19/18.
-//  Copyright © 2018 Loopring. All rights reserved.
+//  Created by xiaoruby on 1/15/19.
+//  Copyright © 2019 Loopring. All rights reserved.
 //
 
 import UIKit
 
-protocol WalletBalanceTableViewCellDelegate: class {
-    func pressedQACodeButtonInWalletBalanceTableViewCell()
-    func touchesBegan()
-    func touchesEnd()
-}
+class WalletBalanceView: UIView {
 
-class WalletBalanceTableViewCell: UITableViewCell {
-
-    weak var delegate: WalletBalanceTableViewCellDelegate?
-
-    var updateBalanceLabelTimer: Timer?
     var baseView: UIImageView = UIImageView()
     let balanceLabel: TickerLabel = TickerLabel()
     let addressLabel: UILabel = UILabel()
     let qrCodeButton: UIButton = UIButton()
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
-        selectionStyle = .none
-        // theme_backgroundColor = ColorPicker.backgroundColor
-        backgroundColor = .clear
-
+        theme_backgroundColor = ColorPicker.backgroundColor
+        
         let screensize: CGRect = UIScreen.main.bounds
         let screenWidth = screensize.width
-        
-        baseView.isHidden = true
-        balanceLabel.isHidden = true
-        addressLabel.isHidden = true
-        qrCodeButton.isHidden = true
 
         baseView.frame = CGRect(x: 15, y: 10, width: screenWidth - 15*2, height: 120)
         baseView.image = UIImage(named: "wallet-selected-background" + ColorTheme.getTheme())
@@ -50,11 +33,11 @@ class WalletBalanceTableViewCell: UITableViewCell {
         balanceLabel.animationDuration = 0.3
         balanceLabel.textAlignment = NSTextAlignment.center
         balanceLabel.initializeLabel()
-
+        
         let balance = CurrentAppWalletDataManager.shared.getTotalAssetCurrencyFormmat()
         balanceLabel.setText("\(balance)", animated: false)
         addSubview(balanceLabel)
-
+        
         addressLabel.frame = CGRect(x: screenWidth*0.25, y: balanceLabel.frame.maxY, width: screenWidth*0.5, height: 30)
         addressLabel.font = FontConfigManager.shared.getMediumFont(size: 13)
         addressLabel.textColor = UIColor.init(rgba: "#ffffffcc")
@@ -67,34 +50,14 @@ class WalletBalanceTableViewCell: UITableViewCell {
         qrCodeButton.setImage(UIImage(named: "QRCode-white-small"), for: .normal)
         qrCodeButton.addTarget(self, action: #selector(self.pressedQRCodeButton(_:)), for: .touchUpInside)
         addSubview(qrCodeButton)
-        
+
         update()
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        print("touchesBegan")
-        delegate?.touchesBegan()
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        print("touchesEnded")
-        delegate?.touchesEnd()
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        print("touchesMoved")
-        // delegate?.touchesEnd()
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesCancelled(touches, with: event)
-        print("touchesCancelled")
-        // delegate?.touchesEnd()
-    }
 
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     private func update() {
         balanceLabel.textColor = UIColor.white
     }
@@ -116,14 +79,7 @@ class WalletBalanceTableViewCell: UITableViewCell {
 
     @objc func pressedQRCodeButton(_ button: UIButton) {
         print("pressedItem1Button")
-        delegate?.pressedQACodeButtonInWalletBalanceTableViewCell()
+        // delegate?.pressedQACodeButtonInWalletBalanceTableViewCell()
     }
 
-    class func getCellIdentifier() -> String {
-        return "WalletBalanceTableViewCell"
-    }
-    
-    class func getHeight() -> CGFloat {
-        return 134
-    }
 }

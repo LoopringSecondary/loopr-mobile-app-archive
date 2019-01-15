@@ -34,6 +34,9 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var blurVisualEffectView = UIView(frame: .zero)
     
+    var isNewsViewControllerScrollEnabled: Bool = false
+    var walletBalanceView: WalletBalanceView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,6 +44,11 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         assetTableView.dataSource = self
         assetTableView.delegate = self
+
+        let screensize: CGRect = UIScreen.main.bounds
+        let screenWidth = screensize.width
+        walletBalanceView = WalletBalanceView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: WalletButtonTableViewCell.getHeight()))
+        view.insertSubview(walletBalanceView, belowSubview: assetTableView)
 
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 10))
         footerView.theme_backgroundColor = ColorPicker.backgroundColor
@@ -53,7 +61,8 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         assetTableView.estimatedSectionHeaderHeight = 0
         assetTableView.estimatedSectionFooterHeight = 0
 
-        assetTableView.theme_backgroundColor = ColorPicker.backgroundColor
+        // assetTableView.theme_backgroundColor = ColorPicker.backgroundColor
+        assetTableView.backgroundColor = .clear
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(self.pressAddButton(_:)))
         // self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .organize, target: self, action: #selector(self.pressSwitchWallet(_:)))
@@ -77,20 +86,14 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.view.addSubview(dropdownMenu)
         
         // Add Refresh Control to Table View
-        assetTableView.refreshControl = refreshControl
+        // assetTableView.refreshControl = refreshControl
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .walletViewController))
+        
+        let refreshView = UIView(frame: CGRect(x: 0, y: WalletButtonTableViewCell.getHeight()+20, width: 0, height: 0))
+        assetTableView.addSubview(refreshView)
+        refreshView.addSubview(refreshControl)
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
-        
-        // Creating view for extending background color
-        var frame = assetTableView.bounds
-        frame.origin.y = -frame.size.height
-        let backgroundView = UIView(frame: frame)
-        backgroundView.autoresizingMask = .flexibleWidth
-        backgroundView.theme_backgroundColor = ColorPicker.backgroundColor
-        
-        // Adding the view below the refresh control
-        assetTableView.insertSubview(backgroundView, at: 0)
-        
+
         blurVisualEffectView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         blurVisualEffectView.alpha = 1
         blurVisualEffectView.frame = UIScreen.main.bounds
@@ -116,7 +119,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         if let cell = assetTableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? WalletBalanceTableViewCell {
             cell.setup(animated: false)
-            cell.startUpdateBalanceLabelTimer()
         }
         
         assetTableView.reloadData()
@@ -138,9 +140,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        guard CurrentAppWalletDataManager.shared.getCurrentAppWallet() != nil else {
-            return
-        }
     }
     
     @objc func processPasteboard() {
@@ -293,12 +292,23 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("scrollView y: \(scrollView.contentOffset.y)")
-        delegate?.scrollViewDidScroll(y: scrollView.contentOffset.y)
+        print("scrollView y: \(scrollView.contentOffset.y) with \(isNewsViewControllerScrollEnabled)")
+        if isNewsViewControllerScrollEnabled {
+            delegate?.scrollViewDidScroll(y: scrollView.contentOffset.y)
+            walletBalanceView.frame = CGRect(x: 0, y: -scrollView.contentOffset.y, width: walletBalanceView.frame.width, height: walletBalanceView.frame.height)
+        }
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         print("scrollViewDidEndDecelerating")
+
+        isNewsViewControllerScrollEnabled = false
+        self.refreshControl.isHidden = false
+        
+        // TODO: add spring and damping animation
+        let screensize: CGRect = UIScreen.main.bounds
+        let screenWidth = screensize.width
+        walletBalanceView.frame = CGRect(x: 0, y: 0, width: screenWidth, height: WalletButtonTableViewCell.getHeight())
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -344,6 +354,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             if isLaunching {
                 cell?.balanceLabel.setText("", animated: false)
             }
+            walletBalanceView.setup(animated: true)
             return cell!
         } else if indexPath.section == 1 {
             var cell = tableView.dequeueReusableCell(withIdentifier: WalletButtonTableViewCell.getCellIdentifier()) as? WalletButtonTableViewCell
@@ -387,6 +398,19 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
 }
 
 extension WalletViewController: WalletBalanceTableViewCellDelegate {
+    
+    func touchesBegan() {
+        isNewsViewControllerScrollEnabled = true
+        
+        // TODO: refreshControl still doesn't work
+        self.refreshControl.isHidden = true
+    }
+    
+    func touchesEnd() {
+        isNewsViewControllerScrollEnabled = false
+        self.refreshControl.isHidden = false
+    }
+    
     func pressedQACodeButtonInWalletBalanceTableViewCell() {
         if CurrentAppWalletDataManager.shared.getCurrentAppWallet() != nil {
             let viewController = QRCodeViewController()
@@ -396,6 +420,7 @@ extension WalletViewController: WalletBalanceTableViewCellDelegate {
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
+
 }
 
 extension WalletViewController: WalletButtonTableViewCellDelegate {
