@@ -511,6 +511,7 @@
 		ACC8D0AB20CCF6C30049A741 /* AssetTransactionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACC8D0A920CCF6C20049A741 /* AssetTransactionTableViewCell.xib */; };
 		ACCC7EA32082BE0B008E58BA /* ImportMnemonicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC7EA22082BE0B008E58BA /* ImportMnemonicTests.swift */; };
 		ACCCFDCE203BEF2200B98F99 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCCFDCD203BEF2200B98F99 /* UITextFieldExtension.swift */; };
+		ACD5A88A21EDD105002A94F7 /* WalletBalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD5A88921EDD105002A94F7 /* WalletBalanceView.swift */; };
 		ACDA889920F5D899004FA10B /* Localizator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDA889820F5D899004FA10B /* Localizator.swift */; };
 		ACDA889C20F85F9C004FA10B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ACDA889E20F85F9C004FA10B /* InfoPlist.strings */; };
 		ACDBA19521E72CE600CE2D22 /* NewsSwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBA19321E72CE600CE2D22 /* NewsSwipeViewController.swift */; };
@@ -1093,6 +1094,7 @@
 		ACC8D0A920CCF6C20049A741 /* AssetTransactionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AssetTransactionTableViewCell.xib; sourceTree = "<group>"; };
 		ACCC7EA22082BE0B008E58BA /* ImportMnemonicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMnemonicTests.swift; sourceTree = "<group>"; };
 		ACCCFDCD203BEF2200B98F99 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
+		ACD5A88921EDD105002A94F7 /* WalletBalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletBalanceView.swift; sourceTree = "<group>"; };
 		ACDA889820F5D899004FA10B /* Localizator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizator.swift; sourceTree = "<group>"; };
 		ACDA889D20F85F9C004FA10B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ACDA889F20F85F9E004FA10B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -2237,6 +2239,7 @@
 				ACB911542024260E00F14644 /* WalletViewController.xib */,
 				AC128D3D21993BF300939F4E /* WalletViewControllerGetDataFromRelay.swift */,
 				ACE9F0452186FB5700695E37 /* WalletViewControllerDropdownMenu.swift */,
+				ACD5A88921EDD105002A94F7 /* WalletBalanceView.swift */,
 				AC5E0DDC203B447700AF03C7 /* WalletBalanceTableViewCell.swift */,
 				AC5E0DDD203B447700AF03C7 /* WalletBalanceTableViewCell.xib */,
 				AC2ACA5720FA1A5F009C77E7 /* WalletButtonTableViewCell.swift */,
@@ -3225,6 +3228,7 @@
 				948125672119B38E00453225 /* PartnerDataManager.swift in Sources */,
 				94E49ED4213CE99700CDDA02 /* PreventScreenShotViewController.swift in Sources */,
 				9B2ED7FC21D460EA00ACEE84 /* NewsCollectionCell.swift in Sources */,
+				ACD5A88A21EDD105002A94F7 /* WalletBalanceView.swift in Sources */,
 				AC9280E7202F5A010009B574 /* UIStyleConfig.swift in Sources */,
 				9BA3021421D0260300E55E49 /* AppReleaseNotePopViewController.swift in Sources */,
 				AC8866A4217C2D5500815DD1 /* GradientButton.swift in Sources */,
