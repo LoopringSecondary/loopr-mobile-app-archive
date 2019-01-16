@@ -46,6 +46,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         assetTableView.dataSource = self
         assetTableView.delegate = self
 
+        // init WalletBalanceView
         let screensize: CGRect = UIScreen.main.bounds
         let screenWidth = screensize.width
         walletBalanceView = WalletBalanceView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: WalletButtonTableViewCell.getHeight()))
@@ -296,20 +297,35 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         print("scrollView y: \(scrollView.contentOffset.y) with \(isNewsViewControllerScrollEnabled)")
         if isNewsViewControllerScrollEnabled {
             delegate?.scrollViewDidScroll(y: scrollView.contentOffset.y)
-            walletBalanceView.frame = CGRect(x: 0, y: -scrollView.contentOffset.y, width: walletBalanceView.frame.width, height: walletBalanceView.frame.height)
+            // walletBalanceView.frame = CGRect(x: 0, y: -scrollView.contentOffset.y, width: walletBalanceView.frame.width, height: walletBalanceView.frame.height)
         }
+        
+        if scrollView.contentOffset.y >= 0 {
+            walletBalanceView.frame = CGRect(x: 0, y: -scrollView.contentOffset.y, width: walletBalanceView.frame.width, height: walletBalanceView.frame.height)
+        } else {
+            if isNewsViewControllerScrollEnabled {
+                walletBalanceView.frame = CGRect(x: 0, y: -scrollView.contentOffset.y, width: walletBalanceView.frame.width, height: walletBalanceView.frame.height)
+            } else {
+                walletBalanceView.frame = CGRect(x: 0, y: 0, width: walletBalanceView.frame.width, height: walletBalanceView.frame.height)
+            }
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        print("scrollViewDidEndDragging: \(scrollView.contentOffset.y)")
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         print("scrollViewDidEndDecelerating")
+        print("scrollView y: \(scrollView.contentOffset.y)")
 
+        if isNewsViewControllerScrollEnabled {
+            walletBalanceView.frame = CGRect(x: 0, y: -scrollView.contentOffset.y, width: walletBalanceView.frame.width, height: walletBalanceView.frame.height)
+        }
+
+        // Reset the state at the end
         isNewsViewControllerScrollEnabled = false
         self.refreshView.isHidden = false
-        
-        // TODO: add spring and damping animation
-        let screensize: CGRect = UIScreen.main.bounds
-        let screenWidth = screensize.width
-        walletBalanceView.frame = CGRect(x: 0, y: 0, width: screenWidth, height: WalletButtonTableViewCell.getHeight())
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {

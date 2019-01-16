@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -77,7 +77,7 @@
                         </constraints>
                     </view>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="QkU-Zl-7hg">
-                        <rect key="frame" x="10" y="42" width="300" height="21"/>
+                        <rect key="frame" x="10" y="42" width="298" height="21"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="8nB-bD-phL"/>
@@ -112,7 +112,7 @@
                 <constraint firstAttribute="trailing" secondItem="Xp6-GB-jZo" secondAttribute="trailing" id="MbZ-nG-ANK"/>
                 <constraint firstItem="kU5-lE-jir" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" constant="10" id="PGC-lN-58C"/>
                 <constraint firstItem="Xp6-GB-jZo" firstAttribute="top" secondItem="1wt-Er-6Vz" secondAttribute="bottom" id="TzD-1L-jgw"/>
-                <constraint firstAttribute="trailing" secondItem="QkU-Zl-7hg" secondAttribute="trailing" constant="10" id="VZO-5b-Pqy"/>
+                <constraint firstAttribute="trailing" secondItem="QkU-Zl-7hg" secondAttribute="trailing" constant="12" id="VZO-5b-Pqy"/>
                 <constraint firstItem="XAT-Bg-hXT" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" constant="10" id="btY-Ua-YYv"/>
                 <constraint firstAttribute="bottom" secondItem="Xp6-GB-jZo" secondAttribute="bottom" id="dKI-Pv-zJ0"/>
                 <constraint firstItem="1wt-Er-6Vz" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" id="g8i-Ch-2ad"/>
