@@ -1,12 +1,8 @@
 package leaf.prod.app.fragment.market;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +24,7 @@ import leaf.prod.app.presenter.market.MarketTradeFragmentPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.MyViewUtils;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
+import leaf.prod.walletsdk.manager.SettingDataManager;
 import leaf.prod.walletsdk.model.TradeType;
 import leaf.prod.walletsdk.util.StringUtils;
 
@@ -74,6 +71,9 @@ public class MarketTradeFragment extends BaseFragment {
     @BindView(R.id.seek_bar)
     public BubbleSeekBar seekBar;
 
+    @BindView(R.id.tv_lrcFee)
+    public TextView tvLrcFee;
+
     @BindView(R.id.btn_buy)
     public Button buyButton;
 
@@ -86,22 +86,9 @@ public class MarketTradeFragment extends BaseFragment {
 
     private MarketOrderDataManager marketManager;
 
-    public final static int BALANCE_SUCCESS = 1;
+    private final static int REQUEST_LRC_FEE = 1;
 
     public static String PASSWORD_TYPE = "P2P_ORDER";
-
-    @SuppressLint("HandlerLeak")
-    Handler handlerBalance = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case BALANCE_SUCCESS:
-                default:
-                    break;
-            }
-        }
-    };
 
     @Nullable
     @Override
@@ -122,48 +109,24 @@ public class MarketTradeFragment extends BaseFragment {
     protected void initPresenter() {
         presenter = new MarketTradeFragmentPresenter(this, getContext(), tradeType);
     }
+
     @Override
     protected void initView() {
-        presenter.setSeekbar(0);
+        setupPrice();
+        setupLrcFee();
+        setupButton();
         oneHourView.setText(getResources().getString(R.string.hour, "1"));
         oneDayView.setText(getResources().getString(R.string.day, "1"));
         oneMonthView.setText(getResources().getString(R.string.month, "1"));
-        setupPriceListener();
+        presenter.setSeekbar(0);
+        presenter.setupPriceListener();
         presenter.setupAmountListener();
-        setupPrice();
-        setupButton();
     }
 
     private void setupPrice() {
         if (!StringUtils.isEmpty(marketManager.getPriceFromDepth())) {
             tradePrice.setText(marketManager.getPriceFromDepth());
         }
-    }
-
-    private void setupPriceListener() {
-        tradePrice.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String value = editable.toString();
-                seekBar.setEnabled(false);
-                if (StringUtils.isEmpty(value)) {
-                    presenter.setHint(0);
-                } else if (value.equals(".") || 0d == Double.valueOf(value)) {
-                    presenter.setHint(1);
-                } else {
-                    presenter.setHint(2);
-                    seekBar.setEnabled(true);
-                }
-            }
-        });
     }
 
     private void setupButton() {
@@ -182,6 +145,11 @@ public class MarketTradeFragment extends BaseFragment {
                 sellButton.setText(title);
                 break;
         }
+    }
+
+    private void setupLrcFee() {
+        String lrcFee = SettingDataManager.getInstance(getContext()).getLrcFeeString();
+        tvLrcFee.setText(lrcFee);
     }
 
     @OnClick({R.id.one_hour, R.id.one_day, R.id.one_month, R.id.custom, R.id.ll_sell_token, R.id.ll_buy_token, R.id.ll_lrc_fee, R.id.btn_buy, R.id.btn_sell})
@@ -204,7 +172,8 @@ public class MarketTradeFragment extends BaseFragment {
                 presenter.showTradePriceDialog();
                 break;
             case R.id.ll_lrc_fee:
-                getOperation().forward(LRCFeeRatioActivity.class);
+                Intent intent = new Intent(getContext(), LRCFeeRatioActivity.class);
+                startActivityForResult(intent, REQUEST_LRC_FEE);
                 break;
             case R.id.btn_buy:
             case R.id.btn_sell:
@@ -277,5 +246,15 @@ public class MarketTradeFragment extends BaseFragment {
                 break;
         }
         return result;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_LRC_FEE:
+                setupLrcFee();
+                break;
+        }
     }
 }

@@ -108,16 +108,6 @@ public class MarketSelectActivity extends BaseActivity {
                     }
                 }
                 presenter.updateAdapter(true, listSearch);
-
-//                mAdapter.setNewData(listSearch);
-//                mAdapter.setOnItemClickListener((adapter, view, position) -> {
-//                    String symbol = listSearch.get(position).getSymbol();
-//                    SPUtils.put(SendListChooseActivity.this, "send_choose", symbol);
-//                    Intent intent = new Intent();
-//                    intent.putExtra("symbol", symbol);
-//                    setResult(1, intent);
-//                    finish();
-//                });
             }
 
             @Override

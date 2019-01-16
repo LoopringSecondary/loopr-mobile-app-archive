@@ -73,6 +73,12 @@ public class Operation {
         mContext.overridePendingTransition(R.anim.translate_between_interface_right_in, R.anim.translate_between_interface_left_out);
     }
 
+    public void forwardUPForResult(Class<? extends Activity> activity, int code) {
+        mIntent.setClass(mContext, activity);
+        mContext.startActivityForResult(mIntent, code);
+        mContext.overridePendingTransition(R.anim.translate_between_interface_top_in, R.anim.translate_between_interface_bottom_out);
+    }
+
     /**
      * 设置传递参数
      *

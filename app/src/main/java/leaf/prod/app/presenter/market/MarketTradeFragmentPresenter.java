@@ -176,6 +176,32 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         });
     }
 
+    public void setupPriceListener() {
+        view.tradePrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String value = editable.toString();
+                view.seekBar.setEnabled(false);
+                if (StringUtils.isEmpty(value)) {
+                    setHint(0);
+                } else if (value.equals(".") || 0d == Double.valueOf(value)) {
+                    setHint(1);
+                } else {
+                    setHint(2);
+                    view.seekBar.setEnabled(true);
+                }
+            }
+        });
+    }
+
     public void setupAmountListener() {
         view.tradeAmount.addTextChangedListener(new TextWatcher() {
             @Override

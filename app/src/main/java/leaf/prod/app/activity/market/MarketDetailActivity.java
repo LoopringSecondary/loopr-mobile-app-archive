@@ -10,11 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -143,6 +142,8 @@ public class MarketDetailActivity extends BaseActivity {
 
     private TrendInterval interval = TrendInterval.ONE_DAY;
 
+    private final static int REQUEST_MARKET_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -164,20 +165,16 @@ public class MarketDetailActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(orderDataManager.getTradePair());
         title.clickLeftGoBack(getWContext());
-        title.setDropdownImageButton(R.mipmap.icon_dropdown, button -> {
-            finish();
-            getOperation().forwardUp(MarketSelectActivity.class);
-        });
         title.setRightImageButton(R.mipmap.icon_order_history, button -> getOperation().forward(MarketRecordsActivity.class));
+        title.setDropdownImageButton(R.mipmap.icon_dropdown, button -> getOperation().forwardUPForResult(MarketSelectActivity.class, REQUEST_MARKET_CODE));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void initView() {
         setupButtons();
         setupViewPager();
-        barChart.setViewPortOffsets(100f, 0f, 0f, 40f);
-        kLineChart.setViewPortOffsets(100f, 160f, 0f, 0f);
+        barChart.setViewPortOffsets(128f, 0f, 0f, 40f);
+        kLineChart.setViewPortOffsets(128f, 160f, 0f, 0f);
     }
 
     private float getMinimum(CustomCandleChart chart) {
@@ -470,6 +467,18 @@ public class MarketDetailActivity extends BaseActivity {
             case R.id.btn_sell:
                 orderDataManager.setType(TradeType.sell);
                 getOperation().forward(MarketTradeActivity.class);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_MARKET_CODE:
+                title.setBTitle(orderDataManager.getTradePair());
+                buyButton.setText(getString(R.string.buy_token, orderDataManager.getTokenA()));
+                sellButton.setText(getString(R.string.sell_token, orderDataManager.getTokenA()));
+                presenter = new MarketDetailPresenter(this, this, orderDataManager.getTradePair());
                 break;
         }
     }

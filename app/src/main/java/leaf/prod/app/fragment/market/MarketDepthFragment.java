@@ -84,10 +84,6 @@ public class MarketDepthFragment extends BaseFragment {
             marketAdapter.setOnItemClickListener((adapter, view, position) -> handleClick(item, position));
             item.getValue().setAdapter(marketAdapter);
             item.getValue().setLayoutManager(layoutManager);
-
-//            item.getValue().setNestedScrollingEnabled(false);
-
-
             this.setHeader(marketAdapter, item);
             adapters.put(item.getKey(), marketAdapter);
             NoDataType type = NoDataType.getNoDataType(item.getKey());
@@ -144,16 +140,20 @@ public class MarketDepthFragment extends BaseFragment {
     }
 
     public void updateAdapter() {
-        for (Map.Entry<String, MarketDepthAdapter> item : adapters.entrySet()) {
-            if (item != null && item.getKey() != null && item.getValue() != null) {
-                List<String[]> depths = manager.getDepths(item.getKey());
-                if (depths == null || depths.size() == 0) {
-                    NoDataAdapter adapter = emptyAdapters.get(item.getKey());
-                    recyclerViews.get(item.getKey()).setAdapter(adapter);
-                    adapter.refresh();
-                } else {
-                    item.getValue().setNewData(depths);
-                    item.getValue().notifyDataSetChanged();
+        if (adapters != null) {
+            for (Map.Entry<String, MarketDepthAdapter> item : adapters.entrySet()) {
+                if (item != null && item.getKey() != null && item.getValue() != null) {
+                    List<String[]> depths = manager.getDepths(item.getKey());
+                    if (depths == null || depths.size() == 0) {
+                        NoDataAdapter adapter = emptyAdapters.get(item.getKey());
+                        recyclerViews.get(item.getKey()).setAdapter(adapter);
+                        adapter.refresh();
+                    } else {
+                        MarketDepthAdapter adapter = item.getValue();
+                        recyclerViews.get(item.getKey()).setAdapter(adapter);
+                        adapter.setNewData(depths);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
         }

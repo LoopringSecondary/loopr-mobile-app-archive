@@ -14,7 +14,6 @@ import android.view.MotionEvent;
 
 import com.github.mikephil.charting.charts.CandleStickChart;
 
-
 public class CustomCandleChart extends CandleStickChart {
 
     PointF downPoint = new PointF();
