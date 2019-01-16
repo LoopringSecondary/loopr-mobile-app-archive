@@ -403,9 +403,9 @@ public class MainWalletFragment extends BaseFragment {
             refreshLayout.finishRefresh(true);
         if (getActivity() != null) {
             ((MainActivity) getActivity()).showLoading(false);
-        }
-        if (!(boolean) SPUtils.get(getContext(), "discover_news", false)) {
-            upHint.setVisibility(View.VISIBLE);
+            if (!(boolean) SPUtils.get(getContext(), "discover_news", false)) {
+                upHint.setVisibility(View.VISIBLE);
+            }
         }
     }
 }
