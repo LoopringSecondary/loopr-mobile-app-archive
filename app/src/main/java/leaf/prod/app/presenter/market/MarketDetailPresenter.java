@@ -38,29 +38,31 @@ public class MarketDetailPresenter extends BasePresenter<MarketDetailActivity> {
     }
 
     private void getTrend() {
-        marketManager.getLoopringService().getTrend(market, TrendInterval.ONE_WEEK)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Trend>>() {
-                    @Override
-                    public void onCompleted() {
-                        view.clLoading.setVisibility(View.GONE);
-                    }
+        for (TrendInterval interval : TrendInterval.values()) {
+            marketManager.getLoopringService().getTrend(market, interval)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<List<Trend>>() {
+                        @Override
+                        public void onCompleted() {
+                            view.clLoading.setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        view.clLoading.setVisibility(View.GONE);
-                        unsubscribe();
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            view.clLoading.setVisibility(View.GONE);
+                            unsubscribe();
+                        }
 
-                    @Override
-                    public void onNext(List<Trend> trends) {
-                        marketManager.convertTrend(trends);
-                        view.updateAdapter();
-                        view.clLoading.setVisibility(View.GONE);
-                        unsubscribe();
-                    }
-                });
+                        @Override
+                        public void onNext(List<Trend> trends) {
+                            marketManager.convertTrend(trends);
+                            view.updateAdapter();
+                            view.clLoading.setVisibility(View.GONE);
+                            unsubscribe();
+                        }
+                    });
+        }
     }
 
     private void getDepths() {

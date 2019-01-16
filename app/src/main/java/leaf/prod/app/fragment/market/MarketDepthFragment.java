@@ -84,6 +84,10 @@ public class MarketDepthFragment extends BaseFragment {
             marketAdapter.setOnItemClickListener((adapter, view, position) -> handleClick(item, position));
             item.getValue().setAdapter(marketAdapter);
             item.getValue().setLayoutManager(layoutManager);
+
+//            item.getValue().setNestedScrollingEnabled(false);
+
+
             this.setHeader(marketAdapter, item);
             adapters.put(item.getKey(), marketAdapter);
             NoDataType type = NoDataType.getNoDataType(item.getKey());

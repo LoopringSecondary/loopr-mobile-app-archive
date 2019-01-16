@@ -59,8 +59,13 @@ public class MarketHistoryFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+
+//        recyclerView.setNestedScrollingEnabled(false);
+
+
         marketAdapter = new MarketHistoryAdapter(R.layout.adapter_item_market_history, null);
         marketAdapter.setHeaderView(LayoutInflater.from(getContext())
                 .inflate(R.layout.adapter_header_markets_history, recyclerView, false));

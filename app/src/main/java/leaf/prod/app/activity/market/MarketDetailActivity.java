@@ -9,9 +9,12 @@ package leaf.prod.app.activity.market;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,9 +23,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.CandleStickChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CandleDataSet;
@@ -39,7 +42,9 @@ import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.adapter.ViewPageAdapter;
 import leaf.prod.app.fragment.market.MarketDepthFragment;
 import leaf.prod.app.fragment.market.MarketHistoryFragment;
+import leaf.prod.app.layout.MyMarkerView;
 import leaf.prod.app.presenter.market.MarketDetailPresenter;
+import leaf.prod.app.views.CustomCandleChart;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
@@ -47,7 +52,9 @@ import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.TradeType;
 import leaf.prod.walletsdk.model.TradingPair;
 import leaf.prod.walletsdk.model.Trend;
+import leaf.prod.walletsdk.model.TrendInterval;
 import leaf.prod.walletsdk.util.NumberUtils;
+import leaf.prod.walletsdk.util.StringUtils;
 
 public class MarketDetailActivity extends BaseActivity {
 
@@ -103,16 +110,38 @@ public class MarketDetailActivity extends BaseActivity {
     public TextView tvChange;
 
     @BindView(R.id.kchart)
-    public CandleStickChart kLineChart;
+    public CustomCandleChart kLineChart;
 
     @BindView(R.id.bchart)
-    public CandleStickChart barChart;
+    public CustomCandleChart barChart;
+
+    @BindView(R.id.btn_1hr)
+    public Button btn1Hr;
+
+    @BindView(R.id.btn_2hr)
+    public Button btn2Hr;
+
+    @BindView(R.id.btn_4hr)
+    public Button btn4Hr;
+
+    @BindView(R.id.btn_1day)
+    public Button btn1Day;
+
+    @BindView(R.id.btn_1week)
+    public Button btn1Week;
+
+    @BindView(R.id.sv_main)
+    public ScrollView scrollView;
 
     private List<Fragment> fragments;
+
+    private List<Button> intervalButtons;
 
     private MarketOrderDataManager orderDataManager;
 
     private MarketPriceDataManager priceDataManager;
+
+    private TrendInterval interval = TrendInterval.ONE_DAY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,22 +171,16 @@ public class MarketDetailActivity extends BaseActivity {
         title.setRightImageButton(R.mipmap.icon_order_history, button -> getOperation().forward(MarketRecordsActivity.class));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void initView() {
-        String[] titles = new String[2];
-        titles[0] = getString(R.string.order_book);
-        titles[1] = getString(R.string.dealt_order);
-        fragments = new ArrayList<>();
-        fragments.add(0, new MarketDepthFragment());
-        fragments.add(1, new MarketHistoryFragment());
-        setupViewPager(titles);
         setupButtons();
-
-        barChart.setViewPortOffsets(100f, 0f, 0f, 0f);
-        kLineChart.setViewPortOffsets(100f, 100f, 0f, 0f);
+        setupViewPager();
+        barChart.setViewPortOffsets(100f, 0f, 0f, 40f);
+        kLineChart.setViewPortOffsets(100f, 160f, 0f, 0f);
     }
 
-    private float getMinimum(CandleStickChart chart) {
+    private float getMinimum(CustomCandleChart chart) {
         float result = 0f;
         if (chart == kLineChart) {
             result = getLowestPrice();
@@ -165,7 +188,7 @@ public class MarketDetailActivity extends BaseActivity {
         return result;
     }
 
-    private float getMaximum(CandleStickChart chart) {
+    private float getMaximum(CustomCandleChart chart) {
         float result;
         if (chart == kLineChart) {
             result = getHighestPrice();
@@ -177,7 +200,7 @@ public class MarketDetailActivity extends BaseActivity {
 
     private float getHighestPrice() {
         Double result = Double.MIN_VALUE;
-        List<Trend> trends = priceDataManager.getTrends();
+        List<Trend> trends = priceDataManager.getTrendMap(interval);
         if (trends != null && trends.size() != 0) {
             for (Trend trend : trends) {
                 if (trend.getHigh() > result) {
@@ -190,7 +213,7 @@ public class MarketDetailActivity extends BaseActivity {
 
     private float getLowestPrice() {
         Double result = Double.MAX_VALUE;
-        List<Trend> trends = priceDataManager.getTrends();
+        List<Trend> trends = priceDataManager.getTrendMap(interval);
         if (trends != null && trends.size() != 0) {
             for (Trend trend : trends) {
                 if (trend.getLow() < result) {
@@ -203,7 +226,7 @@ public class MarketDetailActivity extends BaseActivity {
 
     private float getMaximumVolume() {
         Double result = Double.MIN_VALUE;
-        List<Trend> trends = priceDataManager.getTrends();
+        List<Trend> trends = priceDataManager.getTrendMap(interval);
         if (trends != null && trends.size() != 0) {
             for (Trend trend : trends) {
                 if (trend.getVol() > result) {
@@ -215,13 +238,46 @@ public class MarketDetailActivity extends BaseActivity {
     }
 
     private void setupButtons() {
+        intervalButtons = new ArrayList<>();
+        intervalButtons.add(0, btn1Hr);
+        intervalButtons.add(1, btn2Hr);
+        intervalButtons.add(2, btn4Hr);
+        intervalButtons.add(3, btn1Day);
+        intervalButtons.add(4, btn1Week);
+        setupButtonsListener();
         buyButton.setText(getString(R.string.buy_token, orderDataManager.getTokenA()));
         sellButton.setText(getString(R.string.sell_token, orderDataManager.getTokenA()));
     }
 
-    private void setupViewPager(String[] titles) {
-        viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), fragments, titles));
+    private void setupButtonsListener() {
+        for (Button button : intervalButtons) {
+            button.setOnClickListener(v -> {
+                for (Button button12 : intervalButtons) {
+                    button12.getPaint().setFakeBoldText(false);
+                    button12.setTextColor(getResources().getColor(R.color.colorFortyWhite));
+                }
+                Button button1 = (Button) v;
+                button1.getPaint().setFakeBoldText(true);
+                button1.setTextColor(getResources().getColor(R.color.colorWhite));
+                interval = TrendInterval.getByName(button1.getText().toString());
+                updateKLineChart();
+                updateBarChart();
+            });
+        }
+        btn1Day.getPaint().setFakeBoldText(true);
+        btn1Day.setTextColor(getResources().getColor(R.color.colorWhite));
+    }
+
+    private void setupViewPager() {
+        String[] titles = new String[2];
+        titles[0] = getString(R.string.order_book);
+        titles[1] = getString(R.string.dealt_order);
+        fragments = new ArrayList<>();
+        fragments.add(0, new MarketDepthFragment());
+        fragments.add(1, new MarketHistoryFragment());
         tradeTab.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(1);
+        viewPager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(), fragments, titles));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -255,7 +311,7 @@ public class MarketDetailActivity extends BaseActivity {
         tvLow.setText(NumberUtils.format1(trend.getLow(), 8));
         tvVolume.setText(NumberUtils.format1(trend.getVol(), 2) + " ETH");
         tvChange.setText(trend.getChange());
-        if (trend.getChange().contains("↑")) {
+        if (!StringUtils.isEmpty(trend.getChange()) && trend.getChange().contains("↑")) {
             tvChange.setTextColor(getResources().getColor(R.color.colorRed));
         } else {
             tvChange.setTextColor(getResources().getColor(R.color.colorGreen));
@@ -279,15 +335,8 @@ public class MarketDetailActivity extends BaseActivity {
         tvMarketBalance.setText(ticker.getBalanceShown() + " " + orderDataManager.getTokenB() + " ≈ " + ticker.getCurrencyShown());
     }
 
-    private void setupChart(CandleStickChart chart, CandleData data) {
-        chart.setMinOffset(0);
-        chart.getXAxis().setEnabled(false);
-        chart.getAxisRight().setEnabled(false);
-        chart.getLegend().setEnabled(false);
-        chart.setHighlightPerDragEnabled(true);
-        chart.setDoubleTapToZoomEnabled(false);
-        chart.getDescription().setEnabled(false);
-
+    @SuppressLint("ClickableViewAccessibility")
+    private void setupChart(CustomCandleChart chart, CandleData data) {
         YAxis axisLeft = chart.getAxisLeft();
         axisLeft.enableGridDashedLine(10f, 10f, 0f);
         axisLeft.setGridColor(getResources().getColor(R.color.colorFortyWhite));
@@ -298,13 +347,24 @@ public class MarketDetailActivity extends BaseActivity {
         axisLeft.setDrawGridLines(true);
         axisLeft.setDrawAxisLine(false);
         axisLeft.setDrawLabels(true);
-        axisLeft.setLabelCount(3);
-
+        axisLeft.setLabelCount(4);
+        chart.setMinOffset(0);
+        chart.getXAxis().setEnabled(false);
+        chart.getAxisRight().setEnabled(false);
+        chart.getLegend().setEnabled(false);
+        chart.setHighlightPerDragEnabled(true);
+        chart.setDoubleTapToZoomEnabled(false);
+        chart.getDescription().setEnabled(false);
+        chart.setScaleEnabled(false);
         chart.setData(data);
         chart.invalidate();
         chart.setNoDataText("没有数据");
         chart.setNoDataTextColor(Color.WHITE);
-
+        if (chart == kLineChart) {
+            MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view, priceDataManager.getTrendMap(interval));
+            mv.setChartView(chart);
+            chart.setMarker(mv);
+        }
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
@@ -312,7 +372,7 @@ public class MarketDetailActivity extends BaseActivity {
                 llMarket.setVisibility(View.GONE);
                 kLineChart.highlightValue(h.getX(), h.getDataSetIndex(), false);
                 barChart.highlightValue(h.getX(), h.getDataSetIndex(), false);
-                Trend trend = priceDataManager.getTrends().get((int) h.getX());
+                Trend trend = priceDataManager.getTrendMap(interval).get((int) h.getX());
                 updateChartLabel(trend);
             }
 
@@ -326,7 +386,7 @@ public class MarketDetailActivity extends BaseActivity {
         });
     }
 
-    private void updateChart(CandleStickChart chart, ArrayList<CandleEntry> values) {
+    private void updateChart(CustomCandleChart chart, ArrayList<CandleEntry> values) {
         CandleDataSet set1 = new CandleDataSet(values, "Data Set");
         set1.setAxisDependency(YAxis.AxisDependency.LEFT);
         set1.setDrawIcons(false);
@@ -347,7 +407,7 @@ public class MarketDetailActivity extends BaseActivity {
     }
 
     private void updateKLineChart() {
-        List<Trend> trends = priceDataManager.getTrends();
+        List<Trend> trends = priceDataManager.getTrendMap(interval);
         ArrayList<CandleEntry> values = new ArrayList<>();
         for (int i = 0; i < trends.size(); i++) {
             Trend trend = trends.get(i);
@@ -363,7 +423,7 @@ public class MarketDetailActivity extends BaseActivity {
     }
 
     private void updateBarChart() {
-        List<Trend> trends = priceDataManager.getTrends();
+        List<Trend> trends = priceDataManager.getTrendMap(interval);
         ArrayList<CandleEntry> values = new ArrayList<>();
         for (int i = 0; i < trends.size(); i++) {
             Trend trend = trends.get(i);

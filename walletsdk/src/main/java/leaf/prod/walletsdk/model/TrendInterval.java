@@ -42,7 +42,41 @@ public enum TrendInterval {
         return result;
     }
 
+    public static TrendInterval getByName(String name) {
+        TrendInterval result = TrendInterval.ONE_DAY;
+        for (TrendInterval interval : TrendInterval.values()) {
+            if (interval.toString().equalsIgnoreCase(name)) {
+                result = interval;
+                break;
+            }
+        }
+        return result;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public String toString() {
+        String result = "1H";
+        switch (this) {
+            case ONE_HOUR:
+                result = "1H";
+                break;
+            case TWO_HOURS:
+                result = "2H";
+                break;
+            case FOUR_HOURS:
+                result = "4H";
+                break;
+            case ONE_DAY:
+                result = "1D";
+                break;
+            case ONE_WEEK:
+                result = "1W";
+                break;
+        }
+        return result;
     }
 }

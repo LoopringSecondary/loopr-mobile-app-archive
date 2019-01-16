@@ -3,7 +3,9 @@ package leaf.prod.walletsdk.manager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 
@@ -34,7 +36,7 @@ public class MarketPriceDataManager {
 
     private List<Ticker> filteredTickers;
 
-    private List<Trend> trends;
+    private Map<TrendInterval, List<Trend>> trendMap;
 
     private Depth depth;
 
@@ -47,8 +49,8 @@ public class MarketPriceDataManager {
     private MarketPriceDataManager(Context context) {
         this.context = context;
         this.isFiltering = false;
+        this.trendMap = new HashMap<>();
         this.tickers = new ArrayList<>();
-        this.trends = new ArrayList<>();
         this.filteredTickers = new ArrayList<>();
         this.loopringService = new LoopringService();
     }
@@ -167,16 +169,18 @@ public class MarketPriceDataManager {
     }
 
     public void convertTrend(List<Trend> trends) {
-        this.trends.clear();
+        List<Trend> trendList = new ArrayList<>();
         for (Trend trend : trends) {
             getTrendValue(trend);
-            getTrendInterval(trend);
-            this.trends.add(trend);
+            getTrendRange(trend);
+            trendList.add(trend);
         }
-        Collections.sort(this.trends, (o1, o2) -> (int) (o1.getCreateTime() - o2.getCreateTime()));
+        TrendInterval interval = TrendInterval.getInterval(trends.get(0).getIntervals());
+        Collections.sort(trendList, (o1, o2) -> (int) (o1.getCreateTime() - o2.getCreateTime()));
+        trendMap.put(interval, trendList);
     }
 
-    private void getTrendInterval(Trend trend) {
+    private void getTrendRange(Trend trend) {
         String start = "", end = "";
         TrendInterval interval = TrendInterval.getInterval(trend.getIntervals());
         switch (interval) {
@@ -230,8 +234,8 @@ public class MarketPriceDataManager {
         }
     }
 
-    public List<Trend> getTrends() {
-        return trends;
+    public List<Trend> getTrendMap(TrendInterval interval) {
+        return trendMap.get(interval);
     }
 
     public void convertDepths(Depth result) {

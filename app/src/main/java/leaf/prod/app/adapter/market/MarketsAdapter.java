@@ -43,15 +43,17 @@ public class MarketsAdapter extends BaseQuickAdapter<Ticker, BaseViewHolder> {
     }
 
     private void setupFavIcon(BaseViewHolder helper, Ticker ticker) {
-        List<TradingPair> favMarkets = manager.getLocalUser().getFavMarkets();
-        if (favMarkets != null) {
-            if (favMarkets.contains(ticker.getTradingPair())) {
-                helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_favorite);
+        if (manager.getLocalUser() != null) {
+            List<TradingPair> favMarkets = manager.getLocalUser().getFavMarkets();
+            if (favMarkets != null) {
+                if (favMarkets.contains(ticker.getTradingPair())) {
+                    helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_favorite);
+                } else {
+                    helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_unfavorite);
+                }
             } else {
                 helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_unfavorite);
             }
-        } else {
-            helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_unfavorite);
         }
     }
 
