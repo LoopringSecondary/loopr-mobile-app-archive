@@ -8,17 +8,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="7dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/radius_gradient_bg"
+        android:layout_marginEnd="7dp"
+        android:background="@mipmap/wallet_bg"
         android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margSide"
+            android:layout_marginStart="20dp"
             android:text="快讯"
             android:textColor="@color/colorWhite"
             android:textSize="28sp"
