@@ -71,7 +71,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/head">
 
-                    <RelativeLayout
+                    <android.support.constraint.ConstraintLayout
                         android:id="@+id/wallet_card"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
@@ -80,15 +80,27 @@
                         android:layout_marginRight="8dp"
                         android:background="@mipmap/wallet_bg">
 
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/up_hint"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:visibility="gone"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:lottie_autoPlay="true"
+                            app:lottie_fileName="json/hand_swipe_up_gesture.json"
+                            app:lottie_repeatCount="3"/>
+
                         <com.robinhood.ticker.TickerView
                             android:id="@+id/wallet_count"
-                            style="@style/WrapWrap"
+                            style="@style/MatchWrap"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="24dp"
                             android:gravity="center"
                             android:textColor="@color/colorWhite"
                             android:textSize="32sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toTopOf="parent"/>
 
                         <LinearLayout
                             style="@style/MatchWrap.Horizontal"
@@ -96,7 +108,8 @@
                             android:layout_marginTop="11dp"
                             android:gravity="center"
                             android:paddingStart="50dp"
-                            android:paddingEnd="30dp">
+                            android:paddingEnd="30dp"
+                            app:layout_constraintTop_toBottomOf="@id/wallet_count">
 
                             <TextView
                                 android:id="@+id/wallet_address"
@@ -115,7 +128,7 @@
                                 android:layout_marginStart="3dp"
                                 android:src="@mipmap/icon_wallet_qrcode"/>
                         </LinearLayout>
-                    </RelativeLayout>
+                    </android.support.constraint.ConstraintLayout>
 
                     <com.scwang.smartrefresh.layout.SmartRefreshLayout
                         android:id="@+id/refresh_layout"

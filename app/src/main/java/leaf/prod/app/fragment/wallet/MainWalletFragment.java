@@ -1,8 +1,8 @@
 package leaf.prod.app.fragment.wallet;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,10 +19,10 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
+import com.airbnb.lottie.LottieAnimationView;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -51,6 +51,7 @@ import leaf.prod.app.presenter.wallet.MainFragmentPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.QRCodeUitl;
 import leaf.prod.walletsdk.model.QRCodeType;
+import leaf.prod.walletsdk.util.SPUtils;
 
 public class MainWalletFragment extends BaseFragment {
 
@@ -120,11 +121,11 @@ public class MainWalletFragment extends BaseFragment {
     @BindView(R.id.frame_layout)
     FrameLayout frameLayout;
 
-    @BindView(R.id.wallet_card)
-    RelativeLayout walletCard;
-
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout refreshLayout;
+
+    @BindView(R.id.up_hint)
+    LottieAnimationView upHint;
 
     private int[] locations = new int[2];
 
@@ -155,13 +156,9 @@ public class MainWalletFragment extends BaseFragment {
         }
     };
 
-    private MainFragment mainFragment;
-
     private MainWalletAdapter mAdapter;
 
     private boolean showMenu = false;  //判断menu是否显示
-
-    private BigDecimal moneyValue;  //钱包总金额
 
     private MainFragmentPresenter presenter;
 
@@ -180,10 +177,30 @@ public class MainWalletFragment extends BaseFragment {
         }
         switchNews.setOnRefreshListener(refreshLayout -> {
             EventBus.getDefault().post(new MainFragment.Event(0));
+            SPUtils.put(getContext(), "discover_news", true);
+            upHint.setVisibility(View.GONE);
             refreshLayout.finishRefresh(true);
         });
         refreshLayout.setOnRefreshListener(refreshLayout1 -> {
             presenter.initObservable();
+        });
+        upHint.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                upHint.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+            }
         });
         return layout;
     }
@@ -229,6 +246,7 @@ public class MainWalletFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         flag = true;
+        upHint.setVisibility(View.GONE);
     }
 
     @Override
@@ -385,6 +403,9 @@ public class MainWalletFragment extends BaseFragment {
             refreshLayout.finishRefresh(true);
         if (getActivity() != null) {
             ((MainActivity) getActivity()).showLoading(false);
+        }
+        if (!(boolean) SPUtils.get(getContext(), "discover_news", false)) {
+            upHint.setVisibility(View.VISIBLE);
         }
     }
 }
