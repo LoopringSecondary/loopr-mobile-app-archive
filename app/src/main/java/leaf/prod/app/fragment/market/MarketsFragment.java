@@ -131,4 +131,8 @@ public class MarketsFragment extends BaseFragment {
     public void setMarketsType(MarketsType marketsType) {
         this.marketsType = marketsType;
     }
+
+    public MarketsType getMarketsType() {
+        return marketsType;
+    }
 }

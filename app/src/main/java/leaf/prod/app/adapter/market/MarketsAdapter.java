@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import leaf.prod.app.R;
 import leaf.prod.app.fragment.market.MarketsFragment;
 import leaf.prod.walletsdk.manager.LoginDataManager;
+import leaf.prod.walletsdk.model.MarketsType;
 import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.TradingPair;
 import leaf.prod.walletsdk.util.NumberUtils;
@@ -59,9 +60,9 @@ public class MarketsAdapter extends BaseQuickAdapter<Ticker, BaseViewHolder> {
 
     private void setupChange(BaseViewHolder helper, Ticker ticker) {
         if (ticker.getChange().contains("↑")) {
-            helper.setBackgroundRes(R.id.tv_change, R.drawable.sell_bg);
+            helper.setBackgroundRes(R.id.tv_change, R.drawable.market_up);
         } else {
-            helper.setBackgroundRes(R.id.tv_change, R.drawable.buy_bg);
+            helper.setBackgroundRes(R.id.tv_change, R.drawable.market_down);
         }
     }
 
@@ -72,7 +73,15 @@ public class MarketsAdapter extends BaseQuickAdapter<Ticker, BaseViewHolder> {
             } else {
                 manager.addFavorite(ticker.getTradingPair());
             }
-            fragment.updateAdapter();
+            if (fragment.getMarketsType() == MarketsType.Favorite) {
+                if (manager.isFavorite(ticker.getTradingPair())) {
+                    helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_favorite);
+                } else {
+                    helper.setBackgroundRes(R.id.btn_fav, R.mipmap.icon_unfavorite);
+                }
+            } else {
+                fragment.updateAdapter();
+            }
         });
     }
 }

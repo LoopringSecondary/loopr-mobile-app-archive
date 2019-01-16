@@ -308,7 +308,7 @@
     <string name="edit_contact">编辑联系人信息</string>
     <string name="buy_price">买价</string>
     <string name="sell_price">卖价</string>
-    <string name="market_max_buy">最多可买入%s</string>
+    <string name="market_max_buy">最多可买入 %s</string>
     <string name="buy_token">买入%s</string>
     <string name="sell_token">卖出%s</string>
     <string name="order_book">挂单</string>
