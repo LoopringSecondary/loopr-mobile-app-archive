@@ -2,6 +2,8 @@ package leaf.prod.app.adapter.infomation;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,6 +11,7 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.loopj.android.image.SmartImageView;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.vondear.rxtool.view.RxToast;
@@ -36,6 +39,8 @@ public class NewsInfoAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
 
     private List<News> newsList;
 
+    private Pattern p = Pattern.compile("<img src=\"([\\s\\S]*?)\">");
+
     private static CrawlerService crawlerService;
 
     public NewsInfoAdapter(int layoutResId, @Nullable List<News> news, Activity activity) {
@@ -56,7 +61,15 @@ public class NewsInfoAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
             helper.setText(R.id.tv_source, activity.getString(R.string.news_source) + ":" + news
                     .getSource());
             helper.setText(R.id.tv_title, news.getTitle());
-            helper.setText(R.id.cl_content, news.getContent());
+            Matcher m = p.matcher(news.getContent());
+            helper.setText(R.id.tv_content, m.replaceAll("").trim());
+            String img = getFirstImg(news.getContent());
+            if (img == null) {
+                helper.setGone(R.id.iv_navigation, false);
+            } else {
+                SmartImageView imageView = helper.getView(R.id.iv_navigation);
+                imageView.setImageUrl(img);
+            }
             helper.setText(R.id.tv_share, activity.getString(R.string.news_share) + " " + (news.getForwardNum() > 0 ? news
                     .getForwardNum() : ""));
             helper.setOnClickListener(R.id.cl_share, view -> {
@@ -109,5 +122,16 @@ public class NewsInfoAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String getFirstImg(String content) {
+        Matcher m = p.matcher(content);
+        if (m.find()) {
+            return content
+                    .substring(m.start(), m.end())
+                    .replace("<img src=\"", "")
+                    .replace("\">", "");
+        }
+        return null;
     }
 }
