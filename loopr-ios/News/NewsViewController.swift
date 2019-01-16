@@ -70,7 +70,7 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .newsViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         collectionView.refreshControl = refreshControl
-        
+
         footerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         footerView.round(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 1)
     }
@@ -125,7 +125,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
         return NewsCollectionCell.getSize(news: news, isExpanded: NewsViewController.expandedNewsUuids.contains(news.uuid))
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }

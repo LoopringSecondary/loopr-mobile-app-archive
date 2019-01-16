@@ -119,10 +119,8 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.navigationItem.title = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.name ?? LocalizedString("Wallet", comment: "")
 
-        if let cell = assetTableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as? WalletBalanceTableViewCell {
-            cell.setup(animated: false)
-        }
-        
+        walletBalanceView.setup(animated: false)
+ 
         assetTableView.reloadData()
         getDataFromRelay()
         
@@ -367,11 +365,10 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 cell = nib![0] as? WalletBalanceTableViewCell
                 cell?.delegate = self
             }
-            cell?.setup(animated: true)
-            if isLaunching {
-                cell?.balanceLabel.setText("", animated: false)
-            }
             walletBalanceView.setup(animated: true)
+            if isLaunching {
+                walletBalanceView.balanceLabel.setText("", animated: false)
+            }
             return cell!
         } else if indexPath.section == 1 {
             var cell = tableView.dequeueReusableCell(withIdentifier: WalletButtonTableViewCell.getCellIdentifier()) as? WalletButtonTableViewCell
