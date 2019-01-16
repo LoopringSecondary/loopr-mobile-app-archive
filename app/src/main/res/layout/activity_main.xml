@@ -21,8 +21,8 @@
         android:layout_gravity="bottom"
         android:background="@color/colorBg"
         android:orientation="horizontal"
-        android:paddingBottom="4dp"
         android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <RelativeLayout
@@ -87,8 +87,8 @@
             android:id="@+id/rl_news"
             style="@style/AutoMatch"
             android:layout_gravity="bottom"
-            android:visibility="gone"
-            android:clickable="true">
+            android:clickable="true"
+            android:visibility="gone">
 
             <LinearLayout
                 style="@style/WrapWrap.Vertical"

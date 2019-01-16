@@ -21,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
+import leaf.prod.app.activity.wallet.MainActivity;
 import leaf.prod.app.adapter.ViewPageAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.fragment.infomation.NewsFragment;
@@ -86,6 +87,7 @@ public class MainFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setItem(Event event) {
         viewPager.setCurrentItem(event.getIndex(), true);
+        ((MainActivity) getActivity()).showBottomBar(event.getIndex() != 0);
     }
 
     @Override

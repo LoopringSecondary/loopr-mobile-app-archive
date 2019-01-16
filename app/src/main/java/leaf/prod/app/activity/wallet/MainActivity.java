@@ -308,6 +308,10 @@ public class MainActivity extends BaseActivity {
         clLoading.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
+    public void showBottomBar(boolean show) {
+        cclMain.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
     /**
      * 在fragment回调触摸事件获得坐标
      *
