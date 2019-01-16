@@ -125,7 +125,7 @@ public class MarketPriceDataManager {
         return tickers;
     }
 
-    public List<Ticker> getTickersBy(String token) {
+    public List<Ticker> getTickerBy(String token) {
         List<Ticker> result = new ArrayList<>();
         List<Ticker> tickers = getTickers();
         for (Ticker ticker : tickers) {
@@ -136,7 +136,7 @@ public class MarketPriceDataManager {
         return result;
     }
 
-    public Ticker getTickersBy(TradingPair pair) {
+    public Ticker getTickerBy(TradingPair pair) {
         Ticker result = null;
         List<Ticker> tickers = getTickers();
         for (Ticker ticker : tickers) {
@@ -153,8 +153,8 @@ public class MarketPriceDataManager {
         UserConfig config = LoginDataManager.getInstance(context).getLocalUser();
         if (config != null && config.getFavMarkets() != null) {
             for (TradingPair pair : config.getFavMarkets()) {
-                if (getTickersBy(pair) != null) {
-                    result.add(getTickersBy(pair));
+                if (getTickerBy(pair) != null) {
+                    result.add(getTickerBy(pair));
                 }
             }
         }

@@ -267,6 +267,8 @@
     <string name="market_open">开盘</string>
     <string name="market_close">收盘</string>
     <string name="market_change">涨跌</string>
+    <string name="market_24_change">24H 涨跌:</string>
+    <string name="market_24_vol">24H 交易量:</string>
 
     <string name="sell_amount">卖出数额</string>
     <string name="buy_amount">买入数额</string>
@@ -309,8 +311,8 @@
     <string name="buy_price">买价</string>
     <string name="sell_price">卖价</string>
     <string name="market_max_buy">最多可买入 %s</string>
-    <string name="buy_token">买入%s</string>
-    <string name="sell_token">卖出%s</string>
+    <string name="buy_token">买入 %s</string>
+    <string name="sell_token">卖出 %s</string>
     <string name="order_book">挂单</string>
     <string name="dealt_order">成交</string>
     <string name="latest_price">最新单价</string>
@@ -333,7 +335,5 @@
     <string name="news_pulling_next">上拉加载下一篇</string>
     <string name="news_release_next">松手加载下一篇</string>
     <string name="news_loading">正在刷新</string>
-    <string name="market_24_change">24H 涨跌:</string>
-    <string name="market_24_vol">24H 交易量:</string>
 
 </resources>

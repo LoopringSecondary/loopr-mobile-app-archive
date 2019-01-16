@@ -51,12 +51,16 @@ import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
+import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.OriginOrder;
+import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.model.TradingPair;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
+import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.StringUtils;
@@ -430,6 +434,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
             marketPriceDialogView = LayoutInflater.from(context).inflate(R.layout.dialog_market_order, null);
             RecyclerView recyclerViewBuy = marketPriceDialogView.findViewById(R.id.recycler_view_buy);
             RecyclerView recyclerViewSell = marketPriceDialogView.findViewById(R.id.recycler_view_sell);
+
             recyclerViews.put("buy", recyclerViewBuy);
             recyclerViews.put("sell", recyclerViewSell);
             builder.setView(marketPriceDialogView);
@@ -456,7 +461,19 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
             NoDataAdapter emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, type);
             emptyAdapters.put(item.getKey(), emptyAdapter);
         }
+        setupTitle();
         updateAdapter();
+    }
+
+    private void setupTitle() {
+        TextView tvLatest = marketPriceDialogView.findViewById(R.id.tv_latest_price);
+        TradingPair pair = TradingPair.builder()
+                .tokenA(orderDataManager.getTokenA())
+                .tokenB(orderDataManager.getTokenB())
+                .description(orderDataManager.getTradePair())
+                .build();
+        Ticker ticker = priceDataManager.getTickerBy(pair);
+        tvLatest.setText(ticker.getBalanceShown() + " " + orderDataManager.getTokenB() + " ≈ " + ticker.getCurrencyShown());
     }
 
     private void updateAdapter() {
@@ -477,21 +494,21 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
     }
 
     private void setHeader(MarketDepthAdapter marketAdapter, Map.Entry<String, RecyclerView> item) {
+        String priceSuffix = "", amountSuffix = "";
+        if (LanguageUtil.getLanguage(context) != Language.en_US) {
+            priceSuffix = "(" + orderDataManager.getTokenB() + ")";
+            amountSuffix = "(" + orderDataManager.getTokenA() + ")";
+        }
         View header = LayoutInflater.from(context)
                 .inflate(R.layout.adapter_header_market_depth, item.getValue(), false);
         if (item.getKey().equals("buy")) {
-            ((TextView) header.findViewById(R.id.tv_price)).setText(context.getString(R.string.buy_price) + "(" + orderDataManager
-                    .getTokenA() + ")");
-            ((TextView) header.findViewById(R.id.tv_amount)).setText(context.getString(R.string.amount) + "(" + orderDataManager
-                    .getTokenB() + ")");
+            ((TextView) header.findViewById(R.id.tv_price)).setText(context.getString(R.string.buy_price) + priceSuffix);
             header.setBackground(context.getDrawable(R.drawable.radius_left_top_bg_29));
         } else {
-            ((TextView) header.findViewById(R.id.tv_price)).setText(context.getString(R.string.sell_price) + "(" + orderDataManager
-                    .getTokenA() + ")");
-            ((TextView) header.findViewById(R.id.tv_amount)).setText(context.getString(R.string.amount) + "(" + orderDataManager
-                    .getTokenB() + ")");
+            ((TextView) header.findViewById(R.id.tv_price)).setText(context.getString(R.string.sell_price) + priceSuffix);
             header.setBackground(context.getDrawable(R.drawable.radius_right_top_bg_29));
         }
+        ((TextView) header.findViewById(R.id.tv_amount)).setText(context.getString(R.string.amount) + amountSuffix);
         marketAdapter.setHeaderView(header);
     }
 

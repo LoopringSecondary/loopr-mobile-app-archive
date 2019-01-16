@@ -102,7 +102,7 @@ public class MarketSelectFragment extends BaseFragment {
             case LRC:
             case USDT:
             case TUSD:
-                result = manager.getTickersBy(this.marketsType.name());
+                result = manager.getTickerBy(this.marketsType.name());
                 break;
         }
         return result;

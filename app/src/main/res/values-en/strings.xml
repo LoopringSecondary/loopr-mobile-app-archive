@@ -308,8 +308,8 @@
     <string name="buy_price">Buy Price</string>
     <string name="sell_price">Sell Price</string>
     <string name="market_max_buy">Maximum is %s</string>
-    <string name="buy_token">Buy%s</string>
-    <string name="sell_token">Sell%s</string>
+    <string name="buy_token">Buy %s</string>
+    <string name="sell_token">Sell %s</string>
     <string name="order_book">OrderBook</string>
     <string name="dealt_order">Trades</string>
     <string name="latest_price">Latest Price</string>

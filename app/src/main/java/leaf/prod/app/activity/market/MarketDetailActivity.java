@@ -321,7 +321,7 @@ public class MarketDetailActivity extends BaseActivity {
                 .tokenB(orderDataManager.getTokenB())
                 .description(orderDataManager.getTradePair())
                 .build();
-        Ticker ticker = priceDataManager.getTickersBy(pair);
+        Ticker ticker = priceDataManager.getTickerBy(pair);
         if (ticker.getChange().contains("↑")) {
             tvMarketBalance.setTextColor(getResources().getColor(R.color.colorRed));
         } else {

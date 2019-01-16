@@ -24,8 +24,10 @@ import leaf.prod.app.adapter.market.MarketDepthAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
+import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.util.LanguageUtil;
 
 public class MarketDepthFragment extends BaseFragment {
 
@@ -105,21 +107,21 @@ public class MarketDepthFragment extends BaseFragment {
     }
 
     private void setHeader(MarketDepthAdapter marketAdapter, Map.Entry<String, RecyclerView> item) {
+        String priceSuffix = "", amountSuffix = "";
+        if (LanguageUtil.getLanguage(getContext()) != Language.en_US) {
+            priceSuffix = "(" + orderDataManager.getTokenB() + ")";
+            amountSuffix = "(" + orderDataManager.getTokenA() + ")";
+        }
         View header = LayoutInflater.from(getContext())
                 .inflate(R.layout.adapter_header_market_depth, item.getValue(), false);
         if (item.getKey().equals("buy")) {
-            ((TextView) header.findViewById(R.id.tv_price)).setText(getString(R.string.buy_price) + "(" + orderDataManager
-                    .getTokenA() + ")");
-            ((TextView) header.findViewById(R.id.tv_amount)).setText(getString(R.string.amount) + "(" + orderDataManager
-                    .getTokenB() + ")");
+            ((TextView) header.findViewById(R.id.tv_price)).setText(getContext().getString(R.string.buy_price) + priceSuffix);
             header.setBackground(getContext().getDrawable(R.drawable.radius_left_top_bg_29));
         } else {
-            ((TextView) header.findViewById(R.id.tv_price)).setText(getString(R.string.sell_price) + "(" + orderDataManager
-                    .getTokenA() + ")");
-            ((TextView) header.findViewById(R.id.tv_amount)).setText(getString(R.string.amount) + "(" + orderDataManager
-                    .getTokenB() + ")");
+            ((TextView) header.findViewById(R.id.tv_price)).setText(getContext().getString(R.string.sell_price) + priceSuffix);
             header.setBackground(getContext().getDrawable(R.drawable.radius_right_top_bg_29));
         }
+        ((TextView) header.findViewById(R.id.tv_amount)).setText(getContext().getString(R.string.amount) + amountSuffix);
         marketAdapter.setHeaderView(header);
     }
 

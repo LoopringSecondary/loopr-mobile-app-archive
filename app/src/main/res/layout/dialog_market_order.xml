@@ -15,13 +15,13 @@
         android:text="@string/latest_price"/>
 
     <TextView
+        android:id="@+id/tv_latest_price"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:textColor="@color/colorGreen"
-        android:textSize="14sp"
-        android:text="0.33445533WETH ≈ ￥0.27"/>
+        android:textSize="14sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
