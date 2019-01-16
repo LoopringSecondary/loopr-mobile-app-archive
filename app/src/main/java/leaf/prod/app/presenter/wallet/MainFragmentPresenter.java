@@ -16,7 +16,7 @@ import java.util.Map;
 
 import android.content.Context;
 
-import leaf.prod.app.fragment.wallet.MainFragment;
+import leaf.prod.app.fragment.wallet.MainWalletFragment;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
@@ -36,7 +36,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class MainFragmentPresenter extends BasePresenter<MainFragment> {
+public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
 
     private static LoopringService loopringService;
 
@@ -60,7 +60,7 @@ public class MainFragmentPresenter extends BasePresenter<MainFragment> {
 
     private String address;
 
-    public MainFragmentPresenter(MainFragment view, Context context) {
+    public MainFragmentPresenter(MainWalletFragment view, Context context) {
         super(view, context);
         marketcapDataManager = MarketcapDataManager.getInstance(context);
         tokenDataManager = TokenDataManager.getInstance(context);

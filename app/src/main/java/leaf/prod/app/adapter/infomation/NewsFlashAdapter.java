@@ -1,25 +1,22 @@
 package leaf.prod.app.adapter.infomation;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Typeface;
-import android.support.constraint.ConstraintLayout;
-import android.util.TypedValue;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.animation.OvershootInterpolator;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.vondear.rxtool.view.RxToast;
 
 import at.blogc.android.views.ExpandableTextView;
-import butterknife.BindView;
-import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
@@ -34,141 +31,83 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created with IntelliJ IDEA.
- * User: laiyanyan
- * Time: 2018-12-22 4:25 PM
- * Cooperation: loopring.org 路印协议基金会
- */
-public class NewsFlashItem extends NewsBodyItem {
+public class NewsFlashAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
+
+    private Activity activity;
 
     private static SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private static SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd HH:mm");
 
-    @BindView(R.id.tv_time)
-    public TextView tvTime;
-
-    @BindView(R.id.tv_title)
-    public TextView tvTitle;
-
-    @BindView(R.id.cl_content)
-    public ExpandableTextView clContent;
-
-    @BindView(R.id.tv_share)
-    public TextView tvShare;
-
-    @BindView(R.id.tv_bear)
-    public TextView tvBear;
-
-    @BindView(R.id.tv_bull)
-    public TextView tvBull;
-
-    @BindView(R.id.tv_source)
-    public TextView tvSource;
-
-    @BindView(R.id.iv_bull)
-    public ImageView ivBull;
-
-    @BindView(R.id.iv_bull_active)
-    public ImageView ivBullActive;
-
-    @BindView(R.id.iv_bear)
-    public ImageView ivBear;
-
-    @BindView(R.id.iv_bear_active)
-    public ImageView ivBearActive;
-
-    @BindView(R.id.iv_share)
-    public ImageView ivShare;
-
-    @BindView(R.id.cl_share)
-    public ConstraintLayout clShare;
-
-    @BindView(R.id.cl_bear)
-    public ConstraintLayout clBear;
-
-    @BindView(R.id.cl_bull)
-    public ConstraintLayout clBull;
-
     private static CrawlerService crawlerService;
 
-    private boolean expand = false;
-
-    private News data;
-
-    public NewsFlashItem(View itemView, Activity activity) {
-        super(itemView, activity);
-        clContent.setExpandInterpolator(new OvershootInterpolator());
-        clContent.setCollapseInterpolator(new OvershootInterpolator());
-        clContent.setOnClickListener(view -> {
-            if (!expand && !clContent.isExpanded() || expand && clContent.isExpanded()) {
-                expandView(expand = !expand);
-            }
-        });
+    public NewsFlashAdapter(int layoutResId, @Nullable List<News> news, Activity activity) {
+        super(layoutResId, news);
+        this.activity = activity;
         if (crawlerService == null) {
             crawlerService = new CrawlerService();
         }
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
-    public void setContent(News data) {
-        if (data == null)
+    protected void convert(BaseViewHolder helper, News news) {
+        if (news == null)
             return;
         try {
-            this.data = data;
-            if (data.getTitle().startsWith("孟岩")) {
-                LyqbLogger.log(data.toString());
-            }
-            tvTime.setText(sdf2.format(sdf1.parse(data.getPublishTime())));
-            tvSource.setText(activity.getResources().getString(R.string.news_source) + ":" + data.getSource());
-            tvTitle.setText(data.getTitle());
-            clContent.setText(data.getContent());
-            tvShare.setText(activity.getResources()
-                    .getString(R.string.news_share) + " " + (data.getForwardNum() > 0 ? data.getForwardNum() : ""));
-            String result = (String) SPUtils.get(activity, "news_" + data.getUuid(), "");
-            hideBullView(data.getBullIndex());
-            hideBearView(data.getBearIndex());
-            if (result.equalsIgnoreCase("bull")) {
-                if (data.getBullIndex() == 0) {
-                    SPUtils.put(activity, "news_" + data.getUuid(), "");
+            helper.setText(R.id.tv_time, sdf2.format(sdf1.parse(news.getPublishTime())));
+            helper.setText(R.id.tv_source, activity.getString(R.string.news_source) + ":" + news
+                    .getSource());
+            helper.setText(R.id.tv_title, news.getTitle());
+            helper.setText(R.id.cl_content, news.getContent());
+            helper.setText(R.id.tv_share, activity.getString(R.string.news_share) + " " + (news.getForwardNum() > 0 ? news
+                    .getForwardNum() : ""));
+            String result = (String) SPUtils.get(activity, "news_" + news.getUuid(), "");
+            hideBullView(helper, news.getBullIndex());
+            hideBearView(helper, news.getBearIndex());
+            if ("bull".equalsIgnoreCase(result)) {
+                if (news.getBullIndex() == 0) {
+                    SPUtils.put(activity, "news_" + news.getUuid(), "");
                 } else {
-                    showBullView(data.getBullIndex());
+                    showBullView(helper, news.getBullIndex());
                 }
             }
-            if (result.equalsIgnoreCase("bear")) {
-                if (data.getBearIndex() == 0) {
-                    SPUtils.put(activity, "news_" + data.getUuid(), "");
+            if ("bear".equalsIgnoreCase(result)) {
+                if (news.getBearIndex() == 0) {
+                    SPUtils.put(activity, "news_" + news.getUuid(), "");
                 } else {
-                    showBearView(data.getBearIndex());
+                    showBearView(helper, news.getBearIndex());
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+            ExpandableTextView clContent = helper.getView(R.id.cl_content);
+            clContent.setExpandInterpolator(new OvershootInterpolator());
+            clContent.setCollapseInterpolator(new OvershootInterpolator());
+            clContent.setOnClickListener(view -> {
+                clContent.addOnExpandListener(new ExpandableTextView.OnExpandListener() {
+                    @Override
+                    public void onExpand(@NonNull ExpandableTextView view) {
+                        clContent.setTextSize(13);
+                    }
 
-    private void expandView(boolean flag) {
-        clContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, flag ? clContent.getTextSize() + 8 : clContent.getTextSize() - 8);
-        clContent.toggle();
-        ViewGroup.LayoutParams lp = innerLayout.getLayoutParams();
-        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        innerLayout.setLayoutParams(lp);
-    }
-
-    @OnClick({R.id.cl_bull, R.id.cl_bear, R.id.cl_share})
-    public void onViewClicked(View view) {
-        if (!(ButtonClickUtil.isFastDoubleClick(1))) { //防止一秒内多次点击
-            switch (view.getId()) {
-                case R.id.cl_bull:
-                    setBull();
-                    break;
-                case R.id.cl_bear:
-                    setBear();
-                    break;
-                case R.id.cl_share:
-                    ShareUtil.uShareUrl(activity, data.getTitle(), data.getUrl(), " ", new UMShareListener() {
+                    @Override
+                    public void onCollapse(@NonNull ExpandableTextView view) {
+                        clContent.setTextSize(11);
+                    }
+                });
+                clContent.toggle();
+            });
+            helper.setOnClickListener(R.id.cl_bull, view -> {
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) {
+                    setBull(helper, news);
+                }
+            });
+            helper.setOnClickListener(R.id.cl_bear, view -> {
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) {
+                    setBear(helper, news);
+                }
+            });
+            helper.setOnClickListener(R.id.cl_share, view -> {
+                if (!(ButtonClickUtil.isFastDoubleClick(1))) {
+                    ShareUtil.uShareUrl(activity, news.getTitle(), news.getUrl(), " ", new UMShareListener() {
                         @Override
                         public void onStart(SHARE_MEDIA platform) {
                         }
@@ -177,7 +116,7 @@ public class NewsFlashItem extends NewsBodyItem {
                         @Override
                         public void onResult(SHARE_MEDIA platform) {
                             RxToast.success(activity.getResources().getString(R.string.share_success));
-                            crawlerService.confirmForward(data.getUuid())
+                            crawlerService.confirmForward(news.getUuid())
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<IndexResult>() {
@@ -192,7 +131,8 @@ public class NewsFlashItem extends NewsBodyItem {
 
                                         @Override
                                         public void onNext(IndexResult indexResult) {
-                                            tvShare.setText(activity.getString(R.string.news_share) + " " + indexResult.getForwardNum());
+                                            helper.setText(R.id.tv_share, activity.getString(R.string.news_share) + " " + indexResult
+                                                    .getForwardNum());
                                         }
                                     });
                         }
@@ -210,16 +150,57 @@ public class NewsFlashItem extends NewsBodyItem {
                         public void onCancel(SHARE_MEDIA platform) {
                         }
                     });
-                    break;
-            }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+    //    private void expandView(BaseViewHolder helper, boolean flag) {
+    //
+    //        clContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, flag ? clContent.getTextSize() + 8 : clContent.getTextSize() - 8);
+    //        clContent.toggle();
+    //        ViewGroup.LayoutParams lp = view.getLayoutParams();
+    //        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+    //        view.setLayoutParams(lp);
+    //    }
 
-    @SuppressLint("SetTextI18n")
-    private void setBull() {
-        String result = (String) SPUtils.get(activity, "news_" + data.getUuid(), "");
+    private void showBullView(BaseViewHolder helper, int index) {
+        helper.setText(R.id.tv_bull, activity.getString(R.string.news_bull) + " " + (index > 0 ? index : ""));
+        helper.setTypeface(R.id.tv_bull, Typeface.create((Typeface) null, Typeface.BOLD));
+        helper.setTextColor(R.id.tv_bull, activity.getResources().getColor(R.color.colorGreen));
+        helper.setGone(R.id.iv_bull, false);
+        helper.setVisible(R.id.iv_bull_active, true);
+    }
+
+    private void hideBullView(BaseViewHolder helper, int index) {
+        helper.setText(R.id.tv_bull, activity.getString(R.string.news_bull) + " " + (index > 0 ? index : ""));
+        helper.setTypeface(R.id.tv_bull, Typeface.create((Typeface) null, Typeface.NORMAL));
+        helper.setTextColor(R.id.tv_bull, activity.getResources().getColor(R.color.colorNineText));
+        helper.setVisible(R.id.iv_bull, true);
+        helper.setGone(R.id.iv_bull_active, false);
+    }
+
+    private void showBearView(BaseViewHolder helper, int index) {
+        helper.setText(R.id.tv_bear, activity.getString(R.string.news_bear) + " " + (index > 0 ? index : ""));
+        helper.setTypeface(R.id.tv_bear, Typeface.create((Typeface) null, Typeface.BOLD));
+        helper.setTextColor(R.id.tv_bear, activity.getResources().getColor(R.color.colorRed));
+        helper.setGone(R.id.iv_bear, false);
+        helper.setVisible(R.id.iv_bear_active, true);
+    }
+
+    private void hideBearView(BaseViewHolder helper, int index) {
+        helper.setText(R.id.tv_bear, activity.getString(R.string.news_bear) + " " + (index > 0 ? index : ""));
+        helper.setTypeface(R.id.tv_bear, Typeface.create((Typeface) null, Typeface.NORMAL));
+        helper.setTextColor(R.id.tv_bear, activity.getResources().getColor(R.color.colorNineText));
+        helper.setVisible(R.id.iv_bear, true);
+        helper.setGone(R.id.iv_bear_active, false);
+    }
+
+    private void setBull(BaseViewHolder helper, News news) {
+        String result = (String) SPUtils.get(activity, "news_" + news.getUuid(), "");
         if (result.isEmpty()) {
-            crawlerService.confirmBull(data.getUuid())
+            crawlerService.confirmBull(news.getUuid())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<IndexResult>() {
@@ -236,14 +217,14 @@ public class NewsFlashItem extends NewsBodyItem {
 
                         @Override
                         public void onNext(IndexResult indexResult) {
-                            SPUtils.put(activity, "news_" + data.getUuid(), "bull");
-                            showBullView(indexResult.getBullIndex());
+                            SPUtils.put(activity, "news_" + news.getUuid(), "bull");
+                            showBullView(helper, indexResult.getBullIndex());
                             unsubscribe();
                         }
                     });
         } else {
             if (result.equals("bull")) {
-                crawlerService.cancelBull(data.getUuid()).subscribeOn(Schedulers.io())
+                crawlerService.cancelBull(news.getUuid()).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<IndexResult>() {
                             @Override
@@ -259,13 +240,13 @@ public class NewsFlashItem extends NewsBodyItem {
 
                             @Override
                             public void onNext(IndexResult indexResult) {
-                                SPUtils.put(activity, "news_" + data.getUuid(), "");
-                                hideBullView(indexResult.getBullIndex());
+                                SPUtils.put(activity, "news_" + news.getUuid(), "");
+                                hideBullView(helper, indexResult.getBullIndex());
                                 unsubscribe();
                             }
                         });
             } else {
-                crawlerService.confirmBull(data.getUuid())
+                crawlerService.confirmBull(news.getUuid())
                         .flatMap((Func1<IndexResult, Observable<IndexResult>>) indexResult -> crawlerService.cancelBear(indexResult
                                 .getUuid()))
                         .subscribeOn(Schedulers.io())
@@ -284,9 +265,9 @@ public class NewsFlashItem extends NewsBodyItem {
 
                             @Override
                             public void onNext(IndexResult indexResult) {
-                                SPUtils.put(activity, "news_" + data.getUuid(), "bull");
-                                showBullView(indexResult.getBullIndex());
-                                hideBearView(indexResult.getBearIndex());
+                                SPUtils.put(activity, "news_" + news.getUuid(), "bull");
+                                showBullView(helper, indexResult.getBullIndex());
+                                hideBearView(helper, indexResult.getBearIndex());
                                 unsubscribe();
                             }
                         });
@@ -295,10 +276,10 @@ public class NewsFlashItem extends NewsBodyItem {
     }
 
     @SuppressLint("SetTextI18n")
-    private void setBear() {
-        String result = (String) SPUtils.get(activity, "news_" + data.getUuid(), "");
+    private void setBear(BaseViewHolder helper, News news) {
+        String result = (String) SPUtils.get(activity, "news_" + news.getUuid(), "");
         if (result.isEmpty()) {
-            crawlerService.confirmBear(data.getUuid())
+            crawlerService.confirmBear(news.getUuid())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<IndexResult>() {
@@ -315,14 +296,14 @@ public class NewsFlashItem extends NewsBodyItem {
 
                         @Override
                         public void onNext(IndexResult indexResult) {
-                            SPUtils.put(activity, "news_" + data.getUuid(), "bear");
-                            showBearView(indexResult.getBearIndex());
+                            SPUtils.put(activity, "news_" + news.getUuid(), "bear");
+                            showBearView(helper, indexResult.getBearIndex());
                             unsubscribe();
                         }
                     });
         } else {
             if (result.equals("bear")) {
-                crawlerService.cancelBear(data.getUuid())
+                crawlerService.cancelBear(news.getUuid())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<IndexResult>() {
@@ -339,14 +320,14 @@ public class NewsFlashItem extends NewsBodyItem {
 
                             @Override
                             public void onNext(IndexResult indexResult) {
-                                SPUtils.put(activity, "news_" + data.getUuid(), "");
-                                hideBearView(indexResult.getBearIndex());
+                                SPUtils.put(activity, "news_" + news.getUuid(), "");
+                                hideBearView(helper, indexResult.getBearIndex());
                                 unsubscribe();
                             }
                         });
             } else {
-                crawlerService.confirmBear(data.getUuid())
-                        .flatMap((Func1<IndexResult, Observable<IndexResult>>) indexResult -> crawlerService.cancelBull(data
+                crawlerService.confirmBear(news.getUuid())
+                        .flatMap((Func1<IndexResult, Observable<IndexResult>>) indexResult -> crawlerService.cancelBull(news
                                 .getUuid()))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -365,45 +346,13 @@ public class NewsFlashItem extends NewsBodyItem {
 
                             @Override
                             public void onNext(IndexResult indexResult) {
-                                SPUtils.put(activity, "news_" + data.getUuid(), "bear");
-                                showBearView(indexResult.getBearIndex());
-                                hideBullView(indexResult.getBullIndex());
+                                SPUtils.put(activity, "news_" + news.getUuid(), "bear");
+                                showBearView(helper, indexResult.getBearIndex());
+                                hideBullView(helper, indexResult.getBullIndex());
                                 unsubscribe();
                             }
                         });
             }
         }
-    }
-
-    private void showBullView(int index) {
-        tvBull.setText(activity.getResources().getString(R.string.news_bull) + " " + (index > 0 ? index : ""));
-        tvBull.setTypeface(null, Typeface.BOLD);
-        tvBull.setTextColor(activity.getResources().getColor(R.color.colorGreen));
-        ivBull.setVisibility(View.GONE);
-        ivBullActive.setVisibility(View.VISIBLE);
-    }
-
-    private void hideBullView(int index) {
-        tvBull.setText(activity.getResources().getString(R.string.news_bull) + " " + (index > 0 ? index : ""));
-        tvBull.setTypeface(null, Typeface.NORMAL);
-        tvBull.setTextColor(activity.getResources().getColor(R.color.colorNineText));
-        ivBull.setVisibility(View.VISIBLE);
-        ivBullActive.setVisibility(View.GONE);
-    }
-
-    private void showBearView(int index) {
-        tvBear.setText(activity.getResources().getString(R.string.news_bear) + " " + (index > 0 ? index : ""));
-        tvBear.setTypeface(null, Typeface.BOLD);
-        tvBear.setTextColor(activity.getResources().getColor(R.color.colorRed));
-        ivBear.setVisibility(View.GONE);
-        ivBearActive.setVisibility(View.VISIBLE);
-    }
-
-    private void hideBearView(int index) {
-        tvBear.setText(activity.getResources().getString(R.string.news_bear) + " " + (index > 0 ? index : ""));
-        tvBear.setTypeface(null, Typeface.NORMAL);
-        tvBear.setTextColor(activity.getResources().getColor(R.color.colorNineText));
-        ivBear.setVisibility(View.VISIBLE);
-        ivBearActive.setVisibility(View.GONE);
     }
 }
