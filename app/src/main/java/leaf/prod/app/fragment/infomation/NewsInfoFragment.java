@@ -21,6 +21,7 @@ import leaf.prod.app.R;
 import leaf.prod.app.activity.infomation.NewsInfoActivity;
 import leaf.prod.app.adapter.infomation.NewsInfoAdapter;
 import leaf.prod.app.fragment.BaseFragment;
+import leaf.prod.app.utils.FontUtil;
 import leaf.prod.walletsdk.manager.NewsDataManager;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
@@ -77,6 +78,7 @@ public class NewsInfoFragment extends BaseFragment {
     @Override
     protected void initView() {
         tvTitle.setText(getString(R.string.news_information));
+        tvTitle.setTypeface(FontUtil.getTypeface(getContext(), 11));
     }
 
     @Override

@@ -18,6 +18,7 @@ import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.adapter.infomation.NewsFlashAdapter;
 import leaf.prod.app.fragment.BaseFragment;
+import leaf.prod.app.utils.FontUtil;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import leaf.prod.walletsdk.service.CrawlerService;
 import leaf.prod.walletsdk.util.LanguageUtil;
@@ -68,6 +69,7 @@ public class NewsFlashFragment extends BaseFragment {
     @Override
     protected void initView() {
         tvTitle.setText(getString(R.string.news_flash));
+        tvTitle.setTypeface(FontUtil.getTypeface(getContext(), 11));
     }
 
     @Override

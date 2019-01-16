@@ -10,7 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -32,8 +32,8 @@ public class NewsFragment extends BaseFragment {
     @BindView(R.id.view_pager)
     public ViewPager viewPager;
 
-    @BindView(R.id.left_btn)
-    public ImageView leftBtn;
+    @BindView(R.id.right_btn)
+    public LinearLayout rightBtn;
 
     @BindView(R.id.left_scroll)
     public View leftScroll;
@@ -67,7 +67,7 @@ public class NewsFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        leftBtn.setOnClickListener(view -> EventBus.getDefault().post(new MainFragment.Event(1)));
+        rightBtn.setOnClickListener(view -> EventBus.getDefault().post(new MainFragment.Event(1)));
         newsFlashFragment = new NewsFlashFragment();
         newsInfoFragment = new NewsInfoFragment();
         fragments.add(newsFlashFragment);
