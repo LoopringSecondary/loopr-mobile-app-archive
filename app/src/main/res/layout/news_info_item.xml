@@ -80,8 +80,7 @@
                     android:layout_marginEnd="12dp"
                     android:adjustViewBounds="true"
                     android:maxHeight="120dp"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/icon_add_wallet"/>
+                    android:scaleType="fitXY"/>
 
                 <TextView
                     android:id="@+id/tv_content"

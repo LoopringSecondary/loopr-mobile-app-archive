@@ -67,6 +67,7 @@ public class NewsInfoAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
             if (img == null) {
                 helper.setGone(R.id.iv_navigation, false);
             } else {
+                helper.setGone(R.id.iv_navigation, true);
                 SmartImageView imageView = helper.getView(R.id.iv_navigation);
                 imageView.setImageUrl(img);
             }
