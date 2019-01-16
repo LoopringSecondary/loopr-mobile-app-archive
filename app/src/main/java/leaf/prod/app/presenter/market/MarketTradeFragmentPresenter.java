@@ -468,6 +468,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                     recyclerViews.get(item.getKey()).setAdapter(adapter);
                     adapter.refresh();
                 } else {
+                    recyclerViews.get(item.getKey()).setAdapter(item.getValue());
                     item.getValue().setNewData(depths);
                     item.getValue().notifyDataSetChanged();
                 }

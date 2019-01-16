@@ -112,15 +112,12 @@ public class MarketTradeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        setupPrice();
-        setupLrcFee();
-        setupButton();
-        oneHourView.setText(getResources().getString(R.string.hour, "1"));
-        oneDayView.setText(getResources().getString(R.string.day, "1"));
-        oneMonthView.setText(getResources().getString(R.string.month, "1"));
         presenter.setSeekbar(0);
         presenter.setupPriceListener();
         presenter.setupAmountListener();
+        setupPrice();
+        setupLrcFee();
+        setupButtons();
     }
 
     private void setupPrice() {
@@ -129,22 +126,22 @@ public class MarketTradeFragment extends BaseFragment {
         }
     }
 
-    private void setupButton() {
-        String title;
+    private void setupButtons() {
         switch (this.tradeType) {
             case buy:
                 sellButton.setVisibility(View.GONE);
                 buyButton.setVisibility(View.VISIBLE);
-                title = getContext().getString(R.string.buy) + " " + marketManager.getTokenBuy();
-                buyButton.setText(title);
+                buyButton.setText(getContext().getString(R.string.buy) + " " + marketManager.getTokenA());
                 break;
             case sell:
                 buyButton.setVisibility(View.GONE);
                 sellButton.setVisibility(View.VISIBLE);
-                title = getContext().getString(R.string.sell) + " " + marketManager.getTokenBuy();
-                sellButton.setText(title);
+                sellButton.setText(getContext().getString(R.string.sell) + " " + marketManager.getTokenA());
                 break;
         }
+        oneHourView.setText(getResources().getString(R.string.hour, "1"));
+        oneDayView.setText(getResources().getString(R.string.day, "1"));
+        oneMonthView.setText(getResources().getString(R.string.month, "1"));
     }
 
     private void setupLrcFee() {
@@ -169,6 +166,7 @@ public class MarketTradeFragment extends BaseFragment {
                 break;
             case R.id.ll_sell_token:
             case R.id.ll_buy_token:
+                MyViewUtils.hideInput(view);
                 presenter.showTradePriceDialog();
                 break;
             case R.id.ll_lrc_fee:
