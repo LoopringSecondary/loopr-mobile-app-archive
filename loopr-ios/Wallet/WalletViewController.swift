@@ -20,6 +20,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     weak var delegate: WalletViewControllerDelegate?
     
     @IBOutlet weak var assetTableView: UITableView!
+    let refreshView = UIView()
     let refreshControl = UIRefreshControl()
 
     var isLaunching: Bool = true
@@ -89,7 +90,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // assetTableView.refreshControl = refreshControl
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .walletViewController))
         
-        let refreshView = UIView(frame: CGRect(x: 0, y: WalletButtonTableViewCell.getHeight()+20, width: 0, height: 0))
+        refreshView.frame = CGRect(x: 0, y: WalletButtonTableViewCell.getHeight()+20, width: 0, height: 0)
         assetTableView.addSubview(refreshView)
         refreshView.addSubview(refreshControl)
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
@@ -303,7 +304,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         print("scrollViewDidEndDecelerating")
 
         isNewsViewControllerScrollEnabled = false
-        self.refreshControl.isHidden = false
+        self.refreshView.isHidden = false
         
         // TODO: add spring and damping animation
         let screensize: CGRect = UIScreen.main.bounds
@@ -401,14 +402,12 @@ extension WalletViewController: WalletBalanceTableViewCellDelegate {
     
     func touchesBegan() {
         isNewsViewControllerScrollEnabled = true
-        
-        // TODO: refreshControl still doesn't work
-        self.refreshControl.isHidden = true
+        self.refreshView.isHidden = true
     }
     
     func touchesEnd() {
         isNewsViewControllerScrollEnabled = false
-        self.refreshControl.isHidden = false
+        self.refreshView.isHidden = false
     }
     
     func pressedQACodeButtonInWalletBalanceTableViewCell() {
