@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
@@ -191,8 +192,8 @@ public class MarketPriceDataManager {
                     start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MM-dd HH:mm");
                     end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "HH:mm");
                 } else {
-                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MMM dd HH:mm");
-                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "HH:mm");
+                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MMM d HH:mm", Locale.US);
+                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "HH:mm", Locale.US);
                 }
                 break;
             case ONE_DAY:
@@ -200,8 +201,8 @@ public class MarketPriceDataManager {
                     start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MM-dd HH:mm");
                     end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "MM-dd HH:mm");
                 } else {
-                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MMM dd HH:mm");
-                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "MMM dd HH:mm");
+                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MMM d HH:mm", Locale.US);
+                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "MMM d HH:mm", Locale.US);
                 }
                 break;
             case ONE_WEEK:
@@ -209,8 +210,8 @@ public class MarketPriceDataManager {
                     start = DateUtil.formatDateTime(trend.getStart() * 1000L, "yyyy-MM-dd");
                     end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "MM-dd");
                 } else {
-                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MMM dd, yyyy");
-                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "MMM dd");
+                    start = DateUtil.formatDateTime(trend.getStart() * 1000L, "MMM d, yyyy", Locale.US);
+                    end = DateUtil.formatDateTime(trend.getEnd() * 1000L, "MMM d", Locale.US);
                 }
                 break;
         }

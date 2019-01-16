@@ -1,7 +1,6 @@
 package leaf.prod.app.adapter.market;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -142,6 +141,6 @@ public class MarketRecordAdapter extends BaseQuickAdapter<Order, BaseViewHolder>
             default:
                 break;
         }
-        helper.setText(R.id.tv_date, sdf.format(new Date(Long.valueOf(order.getOriginOrder().getValidS()) * 1000)));
+        helper.setText(R.id.tv_date, sdf.format(order.getOriginOrder().getValidS() * 1000L));
     }
 }

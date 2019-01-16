@@ -340,7 +340,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
      */
     @SuppressLint("SetTextI18n")
     public void showTradeDetailDialog() {
-        OriginOrder order = constuctOrder();
+        OriginOrder order = constructOrder();
         setupTradeDialog();
         setupToken(order);
         setupPrice(order);
@@ -380,12 +380,12 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
     }
 
     private void setValidTime(OriginOrder order) {
-        String validSince = sdf.format(order.getValidS());
-        String validUntil = sdf.format(order.getValidU());
+        String validSince = sdf.format(order.getValidS() * 1000L);
+        String validUntil = sdf.format(order.getValidU() * 1000L);
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_live_time)).setText(validSince + " ~ " + validUntil);
     }
 
-    private OriginOrder constuctOrder() {
+    private OriginOrder constructOrder() {
         Double amountBuy = view.getAmountBuy();
         Double amountSell = view.getAmountSell();
         Date now = new Date();

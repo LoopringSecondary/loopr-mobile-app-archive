@@ -701,6 +701,18 @@ public class DateUtil {
         return sdf.format(date);
     }
 
+
+    /**
+     * 将日期以yyyy-MM-dd HH:mm:ss格式化
+     *
+     * @param formater 日期
+     * @return
+     */
+    public static String formatDateTime(long dateL, String formater, Locale locale) {
+        SimpleDateFormat sdf = new SimpleDateFormat(formater, locale);
+        return sdf.format(dateL);
+    }
+
     /**
      * 将日期字符串转成日期
      *
