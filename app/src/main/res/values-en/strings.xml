@@ -334,5 +334,5 @@
     <string name="news_loading">loading</string>
     <string name="market_24_change">24H Change:</string>
     <string name="market_24_vol">24H Volume:</string>
-
+    <string name="news_pulling_load">Pull down to see news</string>
 </resources>

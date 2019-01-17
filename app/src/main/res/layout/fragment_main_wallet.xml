@@ -55,13 +55,37 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.scwang.smartrefresh.layout.header.ClassicsHeader
-                    android:id="@+id/head"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:srlEnableLastTime="false"
-                    app:srlTextPulling="下拉查看新闻"
-                    app:srlTextRelease="释放查看新闻"/>
+                    android:layout_height="50dp">
+
+                    <View
+                        android:layout_width="150dp"
+                        android:layout_height="4dp"
+                        android:background="@drawable/radius_grey_bg"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/news_pulling_load"
+                        android:textSize="13sp"
+                        android:alpha="0.7"
+                        android:textColor="@color/colorNineText"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                </android.support.constraint.ConstraintLayout>
+                <!--<com.scwang.smartrefresh.layout.header.ClassicsHeader-->
+                <!--android:id="@+id/head"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:srlEnableLastTime="false"-->
+                <!--app:srlTextPulling="下拉查看新闻"-->
+                <!--app:srlTextRelease="释放查看新闻"/>-->
 
                 <LinearLayout
                     android:id="@+id/ll_main"

@@ -335,5 +335,6 @@
     <string name="news_pulling_next">上拉加载下一篇</string>
     <string name="news_release_next">松手加载下一篇</string>
     <string name="news_loading">正在刷新</string>
+    <string name="news_pulling_load">下拉查看新闻</string>
 
 </resources>
