@@ -35,7 +35,6 @@ class SetGasViewController: UIViewController, StepSliderDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.backgroundColor = UIColor.clear
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         seperateLine.theme_backgroundColor = ColorPicker.cardHighLightColor

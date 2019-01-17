@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="tableView" destination="vhY-Cu-Wjt" id="PeW-WF-Od2"/>
                 <outlet property="tableViewBottomLayoutConstraint" destination="l4e-Ns-nuB" id="off-mh-Sax"/>
+                <outlet property="tableViewTopLayoutConstraint" destination="o8Z-lI-IUP" id="jvZ-pR-Qi5"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
