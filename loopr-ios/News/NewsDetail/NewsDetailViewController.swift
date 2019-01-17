@@ -25,6 +25,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     let pullToNextPageBottomView = UIView()
     let pullToNextPageTitleLabel = UILabel()
     let pullToNextPageImageView = UIImageView()
+    
+    var presentedChildViewControllers: [NewsDetailViewController] = []
 
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -139,9 +141,17 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
             detailViewController.currentIndex = currentIndex+1
             detailViewController.news = news
-            self.present(detailViewController, animated: true, completion: {
-                self.navigationController?.popViewController(animated: false)
-            })
+            presentedChildViewControllers.append(detailViewController)
+
+            view.addSubview(detailViewController.view)
+            detailViewController.view.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height)
+            
+            UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.4, options: .curveEaseInOut, animations: {
+                self.tableView.frame = CGRect(x: 0, y: -self.tableView.frame.height, width: self.tableView.frame.width, height: self.tableView.height)
+                detailViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+            }) { (_) in
+                self.addChildViewController(detailViewController)
+            }
         }
     }
 
