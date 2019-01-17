@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.infomation.NewsInfoActivity;
+import leaf.prod.app.layout.PinchImageView;
 import leaf.prod.app.layout.RoundSmartImageView;
 import leaf.prod.walletsdk.manager.NewsDataManager;
 import leaf.prod.walletsdk.model.response.crawler.News;
@@ -76,6 +78,12 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         helper.setText(R.id.tv_time, item.getPublishTime());
         helper.setText(R.id.tv_source, recyclerView.getContext().getResources()
                 .getString(R.string.news_source) + ": " + item.getSource());
+        ConstraintLayout llImageView = helper.getView(R.id.cl_image_view);
+        PinchImageView pinchImageView = helper.getView(R.id.image_view);
+        pinchImageView.setOnClickListener(view -> {
+            llImageView.setVisibility(View.GONE);
+            activity.setSwipeBackEnable(true);
+        });
         Pattern p = Pattern.compile("<img src=\"([\\s\\S]*?)\">");
         Matcher m = p.matcher(item.getContent());
         int begin = 0;
@@ -87,7 +95,7 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
                     .replace("<img src=\"", "")
                     .replace("\">", "");
             addTextView(helper, content.trim());
-            addImageView(helper, image);
+            addImageView(helper, image, pinchImageView, llImageView);
             begin = end = m.end();
         }
         if (begin == 0) {
@@ -175,7 +183,7 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         ((LinearLayout) holder.getView(R.id.ll_content)).addView(textView);
     }
 
-    private void addImageView(BaseViewHolder holder, String url) {
+    private void addImageView(BaseViewHolder holder, String url, PinchImageView pinchImageView, ConstraintLayout llImageView) {
         WebImage webImage = new WebImage(url);
         RoundSmartImageView imageView = new RoundSmartImageView(recyclerView.getContext());
         imageView.setId(View.generateViewId());
@@ -185,6 +193,12 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         imageView.setImage(webImage);
         imageView.setAdjustViewBounds(true);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setOnClickListener(view -> {
+            pinchImageView.setImageDrawable(imageView.getDrawable());
+            pinchImageView.reset();
+            activity.setSwipeBackEnable(false);
+            llImageView.setVisibility(View.VISIBLE);
+        });
         ((LinearLayout) holder.getView(R.id.ll_content)).addView(imageView);
     }
 }

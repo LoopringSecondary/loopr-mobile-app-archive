@@ -373,7 +373,6 @@
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/normal14Text"/>
                 </LinearLayout>
-
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>
     </FrameLayout>

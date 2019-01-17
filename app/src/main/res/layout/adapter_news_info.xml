@@ -88,4 +88,23 @@
             app:srlTextPulling="@string/news_pulling_next"
             app:srlTextRelease="@string/news_release_next"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.7"
+            android:background="@color/black"/>
+
+        <leaf.prod.app.layout.PinchImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
