@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:background="@color/colorBg2"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margSide"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="小"
+            android:textColor="@color/colorNineText"
+            android:textSize="15sp"/>
+
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/seek_bar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="10"
+            app:bsb_hide_bubble="true"
+            app:bsb_second_track_color="@color/colorGreen"
+            app:bsb_section_count="3"
+            app:bsb_seek_step_section="true"
+            app:bsb_thumb_color="@color/colorGreen"
+            app:bsb_thumb_radius="7dp"
+            app:bsb_track_color="@color/colorNineText"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/margSide"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="大"
+            android:textColor="@color/colorNineText"
+            android:textSize="21sp"/>
+    </LinearLayout>
+</RelativeLayout>

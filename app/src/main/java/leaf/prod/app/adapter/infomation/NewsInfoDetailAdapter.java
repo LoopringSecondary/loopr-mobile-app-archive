@@ -1,5 +1,6 @@
 package leaf.prod.app.adapter.infomation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,6 +29,7 @@ import leaf.prod.app.layout.RoundSmartImageView;
 import leaf.prod.walletsdk.manager.NewsDataManager;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.util.DpUtil;
+import leaf.prod.walletsdk.util.SPUtils;
 
 public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
 
@@ -49,6 +51,10 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
 
     private static int animate = 0;
 
+    private List<TextView> textViews = new ArrayList<>();
+
+    private int textSize;
+
     public NewsInfoDetailAdapter(int layoutResId, List<News> news, int index, RecyclerView recyclerView, NewsInfoActivity activity) {
         super(layoutResId, news);
         this.activity = activity;
@@ -67,6 +73,7 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         layoutManager.scrollToPositionWithOffset(index, 0);
         margin = DpUtil.dp2Int(recyclerView.getContext(), 12);
         newsDataManager = NewsDataManager.getInstance(recyclerView.getContext());
+        textSize = (int) SPUtils.get(activity, "news_text_size", 15);
     }
 
     @Override
@@ -178,9 +185,10 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         textView.setTextIsSelectable(true);
         textView.setText(content);
         textView.setTextColor(recyclerView.getContext().getResources().getColor(R.color.colorNineText));
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
         textView.setLineSpacing(0, 1.5f);
         ((LinearLayout) holder.getView(R.id.ll_content)).addView(textView);
+        textViews.add(textView);
     }
 
     private void addImageView(BaseViewHolder holder, String url, PinchImageView pinchImageView, ConstraintLayout llImageView) {
@@ -200,5 +208,11 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
             llImageView.setVisibility(View.VISIBLE);
         });
         ((LinearLayout) holder.getView(R.id.ll_content)).addView(imageView);
+    }
+
+    public void setLetterSize(int size) {
+        for (TextView textView : textViews) {
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
+        }
     }
 }

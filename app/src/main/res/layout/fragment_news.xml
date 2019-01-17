@@ -13,7 +13,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginTop="25dp"
             android:background="@color/colorTitleBac"
             android:orientation="horizontal">
@@ -28,6 +28,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="@string/news"
+                android:visibility="gone"
                 android:textColor="@color/colorTitleTv"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
