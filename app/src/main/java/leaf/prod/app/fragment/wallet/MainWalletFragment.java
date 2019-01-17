@@ -181,6 +181,9 @@ public class MainWalletFragment extends BaseFragment {
             upHint.setVisibility(View.GONE);
             refreshLayout.finishRefresh(true);
         });
+        if (!(boolean) SPUtils.get(getContext(), "discover_news", false)) {
+            upHint.setVisibility(View.VISIBLE);
+        }
         refreshLayout.setOnRefreshListener(refreshLayout1 -> {
             presenter.initObservable();
         });
@@ -403,9 +406,6 @@ public class MainWalletFragment extends BaseFragment {
             refreshLayout.finishRefresh(true);
         if (getActivity() != null) {
             ((MainActivity) getActivity()).showLoading(false);
-            if (!(boolean) SPUtils.get(getContext(), "discover_news", false)) {
-                upHint.setVisibility(View.VISIBLE);
-            }
         }
     }
 }
