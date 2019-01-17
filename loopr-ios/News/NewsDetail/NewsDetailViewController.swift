@@ -15,6 +15,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var news: News!
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewTopLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableViewBottomLayoutConstraint: NSLayoutConstraint!
 
     var enablePullToNextPage: Bool = false
@@ -50,6 +51,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.post(name: .pushedNewsDetailViewController, object: nil)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
