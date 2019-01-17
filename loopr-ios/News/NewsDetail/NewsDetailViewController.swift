@@ -14,14 +14,15 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var currentIndex: Int = 0
     var news: News!
 
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var tableViewTopLayoutConstraint: NSLayoutConstraint!
-    @IBOutlet weak var tableViewBottomLayoutConstraint: NSLayoutConstraint!
-
+    var tableView: UITableView!
+    
+    var enablePullToPreviousPage: Bool = false
+    let refreshControl = UIRefreshControl()
+    
     var enablePullToNextPage: Bool = false
     var isPullToNextPageImageViewAnimating: Bool = false
     var isPullToNextPageImageViewUp: Bool = true
-    let pullToNextPageBottomViewHeight: CGFloat = 40
+    let pullToNextPageBottomViewHeight: CGFloat = 80
     let pullToNextPageBottomView = UIView()
     let pullToNextPageTitleLabel = UILabel()
     let pullToNextPageImageView = UIImageView()
@@ -35,12 +36,21 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         NewsDataManager.shared.currentIndex = currentIndex
 
         view.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        tableView.theme_backgroundColor = ColorPicker.cardBackgroundColor
 
+        let window = UIApplication.shared.keyWindow
+        let topPadding = window?.safeAreaInsets.top ?? 0 + 64
+        let bottomPadding = window?.safeAreaInsets.bottom ?? 0
+
+        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topPadding - bottomPadding - 10))
+        view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .green
+        tableView.theme_backgroundColor = ColorPicker.cardBackgroundColor
+        
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
+        footerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
+        tableView.tableFooterView = footerView
 
         NotificationCenter.default.addObserver(self, selector: #selector(tiggerPopNewsDetailViewControllerReceivedNotification), name: .tiggerPopNewsDetailViewController, object: nil)
     }
@@ -59,16 +69,31 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupRefreshControlAtBottom()
+        
+        if currentIndex > 0 {
+            // refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .marketViewController))
+            refreshControl.theme_tintColor = GlobalPicker.textColor
+            let lastPullRefreshString = LocalizedString("Pull to read previous", comment: "")
+            let attributedString = NSMutableAttributedString(string: lastPullRefreshString)
+            attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor(rgba: "#ffffffcc"), range: NSRange(location: 0, length: lastPullRefreshString.count))
+            attributedString.addAttribute(NSAttributedStringKey.font, value: FontConfigManager.shared.getRegularFont(size: 12), range: NSRange(location: 0, length: lastPullRefreshString.count))
+            refreshControl.attributedTitle = attributedString
+            refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+            tableView.refreshControl = refreshControl
+        }
     }
     
     @objc func tiggerPopNewsDetailViewControllerReceivedNotification() {
         print("tiggerPopNewsDetailViewControllerReceivedNotification")
         self.navigationController?.popViewController(animated: true)
     }
+    
+    @objc private func refreshData(_ sender: Any) {
+        
+    }
 
     func setupRefreshControlAtBottom() {
         pullToNextPageBottomView.frame = CGRect(x: 0, y: view.height, width: view.width, height: pullToNextPageBottomViewHeight)
-        pullToNextPageBottomView.backgroundColor = .red
         view.addSubview(pullToNextPageBottomView)
 
         pullToNextPageTitleLabel.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30)
@@ -93,13 +118,13 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
         print("the bottom of scrollView: \(bottomY)")
         if scrollView.contentOffset.y > bottomY {
-            let delta = scrollView.contentOffset.y  - bottomY
+            let delta = scrollView.contentOffset.y  - bottomY + 40
             print("delta: \(delta)")
             pullToNextPageBottomView.isHidden = false
             tableView.bringSubview(toFront: pullToNextPageImageView)
             print("tableView.height - delta: \(view.height - delta)")
             pullToNextPageBottomView.frame = CGRect(x: 0, y: view.height - delta, width: view.width, height: pullToNextPageBottomViewHeight)
-            if delta > pullToNextPageBottomView.height {
+            if delta > pullToNextPageBottomView.height + 20 {
                 pullToNextPageTitleLabel.text = LocalizedString("Release to read more", comment: "")
                 if !isPullToNextPageImageViewAnimating && isPullToNextPageImageViewUp {
                     isPullToNextPageImageViewAnimating = true
@@ -133,6 +158,12 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         } else {
             pullToNextPageBottomView.isHidden = true
         }
+        
+        if scrollView.contentOffset.y < -50 && currentIndex > 0 {
+            enablePullToPreviousPage = true
+        } else {
+            enablePullToPreviousPage = false
+        }
     }
 
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
@@ -146,13 +177,33 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             view.addSubview(detailViewController.view)
             detailViewController.view.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height)
             
-            UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.4, options: .curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.78, initialSpringVelocity: 0.3, options: .curveEaseInOut, animations: {
                 self.tableView.frame = CGRect(x: 0, y: -self.tableView.frame.height, width: self.tableView.frame.width, height: self.tableView.height)
                 detailViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
             }) { (_) in
                 self.addChildViewController(detailViewController)
             }
+        } else if enablePullToPreviousPage {
+            let news = NewsDataManager.shared.informationItems[currentIndex-1]
+            let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
+            detailViewController.currentIndex = currentIndex-1
+            detailViewController.news = news
+            presentedChildViewControllers.append(detailViewController)
+            
+            view.addSubview(detailViewController.view)
+            detailViewController.view.frame = CGRect(x: 0, y: -view.frame.height, width: view.frame.width, height: view.frame.height)
+            detailViewController.pullToNextPageBottomView.isHidden = true
+            
+            UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.78, initialSpringVelocity: 0.3, options: .curveEaseInOut, animations: {
+                self.tableView.frame = CGRect(x: 0, y: self.tableView.frame.height, width: self.tableView.frame.width, height: self.tableView.height)
+                detailViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+            }) { (_) in
+                self.addChildViewController(detailViewController)
+                detailViewController.pullToNextPageBottomView.isHidden = false
+            }
+            // refreshControl.endRefreshing()
         }
+        
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
