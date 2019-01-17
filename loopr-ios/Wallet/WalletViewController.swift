@@ -88,9 +88,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.view.addSubview(dropdownMenu)
         
         // Add Refresh Control to Table View
-        // assetTableView.refreshControl = refreshControl
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .walletViewController))
-        
         refreshView.frame = CGRect(x: 0, y: WalletButtonTableViewCell.getHeight()+20, width: 0, height: 0)
         assetTableView.addSubview(refreshView)
         refreshView.addSubview(refreshControl)
@@ -295,7 +293,14 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         print("scrollView y: \(scrollView.contentOffset.y) with \(isNewsViewControllerScrollEnabled)")
         if isNewsViewControllerScrollEnabled {
             delegate?.scrollViewDidScroll(y: scrollView.contentOffset.y)
-            // walletBalanceView.frame = CGRect(x: 0, y: -scrollView.contentOffset.y, width: walletBalanceView.frame.width, height: walletBalanceView.frame.height)
+        }
+        
+        if isNewsViewControllerScrollEnabled && scrollView.contentOffset.y < -10 {
+            self.navigationItem.title = ""
+            self.navigationItem.rightBarButtonItem = nil
+        } else {
+            self.navigationItem.title = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.name ?? LocalizedString("Wallet", comment: "")
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(self.pressAddButton(_:)))
         }
         
         if scrollView.contentOffset.y >= 0 {
