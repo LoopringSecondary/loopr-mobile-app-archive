@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -144,8 +143,8 @@ public class MarketRecordsActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         recordAdapter = new MarketRecordAdapter(R.layout.adapter_item_p2p_record, null, this);
         recyclerView.setAdapter(recordAdapter);
-        recordAdapter.addHeaderView(LayoutInflater.from(this)
-                .inflate(R.layout.adapter_header_order, recyclerView, false));
+//        recordAdapter.addHeaderView(LayoutInflater.from(this)
+//                .inflate(R.layout.adapter_header_order, recyclerView, false));
         setupListeners();
         recordAdapter.setOnItemClickListener((adapter, view, position) -> {
             getOperation().addParameter("order", orderList.get(position));

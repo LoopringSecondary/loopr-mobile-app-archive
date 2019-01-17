@@ -455,7 +455,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
             marketAdapter.setOnItemClickListener((adapter, view, position) -> handleClick(item, position));
             item.getValue().setAdapter(marketAdapter);
             item.getValue().setLayoutManager(layoutManager);
-            setHeader(marketAdapter, item);
+            setHeader(item);
             adapters.put(item.getKey(), marketAdapter);
             NoDataType type = NoDataType.getNoDataType(item.getKey());
             NoDataAdapter emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, type);
@@ -493,23 +493,19 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         }
     }
 
-    private void setHeader(MarketDepthAdapter marketAdapter, Map.Entry<String, RecyclerView> item) {
+    private void setHeader(Map.Entry<String, RecyclerView> item) {
         String priceSuffix = "", amountSuffix = "";
         if (LanguageUtil.getLanguage(context) != Language.en_US) {
             priceSuffix = "(" + orderDataManager.getTokenB() + ")";
             amountSuffix = "(" + orderDataManager.getTokenA() + ")";
         }
-        View header = LayoutInflater.from(context)
-                .inflate(R.layout.adapter_header_market_depth, item.getValue(), false);
         if (item.getKey().equals("buy")) {
-            ((TextView) header.findViewById(R.id.tv_price)).setText(context.getString(R.string.buy_price) + priceSuffix);
-            header.setBackground(context.getDrawable(R.drawable.radius_left_top_bg_29));
+            ((TextView) marketPriceDialogView.findViewById(R.id.tv_buy_price)).setText(context.getString(R.string.buy_price) + priceSuffix);
         } else {
-            ((TextView) header.findViewById(R.id.tv_price)).setText(context.getString(R.string.sell_price) + priceSuffix);
-            header.setBackground(context.getDrawable(R.drawable.radius_right_top_bg_29));
+            ((TextView) marketPriceDialogView.findViewById(R.id.tv_sell_price)).setText(context.getString(R.string.sell_price) + priceSuffix);
         }
-        ((TextView) header.findViewById(R.id.tv_amount)).setText(context.getString(R.string.amount) + amountSuffix);
-        marketAdapter.setHeaderView(header);
+        ((TextView) marketPriceDialogView.findViewById(R.id.tv_buy_amount)).setText(context.getString(R.string.amount) + amountSuffix);
+        ((TextView) marketPriceDialogView.findViewById(R.id.tv_sell_amount)).setText(context.getString(R.string.amount) + amountSuffix);
     }
 
     private void handleClick(Map.Entry<String, RecyclerView> item, int position) {

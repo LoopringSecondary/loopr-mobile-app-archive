@@ -23,24 +23,63 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/radius_top_bg_29"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/market_price"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/colorNineText"
+                    tools:ignore="RtlCompat"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/amount_filled"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/colorNineText"
+                    tools:ignore="RtlCompat"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/status_date"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorNineText"
+                    tools:ignore="RtlCompat"/>
+
+            </LinearLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margSide"
                 android:layout_marginRight="@dimen/margSide"/>
+
         </LinearLayout>
+
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <!--<com.github.ybq.android.spinkit.SpinKitView-->
-    <!--android:id="@+id/spin_kit"-->
-    <!--style="@style/SpinKitView.Large.Circle"-->
-    <!--android:layout_width="40dp"-->
-    <!--android:layout_height="40dp"-->
-    <!--android:layout_gravity="center"-->
-    <!--app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent"/>-->
     <include layout="@layout/activity_loading"/>
+
 </android.support.constraint.ConstraintLayout>

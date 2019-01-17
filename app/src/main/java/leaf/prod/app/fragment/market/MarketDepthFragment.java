@@ -39,6 +39,18 @@ public class MarketDepthFragment extends BaseFragment {
     @BindView(R.id.recycler_view_sell)
     public RecyclerView recyclerViewSell;
 
+    @BindView(R.id.tv_buy_price)
+    public TextView tvBuyPrice;
+
+    @BindView(R.id.tv_buy_amount)
+    public TextView tvBuyAmount;
+
+    @BindView(R.id.tv_sell_price)
+    public TextView tvSellPrice;
+
+    @BindView(R.id.tv_sell_amount)
+    public TextView tvSellAmount;
+
     private MarketPriceDataManager manager;
 
     private MarketOrderDataManager orderDataManager;
@@ -86,7 +98,8 @@ public class MarketDepthFragment extends BaseFragment {
             marketAdapter.setOnItemClickListener((adapter, view, position) -> handleClick(item, position));
             item.getValue().setAdapter(marketAdapter);
             item.getValue().setLayoutManager(layoutManager);
-            this.setHeader(marketAdapter, item);
+            item.getValue().setNestedScrollingEnabled(false);
+            this.setHeader(item);
             adapters.put(item.getKey(), marketAdapter);
             NoDataType type = NoDataType.getNoDataType(item.getKey());
             NoDataAdapter emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, type);
@@ -106,23 +119,19 @@ public class MarketDepthFragment extends BaseFragment {
         getOperation().forward(MarketTradeActivity.class);
     }
 
-    private void setHeader(MarketDepthAdapter marketAdapter, Map.Entry<String, RecyclerView> item) {
+    private void setHeader(Map.Entry<String, RecyclerView> item) {
         String priceSuffix = "", amountSuffix = "";
         if (LanguageUtil.getLanguage(getContext()) != Language.en_US) {
             priceSuffix = "(" + orderDataManager.getTokenB() + ")";
             amountSuffix = "(" + orderDataManager.getTokenA() + ")";
         }
-        View header = LayoutInflater.from(getContext())
-                .inflate(R.layout.adapter_header_market_depth, item.getValue(), false);
         if (item.getKey().equals("buy")) {
-            ((TextView) header.findViewById(R.id.tv_price)).setText(getContext().getString(R.string.buy_price) + priceSuffix);
-            header.setBackground(getContext().getDrawable(R.drawable.radius_left_top_bg_29));
+            tvBuyPrice.setText(getContext().getString(R.string.buy_price) + priceSuffix);
         } else {
-            ((TextView) header.findViewById(R.id.tv_price)).setText(getContext().getString(R.string.sell_price) + priceSuffix);
-            header.setBackground(getContext().getDrawable(R.drawable.radius_right_top_bg_29));
+            tvSellPrice.setText(getContext().getString(R.string.sell_price) + priceSuffix);
         }
-        ((TextView) header.findViewById(R.id.tv_amount)).setText(getContext().getString(R.string.amount) + amountSuffix);
-        marketAdapter.setHeaderView(header);
+        tvBuyAmount.setText(getContext().getString(R.string.amount) + amountSuffix);
+        tvSellAmount.setText(getContext().getString(R.string.amount) + amountSuffix);
     }
 
     @Override

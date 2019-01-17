@@ -63,8 +63,6 @@ public class MarketSelectFragment extends BaseFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         marketAdapter = new MarketSelectAdapter(R.layout.adapter_item_market_select, null);
-        marketAdapter.setHeaderView(LayoutInflater.from(getContext())
-                .inflate(R.layout.adapter_header_markets, recyclerView, false));
         recyclerView.setAdapter(marketAdapter);
         marketAdapter.setOnItemClickListener((adapter, view, position) -> {
             Ticker ticker = getTickers().get(position);
