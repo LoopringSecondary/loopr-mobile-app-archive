@@ -20,7 +20,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var enablePullToNextPage: Bool = false
     var isPullToNextPageImageViewAnimating: Bool = false
     var isPullToNextPageImageViewUp: Bool = true
-    let pullToNextPageBottomViewHeight: CGFloat = 120
+    let pullToNextPageBottomViewHeight: CGFloat = 40
     let pullToNextPageBottomView = UIView()
     let pullToNextPageTitleLabel = UILabel()
     let pullToNextPageImageView = UIImageView()
@@ -37,6 +37,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .green
 
         NotificationCenter.default.addObserver(self, selector: #selector(tiggerPopNewsDetailViewControllerReceivedNotification), name: .tiggerPopNewsDetailViewController, object: nil)
     }
@@ -48,12 +49,12 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // setupRefreshControlAtBottom()
         NotificationCenter.default.post(name: .pushedNewsDetailViewController, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        setupRefreshControlAtBottom()
     }
     
     @objc func tiggerPopNewsDetailViewControllerReceivedNotification() {
@@ -61,12 +62,12 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.popViewController(animated: true)
     }
 
-    /*
     func setupRefreshControlAtBottom() {
-        pullToNextPageBottomView.frame = CGRect(x: 0, y: tableView.height, width: UIScreen.main.bounds.width, height: pullToNextPageBottomViewHeight)
-        tableView.addSubview(pullToNextPageBottomView)
+        pullToNextPageBottomView.frame = CGRect(x: 0, y: view.height, width: view.width, height: pullToNextPageBottomViewHeight)
+        pullToNextPageBottomView.backgroundColor = .red
+        view.addSubview(pullToNextPageBottomView)
 
-        pullToNextPageTitleLabel.frame = CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: 30)
+        pullToNextPageTitleLabel.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30)
         pullToNextPageTitleLabel.theme_textColor = GlobalPicker.textColor
         pullToNextPageTitleLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         pullToNextPageTitleLabel.textAlignment = .center
@@ -83,12 +84,17 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print("scrollView y: \(scrollView.contentOffset.y)")
         
-        let bottomY = scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom
+        let bottomY = tableView.contentSize.height - tableView.height
+        print("test: \(scrollView.contentInset.bottom)")
+
         print("the bottom of scrollView: \(bottomY)")
         if scrollView.contentOffset.y > bottomY {
             let delta = scrollView.contentOffset.y  - bottomY
+            print("delta: \(delta)")
             pullToNextPageBottomView.isHidden = false
-            pullToNextPageBottomView.frame = CGRect(x: 0, y: tableView.height - delta, width: UIScreen.main.bounds.width, height: pullToNextPageBottomViewHeight)
+            tableView.bringSubview(toFront: pullToNextPageImageView)
+            print("tableView.height - delta: \(view.height - delta)")
+            pullToNextPageBottomView.frame = CGRect(x: 0, y: view.height - delta, width: view.width, height: pullToNextPageBottomViewHeight)
             if delta > pullToNextPageBottomView.height {
                 pullToNextPageTitleLabel.text = LocalizedString("Release to read more", comment: "")
                 if !isPullToNextPageImageViewAnimating && isPullToNextPageImageViewUp {
@@ -124,7 +130,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             pullToNextPageBottomView.isHidden = true
         }
     }
-    */
+
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         if enablePullToNextPage {
             let news = NewsDataManager.shared.informationItems[currentIndex+1]
