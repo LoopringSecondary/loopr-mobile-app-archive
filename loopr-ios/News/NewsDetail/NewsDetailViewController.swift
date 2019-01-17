@@ -38,17 +38,17 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         view.theme_backgroundColor = ColorPicker.cardBackgroundColor
 
         let window = UIApplication.shared.keyWindow
-        let topPadding = window?.safeAreaInsets.top ?? 0 + 64
-        let bottomPadding = window?.safeAreaInsets.bottom ?? 0
+        let topPadding = (window?.safeAreaInsets.top ?? 0) + 44
+        let bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
 
-        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topPadding - bottomPadding - 10))
+        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topPadding - bottomPadding))
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 0))
         footerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         tableView.tableFooterView = footerView
 
@@ -118,7 +118,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
         print("the bottom of scrollView: \(bottomY)")
         if scrollView.contentOffset.y > bottomY {
-            let delta = scrollView.contentOffset.y  - bottomY + 40
+            let delta = scrollView.contentOffset.y  - bottomY + 45
             print("delta: \(delta)")
             pullToNextPageBottomView.isHidden = false
             tableView.bringSubview(toFront: pullToNextPageImageView)
@@ -216,12 +216,17 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         } else if indexPath.row == 1 {
             return NewsDetailSubtitleTableViewCell.getHeight()
         } else {
+            var height: CGFloat = 0
             let newsParagraph = news.paragraphs[indexPath.row-2]
             if newsParagraph.isString {
-                return NewsDetailStringTableViewCell.getHeight(content: newsParagraph.content)
+                height = NewsDetailStringTableViewCell.getHeight(content: newsParagraph.content)
             } else {
-                return NewsDetailImageTableViewCell.getHeight(image: newsParagraph.image)
+                height = NewsDetailImageTableViewCell.getHeight(image: newsParagraph.image)
             }
+            if indexPath.row == news.paragraphs.count+2-1 {
+                height += 30
+            }
+            return height
         }
     }
     
