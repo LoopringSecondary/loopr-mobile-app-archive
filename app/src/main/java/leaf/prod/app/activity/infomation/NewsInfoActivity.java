@@ -99,7 +99,7 @@ public class NewsInfoActivity extends BaseActivity {
         if (nextNews != null) {
             newsList.add(newsDataManager.getNextNews(news));
         }
-        adapter = new NewsInfoDetailAdapter(R.layout.adapter_news_info, newsList, position, recyclerView);
+        adapter = new NewsInfoDetailAdapter(R.layout.adapter_news_info, newsList, position, recyclerView, this);
         recyclerView.setAdapter(adapter);
     }
 

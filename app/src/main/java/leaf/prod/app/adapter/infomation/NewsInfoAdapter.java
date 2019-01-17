@@ -11,12 +11,12 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.loopj.android.image.SmartImageView;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
+import leaf.prod.app.layout.RoundSmartImageView;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.ShareUtil;
@@ -68,7 +68,7 @@ public class NewsInfoAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
                 helper.setGone(R.id.iv_navigation, false);
             } else {
                 helper.setGone(R.id.iv_navigation, true);
-                SmartImageView imageView = helper.getView(R.id.iv_navigation);
+                RoundSmartImageView imageView = helper.getView(R.id.iv_navigation);
                 imageView.setImageUrl(img);
             }
             helper.setText(R.id.tv_share, activity.getString(R.string.news_share) + " " + (news.getForwardNum() > 0 ? news

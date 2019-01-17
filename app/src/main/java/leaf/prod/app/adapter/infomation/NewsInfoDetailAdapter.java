@@ -21,12 +21,15 @@ import com.loopj.android.image.WebImage;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import leaf.prod.app.R;
+import leaf.prod.app.activity.infomation.NewsInfoActivity;
 import leaf.prod.app.layout.RoundSmartImageView;
 import leaf.prod.walletsdk.manager.NewsDataManager;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.util.DpUtil;
 
 public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
+
+    private NewsInfoActivity activity;
 
     private RecyclerView recyclerView;
 
@@ -44,8 +47,9 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
 
     private static int animate = 0;
 
-    public NewsInfoDetailAdapter(int layoutResId, List<News> news, int index, RecyclerView recyclerView) {
+    public NewsInfoDetailAdapter(int layoutResId, List<News> news, int index, RecyclerView recyclerView, NewsInfoActivity activity) {
         super(layoutResId, news);
+        this.activity = activity;
         this.newsList = news;
         this.index = index;
         this.recyclerView = recyclerView;
