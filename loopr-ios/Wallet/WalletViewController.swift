@@ -423,7 +423,7 @@ extension WalletViewController: WalletBalanceTableViewCellDelegate {
         self.refreshView.isHidden = false
     }
     
-    func pressedQACodeButtonInWalletBalanceTableViewCell() {
+    func pressedQRCodeButtonInWalletBalanceTableViewCell() {
         if CurrentAppWalletDataManager.shared.getCurrentAppWallet() != nil {
             let viewController = QRCodeViewController()
             viewController.hidesBottomBarWhenPushed = true

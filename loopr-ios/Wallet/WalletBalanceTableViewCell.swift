@@ -9,7 +9,7 @@
 import UIKit
 
 protocol WalletBalanceTableViewCellDelegate: class {
-    func pressedQACodeButtonInWalletBalanceTableViewCell()
+    func pressedQRCodeButtonInWalletBalanceTableViewCell()
     func touchesBegan()
     func touchesEnd()
 }
@@ -75,7 +75,7 @@ class WalletBalanceTableViewCell: UITableViewCell {
 
     @objc func pressedQRCodeButton(_ button: UIButton) {
         print("pressedItem1Button")
-        delegate?.pressedQACodeButtonInWalletBalanceTableViewCell()
+        delegate?.pressedQRCodeButtonInWalletBalanceTableViewCell()
     }
 
     class func getCellIdentifier() -> String {
