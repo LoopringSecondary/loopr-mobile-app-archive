@@ -57,9 +57,11 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
 
     func setupChildViewControllers() {
         let vc0 = viewControllers[0]
+        vc0.newsNavigationViewControllerDelegate = self
         vc0.setCurrentIndex(0)
 
         let vc1 = viewControllers[1]
+        vc1.newsNavigationViewControllerDelegate = self
         vc1.setCurrentIndex(1)
 
         viewControllers = [vc0, vc1]
@@ -195,6 +197,14 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
             self.viewControllers[0].viewController.rightFakeView.alpha = 1
             self.viewControllers[1].viewController.leftFakeView.alpha = 1
         }
+    }
+
+}
+
+extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
+
+    func setNavigationBarHidden(_ newValue: Bool, animated: Bool) {
+        // navigationController?.setNavigationBarHidden(newValue, animated: animated)
     }
 
 }
