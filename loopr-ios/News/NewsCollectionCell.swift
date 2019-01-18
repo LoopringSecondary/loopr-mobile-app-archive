@@ -65,7 +65,7 @@ class NewsCollectionCell: UICollectionViewCell {
         
         sourceLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         sourceLabel.theme_textColor = GlobalPicker.textLightColor
-        sourceLabel.textAlignment = .right
+        sourceLabel.textAlignment = .left
         
         let padding = descriptionTextView.textContainer.lineFragmentPadding
         titleTextView.font = FontConfigManager.shared.getMediumFont(size: 16)
