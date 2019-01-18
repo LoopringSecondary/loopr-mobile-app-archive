@@ -532,6 +532,7 @@
 		ACE9F0462186FB5800695E37 /* WalletViewControllerDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE9F0452186FB5700695E37 /* WalletViewControllerDropdownMenu.swift */; };
 		ACE9F0482186FD1A00695E37 /* AppDelegateNotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE9F0472186FD1A00695E37 /* AppDelegateNotificationExtension.swift */; };
 		ACE9F04A218AAB4300695E37 /* AppServiceUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE9F049218AAB4300695E37 /* AppServiceUserManager.swift */; };
+		ACEC0FBD21F19B3C0006485A /* NewsUIStyleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEC0FBC21F19B3C0006485A /* NewsUIStyleConfig.swift */; };
 		ACEC977F20AD57F3003F9DEB /* P2POrderHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEC977D20AD57F3003F9DEB /* P2POrderHistoryViewController.swift */; };
 		ACEC978020AD57F3003F9DEB /* P2POrderHistoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACEC977E20AD57F3003F9DEB /* P2POrderHistoryViewController.xib */; };
 		ACEC978220AD6165003F9DEB /* P2POrderHistoryDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEC978120AD6165003F9DEB /* P2POrderHistoryDataManager.swift */; };
@@ -1134,6 +1135,7 @@
 		ACEBB13A2133C4CA0037991A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		ACEBB13B2133C4CA0037991A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ACEBB13C2133C4CA0037991A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		ACEC0FBC21F19B3C0006485A /* NewsUIStyleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsUIStyleConfig.swift; sourceTree = "<group>"; };
 		ACEC977D20AD57F3003F9DEB /* P2POrderHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2POrderHistoryViewController.swift; sourceTree = "<group>"; };
 		ACEC977E20AD57F3003F9DEB /* P2POrderHistoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = P2POrderHistoryViewController.xib; sourceTree = "<group>"; };
 		ACEC978120AD6165003F9DEB /* P2POrderHistoryDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2POrderHistoryDataManager.swift; sourceTree = "<group>"; };
@@ -1304,6 +1306,7 @@
 		9B2ED7EC21D4468000ACEE84 /* News */ = {
 			isa = PBXGroup;
 			children = (
+				ACEC0FBC21F19B3C0006485A /* NewsUIStyleConfig.swift */,
 				ACDBA19321E72CE600CE2D22 /* NewsSwipeViewController.swift */,
 				ACDBA19421E72CE600CE2D22 /* NewsSwipeViewController.xib */,
 				ACDBA19B21EB39DC00CE2D22 /* NewsNavigationViewController.swift */,
@@ -3290,6 +3293,7 @@
 				943BDED32056350000D5BF81 /* PriceQuote.swift in Sources */,
 				9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */,
 				AC9FFF312127F8CF00957175 /* AddCustomizedTokenViewController.swift in Sources */,
+				ACEC0FBD21F19B3C0006485A /* NewsUIStyleConfig.swift in Sources */,
 				ACC8D0A620CC95A00049A741 /* AssetTableViewCell.swift in Sources */,
 				9478CF2921CC8AEF008850DB /* Date+Extension.swift in Sources */,
 				ACFEFE9520C337BE00013921 /* PendingTransactionsDataManager.swift in Sources */,
