@@ -10,6 +10,8 @@ import java.util.Locale;
 
 import android.util.Log;
 
+import leaf.prod.walletsdk.model.Language;
+
 /**
  * 主要功能:
  * 时间日期管理
@@ -638,33 +640,49 @@ public class DateUtil {
      * @param date
      * @return
      */
-    public static String formatFriendly(Date date) {
+    public static String formatFriendly(Date date, Language language) {
+        return formatFriendly(date.getTime(), language);
+    }
+
+    /**
+     * 将日期格式化成友好的字符串：几分钟前、几小时前、几天前、几月前、几年前、刚刚
+     *
+     * @param date
+     * @return
+     */
+    public static String formatFriendly(Long date, Language language) {
         if (date == null) {
             return null;
         }
-        long diff = new Date().getTime() - date.getTime();
-        long r = 0;
+        String yearSuffix = language == Language.en_US ? " year(s) ago" : "年前";
+        String monthSuffix = language == Language.en_US ? " month(s) ago" : "月前";
+        String daySuffix = language == Language.en_US ? " day(s) ago" : "天前";
+        String hourSuffix = language == Language.en_US ? " hour(s) ago" : "小时前";
+        String minuteSuffix = language == Language.en_US ? " minute(s) ago" : "分钟前";
+        String moment = language == Language.en_US ? "moment ago" : "刚刚";
+        long diff = new Date().getTime() - date;
+        long r;
         if (diff > YEAR) {
             r = (diff / YEAR);
-            return r + "年前";
+            return r + yearSuffix;
         }
         if (diff > MONTH) {
             r = (diff / MONTH);
-            return r + "个月前";
+            return r + monthSuffix;
         }
         if (diff > DAY) {
             r = (diff / DAY);
-            return r + "天前";
+            return r + daySuffix;
         }
         if (diff > HOUR) {
             r = (diff / HOUR);
-            return r + "个小时前";
+            return r + hourSuffix;
         }
         if (diff > MINUTE) {
             r = (diff / MINUTE);
-            return r + "分钟前";
+            return r + minuteSuffix;
         }
-        return "刚刚";
+        return moment;
     }
 
     /**
@@ -700,7 +718,6 @@ public class DateUtil {
         SimpleDateFormat sdf = new SimpleDateFormat(formater);
         return sdf.format(date);
     }
-
 
     /**
      * 将日期以yyyy-MM-dd HH:mm:ss格式化
