@@ -20,6 +20,7 @@ class News {
     var source: String
     var author: String
     var imageUrl: String
+    var newsImage: NewsImage?
     var bullIndex: Int
     var bearIndex: Int
     var forwardNum: Int
@@ -50,6 +51,8 @@ class News {
         self.source = json["source"].stringValue
         self.author = json["author"].stringValue
         self.imageUrl = json["imageUrl"].stringValue
+        self.newsImage = NewsImage(imageUrl: self.imageUrl)
+
         self.bullIndex = json["bullIndex"].intValue
         self.bearIndex = json["bearIndex"].intValue
         self.forwardNum = json["forwardNum"].intValue
@@ -85,6 +88,10 @@ class News {
         self.content = self.content.replacingOccurrences(of: "\n\n", with: "\n")
         self.content = self.content.replacingOccurrences(of: "\n", with: "\n\n")
         
+        let filteredParagraphs = paragraphs.filter { !$0.isString && $0.newsImage != nil }
+        if filteredParagraphs.count > 0 && newsImage == nil {
+            newsImage = NewsImage(imageUrl: filteredParagraphs[0].newsImage!.imageUrl)
+        }
     }
 
 }

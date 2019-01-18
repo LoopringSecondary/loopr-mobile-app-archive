@@ -25,7 +25,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
 
     // Use ViewController to avoid the tab bar
     let newsViewController = NewsSwipeViewController()
-    var newsViewControllerHeight: CGFloat = 4 * NewsCollectionCell.minHeight
+    var newsViewControllerHeight: CGFloat = 4 * NewsCollectionCell.flashMinHeight
     var newsViewControllerEnabled: Bool = false
 
     override func viewDidLoad() {
@@ -94,9 +94,9 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // 44 is the height of navigation bar
-        self.newsViewControllerHeight = 4 * (NewsCollectionCell.minHeight + 8) + 44
+        self.newsViewControllerHeight = 4 * (NewsCollectionCell.flashMinHeight + 8) + 44
         if self.newsViewControllerHeight < UIScreen.main.bounds.size.height {
-            self.newsViewControllerHeight = 5 * (NewsCollectionCell.minHeight + 8) + 44
+            self.newsViewControllerHeight = 5 * (NewsCollectionCell.flashMinHeight + 8) + 44
         }
         self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
     }

@@ -533,6 +533,7 @@
 		ACE9F0482186FD1A00695E37 /* AppDelegateNotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE9F0472186FD1A00695E37 /* AppDelegateNotificationExtension.swift */; };
 		ACE9F04A218AAB4300695E37 /* AppServiceUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE9F049218AAB4300695E37 /* AppServiceUserManager.swift */; };
 		ACEC0FBD21F19B3C0006485A /* NewsUIStyleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEC0FBC21F19B3C0006485A /* NewsUIStyleConfig.swift */; };
+		ACEC0FBF21F1B4FC0006485A /* NewsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEC0FBE21F1B4FC0006485A /* NewsImage.swift */; };
 		ACEC977F20AD57F3003F9DEB /* P2POrderHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEC977D20AD57F3003F9DEB /* P2POrderHistoryViewController.swift */; };
 		ACEC978020AD57F3003F9DEB /* P2POrderHistoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACEC977E20AD57F3003F9DEB /* P2POrderHistoryViewController.xib */; };
 		ACEC978220AD6165003F9DEB /* P2POrderHistoryDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEC978120AD6165003F9DEB /* P2POrderHistoryDataManager.swift */; };
@@ -1136,6 +1137,7 @@
 		ACEBB13B2133C4CA0037991A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ACEBB13C2133C4CA0037991A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ACEC0FBC21F19B3C0006485A /* NewsUIStyleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsUIStyleConfig.swift; sourceTree = "<group>"; };
+		ACEC0FBE21F1B4FC0006485A /* NewsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsImage.swift; sourceTree = "<group>"; };
 		ACEC977D20AD57F3003F9DEB /* P2POrderHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2POrderHistoryViewController.swift; sourceTree = "<group>"; };
 		ACEC977E20AD57F3003F9DEB /* P2POrderHistoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = P2POrderHistoryViewController.xib; sourceTree = "<group>"; };
 		ACEC978120AD6165003F9DEB /* P2POrderHistoryDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2POrderHistoryDataManager.swift; sourceTree = "<group>"; };
@@ -1380,6 +1382,7 @@
 			children = (
 				9461851521D0FAFD00393432 /* News.swift */,
 				9BA4FCA721EC0020005A3DC0 /* NewsParagraph.swift */,
+				ACEC0FBE21F1B4FC0006485A /* NewsImage.swift */,
 				9461851721D0FD8700393432 /* NewsCategory.swift */,
 				9BA4FC9B21DC4FC8005A3DC0 /* NewsParams.swift */,
 			);
@@ -3324,6 +3327,7 @@
 				AC4F601720773E9D00F1D954 /* web3swift.swift in Sources */,
 				AC31B94F204A8DF400B16155 /* ScryptParams.swift in Sources */,
 				ACBA47E220788ECD0032C2B4 /* SettingManageWalletViewController.swift in Sources */,
+				ACEC0FBF21F1B4FC0006485A /* NewsImage.swift in Sources */,
 				ACE65E4520720500001EE499 /* MnemonicCollectionViewCell.swift in Sources */,
 				ACB9117820256B0300F14644 /* Market.swift in Sources */,
 				941138C7210F12AD007FDC82 /* TimeToLiveViewController.swift in Sources */,

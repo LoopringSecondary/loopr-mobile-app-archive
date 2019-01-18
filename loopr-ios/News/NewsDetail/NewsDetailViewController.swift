@@ -221,7 +221,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             if newsParagraph.isString {
                 height = NewsDetailStringTableViewCell.getHeight(content: newsParagraph.content)
             } else {
-                height = NewsDetailImageTableViewCell.getHeight(image: newsParagraph.image)
+                height = NewsDetailImageTableViewCell.getHeight(image: newsParagraph.newsImage?.image)
             }
             if indexPath.row == news.paragraphs.count+2-1 {
                 height += 30
@@ -263,7 +263,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                     let nib = Bundle.main.loadNibNamed("NewsDetailImageTableViewCell", owner: self, options: nil)
                     cell = nib![0] as? NewsDetailImageTableViewCell
                 }
-                cell?.backgroundImageView.image = newsParagraph.image
+                cell?.backgroundImageView.image = newsParagraph.newsImage?.image
                 return cell!
             }
         }
