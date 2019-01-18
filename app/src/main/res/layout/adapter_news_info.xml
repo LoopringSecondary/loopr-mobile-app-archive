@@ -29,10 +29,9 @@
             android:id="@+id/sv_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margSide"
-            android:layout_marginEnd="@dimen/margSide">
+            android:fillViewport="true">
 
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -41,16 +40,23 @@
                     android:id="@+id/tv_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margSide"
+                    android:layout_marginEnd="@dimen/margSide"
                     android:text="《今日的侦探》：恐怖事件的背后隐藏着导演的深意"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/text_19"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <LinearLayout
+                    android:id="@+id/ll_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margSide"
                     android:layout_marginTop="@dimen/margSide"
-                    android:orientation="horizontal">
+                    android:layout_marginEnd="@dimen/margSide"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title">
 
                     <TextView
                         android:id="@+id/tv_time"
@@ -74,19 +80,95 @@
                     android:id="@+id/ll_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margSide"
                     android:layout_marginTop="@dimen/margSide"
-                    android:layout_marginBottom="12dp"
-                    android:orientation="vertical">
+                    android:layout_marginEnd="@dimen/margSide"
+                    android:layout_marginBottom="30dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_time">
                 </LinearLayout>
-            </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
         </ScrollView>
 
-        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-            android:id="@+id/footer"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_next"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srlTextPulling="@string/news_pulling_next"
-            app:srlTextRelease="@string/news_release_next"/>
+            android:layout_height="120dp"
+            android:layout_marginTop="@dimen/margSide"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/cl_end"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.6"
+                android:gravity="center"
+                android:text="@string/news_end"
+                android:textColor="@color/colorNineText"
+                android:textSize="14sp"
+                android:visibility="gone"/>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_has_next"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_width="120dp"
+                    android:layout_height="4dp"
+                    android:background="@drawable/radius_grey_bg"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_next_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margSide"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginEnd="@dimen/margSide"
+                    android:text="《今日的侦探》：恐怖事件的背后隐藏着导演的深意"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_19"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_next_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margSide"
+                    android:layout_marginTop="@dimen/margSide"
+                    android:layout_marginEnd="@dimen/margSide"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/tv_next_title">
+
+                    <TextView
+                        android:id="@+id/tv_next_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3小时前"
+                        android:textColor="@color/colorNineText"
+                        android:textSize="@dimen/text_11"/>
+
+                    <TextView
+                        android:id="@+id/tv_next_source"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margSide"
+                        android:text="来源: 金色财经"
+                        android:textColor="@color/colorNineText"
+                        android:textSize="@dimen/text_11"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/radius_gradient_bg2"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <android.support.constraint.ConstraintLayout

@@ -327,6 +327,7 @@
     <string name="news_share">Share</string>
     <string name="service_error">Service Error</string>
     <string name="news_latest">Has been the latest</string>
+    <string name="news_end">The End</string>
     <string name="news_pulling_pre">Pulling to load previous</string>
     <string name="news_release_pre">Release to load previous</string>
     <string name="news_pulling_next">Pulling to load next</string>

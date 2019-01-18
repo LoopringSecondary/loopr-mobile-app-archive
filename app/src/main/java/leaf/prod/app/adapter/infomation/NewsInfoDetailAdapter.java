@@ -111,6 +111,17 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         if (end < item.getContent().length() && !item.getContent().substring(end).trim().isEmpty()) {
             addTextView(helper, item.getContent().substring(end).trim());
         }
+        if (index < newsList.size() - 1) {
+            News nextNews = newsList.get(index + 1);
+            helper.setText(R.id.tv_next_title, nextNews.getTitle());
+            helper.setText(R.id.tv_next_time, nextNews.getPublishTime());
+            helper.setText(R.id.tv_next_source, nextNews.getSource());
+            helper.setGone(R.id.cl_has_next, true);
+            helper.setGone(R.id.cl_end, false);
+        } else {
+            helper.setGone(R.id.cl_has_next, false);
+            helper.setGone(R.id.cl_end, true);
+        }
         ScrollView svContent = helper.getView(R.id.sv_content);
         svContent.post(() -> svContent.scrollTo(0, 0));
         svContent.scrollTo(0, 0);

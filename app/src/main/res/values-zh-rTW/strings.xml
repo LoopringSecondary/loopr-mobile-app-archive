@@ -327,6 +327,7 @@
     <string name="news_share">分享</string>
     <string name="service_error">服務器開小差了</string>
     <string name="news_latest">已是最新數據</string>
+    <string name="news_end">已經到底啦</string>
     <string name="news_pulling_pre">下拉加載上一篇</string>
     <string name="news_release_pre">鬆手加載上一篇</string>
     <string name="news_pulling_next">上拉加載下一篇</string>

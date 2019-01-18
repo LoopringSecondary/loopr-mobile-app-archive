@@ -330,6 +330,7 @@
     <string name="news_share">分享</string>
     <string name="service_error">服务器开小差了</string>
     <string name="news_latest">已是最新数据</string>
+    <string name="news_end">已经到底啦</string>
     <string name="news_pulling_pre">下拉加载上一篇</string>
     <string name="news_release_pre">松手加载上一篇</string>
     <string name="news_pulling_next">上拉加载下一篇</string>
