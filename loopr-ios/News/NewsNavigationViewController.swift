@@ -36,8 +36,7 @@ class NewsNavigationViewController: UINavigationController {
 
 extension NewsNavigationViewController: NewsViewControllerDelegate {
 
-    override func setNavigationBarHidden(_ newValue: Bool, animated: Bool) {
-        super.setNavigationBarHidden(newValue, animated: animated)
+    func newsViewControllerSetNavigationBarHidden(_ newValue: Bool, animated: Bool) {
         newsNavigationViewControllerDelegate?.setNavigationBarHidden(newValue, animated: animated)
     }
 

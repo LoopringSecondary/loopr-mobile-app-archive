@@ -11,7 +11,7 @@ import Social
 import SVProgressHUD
 
 protocol NewsViewControllerDelegate: class {
-    func setNavigationBarHidden(_ newValue: Bool, animated: Bool)
+    func newsViewControllerSetNavigationBarHidden(_ newValue: Bool, animated: Bool)
 }
 
 class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
@@ -215,7 +215,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
 extension NewsViewController: NewsDetailViewControllerDelegate {
 
     func setNavigationBarHidden(_ newValue: Bool, animated: Bool) {
-        newsViewControllerDelegate?.setNavigationBarHidden(newValue, animated: animated)
+        newsViewControllerDelegate?.newsViewControllerSetNavigationBarHidden(newValue, animated: animated)
     }
 
 }

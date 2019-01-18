@@ -19,7 +19,7 @@ class NewsCollectionCell: UICollectionViewCell {
     @IBOutlet weak var titleTextViewHeightLayout: NSLayoutConstraint!
     
     @IBOutlet weak var descriptionTextViewLeadingLayoutConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var descriptionTextViewTrailingLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var informationImageView: UIImageView!
     @IBOutlet weak var informationImageViewHeightLayoutConstraint: NSLayoutConstraint!
@@ -125,10 +125,12 @@ class NewsCollectionCell: UICollectionViewCell {
         
         if news.category == .information && news.newsImage?.image != nil {
             informationImageView.image = news.newsImage?.image
-            descriptionTextViewLeadingLayoutConstraint.constant = 135
+            // descriptionTextViewLeadingLayoutConstraint.constant = 135
+            descriptionTextViewTrailingLayoutConstraint.constant = 135
             informationImageView.isHidden = false
         } else {
-            descriptionTextViewLeadingLayoutConstraint.constant = 10
+            // descriptionTextViewLeadingLayoutConstraint.constant = 10
+            descriptionTextViewTrailingLayoutConstraint.constant = 10
             informationImageView.isHidden = true
         }
 
