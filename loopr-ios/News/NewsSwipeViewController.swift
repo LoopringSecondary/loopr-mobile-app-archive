@@ -19,6 +19,8 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
     
     // To avoid the tab bar
     @IBOutlet weak var navigationBar: UINavigationBar!
+    var isNavigationBarHide: Bool = false
+    
     var isCloseButton: Bool = true
     
     var viewControllers: [NewsNavigationViewController] = [NewsNavigationViewController(), NewsNavigationViewController()]
@@ -205,6 +207,16 @@ extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
 
     func setNavigationBarHidden(_ newValue: Bool, animated: Bool) {
         // navigationController?.setNavigationBarHidden(newValue, animated: animated)
+        if newValue {
+            if !isNavigationBarHide {
+                swipeView.frame = CGRect(x: 0, y: swipeView.y - 44, width: swipeView.width, height: swipeView.height)
+            }
+        } else {
+            if isNavigationBarHide {
+                swipeView.frame = CGRect(x: 0, y: swipeView.y + 44, width: swipeView.width, height: swipeView.height)
+            }
+        }
+        isNavigationBarHide = newValue
     }
 
 }

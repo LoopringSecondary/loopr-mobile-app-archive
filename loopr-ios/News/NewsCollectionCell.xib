@@ -96,7 +96,7 @@
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DNx-ER-xxx">
-                        <rect key="frame" x="10" y="73" width="137" height="137"/>
+                        <rect key="frame" x="173" y="73" width="137" height="137"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="137" id="4Qu-mm-xdP"/>
                             <constraint firstAttribute="width" secondItem="DNx-ER-xxx" secondAttribute="height" id="eU1-bz-z5X"/>
@@ -115,7 +115,7 @@
                 <constraint firstItem="QkU-Zl-7hg" firstAttribute="top" secondItem="d4b-xd-SfR" secondAttribute="top" constant="42" id="0wy-CY-Cmv"/>
                 <constraint firstItem="kU5-lE-jir" firstAttribute="top" secondItem="QkU-Zl-7hg" secondAttribute="bottom" constant="8" id="6MG-Bt-frQ"/>
                 <constraint firstAttribute="bottom" secondItem="kU5-lE-jir" secondAttribute="bottom" constant="32" id="9SR-nW-5dM"/>
-                <constraint firstItem="DNx-ER-xxx" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" constant="10" id="Bxo-Fn-cSP"/>
+                <constraint firstAttribute="trailing" secondItem="DNx-ER-xxx" secondAttribute="trailing" constant="10" id="ACg-AH-YfH"/>
                 <constraint firstItem="XAT-Bg-hXT" firstAttribute="top" secondItem="d4b-xd-SfR" secondAttribute="top" constant="14" id="Ixi-nd-UCI"/>
                 <constraint firstAttribute="trailing" secondItem="Xp6-GB-jZo" secondAttribute="trailing" id="MbZ-nG-ANK"/>
                 <constraint firstItem="kU5-lE-jir" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" constant="10" id="PGC-lN-58C"/>
@@ -137,6 +137,7 @@
                 <outlet property="dateLabel" destination="XAT-Bg-hXT" id="xUL-61-Dac"/>
                 <outlet property="descriptionTextView" destination="kU5-lE-jir" id="AMI-K7-CMA"/>
                 <outlet property="descriptionTextViewLeadingLayoutConstraint" destination="PGC-lN-58C" id="MnE-4z-SnX"/>
+                <outlet property="descriptionTextViewTrailingLayoutConstraint" destination="wa3-5q-JZS" id="tBO-A9-S5N"/>
                 <outlet property="downvoteButton" destination="wHZ-gX-Xf6" id="N4k-Y0-ADD"/>
                 <outlet property="informationImageView" destination="DNx-ER-xxx" id="zxR-EY-CTG"/>
                 <outlet property="informationImageViewHeightLayoutConstraint" destination="4Qu-mm-xdP" id="wii-Xg-OVx"/>
