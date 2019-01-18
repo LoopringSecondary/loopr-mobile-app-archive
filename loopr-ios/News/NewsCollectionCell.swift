@@ -18,7 +18,12 @@ class NewsCollectionCell: UICollectionViewCell {
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var titleTextViewHeightLayout: NSLayoutConstraint!
     
+    @IBOutlet weak var descriptionTextViewLeadingLayoutConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var informationImageView: UIImageView!
+    @IBOutlet weak var informationImageViewHeightLayoutConstraint: NSLayoutConstraint!
+    
     static let descriptionTextViewLineSpacing: CGFloat = 3
 
     @IBOutlet weak var buttonView: UIView!
@@ -103,6 +108,11 @@ class NewsCollectionCell: UICollectionViewCell {
         shareButton.addTarget(self, action: #selector(pressedshareButton), for: .touchUpInside)
         shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
         shareButton.set(image: UIImage.init(named: "News-share"), title: LocalizedString("Share", comment: ""), titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
+        
+        informationImageViewHeightLayoutConstraint.constant = 115
+        informationImageView.cornerRadius = 4
+        informationImageView.contentMode = .scaleAspectFill
+        informationImageView.clipsToBounds = true
     }
     
     func updateUIStyle(news: News, isExpanded: Bool) {
@@ -112,6 +122,15 @@ class NewsCollectionCell: UICollectionViewCell {
         dateLabel.text = news.publishTime
         sourceLabel.text = news.source
         titleTextView.text = news.title
+        
+        if news.category == .information && news.newsImage?.image != nil {
+            informationImageView.image = news.newsImage?.image
+            descriptionTextViewLeadingLayoutConstraint.constant = 135
+            informationImageView.isHidden = false
+        } else {
+            descriptionTextViewLeadingLayoutConstraint.constant = 10
+            informationImageView.isHidden = true
+        }
 
         // TODO: this causes slow scrolling
         let style = NSMutableParagraphStyle()
@@ -266,7 +285,8 @@ class NewsCollectionCell: UICollectionViewCell {
         downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex)", for: .normal)
     }
     
-    static let minHeight: CGFloat = 190
+    static let informationMinHeight: CGFloat = 250
+    static let flashMinHeight: CGFloat = 190
     
     class func getSize(news: News, isExpanded: Bool) -> CGSize {
         let width: CGFloat = UIScreen.main.bounds.width - 15*2
@@ -287,16 +307,16 @@ class NewsCollectionCell: UICollectionViewCell {
             
             let otherHeight: CGFloat = 74
             var height = textViewheight + otherHeight + titleHeight
-            if height <  minHeight {
-                height = minHeight
+            if height < flashMinHeight {
+                height = flashMinHeight
             }
             return CGSize(width: width, height: height)
         }
 
         if news.category == .information {
-            return CGSize(width: width, height: minHeight)
+            return CGSize(width: width, height: informationMinHeight)
         } else {
-            return CGSize(width: width, height: minHeight)
+            return CGSize(width: width, height: flashMinHeight)
         }
     }
     

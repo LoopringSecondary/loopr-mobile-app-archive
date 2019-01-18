@@ -12,10 +12,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NewsCollectionCell" id="d4b-xd-SfR" customClass="NewsCollectionCell" customModule="loopr_ios" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="182"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="182"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XAT-Bg-hXT">
@@ -38,7 +38,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xp6-GB-jZo">
-                        <rect key="frame" x="0.0" y="140" width="320" height="42"/>
+                        <rect key="frame" x="0.0" y="208" width="320" height="42"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Bu-T0-uhP">
                                 <rect key="frame" x="102" y="0.0" width="70" height="42"/>
@@ -87,14 +87,21 @@
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kU5-lE-jir">
-                        <rect key="frame" x="10" y="71" width="300" height="79"/>
+                        <rect key="frame" x="10" y="71" width="300" height="147"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DNx-ER-xxx">
+                        <rect key="frame" x="10" y="73" width="137" height="137"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="137" id="4Qu-mm-xdP"/>
+                            <constraint firstAttribute="width" secondItem="DNx-ER-xxx" secondAttribute="height" id="eU1-bz-z5X"/>
+                        </constraints>
+                    </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1wt-Er-6Vz">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="208"/>
                         <connections>
                             <action selector="clickedCollectionCell:" destination="d4b-xd-SfR" eventType="touchUpInside" id="2Ig-i5-xKc"/>
                         </connections>
@@ -106,6 +113,7 @@
                 <constraint firstItem="QkU-Zl-7hg" firstAttribute="top" secondItem="d4b-xd-SfR" secondAttribute="top" constant="42" id="0wy-CY-Cmv"/>
                 <constraint firstItem="kU5-lE-jir" firstAttribute="top" secondItem="QkU-Zl-7hg" secondAttribute="bottom" constant="8" id="6MG-Bt-frQ"/>
                 <constraint firstAttribute="bottom" secondItem="kU5-lE-jir" secondAttribute="bottom" constant="32" id="9SR-nW-5dM"/>
+                <constraint firstItem="DNx-ER-xxx" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" constant="10" id="Bxo-Fn-cSP"/>
                 <constraint firstItem="XAT-Bg-hXT" firstAttribute="centerY" secondItem="8cV-VL-MOR" secondAttribute="centerY" id="GGl-lh-naS"/>
                 <constraint firstAttribute="trailing" secondItem="8cV-VL-MOR" secondAttribute="trailing" constant="10" id="Ic5-Ot-r44"/>
                 <constraint firstItem="XAT-Bg-hXT" firstAttribute="top" secondItem="d4b-xd-SfR" secondAttribute="top" constant="14" id="Ixi-nd-UCI"/>
@@ -115,6 +123,7 @@
                 <constraint firstAttribute="trailing" secondItem="QkU-Zl-7hg" secondAttribute="trailing" constant="12" id="VZO-5b-Pqy"/>
                 <constraint firstItem="XAT-Bg-hXT" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" constant="10" id="btY-Ua-YYv"/>
                 <constraint firstAttribute="bottom" secondItem="Xp6-GB-jZo" secondAttribute="bottom" id="dKI-Pv-zJ0"/>
+                <constraint firstItem="DNx-ER-xxx" firstAttribute="top" secondItem="kU5-lE-jir" secondAttribute="top" constant="2" id="eAf-WG-hTy"/>
                 <constraint firstItem="1wt-Er-6Vz" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" id="g8i-Ch-2ad"/>
                 <constraint firstAttribute="trailing" secondItem="1wt-Er-6Vz" secondAttribute="trailing" id="lxI-36-p3K"/>
                 <constraint firstItem="QkU-Zl-7hg" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" constant="10" id="njk-wG-8Wz"/>
@@ -127,7 +136,10 @@
                 <outlet property="buttonView" destination="Xp6-GB-jZo" id="HyC-2M-pdT"/>
                 <outlet property="dateLabel" destination="XAT-Bg-hXT" id="xUL-61-Dac"/>
                 <outlet property="descriptionTextView" destination="kU5-lE-jir" id="AMI-K7-CMA"/>
+                <outlet property="descriptionTextViewLeadingLayoutConstraint" destination="PGC-lN-58C" id="MnE-4z-SnX"/>
                 <outlet property="downvoteButton" destination="wHZ-gX-Xf6" id="N4k-Y0-ADD"/>
+                <outlet property="informationImageView" destination="DNx-ER-xxx" id="zxR-EY-CTG"/>
+                <outlet property="informationImageViewHeightLayoutConstraint" destination="4Qu-mm-xdP" id="wii-Xg-OVx"/>
                 <outlet property="shareButton" destination="gzD-X7-KCV" id="MIp-5g-eUf"/>
                 <outlet property="sourceLabel" destination="8cV-VL-MOR" id="LXM-Ca-v2B"/>
                 <outlet property="titleTextView" destination="QkU-Zl-7hg" id="ox0-TR-BuJ"/>
