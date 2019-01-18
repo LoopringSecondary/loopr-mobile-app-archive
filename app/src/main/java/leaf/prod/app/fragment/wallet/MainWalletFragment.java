@@ -175,6 +175,7 @@ public class MainWalletFragment extends BaseFragment {
         if (getActivity() != null) {
             ((MainActivity) getActivity()).showLoading(true);
         }
+//        SPUtils.remove(getContext(), "discover_news");
         switchNews.setOnRefreshListener(refreshLayout -> {
             EventBus.getDefault().post(new MainFragment.Event(0));
             SPUtils.put(getContext(), "discover_news", true);

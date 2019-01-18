@@ -143,7 +143,7 @@ public class NewsInfoActivity extends BaseActivity {
                     builder.setView(view1);
                     int textSize = (int) SPUtils.get(NewsInfoActivity.this, "news_text_size", 15);
                     BubbleSeekBar seekBar = view1.findViewById(R.id.seek_bar);
-                    seekBar.setProgress((textSize - 15) * (100 / 6));
+                    seekBar.setProgress((textSize - 15) * 100 / 6);
                     seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
                         @Override
                         public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
