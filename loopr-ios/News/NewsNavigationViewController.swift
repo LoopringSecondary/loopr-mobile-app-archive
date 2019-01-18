@@ -8,14 +8,20 @@
 
 import UIKit
 
+protocol NewsNavigationViewControllerDelegate: class {
+    func setNavigationBarHidden(_ newValue: Bool, animated: Bool)
+}
+
 class NewsNavigationViewController: UINavigationController {
     
+    weak var newsNavigationViewControllerDelegate: NewsNavigationViewControllerDelegate?
     var viewController: NewsViewController = NewsViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationBar.shadowImage = UIImage()
         self.setViewControllers([viewController], animated: false)
+        viewController.newsViewControllerDelegate = self
         view.backgroundColor = UIColor.red
         
         // Hide navigation bar
@@ -24,6 +30,15 @@ class NewsNavigationViewController: UINavigationController {
     
     func setCurrentIndex(_ index: Int) {
         viewController.currentIndex = index
+    }
+
+}
+
+extension NewsNavigationViewController: NewsViewControllerDelegate {
+
+    override func setNavigationBarHidden(_ newValue: Bool, animated: Bool) {
+        super.setNavigationBarHidden(newValue, animated: animated)
+        newsNavigationViewControllerDelegate?.setNavigationBarHidden(newValue, animated: animated)
     }
 
 }

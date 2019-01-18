@@ -10,8 +10,14 @@ import UIKit
 import Social
 import SVProgressHUD
 
+protocol NewsViewControllerDelegate: class {
+    func setNavigationBarHidden(_ newValue: Bool, animated: Bool)
+}
+
 class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
+    weak var newsViewControllerDelegate: NewsViewControllerDelegate?
+    
     @IBOutlet weak var headerView: UIImageView!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var leftFakeView: UIView!
@@ -159,6 +165,8 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                 detailViewController.currentIndex = indexPath.row
                 detailViewController.news = news
                 detailViewController.hidesBottomBarWhenPushed = true
+                detailViewController.newsDetailViewControllerDelegate = self
+
                 self.navigationController?.pushViewController(detailViewController, animated: true)
                 
             } else {
@@ -202,4 +210,12 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
     }
+}
+
+extension NewsViewController: NewsDetailViewControllerDelegate {
+
+    func setNavigationBarHidden(_ newValue: Bool, animated: Bool) {
+        newsViewControllerDelegate?.setNavigationBarHidden(newValue, animated: animated)
+    }
+
 }

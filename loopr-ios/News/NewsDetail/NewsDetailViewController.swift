@@ -9,8 +9,14 @@
 import UIKit
 import WebKit
 
+protocol NewsDetailViewControllerDelegate: class {
+    func setNavigationBarHidden(_ newValue: Bool, animated: Bool)
+}
+
 class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
 
+    weak var newsDetailViewControllerDelegate: NewsDetailViewControllerDelegate?
+    
     var currentIndex: Int = 0
     var news: News!
 
@@ -112,6 +118,14 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print("scrollView y: \(scrollView.contentOffset.y)")
+
+        if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
+            // navigationController?.setNavigationBarHidden(true, animated: true)
+            newsDetailViewControllerDelegate?.setNavigationBarHidden(true, animated: true)
+        } else {
+            // navigationController?.setNavigationBarHidden(false, animated: true)
+            newsDetailViewControllerDelegate?.setNavigationBarHidden(false, animated: true)
+        }
         
         let bottomY = tableView.contentSize.height - tableView.height
         print("test: \(scrollView.contentInset.bottom)")
