@@ -166,7 +166,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                 detailViewController.news = news
                 detailViewController.hidesBottomBarWhenPushed = true
                 detailViewController.newsDetailViewControllerDelegate = self
-
+                detailViewController.previousViewController = self
                 self.navigationController?.pushViewController(detailViewController, animated: true)
                 
             } else {

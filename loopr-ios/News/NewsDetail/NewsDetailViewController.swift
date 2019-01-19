@@ -15,6 +15,7 @@ protocol NewsDetailViewControllerDelegate: class {
 
 class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
 
+    weak var previousViewController: NewsViewController?
     weak var newsDetailViewControllerDelegate: NewsDetailViewControllerDelegate?
     
     var currentIndex: Int = 0
@@ -120,10 +121,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         print("scrollView y: \(scrollView.contentOffset.y)")
 
         if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
-            // navigationController?.setNavigationBarHidden(true, animated: true)
             newsDetailViewControllerDelegate?.setNavigationBarHidden(true, animated: true)
         } else {
-            // navigationController?.setNavigationBarHidden(false, animated: true)
             newsDetailViewControllerDelegate?.setNavigationBarHidden(false, animated: true)
         }
         
@@ -186,6 +185,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
             detailViewController.currentIndex = currentIndex+1
             detailViewController.news = news
+            detailViewController.previousViewController = previousViewController
             presentedChildViewControllers.append(detailViewController)
 
             view.addSubview(detailViewController.view)
@@ -194,6 +194,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.78, initialSpringVelocity: 0.3, options: .curveEaseInOut, animations: {
                 self.tableView.frame = CGRect(x: 0, y: -self.tableView.frame.height, width: self.tableView.frame.width, height: self.tableView.height)
                 detailViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+                self.newsDetailViewControllerDelegate?.setNavigationBarHidden(false, animated: false)
+
             }) { (_) in
                 self.addChildViewController(detailViewController)
             }
@@ -202,8 +204,9 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
             detailViewController.currentIndex = currentIndex-1
             detailViewController.news = news
+            detailViewController.previousViewController = previousViewController
             presentedChildViewControllers.append(detailViewController)
-            
+
             view.addSubview(detailViewController.view)
             detailViewController.view.frame = CGRect(x: 0, y: -view.frame.height, width: view.frame.width, height: view.frame.height)
             detailViewController.pullToNextPageBottomView.isHidden = true
@@ -211,13 +214,14 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.78, initialSpringVelocity: 0.3, options: .curveEaseInOut, animations: {
                 self.tableView.frame = CGRect(x: 0, y: self.tableView.frame.height, width: self.tableView.frame.width, height: self.tableView.height)
                 detailViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+                self.newsDetailViewControllerDelegate?.setNavigationBarHidden(false, animated: false)
+
             }) { (_) in
                 self.addChildViewController(detailViewController)
                 detailViewController.pullToNextPageBottomView.isHidden = false
+                detailViewController.newsDetailViewControllerDelegate = self.previousViewController
             }
-            // refreshControl.endRefreshing()
         }
-        
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -282,5 +286,5 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
     }
-    
+
 }
