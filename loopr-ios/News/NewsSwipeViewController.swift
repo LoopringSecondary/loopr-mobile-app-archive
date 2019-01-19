@@ -209,11 +209,19 @@ extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
         // navigationController?.setNavigationBarHidden(newValue, animated: animated)
         if newValue {
             if !isNavigationBarHide {
-                swipeView.frame = CGRect(x: 0, y: swipeView.y - 44, width: swipeView.width, height: swipeView.height)
+                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                    self.swipeView.frame = CGRect(x: 0, y: self.swipeView.y - 44, width: self.swipeView.width, height: self.swipeView.height)
+                }) { (_) in
+                    
+                }
             }
         } else {
             if isNavigationBarHide {
-                swipeView.frame = CGRect(x: 0, y: swipeView.y + 44, width: swipeView.width, height: swipeView.height)
+                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                    self.swipeView.frame = CGRect(x: 0, y: self.swipeView.y + 44, width: self.swipeView.width, height: self.swipeView.height)
+                }) { (_) in
+                    
+                }
             }
         }
         isNavigationBarHide = newValue
