@@ -17,6 +17,7 @@ class NewsCollectionCell: UICollectionViewCell {
     @IBOutlet weak var sourceLabel: UILabel!
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var titleTextViewHeightLayout: NSLayoutConstraint!
+    @IBOutlet weak var titleTextViewTrailingLayoutConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var descriptionTextViewLeadingLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionTextViewTrailingLayoutConstraint: NSLayoutConstraint!
@@ -109,7 +110,7 @@ class NewsCollectionCell: UICollectionViewCell {
         shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
         shareButton.set(image: UIImage.init(named: "News-share"), title: LocalizedString("Share", comment: ""), titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         
-        informationImageViewHeightLayoutConstraint.constant = 115
+        informationImageViewHeightLayoutConstraint.constant = 100
         informationImageView.cornerRadius = 4
         informationImageView.contentMode = .scaleAspectFill
         informationImageView.clipsToBounds = true
@@ -125,10 +126,12 @@ class NewsCollectionCell: UICollectionViewCell {
         
         if news.category == .information && news.newsImage?.image != nil {
             informationImageView.image = news.newsImage?.image
+            titleTextViewTrailingLayoutConstraint.constant = 118
             // descriptionTextViewLeadingLayoutConstraint.constant = 135
-            descriptionTextViewTrailingLayoutConstraint.constant = 135
+            descriptionTextViewTrailingLayoutConstraint.constant = 118
             informationImageView.isHidden = false
         } else {
+            titleTextViewTrailingLayoutConstraint.constant = 12
             // descriptionTextViewLeadingLayoutConstraint.constant = 10
             descriptionTextViewTrailingLayoutConstraint.constant = 10
             informationImageView.isHidden = true
@@ -287,7 +290,7 @@ class NewsCollectionCell: UICollectionViewCell {
         downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex)", for: .normal)
     }
     
-    static let informationMinHeight: CGFloat = 250
+    static let informationMinHeight: CGFloat = 190
     static let flashMinHeight: CGFloat = 190
     
     class func getSize(news: News, isExpanded: Bool) -> CGSize {

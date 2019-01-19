@@ -96,7 +96,7 @@
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DNx-ER-xxx">
-                        <rect key="frame" x="173" y="73" width="137" height="137"/>
+                        <rect key="frame" x="173" y="44" width="137" height="137"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="137" id="4Qu-mm-xdP"/>
                             <constraint firstAttribute="width" secondItem="DNx-ER-xxx" secondAttribute="height" id="eU1-bz-z5X"/>
@@ -123,7 +123,7 @@
                 <constraint firstAttribute="trailing" secondItem="QkU-Zl-7hg" secondAttribute="trailing" constant="12" id="VZO-5b-Pqy"/>
                 <constraint firstItem="XAT-Bg-hXT" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" constant="10" id="btY-Ua-YYv"/>
                 <constraint firstAttribute="bottom" secondItem="Xp6-GB-jZo" secondAttribute="bottom" id="dKI-Pv-zJ0"/>
-                <constraint firstItem="DNx-ER-xxx" firstAttribute="top" secondItem="kU5-lE-jir" secondAttribute="top" constant="2" id="eAf-WG-hTy"/>
+                <constraint firstItem="DNx-ER-xxx" firstAttribute="top" secondItem="QkU-Zl-7hg" secondAttribute="top" constant="2" id="eAf-WG-hTy"/>
                 <constraint firstItem="1wt-Er-6Vz" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" id="g8i-Ch-2ad"/>
                 <constraint firstAttribute="trailing" secondItem="1wt-Er-6Vz" secondAttribute="trailing" id="lxI-36-p3K"/>
                 <constraint firstItem="QkU-Zl-7hg" firstAttribute="leading" secondItem="d4b-xd-SfR" secondAttribute="leading" constant="10" id="njk-wG-8Wz"/>
@@ -145,6 +145,7 @@
                 <outlet property="sourceLabel" destination="8cV-VL-MOR" id="LXM-Ca-v2B"/>
                 <outlet property="titleTextView" destination="QkU-Zl-7hg" id="ox0-TR-BuJ"/>
                 <outlet property="titleTextViewHeightLayout" destination="8nB-bD-phL" id="vtl-Le-E9L"/>
+                <outlet property="titleTextViewTrailingLayoutConstraint" destination="VZO-5b-Pqy" id="3YI-Qw-ydd"/>
                 <outlet property="upvoteButton" destination="2Bu-T0-uhP" id="VAU-Bg-kps"/>
             </connections>
             <point key="canvasLocation" x="30.434782608695656" y="-11.413043478260871"/>
