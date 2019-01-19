@@ -83,6 +83,7 @@ class NewsCollectionCell: UICollectionViewCell {
         descriptionTextView.isScrollEnabled = false
         descriptionTextView.showsVerticalScrollIndicator = false
         descriptionTextView.showsHorizontalScrollIndicator = false
+        descriptionTextView.textContainer.lineBreakMode = .byTruncatingTail
         descriptionTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
         
         upvoteButton.setTitle(LocalizedString("News_Up", comment: ""), for: .normal)
@@ -131,11 +132,16 @@ class NewsCollectionCell: UICollectionViewCell {
             descriptionTextViewTrailingLayoutConstraint.constant = 118
             informationImageView.isHidden = false
         } else {
-            titleTextViewTrailingLayoutConstraint.constant = 12
+            titleTextViewTrailingLayoutConstraint.constant = 10
             // descriptionTextViewLeadingLayoutConstraint.constant = 10
             descriptionTextViewTrailingLayoutConstraint.constant = 10
             informationImageView.isHidden = true
         }
+
+        let rawLineNumber = NewsCollectionCell.numberOfLines(textView: titleTextView)
+        let numLines = CGFloat(rawLineNumber)
+        titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines + 4
+        titleTextViewTrailingLayoutConstraint.constant += 4
 
         // TODO: this causes slow scrolling
         let style = NSMutableParagraphStyle()
@@ -163,10 +169,6 @@ class NewsCollectionCell: UICollectionViewCell {
         }
 
         updateVoteButtons()
-
-        let rawLineNumber = NewsCollectionCell.numberOfLines(textView: titleTextView)
-        let numLines = CGFloat(rawLineNumber)
-        titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines
     }
     
     class func numberOfLines(textView: UITextView) -> Int {
