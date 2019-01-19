@@ -23,7 +23,7 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var leftFakeView: UIView!
     @IBOutlet weak var rightFakeView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var footerView: UIView!
+    @IBOutlet weak var bottomSeperateLine: UIView!
     
     var currentIndex: Int = 0
     let newsParamsList: [NewsParams] = [
@@ -77,8 +77,8 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         collectionView.refreshControl = refreshControl
 
-        footerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        footerView.round(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 1)
+        bottomSeperateLine.theme_backgroundColor = ColorPicker.cardBackgroundColor
+        bottomSeperateLine.round(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {

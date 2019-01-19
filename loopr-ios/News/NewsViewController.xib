@@ -12,9 +12,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewsViewController" customModule="loopr_ios" customModuleProvider="target">
             <connections>
+                <outlet property="bottomSeperateLine" destination="XW0-fx-l3R" id="Xdp-Em-55c"/>
                 <outlet property="categoryLabel" destination="xuV-Wi-ouO" id="YRe-dd-NAC"/>
                 <outlet property="collectionView" destination="USo-aH-chy" id="fd9-h9-FdK"/>
-                <outlet property="footerView" destination="XW0-fx-l3R" id="Xdp-Em-55c"/>
                 <outlet property="headerView" destination="jFm-6a-lLr" id="EBt-dq-SRV"/>
                 <outlet property="leftFakeView" destination="uXZ-cm-sXG" id="UaS-9H-Pft"/>
                 <outlet property="rightFakeView" destination="oEv-op-oeT" id="wgD-re-T4Z"/>
