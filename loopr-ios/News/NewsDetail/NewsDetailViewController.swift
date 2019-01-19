@@ -34,6 +34,9 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     let pullToNextPageTitleLabel = UILabel()
     let pullToNextPageImageView = UIImageView()
     
+    @IBOutlet weak var bottomButtonView: UIView!
+    @IBOutlet weak var bottomButtonViewHeightLayoutConstraint: NSLayoutConstraint!
+    
     var presentedChildViewControllers: [NewsDetailViewController] = []
 
     override open func viewDidLoad() {
@@ -53,6 +56,13 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         footerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         tableView.tableFooterView = footerView
 
+        let window = UIApplication.shared.keyWindow
+        let bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
+        bottomButtonViewHeightLayoutConstraint.constant = bottomPadding + 40
+        
+        bottomButtonView.backgroundColor = .red
+        bottomButtonView.isHidden = false
+        
         NotificationCenter.default.addObserver(self, selector: #selector(tiggerPopNewsDetailViewControllerReceivedNotification), name: .tiggerPopNewsDetailViewController, object: nil)
     }
 
@@ -116,8 +126,10 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
         if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
             newsDetailViewControllerDelegate?.setNavigationBarHidden(true, animated: true)
+            bottomButtonView.isHidden = true
         } else {
             newsDetailViewControllerDelegate?.setNavigationBarHidden(false, animated: true)
+            bottomButtonView.isHidden = false
         }
         
         let bottomY = tableView.contentSize.height - tableView.height
