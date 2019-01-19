@@ -28,6 +28,8 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var newsViewControllerHeight: CGFloat = 4 * NewsCollectionCell.flashMinHeight
     var newsViewControllerEnabled: Bool = false
 
+    var bottomButtonView: UIView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -77,6 +79,10 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showTradingFeatureChangedReceivedNotification(notification:)), name: .showTradingFeatureChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(localNotificationReceived), name: .publishLocalNotificationToMainTabController, object: nil)
+        
+        // in News Detail View Controller
+        bottomButtonView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - 40, width: UIScreen.main.bounds.width, height: 40)
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -211,6 +217,15 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
         }) { (_) in
             
         }
+    }
+    
+    func showBottomButtonView() {
+        bottomButtonView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - 40, width: UIScreen.main.bounds.width, height: 40)
+        bottomButtonView.backgroundColor = .red
+        view.addSubview(bottomButtonView)
+        
+        let window = UIApplication.shared.keyWindow
+        let topPadding = (window?.safeAreaInsets.top ?? 0)
     }
 
 }
