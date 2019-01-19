@@ -15,6 +15,8 @@ protocol NewsSwipeViewControllerDelegate: class {
 class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
 
     weak var delegate: NewsSwipeViewControllerDelegate?
+    
+    // Setup the background color at the status bar
     @IBOutlet weak var headerView: UIView!
     
     // To avoid the tab bar
@@ -206,7 +208,6 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
 extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
 
     func setNavigationBarHidden(_ newValue: Bool, animated: Bool) {
-        // navigationController?.setNavigationBarHidden(newValue, animated: animated)
         if newValue {
             if !isNavigationBarHide {
                 UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {

@@ -19,14 +19,4 @@ class NewsUIStyleConfig {
     let newsViewControllerPresentAnimationSpringWithDamping: CGFloat = 0.75
     let newsViewControllerPresentAnimationInitialSpringVelocity: CGFloat = 2
 
-    // The values in html are different from ones in iOS native.
-    // css variables
-    public var fontFamily: String = "PingFangSC-Regular"
-    public var backgroundColor: String = "#21203A"
-    public var textColor: String = "#ffffffcc"
-    public var titleFontSize: String = "10pt"
-    public var subTitleFontSize: String = "6px"
-    public var fontSize: String = "6pt"
-    public var imageCornerRadius: Int = 8
-    
 }
