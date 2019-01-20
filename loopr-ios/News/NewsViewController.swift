@@ -12,6 +12,7 @@ import SVProgressHUD
 
 protocol NewsViewControllerDelegate: class {
     func newsViewControllerSetNavigationBarHidden(_ newValue: Bool, animated: Bool)
+    func setNavigationBarTitle(_ newValue: String)
 }
 
 class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
@@ -216,6 +217,10 @@ extension NewsViewController: NewsDetailViewControllerDelegate {
 
     func setNavigationBarHidden(_ newValue: Bool, animated: Bool) {
         newsViewControllerDelegate?.newsViewControllerSetNavigationBarHidden(newValue, animated: animated)
+    }
+
+    func setNavigationBarTitle(_ newValue: String) {
+        newsViewControllerDelegate?.setNavigationBarTitle(newValue)
     }
 
 }

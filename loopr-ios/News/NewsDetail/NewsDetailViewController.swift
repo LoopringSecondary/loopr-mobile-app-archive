@@ -11,6 +11,7 @@ import WebKit
 
 protocol NewsDetailViewControllerDelegate: class {
     func setNavigationBarHidden(_ newValue: Bool, animated: Bool)
+    func setNavigationBarTitle(_ newValue: String)
 }
 
 class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
@@ -36,6 +37,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     var presentedChildViewControllers: [NewsDetailViewController] = []
 
+    var isAnimating: Bool = false
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
         setBackButton()
@@ -71,6 +74,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         super.viewWillAppear(animated)
         NotificationCenter.default.post(name: .pushedNewsDetailViewController, object: nil)
         self.newsDetailViewControllerDelegate?.setNavigationBarHidden(false, animated: false)
+        self.newsDetailViewControllerDelegate?.setNavigationBarTitle("")
+        print(news.title)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -123,12 +128,22 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(news.title)
         print("scrollView y: \(scrollView.contentOffset.y)")
+        guard !isAnimating else {
+            return
+        }
 
         if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
             newsDetailViewControllerDelegate?.setNavigationBarHidden(true, animated: true)
         } else {
             newsDetailViewControllerDelegate?.setNavigationBarHidden(false, animated: true)
+        }
+
+        if scrollView.contentOffset.y > 64 {
+            newsDetailViewControllerDelegate?.setNavigationBarTitle(news.title)
+        } else {
+            newsDetailViewControllerDelegate?.setNavigationBarTitle("")
         }
         
         guard currentIndex != NewsDataManager.shared.informationItems.count - 1 else {
@@ -190,6 +205,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         if enablePullToNextPage {
+            isAnimating = true
+
             let news = NewsDataManager.shared.informationItems[currentIndex+1]
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
             detailViewController.currentIndex = currentIndex+1
@@ -205,11 +222,13 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 self.tableView.frame = CGRect(x: 0, y: -self.tableView.frame.height, width: self.tableView.frame.width, height: self.tableView.height)
                 detailViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
                 self.newsDetailViewControllerDelegate?.setNavigationBarHidden(false, animated: false)
-
             }) { (_) in
+                // self.newsDetailViewControllerDelegate?.setNavigationBarHidden(false, animated: false)
                 self.addChildViewController(detailViewController)
             }
         } else if enablePullToPreviousPage {
+            isAnimating = true
+
             let news = NewsDataManager.shared.informationItems[currentIndex-1]
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
             detailViewController.currentIndex = currentIndex-1

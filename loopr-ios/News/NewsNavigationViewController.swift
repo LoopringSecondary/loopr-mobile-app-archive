@@ -10,6 +10,7 @@ import UIKit
 
 protocol NewsNavigationViewControllerDelegate: class {
     func setNavigationBarHidden(_ newValue: Bool, animated: Bool)
+    func setNavigationBarTitle(_ newValue: String)
 }
 
 class NewsNavigationViewController: UINavigationController {
@@ -38,6 +39,10 @@ extension NewsNavigationViewController: NewsViewControllerDelegate {
 
     func newsViewControllerSetNavigationBarHidden(_ newValue: Bool, animated: Bool) {
         newsNavigationViewControllerDelegate?.setNavigationBarHidden(newValue, animated: animated)
+    }
+
+    func setNavigationBarTitle(_ newValue: String) {
+        newsNavigationViewControllerDelegate?.setNavigationBarTitle(newValue)
     }
 
 }
