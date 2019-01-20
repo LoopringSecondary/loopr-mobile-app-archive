@@ -131,10 +131,15 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             newsDetailViewControllerDelegate?.setNavigationBarHidden(false, animated: true)
         }
         
+        guard currentIndex != NewsDataManager.shared.informationItems.count - 1 else {
+            pullToNextPageBottomView.isHidden = true
+            return
+        }
+        
         let bottomY = tableView.contentSize.height - tableView.height
 
         print("the bottom of scrollView: \(bottomY)")
-        if scrollView.contentOffset.y > bottomY {
+        if scrollView.contentOffset.y >= bottomY {
             let delta = scrollView.contentOffset.y  - bottomY + 45
             print("delta: \(delta)")
             pullToNextPageBottomView.isHidden = false
@@ -228,78 +233,135 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
     }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return news.paragraphs.count + 2
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return NewsDetailTitleTableViewCell.getHeight(content: news.title)
-        } else if indexPath.row == 1 {
-            return NewsDetailSubtitleTableViewCell.getHeight()
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 30
         } else {
-            var height: CGFloat = 0
-            let newsParagraph = news.paragraphs[indexPath.row-2]
-            if newsParagraph.isString {
-                height = NewsDetailStringTableViewCell.getHeight(content: newsParagraph.content)
-            } else {
-                height = NewsDetailImageTableViewCell.getHeight(image: newsParagraph.newsImage?.image)
-            }
-            if indexPath.row == news.paragraphs.count+2-1 {
-                height += 30
-            }
-            return height
+            return 0
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 40
+        } else {
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 30))
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 40))
+        return footerView
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return news.paragraphs.count + 2
+        } else if section == 1 {
+            if currentIndex != NewsDataManager.shared.informationItems.count - 1 {
+                return 1
+            }
+        }
+        return 0
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                return NewsDetailTitleTableViewCell.getHeight(content: news.title)
+            } else if indexPath.row == 1 {
+                return NewsDetailSubtitleTableViewCell.getHeight()
+            } else if indexPath.row-2 < news.paragraphs.count {
+                var height: CGFloat = 0
+                let newsParagraph = news.paragraphs[indexPath.row-2]
+                if newsParagraph.isString {
+                    height = NewsDetailStringTableViewCell.getHeight(content: newsParagraph.content)
+                } else {
+                    height = NewsDetailImageTableViewCell.getHeight(image: newsParagraph.newsImage?.image)
+                }
+                if indexPath.row == news.paragraphs.count+2-1 {
+                    height += 30
+                }
+                return height
+            }
+        } else if indexPath.section == 1 {
+            let nextNews = NewsDataManager.shared.informationItems[currentIndex+1]
+            return NewsDetailTitleTableViewCell.getHeight(content: nextNews.title)
+        }
+        return 0
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailTitleTableViewCell.getCellIdentifier()) as? NewsDetailTitleTableViewCell
+                if cell == nil {
+                    let nib = Bundle.main.loadNibNamed("NewsDetailTitleTableViewCell", owner: self, options: nil)
+                    cell = nib![0] as? NewsDetailTitleTableViewCell
+                }
+                cell?.isGradientLayerHidden = true
+                cell?.update(content: news.title)
+                return cell!
+            } else if indexPath.row == 1 {
+                var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailSubtitleTableViewCell.getCellIdentifier()) as? NewsDetailSubtitleTableViewCell
+                if cell == nil {
+                    let nib = Bundle.main.loadNibNamed("NewsDetailSubtitleTableViewCell", owner: self, options: nil)
+                    cell = nib![0] as? NewsDetailSubtitleTableViewCell
+                }
+                cell?.update(news: news)
+                return cell!
+            } else if indexPath.row-2 < news.paragraphs.count {
+                let newsParagraph = news.paragraphs[indexPath.row-2]
+                if newsParagraph.isString {
+                    var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailStringTableViewCell.getCellIdentifier()) as? NewsDetailStringTableViewCell
+                    if cell == nil {
+                        let nib = Bundle.main.loadNibNamed("NewsDetailStringTableViewCell", owner: self, options: nil)
+                        cell = nib![0] as? NewsDetailStringTableViewCell
+                    }
+                    cell?.update(content: newsParagraph.content)
+                    return cell!
+                } else {
+                    var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailImageTableViewCell.getCellIdentifier()) as? NewsDetailImageTableViewCell
+                    if cell == nil {
+                        let nib = Bundle.main.loadNibNamed("NewsDetailImageTableViewCell", owner: self, options: nil)
+                        cell = nib![0] as? NewsDetailImageTableViewCell
+                    }
+                    
+                    cell?.backgroundImageView.image = newsParagraph.newsImage?.image
+                    if newsParagraph.newsImage!.isLoading == true {
+                        newsParagraph.newsImage?.downloadImage { (image) in
+                            DispatchQueue.main.async {
+                                cell?.backgroundImageView.image = image
+                                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                            }
+                        }
+                    }
+                    
+                    return cell!
+                }
+            }
+        } else if indexPath.section == 1 {
+            let nextNews = NewsDataManager.shared.informationItems[currentIndex+1]
             var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailTitleTableViewCell.getCellIdentifier()) as? NewsDetailTitleTableViewCell
             if cell == nil {
                 let nib = Bundle.main.loadNibNamed("NewsDetailTitleTableViewCell", owner: self, options: nil)
                 cell = nib![0] as? NewsDetailTitleTableViewCell
             }
-            cell?.update(content: news.title)
+            cell?.isGradientLayerHidden = false
+            cell?.update(content: nextNews.title)
             return cell!
-        } else if indexPath.row == 1 {
-            var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailSubtitleTableViewCell.getCellIdentifier()) as? NewsDetailSubtitleTableViewCell
-            if cell == nil {
-                let nib = Bundle.main.loadNibNamed("NewsDetailSubtitleTableViewCell", owner: self, options: nil)
-                cell = nib![0] as? NewsDetailSubtitleTableViewCell
-            }
-            cell?.update(news: news)
-            return cell!
-        } else {
-            let newsParagraph = news.paragraphs[indexPath.row-2]
-            if newsParagraph.isString {
-                var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailStringTableViewCell.getCellIdentifier()) as? NewsDetailStringTableViewCell
-                if cell == nil {
-                    let nib = Bundle.main.loadNibNamed("NewsDetailStringTableViewCell", owner: self, options: nil)
-                    cell = nib![0] as? NewsDetailStringTableViewCell
-                }
-                cell?.update(content: newsParagraph.content)
-                return cell!
-            } else {
-                var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailImageTableViewCell.getCellIdentifier()) as? NewsDetailImageTableViewCell
-                if cell == nil {
-                    let nib = Bundle.main.loadNibNamed("NewsDetailImageTableViewCell", owner: self, options: nil)
-                    cell = nib![0] as? NewsDetailImageTableViewCell
-                }
-                
-                cell?.backgroundImageView.image = newsParagraph.newsImage?.image
-                if newsParagraph.newsImage!.isLoading == true {
-                    newsParagraph.newsImage?.downloadImage { (image) in
-                        DispatchQueue.main.async {
-                            cell?.backgroundImageView.image = image
-                            self.tableView.reloadRows(at: [indexPath], with: .automatic)
-                        }
-                    }
-                }
-                
-                return cell!
-            }
         }
+        return UITableViewCell()
     }
 
 }
