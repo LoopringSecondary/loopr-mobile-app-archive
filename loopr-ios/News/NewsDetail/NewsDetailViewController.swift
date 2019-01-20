@@ -189,6 +189,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
             detailViewController.currentIndex = currentIndex+1
             detailViewController.news = news
+            detailViewController.newsDetailViewControllerDelegate = previousViewController
             detailViewController.previousViewController = previousViewController
             presentedChildViewControllers.append(detailViewController)
 
@@ -285,7 +286,17 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                     let nib = Bundle.main.loadNibNamed("NewsDetailImageTableViewCell", owner: self, options: nil)
                     cell = nib![0] as? NewsDetailImageTableViewCell
                 }
+                
                 cell?.backgroundImageView.image = newsParagraph.newsImage?.image
+                if newsParagraph.newsImage!.isLoading == true {
+                    newsParagraph.newsImage?.downloadImage { (image) in
+                        DispatchQueue.main.async {
+                            cell?.backgroundImageView.image = image
+                            self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                        }
+                    }
+                }
+                
                 return cell!
             }
         }

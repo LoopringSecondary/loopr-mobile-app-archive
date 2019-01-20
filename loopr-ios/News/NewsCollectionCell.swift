@@ -124,12 +124,19 @@ class NewsCollectionCell: UICollectionViewCell {
         sourceLabel.text = news.source
         titleTextView.text = news.title
         
-        if news.category == .information && news.newsImage?.image != nil {
+        if news.category == .information && news.newsImage != nil {
             informationImageView.image = news.newsImage?.image
             titleTextViewTrailingLayoutConstraint.constant = 118
             // descriptionTextViewLeadingLayoutConstraint.constant = 135
             descriptionTextViewTrailingLayoutConstraint.constant = 118
             informationImageView.isHidden = false
+            if news.newsImage!.isLoading == true {
+                news.newsImage!.downloadImage { (image) in
+                    DispatchQueue.main.async {
+                        self.informationImageView.image = image
+                    }
+                }
+            }
         } else {
             titleTextViewTrailingLayoutConstraint.constant = 10
             // descriptionTextViewLeadingLayoutConstraint.constant = 10
