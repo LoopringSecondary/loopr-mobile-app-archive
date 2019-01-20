@@ -103,13 +103,12 @@ class NewsCollectionCell: UICollectionViewCell {
         downvoteButton.addTarget(self, action: #selector(pressedDownvoteButton), for: .touchUpInside)
         downvoteButton.set(image: UIImage.init(named: "Downvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
 
-        // shareButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
-        shareButton.setTitleColor(UIColor.theme, for: .normal)
+        shareButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         shareButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         shareButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         shareButton.addTarget(self, action: #selector(pressedshareButton), for: .touchUpInside)
         shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
-        shareButton.set(image: UIImage.init(named: "News-share"), title: LocalizedString("Share", comment: ""), titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
+        shareButton.set(image: UIImage.init(named: "News-share")?.alpha(0.4), title: LocalizedString("Share", comment: ""), titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         
         informationImageViewHeightLayoutConstraint.constant = 100
         informationImageView.cornerRadius = 4

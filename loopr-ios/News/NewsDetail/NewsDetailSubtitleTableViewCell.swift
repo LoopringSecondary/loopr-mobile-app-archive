@@ -18,10 +18,10 @@ class NewsDetailSubtitleTableViewCell: UITableViewCell {
         selectionStyle = .none
         theme_backgroundColor = ColorPicker.cardBackgroundColor
         
-        dateLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
+        dateLabel.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDetailSubtitleFont)
         dateLabel.theme_textColor = GlobalPicker.textLightColor
 
-        sourceLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
+        sourceLabel.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDetailSubtitleFont)
         sourceLabel.theme_textColor = GlobalPicker.textLightColor
     }
     
@@ -35,6 +35,10 @@ class NewsDetailSubtitleTableViewCell: UITableViewCell {
     }
 
     class func getHeight() -> CGFloat {
-        return 30
+        if NewsUIStyleConfig.shared.isNewsDetailFontTypeSmall() {
+            return 30
+        } else {
+            return 36
+        }
     }
 }

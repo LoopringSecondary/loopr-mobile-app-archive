@@ -33,10 +33,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     let pullToNextPageBottomView = UIView()
     let pullToNextPageTitleLabel = UILabel()
     let pullToNextPageImageView = UIImageView()
-    
-    @IBOutlet weak var bottomButtonView: UIView!
-    @IBOutlet weak var bottomButtonViewHeightLayoutConstraint: NSLayoutConstraint!
-    
+
     var presentedChildViewControllers: [NewsDetailViewController] = []
 
     override open func viewDidLoad() {
@@ -56,19 +53,18 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         footerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         tableView.tableFooterView = footerView
 
-        let window = UIApplication.shared.keyWindow
-        let bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
-        bottomButtonViewHeightLayoutConstraint.constant = bottomPadding + 40
-        
-        bottomButtonView.backgroundColor = .red
-        bottomButtonView.isHidden = false
-        
         NotificationCenter.default.addObserver(self, selector: #selector(tiggerPopNewsDetailViewControllerReceivedNotification), name: .tiggerPopNewsDetailViewController, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustFontInNewsDetailViewControllerReceivedNotification), name: .adjustFontInNewsDetailViewController, object: nil)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         UINavigationBar.appearance().theme_barTintColor = ColorPicker.barTintColor
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.post(name: .hideBottomTabBarDetailViewController, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -99,6 +95,11 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func adjustFontInNewsDetailViewControllerReceivedNotification() {
+        print("adjustFontInNewsDetailViewControllerReceivedNotification")
+        self.tableView.reloadData()
+    }
+    
     @objc private func refreshData(_ sender: Any) {
         
     }
@@ -126,10 +127,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
         if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
             newsDetailViewControllerDelegate?.setNavigationBarHidden(true, animated: true)
-            bottomButtonView.isHidden = true
         } else {
             newsDetailViewControllerDelegate?.setNavigationBarHidden(false, animated: true)
-            bottomButtonView.isHidden = false
         }
         
         let bottomY = tableView.contentSize.height - tableView.height
