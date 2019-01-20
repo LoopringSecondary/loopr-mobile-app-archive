@@ -9,6 +9,7 @@
 import UIKit
 import UserNotifications
 import Crashlytics
+import Social
 // import ESTabBarController_swift
 
 // ESTabBarController
@@ -83,19 +84,6 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(hideBottomTabBarDetailViewControllerReceivedNotification), name: .hideBottomTabBarDetailViewController, object: nil)
     }
     
-    @objc func pressedFontAdjustmentButton(_ button: UIBarButtonItem) {
-        print("pressed fontAdjustmentButton")
-        NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: false)
-    }
-    
-    @objc func pressedSafariButton(_ button: UIBarButtonItem) {
-        print("pressed pressedSafariButton")
-        let news = NewsDataManager.shared.getCurrentInformationItem()
-        if let url = URL(string: news.url) {
-            UIApplication.shared.open(url)
-        }
-    }
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
     }
@@ -131,17 +119,26 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         // fontAdjustmentButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         fontAdjustmentButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
-        fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 40, y: 7, width: 23, height: 23)
+        fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 40, y: 8, width: 23, height: 23)
         bottomButtonView.addSubview(fontAdjustmentButton)
         
         let safariButton = UIButton(type: UIButtonType.custom)
-        safariButton.setImage(UIImage(named: "Safari-item-button"), for: .normal)
+        safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.6), for: .normal)
         safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.3), for: .highlighted)
         safariButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         safariButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
-        safariButton.frame = CGRect(x: (bottomButtonView.width - 23)*0.5, y: 7, width: 23, height: 23)
+        safariButton.frame = CGRect(x: (bottomButtonView.width - 23)*0.5 - 2, y: 9, width: 23, height: 23)
         bottomButtonView.addSubview(safariButton)
+        
+        let shareButton = UIButton(type: UIButtonType.custom)
+        shareButton.setImage(UIImage(named: "News-share-large")?.alpha(0.4), for: .normal)
+        shareButton.setImage(UIImage(named: "News-share-large")?.alpha(0.2), for: .highlighted)
+        shareButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
+        shareButton.addTarget(self, action: #selector(pressedShareButton(_:)), for: UIControlEvents.touchUpInside)
+        // The size of the image.
+        shareButton.frame = CGRect(x: 7, y: 7, width: 23, height: 23)
+        bottomButtonView.addSubview(shareButton)
     }
 
     func setTabBarItems() {
@@ -173,6 +170,29 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     
     @objc func hideBottomTabBarDetailViewControllerReceivedNotification() {
         setBottomTabBarHidden(true, animated: true)
+    }
+
+    @objc func pressedFontAdjustmentButton(_ button: UIBarButtonItem) {
+        print("pressed fontAdjustmentButton")
+        NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: false)
+    }
+    
+    @objc func pressedSafariButton(_ button: UIBarButtonItem) {
+        print("pressed pressedSafariButton")
+        let news = NewsDataManager.shared.getCurrentInformationItem()
+        if let url = URL(string: news.url) {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    @objc func pressedShareButton(_ button: UIBarButtonItem) {
+        let news = NewsDataManager.shared.getCurrentInformationItem()
+        if let url = URL(string: news.url) {
+            let shareAll = [news.title, url] as [Any]
+            let activityVC = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
+            activityVC.popoverPresentationController?.sourceView = self.view
+            self.present(activityVC, animated: true, completion: nil)
+        }
     }
 
     func processExternalUrl() {
