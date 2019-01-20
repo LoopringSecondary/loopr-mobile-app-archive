@@ -144,7 +144,14 @@ class NewsCollectionCell: UICollectionViewCell {
             informationImageView.isHidden = true
         }
 
-        let rawLineNumber = NewsCollectionCell.numberOfLines(textView: titleTextView)
+        // TODO: move to other places?
+        let width: CGFloat = UIScreen.main.bounds.width - 15*2
+        let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.7
+        let localTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width-10*2, height: maxHeight))
+        localTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+        localTextView.text = news.title
+        
+        let rawLineNumber = NewsCollectionCell.numberOfLines(textView: localTextView)
         let numLines = CGFloat(rawLineNumber)
         titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines + 4
         titleTextViewTrailingLayoutConstraint.constant += 4
