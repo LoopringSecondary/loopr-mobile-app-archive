@@ -10,7 +10,7 @@ import UIKit
 
 protocol NewsSwipeViewControllerDelegate: class {
     func closeButtonAction()
-    func showBottomButtonView()
+    func setBottomTabBarHidden(_ newValue: Bool, animated: Bool)
 }
 
 class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
@@ -29,8 +29,7 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
     var viewControllers: [NewsNavigationViewController] = [NewsNavigationViewController(), NewsNavigationViewController()]
     
     var options = SwipeViewOptions.getDefault()
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         headerView.theme_backgroundColor = ColorPicker.backgroundColor
@@ -41,8 +40,7 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
         setupCloseButtton()
 
         topConstraint = 44
-        
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(pushedNewsDetailViewControllerReceivedNotification), name: .pushedNewsDetailViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willShowNewsViewControllerReceivedNotification), name: .willShowNewsViewController, object: nil)
         
@@ -211,12 +209,13 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
 extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
 
     func setNavigationBarHidden(_ newValue: Bool, animated: Bool) {
+        
+        // Send data to MainTabController
+        delegate?.setBottomTabBarHidden(newValue, animated: animated)
+        
         if newValue {
             if !isNavigationBarHide {
                 if animated {
-                    
-                    delegate?.showBottomButtonView()
-                    
                     UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
                         self.swipeView.frame = CGRect(x: 0, y: self.swipeView.y - 44, width: self.swipeView.width, height: self.swipeView.height)
                     }) { (_) in

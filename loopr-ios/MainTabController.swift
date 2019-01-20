@@ -29,6 +29,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var newsViewControllerEnabled: Bool = false
 
     var bottomButtonView: UIView = UIView()
+    var bottomPadding: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,10 +80,20 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showTradingFeatureChangedReceivedNotification(notification:)), name: .showTradingFeatureChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(localNotificationReceived), name: .publishLocalNotificationToMainTabController, object: nil)
-        
-        // in News Detail View Controller
-        bottomButtonView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - 40, width: UIScreen.main.bounds.width, height: 40)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(hideBottomTabBarDetailViewControllerReceivedNotification), name: .hideBottomTabBarDetailViewController, object: nil)
+    }
+    
+    @objc func pressedFontAdjustmentButton(_ button: UIBarButtonItem) {
+        print("pressed fontAdjustmentButton")
+        NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: false)
+    }
+    
+    @objc func pressedSafariButton(_ button: UIBarButtonItem) {
+        print("pressed pressedSafariButton")
+        let news = NewsDataManager.shared.getCurrentInformationItem()
+        if let url = URL(string: news.url) {
+            UIApplication.shared.open(url)
+        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -105,6 +116,32 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
             self.newsViewControllerHeight = 5 * (NewsCollectionCell.flashMinHeight + 8) + 44
         }
         self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
+        
+        // in News Detail View Controller
+        let window = UIApplication.shared.keyWindow
+        bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
+        
+        bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding)
+        
+        self.bottomButtonView.theme_backgroundColor = ColorPicker.cardHighLightColor
+        
+        let fontAdjustmentButton = UIButton(type: UIButtonType.custom)
+        fontAdjustmentButton.setImage(UIImage(named: "Font-adjust-item"), for: .normal)
+        fontAdjustmentButton.setImage(UIImage(named: "Font-adjust-item")?.alpha(0.3), for: .highlighted)
+        // fontAdjustmentButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
+        fontAdjustmentButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
+        // The size of the image.
+        fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 40, y: 7, width: 23, height: 23)
+        bottomButtonView.addSubview(fontAdjustmentButton)
+        
+        let safariButton = UIButton(type: UIButtonType.custom)
+        safariButton.setImage(UIImage(named: "Safari-item-button"), for: .normal)
+        safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.3), for: .highlighted)
+        safariButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
+        safariButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
+        // The size of the image.
+        safariButton.frame = CGRect(x: (bottomButtonView.width - 23)*0.5, y: 7, width: 23, height: 23)
+        bottomButtonView.addSubview(safariButton)
     }
 
     func setTabBarItems() {
@@ -132,7 +169,10 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
                 viewControllers = [viewController1, viewController4]
             }
         }
-        
+    }
+    
+    @objc func hideBottomTabBarDetailViewControllerReceivedNotification() {
+        setBottomTabBarHidden(true, animated: true)
     }
 
     func processExternalUrl() {
@@ -219,13 +259,22 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
         }
     }
     
-    func showBottomButtonView() {
-        bottomButtonView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - 40, width: UIScreen.main.bounds.width, height: 40)
-        bottomButtonView.backgroundColor = .red
-        view.addSubview(bottomButtonView)
-        
-        let window = UIApplication.shared.keyWindow
-        let topPadding = (window?.safeAreaInsets.top ?? 0)
+    func setBottomTabBarHidden(_ newValue: Bool, animated: Bool) {
+        self.view.addSubview(self.bottomButtonView)
+
+        if newValue {
+            UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+                self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+            }) { (_) in
+                
+            }
+        } else {
+            UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+                self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height - 40 - self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+            }) { (_) in
+                
+            }
+        }
     }
 
 }

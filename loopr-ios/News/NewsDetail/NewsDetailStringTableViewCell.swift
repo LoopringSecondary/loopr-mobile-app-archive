@@ -34,7 +34,7 @@ class NewsDetailStringTableViewCell: UITableViewCell {
         let attributes = [NSAttributedStringKey.paragraphStyle: style]
         contentTextView.attributedText = NSAttributedString(string: content, attributes: attributes)
 
-        contentTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+        contentTextView.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDetailBodyFont)
         contentTextView.theme_textColor = GlobalPicker.textColor
     }
     
@@ -49,7 +49,7 @@ class NewsDetailStringTableViewCell: UITableViewCell {
 
         let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.7
         let textView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width, height: maxHeight))
-        textView.font = FontConfigManager.shared.getRegularFont(size: 14)
+        textView.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDetailBodyFont)
         textView.text = content
         let numLines = CGFloat(NewsCollectionCell.numberOfLines(textView: textView))
         var textViewheight = CGFloat((numLines)) * textView.font!.lineHeight
