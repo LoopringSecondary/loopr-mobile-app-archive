@@ -249,10 +249,10 @@ extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
             return
         }
 
-        if newValue.count <= 15 {
+        if newValue.count <= 16 {
             navigationBar.topItem?.title = newValue
         } else {
-            navigationBar.topItem?.title = newValue.substring(toIndex: 15) + "..."
+            navigationBar.topItem?.title = newValue.substring(toIndex: 16) + "..."
         }
     }
 }
