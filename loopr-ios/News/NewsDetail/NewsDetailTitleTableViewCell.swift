@@ -12,6 +12,9 @@ class NewsDetailTitleTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleTextView: UITextView!
     
+    var isGradientLayerHidden = true
+    private let gradientLayer = CAGradientLayer()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
@@ -25,6 +28,11 @@ class NewsDetailTitleTableViewCell: UITableViewCell {
         titleTextView.showsVerticalScrollIndicator = false
         titleTextView.showsHorizontalScrollIndicator = false
         titleTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
+        
+        let colorTop =  UIColor(rgba: "#21203A").withAlphaComponent(0).cgColor
+        let colorBottom = UIColor(rgba: "#21203A").withAlphaComponent(0.8).cgColor
+        gradientLayer.colors = [colorTop, colorBottom]
+        gradientLayer.locations = [0.0, 1.0]
     }
     
     func update(content: String) {
@@ -35,6 +43,14 @@ class NewsDetailTitleTableViewCell: UITableViewCell {
         
         titleTextView.font = FontConfigManager.shared.getMediumFont(size: NewsUIStyleConfig.shared.newsDetailTitleFont)
         titleTextView.theme_textColor = GlobalPicker.textColor
+
+        if !isGradientLayerHidden {
+            gradientLayer.removeFromSuperlayer()
+            gradientLayer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100)
+            titleTextView.layer.insertSublayer(gradientLayer, at: 10)
+        } else {
+            gradientLayer.removeFromSuperlayer()
+        }
     }
 
     class func getCellIdentifier() -> String {
