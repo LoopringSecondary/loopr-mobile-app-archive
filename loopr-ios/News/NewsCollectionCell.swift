@@ -47,17 +47,15 @@ class NewsCollectionCell: UICollectionViewCell {
         contentView.layer.masksToBounds = false
         layer.masksToBounds = false
         
-        let config = GarlandConfig.shared
-        layer.cornerRadius  = config.cardRadius
-        layer.shadowOffset = config.cardShadowOffset
-        layer.shadowColor = config.cardShadowColor.cgColor
-        layer.shadowOpacity = config.cardShadowOpacity
-        layer.shadowRadius = 4
+        layer.cornerRadius = 6
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.3
         
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
         
-        cornerRadius = config.cardRadius
+        cornerRadius = 6
         
         // update UI
         dateLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
