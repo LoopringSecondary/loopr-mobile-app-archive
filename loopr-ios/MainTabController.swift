@@ -81,7 +81,10 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showTradingFeatureChangedReceivedNotification(notification:)), name: .showTradingFeatureChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(localNotificationReceived), name: .publishLocalNotificationToMainTabController, object: nil)
+        
+        // News
         NotificationCenter.default.addObserver(self, selector: #selector(hideBottomTabBarDetailViewControllerReceivedNotification), name: .hideBottomTabBarDetailViewController, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(pushedNewsDetailViewControllerReceivedNotification), name: .pushedNewsDetailViewController, object: nil)
     }
     
     override func viewWillLayoutSubviews() {
@@ -117,7 +120,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         fontAdjustmentButton.setImage(UIImage(named: "Font-adjust-item"), for: .normal)
         fontAdjustmentButton.setImage(UIImage(named: "Font-adjust-item")?.alpha(0.3), for: .highlighted)
         // fontAdjustmentButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
-        fontAdjustmentButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
+        fontAdjustmentButton.addTarget(self, action: #selector(pressedFontAdjustmentButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
         fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 40, y: 8, width: 23, height: 23)
         bottomButtonView.addSubview(fontAdjustmentButton)
@@ -168,8 +171,15 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         }
     }
     
+    @objc func pushedNewsDetailViewControllerReceivedNotification() {
+        print("pushedNewsDetailViewControllerReceivedNotification")
+        // TODO: this may cause some race condition in UI
+        setBottomTabBarHidden(false, animated: false)
+    }
+    
     @objc func hideBottomTabBarDetailViewControllerReceivedNotification() {
-        setBottomTabBarHidden(true, animated: true)
+        // Only fire in viewWillDisappear in NewsDetailViewController
+        setBottomTabBarHidden(true, animated: false)
     }
 
     @objc func pressedFontAdjustmentButton(_ button: UIBarButtonItem) {
@@ -283,16 +293,25 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
         self.view.addSubview(self.bottomButtonView)
 
         if newValue {
-            UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+            if animated {
+                UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+                    self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+                }) { (_) in
+                    
+                }
+            } else {
                 self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
-            }) { (_) in
-                
             }
+            
         } else {
-            UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+            if animated {
+                UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+                    self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height - 40 - self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+                }) { (_) in
+                    
+                }
+            } else {
                 self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height - 40 - self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
-            }) { (_) in
-                
             }
         }
     }

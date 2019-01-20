@@ -15,6 +15,7 @@ class NewsImage {
     var imageUrl: String
     var localFileName: String
     var image: UIImage?
+    var isLoading: Bool = false
     
     init?(imageUrl: String) {
         guard URL(string: imageUrl) != nil else {
@@ -35,7 +36,9 @@ class NewsImage {
             self.image = UIImage(contentsOfFile: filePath)
         } else {
             print("No image are found locally.")
-            downloadImage()
+            downloadImage { (_) in
+                
+            }
         }
     }
     
@@ -53,16 +56,24 @@ class NewsImage {
         }
     }
     
-    private func downloadImage() {
+    public func downloadImage(completion: @escaping (UIImage?) -> Void) {
+        isLoading = true
         let url = URL(string: imageUrl)!
         print("Download Started")
         getData(from: url) { data, response, error in
-            guard let data = data, error == nil else { return }
+            self.isLoading = false
+            guard let data = data, error == nil else {
+                completion(nil)
+                return
+            }
             print(response?.suggestedFilename ?? url.lastPathComponent)
             print("Download Finished")
             if let image = UIImage(data: data) {
                 self.image = image
                 self.saveImageDataToFileSystem(image: image, localFileName: self.localFileName)
+                completion(image)
+            } else {
+                completion(nil)
             }
         }
     }
