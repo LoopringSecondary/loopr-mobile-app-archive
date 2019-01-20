@@ -101,6 +101,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         // 44 is the height of navigation bar
         self.newsViewControllerHeight = 4 * (NewsCollectionCell.flashMinHeight + 8) + 44
         if self.newsViewControllerHeight < UIScreen.main.bounds.size.height {
