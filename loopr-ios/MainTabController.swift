@@ -122,7 +122,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         // fontAdjustmentButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         fontAdjustmentButton.addTarget(self, action: #selector(pressedFontAdjustmentButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
-        fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 40, y: 8, width: 23, height: 23)
+        fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 40, y: 6, width: 23, height: 23)
         bottomButtonView.addSubview(fontAdjustmentButton)
         
         let safariButton = UIButton(type: UIButtonType.custom)
@@ -131,7 +131,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         safariButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         safariButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
-        safariButton.frame = CGRect(x: (bottomButtonView.width - 23)*0.5 - 2, y: 9, width: 23, height: 23)
+        safariButton.frame = CGRect(x: (bottomButtonView.width - 23)*0.5 - 2, y: 7, width: 23, height: 23)
         bottomButtonView.addSubview(safariButton)
         
         let shareButton = UIButton(type: UIButtonType.custom)
