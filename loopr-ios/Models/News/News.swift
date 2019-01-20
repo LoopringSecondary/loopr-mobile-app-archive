@@ -16,7 +16,7 @@ class News {
     var title: String
     var content: String
     var url: String
-    var publishTime: String
+    var publishTime: String = ""
     var source: String
     var author: String
     var imageUrl: String
@@ -42,12 +42,7 @@ class News {
         self.title = json["title"].stringValue
         self.content = json["content"].stringValue
         self.url = json["url"].stringValue
-        
-        // TODO: publishTime is not UTC
-        self.publishTime = json["publishTime"].stringValue
-        self.publishTime = self.publishTime.replacingOccurrences(of: "2018-", with: "")
-        self.publishTime = self.publishTime.replacingOccurrences(of: "2019-", with: "")
-        
+
         self.source = json["source"].stringValue
         self.author = json["author"].stringValue
         self.imageUrl = json["imageUrl"].stringValue
@@ -92,6 +87,24 @@ class News {
         if filteredParagraphs.count > 0 && newsImage == nil {
             newsImage = NewsImage(imageUrl: filteredParagraphs[0].newsImage!.imageUrl)
         }
+        
+        let publichTimeInUTC = json["publishTime"].stringValue
+        self.publishTime = self.utcToCurrent(publishTimeInUTC: publichTimeInUTC, currentDateFormat: "MM-dd HH:mm:ss")
+    }
+    
+    func utcToCurrent(publishTimeInUTC: String, currentDateFormat: String) -> String {
+        // UTC timezone
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        let date = dateFormatter.date(from: publishTimeInUTC)!
+        
+        // device time zone
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.timeZone = TimeZone.current
+        dateFormatter2.dateFormat = currentDateFormat
+        
+        return dateFormatter2.string(from: date)
     }
 
 }
