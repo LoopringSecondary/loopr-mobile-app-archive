@@ -243,4 +243,16 @@ extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
         isNavigationBarHide = newValue
     }
 
+    func setNavigationBarTitle(_ newValue: String) {
+        guard newValue != "" else {
+            navigationBar.topItem?.title = ""
+            return
+        }
+
+        if newValue.count <= 15 {
+            navigationBar.topItem?.title = newValue
+        } else {
+            navigationBar.topItem?.title = newValue.substring(toIndex: 15) + "..."
+        }
+    }
 }
