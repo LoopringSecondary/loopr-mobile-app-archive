@@ -115,6 +115,7 @@ public class MainActivity extends BaseActivity {
             ChangeMainFragment(3);
             SPUtils.put(this, "isRecreate", false);
         }
+
         rlTrade.setVisibility(View.VISIBLE);
         //        if (WalletUtil.getCurrentWallet(this).getAmount() >= 30) {
         //        }

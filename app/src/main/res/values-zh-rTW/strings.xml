@@ -336,4 +336,6 @@
     <string name="market_24_change">24H 涨跌:</string>
     <string name="market_24_vol">24H 交易量:</string>
     <string name="news_pulling_load">下拉查看新聞</string>
+    <string name="news_pulling_tip">下拉获取最新新闻资讯</string>
+
 </resources>

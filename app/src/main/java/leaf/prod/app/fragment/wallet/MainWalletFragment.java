@@ -124,6 +124,9 @@ public class MainWalletFragment extends BaseFragment {
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout refreshLayout;
 
+    @BindView(R.id.tip_text)
+    TextView tipText;
+
     @BindView(R.id.up_hint)
     LottieAnimationView upHint;
 
@@ -175,14 +178,17 @@ public class MainWalletFragment extends BaseFragment {
         if (getActivity() != null) {
             ((MainActivity) getActivity()).showLoading(true);
         }
-//        SPUtils.remove(getContext(), "discover_news");
         switchNews.setOnRefreshListener(refreshLayout -> {
             EventBus.getDefault().post(new MainFragment.Event(0));
             SPUtils.put(getContext(), "discover_news", true);
+            titleText.setVisibility(View.VISIBLE);
+            tipText.setVisibility(View.GONE);
             upHint.setVisibility(View.GONE);
             refreshLayout.finishRefresh(true);
         });
         if (!(boolean) SPUtils.get(getContext(), "discover_news", false)) {
+            titleText.setVisibility(View.GONE);
+            tipText.setVisibility(View.VISIBLE);
             upHint.setVisibility(View.VISIBLE);
         }
         refreshLayout.setOnRefreshListener(refreshLayout1 -> {
@@ -195,6 +201,8 @@ public class MainWalletFragment extends BaseFragment {
 
             @Override
             public void onAnimationEnd(Animator animator) {
+                titleText.setVisibility(View.VISIBLE);
+                tipText.setVisibility(View.GONE);
                 upHint.setVisibility(View.GONE);
             }
 
@@ -250,6 +258,8 @@ public class MainWalletFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         flag = true;
+        titleText.setVisibility(View.VISIBLE);
+        tipText.setVisibility(View.GONE);
         upHint.setVisibility(View.GONE);
     }
 
