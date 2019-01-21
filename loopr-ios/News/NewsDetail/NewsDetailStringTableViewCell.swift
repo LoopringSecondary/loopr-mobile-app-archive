@@ -30,7 +30,7 @@ class NewsDetailStringTableViewCell: UITableViewCell {
     func update(content: String) {
         // TODO: this causes slow scrolling
         let style = NSMutableParagraphStyle()
-        style.lineSpacing = NewsDetailStringTableViewCell.textViewLineSpacing
+        style.lineSpacing = NewsUIStyleConfig.shared.newsDetailTextViewLineSpacing
         let attributes = [NSAttributedStringKey.paragraphStyle: style]
         contentTextView.attributedText = NSAttributedString(string: content, attributes: attributes)
 
@@ -41,8 +41,6 @@ class NewsDetailStringTableViewCell: UITableViewCell {
     class func getCellIdentifier() -> String {
         return "NewsDetailStringTableViewCell"
     }
-    
-    static let textViewLineSpacing: CGFloat = 3
 
     class func getHeight(content: String) -> CGFloat {
         let width: CGFloat = UIScreen.main.bounds.width - 15*2
@@ -51,14 +49,15 @@ class NewsDetailStringTableViewCell: UITableViewCell {
         let textView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width, height: maxHeight))
         textView.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDetailBodyFont)
         textView.text = content
+        let padding = textView.textContainer.lineFragmentPadding
+        textView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
         let numLines = CGFloat(NewsCollectionCell.numberOfLines(textView: textView))
         var textViewheight = CGFloat((numLines)) * textView.font!.lineHeight
         
         if numLines > 0 {
-            textViewheight += CGFloat((numLines)) * textViewLineSpacing
+            textViewheight += CGFloat((numLines)) * NewsUIStyleConfig.shared.newsDetailTextViewLineSpacing
         }
-        let otherHeight: CGFloat = 8
-        let height = textViewheight + otherHeight
+        let height = textViewheight + NewsUIStyleConfig.shared.newsDetailPadding
 
         return height        
     }

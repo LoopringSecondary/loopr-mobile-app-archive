@@ -23,6 +23,8 @@ class NewsUIStyleConfig {
     var newsDetailTitleFont: CGFloat = 20
     var newsDetailSubtitleFont: CGFloat = 12
     var newsDetailBodyFont: CGFloat = 14
+    var newsDetailPadding: CGFloat = 10
+    var newsDetailTextViewLineSpacing: CGFloat = 1
     
     init() {
         scrollingDistance  = -UIScreen.main.bounds.height * 0.18
@@ -41,10 +43,14 @@ class NewsUIStyleConfig {
             newsDetailTitleFont = 20
             newsDetailSubtitleFont = 12
             newsDetailBodyFont = 14
+            newsDetailPadding = 10
+            newsDetailTextViewLineSpacing = 1
         } else {
-            newsDetailTitleFont = 28
-            newsDetailSubtitleFont = 14
-            newsDetailBodyFont = 20
+            newsDetailTitleFont = 24
+            newsDetailSubtitleFont = 16
+            newsDetailBodyFont = 18
+            newsDetailPadding = 20
+            newsDetailTextViewLineSpacing = 2
         }
         NotificationCenter.default.post(name: .adjustFontInNewsDetailViewController, object: nil)
     }
