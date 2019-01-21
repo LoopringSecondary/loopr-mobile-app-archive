@@ -22,12 +22,19 @@ class NewsUIStyleConfig {
     private var newsDetailFontType: String = "isSmall"
     var newsDetailTitleFont: CGFloat = 20
     var newsDetailSubtitleFont: CGFloat = 12
-    var newsDetailBodyFont: CGFloat = 14
+    var newsDetailBodyFont: CGFloat = 16
     var newsDetailPadding: CGFloat = 10
     var newsDetailTextViewLineSpacing: CGFloat = 1
     
     init() {
-        scrollingDistance  = -UIScreen.main.bounds.height * 0.14
+        getNewsDetailFontType()
+        updateFontSize(isSmall: isNewsDetailFontTypeSmall())
+        scrollingDistance  = -UIScreen.main.bounds.height * 0.12
+    }
+    
+    func getNewsDetailFontType() {
+        // TODO: use String value rather than a boolean
+        newsDetailFontType = UserDefaults.standard.string(forKey: UserDefaultsKeys.newsDetailFontType.rawValue) ?? "isSmall"
     }
     
     func isNewsDetailFontTypeSmall() -> Bool {
@@ -38,20 +45,31 @@ class NewsUIStyleConfig {
         }
     }
     
-    func setNewsDetailBodyFont(isSmall: Bool) {
+    func updateFontSize(isSmall: Bool) {
         if isSmall {
-            newsDetailTitleFont = 20
+            newsDetailTitleFont = 22
             newsDetailSubtitleFont = 12
-            newsDetailBodyFont = 14
+            newsDetailBodyFont = 16
             newsDetailPadding = 10
             newsDetailTextViewLineSpacing = 1
         } else {
-            newsDetailTitleFont = 24
+            newsDetailTitleFont = 28
             newsDetailSubtitleFont = 16
-            newsDetailBodyFont = 18
+            newsDetailBodyFont = 22
             newsDetailPadding = 20
             newsDetailTextViewLineSpacing = 2
         }
+    }
+    
+    func setNewsDetailBodyFont(isSmall: Bool) {
+        updateFontSize(isSmall: isSmall)
+        if isSmall {
+            newsDetailFontType = "isSmall"
+        } else {
+            newsDetailFontType = "isLarge"
+        }
+        UserDefaults.standard.set(newsDetailFontType, forKey: UserDefaultsKeys.newsDetailFontType.rawValue)
         NotificationCenter.default.post(name: .adjustFontInNewsDetailViewController, object: nil)
     }
+
 }

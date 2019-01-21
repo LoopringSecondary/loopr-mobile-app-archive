@@ -28,35 +28,25 @@ extension MainTabController: MKDropdownMenuDelegate {
     }
     
     func dropdownMenu(_ dropdownMenu: MKDropdownMenu, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        let baseView = UIView(frame: CGRect(x: 0, y: 0, width: 160, height: 50))
+        let baseView = UIView(frame: CGRect(x: 0, y: 0, width: 110, height: 50))
         baseView.theme_backgroundColor = ColorPicker.cardHighLightColor
         
-        let iconImageView = UIImageView(frame: CGRect(x: 21, y: 12, width: 24, height: 24))
-        iconImageView.contentMode = .scaleAspectFit
-        baseView.addSubview(iconImageView)
+        let smallFontButton = UIButton(type: UIButtonType.custom)
+        smallFontButton.setImage(UIImage(named: "Font-adjust-item-small"), for: .normal)
+        smallFontButton.setImage(UIImage(named: "Font-adjust-item-small")?.alpha(0.3), for: .highlighted)
+        smallFontButton.addTarget(self, action: #selector(pressedSmallFontButton(_:)), for: UIControlEvents.touchUpInside)
+        // The size of the image.
+        smallFontButton.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        baseView.addSubview(smallFontButton)
         
-        let titleLabel = UILabel(frame: CGRect(x: 55, y: 0, width: 610-55, height: 50))
-        titleLabel.font = FontConfigManager.shared.getRegularFont(size: 16)
-        titleLabel.theme_textColor = GlobalPicker.textColor
-        baseView.addSubview(titleLabel)
-        
-        var icon: UIImage?
-        switch row {
-        case 0:
-            titleLabel.text = LocalizedString("Scan", comment: "")
-            icon = UIImage.init(named: "dropdown-scan")
-        case 1:
-            titleLabel.text = LocalizedString("Add Token", comment: "")
-            icon = UIImage.init(named: "dropdown-add-token")
-        case 2:
-            titleLabel.text = LocalizedString("Wallet", comment: "")
-            icon = UIImage.init(named: "dropdown-wallet")
-        default:
-            break
-        }
-        
-        iconImageView.image = icon
-        
+        let largeFontButton = UIButton(type: UIButtonType.custom)
+        largeFontButton.setImage(UIImage(named: "Font-adjust-item-large"), for: .normal)
+        largeFontButton.setImage(UIImage(named: "Font-adjust-item-large")?.alpha(0.3), for: .highlighted)
+        largeFontButton.addTarget(self, action: #selector(pressedLargeFontButton(_:)), for: UIControlEvents.touchUpInside)
+        // The size of the image.
+        largeFontButton.frame = CGRect(x: baseView.width - 50, y: 0, width: 50, height: 50)
+        baseView.addSubview(largeFontButton)
+
         return baseView
     }
     
@@ -67,8 +57,23 @@ extension MainTabController: MKDropdownMenuDelegate {
         return UIColor.dark4
     }
     
-    func dropdownMenu(_ dropdownMenu: MKDropdownMenu, didCloseComponent component: Int) {
-        
+    func dropdownMenu(_ dropdownMenu: MKDropdownMenu, didOpenComponent component: Int) {
+        isDropdownMenuExpanded = true
     }
     
+    func dropdownMenu(_ dropdownMenu: MKDropdownMenu, didCloseComponent component: Int) {
+        hideDropdownMenu()
+        isDropdownMenuExpanded = false
+    }
+    
+    @objc func pressedSmallFontButton(_ button: UIBarButtonItem) {
+        print("pressed pressedSmallFontButton")
+        NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: true)
+    }
+    
+    @objc func pressedLargeFontButton(_ button: UIBarButtonItem) {
+        print("pressed pressedLargeFontButton")
+        NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: false)
+    }
+
 }

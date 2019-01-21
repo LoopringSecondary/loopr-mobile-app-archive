@@ -33,6 +33,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var bottomButtonView: UIView = UIView()
     var bottomPadding: CGFloat = 0
     
+    var isDropdownMenuExpanded: Bool = false
     let dropdownMenu = MKDropdownMenu(frame: .zero)
     
     override func viewDidLoad() {
@@ -188,10 +189,20 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         dropdownMenu.dropdownShowsBottomRowSeparator = false
         dropdownMenu.dropdownShowsBorder = false
         dropdownMenu.dropdownShowsContentAbove = true
+        dropdownMenu.spacerView = nil
 
         self.view.addSubview(dropdownMenu)
-        
-        dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-160-9, y: bottomButtonView.frame.minY-50-60, width: 160, height: 50)
+        dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-50-60, width: 110, height: 50)
+        dropdownMenu.isHidden = true
+        isDropdownMenuExpanded = false
+    }
+    
+    func showDropdownMenu() {
+        dropdownMenu.isHidden = false
+    }
+    
+    func hideDropdownMenu() {
+        dropdownMenu.isHidden = true
     }
     
     @objc func languageChangedReceivedNotification() {
@@ -221,9 +232,14 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
 
     @objc func pressedFontAdjustmentButton(_ button: UIBarButtonItem) {
         print("pressed fontAdjustmentButton")
-        // NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: false)
-        
-        dropdownMenu.openComponent(0, animated: true)
+        if !isDropdownMenuExpanded {
+            showDropdownMenu()
+            dropdownMenu.openComponent(0, animated: true)
+        } else {
+            hideDropdownMenu()
+            dropdownMenu.closeAllComponents(animated: true)
+        }
+
     }
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
