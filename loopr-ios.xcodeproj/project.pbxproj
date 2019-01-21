@@ -122,6 +122,7 @@
 		94EE76A42113F21B009D6A90 /* OrderHistorySwipeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EE76A32113F21B009D6A90 /* OrderHistorySwipeType.swift */; };
 		9AACD1A68297585D93FB6182 /* Pods_loopr_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFC6AA9DC8C999B66FFD8AA /* Pods_loopr_iosTests.framework */; };
 		9B018DA621F5B265009D079D /* MainTabControllerDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DA521F5B265009D079D /* MainTabControllerDropdownMenu.swift */; };
+		9B018DC021F679AE009D079D /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DBF21F679AE009D079D /* ImageScrollView.swift */; };
 		9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */; };
 		9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */; };
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
@@ -694,6 +695,7 @@
 		94E665E8207234C5001328BF /* OrderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderTableViewCell.xib; sourceTree = "<group>"; };
 		94EE76A32113F21B009D6A90 /* OrderHistorySwipeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistorySwipeType.swift; sourceTree = "<group>"; };
 		9B018DA521F5B265009D079D /* MainTabControllerDropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabControllerDropdownMenu.swift; sourceTree = "<group>"; };
+		9B018DBF21F679AE009D079D /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
 		9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlType.swift; sourceTree = "<group>"; };
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
@@ -1286,6 +1288,14 @@
 				EB11C1F4817BFD28E305586E /* Pods-loopr-iosUITests.vivwallet.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		9B018DBE21F67991009D079D /* ImageScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				9B018DBF21F679AE009D079D /* ImageScrollView.swift */,
+			);
+			path = ImageScrollView;
 			sourceTree = "<group>";
 		};
 		9B2ED7EC21D4468000ACEE84 /* News */ = {
@@ -2131,6 +2141,7 @@
 		ACB5DD85202AD74D00140A09 /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				9B018DBE21F67991009D079D /* ImageScrollView */,
 				AC0CD58220D2294D00ABB7BA /* TabBarItem */,
 				AC76E46E2047F1AE008BA229 /* CircleChart */,
 				ACE6F71A204210E80039273D /* DashedLineView */,
@@ -3092,6 +3103,7 @@
 				9423F77920C7D688000B6983 /* SignRawTransaction.swift in Sources */,
 				AC4F600D20773E9D00F1D954 /* SignatureData.swift in Sources */,
 				AC31CE1C205A2F0100A30335 /* SwitchTradeTokenViewController.swift in Sources */,
+				9B018DC021F679AE009D079D /* ImageScrollView.swift in Sources */,
 				ACB9116020242E3F00F14644 /* Asset.swift in Sources */,
 				AC4141FB20352DE50089861D /* SwipeTabItemView.swift in Sources */,
 				AC3B48862104383E008A6771 /* UISearchBarExtension.swift in Sources */,
