@@ -24,6 +24,8 @@ import leaf.prod.app.utils.ShareUtil;
 import leaf.prod.walletsdk.model.response.crawler.IndexResult;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.service.CrawlerService;
+import leaf.prod.walletsdk.util.DateUtil;
+import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.SPUtils;
 import rx.Observable;
 import rx.Subscriber;
@@ -54,9 +56,8 @@ public class NewsFlashAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
         if (news == null)
             return;
         try {
-            helper.setText(R.id.tv_time, sdf2.format(sdf1.parse(news.getPublishTime())));
-            helper.setText(R.id.tv_source, activity.getString(R.string.news_source) + ":" + news
-                    .getSource());
+            helper.setText(R.id.tv_time, DateUtil.formatFriendly(sdf1.parse(news.getPublishTime()), LanguageUtil.getSettingLanguage(activity)));
+            helper.setText(R.id.tv_source, news.getSource());
             helper.setText(R.id.tv_title, news.getTitle());
             helper.setText(R.id.cl_content, news.getContent());
             helper.setText(R.id.tv_share, activity.getString(R.string.news_share) + " " + (news.getForwardNum() > 0 ? news

@@ -39,63 +39,93 @@
                     android:textColor="@color/colorCenter"
                     android:textSize="11sp"
                     android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/tv_source"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="来源:"
-                    android:textColor="@color/colorNineText"
-                    android:textSize="11sp"
-                    app:layout_constraintRight_toRightOf="parent"/>
             </android.support.constraint.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:lineSpacingMultiplier="1.3"
-                android:text="行情|数字币早班车"
-                android:textAlignment="textStart"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/cl_time"/>
 
             <LinearLayout
                 android:id="@+id/ll_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginTop="@dimen/margSide"
+                android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/tv_title">
+                app:layout_constraintTop_toBottomOf="@id/cl_time">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingMultiplier="1.3"
+                        android:text="行情|数字币早班车"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:ellipsize="end"
+                        android:lineSpacingMultiplier="1.3"
+                        android:maxLines="2"
+                        android:text="walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星，让用户代码发布终于可以不只能选择 jenkins，支持各种web代码发布，php、java等代码的发布、回滚可以通过web来一键完成。
+                    walle 一个可自由配置项目，更人性化，高颜值，支持 git、多用户、多语言、多项目、多环境同时部署的开源上线部署系统。walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星，让用户代码发布终于可以不只能选择 jenkins，支持各种web代码发布，php、java等代码的发布、回滚可以通过web来一键完成。walle 一个可自由配置项目，更人性化，高颜值，支持 git、多用户、多语言、多项目、多环境同时部署的开源上线部署系统。
+                    walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星，让用户代码发布终于可以不只能选择 jenkins，支持各种web代码发布，php、java等代码的发布、回滚可以通过web来一键完成。walle 一个可自由配置项目，更人性化，高颜值，支持 git、多用户、多语言、多项目、多环境同时部署的开源上线部署系统。"
+                        android:textColor="@color/colorNineText"
+                        android:textSize="11sp"/>
+                </LinearLayout>
 
                 <leaf.prod.app.layout.RoundSmartImageView
                     android:id="@+id/iv_navigation"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_gravity="top"
-                    android:layout_marginEnd="12dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
                     android:adjustViewBounds="true"
-                    android:maxHeight="120dp"
                     android:scaleType="fitXY"/>
-
-                <TextView
-                    android:id="@+id/tv_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:lineSpacingMultiplier="1.3"
-                    android:maxLines="6"
-                    android:minLines="6"
-                    android:text="walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星，让用户代码发布终于可以不只能选择 jenkins，支持各种web代码发布，php、java等代码的发布、回滚可以通过web来一键完成。
-                walle 一个可自由配置项目，更人性化，高颜值，支持 git、多用户、多语言、多项目、多环境同时部署的开源上线部署系统。walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星，让用户代码发布终于可以不只能选择 jenkins，支持各种web代码发布，php、java等代码的发布、回滚可以通过web来一键完成。walle 一个可自由配置项目，更人性化，高颜值，支持 git、多用户、多语言、多项目、多环境同时部署的开源上线部署系统。
-walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星，让用户代码发布终于可以不只能选择 jenkins，支持各种web代码发布，php、java等代码的发布、回滚可以通过web来一键完成。walle 一个可自由配置项目，更人性化，高颜值，支持 git、多用户、多语言、多项目、多环境同时部署的开源上线部署系统。"
-                    android:textColor="@color/colorNineText"
-                    android:textSize="11sp"/>
             </LinearLayout>
+
+            <!--<LinearLayout-->
+            <!--android:id="@+id/ll_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="12dp"-->
+            <!--android:layout_marginBottom="12dp"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:visibility="gone"-->
+            <!--app:layout_constraintTop_toBottomOf="@id/tv_title">-->
+
+            <!--<leaf.prod.app.layout.RoundSmartImageView-->
+            <!--android:id="@+id/iv_navigation"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_gravity="top"-->
+            <!--android:layout_marginEnd="12dp"-->
+            <!--android:adjustViewBounds="true"-->
+            <!--android:maxHeight="120dp"-->
+            <!--android:scaleType="fitXY"/>-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tv_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:ellipsize="end"-->
+            <!--android:lineSpacingMultiplier="1.3"-->
+            <!--android:maxLines="6"-->
+            <!--android:minLines="6"-->
+            <!--android:text="walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星，让用户代码发布终于可以不只能选择 jenkins，支持各种web代码发布，php、java等代码的发布、回滚可以通过web来一键完成。-->
+            <!--walle 一个可自由配置项目，更人性化，高颜值，支持 git、多用户、多语言、多项目、多环境同时部署的开源上线部署系统。walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星，让用户代码发布终于可以不只能选择 jenkins，支持各种web代码发布，php、java等代码的发布、回滚可以通过web来一键完成。walle 一个可自由配置项目，更人性化，高颜值，支持 git、多用户、多语言、多项目、多环境同时部署的开源上线部署系统。-->
+            <!--walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星，让用户代码发布终于可以不只能选择 jenkins，支持各种web代码发布，php、java等代码的发布、回滚可以通过web来一键完成。walle 一个可自由配置项目，更人性化，高颜值，支持 git、多用户、多语言、多项目、多环境同时部署的开源上线部署系统。"-->
+            <!--android:textColor="@color/colorNineText"-->
+            <!--android:textSize="11sp"/>-->
+            <!--</LinearLayout>-->
 
             <View
                 android:layout_width="match_parent"
@@ -114,6 +144,15 @@ walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星�
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ll_content">
 
+
+                <TextView
+                    android:id="@+id/tv_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="来源:"
+                    android:textColor="@color/colorNineText"
+                    android:textSize="11sp"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/cl_share"
@@ -135,7 +174,7 @@ walle-web.io 大概是最为瞩目的免费开源的上线部署平台的新星�
 
                     <TextView
                         android:id="@+id/tv_share"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
                         android:gravity="center_vertical"

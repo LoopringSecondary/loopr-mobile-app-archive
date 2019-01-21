@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -23,6 +25,8 @@ import leaf.prod.app.utils.ShareUtil;
 import leaf.prod.walletsdk.model.response.crawler.IndexResult;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.service.CrawlerService;
+import leaf.prod.walletsdk.util.DateUtil;
+import leaf.prod.walletsdk.util.LanguageUtil;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -57,12 +61,21 @@ public class NewsInfoAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
         if (news == null)
             return;
         try {
-            helper.setText(R.id.tv_time, sdf2.format(sdf1.parse(news.getPublishTime())));
-            helper.setText(R.id.tv_source, activity.getString(R.string.news_source) + ":" + news
-                    .getSource());
-            helper.setText(R.id.tv_title, news.getTitle());
+            helper.setText(R.id.tv_time, DateUtil.formatFriendly(sdf1.parse(news.getPublishTime()), LanguageUtil.getSettingLanguage(activity)));
+            helper.setText(R.id.tv_source, news.getSource());
+            TextView tvTitle = helper.getView(R.id.tv_title);
+            tvTitle.setText(news.getTitle());
             Matcher m = p.matcher(news.getContent());
-            helper.setText(R.id.tv_content, m.replaceAll("").trim());
+            TextView tvContent = helper.getView(R.id.tv_content);
+            tvContent.post(() -> {
+                if (4 - tvTitle.getLineCount() > 0) {
+                    tvContent.setVisibility(View.VISIBLE);
+                    tvContent.setLines(4 - tvTitle.getLineCount());
+                    tvContent.setText(m.replaceAll("").trim());
+                } else {
+                    tvContent.setVisibility(View.GONE);
+                }
+            });
             String img = getFirstImg(news.getContent());
             if (img == null) {
                 helper.setGone(R.id.iv_navigation, false);
