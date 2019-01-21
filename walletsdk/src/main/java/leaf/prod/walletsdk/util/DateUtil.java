@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import android.util.Log;
 
@@ -634,6 +635,19 @@ public class DateUtil {
         return ZODIAC[day >= ZODIAC_FLAGS[month - 1] ? month - 1 : (month + 10) % 12];
     }
 
+    public static Date utcToLocal(Date utcDate) {
+        Date locateDate = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getDefault());
+            String localTime = sdf.format(utcDate.getTime());
+            locateDate = sdf.parse(localTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return locateDate;
+    }
+
     /**
      * 将日期格式化成友好的字符串：几分钟前、几小时前、几天前、几月前、几年前、刚刚
      *
@@ -641,6 +655,7 @@ public class DateUtil {
      * @return
      */
     public static String formatFriendly(Date date, Language language) {
+        date = utcToLocal(date);
         return formatFriendly(date.getTime(), language);
     }
 

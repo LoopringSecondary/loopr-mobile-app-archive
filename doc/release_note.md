@@ -1,5 +1,16 @@
 
 # Release Note:
+## v1.6
+### 中文
+<font color=white> 1. 新增新闻聚合及阅读功能 </font>  
+<font color=white> 2. 实现原生市场交易功能 </font>  
+<font color=white> 3. 多处UI的修复及改进 </font>  
+
+### English
+<font color=white> 1. Add news integration and reading feature </font>  
+<font color=white> 2. Implement native function of market trade feature </font>  
+<font color=white> 3. Fix and improve many UI display features </font>  
+
 ## v1.5
 ### 中文
 <font color=white> 1. 新增转账地址簿功能 </font>  
