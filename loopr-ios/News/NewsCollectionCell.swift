@@ -155,7 +155,7 @@ class NewsCollectionCell: UICollectionViewCell {
         
         let rawLineNumber = NewsCollectionCell.numberOfLines(textView: localTextView)
         let numLines = CGFloat(rawLineNumber)
-        titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines + 4
+        titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines
 
         // TODO: this causes slow scrolling
         let style = NSMutableParagraphStyle()
