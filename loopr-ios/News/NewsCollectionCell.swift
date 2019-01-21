@@ -137,30 +137,31 @@ class NewsCollectionCell: UICollectionViewCell {
             }
         } else {
             titleTextViewTrailingLayoutConstraint.constant = 10
-            // descriptionTextViewLeadingLayoutConstraint.constant = 10
             descriptionTextViewTrailingLayoutConstraint.constant = 10
             informationImageView.isHidden = true
         }
+        titleTextViewTrailingLayoutConstraint.constant += 4
 
         // TODO: move to other places?
         let width: CGFloat = UIScreen.main.bounds.width - 15*2
         let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.7
-        let localTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width-10*2, height: maxHeight))
-        localTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+        let titleTextViewWidth: CGFloat = width - 10 - titleTextViewTrailingLayoutConstraint.constant
+
+        let localTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: titleTextViewWidth, height: maxHeight))
+        let padding = descriptionTextView.textContainer.lineFragmentPadding
+        localTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
+        localTextView.font = titleTextView.font
         localTextView.text = news.title
         
         let rawLineNumber = NewsCollectionCell.numberOfLines(textView: localTextView)
         let numLines = CGFloat(rawLineNumber)
         titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines + 4
-        titleTextViewTrailingLayoutConstraint.constant += 4
 
         // TODO: this causes slow scrolling
         let style = NSMutableParagraphStyle()
         style.lineSpacing = NewsCollectionCell.descriptionTextViewLineSpacing
         let attributes = [NSAttributedStringKey.paragraphStyle: style]
         descriptionTextView.attributedText = NSAttributedString(string: news.description, attributes: attributes)
- 
-        // descriptionTextView.text = news.description
         
         // TODO: We have two ways to show an expanded cell
         /*
