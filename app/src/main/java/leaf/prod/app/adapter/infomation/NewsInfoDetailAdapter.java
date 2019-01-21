@@ -136,9 +136,9 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             svContent.setOnScrollChangeListener((view, l, t, oldl, oldt) -> {
                 helper.setGone(R.id.head, false);
-                if (oldt < t && ((t - oldt) > 15)) {// 向上
+                if (oldt < t && ((t - oldt) > 15)) {
                     activity.showTopAndBottom(false);
-                } else if (oldt > t && (oldt - t) > 15) {// 向下
+                } else if (oldt > t && (oldt - t) > 15) {
                     activity.showTopAndBottom(true);
                 }
             });
@@ -146,7 +146,6 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).setOnMultiPurposeListener(new OnMultiPurposeListener() {
             @Override
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
-                helper.setGone(R.id.head, true);
             }
 
             @Override
@@ -203,6 +202,9 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
 
             @Override
             public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
+                if(newState.isHeader) {
+                    helper.setGone(R.id.head, true);
+                }
             }
         });
         if (animate == 1) {

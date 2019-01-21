@@ -37,12 +37,6 @@ public class NewsInfoAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
 
     private static SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-    private static SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd HH:mm");
-
-    private boolean expand = false;
-
-    private List<News> newsList;
-
     private Pattern p = Pattern.compile("<img src=\"([\\s\\S]*?)\">");
 
     private static CrawlerService crawlerService;
@@ -50,7 +44,6 @@ public class NewsInfoAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
     public NewsInfoAdapter(int layoutResId, @Nullable List<News> news, Activity activity) {
         super(layoutResId, news);
         this.activity = activity;
-        this.newsList = news;
         if (crawlerService == null) {
             crawlerService = new CrawlerService();
         }
