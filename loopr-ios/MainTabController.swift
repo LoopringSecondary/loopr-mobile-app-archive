@@ -278,7 +278,9 @@ extension MainTabController: WalletViewControllerDelegate {
                 self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: self.viewController1.viewController.assetTableView.frame.height, width: self.view.frame.width, height: self.viewController1.viewController.assetTableView.frame.height)
             }) { (_) in
                 self.viewController1.viewController.refreshControl.endRefreshing()
-                self.newsViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: UIScreen.main.bounds.height)
+                
+                // TODO: need to consider the height when hiding the tab bar in NewsDetailViewController
+                self.newsViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: UIScreen.main.bounds.height + 44)
             }
         }
     }

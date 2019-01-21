@@ -148,14 +148,16 @@ class NewsCollectionCell: UICollectionViewCell {
         let titleTextViewWidth: CGFloat = width - 10 - titleTextViewTrailingLayoutConstraint.constant
 
         let localTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: titleTextViewWidth, height: maxHeight))
-        let padding = descriptionTextView.textContainer.lineFragmentPadding
+        let padding = localTextView.textContainer.lineFragmentPadding
         localTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
         localTextView.font = titleTextView.font
         localTextView.text = news.title
         
         let rawLineNumber = NewsCollectionCell.numberOfLines(textView: localTextView)
         let numLines = CGFloat(rawLineNumber)
-        titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines
+        
+        // TODO: 4 will break the measure of lines
+        titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines + 4
 
         // TODO: this causes slow scrolling
         let style = NSMutableParagraphStyle()
