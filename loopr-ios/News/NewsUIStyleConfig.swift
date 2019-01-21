@@ -12,7 +12,7 @@ class NewsUIStyleConfig {
     
     public static var shared = NewsUIStyleConfig()
     
-    var scrollingDistance: CGFloat = -120
+    var scrollingDistance: CGFloat = -100
     
     let newsViewControllerPresentAnimationDuration: TimeInterval = 1
     let newsViewControllerPresentAnimationDelay: TimeInterval = 0.1
@@ -27,7 +27,7 @@ class NewsUIStyleConfig {
     var newsDetailTextViewLineSpacing: CGFloat = 1
     
     init() {
-        scrollingDistance  = -UIScreen.main.bounds.height * 0.18
+        scrollingDistance  = -UIScreen.main.bounds.height * 0.14
     }
     
     func isNewsDetailFontTypeSmall() -> Bool {

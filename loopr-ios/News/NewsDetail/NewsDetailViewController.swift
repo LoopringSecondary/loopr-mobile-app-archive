@@ -154,8 +154,13 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         let bottomY = tableView.contentSize.height - tableView.height
 
         print("the bottom of scrollView: \(bottomY)")
-        if scrollView.contentOffset.y >= bottomY {
-            let delta = scrollView.contentOffset.y  - bottomY + 45
+        if scrollView.contentOffset.y >= bottomY - 20 {
+            var delta = scrollView.contentOffset.y  - bottomY
+            if UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20 {
+                delta += 79
+            } else {
+                delta += 83
+            }
             print("delta: \(delta)")
             pullToNextPageBottomView.isHidden = false
             tableView.bringSubview(toFront: pullToNextPageImageView)
@@ -259,7 +264,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 1 {
-            return 30
+            return 20
         } else {
             return 0
         }
