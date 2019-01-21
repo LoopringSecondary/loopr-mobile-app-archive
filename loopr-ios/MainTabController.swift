@@ -118,6 +118,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
         
         setupTabBarInNewsDetailViewController()
+        setupDropdownMenu()
     }
 
     func setTabBarItems() {
@@ -170,6 +171,29 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         bottomButtonView.addSubview(shareButton)
     }
     
+    func setupDropdownMenu() {
+        dropdownMenu.dataSource = self
+        dropdownMenu.delegate = self
+        dropdownMenu.disclosureIndicatorImage = nil
+        
+        dropdownMenu.dropdownShowsTopRowSeparator = false
+        dropdownMenu.dropdownBouncesScroll = false
+        dropdownMenu.backgroundDimmingOpacity = 0
+        dropdownMenu.dropdownCornerRadius = 6
+        dropdownMenu.dropdownRoundedCorners = UIRectCorner.allCorners
+        dropdownMenu.dropdownBackgroundColor = UIColor.dark2
+        dropdownMenu.rowSeparatorColor = UIColor.dark2
+        dropdownMenu.componentSeparatorColor = UIColor.dark2
+        dropdownMenu.dropdownShowsTopRowSeparator = false
+        dropdownMenu.dropdownShowsBottomRowSeparator = false
+        dropdownMenu.dropdownShowsBorder = false
+        dropdownMenu.dropdownShowsContentAbove = true
+
+        self.view.addSubview(dropdownMenu)
+        
+        dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-160-9, y: bottomButtonView.frame.minY-50-60, width: 160, height: 50)
+    }
+    
     @objc func languageChangedReceivedNotification() {
         setTabBarItems()
     }
@@ -197,7 +221,9 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
 
     @objc func pressedFontAdjustmentButton(_ button: UIBarButtonItem) {
         print("pressed fontAdjustmentButton")
-        NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: false)
+        // NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: false)
+        
+        dropdownMenu.openComponent(0, animated: true)
     }
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
