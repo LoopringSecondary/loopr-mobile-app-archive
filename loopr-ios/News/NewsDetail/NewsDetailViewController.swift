@@ -388,4 +388,28 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         return UITableViewCell()
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row-2 < news.paragraphs.count && indexPath.row > 1 && indexPath.section == 0 {
+            let newsParagraph = news.paragraphs[indexPath.row-2]
+            if newsParagraph.isString {
+                return
+            }
+            
+            let newImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: view.width, height: view.height))
+            newImageView.image = newsParagraph.newsImage?.image
+            newImageView.frame = UIScreen.main.bounds
+            newImageView.theme_backgroundColor = ColorPicker.cardBackgroundColor
+            newImageView.contentMode = .scaleAspectFit
+            newImageView.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+            newImageView.addGestureRecognizer(tap)
+            self.view.addSubview(newImageView)
+        }
+        
+    }
+    
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+        sender.view?.removeFromSuperview()
+    }
+    
 }
