@@ -50,6 +50,7 @@ dependencies {
     implementation 'com.google.guava:guava:26.0-android'
     implementation 'com.belerweb:pinyin4j:2.5.0'
     implementation 'org.apache.commons:commons-lang3:3.7'
+    compile group: 'joda-time', name: 'joda-time', version: '2.10.1'
 
     implementation('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
@@ -58,4 +59,5 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
     testImplementation 'org.mockito:mockito-core:2.23.4'
+
 }

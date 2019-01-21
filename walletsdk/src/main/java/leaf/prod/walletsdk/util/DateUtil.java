@@ -635,17 +635,24 @@ public class DateUtil {
         return ZODIAC[day >= ZODIAC_FLAGS[month - 1] ? month - 1 : (month + 10) % 12];
     }
 
-    public static Date utcToLocal(Date utcDate) {
-        Date locateDate = null;
+    public static Date utcToLocal(String utcTime){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date utcDate = null;
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            sdf.setTimeZone(TimeZone.getDefault());
-            String localTime = sdf.format(utcDate.getTime());
-            locateDate = sdf.parse(localTime);
+            utcDate = sdf.parse(utcTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return locateDate;
+        sdf.setTimeZone(TimeZone.getDefault());
+        Date locatlDate = null;
+        String localTime = sdf.format(utcDate.getTime());
+        try {
+            locatlDate = sdf.parse(localTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return locatlDate;
     }
 
     /**
@@ -655,7 +662,8 @@ public class DateUtil {
      * @return
      */
     public static String formatFriendly(Date date, Language language) {
-        date = utcToLocal(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        date = utcToLocal(sdf.format(date));
         return formatFriendly(date.getTime(), language);
     }
 
