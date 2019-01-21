@@ -315,12 +315,15 @@ class NewsCollectionCell: UICollectionViewCell {
             let descriptionTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width-10*2, height: maxHeight))
             descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
             descriptionTextView.text = news.description
+            let padding = descriptionTextView.textContainer.lineFragmentPadding
+            descriptionTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
             let numLines = CGFloat(numberOfLines(textView: descriptionTextView)) + 1
             let textViewheight = CGFloat((numLines)) * descriptionTextView.font!.lineHeight + CGFloat((numLines) - 1) * descriptionTextViewLineSpacing
             
             let titleTextView = UITextView(frame: CGRect(x: 0, y: 0, width: width-10*2, height: maxHeight))
             titleTextView.font = FontConfigManager.shared.getMediumFont(size: 16)
             titleTextView.text = news.title
+            titleTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
             let rawLineNumber = CGFloat(numberOfLines(textView: titleTextView))
             let titleHeight = titleTextView.font!.lineHeight*rawLineNumber
             

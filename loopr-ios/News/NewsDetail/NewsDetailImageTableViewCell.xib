@@ -33,6 +33,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="backgroundImageView" destination="QGr-04-uWb" id="QBN-yo-Kwi"/>
+                <outlet property="imageBottomLayoutConstraint" destination="kYH-7m-0qA" id="AjX-yA-uE1"/>
             </connections>
             <point key="canvasLocation" x="88" y="125.03748125937032"/>
         </tableViewCell>

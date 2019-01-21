@@ -37,7 +37,7 @@ class NewsDetailTitleTableViewCell: UITableViewCell {
     
     func update(content: String) {
         let style = NSMutableParagraphStyle()
-        style.lineSpacing = NewsDetailStringTableViewCell.textViewLineSpacing
+        style.lineSpacing = NewsUIStyleConfig.shared.newsDetailTextViewLineSpacing
         let attributes = [NSAttributedStringKey.paragraphStyle: style]
         titleTextView.attributedText = NSAttributedString(string: content, attributes: attributes)
         
@@ -66,6 +66,9 @@ class NewsDetailTitleTableViewCell: UITableViewCell {
         let textView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width, height: maxHeight))
         textView.font = FontConfigManager.shared.getMediumFont(size: NewsUIStyleConfig.shared.newsDetailTitleFont)
         textView.text = content
+        let padding = textView.textContainer.lineFragmentPadding
+        textView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
+        
         let numLines = CGFloat(NewsCollectionCell.numberOfLines(textView: textView))
         var textViewheight = CGFloat((numLines)) * textView.font!.lineHeight
         
