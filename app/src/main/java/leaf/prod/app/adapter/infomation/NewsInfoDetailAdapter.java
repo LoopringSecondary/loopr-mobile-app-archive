@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
@@ -21,6 +23,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.loopj.android.image.WebImage;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.infomation.NewsInfoActivity;
@@ -73,7 +80,7 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         layoutManager.scrollToPositionWithOffset(index, 0);
         margin = DpUtil.dp2Int(recyclerView.getContext(), 12);
         newsDataManager = NewsDataManager.getInstance(recyclerView.getContext());
-        textSize = (int) SPUtils.get(activity, "news_text_size", 15);
+        textSize = (int) SPUtils.get(activity, "news_text_size", 17);
     }
 
     @Override
@@ -125,24 +132,77 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         ScrollView svContent = helper.getView(R.id.sv_content);
         svContent.post(() -> svContent.scrollTo(0, 0));
         svContent.scrollTo(0, 0);
-        ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).setOnRefreshListener(refreshLayout -> {
-            if (index > 0) {
-                goPre();
-                svContent.startAnimation(AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.translate_between_interface_bottom_in));
-                layoutManager.scrollToPositionWithOffset(index, 0);
-                refreshLayout.finishRefresh(true);
-            } else {
-                refreshLayout.finishRefresh(false);
+        activity.showTopAndBottom(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            svContent.setOnScrollChangeListener((view, l, t, oldl, oldt) -> {
+                helper.setGone(R.id.head, false);
+                if (oldt < t && ((t - oldt) > 15)) {// 向上
+                    activity.showTopAndBottom(false);
+                } else if (oldt > t && (oldt - t) > 15) {// 向下
+                    activity.showTopAndBottom(true);
+                }
+            });
+        }
+        ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).setOnMultiPurposeListener(new OnMultiPurposeListener() {
+            @Override
+            public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
+                helper.setGone(R.id.head, true);
             }
-        });
-        ((SmartRefreshLayout) helper.getView(R.id.refresh_layout)).setOnLoadMoreListener(refreshLayout -> {
-            if (index < newsList.size() - 1) {
-                goNext();
-                svContent.startAnimation(AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.translate_between_interface_top_in));
-                layoutManager.scrollToPositionWithOffset(index, 0);
-                refreshLayout.finishLoadMore();
-            } else {
-                refreshLayout.finishLoadMoreWithNoMoreData();
+
+            @Override
+            public void onHeaderReleased(RefreshHeader header, int headerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onHeaderStartAnimator(RefreshHeader header, int headerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onHeaderFinish(RefreshHeader header, boolean success) {
+            }
+
+            @Override
+            public void onFooterMoving(RefreshFooter footer, boolean isDragging, float percent, int offset, int footerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onFooterReleased(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onFooterStartAnimator(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onFooterFinish(RefreshFooter footer, boolean success) {
+            }
+
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                if (index < newsList.size() - 1) {
+                    goNext();
+                    svContent.startAnimation(AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.translate_between_interface_top_in));
+                    layoutManager.scrollToPositionWithOffset(index, 0);
+                    refreshLayout.finishLoadMore();
+                } else {
+                    refreshLayout.finishLoadMoreWithNoMoreData();
+                }
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if (index > 0) {
+                    goPre();
+                    svContent.startAnimation(AnimationUtils.loadAnimation(recyclerView.getContext(), R.anim.translate_between_interface_bottom_in));
+                    layoutManager.scrollToPositionWithOffset(index, 0);
+                    refreshLayout.finishRefresh(true);
+                } else {
+                    refreshLayout.finishRefresh(false);
+                }
+            }
+
+            @Override
+            public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
             }
         });
         if (animate == 1) {

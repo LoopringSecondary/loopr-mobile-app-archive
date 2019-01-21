@@ -11,12 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorLine"
-        app:srlEnableAutoLoadMore="false">
+        app:srlEnableAutoLoadMore="false"
+        app:srlHeaderInsetStart="75dp">
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:id="@+id/head"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/cl_footer"
             app:layout_constraintTop_toTopOf="parent"
             app:srlEnableLastTime="false"
@@ -41,6 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margSide"
+                    android:layout_marginTop="75dp"
                     android:layout_marginEnd="@dimen/margSide"
                     android:text="《今日的侦探》：恐怖事件的背后隐藏着导演的深意"
                     android:textColor="@color/colorWhite"

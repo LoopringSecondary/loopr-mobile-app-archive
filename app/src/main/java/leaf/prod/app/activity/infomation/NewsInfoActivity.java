@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -12,12 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.vondear.rxtool.view.RxToast;
-import com.xw.repo.BubbleSeekBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +32,7 @@ import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.NewsDataManager;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.service.CrawlerService;
+import leaf.prod.walletsdk.util.DpUtil;
 import leaf.prod.walletsdk.util.SPUtils;
 
 public class NewsInfoActivity extends BaseActivity {
@@ -46,6 +48,9 @@ public class NewsInfoActivity extends BaseActivity {
 
     @BindView(R.id.tv_next)
     public TextView tvNext;
+
+    @BindView(R.id.cl_footer)
+    public ConstraintLayout clFooter;
 
     private NewsInfoDetailAdapter adapter;
 
@@ -141,34 +146,42 @@ public class NewsInfoActivity extends BaseActivity {
                     View view1 = LayoutInflater.from(NewsInfoActivity.this)
                             .inflate(R.layout.dialog_letter_modify, null);
                     builder.setView(view1);
-                    int textSize = (int) SPUtils.get(NewsInfoActivity.this, "news_text_size", 15);
-                    BubbleSeekBar seekBar = view1.findViewById(R.id.seek_bar);
-                    seekBar.setProgress((textSize - 15) * 100 / 6);
-                    seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
-                        @Override
-                        public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                            int textSize = 15 + 6 * progress / 100;
-                            SPUtils.put(NewsInfoActivity.this, "news_text_size", textSize);
-                            adapter.setLetterSize(textSize);
-                        }
-
-                        @Override
-                        public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                        }
-
-                        @Override
-                        public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                        }
+                    int textSize = (int) SPUtils.get(NewsInfoActivity.this, "news_text_size", 17);
+                    adapter.setLetterSize(textSize);
+                    view1.findViewById(R.id.small_letter).setOnClickListener(view2 -> {
+                        SPUtils.put(NewsInfoActivity.this, "news_text_size", 17);
+                        adapter.setLetterSize(17);
+                    });
+                    view1.findViewById(R.id.big_letter).setOnClickListener(view2 -> {
+                        SPUtils.put(NewsInfoActivity.this, "news_text_size", 21);
+                        adapter.setLetterSize(21);
                     });
                     letterDialog = builder.create();
                     letterDialog.setCancelable(true);
                     letterDialog.setCanceledOnTouchOutside(true);
                     Window window = letterDialog.getWindow();
+                    WindowManager.LayoutParams lp = window.getAttributes();
+                    lp.y = DpUtil.dp2Int(this, 60);
+                    window.setAttributes(lp);
                     window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                     window.setGravity(Gravity.BOTTOM);
                 }
                 letterDialog.show();
                 break;
+        }
+    }
+
+    public void showTopAndBottom(boolean flag) {
+        if (flag && title.getVisibility() != View.VISIBLE) {
+            title.startAnimation(AnimationUtils.loadAnimation(this, R.anim.translate_between_interface_top_in));
+            clFooter.startAnimation(AnimationUtils.loadAnimation(this, R.anim.translate_between_interface_bottom_in));
+            title.setVisibility(View.VISIBLE);
+            clFooter.setVisibility(View.VISIBLE);
+        } else if (!flag && title.getVisibility() != View.GONE) {
+            title.startAnimation(AnimationUtils.loadAnimation(this, R.anim.translate_between_interface_top_out));
+            clFooter.startAnimation(AnimationUtils.loadAnimation(this, R.anim.translate_between_interface_bottom_out));
+            title.setVisibility(View.GONE);
+            clFooter.setVisibility(View.GONE);
         }
     }
 }
