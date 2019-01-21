@@ -10,6 +10,7 @@ import UIKit
 import UserNotifications
 import Crashlytics
 import Social
+import MKDropdownMenu
 // import ESTabBarController_swift
 
 // ESTabBarController
@@ -31,6 +32,8 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
 
     var bottomButtonView: UIView = UIView()
     var bottomPadding: CGFloat = 0
+    
+    let dropdownMenu = MKDropdownMenu(frame: .zero)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,13 +105,35 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        // 44 is the height of navigation bar
-        self.newsViewControllerHeight = 4 * (NewsCollectionCell.flashMinHeight + 8) + 44
+        // 8 is the padding between collection cells.
+        // 128 is the height of the header view
+        // TODO: 20 is the bottom paddding. I think we don't need this. Fix it later
+        let window = UIApplication.shared.keyWindow
+        let topPadding = window?.safeAreaInsets.top ?? 0
+        
+        self.newsViewControllerHeight = 3 * (NewsCollectionCell.flashMinHeight + 8) + 128 + topPadding + 20
         if self.newsViewControllerHeight < UIScreen.main.bounds.size.height {
-            self.newsViewControllerHeight = 5 * (NewsCollectionCell.flashMinHeight + 8) + 44
+            self.newsViewControllerHeight += (NewsCollectionCell.flashMinHeight + 8)
         }
         self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
         
+        setupTabBarInNewsDetailViewController()
+    }
+
+    func setTabBarItems() {
+        // ESTabBarController_swift doesn't work in iOS 12.1. However, it worked in in 12.0 and previous versions.
+        /*
+        viewController1.tabBarItem = ESTabBarItem(TabBarItemBouncesContentView(frame: .zero), title: LocalizedString("Wallet", comment: ""), image: UIImage(named: "Assets"), selectedImage: UIImage(named: "Assets-selected" + ColorTheme.getTheme()))
+        viewController2.tabBarItem = ESTabBarItem.init(TabBarItemBouncesContentView(frame: .zero), title: LocalizedString("Trade", comment: ""), image: UIImage(named: "Trade"), selectedImage: UIImage(named: "Trade-selected" + ColorTheme.getTheme()))
+        viewController3.tabBarItem = ESTabBarItem(TabBarItemBouncesContentView(frame: .zero), title: LocalizedString("Settings", comment: ""), image: UIImage(named: "Settings"), selectedImage: UIImage(named: "Settings-selected" + ColorTheme.getTheme()))
+        */
+
+        viewController1.tabBarItem = UITabBarItem(title: LocalizedString("Wallet", comment: ""), image: UIImage(named: "Assets")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Assets-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
+        viewController2.tabBarItem = UITabBarItem.init(title: LocalizedString("Trade", comment: ""), image: UIImage(named: "Trade")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Trade-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
+        viewController4.tabBarItem = UITabBarItem(title: LocalizedString("Settings", comment: ""), image: UIImage(named: "Settings")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Settings-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
+    }
+    
+    func setupTabBarInNewsDetailViewController() {
         // in News Detail View Controller
         let window = UIApplication.shared.keyWindow
         bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
@@ -143,19 +168,6 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         // The size of the image.
         shareButton.frame = CGRect(x: 7, y: 7, width: 23, height: 23)
         bottomButtonView.addSubview(shareButton)
-    }
-
-    func setTabBarItems() {
-        // ESTabBarController_swift doesn't work in iOS 12.1. However, it worked in in 12.0 and previous versions.
-        /*
-        viewController1.tabBarItem = ESTabBarItem(TabBarItemBouncesContentView(frame: .zero), title: LocalizedString("Wallet", comment: ""), image: UIImage(named: "Assets"), selectedImage: UIImage(named: "Assets-selected" + ColorTheme.getTheme()))
-        viewController2.tabBarItem = ESTabBarItem.init(TabBarItemBouncesContentView(frame: .zero), title: LocalizedString("Trade", comment: ""), image: UIImage(named: "Trade"), selectedImage: UIImage(named: "Trade-selected" + ColorTheme.getTheme()))
-        viewController3.tabBarItem = ESTabBarItem(TabBarItemBouncesContentView(frame: .zero), title: LocalizedString("Settings", comment: ""), image: UIImage(named: "Settings"), selectedImage: UIImage(named: "Settings-selected" + ColorTheme.getTheme()))
-        */
-
-        viewController1.tabBarItem = UITabBarItem(title: LocalizedString("Wallet", comment: ""), image: UIImage(named: "Assets")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Assets-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
-        viewController2.tabBarItem = UITabBarItem.init(title: LocalizedString("Trade", comment: ""), image: UIImage(named: "Trade")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Trade-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
-        viewController4.tabBarItem = UITabBarItem(title: LocalizedString("Settings", comment: ""), image: UIImage(named: "Settings")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), selectedImage: UIImage(named: "Settings-selected" + ColorTheme.getTheme())?.withRenderingMode(UIImageRenderingMode.alwaysOriginal))
     }
     
     @objc func languageChangedReceivedNotification() {
