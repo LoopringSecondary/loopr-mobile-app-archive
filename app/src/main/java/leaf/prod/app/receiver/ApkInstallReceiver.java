@@ -22,6 +22,9 @@ public class ApkInstallReceiver extends BroadcastReceiver {
 
     private long enqueue;
 
+    public ApkInstallReceiver() {
+    }
+
     public ApkInstallReceiver(DownloadManager downloadManager, long enqueue) {
         this.downloadManager = downloadManager;
         this.enqueue = enqueue;
