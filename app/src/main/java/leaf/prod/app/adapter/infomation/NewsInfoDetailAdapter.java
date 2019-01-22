@@ -80,13 +80,13 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         layoutManager.scrollToPositionWithOffset(index, 0);
         margin = DpUtil.dp2Int(recyclerView.getContext(), 12);
         newsDataManager = NewsDataManager.getInstance(recyclerView.getContext());
-        textSize = (int) SPUtils.get(activity, "news_text_size", 17);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, News item) {
         if (item == null)
             return;
+        textSize = (int) SPUtils.get(activity, "news_text_size", 17);
         ((LinearLayout) helper.getView(R.id.ll_content)).removeAllViews();
         helper.setText(R.id.tv_title, item.getTitle());
         helper.setText(R.id.tv_time, item.getPublishTime());
@@ -202,7 +202,7 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
 
             @Override
             public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
-                if(newState.isHeader) {
+                if (newState.isHeader) {
                     helper.setGone(R.id.head, true);
                 }
             }
