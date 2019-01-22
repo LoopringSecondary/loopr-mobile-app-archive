@@ -172,5 +172,14 @@ class SettingDataManager {
         }
         return OrderIntervalTime(intervalValue: 1, intervalUnit: .hour)
     }
+    
+    func getNewsIndicatorHasShownBefore() -> Bool {
+        let newsIndicatorHasShownBefore = UserDefaults.standard.bool(forKey: UserDefaultsKeys.newsIndicatorHasShownBefore.rawValue)
+        return newsIndicatorHasShownBefore
+    }
+    
+    func setNewsIndicatorHasShownBefore() {
+        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.newsIndicatorHasShownBefore.rawValue)
+    }
 
 }
