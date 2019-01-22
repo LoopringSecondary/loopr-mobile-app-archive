@@ -123,6 +123,7 @@
 		9AACD1A68297585D93FB6182 /* Pods_loopr_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFC6AA9DC8C999B66FFD8AA /* Pods_loopr_iosTests.framework */; };
 		9B018DA621F5B265009D079D /* MainTabControllerDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DA521F5B265009D079D /* MainTabControllerDropdownMenu.swift */; };
 		9B018DC021F679AE009D079D /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DBF21F679AE009D079D /* ImageScrollView.swift */; };
+		9B018DC221F68C3C009D079D /* arrow_down.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B018DC121F68C3C009D079D /* arrow_down.json */; };
 		9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */; };
 		9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */; };
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
@@ -696,6 +697,7 @@
 		94EE76A32113F21B009D6A90 /* OrderHistorySwipeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistorySwipeType.swift; sourceTree = "<group>"; };
 		9B018DA521F5B265009D079D /* MainTabControllerDropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabControllerDropdownMenu.swift; sourceTree = "<group>"; };
 		9B018DBF21F679AE009D079D /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
+		9B018DC121F68C3C009D079D /* arrow_down.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = arrow_down.json; sourceTree = "<group>"; };
 		9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
 		9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlType.swift; sourceTree = "<group>"; };
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
@@ -1775,6 +1777,7 @@
 		AC70E848206604F000451047 /* Files */ = {
 			isa = PBXGroup;
 			children = (
+				9B018DC121F68C3C009D079D /* arrow_down.json */,
 				9401C4D221C0F89E00A01E0B /* data.json */,
 				945800202058FEB500E08DEF /* tokens.json */,
 				940B451B2060F67E00ADE2B9 /* gas_limit.json */,
@@ -2853,6 +2856,7 @@
 				ACA677C1207997F400D34A2F /* DisplayKeystoreViewController.xib in Resources */,
 				94678B2B210D902E00F550D3 /* SendResultViewController.xib in Resources */,
 				ACB9117620255A6600F14644 /* MarketTableViewCell.xib in Resources */,
+				9B018DC221F68C3C009D079D /* arrow_down.json in Resources */,
 				949774F321181EE9001BF79D /* TradeRatioViewController.xib in Resources */,
 				9BA4FCA221E9CA20005A3DC0 /* NewsViewController.xib in Resources */,
 				ACB729D5205DE21B00DD4DF3 /* TradeConfirmationViewController.xib in Resources */,

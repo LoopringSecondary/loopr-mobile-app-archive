@@ -312,6 +312,9 @@ extension MainTabController: WalletViewControllerDelegate {
         }
 
         if y < NewsUIStyleConfig.shared.scrollingDistance && !newsViewControllerEnabled {
+            // TODO: If it's shown before, skip
+            SettingDataManager.shared.setNewsIndicatorHasShownBefore()
+            
             newsViewControllerEnabled = true
             view.bringSubview(toFront: newsViewController.view)
 

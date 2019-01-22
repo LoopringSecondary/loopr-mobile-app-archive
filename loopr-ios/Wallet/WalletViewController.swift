@@ -10,6 +10,7 @@ import UIKit
 import NotificationBannerSwift
 import MKDropdownMenu
 import SVProgressHUD
+import Lottie
 
 protocol WalletViewControllerDelegate: class {
     func scrollViewDidScroll(y: CGFloat)
@@ -37,6 +38,9 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var isNewsViewControllerScrollEnabled: Bool = false
     var walletBalanceView: WalletBalanceView!
+    
+    var timer = Timer()
+    var showingNewsIndicator: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,6 +104,10 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         NotificationCenter.default.addObserver(self, selector: #selector(needRelaunchCurrentAppWalletReceivedNotification), name: .needRelaunchCurrentAppWallet, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(processPasteboard), name: .needCheckStringInPasteboard, object: nil)
+        
+        if !SettingDataManager.shared.getNewsIndicatorHasShownBefore() {
+            timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.updateCounting), userInfo: nil, repeats: true)
+        }
     }
     
     @objc func needRelaunchCurrentAppWalletReceivedNotification() {
@@ -287,6 +295,36 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         print("scrollViewWillBeginDragging")
+    }
+    
+    @objc func updateCounting() {
+        NSLog("counting..")
+        
+        if !showingNewsIndicator && !SettingDataManager.shared.getNewsIndicatorHasShownBefore() {
+            showingNewsIndicator = true
+            
+            let labelWidth = LocalizedString("Pull Down for the Latest News", comment: "").widthOfString(usingFont: FontConfigManager.shared.getMediumFont(size: 17))
+            
+            let baseView = UIView(frame: CGRect(x: 0, y: 0, width: labelWidth + 28*2, height: 44))
+            let label = UILabel(frame: CGRect(x: 28, y: 0, width: labelWidth, height: 44))
+            label.text = LocalizedString("Pull Down for the Latest News", comment: "")
+            label.font = FontConfigManager.shared.getMediumFont(size: 17)
+            label.theme_textColor = GlobalPicker.textColor
+            baseView.addSubview(label)
+            
+            let animationView = LOTAnimationView(name: "arrow_down")
+            animationView.frame = CGRect(x: labelWidth + 28 + 4, y: 13, width: 18, height: 18)
+            baseView.addSubview(animationView)
+            
+            self.navigationItem.title = ""
+            self.navigationItem.titleView = baseView
+            animationView.play()
+        } else {
+            showingNewsIndicator = false
+            self.navigationItem.titleView = nil
+            self.navigationItem.title = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.name ?? LocalizedString("Wallet", comment: "")
+        }
+        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

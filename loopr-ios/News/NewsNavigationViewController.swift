@@ -32,6 +32,10 @@ class NewsNavigationViewController: UINavigationController {
     func setCurrentIndex(_ index: Int) {
         viewController.currentIndex = index
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
 
 }
 

@@ -69,4 +69,5 @@ enum UserDefaultsKeys: String {
     // case marginSplit = "UserDefaultsKeys.marginSplit"
     
     case newsDetailFontType = "UserDefaultsKeys.newsDetailFontType"
+    case newsIndicatorHasShownBefore = "UserDefaultsKeys.newsIndicatorHasShownBefore"
 }
