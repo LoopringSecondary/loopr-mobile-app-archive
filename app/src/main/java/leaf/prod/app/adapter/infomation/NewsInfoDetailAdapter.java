@@ -259,7 +259,7 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
         textView.setText(content);
         textView.setTextColor(recyclerView.getContext().getResources().getColor(R.color.colorNineText));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
-        textView.setLineSpacing(0, 1.5f);
+        textView.setLineSpacing(0, 1.7f);
         ((LinearLayout) holder.getView(R.id.ll_content)).addView(textView);
         textViews.add(textView);
     }
