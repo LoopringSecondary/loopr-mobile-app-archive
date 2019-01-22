@@ -143,7 +143,7 @@ class NewsCollectionCell: UICollectionViewCell {
         dateLabel.text = news.publishTime
         sourceLabel.text = news.source
         titleTextView.text = news.title
-        
+
         if news.category == .information && news.newsImage != nil {
             informationImageView.image = news.newsImage?.image
             titleTextViewTrailingLayoutConstraint.constant = 118
@@ -182,10 +182,7 @@ class NewsCollectionCell: UICollectionViewCell {
         titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines + 4
 
         // TODO: this causes slow scrolling
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = NewsCollectionCell.descriptionTextViewLineSpacing
-        let attributes = [NSAttributedStringKey.paragraphStyle: style]
-        descriptionTextView.attributedText = NSAttributedString(string: news.description, attributes: attributes)
+        descriptionTextView.text = news.description
         
         // TODO: We have two ways to show an expanded cell
         /*
@@ -205,13 +202,6 @@ class NewsCollectionCell: UICollectionViewCell {
         }
 
         updateVoteButtons()
-        if news.category == .information {
-            upvoteButton.isHidden = true
-            downvoteButton.isHidden = true
-        } else {
-            upvoteButton.isHidden = false
-            downvoteButton.isHidden = false
-        }
     }
     
     class func numberOfLines(textView: UITextView) -> Int {

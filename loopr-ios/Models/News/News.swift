@@ -28,6 +28,7 @@ class News {
     // not from API
     var paragraphs: [NewsParagraph] = []
     var description: String
+    var descriptionAttributedText: NSAttributedString
 
     init?(json: JSON, category: NewsCategory) {
         self.uuid = json["uuid"].stringValue
@@ -78,7 +79,16 @@ class News {
         } catch {
             return nil
         }
-
+        
+        if description.count > 100 && category == .information {
+            self.description = self.description.substring(toIndex: 100) + "..."
+        }
+        
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = NewsCollectionCell.descriptionTextViewLineSpacing
+        let attributes = [NSAttributedStringKey.paragraphStyle: style]
+        descriptionAttributedText = NSAttributedString(string: self.description, attributes: attributes)
+        
         // TODO: how to change the line distance in html and css?
         self.content = self.content.replacingOccurrences(of: "\n\n", with: "\n")
         self.content = self.content.replacingOccurrences(of: "\n", with: "\n\n")
