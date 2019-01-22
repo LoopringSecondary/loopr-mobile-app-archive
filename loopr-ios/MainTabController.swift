@@ -192,7 +192,12 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         dropdownMenu.spacerView = nil
 
         self.view.addSubview(dropdownMenu)
-        dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-50-60, width: 110, height: 50)
+        if UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20 {
+            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-50-60, width: 110, height: 50)
+        } else {
+            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-44, width: 110, height: 50)
+        }
+        
         dropdownMenu.isHidden = true
         isDropdownMenuExpanded = false
     }
