@@ -40,7 +40,7 @@ class DefaultWebViewController: UIViewController {
     
     func setupSafariButton() {
         let safariButton = UIButton(type: UIButtonType.custom)
-        safariButton.setImage(UIImage(named: "Safari-item-button"), for: .normal)
+        safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.5), for: .normal)
         safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.3), for: .highlighted)
         safariButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         safariButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
