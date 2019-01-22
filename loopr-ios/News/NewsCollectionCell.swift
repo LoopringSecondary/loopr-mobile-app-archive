@@ -110,12 +110,12 @@ class NewsCollectionCell: UICollectionViewCell {
         // upInChart color is better than up color here
         upvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         
-        upvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
+        // upvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         upvoteButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         upvoteButton.addTarget(self, action: #selector(pressedUpvoteButton), for: .touchUpInside)
         upvoteButton.set(image: UIImage.init(named: "Upvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         
-        downvoteButton.setTitle(LocalizedString("News_Down", comment: ""), for: .normal)
+        // downvoteButton.setTitle(LocalizedString("News_Down", comment: ""), for: .normal)
         // downInChart color is better than down color here
         downvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         downvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
@@ -127,8 +127,8 @@ class NewsCollectionCell: UICollectionViewCell {
         shareButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         shareButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         shareButton.addTarget(self, action: #selector(pressedshareButton), for: .touchUpInside)
-        shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
-        shareButton.set(image: UIImage.init(named: "News-share")?.alpha(0.4), title: LocalizedString("Share", comment: ""), titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
+        // shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
+        shareButton.set(image: UIImage.init(named: "News-share")?.alpha(0.4), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         
         informationImageViewHeightLayoutConstraint.constant = 100
         informationImageView.cornerRadius = 4
@@ -342,8 +342,8 @@ class NewsCollectionCell: UICollectionViewCell {
             downvoteButton.set(image: UIImage.init(named: "Downvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         }
 
-        upvoteButton.setTitle("\(LocalizedString("News_Up", comment: "")) \(news.bullIndex)", for: .normal)
-        downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex)", for: .normal)
+        upvoteButton.setTitle("\(news.bullIndex)", for: .normal)
+        downvoteButton.setTitle("\(news.bearIndex)", for: .normal)
         
         if language == Language(name: "en") {
             
