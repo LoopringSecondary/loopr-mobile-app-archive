@@ -25,6 +25,8 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var viewController2: UIViewController!
     var viewController4: UIViewController!
 
+    var isFirtTimeAppear: Bool = true
+    
     // Use ViewController to avoid the tab bar
     let newsViewController = NewsSwipeViewController()
     var newsViewControllerHeight: CGFloat = 4 * NewsCollectionCell.flashMinHeight
@@ -101,20 +103,24 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        // 8 is the padding between collection cells.
-        // 128 is the height of the header view
-        // TODO: 20 is the bottom paddding. I think we don't need this. Fix it later
-        let window = UIApplication.shared.keyWindow
-        let topPadding = window?.safeAreaInsets.top ?? 0
-        
-        self.newsViewControllerHeight = 3 * (NewsCollectionCell.flashMinHeight + 8) + 128 + topPadding + 20
-        if self.newsViewControllerHeight < UIScreen.main.bounds.size.height {
-            self.newsViewControllerHeight += (NewsCollectionCell.flashMinHeight + 8)
+        if isFirtTimeAppear {
+            isFirtTimeAppear = false
+
+            // 8 is the padding between collection cells.
+            // 128 is the height of the header view
+            // TODO: 20 is the bottom paddding. I think we don't need this. Fix it later
+            let window = UIApplication.shared.keyWindow
+            let topPadding = window?.safeAreaInsets.top ?? 0
+            
+            self.newsViewControllerHeight = 3 * (NewsCollectionCell.flashMinHeight + 8) + 128 + topPadding + 20
+            if self.newsViewControllerHeight < UIScreen.main.bounds.size.height {
+                self.newsViewControllerHeight += (NewsCollectionCell.flashMinHeight + 8)
+            }
+            self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
+            
+            setupTabBarInNewsDetailViewController()
+            setupDropdownMenu()
         }
-        self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
-        
-        setupTabBarInNewsDetailViewController()
-        setupDropdownMenu()
     }
 
     func setTabBarItems() {
