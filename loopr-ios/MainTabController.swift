@@ -207,6 +207,10 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     
     @objc func languageChangedReceivedNotification() {
         setTabBarItems()
+        newsViewController.viewControllers[0].viewController.collectionView.reloadData()
+        newsViewController.viewControllers[0].viewController.refreshData()
+        newsViewController.viewControllers[1].viewController.collectionView.reloadData()
+        newsViewController.viewControllers[1].viewController.refreshData()
     }
     
     @objc func showTradingFeatureChangedReceivedNotification(notification: NSNotification) {

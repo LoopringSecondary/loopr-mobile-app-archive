@@ -27,7 +27,7 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var bottomSeperateLine: UIView!
     
     var currentIndex: Int = 0
-    let newsParamsList: [NewsParams] = [
+    var newsParamsList: [NewsParams] = [
         NewsParams(token: "ALL_CURRENCY", category: .flash),
         NewsParams(token: "ALL_CURRENCY", category: .information)
     ]
@@ -75,7 +75,7 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .newsViewController))
-        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         collectionView.refreshControl = refreshControl
 
         bottomSeperateLine.theme_backgroundColor = ColorPicker.cardBackgroundColor
@@ -95,9 +95,16 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         // self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
-    @objc private func refreshData(_ sender: Any) {
+    @objc func refreshData() {
         pageIndex = 0
         getNewsFromAPIServer()
+        
+        // TODO: need to simply this part
+        newsParamsList = [
+            NewsParams(token: "ALL_CURRENCY", category: .flash),
+            NewsParams(token: "ALL_CURRENCY", category: .information)
+        ]
+        categoryLabel.text = newsParamsList[currentIndex].title
     }
     
     func getNewsFromAPIServer() {
