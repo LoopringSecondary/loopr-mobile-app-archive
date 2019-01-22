@@ -69,11 +69,15 @@ extension MainTabController: MKDropdownMenuDelegate {
     @objc func pressedSmallFontButton(_ button: UIBarButtonItem) {
         print("pressed pressedSmallFontButton")
         NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: true)
+        dropdownMenu.closeAllComponents(animated: true)
+        hideDropdownMenu()
     }
     
     @objc func pressedLargeFontButton(_ button: UIBarButtonItem) {
         print("pressed pressedLargeFontButton")
         NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: false)
+        dropdownMenu.closeAllComponents(animated: true)
+        hideDropdownMenu()
     }
 
 }

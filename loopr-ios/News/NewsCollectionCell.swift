@@ -182,7 +182,7 @@ class NewsCollectionCell: UICollectionViewCell {
         titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines + 4
 
         // TODO: this causes slow scrolling
-        descriptionTextView.text = news.description
+        descriptionTextView.attributedText = news.descriptionAttributedText
         
         // TODO: We have two ways to show an expanded cell
         /*
