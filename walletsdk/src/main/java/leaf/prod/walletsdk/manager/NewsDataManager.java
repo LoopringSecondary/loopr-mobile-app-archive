@@ -48,6 +48,8 @@ public class NewsDataManager {
     }
 
     public News getPreNews(News news) {
+        if (newsPageWrapper.getData() == null)
+            return null;
         int index = newsPageWrapper.getData().indexOf(news);
         if (index < 1)
             return null;
@@ -55,6 +57,8 @@ public class NewsDataManager {
     }
 
     public News getNextNews(News news) {
+        if (newsPageWrapper.getData() == null)
+            return null;
         int index = newsPageWrapper.getData().indexOf(news);
         if (index < newsPageWrapper.getData().size() - 1) {
             if (index == newsPageWrapper.getData().size() - 2) {
