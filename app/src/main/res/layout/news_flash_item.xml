@@ -95,9 +95,9 @@
                     android:text="来源:"
                     android:textColor="@color/colorNineText"
                     android:textSize="11sp"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/cl_share"
@@ -140,17 +140,19 @@
 
                     <ImageView
                         android:id="@+id/iv_bear"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@mipmap/icon_changedown"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="4dp"
+                        android:src="@mipmap/thumb_down_origin"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
 
                     <ImageView
                         android:id="@+id/iv_bear_active"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@mipmap/icon_changedown_active"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="4dp"
+                        android:src="@mipmap/thumb_down_red"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
@@ -178,17 +180,19 @@
 
                     <ImageView
                         android:id="@+id/iv_bull"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@mipmap/icon_changeup"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginBottom="4dp"
+                        android:src="@mipmap/thumb_up_origin"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
 
                     <ImageView
                         android:id="@+id/iv_bull_active"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@mipmap/icon_changeup_active"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginBottom="4dp"
+                        android:src="@mipmap/thumb_up_green"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
