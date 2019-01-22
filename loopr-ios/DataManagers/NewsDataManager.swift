@@ -12,7 +12,7 @@ class NewsDataManager {
     
     static let shared = NewsDataManager()
 
-    let pageSize: UInt = 40
+    let pageSize: UInt = 20
     
     var informationHasMoreData: Bool = true
     var informationItems: [News] = []
