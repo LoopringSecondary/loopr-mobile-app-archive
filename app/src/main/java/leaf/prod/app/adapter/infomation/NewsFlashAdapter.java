@@ -6,9 +6,9 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.animation.OvershootInterpolator;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -16,7 +16,6 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.vondear.rxtool.view.RxToast;
 
-import at.blogc.android.views.ExpandableTextView;
 import leaf.prod.app.R;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
@@ -59,7 +58,9 @@ public class NewsFlashAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
             helper.setText(R.id.tv_time, DateUtil.formatFriendly(sdf1.parse(news.getPublishTime()), LanguageUtil.getSettingLanguage(activity)));
             helper.setText(R.id.tv_source, news.getSource());
             helper.setText(R.id.tv_title, news.getTitle());
-            helper.setText(R.id.cl_content, news.getContent());
+            //            helper.setText(R.id.cl_content, news.getContent());
+            helper.setText(R.id.tv_brief, news.getContent());
+            helper.setText(R.id.tv_complete, news.getContent());
             helper.setText(R.id.tv_share, activity.getString(R.string.news_share) + " " + (news.getForwardNum() > 0 ? news
                     .getForwardNum() : ""));
             String result = (String) SPUtils.get(activity, "news_" + news.getUuid(), "");
@@ -79,23 +80,44 @@ public class NewsFlashAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
                     showBearView(helper, news.getBearIndex());
                 }
             }
-            ExpandableTextView clContent = helper.getView(R.id.cl_content);
-            clContent.setExpandInterpolator(new OvershootInterpolator());
-            clContent.setCollapseInterpolator(new OvershootInterpolator());
-            clContent.setOnClickListener(view -> {
-                clContent.addOnExpandListener(new ExpandableTextView.OnExpandListener() {
-                    @Override
-                    public void onExpand(@NonNull ExpandableTextView view) {
-                        clContent.setTextSize(13);
-                    }
-
-                    @Override
-                    public void onCollapse(@NonNull ExpandableTextView view) {
-                        clContent.setTextSize(11);
-                    }
-                });
-                clContent.toggle();
+            ConstraintLayout clContent = helper.getView(R.id.cl_content);
+            helper.setOnClickListener(R.id.tv_brief, view -> {
+                helper.setGone(R.id.tv_brief, false);
+                helper.setVisible(R.id.tv_complete, true);
+                ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams) clContent.getLayoutParams();
+                lp.height = ConstraintSet.WRAP_CONTENT;
+                clContent.setLayoutParams(lp);
             });
+            helper.setOnClickListener(R.id.tv_complete, view -> {
+                helper.setGone(R.id.tv_complete, false);
+                helper.setVisible(R.id.tv_brief, true);
+                ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams) clContent.getLayoutParams();
+                lp.height = ConstraintSet.WRAP_CONTENT;
+                clContent.setLayoutParams(lp);
+            });
+            //            ExpandableTextView clContent = helper.getView(R.id.cl_content);
+            //            clContent.setExpandInterpolator(new OvershootInterpolator());
+            //            clContent.setCollapseInterpolator(new OvershootInterpolator());
+            //            clContent.setOnClickListener(view -> {
+            //                if (clContent.isExpanded()) {
+            //                    clContent.setTextSize(11);
+            //                } else {
+            //                    clContent.setTextSize(13);
+            //                }
+            //                clContent.post(clContent::toggle);
+            //                //                clContent.addOnExpandListener(new ExpandableTextView.OnExpandListener() {
+            //                //                    @Override
+            //                //                    public void onExpand(@NonNull ExpandableTextView view) {
+            //                //                        clContent.setTextSize(13);
+            //                //                    }
+            //                //
+            //                //                    @Override
+            //                //                    public void onCollapse(@NonNull ExpandableTextView view) {
+            //                //                        clContent.setTextSize(11);
+            //                //                    }
+            //                //                });
+            //                //                clContent.toggle();
+            //            });
             helper.setOnClickListener(R.id.cl_bull, view -> {
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) {
                     setBull(helper, news);
