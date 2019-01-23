@@ -148,20 +148,28 @@ public class NewsInfoActivity extends BaseActivity {
                     builder.setView(view1);
                     int textSize = (int) SPUtils.get(NewsInfoActivity.this, "news_text_size", 17);
                     adapter.setLetterSize(textSize);
-                    view1.findViewById(R.id.small_letter_selected)
+                    view1.findViewById(R.id.iv_decrease_select)
                             .setVisibility(textSize == 17 ? View.VISIBLE : View.GONE);
-                    view1.findViewById(R.id.big_letter_selected)
+                    view1.findViewById(R.id.iv_decrease_unselect)
+                            .setVisibility(textSize == 17 ? View.GONE : View.VISIBLE);
+                    view1.findViewById(R.id.iv_increase_select)
                             .setVisibility(textSize == 21 ? View.VISIBLE : View.GONE);
+                    view1.findViewById(R.id.iv_increase_unselect)
+                            .setVisibility(textSize == 21 ? View.GONE : View.VISIBLE);
                     view1.findViewById(R.id.small_letter).setOnClickListener(view2 -> {
                         SPUtils.put(NewsInfoActivity.this, "news_text_size", 17);
-                        view1.findViewById(R.id.small_letter_selected).setVisibility(View.VISIBLE);
-                        view1.findViewById(R.id.big_letter_selected).setVisibility(View.GONE);
+                        view1.findViewById(R.id.iv_decrease_select).setVisibility(View.VISIBLE);
+                        view1.findViewById(R.id.iv_decrease_unselect).setVisibility(View.GONE);
+                        view1.findViewById(R.id.iv_increase_select).setVisibility(View.GONE);
+                        view1.findViewById(R.id.iv_increase_unselect).setVisibility(View.VISIBLE);
                         adapter.setLetterSize(17);
                     });
                     view1.findViewById(R.id.big_letter).setOnClickListener(view2 -> {
                         SPUtils.put(NewsInfoActivity.this, "news_text_size", 21);
-                        view1.findViewById(R.id.small_letter_selected).setVisibility(View.GONE);
-                        view1.findViewById(R.id.big_letter_selected).setVisibility(View.VISIBLE);
+                        view1.findViewById(R.id.iv_decrease_select).setVisibility(View.GONE);
+                        view1.findViewById(R.id.iv_decrease_unselect).setVisibility(View.VISIBLE);
+                        view1.findViewById(R.id.iv_increase_select).setVisibility(View.VISIBLE);
+                        view1.findViewById(R.id.iv_increase_unselect).setVisibility(View.GONE);
                         adapter.setLetterSize(21);
                     });
                     letterDialog = builder.create();

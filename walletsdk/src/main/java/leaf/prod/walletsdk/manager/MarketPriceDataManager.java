@@ -244,18 +244,20 @@ public class MarketPriceDataManager {
         String[][] buyArray = result.getDepth().getBuy();
         String[][] sellArray = result.getDepth().getSell();
 
-        int length = Math.max(buyArray.length, sellArray.length);
+        int length = 10;
+        List<String[]> list = Arrays.asList(sellArray);
+        Collections.sort(list, (o1, o2) -> o1[0].compareTo(o2[0]));
+        sellArray = (String[][]) list.toArray();
         if (buyArray.length < length) {
             appendArray = constructAppendArray(length - buyArray.length);
             buyArray = ArrayUtils.addAll(buyArray, appendArray);
             result.getDepth().setBuy(buyArray);
-        } else if (sellArray.length < length) {
+        }
+        if (sellArray.length < length) {
             appendArray = constructAppendArray(length - sellArray.length);
             sellArray = ArrayUtils.addAll(sellArray, appendArray);
         }
-        List<String[]> list = Arrays.asList(sellArray);
-        Collections.sort(list, (o1, o2) -> o1[0].compareTo(o2[0]));
-        result.getDepth().setSell((String[][]) list.toArray());
+        result.getDepth().setSell(sellArray);
         this.depth = result;
     }
 

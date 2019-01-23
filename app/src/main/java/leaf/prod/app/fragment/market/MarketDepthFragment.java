@@ -3,7 +3,6 @@ package leaf.prod.app.fragment.market;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,6 +27,7 @@ import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.TradeType;
 import leaf.prod.walletsdk.util.LanguageUtil;
+import leaf.prod.walletsdk.util.StringUtils;
 
 public class MarketDepthFragment extends BaseFragment {
 
@@ -109,14 +109,15 @@ public class MarketDepthFragment extends BaseFragment {
 
     private void handleClick(Map.Entry<String, RecyclerView> item, int position) {
         String[] values = manager.getDepths(item.getKey()).get(position);
-        if (item.getKey().equals("buy")) {
-            orderDataManager.setType(TradeType.buy);
-        } else if (item.getKey().equals("sell")) {
-            orderDataManager.setType(TradeType.sell);
+        if (values != null && !StringUtils.isEmpty(values[0])) {
+            if (item.getKey().equals("buy")) {
+                orderDataManager.setType(TradeType.buy);
+            } else if (item.getKey().equals("sell")) {
+                orderDataManager.setType(TradeType.sell);
+            }
+            getOperation().addParameter("priceFromDepth", values[0]);
+            getOperation().forward(MarketTradeActivity.class);
         }
-        Objects.requireNonNull(getActivity()).finish();
-        getOperation().addParameter("priceFromDepth", values[0]);
-        getOperation().forward(MarketTradeActivity.class);
     }
 
     private void setHeader(Map.Entry<String, RecyclerView> item) {
