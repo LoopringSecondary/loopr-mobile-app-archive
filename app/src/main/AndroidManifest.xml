@@ -122,7 +122,7 @@
             android:exported="false"
             android:launchMode="standard"/>
         <activity
-            android:name=".activity.wallet.WalletDetailActivity"
+            android:name=".activity.wallet.WalletDetailFragment"
             android:exported="false"
             android:launchMode="singleTask"/>
         <activity
@@ -337,6 +337,11 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.market.MarketDetailActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.wallet.WalletDetailActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>

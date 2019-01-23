@@ -85,7 +85,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
-    protected WeakReference<Activity> getWContext() {
+    public WeakReference<Activity> getWContext() {
         return context;
     }
 

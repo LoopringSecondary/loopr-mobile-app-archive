@@ -19,14 +19,18 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.infomation.NewsInfoActivity;
+import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.infomation.NewsInfoAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.utils.FontUtil;
 import leaf.prod.walletsdk.manager.NewsDataManager;
+import leaf.prod.walletsdk.model.Language;
+import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.response.crawler.News;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import leaf.prod.walletsdk.service.CrawlerService;
 import leaf.prod.walletsdk.util.LanguageUtil;
+import leaf.prod.walletsdk.util.StringUtils;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -47,6 +51,8 @@ public class NewsInfoFragment extends BaseFragment {
     @BindView(R.id.tv_title)
     public TextView tvTitle;
 
+    private NoDataAdapter emptyAdapter;
+
     private NewsInfoAdapter newsInfoAdapter;
 
     private static CrawlerService crawlerService;
@@ -57,12 +63,15 @@ public class NewsInfoFragment extends BaseFragment {
 
     private int pageIndex = 0;
 
+    private String symbol;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // 布局导入
         layout = inflater.inflate(R.layout.fragment_news_details, container, false);
         unbinder = ButterKnife.bind(this, layout);
+        symbol = getArguments() != null ? getArguments().getString("symbol") : "";
         return layout;
     }
 
@@ -89,6 +98,7 @@ public class NewsInfoFragment extends BaseFragment {
         }
         newsDataManager = NewsDataManager.getInstance(getContext());
         newsInfoAdapter = new NewsInfoAdapter(R.layout.news_info_item, null, getActivity());
+        emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.asset);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(newsInfoAdapter);
         getInformation(pageIndex = 0);
@@ -101,7 +111,8 @@ public class NewsInfoFragment extends BaseFragment {
     }
 
     private void getInformation(int page) {
-        crawlerService.getInformation(CrawlerService.ALL, LanguageUtil.getSettingLanguage(getContext()), page, 10)
+        Language language = LanguageUtil.getSettingLanguage(getContext());
+        crawlerService.getInformation(StringUtils.isEmpty(symbol) ? CrawlerService.ALL : symbol, language == Language.en_US ? Language.en_US : Language.zh_CN, page, 10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NewsPageWrapper>() {

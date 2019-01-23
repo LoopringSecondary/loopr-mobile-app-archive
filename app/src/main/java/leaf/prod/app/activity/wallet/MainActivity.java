@@ -292,13 +292,17 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) // System.currentTimeMillis()无论何时调用，肯定大于2000
-            {
-                RxToast.warning(this, getResources().getString(R.string.click_twice_close), Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
+            if (fragment1.isVisible() && ((MainFragment) fragment1).getCurrentItem() == 0) {
+                ((MainFragment) fragment1).setItem(new MainFragment.Event(1));
             } else {
-                finish();
-                System.exit(0);
+                if ((System.currentTimeMillis() - exitTime) > 2000) {
+                    RxToast.warning(this, getResources().getString(R.string.click_twice_close), Toast.LENGTH_SHORT)
+                            .show();
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    finish();
+                    System.exit(0);
+                }
             }
             return true;
         }

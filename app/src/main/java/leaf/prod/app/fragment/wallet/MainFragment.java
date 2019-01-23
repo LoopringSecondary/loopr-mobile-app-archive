@@ -31,8 +31,6 @@ public class MainFragment extends BaseFragment {
 
     public final static int BALANCE_SUCCESS = 1;
 
-    private static int REQUEST_CODE = 1;  //二维码扫一扫code
-
     @BindView(R.id.vp_main)
     MyVerticalViewPager viewPager;
 
@@ -81,6 +79,12 @@ public class MainFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        viewPager.setCurrentItem(1);
+    }
+
+    @Override
     protected void initData() {
     }
 
@@ -88,6 +92,10 @@ public class MainFragment extends BaseFragment {
     public void setItem(Event event) {
         viewPager.setCurrentItem(event.getIndex(), true);
         ((MainActivity) getActivity()).showBottomBar(event.getIndex() != 0);
+    }
+
+    public int getCurrentItem() {
+        return viewPager != null ? viewPager.getCurrentItem() : 1;
     }
 
     @Override

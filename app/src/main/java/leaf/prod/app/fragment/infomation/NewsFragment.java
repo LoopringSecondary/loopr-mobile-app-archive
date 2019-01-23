@@ -68,8 +68,13 @@ public class NewsFragment extends BaseFragment {
     @Override
     protected void initView() {
         rightBtn.setOnClickListener(view -> EventBus.getDefault().post(new MainFragment.Event(1)));
+        Bundle bundle = getArguments();
         newsFlashFragment = new NewsFlashFragment();
         newsInfoFragment = new NewsInfoFragment();
+        if (bundle != null) {
+            newsFlashFragment.setArguments(bundle);
+            newsInfoFragment.setArguments(bundle);
+        }
         fragments.add(newsFlashFragment);
         fragments.add(newsInfoFragment);
         String[] titles = new String[]{getString(R.string.news_flash), getString(R.string.news_information)};
