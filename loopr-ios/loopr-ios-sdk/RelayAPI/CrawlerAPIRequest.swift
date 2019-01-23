@@ -13,11 +13,18 @@ class CrawlerAPIRequest {
     // READY  获取  资讯  内容
     static func get(token: String, language: Language, category: NewsCategory, pageIndex: UInt = 0, pageSize: UInt = 50, completion: @escaping (_ response: [News], _ error: Error?) -> Void) {
         
+        var languageName = language.name
+        if languageName == "zh-Hant" || languageName == "zh-Hans" {
+            languageName = "zh-Hans"
+        } else {
+            languageName = "en"
+        }
+        
         var body: JSON = JSON()
         body["id"] = JSON(UUID().uuidString)
         body["jsonrpc"] = JSON("2.0")
         body["method"] = JSON("queryNews")
-        body["params"] = [["currency": token, "language": language.name, "category": category.rawValue, "pageIndex": pageIndex, "pageSize": pageSize]]
+        body["params"] = [["currency": token, "language": languageName, "category": category.rawValue, "pageIndex": pageIndex, "pageSize": pageSize]]
         
         Request.post(body: body, url: RelayAPIConfiguration.crawlerURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {

@@ -107,6 +107,12 @@ extension WalletViewController {
                         }
                     })
                     
+                    // Preload News data
+                    NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
+                    })
+                    NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
+                    })
+                    
                     // Get user config
                     AppServiceUserManager.shared.getUserConfig(completion: { (config, _) in
                         if let config = config {

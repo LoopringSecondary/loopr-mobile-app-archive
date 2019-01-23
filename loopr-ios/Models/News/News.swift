@@ -47,7 +47,7 @@ class News {
         self.source = json["source"].stringValue
         self.author = json["author"].stringValue
         self.imageUrl = json["imageUrl"].stringValue
-        self.newsImage = NewsImage(imageUrl: self.imageUrl)
+        self.newsImage = NewsImage(imageFolderName: "NewsThumbnail", imageUrl: self.imageUrl)
 
         self.bullIndex = json["bullIndex"].intValue
         self.bearIndex = json["bearIndex"].intValue
@@ -95,7 +95,7 @@ class News {
         
         let filteredParagraphs = paragraphs.filter { !$0.isString && $0.newsImage != nil }
         if filteredParagraphs.count > 0 && newsImage == nil {
-            newsImage = NewsImage(imageUrl: filteredParagraphs[0].newsImage!.imageUrl)
+            newsImage = NewsImage(imageFolderName: "NewsThumbnail", imageUrl: filteredParagraphs[0].newsImage!.imageUrl)
         }
         
         let publichTimeInUTC = json["publishTime"].stringValue

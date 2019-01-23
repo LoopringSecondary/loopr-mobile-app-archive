@@ -71,12 +71,6 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         self.navigationController?.addChildViewController(newsViewController)
         // view.bringSubview(toFront: newsViewController.view)
         self.newsViewController.didMove(toParentViewController: self)
-        
-        // Preload News data
-        NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
-        })
-        NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
-        })
 
         // Setup notifications
         NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
