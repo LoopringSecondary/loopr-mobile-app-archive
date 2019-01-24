@@ -109,8 +109,14 @@ extension WalletViewController {
                     
                     // Preload News data
                     NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
+                        DispatchQueue.main.async {
+                            self.delegate?.reloadCollectionViewInNewsViewController()
+                        }
                     })
                     NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
+                        DispatchQueue.main.async {
+                            self.delegate?.reloadCollectionViewInNewsViewController()
+                        }
                     })
                     
                     // Get user config

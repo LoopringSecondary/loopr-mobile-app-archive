@@ -14,6 +14,7 @@ import Lottie
 
 protocol WalletViewControllerDelegate: class {
     func scrollViewDidScroll(y: CGFloat)
+    func reloadCollectionViewInNewsViewController()
 }
 
 class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, QRCodeScanProtocol {

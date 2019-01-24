@@ -136,15 +136,14 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
         // Move the safari button to bottom tab bar.
         // Safari button
         let safariButton = UIButton(type: UIButtonType.custom)
-        safariButton.setImage(UIImage(named: "Safari-item-button"), for: .normal)
+        safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.5), for: .normal)
         safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.3), for: .highlighted)
         safariButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         safariButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
         safariButton.frame = CGRect(x: 0, y: 0, width: 23, height: 23)
         let shareBarButton = UIBarButtonItem(customView: safariButton)
-        // navigationItem.rightBarButtonItem = shareBarButton
-        navigationItem.rightBarButtonItem = nil
+        navigationItem.rightBarButtonItem = shareBarButton
 
         navigationBar.setItems([navigationItem], animated: true)
 

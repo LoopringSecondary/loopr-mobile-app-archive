@@ -142,28 +142,18 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         let fontAdjustmentButton = UIButton(type: UIButtonType.custom)
         fontAdjustmentButton.setImage(UIImage(named: "Font-adjust-item"), for: .normal)
         fontAdjustmentButton.setImage(UIImage(named: "Font-adjust-item")?.alpha(0.3), for: .highlighted)
-        // fontAdjustmentButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         fontAdjustmentButton.addTarget(self, action: #selector(pressedFontAdjustmentButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
         fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 40, y: 6, width: 23, height: 23)
         bottomButtonView.addSubview(fontAdjustmentButton)
-        
-        let safariButton = UIButton(type: UIButtonType.custom)
-        safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.5), for: .normal)
-        safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.3), for: .highlighted)
-        safariButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
-        safariButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
-        // The size of the image.
-        safariButton.frame = CGRect(x: (bottomButtonView.width - 23)*0.5 - 2, y: 7, width: 23, height: 23)
-        bottomButtonView.addSubview(safariButton)
-        
+
         let shareButton = UIButton(type: UIButtonType.custom)
         shareButton.setImage(UIImage(named: "News-share-large")?.alpha(0.4), for: .normal)
         shareButton.setImage(UIImage(named: "News-share-large")?.alpha(0.2), for: .highlighted)
         shareButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         shareButton.addTarget(self, action: #selector(pressedShareButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
-        shareButton.frame = CGRect(x: 7, y: 7, width: 23, height: 23)
+        shareButton.frame = CGRect(x: fontAdjustmentButton.frame.minX - 44, y: 7, width: 23, height: 23)
         bottomButtonView.addSubview(shareButton)
     }
     
@@ -331,12 +321,13 @@ extension MainTabController: WalletViewControllerDelegate {
                 
                 // TODO: need to consider the height when hiding the tab bar in NewsDetailViewController
                 self.newsViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: UIScreen.main.bounds.height + 44)
-                
-                self.newsViewController.viewControllers[0].viewController.collectionView.reloadData()
-                self.newsViewController.viewControllers[1].viewController.collectionView.reloadData()
-
             }
         }
+    }
+    
+    func reloadCollectionViewInNewsViewController() {
+        self.newsViewController.viewControllers[0].viewController.collectionView.reloadData()
+        self.newsViewController.viewControllers[1].viewController.collectionView.reloadData()
     }
     
 }
