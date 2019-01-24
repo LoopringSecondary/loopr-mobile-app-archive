@@ -41,23 +41,23 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Bu-T0-uhP">
-                                <rect key="frame" x="188" y="0.0" width="46" height="42"/>
+                                <rect key="frame" x="110" y="0.0" width="70" height="42"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="s30-zw-0HV"/>
+                                    <constraint firstAttribute="width" constant="70" id="s30-zw-0HV"/>
                                 </constraints>
                                 <state key="normal" title="利好"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHZ-gX-Xf6">
-                                <rect key="frame" x="234" y="0.0" width="46" height="42"/>
+                                <rect key="frame" x="180" y="0.0" width="70" height="42"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="ePh-7u-vme"/>
+                                    <constraint firstAttribute="width" constant="70" id="ePh-7u-vme"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzD-X7-KCV">
-                                <rect key="frame" x="280" y="0.0" width="40" height="42"/>
+                                <rect key="frame" x="250" y="0.0" width="60" height="42"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="o6V-wy-Jac"/>
+                                    <constraint firstAttribute="width" constant="60" id="o6V-wy-Jac"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                             </button>
@@ -75,7 +75,7 @@
                             <constraint firstItem="gzD-X7-KCV" firstAttribute="centerY" secondItem="Xp6-GB-jZo" secondAttribute="centerY" id="iV6-1f-76C"/>
                             <constraint firstItem="gzD-X7-KCV" firstAttribute="height" secondItem="Xp6-GB-jZo" secondAttribute="height" id="mu2-NO-hBl"/>
                             <constraint firstItem="2Bu-T0-uhP" firstAttribute="height" secondItem="Xp6-GB-jZo" secondAttribute="height" id="rvv-Ki-SuL"/>
-                            <constraint firstAttribute="trailing" secondItem="gzD-X7-KCV" secondAttribute="trailing" id="yf4-TL-58R"/>
+                            <constraint firstAttribute="trailing" secondItem="gzD-X7-KCV" secondAttribute="trailing" constant="10" id="yf4-TL-58R"/>
                         </constraints>
                     </view>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="QkU-Zl-7hg">
