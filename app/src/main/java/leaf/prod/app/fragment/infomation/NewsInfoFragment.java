@@ -98,7 +98,7 @@ public class NewsInfoFragment extends BaseFragment {
         }
         newsDataManager = NewsDataManager.getInstance(getContext());
         newsInfoAdapter = new NewsInfoAdapter(R.layout.news_info_item, null, getActivity());
-        emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.asset);
+        emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.news);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(newsInfoAdapter);
         getInformation(pageIndex = 0);
@@ -123,24 +123,31 @@ public class NewsInfoFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        clLoading.setVisibility(View.GONE);
                         unsubscribe();
-                        if (page == 0) {
-                            refreshLayout.finishRefresh(false);
-                        } else {
-                            refreshLayout.finishLoadMore(false);
-                        }
+                        refreshLayout.finishRefresh(false);
+                        refreshLayout.finishLoadMore(false);
+                        emptyAdapter.refresh();
+                        recyclerView.setAdapter(emptyAdapter);
                     }
 
                     @Override
                     public void onNext(NewsPageWrapper newsPageWrapper) {
-                        if (page == 0) {
-                            newsInfoAdapter.setNewData(newsPageWrapper.getData());
-                            refreshLayout.finishRefresh(true);
+                        if (newsPageWrapper.getTotal() > 0) {
+                            if (page == 0) {
+                                newsInfoAdapter.setNewData(newsPageWrapper.getData());
+                                refreshLayout.finishRefresh(true);
+                            } else {
+                                newsInfoAdapter.addData(newsPageWrapper.getData());
+                                newsPageWrapper.setData(newsInfoAdapter.getData());
+                                refreshLayout.finishLoadMore(0, true, newsInfoAdapter.getData()
+                                        .size() == newsPageWrapper.getTotal());
+                            }
                         } else {
-                            newsInfoAdapter.addData(newsPageWrapper.getData());
-                            newsPageWrapper.setData(newsInfoAdapter.getData());
-                            refreshLayout.finishLoadMore(0, true, newsInfoAdapter.getData()
-                                    .size() == newsPageWrapper.getTotal());
+                            refreshLayout.finishRefresh(true);
+                            refreshLayout.finishLoadMoreWithNoMoreData();
+                            emptyAdapter.refresh();
+                            recyclerView.setAdapter(emptyAdapter);
                         }
                         newsDataManager.setNews(newsPageWrapper);
                         newsList = newsInfoAdapter.getData();

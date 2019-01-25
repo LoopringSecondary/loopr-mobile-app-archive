@@ -14,7 +14,8 @@ public enum NoDataType {
     market_depth_buy("buy"),
     market_depth_sell("sell"),
     market_history("market_history"),
-    contact("contact");
+    contact("contact"),
+    news("news");
 
     private final String description;
 

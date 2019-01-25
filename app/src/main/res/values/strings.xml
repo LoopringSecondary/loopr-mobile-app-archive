@@ -338,5 +338,5 @@
     <string name="news_loading">正在刷新</string>
     <string name="news_pulling_load">下拉查看新闻</string>
     <string name="news_pulling_tip">下拉获取最新新闻资讯</string>
-
+    <string name="news_empty">没有相关新闻</string>
 </resources>

@@ -16,10 +16,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
+import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.infomation.NewsFlashAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.utils.FontUtil;
 import leaf.prod.walletsdk.model.Language;
+import leaf.prod.walletsdk.model.NoDataType;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import leaf.prod.walletsdk.service.CrawlerService;
 import leaf.prod.walletsdk.util.LanguageUtil;
@@ -45,6 +47,8 @@ public class NewsFlashFragment extends BaseFragment {
     public TextView tvTitle;
 
     private NewsFlashAdapter newsFlashAdapter;
+
+    private NoDataAdapter emptyAdapter;
 
     private static CrawlerService crawlerService;
 
@@ -84,6 +88,7 @@ public class NewsFlashFragment extends BaseFragment {
             crawlerService = new CrawlerService();
         }
         newsFlashAdapter = new NewsFlashAdapter(R.layout.news_flash_item, null, getActivity());
+        emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.news);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(newsFlashAdapter);
         getFlash(pageIndex = 0);
@@ -104,23 +109,30 @@ public class NewsFlashFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        clLoading.setVisibility(View.GONE);
                         unsubscribe();
-                        if (page == 0) {
-                            refreshLayout.finishRefresh(false);
-                        } else {
-                            refreshLayout.finishLoadMore(false);
-                        }
+                        refreshLayout.finishRefresh(false);
+                        refreshLayout.finishLoadMore(false);
+                        emptyAdapter.refresh();
+                        recyclerView.setAdapter(emptyAdapter);
                     }
 
                     @Override
                     public void onNext(NewsPageWrapper newsPageWrapper) {
-                        if (page == 0) {
-                            newsFlashAdapter.setNewData(newsPageWrapper.getData());
-                            refreshLayout.finishRefresh(true);
+                        if (newsPageWrapper.getTotal() > 0) {
+                            if (page == 0) {
+                                newsFlashAdapter.setNewData(newsPageWrapper.getData());
+                                refreshLayout.finishRefresh(true);
+                            } else {
+                                newsFlashAdapter.addData(newsPageWrapper.getData());
+                                refreshLayout.finishLoadMore(0, true, newsFlashAdapter.getData()
+                                        .size() == newsPageWrapper.getTotal());
+                            }
                         } else {
-                            newsFlashAdapter.addData(newsPageWrapper.getData());
-                            refreshLayout.finishLoadMore(0, true, newsFlashAdapter.getData()
-                                    .size() == newsPageWrapper.getTotal());
+                            refreshLayout.finishRefresh(true);
+                            refreshLayout.finishLoadMoreWithNoMoreData();
+                            emptyAdapter.refresh();
+                            recyclerView.setAdapter(emptyAdapter);
                         }
                         clLoading.setVisibility(View.GONE);
                         unsubscribe();
