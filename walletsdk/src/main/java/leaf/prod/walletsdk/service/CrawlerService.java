@@ -113,6 +113,17 @@ public class CrawlerService {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
+    public Observable<IndexResult> confirmReadNum(String uuid) {
+        IndexParam param = IndexParam.builder()
+                .uuid(uuid)
+                .indexName(IndexType.READNUM.getDescription())
+                .direction(IndexAction.CONFIRM.getValue())
+                .build();
+        RequestWrapper request = new RequestWrapper("updateIndex", param);
+        Observable<RelayResponseWrapper<IndexResult>> observable = rpcDelegate.updateIndex(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
     public Observable<BlogWrapper> getBlogs() {
         RequestWrapper request = new RequestWrapper("queryScrollingInfo");
         Observable<RelayResponseWrapper<BlogWrapper>> observable = rpcDelegate.getBlogs(request);

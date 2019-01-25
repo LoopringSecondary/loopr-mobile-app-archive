@@ -14,6 +14,8 @@ public enum IndexType {
 
     FORWARDNUM("forward_num"),
 
+    READNUM("read_num"),
+
     UNKNOWN("unknown");
 
     private String description;

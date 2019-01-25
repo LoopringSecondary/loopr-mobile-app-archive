@@ -57,7 +57,6 @@ public class MainFragment extends BaseFragment {
         // 布局导入
         layout = inflater.inflate(R.layout.fragment_main, container, false);
         unbinder = ButterKnife.bind(this, layout);
-        EventBus.getDefault().register(this);
         return layout;
     }
 
@@ -81,6 +80,13 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -101,7 +107,6 @@ public class MainFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        EventBus.getDefault().unregister(this);
     }
 
     public static class Event {

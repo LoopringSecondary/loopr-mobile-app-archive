@@ -35,8 +35,11 @@ import leaf.prod.app.layout.PinchImageView;
 import leaf.prod.app.layout.RoundSmartImageView;
 import leaf.prod.walletsdk.manager.NewsDataManager;
 import leaf.prod.walletsdk.model.response.crawler.News;
+import leaf.prod.walletsdk.service.CrawlerService;
 import leaf.prod.walletsdk.util.DpUtil;
 import leaf.prod.walletsdk.util.SPUtils;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
 
@@ -62,12 +65,17 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
 
     private int textSize;
 
+    private static CrawlerService crawlerService;
+
     public NewsInfoDetailAdapter(int layoutResId, List<News> news, int index, RecyclerView recyclerView, NewsInfoActivity activity) {
         super(layoutResId, news);
         this.activity = activity;
         this.newsList = news;
         this.index = index;
         this.recyclerView = recyclerView;
+        if (crawlerService == null) {
+            crawlerService = new CrawlerService();
+        }
         layoutManager = new LinearLayoutManager(recyclerView.getContext()) {
             @Override
             public boolean canScrollVertically() {
@@ -86,6 +94,10 @@ public class NewsInfoDetailAdapter extends BaseQuickAdapter<News, BaseViewHolder
     protected void convert(BaseViewHolder helper, News item) {
         if (item == null)
             return;
+        crawlerService.confirmReadNum(item.getUuid())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
         textSize = (int) SPUtils.get(activity, "news_text_size", 17);
         ((LinearLayout) helper.getView(R.id.ll_content)).removeAllViews();
         helper.setText(R.id.tv_title, item.getTitle());

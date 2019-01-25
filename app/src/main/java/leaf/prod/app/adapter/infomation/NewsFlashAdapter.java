@@ -95,29 +95,6 @@ public class NewsFlashAdapter extends BaseQuickAdapter<News, BaseViewHolder> {
                 lp.height = ConstraintSet.WRAP_CONTENT;
                 clContent.setLayoutParams(lp);
             });
-            //            ExpandableTextView clContent = helper.getView(R.id.cl_content);
-            //            clContent.setExpandInterpolator(new OvershootInterpolator());
-            //            clContent.setCollapseInterpolator(new OvershootInterpolator());
-            //            clContent.setOnClickListener(view -> {
-            //                if (clContent.isExpanded()) {
-            //                    clContent.setTextSize(11);
-            //                } else {
-            //                    clContent.setTextSize(13);
-            //                }
-            //                clContent.post(clContent::toggle);
-            //                //                clContent.addOnExpandListener(new ExpandableTextView.OnExpandListener() {
-            //                //                    @Override
-            //                //                    public void onExpand(@NonNull ExpandableTextView view) {
-            //                //                        clContent.setTextSize(13);
-            //                //                    }
-            //                //
-            //                //                    @Override
-            //                //                    public void onCollapse(@NonNull ExpandableTextView view) {
-            //                //                        clContent.setTextSize(11);
-            //                //                    }
-            //                //                });
-            //                //                clContent.toggle();
-            //            });
             helper.setOnClickListener(R.id.cl_bull, view -> {
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) {
                     setBull(helper, news);
