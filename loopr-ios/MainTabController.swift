@@ -145,7 +145,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         fontAdjustmentButton.setImage(UIImage(named: "Font-adjust-item")?.alpha(0.3), for: .highlighted)
         fontAdjustmentButton.addTarget(self, action: #selector(pressedFontAdjustmentButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
-        fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 12 - 23, y: (bottomButtonViewHeight-23)*0.5, width: 23, height: 23)
+        fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 40, y: (bottomButtonViewHeight-23)*0.5, width: 23, height: 23)
         bottomButtonView.addSubview(fontAdjustmentButton)
 
         let shareButton = UIButton(type: UIButtonType.custom)
@@ -154,7 +154,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         shareButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         shareButton.addTarget(self, action: #selector(pressedShareButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
-        shareButton.frame = CGRect(x: fontAdjustmentButton.frame.minX - 50, y: (bottomButtonViewHeight-23)*0.5, width: 23, height: 23)
+        shareButton.frame = CGRect(x: fontAdjustmentButton.frame.minX - 68, y: (bottomButtonViewHeight-23)*0.5, width: 23, height: 23)
         bottomButtonView.addSubview(shareButton)
     }
     
@@ -179,9 +179,9 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
 
         self.view.addSubview(dropdownMenu)
         if UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20 {
-            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-50-60, width: 110, height: 50)
+            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-55-60-2, width: 110, height: 50)
         } else {
-            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-44, width: 110, height: 50)
+            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-49-2, width: 110, height: 50)
         }
         
         dropdownMenu.isHidden = true
