@@ -33,6 +33,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var newsViewControllerEnabled: Bool = false
 
     var bottomButtonView: UIView = UIView()
+    let bottomButtonViewHeight: CGFloat = 49
     var bottomPadding: CGFloat = 0
     
     var isDropdownMenuExpanded: Bool = false
@@ -135,7 +136,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         let window = UIApplication.shared.keyWindow
         bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
         
-        bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding)
+        bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: bottomButtonViewHeight + self.bottomPadding)
         
         self.bottomButtonView.theme_backgroundColor = ColorPicker.cardHighLightColor
         
@@ -144,7 +145,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         fontAdjustmentButton.setImage(UIImage(named: "Font-adjust-item")?.alpha(0.3), for: .highlighted)
         fontAdjustmentButton.addTarget(self, action: #selector(pressedFontAdjustmentButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
-        fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 40, y: 6, width: 23, height: 23)
+        fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 12 - 23, y: (bottomButtonViewHeight-23)*0.5, width: 23, height: 23)
         bottomButtonView.addSubview(fontAdjustmentButton)
 
         let shareButton = UIButton(type: UIButtonType.custom)
@@ -153,7 +154,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         shareButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         shareButton.addTarget(self, action: #selector(pressedShareButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
-        shareButton.frame = CGRect(x: fontAdjustmentButton.frame.minX - 44, y: 7, width: 23, height: 23)
+        shareButton.frame = CGRect(x: fontAdjustmentButton.frame.minX - 50, y: (bottomButtonViewHeight-23)*0.5, width: 23, height: 23)
         bottomButtonView.addSubview(shareButton)
     }
     
@@ -354,23 +355,23 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
         if newValue {
             if animated {
                 UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-                    self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+                    self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: self.bottomButtonViewHeight + self.bottomPadding + 20)
                 }) { (_) in
                     
                 }
             } else {
-                self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+                self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: self.bottomButtonViewHeight + self.bottomPadding + 20)
             }
             
         } else {
             if animated {
                 UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-                    self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height - 40 - self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+                    self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height - self.bottomButtonViewHeight - self.bottomPadding, width: UIScreen.main.bounds.width, height: self.bottomButtonViewHeight + self.bottomPadding + 20)
                 }) { (_) in
                     
                 }
             } else {
-                self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height - 40 - self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+                self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height - self.bottomButtonViewHeight - self.bottomPadding, width: UIScreen.main.bounds.width, height: self.bottomButtonViewHeight + self.bottomPadding + 20)
             }
         }
     }
