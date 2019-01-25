@@ -81,7 +81,6 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        viewPager.setCurrentItem(1);
     }
 
     @Override
