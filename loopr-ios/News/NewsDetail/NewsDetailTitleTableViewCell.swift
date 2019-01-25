@@ -46,7 +46,7 @@ class NewsDetailTitleTableViewCell: UITableViewCell {
 
         if !isGradientLayerHidden {
             gradientLayer.removeFromSuperlayer()
-            gradientLayer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 80)
+            gradientLayer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 150)
             titleTextView.layer.insertSublayer(gradientLayer, at: 10)
         } else {
             gradientLayer.removeFromSuperlayer()

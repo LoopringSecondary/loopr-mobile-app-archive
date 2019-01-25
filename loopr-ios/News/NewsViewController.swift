@@ -79,7 +79,7 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         collectionView.refreshControl = refreshControl
 
         bottomSeperateLine.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        bottomSeperateLine.round(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 1)
+        bottomSeperateLine.round(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 2)
     }
     
     override func viewWillAppear(_ animated: Bool) {

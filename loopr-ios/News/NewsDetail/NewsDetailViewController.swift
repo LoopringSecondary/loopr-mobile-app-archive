@@ -155,7 +155,9 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
         print("the bottom of scrollView: \(bottomY)")
         if scrollView.contentOffset.y >= bottomY - 20 {
-            var delta = scrollView.contentOffset.y  - bottomY
+            var delta = scrollView.contentOffset.y - bottomY
+            
+            // iPhone X and iPhone 8 are different
             if UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20 {
                 delta += 79
             } else {
@@ -259,11 +261,11 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 1 {
+        if section == 2 {
             return 20
         } else {
             return 0
@@ -271,8 +273,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 1 {
-            return 40
+        if section == 2 {
+            return 40 + 13
         } else {
             return 0
         }
@@ -292,6 +294,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         if section == 0 {
             return news.paragraphs.count + 2
         } else if section == 1 {
+            return 1
+        } else if section == 2 {
             if currentIndex != NewsDataManager.shared.informationItems.count - 1 {
                 return 1
             }
@@ -319,6 +323,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 return height
             }
         } else if indexPath.section == 1 {
+            return NewsDetailSeperateLineTableViewCell.getHeight()
+        } else if indexPath.section == 2 {
             let nextNews = NewsDataManager.shared.informationItems[currentIndex+1]
             return NewsDetailTitleTableViewCell.getHeight(content: nextNews.title)
         }
@@ -375,6 +381,14 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 }
             }
         } else if indexPath.section == 1 {
+            var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailSeperateLineTableViewCell.getCellIdentifier()) as? NewsDetailSeperateLineTableViewCell
+            if cell == nil {
+                let nib = Bundle.main.loadNibNamed("NewsDetailSeperateLineTableViewCell", owner: self, options: nil)
+                cell = nib![0] as? NewsDetailSeperateLineTableViewCell
+            }
+            return cell!
+
+        } else if indexPath.section == 2 {
             let nextNews = NewsDataManager.shared.informationItems[currentIndex+1]
             var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailTitleTableViewCell.getCellIdentifier()) as? NewsDetailTitleTableViewCell
             if cell == nil {

@@ -124,6 +124,8 @@
 		9B018DA621F5B265009D079D /* MainTabControllerDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DA521F5B265009D079D /* MainTabControllerDropdownMenu.swift */; };
 		9B018DC021F679AE009D079D /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DBF21F679AE009D079D /* ImageScrollView.swift */; };
 		9B018DC221F68C3C009D079D /* arrow_down.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B018DC121F68C3C009D079D /* arrow_down.json */; };
+		9B018DC521FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC321FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.swift */; };
+		9B018DC621FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */; };
 		9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */; };
 		9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */; };
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
@@ -698,6 +700,8 @@
 		9B018DA521F5B265009D079D /* MainTabControllerDropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabControllerDropdownMenu.swift; sourceTree = "<group>"; };
 		9B018DBF21F679AE009D079D /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		9B018DC121F68C3C009D079D /* arrow_down.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = arrow_down.json; sourceTree = "<group>"; };
+		9B018DC321FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailSeperateLineTableViewCell.swift; sourceTree = "<group>"; };
+		9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailSeperateLineTableViewCell.xib; sourceTree = "<group>"; };
 		9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
 		9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlType.swift; sourceTree = "<group>"; };
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
@@ -1323,6 +1327,8 @@
 				9B2ED81921D85DC700ACEE84 /* NewsDetailViewController.xib */,
 				9BB789EC21EC22C90095631D /* NewsDetailTitleTableViewCell.swift */,
 				9BB789ED21EC22C90095631D /* NewsDetailTitleTableViewCell.xib */,
+				9B018DC321FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.swift */,
+				9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */,
 				9BB789F021EC23250095631D /* NewsDetailSubtitleTableViewCell.swift */,
 				9BB789F121EC23250095631D /* NewsDetailSubtitleTableViewCell.xib */,
 				9BA4FCA321EBF8B7005A3DC0 /* NewsDetailStringTableViewCell.swift */,
@@ -2735,6 +2741,7 @@
 				AC4141F0203524280089861D /* MarketSwipeViewController.xib in Resources */,
 				ACA677B92079970600D34A2F /* ExportKeystoreSwipeViewController.xib in Resources */,
 				AC2ACA5420FA0EC3009C77E7 /* Rubik-BlackItalic.ttf in Resources */,
+				9B018DC621FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.xib in Resources */,
 				9B2ED83D21DA083600ACEE84 /* Inter-UI-MediumItalic.ttf in Resources */,
 				9B2ED83521DA083600ACEE84 /* Inter-UI-Bold.ttf in Resources */,
 				94768CA2210DCABE00B5977B /* TradeSwipeViewController.xib in Resources */,
@@ -3107,6 +3114,7 @@
 				9423F77920C7D688000B6983 /* SignRawTransaction.swift in Sources */,
 				AC4F600D20773E9D00F1D954 /* SignatureData.swift in Sources */,
 				AC31CE1C205A2F0100A30335 /* SwitchTradeTokenViewController.swift in Sources */,
+				9B018DC521FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.swift in Sources */,
 				9B018DC021F679AE009D079D /* ImageScrollView.swift in Sources */,
 				ACB9116020242E3F00F14644 /* Asset.swift in Sources */,
 				AC4141FB20352DE50089861D /* SwipeTabItemView.swift in Sources */,

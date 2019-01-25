@@ -310,7 +310,7 @@ class NewsCollectionCell: UICollectionViewCell {
         }
         
         upvoteButton.imageEdgeInsets = UIEdgeInsets.init(top: -2, left: 0, bottom: 2, right: 0)
-        downvoteButton.imageEdgeInsets = UIEdgeInsets.init(top: 2, left: 0, bottom: -2, right: 0)
+        downvoteButton.imageEdgeInsets = UIEdgeInsets.init(top: 3, left: 0, bottom: -3, right: 0)
 
         upvoteButton.setTitle("\(LocalizedString("News_Up", comment: "")) \(news.bullIndex)", for: .normal)
         downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex)", for: .normal)
