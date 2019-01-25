@@ -92,9 +92,7 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
 
         let navigationItem = UINavigationItem(title: "")
         let button = UIButton(type: UIButtonType.custom)
-        
-        // button.theme_setImage(GlobalPicker.close, forState: .normal)
-        // button.theme_setImage(GlobalPicker.closeHighlight, forState: .highlighted)
+
         button.setImage(UIImage(named: "News-close-dark"), for: .normal)
         button.setImage(UIImage(named: "News-close-dark")?.alpha(0.6), for: .normal)
 
@@ -133,7 +131,6 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
 
-        // Move the safari button to bottom tab bar.
         // Safari button
         let safariButton = UIButton(type: UIButtonType.custom)
         safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.5), for: .normal)
@@ -189,6 +186,10 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
     
     override func swipeView(_ swipeView: SwipeView, viewControllerForPageAt index: Int) -> UIViewController {
         return viewControllers[index]
+    }
+    
+    override func swipeView(_ swipeView: SwipeView, didChangeIndexFrom fromIndex: Int, to toIndex: Int) {
+        print(toIndex)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

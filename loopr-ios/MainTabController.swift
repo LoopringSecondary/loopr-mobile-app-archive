@@ -28,7 +28,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var isFirtTimeAppear: Bool = true
     
     // Use ViewController to avoid the tab bar
-    let newsViewController = NewsSwipeViewController()
+    let newsSwipeViewController = NewsSwipeViewController()
     var newsViewControllerHeight: CGFloat = 4 * NewsCollectionCell.flashMinHeight
     var newsViewControllerEnabled: Bool = false
 
@@ -54,7 +54,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         // Setting view controller
         viewController4 = SettingNavigationViewController()
         
-        newsViewController.delegate = self
+        newsSwipeViewController.delegate = self
 
         setTabBarItems()
         if FeatureConfigDataManager.shared.getShowTradingFeature() {
@@ -63,14 +63,14 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
             viewControllers = [viewController1, viewController4]
         }
         
-        self.newsViewController.view.isHidden = true
-        newsViewController.willMove(toParentViewController: self)
-        view.addSubview(newsViewController.view)
+        newsSwipeViewController.view.frame = CGRect.zero
+        newsSwipeViewController.willMove(toParentViewController: self)
+        view.addSubview(newsSwipeViewController.view)
         
         // TODO: self.navigationController? is nil. call addChildViewController(newsViewController) will cause viewWillAppear not firing
-        self.navigationController?.addChildViewController(newsViewController)
+        self.navigationController?.addChildViewController(newsSwipeViewController)
         // view.bringSubview(toFront: newsViewController.view)
-        self.newsViewController.didMove(toParentViewController: self)
+        self.newsSwipeViewController.didMove(toParentViewController: self)
 
         // Setup notifications
         NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
@@ -110,7 +110,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
             if self.newsViewControllerHeight < UIScreen.main.bounds.size.height {
                 self.newsViewControllerHeight += (NewsCollectionCell.flashMinHeight + 8)
             }
-            self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
+            self.newsSwipeViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
             
             setupTabBarInNewsDetailViewController()
             setupDropdownMenu()
@@ -197,10 +197,10 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     
     @objc func languageChangedReceivedNotification() {
         setTabBarItems()
-        newsViewController.viewControllers[0].viewController.collectionView.reloadData()
-        newsViewController.viewControllers[0].viewController.refreshData()
-        newsViewController.viewControllers[1].viewController.collectionView.reloadData()
-        newsViewController.viewControllers[1].viewController.refreshData()
+        newsSwipeViewController.viewControllers[0].viewController.collectionView.reloadData()
+        newsSwipeViewController.viewControllers[0].viewController.refreshData()
+        newsSwipeViewController.viewControllers[1].viewController.collectionView.reloadData()
+        newsSwipeViewController.viewControllers[1].viewController.refreshData()
     }
     
     @objc func showTradingFeatureChangedReceivedNotification(notification: NSNotification) {
@@ -302,7 +302,7 @@ extension MainTabController: WalletViewControllerDelegate {
 
     func scrollViewDidScroll(y: CGFloat) {
         if !newsViewControllerEnabled {
-            newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight-y, width: view.frame.width, height: self.newsViewControllerHeight)
+            newsSwipeViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight-y, width: view.frame.width, height: self.newsViewControllerHeight)
         }
 
         if y < NewsUIStyleConfig.shared.scrollingDistance && !newsViewControllerEnabled {
@@ -310,24 +310,23 @@ extension MainTabController: WalletViewControllerDelegate {
             SettingDataManager.shared.setNewsIndicatorHasShownBefore()
             
             newsViewControllerEnabled = true
-            self.newsViewController.view.isHidden = false
-            view.bringSubview(toFront: newsViewController.view)
+            view.bringSubview(toFront: newsSwipeViewController.view)
             
             UIView.animate(withDuration: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationDuration, delay: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationDelay, usingSpringWithDamping: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationSpringWithDamping, initialSpringVelocity: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationInitialSpringVelocity, options: .curveEaseInOut, animations: {
-                self.newsViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: self.newsViewControllerHeight)
+                self.newsSwipeViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: self.newsViewControllerHeight)
                 self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: self.viewController1.viewController.assetTableView.frame.height, width: self.view.frame.width, height: self.viewController1.viewController.assetTableView.frame.height)
             }) { (_) in
                 self.viewController1.viewController.refreshControl.endRefreshing()
                 
                 // TODO: need to consider the height when hiding the tab bar in NewsDetailViewController
-                self.newsViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: UIScreen.main.bounds.height + 44)
+                self.newsSwipeViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: UIScreen.main.bounds.height + 44)
             }
         }
     }
     
     func reloadCollectionViewInNewsViewController() {
-        self.newsViewController.viewControllers[0].viewController.collectionView.reloadData()
-        self.newsViewController.viewControllers[1].viewController.collectionView.reloadData()
+        self.newsSwipeViewController.viewControllers[0].viewController.collectionView.reloadData()
+        self.newsSwipeViewController.viewControllers[1].viewController.collectionView.reloadData()
     }
     
 }
@@ -336,16 +335,16 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
     
     func closeButtonAction() {
         newsViewControllerEnabled = false
-        self.newsViewController.removeFromParentViewController()
+        // self.newsViewController.removeFromParentViewController()
         
         self.viewController1.viewController.walletBalanceView.frame = CGRect(x: 0, y: self.viewController1.viewController.assetTableView.frame.height, width: self.viewController1.viewController.walletBalanceView.frame.width, height: WalletButtonTableViewCell.getHeight())
         
         UIView.animate(withDuration: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationDuration, delay: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationDelay, usingSpringWithDamping: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationSpringWithDamping, initialSpringVelocity: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationInitialSpringVelocity, options: .curveEaseInOut, animations: {
-            self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
+            self.newsSwipeViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
             self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.viewController1.viewController.assetTableView.frame.height)
             self.viewController1.viewController.walletBalanceView.frame = CGRect(x: 0, y: 0, width: self.viewController1.viewController.walletBalanceView.frame.width, height: WalletButtonTableViewCell.getHeight())
         }) { (_) in
-            self.newsViewController.view.isHidden = true
+            
         }
     }
     
