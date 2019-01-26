@@ -14,6 +14,9 @@ class NewsUIStyleConfig {
     
     var scrollingDistance: CGFloat = -100
     
+    var newsDescriptionNormalFont: CGFloat = 10
+    var newsDescriptionExpandedFont: CGFloat = 14
+    
     let newsViewControllerPresentAnimationDuration: TimeInterval = 1
     let newsViewControllerPresentAnimationDelay: TimeInterval = 0.1
     let newsViewControllerPresentAnimationSpringWithDamping: CGFloat = 0.75

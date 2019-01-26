@@ -158,20 +158,16 @@ class NewsCollectionCell: UICollectionViewCell {
         // TODO: 4 will break the measure of lines
         titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines + 4
 
-        // TODO: this causes slow scrolling
         descriptionTextView.attributedText = news.descriptionAttributedText
-        
-        // TODO: We have two ways to show an expanded cell
-        /*
+
         descriptionTextView.theme_textColor = GlobalPicker.textLightColor
         if isExpanded {
-            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDescriptionExpandedFont)
         } else {
-            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 10)
+            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDescriptionNormalFont)
         }
-        */
         
-        descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+        // descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
         if isExpanded {
             descriptionTextView.theme_textColor = GlobalPicker.textColor
         } else {
@@ -330,7 +326,7 @@ class NewsCollectionCell: UICollectionViewCell {
         if isExpanded {
             let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.7
             let descriptionTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width-10*2, height: maxHeight))
-            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDescriptionExpandedFont)
             descriptionTextView.text = news.description
             let padding = descriptionTextView.textContainer.lineFragmentPadding
             descriptionTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
