@@ -81,8 +81,8 @@ class News {
             return nil
         }
         
-        if description.count > 100 && category == .information {
-            self.description = self.description.substring(toIndex: 100) + "..."
+        if description.count > 150 && category == .information {
+            self.description = self.description.substring(toIndex: 150) + "..."
         }
         
         let style = NSMutableParagraphStyle()

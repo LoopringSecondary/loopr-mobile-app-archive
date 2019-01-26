@@ -107,7 +107,7 @@ class NewsCollectionCell: UICollectionViewCell {
         shareButton.addTarget(self, action: #selector(pressedshareButton), for: .touchUpInside)
         shareButton.set(image: UIImage.init(named: "News-share")?.alpha(0.4), title: LocalizedString("Share", comment: ""), titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         
-        informationImageViewHeightLayoutConstraint.constant = 100
+        informationImageViewHeightLayoutConstraint.constant = 111
         informationImageView.cornerRadius = 4
         informationImageView.contentMode = .scaleAspectFill
         informationImageView.clipsToBounds = true
@@ -123,9 +123,9 @@ class NewsCollectionCell: UICollectionViewCell {
 
         if news.category == .information && news.newsImage != nil {
             informationImageView.image = news.newsImage?.image
-            titleTextViewTrailingLayoutConstraint.constant = 118
+            titleTextViewTrailingLayoutConstraint.constant = informationImageViewHeightLayoutConstraint.constant + 18
             // descriptionTextViewLeadingLayoutConstraint.constant = 135
-            descriptionTextViewTrailingLayoutConstraint.constant = 118
+            descriptionTextViewTrailingLayoutConstraint.constant = informationImageViewHeightLayoutConstraint.constant + 18
             informationImageView.isHidden = false
             if news.newsImage!.isLoading == true {
                 news.newsImage!.downloadImage { (image) in
@@ -168,11 +168,13 @@ class NewsCollectionCell: UICollectionViewCell {
         }
         
         // descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+        /*
         if isExpanded {
             descriptionTextView.theme_textColor = GlobalPicker.textColor
         } else {
             descriptionTextView.theme_textColor = GlobalPicker.textLightColor
         }
+        */
 
         updateVoteButtons()
         shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
@@ -317,8 +319,8 @@ class NewsCollectionCell: UICollectionViewCell {
         }
     }
     
-    static let informationMinHeight: CGFloat = 190
-    static let flashMinHeight: CGFloat = 190
+    static let informationMinHeight: CGFloat = 195
+    static let flashMinHeight: CGFloat = 195
     
     class func getSize(news: News, isExpanded: Bool) -> CGSize {
         let width: CGFloat = UIScreen.main.bounds.width - 15*2
@@ -340,7 +342,7 @@ class NewsCollectionCell: UICollectionViewCell {
             let rawLineNumber = CGFloat(numberOfLines(textView: titleTextView))
             let titleHeight = titleTextView.font!.lineHeight*rawLineNumber
             
-            let otherHeight: CGFloat = 74
+            let otherHeight: CGFloat = 72
             var height = textViewheight + otherHeight + titleHeight
             if height < flashMinHeight {
                 height = flashMinHeight
