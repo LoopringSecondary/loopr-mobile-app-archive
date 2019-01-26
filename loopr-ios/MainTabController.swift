@@ -158,49 +158,17 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     }
     
     func setupDropdownMenu() {
-        dropdownMenu.dataSource = self
-        dropdownMenu.delegate = self
-        dropdownMenu.disclosureIndicatorImage = nil
-        
-        dropdownMenu.dropdownShowsTopRowSeparator = false
-        dropdownMenu.dropdownBouncesScroll = false
-        dropdownMenu.backgroundDimmingOpacity = 0.2
-        dropdownMenu.backgroundColor = .clear  // UIColor.black
-        dropdownMenu.dropdownCornerRadius = 6
-        dropdownMenu.dropdownRoundedCorners = UIRectCorner.allCorners
-        dropdownMenu.dropdownBackgroundColor = UIColor.dark2
-        dropdownMenu.rowSeparatorColor = UIColor.dark2
-        dropdownMenu.componentSeparatorColor = UIColor.dark2
-        dropdownMenu.dropdownShowsTopRowSeparator = false
-        dropdownMenu.dropdownShowsBottomRowSeparator = false
-        dropdownMenu.dropdownShowsBorder = false
-        dropdownMenu.dropdownShowsContentAbove = true
-        dropdownMenu.spacerView = nil
-
         self.view.addSubview(dropdownMenu)
         if UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20 {
-            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-55-60-4, width: 110, height: 50)
+            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-55-60-4 - 50, width: 110, height: 50)
         } else {
-            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-49-2, width: 110, height: 50)
+            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-49-2 - 50, width: 110, height: 50)
         }
         
         dropdownMenu.isHidden = true
         isDropdownMenuExpanded = false
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDropdownMenuTap(sender:)))
-        dropdownMenu.addGestureRecognizer(tapGesture)
-        // dropdownMenu.containerView.isUserInteractionEnabled = true
-        // dropdownMenu.containerView.addGestureRecognizer(tapGesture)
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("began")
-    }
-    
-    @objc func handleDropdownMenuTap(sender: UITapGestureRecognizer) {
-        print("tap")
-    }
-    
+
     func showDropdownMenu() {
         dropdownMenu.isHidden = false
     }
@@ -241,11 +209,16 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     @objc func pressedFontAdjustmentButton(_ button: UIBarButtonItem) {
         print("pressed fontAdjustmentButton")
         if !isDropdownMenuExpanded {
-            showDropdownMenu()
-            dropdownMenu.openComponent(0, animated: true)
+            // showDropdownMenu()
+            // dropdownMenu.openComponent(0, animated: true)
+            dropdownMenu.isHidden = false
+            view.bringSubview(toFront: dropdownMenu)
+            isDropdownMenuExpanded = true
         } else {
-            hideDropdownMenu()
-            dropdownMenu.closeAllComponents(animated: true)
+            // hideDropdownMenu()
+            // dropdownMenu.closeAllComponents(animated: true)
+            dropdownMenu.isHidden = true
+            isDropdownMenuExpanded = false
         }
 
     }
@@ -315,6 +288,7 @@ extension MainTabController {
 extension MainTabController: WalletViewControllerDelegate {
 
     func scrollViewDidScroll(y: CGFloat) {
+        
         if !newsViewControllerEnabled {
             newsSwipeViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight-y, width: view.frame.width, height: self.newsViewControllerHeight)
         }
@@ -364,6 +338,11 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
     
     func setBottomTabBarHidden(_ newValue: Bool, animated: Bool) {
         self.view.addSubview(self.bottomButtonView)
+
+        if isDropdownMenuExpanded {
+            dropdownMenu.isHidden = true
+            isDropdownMenuExpanded = false
+        }
 
         if newValue {
             if animated {

@@ -121,7 +121,6 @@
 		94E665EA207234C5001328BF /* OrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E665E8207234C5001328BF /* OrderTableViewCell.xib */; };
 		94EE76A42113F21B009D6A90 /* OrderHistorySwipeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EE76A32113F21B009D6A90 /* OrderHistorySwipeType.swift */; };
 		9AACD1A68297585D93FB6182 /* Pods_loopr_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFC6AA9DC8C999B66FFD8AA /* Pods_loopr_iosTests.framework */; };
-		9B018DA621F5B265009D079D /* MainTabControllerDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DA521F5B265009D079D /* MainTabControllerDropdownMenu.swift */; };
 		9B018DC021F679AE009D079D /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DBF21F679AE009D079D /* ImageScrollView.swift */; };
 		9B018DC221F68C3C009D079D /* arrow_down.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B018DC121F68C3C009D079D /* arrow_down.json */; };
 		9B018DC521FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC321FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.swift */; };
@@ -699,7 +698,6 @@
 		94E665E7207234C5001328BF /* OrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTableViewCell.swift; sourceTree = "<group>"; };
 		94E665E8207234C5001328BF /* OrderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderTableViewCell.xib; sourceTree = "<group>"; };
 		94EE76A32113F21B009D6A90 /* OrderHistorySwipeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistorySwipeType.swift; sourceTree = "<group>"; };
-		9B018DA521F5B265009D079D /* MainTabControllerDropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabControllerDropdownMenu.swift; sourceTree = "<group>"; };
 		9B018DBF21F679AE009D079D /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		9B018DC121F68C3C009D079D /* arrow_down.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = arrow_down.json; sourceTree = "<group>"; };
 		9B018DC321FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailSeperateLineTableViewCell.swift; sourceTree = "<group>"; };
@@ -1862,8 +1860,6 @@
 				AC5288AF208300570002AEAD /* Utils */,
 				AC798E482022B93A0071D477 /* Main.storyboard */,
 				C8BF959C202696A900343B9A /* MainTabController.swift */,
-				9B018DA521F5B265009D079D /* MainTabControllerDropdownMenu.swift */,
-				9B76455C21FC4DDE00896B3E /* DefaultDropdownMenu.swift */,
 				AC8866972174685300815DD1 /* AppService */,
 				ACACB8B3213B8E9800F5ACC5 /* PushNotificationService */,
 				ACB746E22043C5CC006C2BF5 /* QRCode */,
@@ -2176,6 +2172,7 @@
 				ACB8AD88207F299700B478D6 /* UIViewController+BackButton.swift */,
 				AC2ACA5D21006DB8009C77E7 /* UIViewController+NavigationBar.swift */,
 				9B018DC721FC3096009D079D /* TimeAgoSince.swift */,
+				9B76455C21FC4DDE00896B3E /* DefaultDropdownMenu.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -3328,7 +3325,6 @@
 				AC0619422085D01E0060F416 /* SearchBarContainerView.swift in Sources */,
 				AC56625B20563C05003C925C /* TradeViewController.swift in Sources */,
 				AC31B95E204A8E4F00B16155 /* Mnemonic.swift in Sources */,
-				9B018DA621F5B265009D079D /* MainTabControllerDropdownMenu.swift in Sources */,
 				94C11FD6208C2DC60050E180 /* SettingCurrencyViewController.swift in Sources */,
 				9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */,
 				ACB8AD87207EE40300B478D6 /* TokenDataManager.swift in Sources */,
