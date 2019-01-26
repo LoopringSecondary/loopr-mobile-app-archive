@@ -52,6 +52,7 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         categoryLabel.font = FontConfigManager.shared.getNewsTitleFont() // FontConfigManager.shared.getMediumFont(size: 20)
         categoryLabel.textColor = .white
         categoryLabel.text = newsParamsList[currentIndex].title
+        categoryLabel.textAlignment = .center
         
         leftFakeView.round(corners: [.topRight, .bottomRight], radius: 2)
         leftFakeView.backgroundColor = UIColor(rgba: "#fdbc4c")
