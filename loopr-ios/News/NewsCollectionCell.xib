@@ -32,10 +32,7 @@
                         <rect key="frame" x="0.0" y="208" width="320" height="42"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8cV-VL-MOR">
-                                <rect key="frame" x="10" y="10.666666666666657" width="200" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="A1x-J2-M4C"/>
-                                </constraints>
+                                <rect key="frame" x="10" y="10.666666666666657" width="80" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -66,6 +63,7 @@
                         <constraints>
                             <constraint firstItem="wHZ-gX-Xf6" firstAttribute="height" secondItem="Xp6-GB-jZo" secondAttribute="height" id="0YG-4J-EEU"/>
                             <constraint firstItem="gzD-X7-KCV" firstAttribute="leading" secondItem="wHZ-gX-Xf6" secondAttribute="trailing" id="DBW-3C-G6h"/>
+                            <constraint firstItem="2Bu-T0-uhP" firstAttribute="leading" secondItem="8cV-VL-MOR" secondAttribute="trailing" constant="20" id="FRb-pt-fpI"/>
                             <constraint firstItem="wHZ-gX-Xf6" firstAttribute="leading" secondItem="2Bu-T0-uhP" secondAttribute="trailing" id="Fgi-la-j3q"/>
                             <constraint firstItem="8cV-VL-MOR" firstAttribute="centerY" secondItem="Xp6-GB-jZo" secondAttribute="centerY" id="Lau-Nf-5Tt"/>
                             <constraint firstItem="2Bu-T0-uhP" firstAttribute="centerY" secondItem="Xp6-GB-jZo" secondAttribute="centerY" id="Qrk-E6-upx"/>
