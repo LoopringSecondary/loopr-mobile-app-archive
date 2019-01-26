@@ -156,6 +156,21 @@
 "Release to read more" = "松开阅读全文";
 "Pull Down for the Latest News" = "下拉获取最新资讯";
 
+"years ago" = "年前";
+"Last year" = "去年";
+"months ago" = "月前";
+"Last month" = "上个月前";
+"weeks ago" = "星期前";
+"Last week" = "上星期前";
+"days ago" = "天前";
+"Yesterday" = "昨天";
+"hours ago" = "小时前";
+"An hour ago" = "1小时前";
+"minutes ago" = "分钟前";
+"A minute ago" = "1分钟前";
+"seconds ago" = "秒前";
+"Just now" = "刚刚";
+
 /* DEX Trade page */
 "Loopring Order" = "路印订单";
 "DEX Trade" = "去中心化交易所";

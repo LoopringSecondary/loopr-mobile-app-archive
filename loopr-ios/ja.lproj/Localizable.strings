@@ -156,6 +156,21 @@
 "Release to read more" = "Release to read more";
 "Pull Down for the Latest News" = "Pull Down for the Latest News";
 
+"years ago" = "years ago";
+"Last year" = "Last year";
+"months ago" = "months ago";
+"Last month" = "Last month";
+"weeks ago" = "weeks ago";
+"Last week" = "Last week";
+"days ago" = "days ago";
+"Yesterday" = "Yesterday";
+"hours ago" = "hours ago";
+"An hour ago" = "An hour ago";
+"minutes ago" = "minutes ago";
+"A minute ago" = "A minute ago";
+"seconds ago" = "seconds ago";
+"Just now" = "Just now";
+
 /* DEX Trade page */
 "Loopring Order" = "Loopring Order";
 "DEX Trade" = "DEX Trade";

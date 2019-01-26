@@ -117,7 +117,7 @@ class NewsCollectionCell: UICollectionViewCell {
         self.news = news
 
         // parse data
-        dateLabel.text = news.publishTime
+        dateLabel.text = timeAgoSince(news.publishTimeDate)
         sourceLabel.text = news.source
         titleTextView.text = news.title
 
@@ -179,6 +179,7 @@ class NewsCollectionCell: UICollectionViewCell {
         }
 
         updateVoteButtons()
+        shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
     }
     
     class func numberOfLines(textView: UITextView) -> Int {

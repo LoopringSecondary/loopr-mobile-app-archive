@@ -17,6 +17,7 @@ class News {
     var content: String
     var url: String
     var publishTime: String = ""
+    var publishTimeDate: Date = Date()
     var source: String
     var author: String
     var imageUrl: String
@@ -100,6 +101,7 @@ class News {
         
         let publichTimeInUTC = json["publishTime"].stringValue
         self.publishTime = self.utcToCurrent(publishTimeInUTC: publichTimeInUTC, currentDateFormat: "MM-dd HH:mm:ss")
+        self.publishTimeDate = self.utcToCurrent(publishTimeInUTC: publichTimeInUTC)
     }
     
     func utcToCurrent(publishTimeInUTC: String, currentDateFormat: String) -> String {
@@ -115,6 +117,15 @@ class News {
         dateFormatter2.dateFormat = currentDateFormat
         
         return dateFormatter2.string(from: date)
+    }
+    
+    func utcToCurrent(publishTimeInUTC: String) -> Date {
+        // UTC timezone
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        let date = dateFormatter.date(from: publishTimeInUTC)!
+        return date
     }
 
 }

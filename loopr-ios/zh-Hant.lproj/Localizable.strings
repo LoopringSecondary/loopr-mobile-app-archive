@@ -156,6 +156,21 @@
 "Release to read more" = "鬆開閱讀全文";
 "Pull Down for the Latest News" = "下拉獲取最新資訊";
 
+"years ago" = "年前";
+"Last year" = "去年";
+"months ago" = "月前";
+"Last month" = "上个月前";
+"weeks ago" = "星期前";
+"Last week" = "上星期前";
+"days ago" = "天前";
+"Yesterday" = "昨天";
+"hours ago" = "小時前";
+"An hour ago" = "1小時前";
+"minutes ago" = "分鐘前";
+"A minute ago" = "1分鐘前";
+"seconds ago" = "秒前";
+"Just now" = "剛剛";
+
 /* DEX Trade page */
 "Loopring Order" = "路印訂單";
 "DEX Trade" = "去中心化交易所";
