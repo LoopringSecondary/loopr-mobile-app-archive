@@ -9,7 +9,13 @@
 import Foundation
 import MKDropdownMenu
 
-class DefaultDropdownMenu: UIView {
+protocol NewsDetailDropdownMenuProtocol: class {
+    func dismiss()
+}
+
+class NewsDetailDropdownMenu: UIView {
+    
+    weak var delegate: NewsDetailDropdownMenuProtocol?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,11 +54,13 @@ class DefaultDropdownMenu: UIView {
     @objc func pressedSmallFontButton(_ button: UIBarButtonItem) {
         print("pressed pressedSmallFontButton")
         NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: true)
+        delegate?.dismiss()
     }
     
     @objc func pressedLargeFontButton(_ button: UIBarButtonItem) {
         print("pressed pressedLargeFontButton")
         NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: false)
+        delegate?.dismiss()
     }
     
 }

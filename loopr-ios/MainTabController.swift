@@ -36,8 +36,11 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var bottomPadding: CGFloat = 0
     
     var isDropdownMenuExpanded: Bool = false
-    let dropdownMenu = DefaultDropdownMenu(frame: .zero)
-    
+    let dropdownMenu = NewsDetailDropdownMenu(frame: .zero)
+
+    // Mask view
+    var blurVisualEffectView = UIView(frame: .zero)
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -155,6 +158,13 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         // The size of the image.
         shareButton.frame = CGRect(x: fontAdjustmentButton.frame.minX - 68, y: (bottomButtonViewHeight-23)*0.5, width: 23, height: 23)
         bottomButtonView.addSubview(shareButton)
+        
+        blurVisualEffectView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        blurVisualEffectView.alpha = 0
+        blurVisualEffectView.frame = UIScreen.main.bounds
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleBlurVisualEffectView(_:)))
+        tap.delegate = self
+        blurVisualEffectView.addGestureRecognizer(tap)
     }
     
     func setupDropdownMenu() {
@@ -165,16 +175,46 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
             dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-49-2 - 50, width: 110, height: 50)
         }
         
+        dropdownMenu.delegate = self
+        
         dropdownMenu.isHidden = true
         isDropdownMenuExpanded = false
     }
 
     func showDropdownMenu() {
         dropdownMenu.isHidden = false
+        view.bringSubview(toFront: dropdownMenu)
+        isDropdownMenuExpanded = true
+        
+        view.addSubview(blurVisualEffectView)
+        view.insertSubview(blurVisualEffectView, aboveSubview: bottomButtonView)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.blurVisualEffectView.alpha = 1.0
+        }, completion: {(_) in
+            
+        })
     }
     
     func hideDropdownMenu() {
         dropdownMenu.isHidden = true
+        isDropdownMenuExpanded = false
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            self.blurVisualEffectView.alpha = 0.0
+        }, completion: {(_) in
+            self.blurVisualEffectView.removeFromSuperview()
+        })
+    }
+    
+    @objc func handleBlurVisualEffectView(_ sender: UITapGestureRecognizer? = nil) {
+        hideDropdownMenu()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touchesBegan")
+        if isDropdownMenuExpanded {
+            hideDropdownMenu()
+        }
     }
     
     @objc func languageChangedReceivedNotification() {
@@ -209,18 +249,10 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     @objc func pressedFontAdjustmentButton(_ button: UIBarButtonItem) {
         print("pressed fontAdjustmentButton")
         if !isDropdownMenuExpanded {
-            // showDropdownMenu()
-            // dropdownMenu.openComponent(0, animated: true)
-            dropdownMenu.isHidden = false
-            view.bringSubview(toFront: dropdownMenu)
-            isDropdownMenuExpanded = true
+            showDropdownMenu()
         } else {
-            // hideDropdownMenu()
-            // dropdownMenu.closeAllComponents(animated: true)
-            dropdownMenu.isHidden = true
-            isDropdownMenuExpanded = false
+            hideDropdownMenu()
         }
-
     }
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
@@ -339,11 +371,6 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
     func setBottomTabBarHidden(_ newValue: Bool, animated: Bool) {
         self.view.addSubview(self.bottomButtonView)
 
-        if isDropdownMenuExpanded {
-            dropdownMenu.isHidden = true
-            isDropdownMenuExpanded = false
-        }
-
         if newValue {
             if animated {
                 UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
@@ -368,4 +395,10 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
         }
     }
 
+}
+
+extension MainTabController: NewsDetailDropdownMenuProtocol {
+    func dismiss() {
+        hideDropdownMenu()
+    }
 }

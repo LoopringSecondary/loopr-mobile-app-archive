@@ -103,6 +103,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     @objc func adjustFontInNewsDetailViewControllerReceivedNotification() {
         print("adjustFontInNewsDetailViewControllerReceivedNotification")
         self.tableView.reloadData()
+        pullToNextPageBottomView.isHidden = false
     }
     
     @objc private func refreshData(_ sender: Any) {
