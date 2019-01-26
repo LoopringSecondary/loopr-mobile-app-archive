@@ -146,6 +146,7 @@
 		9B2ED83C21DA083600ACEE84 /* Inter-UI-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83021DA083600ACEE84 /* Inter-UI-Italic.ttf */; };
 		9B2ED83D21DA083600ACEE84 /* Inter-UI-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83121DA083600ACEE84 /* Inter-UI-MediumItalic.ttf */; };
 		9B2ED83E21DA083600ACEE84 /* Inter-UI-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83221DA083600ACEE84 /* Inter-UI-Black.ttf */; };
+		9B76455D21FC4DDE00896B3E /* DefaultDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76455C21FC4DDE00896B3E /* DefaultDropdownMenu.swift */; };
 		9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */; };
 		9BA3014821B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */; };
 		9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */; };
@@ -723,6 +724,7 @@
 		9B2ED83021DA083600ACEE84 /* Inter-UI-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Italic.ttf"; sourceTree = "<group>"; };
 		9B2ED83121DA083600ACEE84 /* Inter-UI-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-MediumItalic.ttf"; sourceTree = "<group>"; };
 		9B2ED83221DA083600ACEE84 /* Inter-UI-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Black.ttf"; sourceTree = "<group>"; };
+		9B76455C21FC4DDE00896B3E /* DefaultDropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDropdownMenu.swift; sourceTree = "<group>"; };
 		9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerDepth.swift; sourceTree = "<group>"; };
 		9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerTradeHistory.swift; sourceTree = "<group>"; };
 		9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerSwipe.swift; sourceTree = "<group>"; };
@@ -1861,6 +1863,7 @@
 				AC798E482022B93A0071D477 /* Main.storyboard */,
 				C8BF959C202696A900343B9A /* MainTabController.swift */,
 				9B018DA521F5B265009D079D /* MainTabControllerDropdownMenu.swift */,
+				9B76455C21FC4DDE00896B3E /* DefaultDropdownMenu.swift */,
 				AC8866972174685300815DD1 /* AppService */,
 				ACACB8B3213B8E9800F5ACC5 /* PushNotificationService */,
 				ACB746E22043C5CC006C2BF5 /* QRCode */,
@@ -3132,6 +3135,7 @@
 				ACB9116E2025575A00F14644 /* MarketNavigationViewController.swift in Sources */,
 				947B1FD721CB789F009AE556 /* NeoAPIRequest.swift in Sources */,
 				AC2ACA9E21030775009C77E7 /* TradeFAQPage.swift in Sources */,
+				9B76455D21FC4DDE00896B3E /* DefaultDropdownMenu.swift in Sources */,
 				9BA4FCA521EBF8B7005A3DC0 /* NewsDetailStringTableViewCell.swift in Sources */,
 				AC4F601420773E9D00F1D954 /* EthError.swift in Sources */,
 				94BFF9D221073EE300A0BE8B /* SetGasViewController.swift in Sources */,

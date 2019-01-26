@@ -10,7 +10,6 @@ import UIKit
 import UserNotifications
 import Crashlytics
 import Social
-import MKDropdownMenu
 // import ESTabBarController_swift
 
 // ESTabBarController
@@ -37,7 +36,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var bottomPadding: CGFloat = 0
     
     var isDropdownMenuExpanded: Bool = false
-    let dropdownMenu = MKDropdownMenu(frame: .zero)
+    let dropdownMenu = DefaultDropdownMenu(frame: .zero)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -165,7 +164,8 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         
         dropdownMenu.dropdownShowsTopRowSeparator = false
         dropdownMenu.dropdownBouncesScroll = false
-        dropdownMenu.backgroundDimmingOpacity = 0
+        dropdownMenu.backgroundDimmingOpacity = 0.2
+        dropdownMenu.backgroundColor = .clear  // UIColor.black
         dropdownMenu.dropdownCornerRadius = 6
         dropdownMenu.dropdownRoundedCorners = UIRectCorner.allCorners
         dropdownMenu.dropdownBackgroundColor = UIColor.dark2
@@ -179,13 +179,26 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
 
         self.view.addSubview(dropdownMenu)
         if UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20 {
-            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-55-60-2, width: 110, height: 50)
+            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-55-60-4, width: 110, height: 50)
         } else {
             dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-49-2, width: 110, height: 50)
         }
         
         dropdownMenu.isHidden = true
         isDropdownMenuExpanded = false
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDropdownMenuTap(sender:)))
+        dropdownMenu.addGestureRecognizer(tapGesture)
+        // dropdownMenu.containerView.isUserInteractionEnabled = true
+        // dropdownMenu.containerView.addGestureRecognizer(tapGesture)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("began")
+    }
+    
+    @objc func handleDropdownMenuTap(sender: UITapGestureRecognizer) {
+        print("tap")
     }
     
     func showDropdownMenu() {
