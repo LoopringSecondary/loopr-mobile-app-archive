@@ -147,7 +147,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             newsDetailViewControllerDelegate?.setNavigationBarTitle("")
         }
         
-        guard currentIndex != NewsDataManager.shared.informationItems.count - 1 else {
+        guard currentIndex != NewsDataManager.shared.getInformationItems().count - 1 else {
             pullToNextPageBottomView.isHidden = true
             return
         }
@@ -215,7 +215,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         if enablePullToNextPage {
             isAnimating = true
 
-            let news = NewsDataManager.shared.informationItems[currentIndex+1]
+            let news = NewsDataManager.shared.getInformationItems()[currentIndex+1]
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
             detailViewController.currentIndex = currentIndex+1
             detailViewController.news = news
@@ -237,7 +237,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         } else if enablePullToPreviousPage {
             isAnimating = true
 
-            let news = NewsDataManager.shared.informationItems[currentIndex-1]
+            let news = NewsDataManager.shared.getInformationItems()[currentIndex-1]
             let detailViewController = NewsDetailViewController.init(nibName: "NewsDetailViewController", bundle: nil)
             detailViewController.currentIndex = currentIndex-1
             detailViewController.news = news
@@ -297,7 +297,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         } else if section == 1 {
             return 1
         } else if section == 2 {
-            if currentIndex != NewsDataManager.shared.informationItems.count - 1 {
+            if currentIndex != NewsDataManager.shared.getInformationItems().count - 1 {
                 return 1
             }
         }
@@ -326,7 +326,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         } else if indexPath.section == 1 {
             return NewsDetailSeperateLineTableViewCell.getHeight()
         } else if indexPath.section == 2 {
-            let nextNews = NewsDataManager.shared.informationItems[currentIndex+1]
+            let nextNews = NewsDataManager.shared.getInformationItems()[currentIndex+1]
             return NewsDetailTitleTableViewCell.getHeight(content: nextNews.title)
         }
         return 0
@@ -390,7 +390,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             return cell!
 
         } else if indexPath.section == 2 {
-            let nextNews = NewsDataManager.shared.informationItems[currentIndex+1]
+            let nextNews = NewsDataManager.shared.getInformationItems()[currentIndex+1]
             var cell = tableView.dequeueReusableCell(withIdentifier: NewsDetailTitleTableViewCell.getCellIdentifier()) as? NewsDetailTitleTableViewCell
             if cell == nil {
                 let nib = Bundle.main.loadNibNamed("NewsDetailTitleTableViewCell", owner: self, options: nil)

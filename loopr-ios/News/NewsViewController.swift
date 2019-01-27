@@ -124,9 +124,9 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if newsParamsList[currentIndex].category == .information {
-            return NewsDataManager.shared.informationItems.count
+            return NewsDataManager.shared.getInformationItems().count
         } else {
-            return NewsDataManager.shared.flashItems.count
+            return NewsDataManager.shared.getFlashItems().count
         }
     }
     
@@ -134,9 +134,9 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         // revoke GarlandConfig.shared.cardsSize
         let news: News
         if newsParamsList[currentIndex].category == .information {
-            news = NewsDataManager.shared.informationItems[indexPath.row]
+            news = NewsDataManager.shared.getInformationItems()[indexPath.row]
         } else {
-            news = NewsDataManager.shared.flashItems[indexPath.row]
+            news = NewsDataManager.shared.getFlashItems()[indexPath.row]
         }
         return NewsCollectionCell.getSize(news: news, isExpanded: NewsViewController.expandedNewsUuids.contains(news.uuid))
     }
@@ -152,14 +152,14 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         let news: News
         if newsParamsList[currentIndex].category == .information {
-            news = NewsDataManager.shared.informationItems[indexPath.row]
-            if NewsDataManager.shared.informationHasMoreData && isLastCell {
+            news = NewsDataManager.shared.getInformationItems()[indexPath.row]
+            if NewsDataManager.shared.getInformationHasMoreData() && isLastCell {
                 pageIndex += 1
                 getNewsFromAPIServer()
             }
         } else {
-            news = NewsDataManager.shared.flashItems[indexPath.row]
-            if NewsDataManager.shared.flashHasMoreData && isLastCell {
+            news = NewsDataManager.shared.getFlashItems()[indexPath.row]
+            if NewsDataManager.shared.getFlashHasMoreData() && isLastCell {
                 pageIndex += 1
                 getNewsFromAPIServer()
             }
@@ -169,7 +169,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.didClickedCollectionCellClosure = { (news) -> Void in
             let news: News
             if self.newsParamsList[self.currentIndex].category == .information {
-                news = NewsDataManager.shared.informationItems[indexPath.row]
+                news = NewsDataManager.shared.getInformationItems()[indexPath.row]
                 let detailViewController = NewsDetailViewController()
                 detailViewController.currentIndex = indexPath.row
                 detailViewController.news = news
@@ -179,7 +179,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                 self.navigationController?.pushViewController(detailViewController, animated: true)
                 
             } else {
-                news = NewsDataManager.shared.flashItems[indexPath.row]
+                news = NewsDataManager.shared.getFlashItems()[indexPath.row]
                 if NewsViewController.expandedNewsUuids.contains(news.uuid) {
                     NewsViewController.expandedNewsUuids.remove(news.uuid)
                     self.expandedIndexPathes.remove(indexPath)

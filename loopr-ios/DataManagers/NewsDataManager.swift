@@ -14,13 +14,9 @@ class NewsDataManager {
 
     let pageSize: UInt = 20
     
-    var informationHasMoreData: Bool = true
-    var informationItems: [News] = []
-
-    var flashHasMoreData: Bool = true
-    var flashItems: [News] = []
-    
     var currentIndex: Int = 0
+    var currentNewsListKey = "ALL_CURRENCY"
+    var newsLists = [String: NewsList]()
 
     var votes = [String: Int]()
 
@@ -30,8 +26,45 @@ class NewsDataManager {
         }
     }
     
-    func getCurrentInformationItem() -> News {
-        return informationItems[currentIndex]
+    func getInformationHasMoreData() -> Bool {
+        if self.newsLists[self.currentNewsListKey] != nil {
+            return newsLists[currentNewsListKey]!.informationHasMoreData
+        } else {
+            return true
+        }
+    }
+    
+    func getInformationItems() -> [News] {
+        if self.newsLists[self.currentNewsListKey] != nil {
+            print(self.newsLists[self.currentNewsListKey]!.informationItems)
+            return self.newsLists[self.currentNewsListKey]!.informationItems
+        } else {
+            return []
+        }
+    }
+    
+    func getFlashHasMoreData() -> Bool {
+        if self.newsLists[self.currentNewsListKey] != nil {
+            return newsLists[currentNewsListKey]!.flashHasMoreData
+        } else {
+            return true
+        }
+    }
+
+    func getFlashItems() -> [News] {
+        if self.newsLists[self.currentNewsListKey] != nil {
+            return self.newsLists[self.currentNewsListKey]!.flashItems
+        } else {
+            return []
+        }
+    }
+    
+    func getCurrentInformationItem() -> News? {
+        if let informationItems = newsLists[currentNewsListKey]?.informationItems {
+            return informationItems[currentIndex]
+        } else {
+            return nil
+        }
     }
 
     func getVote(uuid: String) -> Int {
@@ -44,39 +77,54 @@ class NewsDataManager {
     
     func updateVote(updatedNews: News) {
         if updatedNews.category == .information {
-            if let firstNews = informationItems.index(where: { $0.uuid == updatedNews.uuid }) {
-                informationItems[firstNews] = updatedNews
+            if let firstNews = newsLists[currentNewsListKey]?.informationItems.index(where: { $0.uuid == updatedNews.uuid }) {
+                newsLists[currentNewsListKey]?.informationItems[firstNews] = updatedNews
             }
         } else {
-            if let firstNews = flashItems.index(where: { $0.uuid == updatedNews.uuid }) {
-                flashItems[firstNews] = updatedNews
+            if let firstNews = newsLists[currentNewsListKey]?.flashItems.index(where: { $0.uuid == updatedNews.uuid }) {
+                newsLists[currentNewsListKey]?.flashItems[firstNews] = updatedNews
             }
         }
     }
 
     func get(category: NewsCategory, pageIndex: UInt, completion: @escaping (_ newsItems: [News], _ error: Error?) -> Void) {
-        CrawlerAPIRequest.get(token: "ALL_CURRENCY", language: SettingDataManager.shared.getCurrentLanguage(), category: category, pageIndex: pageIndex, pageSize: pageSize) { (news, error) in
+        CrawlerAPIRequest.get(token: currentNewsListKey, language: SettingDataManager.shared.getCurrentLanguage(), category: category, pageIndex: pageIndex, pageSize: pageSize) { (news, error) in
             if category == .information {
                 if pageIndex == 0 {
-                    self.informationItems = news
+                    if self.newsLists[self.currentNewsListKey] != nil {
+                        self.newsLists[self.currentNewsListKey]!.overwriteInformationItems(news: news)
+                    } else {
+                        let newList = NewsList(key: self.currentNewsListKey)
+                        newList.overwriteInformationItems(news: news)
+                        self.newsLists[self.currentNewsListKey] = newList
+                    }
                 } else {
-                    self.informationItems += news
+                    if self.newsLists[self.currentNewsListKey] != nil {
+                        self.newsLists[self.currentNewsListKey]!.appendInformationItems(news: news)
+                    } else {
+                        let newList = NewsList(key: self.currentNewsListKey)
+                        newList.overwriteInformationItems(news: news)
+                        self.newsLists[self.currentNewsListKey] = newList
+                    }
                 }
-                if news.count < self.pageSize {
-                    self.informationHasMoreData = false
-                } else {
-                    self.informationHasMoreData = true
-                }
+                
             } else {
                 if pageIndex == 0 {
-                    self.flashItems = news
+                    if self.newsLists[self.currentNewsListKey] != nil {
+                        self.newsLists[self.currentNewsListKey]!.overwriteFlashItems(news: news)
+                    } else {
+                        let newList = NewsList(key: self.currentNewsListKey)
+                        newList.overwriteFlashItems(news: news)
+                        self.newsLists[self.currentNewsListKey] = newList
+                    }
                 } else {
-                    self.flashItems += news
-                }
-                if news.count < self.pageSize {
-                    self.flashHasMoreData = false
-                } else {
-                    self.flashHasMoreData = true
+                    if self.newsLists[self.currentNewsListKey] != nil {
+                        self.newsLists[self.currentNewsListKey]!.appendFlashItems(news: news)
+                    } else {
+                        let newList = NewsList(key: self.currentNewsListKey)
+                        newList.overwriteFlashItems(news: news)
+                        self.newsLists[self.currentNewsListKey] = newList
+                    }
                 }
             }
 

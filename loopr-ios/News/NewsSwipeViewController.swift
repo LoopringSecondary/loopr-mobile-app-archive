@@ -169,9 +169,10 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
     }
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
-        let news = NewsDataManager.shared.getCurrentInformationItem()
-        if let url = URL(string: news.url) {
-            UIApplication.shared.open(url)
+        if let news = NewsDataManager.shared.getCurrentInformationItem() {
+            if let url = URL(string: news.url) {
+                UIApplication.shared.open(url)
+            }
         }
     }
     

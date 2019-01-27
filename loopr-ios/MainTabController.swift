@@ -257,19 +257,21 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
         print("pressed pressedSafariButton")
-        let news = NewsDataManager.shared.getCurrentInformationItem()
-        if let url = URL(string: news.url) {
-            UIApplication.shared.open(url)
+        if let news = NewsDataManager.shared.getCurrentInformationItem() {
+            if let url = URL(string: news.url) {
+                UIApplication.shared.open(url)
+            }
         }
     }
     
     @objc func pressedShareButton(_ button: UIBarButtonItem) {
-        let news = NewsDataManager.shared.getCurrentInformationItem()
-        if let url = URL(string: news.url) {
-            let shareAll = [news.title, url] as [Any]
-            let activityVC = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
-            activityVC.popoverPresentationController?.sourceView = self.view
-            self.present(activityVC, animated: true, completion: nil)
+        if let news = NewsDataManager.shared.getCurrentInformationItem() {
+            if let url = URL(string: news.url) {
+                let shareAll = [news.title, url] as [Any]
+                let activityVC = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
+                activityVC.popoverPresentationController?.sourceView = self.view
+                self.present(activityVC, animated: true, completion: nil)
+            }
         }
     }
 

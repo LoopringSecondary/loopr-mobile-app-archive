@@ -116,6 +116,21 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
             convertButon.setTitleTextAttributes([NSAttributedStringKey.font: FontConfigManager.shared.getCharactorFont(size: 14)], for: .normal)
             self.navigationItem.rightBarButtonItem = convertButon
         }
+        
+        if NewsDataManager.shared.currentNewsListKey != asset!.symbol {
+            NewsDataManager.shared.currentNewsListKey = asset!.symbol
+            delegate?.reloadCollectionViewInNewsViewController()
+            NewsDataManager.shared.get(category: .information, pageIndex: 0) { (news, _) in
+                DispatchQueue.main.async {
+                    self.delegate?.reloadCollectionViewInNewsViewController()
+                }
+            }
+            NewsDataManager.shared.get(category: .flash, pageIndex: 0) { (news, _) in
+                DispatchQueue.main.async {
+                    self.delegate?.reloadCollectionViewInNewsViewController()
+                }
+            }
+        }
     }
     
     @objc private func refreshData(_ sender: Any) {

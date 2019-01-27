@@ -139,6 +139,21 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         spaceView.contentMode = .center
         dropdownMenu.spacerView = spaceView
         dropdownMenu.spacerViewOffset = UIOffset.init(horizontal: self.dropdownMenu.bounds.size.width - 95, vertical: 1)
+        
+        if NewsDataManager.shared.currentNewsListKey != "ALL_CURRENCY" {
+            NewsDataManager.shared.currentNewsListKey = "ALL_CURRENCY"
+            delegate?.reloadCollectionViewInNewsViewController()
+            NewsDataManager.shared.get(category: .information, pageIndex: 0) { (news, _) in
+                DispatchQueue.main.async {
+                    self.delegate?.reloadCollectionViewInNewsViewController()
+                }
+            }
+            NewsDataManager.shared.get(category: .flash, pageIndex: 0) { (news, _) in
+                DispatchQueue.main.async {
+                    self.delegate?.reloadCollectionViewInNewsViewController()
+                }
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
