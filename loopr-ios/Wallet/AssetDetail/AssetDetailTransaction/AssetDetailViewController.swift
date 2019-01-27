@@ -10,12 +10,19 @@ import UIKit
 
 class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    var assetBalanceView: AssetBalanceView!
+    
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var receiveButton: GradientButton!
+    @IBOutlet weak var sendButton: GradientButton!
+
     var asset: Asset?
     var type: TxSwipeViewType
     var viewAppear: Bool = false
     var isLaunching: Bool = true
+    
+    let refreshView = UIView()
     let refreshControl = UIRefreshControl()
 
     var transactions: [Transaction] = []
@@ -49,9 +56,6 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
 
         setBackButton()
 
-        view.theme_backgroundColor = ColorPicker.backgroundColor
-        tableView.theme_backgroundColor = ColorPicker.backgroundColor
-
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
@@ -60,7 +64,7 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.tableHeaderView = headerView
         
         view.theme_backgroundColor = ColorPicker.backgroundColor
-        tableView.theme_backgroundColor = ColorPicker.backgroundColor
+        tableView.backgroundColor = .clear
         
         // Add Refresh Control to Table View
         tableView.refreshControl = refreshControl
@@ -69,9 +73,33 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
         refreshControl.theme_tintColor = GlobalPicker.textColor
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         
+        // Add Refresh Control to Table View
+        refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .walletViewController))
+        refreshView.frame = CGRect(x: 0, y: AssetBalanceTableViewCell.getHeight()-20, width: 0, height: 0)
+        tableView.addSubview(refreshView)
+        refreshView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        
         blurVisualEffectView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         blurVisualEffectView.alpha = 1
         blurVisualEffectView.frame = UIScreen.main.bounds
+        
+        // Receive & Send button
+        receiveButton.setTitle(LocalizedString("Receive", comment: "") + " " + (asset?.symbol ?? ""), for: .normal)
+        sendButton.setTitle(LocalizedString("Send", comment: "") + " " + (asset?.symbol ?? ""), for: .normal)
+        
+        if ColorTheme.current == .green {
+            sendButton.setPrimaryColor()
+        } else {
+            receiveButton.setPrimaryColor()
+        }
+        
+        // init WalletBalanceView
+        let screensize: CGRect = UIScreen.main.bounds
+        let screenWidth = screensize.width
+        assetBalanceView = AssetBalanceView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: AssetBalanceTableViewCell.getHeight()))
+        view.insertSubview(assetBalanceView, belowSubview: tableView)
+        assetBalanceView.update(asset: asset)
     }
     
     @objc private func refreshData(_ sender: Any) {
@@ -105,6 +133,22 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    @IBAction func pressedReceiveButton(_ sender: Any) {
+        print("pressedReceiveButton")
+        let viewController = QRCodeViewController()
+        viewController.hidesBottomBarWhenPushed = true
+        viewController.address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    @IBAction func pressedSendButton(_ sender: Any) {
+        print("pressedSendButton")
+        let viewController = SendAssetViewController()
+        viewController.asset = self.asset!
+        SendCurrentAppWalletDataManager.shared.token = TokenDataManager.shared.getTokenBySymbol(self.asset!.symbol)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     func sortTransactions(_ transsactions: [Transaction]) -> [Transaction] {
         var result: [Transaction] = []
         switch self.type {
@@ -136,7 +180,7 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func isTableEmpty() -> Bool {
@@ -144,81 +188,104 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return isTableEmpty() ? 1 : transactions.count
+        if section == 0 {
+            return 1
+        } else if section == 1 {
+            return isTableEmpty() ? 1 : transactions.count
+        } else {
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if isTableEmpty() {
-            return OrderNoDataTableViewCell.getHeight() - 120
+        if indexPath.section == 0 {
+            return AssetBalanceTableViewCell.getHeight()
         } else {
-            return AssetTransactionTableViewCell.getHeight()
+            if isTableEmpty() {
+                return OrderNoDataTableViewCell.getHeight() - 120
+            } else {
+                return AssetTransactionTableViewCell.getHeight()
+            }
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if isTableEmpty() {
-            var cell = tableView.dequeueReusableCell(withIdentifier: OrderNoDataTableViewCell.getCellIdentifier()) as? OrderNoDataTableViewCell
+        if indexPath.section == 0 {
+            var cell = tableView.dequeueReusableCell(withIdentifier: AssetBalanceTableViewCell.getCellIdentifier()) as? AssetBalanceTableViewCell
             if cell == nil {
-                let nib = Bundle.main.loadNibNamed("OrderNoDataTableViewCell", owner: self, options: nil)
-                cell = nib![0] as? OrderNoDataTableViewCell
+                let nib = Bundle.main.loadNibNamed("AssetBalanceTableViewCell", owner: self, options: nil)
+                cell = nib![0] as? AssetBalanceTableViewCell
             }
-            cell?.noDataLabel.text = LocalizedString("No-data-asset", comment: "")
-            cell?.noDataImageView.image = UIImage(named: "No-data-asset")
             return cell!
         } else {
-            var cell = tableView.dequeueReusableCell(withIdentifier: AssetTransactionTableViewCell.getCellIdentifier()) as? AssetTransactionTableViewCell
-            if cell == nil {
-                let nib = Bundle.main.loadNibNamed("AssetTransactionTableViewCell", owner: self, options: nil)
-                cell = nib![0] as? AssetTransactionTableViewCell
+            if isTableEmpty() {
+                var cell = tableView.dequeueReusableCell(withIdentifier: OrderNoDataTableViewCell.getCellIdentifier()) as? OrderNoDataTableViewCell
+                if cell == nil {
+                    let nib = Bundle.main.loadNibNamed("OrderNoDataTableViewCell", owner: self, options: nil)
+                    cell = nib![0] as? OrderNoDataTableViewCell
+                }
+                cell?.noDataLabel.text = LocalizedString("No-data-asset", comment: "")
+                cell?.noDataImageView.image = UIImage(named: "No-data-asset")
+                return cell!
+            } else {
+                var cell = tableView.dequeueReusableCell(withIdentifier: AssetTransactionTableViewCell.getCellIdentifier()) as? AssetTransactionTableViewCell
+                if cell == nil {
+                    let nib = Bundle.main.loadNibNamed("AssetTransactionTableViewCell", owner: self, options: nil)
+                    cell = nib![0] as? AssetTransactionTableViewCell
+                }
+                cell?.transaction = self.transactions[indexPath.row]
+                cell?.update()
+                
+                // Pagination
+                if hasMoreData && indexPath.row == transactions.count - 1 {
+                    pageIndex += 1
+                    getTransactionsFromRelay()
+                }
+                
+                return cell!
             }
-            cell?.transaction = self.transactions[indexPath.row]
-            cell?.update()
-            
-            // Pagination
-            if hasMoreData && indexPath.row == transactions.count - 1 {
-                pageIndex += 1
-                getTransactionsFromRelay()
-            }
-            
-            return cell!
         }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard !isTableEmpty() else { return }
-        tableView.deselectRow(at: indexPath, animated: false)
-        let transaction = self.transactions[indexPath.row]
-        
-        let vc = AssetTransactionDetailViewController()
-        vc.transaction = transaction
-        vc.parentNavController = self.navigationController
-        
-        // TODO: drag to dismiss is broken.
-        // vc.transitioningDelegate = self
-        vc.modalPresentationStyle = .overFullScreen
-        vc.dismissClosure = {
-            UIView.animate(withDuration: 0.1, animations: {
-                self.blurVisualEffectView.alpha = 0.0
+        if indexPath.section == 0 {
+            
+        } else {
+            guard !isTableEmpty() else { return }
+            tableView.deselectRow(at: indexPath, animated: false)
+            let transaction = self.transactions[indexPath.row]
+            
+            let vc = AssetTransactionDetailViewController()
+            vc.transaction = transaction
+            vc.parentNavController = self.navigationController
+            
+            // TODO: drag to dismiss is broken.
+            // vc.transitioningDelegate = self
+            vc.modalPresentationStyle = .overFullScreen
+            vc.dismissClosure = {
+                UIView.animate(withDuration: 0.1, animations: {
+                    self.blurVisualEffectView.alpha = 0.0
+                }, completion: {(_) in
+                    self.blurVisualEffectView.removeFromSuperview()
+                })
+            }
+            
+            dismissInteractor.percentThreshold = 0.2
+            dismissInteractor.dismissClosure = {
+                
+            }
+            
+            self.present(vc, animated: true) {
+                // self.dismissInteractor.attachToViewController(viewController: vc, withView: vc.view, presentViewController: nil, backgroundView: self.blurVisualEffectView)
+            }
+            
+            self.navigationController?.view.addSubview(self.blurVisualEffectView)
+            UIView.animate(withDuration: 0.3, animations: {
+                self.blurVisualEffectView.alpha = 1.0
             }, completion: {(_) in
-                self.blurVisualEffectView.removeFromSuperview()
+                
             })
         }
-        
-        dismissInteractor.percentThreshold = 0.2
-        dismissInteractor.dismissClosure = {
-
-        }
-        
-        self.present(vc, animated: true) {
-            // self.dismissInteractor.attachToViewController(viewController: vc, withView: vc.view, presentViewController: nil, backgroundView: self.blurVisualEffectView)
-        }
-        
-        self.navigationController?.view.addSubview(self.blurVisualEffectView)
-        UIView.animate(withDuration: 0.3, animations: {
-            self.blurVisualEffectView.alpha = 1.0
-        }, completion: {(_) in
-            
-        })
     }
 
 }

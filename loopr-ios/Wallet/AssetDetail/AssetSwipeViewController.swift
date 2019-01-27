@@ -19,14 +19,10 @@ class AssetSwipeViewController: SwipeViewController {
     var baseView: UIImageView = UIImageView(frame: .zero)
     let balanceLabel: UILabel = UILabel(frame: .zero)
     let currencyLabel: UILabel = UILabel(frame: .zero)
-    
-    @IBOutlet weak var receiveButton: GradientButton!
-    @IBOutlet weak var sendButton: GradientButton!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         self.navigationItem.title = asset?.symbol
         view.theme_backgroundColor = ColorPicker.backgroundColor
         self.topConstraint = 140
@@ -57,16 +53,6 @@ class AssetSwipeViewController: SwipeViewController {
         currencyLabel.textAlignment = .center
         currencyLabel.text = asset?.currency
         view.addSubview(currencyLabel)
-        
-        // Receive & Send button
-        receiveButton.setTitle(LocalizedString("Receive", comment: "") + " " + (asset?.symbol ?? ""), for: .normal)
-        sendButton.setTitle(LocalizedString("Send", comment: "") + " " + (asset?.symbol ?? ""), for: .normal)
-
-        if ColorTheme.current == .green {
-            sendButton.setPrimaryColor()
-        } else {
-            receiveButton.setPrimaryColor()
-        }
         
         if Themes.isDark() {
             options.swipeTabView.itemView.textColor = UIColor(rgba: "#ffffff66")
@@ -105,22 +91,6 @@ class AssetSwipeViewController: SwipeViewController {
         let viewController = ConvertETHViewController()
         viewController.asset = CurrentAppWalletDataManager.shared.getAsset(symbol: asset!.symbol)
         viewController.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(viewController, animated: true)
-    }
-
-    @IBAction func pressedReceiveButton(_ sender: Any) {
-        print("pressedReceiveButton")
-        let viewController = QRCodeViewController()
-        viewController.hidesBottomBarWhenPushed = true
-        viewController.address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
-        self.navigationController?.pushViewController(viewController, animated: true)
-    }
-
-    @IBAction func pressedSendButton(_ sender: Any) {
-        print("pressedSendButton")
-        let viewController = SendAssetViewController()
-        viewController.asset = self.asset!
-        SendCurrentAppWalletDataManager.shared.token = TokenDataManager.shared.getTokenBySymbol(self.asset!.symbol)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
