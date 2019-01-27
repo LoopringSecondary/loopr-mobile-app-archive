@@ -352,10 +352,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        print("scrollViewDidEndDragging: \(scrollView.contentOffset.y)")
-    }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         print("scrollViewDidEndDecelerating")
@@ -447,6 +443,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             tableView.deselectRow(at: indexPath, animated: true)
             let asset = CurrentAppWalletDataManager.shared.getAssetsWithHideSmallAssetsOption()[indexPath.row]
             let viewController = AssetDetailViewController()
+            viewController.delegate = self
             viewController.asset = asset
             viewController.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(viewController, animated: true)
@@ -509,6 +506,18 @@ extension WalletViewController: WalletButtonTableViewCellDelegate {
         let viewController = AirdropViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+
+}
+
+extension WalletViewController: AssetViewControllerDelegate {
+
+    func scrollViewDidScroll(y: CGFloat) {
+        delegate?.scrollViewDidScroll(y: y)
+    }
+    
+    func reloadCollectionViewInNewsViewController() {
+        delegate?.reloadCollectionViewInNewsViewController()
     }
 
 }

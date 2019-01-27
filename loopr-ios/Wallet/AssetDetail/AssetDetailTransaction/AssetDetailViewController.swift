@@ -8,8 +8,16 @@
 
 import UIKit
 
+protocol AssetViewControllerDelegate: class {
+    func scrollViewDidScroll(y: CGFloat)
+    func reloadCollectionViewInNewsViewController()
+}
+
 class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    weak var delegate: AssetViewControllerDelegate?
+
+    var isNewsViewControllerScrollEnabled: Bool = false
     var assetBalanceView: AssetBalanceView!
     
     @IBOutlet weak var tableView: UITableView!
@@ -59,6 +67,7 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
+        tableView.delaysContentTouches = false
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 0))
         tableView.tableHeaderView = headerView
@@ -229,6 +238,7 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
             if cell == nil {
                 let nib = Bundle.main.loadNibNamed("AssetBalanceTableViewCell", owner: self, options: nil)
                 cell = nib![0] as? AssetBalanceTableViewCell
+                cell?.delegate = self
             }
             return cell!
         } else {
@@ -300,6 +310,63 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
                 
             })
         }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("scrollView y: \(scrollView.contentOffset.y) with \(isNewsViewControllerScrollEnabled)")
+        if isNewsViewControllerScrollEnabled {
+            delegate?.scrollViewDidScroll(y: scrollView.contentOffset.y)
+        }
+        
+        if isNewsViewControllerScrollEnabled && scrollView.contentOffset.y < -10 {
+            self.navigationItem.title = ""
+            self.navigationItem.rightBarButtonItem = nil
+        } else {
+            self.navigationItem.title = asset?.symbol
+            // self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(self.pressAddButton(_:)))
+            if asset?.symbol == "ETH" || asset?.symbol == "WETH" {
+                let convertButon = UIBarButtonItem(title: LocalizedString("Convert", comment: ""), style: UIBarButtonItemStyle.plain, target: self, action: #selector(pressedConvertButton))
+                convertButon.setTitleTextAttributes([NSAttributedStringKey.font: FontConfigManager.shared.getCharactorFont(size: 14)], for: .normal)
+                self.navigationItem.rightBarButtonItem = convertButon
+            }
+        }
+        
+        if scrollView.contentOffset.y >= 0 {
+            assetBalanceView.frame = CGRect(x: 0, y: -scrollView.contentOffset.y, width: assetBalanceView.frame.width, height: assetBalanceView.frame.height)
+        } else {
+            if isNewsViewControllerScrollEnabled {
+                assetBalanceView.frame = CGRect(x: 0, y: -scrollView.contentOffset.y, width: assetBalanceView.frame.width, height: assetBalanceView.frame.height)
+            } else {
+                assetBalanceView.frame = CGRect(x: 0, y: 0, width: assetBalanceView.frame.width, height: assetBalanceView.frame.height)
+            }
+        }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        print("scrollViewDidEndDecelerating")
+        print("scrollView y: \(scrollView.contentOffset.y)")
+        
+        if isNewsViewControllerScrollEnabled {
+            assetBalanceView.frame = CGRect(x: 0, y: -scrollView.contentOffset.y, width: assetBalanceView.frame.width, height: assetBalanceView.frame.height)
+        }
+        
+        // Reset the state at the end
+        isNewsViewControllerScrollEnabled = false
+        self.refreshView.isHidden = false
+    }
+
+}
+
+extension AssetDetailViewController: AssetBalanceTableViewCellDelegate {
+    
+    func touchesBegan() {
+        isNewsViewControllerScrollEnabled = true
+        self.refreshView.isHidden = true
+    }
+    
+    func touchesEnd() {
+        isNewsViewControllerScrollEnabled = false
+        self.refreshView.isHidden = false
     }
 
 }
