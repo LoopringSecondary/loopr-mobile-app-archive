@@ -100,6 +100,13 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
         assetBalanceView = AssetBalanceView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: AssetBalanceTableViewCell.getHeight()))
         view.insertSubview(assetBalanceView, belowSubview: tableView)
         assetBalanceView.update(asset: asset)
+        
+        self.navigationItem.title = asset?.symbol
+        if asset?.symbol == "ETH" || asset?.symbol == "WETH" {
+            let convertButon = UIBarButtonItem(title: LocalizedString("Convert", comment: ""), style: UIBarButtonItemStyle.plain, target: self, action: #selector(pressedConvertButton))
+            convertButon.setTitleTextAttributes([NSAttributedStringKey.font: FontConfigManager.shared.getCharactorFont(size: 14)], for: .normal)
+            self.navigationItem.rightBarButtonItem = convertButon
+        }
     }
     
     @objc private func refreshData(_ sender: Any) {
@@ -131,6 +138,13 @@ class AssetDetailViewController: UIViewController, UITableViewDelegate, UITableV
                 }
             }
         }
+    }
+    
+    @objc func pressedConvertButton() {
+        let viewController = ConvertETHViewController()
+        viewController.asset = CurrentAppWalletDataManager.shared.getAsset(symbol: asset!.symbol)
+        viewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     @IBAction func pressedReceiveButton(_ sender: Any) {
