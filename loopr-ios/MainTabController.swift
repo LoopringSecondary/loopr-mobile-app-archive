@@ -342,6 +342,10 @@ extension MainTabController: WalletViewControllerDelegate {
                 
                 // TODO: need to consider the height when hiding the tab bar in NewsDetailViewController
                 self.newsSwipeViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: UIScreen.main.bounds.height + 44)
+                
+                self.newsSwipeViewController.swipeView.swipeContentScrollView?.isScrollEnabled = true
+                self.newsSwipeViewController.viewControllers[0].viewController.rightFakeView.alpha = 1
+                self.newsSwipeViewController.viewControllers[1].viewController.leftFakeView.alpha = 1
             }
         }
     }
@@ -360,13 +364,16 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
         // self.newsViewController.removeFromParentViewController()
         
         self.viewController1.viewController.walletBalanceView.frame = CGRect(x: 0, y: self.viewController1.viewController.assetTableView.frame.height, width: self.viewController1.viewController.walletBalanceView.frame.width, height: WalletButtonTableViewCell.getHeight())
-        
+                
         UIView.animate(withDuration: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationDuration, delay: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationDelay, usingSpringWithDamping: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationSpringWithDamping, initialSpringVelocity: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationInitialSpringVelocity, options: .curveEaseInOut, animations: {
             self.newsSwipeViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
+            // self.newsSwipeViewController.view.frame = CGRect(x: 0, y: -100, width: self.view.frame.width, height: self.newsViewControllerHeight)
             self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.viewController1.viewController.assetTableView.frame.height)
             self.viewController1.viewController.walletBalanceView.frame = CGRect(x: 0, y: 0, width: self.viewController1.viewController.walletBalanceView.frame.width, height: WalletButtonTableViewCell.getHeight())
         }) { (_) in
-            
+            self.newsSwipeViewController.swipeView.swipeContentScrollView?.isScrollEnabled = true
+            self.newsSwipeViewController.viewControllers[0].viewController.rightFakeView.alpha = 1
+            self.newsSwipeViewController.viewControllers[1].viewController.leftFakeView.alpha = 1
         }
     }
     
