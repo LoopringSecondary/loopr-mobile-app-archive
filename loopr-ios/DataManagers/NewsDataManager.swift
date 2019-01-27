@@ -19,13 +19,19 @@ class NewsDataManager {
     var newsLists = [String: NewsList]()
 
     var votes = [String: Int]()
+    
+    var isLaunching = false
 
     private init() {
         if let votes = UserDefaults.standard.dictionary(forKey: UserDefaultsKeys.newsUpvoteAndDownvote.rawValue) as? [String: Int] {
             self.votes = votes
         }
     }
-    
+
+    func isInformationEmpty() -> Bool {
+        return getInformationItems().count == 0 && !isLaunching
+    }
+
     func getInformationHasMoreData() -> Bool {
         if self.newsLists[self.currentNewsListKey] != nil {
             return newsLists[currentNewsListKey]!.informationHasMoreData
@@ -42,7 +48,11 @@ class NewsDataManager {
             return []
         }
     }
-    
+
+    func isFlashEmpty() -> Bool {
+        return getFlashItems().count == 0 && !isLaunching
+    }
+
     func getFlashHasMoreData() -> Bool {
         if self.newsLists[self.currentNewsListKey] != nil {
             return newsLists[currentNewsListKey]!.flashHasMoreData
@@ -88,6 +98,7 @@ class NewsDataManager {
     }
 
     func get(category: NewsCategory, pageIndex: UInt, completion: @escaping (_ newsItems: [News], _ error: Error?) -> Void) {
+        isLaunching = true
         CrawlerAPIRequest.get(token: currentNewsListKey, language: SettingDataManager.shared.getCurrentLanguage(), category: category, pageIndex: pageIndex, pageSize: pageSize) { (news, error) in
             if category == .information {
                 if pageIndex == 0 {
@@ -128,6 +139,7 @@ class NewsDataManager {
                 }
             }
 
+            self.isLaunching = false
             completion(news, error)
         }
     }

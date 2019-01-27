@@ -443,6 +443,8 @@
 "No-data-order" = "還沒有訂單記錄";
 "No-data-asset" = "還沒有收付賬記錄";
 "No-data-contact" = "還沒有地址";
+"No-data-flash" = "沒有相關資訊";
+"No-data-information" = "沒有相關新聞";
 
 /* Unlock app using Touch ID or Face ID. */
 "Unlock" = "解鎖";

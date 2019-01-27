@@ -68,8 +68,12 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
             rightFakeView.isHidden = true
         }
         
-        let nib = UINib(nibName: NewsCollectionCell.getCellIdentifier(), bundle: nil)
-        collectionView.register(nib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())
+        let newsCollectionCellNib = UINib(nibName: NewsCollectionCell.getCellIdentifier(), bundle: nil)
+        collectionView.register(newsCollectionCellNib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())
+        
+        let noDataCollectionCellNib = UINib(nibName: NoDataCollectionViewCell.getCellIdentifier(), bundle: nil)
+        collectionView.register(noDataCollectionCellNib, forCellWithReuseIdentifier: NoDataCollectionViewCell.getCellIdentifier())
+
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = true
@@ -124,14 +128,21 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if newsParamsList[currentIndex].category == .information {
-            return NewsDataManager.shared.getInformationItems().count
+            return NewsDataManager.shared.isInformationEmpty() ? 1: NewsDataManager.shared.getInformationItems().count
         } else {
-            return NewsDataManager.shared.getFlashItems().count
+            return NewsDataManager.shared.isFlashEmpty() ? 1: NewsDataManager.shared.getFlashItems().count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // revoke GarlandConfig.shared.cardsSize
+        if newsParamsList[currentIndex].category == .information && NewsDataManager.shared.isInformationEmpty() {
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 450)
+        }
+        
+        if newsParamsList[currentIndex].category == .flash && NewsDataManager.shared.isFlashEmpty() {
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 450)
+        }
+
         let news: News
         if newsParamsList[currentIndex].category == .information {
             news = NewsDataManager.shared.getInformationItems()[indexPath.row]
@@ -146,6 +157,18 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if newsParamsList[currentIndex].category == .information && NewsDataManager.shared.isInformationEmpty() {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoDataCollectionViewCell.getCellIdentifier(), for: indexPath) as? NoDataCollectionViewCell else { return UICollectionViewCell() }
+            cell.noDataLabel.text = LocalizedString("No-data-flash", comment: "")
+            return cell
+        }
+
+        if newsParamsList[currentIndex].category == .flash && NewsDataManager.shared.isFlashEmpty() {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoDataCollectionViewCell.getCellIdentifier(), for: indexPath) as? NoDataCollectionViewCell else { return UICollectionViewCell() }
+            cell.noDataLabel.text = LocalizedString("No-data-information", comment: "")
+            return cell
+        }
+
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionCell.getCellIdentifier(), for: indexPath) as? NewsCollectionCell else { return UICollectionViewCell() }
         
         let isLastCell = indexPath.row == collectionView.numberOfItems(inSection: 0) - 1
