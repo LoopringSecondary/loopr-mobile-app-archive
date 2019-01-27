@@ -15,7 +15,7 @@ protocol NewsSwipeViewControllerDelegate: class {
 
 class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
 
-    weak var delegate: NewsSwipeViewControllerDelegate?
+    weak var newsSwipeViewControllerDelegate: NewsSwipeViewControllerDelegate?
     
     // Setup the background color at the status bar
     @IBOutlet weak var headerView: UIView!
@@ -44,6 +44,7 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(pushedNewsDetailViewControllerReceivedNotification), name: .pushedNewsDetailViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willShowNewsViewControllerReceivedNotification), name: .willShowNewsViewController, object: nil)
         
+        // TODO: Thiw will disable scroll delegate in SwipeViewController. Why adding this?
         swipeView.swipeContentScrollView?.delegate = self
     }
 
@@ -161,7 +162,7 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
 
     @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {
         if isCloseButton {
-            delegate?.closeButtonAction()
+            newsSwipeViewControllerDelegate?.closeButtonAction()
         } else {
             NotificationCenter.default.post(name: .tiggerPopNewsDetailViewController, object: nil)
             setupCloseButtton()
@@ -198,6 +199,16 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
             self.viewControllers[0].viewController.rightFakeView.alpha = 0
             self.viewControllers[1].viewController.leftFakeView.alpha = 0
         // }
+
+        // update currentIndex
+        if scrollView.contentOffset.x >= swipeView.frame.width * CGFloat(swipeView.currentIndex + 1) {
+            // update(from: currentIndex, to: currentIndex + 1)
+            swipeView.setCurrentIndexInNewsSwipeViewController(swipeView.currentIndex + 1)
+        } else if scrollView.contentOffset.x <= swipeView.frame.width * CGFloat(swipeView.currentIndex - 1) {
+            // update(from: currentIndex, to: currentIndex - 1)
+            swipeView.setCurrentIndexInNewsSwipeViewController(swipeView.currentIndex - 1)
+        }
+        print(scrollView.contentOffset.x)
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -214,7 +225,7 @@ extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
     func setNavigationBarHidden(_ newValue: Bool, animated: Bool) {
         
         // Send data to MainTabController
-        delegate?.setBottomTabBarHidden(newValue, animated: animated)
+        newsSwipeViewControllerDelegate?.setBottomTabBarHidden(newValue, animated: animated)
         
         if newValue {
             if !isNavigationBarHide {

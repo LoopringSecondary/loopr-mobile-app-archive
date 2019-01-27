@@ -57,7 +57,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         // Setting view controller
         viewController4 = SettingNavigationViewController()
         
-        newsSwipeViewController.delegate = self
+        newsSwipeViewController.newsSwipeViewControllerDelegate = self
 
         setTabBarItems()
         if FeatureConfigDataManager.shared.getShowTradingFeature() {

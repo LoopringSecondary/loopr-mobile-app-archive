@@ -158,6 +158,10 @@ open class SwipeView: UIView {
         isLayoutingSubviews = true
     }
     
+    func setCurrentIndexInNewsSwipeViewController(_ newValue: Int) {
+        currentIndex = newValue
+    }
+    
     fileprivate func update(from fromIndex: Int, to toIndex: Int) {
         
         if !isLayoutingSubviews {
