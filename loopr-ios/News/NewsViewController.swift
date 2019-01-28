@@ -170,13 +170,13 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if newsParamsList[currentIndex].category == .information && NewsDataManager.shared.isInformationEmpty() {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoDataCollectionViewCell.getCellIdentifier(), for: indexPath) as? NoDataCollectionViewCell else { return UICollectionViewCell() }
-            cell.noDataLabel.text = LocalizedString("No-data-flash", comment: "")
+            cell.noDataLabel.text = LocalizedString("No-data-information", comment: "")
             return cell
         }
 
         if newsParamsList[currentIndex].category == .flash && NewsDataManager.shared.isFlashEmpty() {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoDataCollectionViewCell.getCellIdentifier(), for: indexPath) as? NoDataCollectionViewCell else { return UICollectionViewCell() }
-            cell.noDataLabel.text = LocalizedString("No-data-information", comment: "")
+            cell.noDataLabel.text = LocalizedString("No-data-flash", comment: "")
             return cell
         }
 
