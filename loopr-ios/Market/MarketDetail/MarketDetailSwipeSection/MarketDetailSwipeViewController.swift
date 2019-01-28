@@ -28,7 +28,6 @@ class MarketDetailSwipeViewController: SwipeViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.theme_backgroundColor = ColorPicker.backgroundColor
 
         types = [LocalizedString("Depth_in_Market_Detail", comment: ""), LocalizedString("Trades_in_Market_Detail", comment: "")]

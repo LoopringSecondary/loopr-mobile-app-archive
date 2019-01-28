@@ -17,8 +17,6 @@ class SettingLanguageViewController: UIViewController, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
-
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none

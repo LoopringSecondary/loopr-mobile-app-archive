@@ -16,7 +16,6 @@ class MnemonicEnterDerivationPathViewController: UIViewController, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         setBackButton()
         self.navigationItem.title = LocalizedString("Select Your Wallet Type", comment: "")
         view.theme_backgroundColor = ColorPicker.backgroundColor

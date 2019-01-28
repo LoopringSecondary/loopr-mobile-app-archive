@@ -37,7 +37,6 @@ class SetupWalletEnterRepeatPasswordViewController: UIViewController, UITextFiel
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationItem.title = LocalizedString("Repeat Password", comment: "")
         setBackButton()

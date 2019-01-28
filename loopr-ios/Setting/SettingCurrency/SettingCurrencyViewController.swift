@@ -18,7 +18,6 @@ class SettingCurrencyViewController: UIViewController, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         localCurrentCurrency = SettingDataManager.shared.getCurrentCurrency()
         currencies = SettingDataManager.shared.getSupportedCurrencies()
         tableView.dataSource = self

@@ -22,7 +22,6 @@ class UnlockKeystoreViewController: UIViewController, UITextViewDelegate, UIText
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.theme_backgroundColor = ColorPicker.backgroundColor
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)

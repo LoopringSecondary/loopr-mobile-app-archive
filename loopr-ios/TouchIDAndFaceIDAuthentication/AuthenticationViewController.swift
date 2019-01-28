@@ -19,7 +19,6 @@ class AuthenticationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         print("Show AuthenticationViewController")
 
         let screenSize: CGRect = UIScreen.main.bounds

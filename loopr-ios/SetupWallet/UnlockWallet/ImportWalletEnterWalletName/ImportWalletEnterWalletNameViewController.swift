@@ -32,7 +32,6 @@ class ImportWalletEnterWalletNameViewController: UIViewController, UITextFieldDe
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationItem.title = LocalizedString("Wallet Name", comment: "")
         setBackButton()

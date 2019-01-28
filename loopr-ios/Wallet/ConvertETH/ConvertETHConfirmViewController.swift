@@ -38,7 +38,6 @@ class ConvertETHConfirmViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         self.modalPresentationStyle = .custom
         view.backgroundColor = .clear
         

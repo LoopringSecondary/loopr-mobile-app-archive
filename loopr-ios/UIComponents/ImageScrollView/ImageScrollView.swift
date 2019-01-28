@@ -253,7 +253,6 @@ open class ImageScrollView: UIScrollView {
         removeFromSuperview()
     }
     
-    
     private func zoomRectForScale(_ scale: CGFloat, center: CGPoint) -> CGRect {
         var zoomRect = CGRect.zero
         

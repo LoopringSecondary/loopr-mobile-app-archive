@@ -49,7 +49,6 @@ class TradeConfirmationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         self.setBackButton()
         self.navigationItem.title = LocalizedString("Trade_Confirm", comment: "")
 
