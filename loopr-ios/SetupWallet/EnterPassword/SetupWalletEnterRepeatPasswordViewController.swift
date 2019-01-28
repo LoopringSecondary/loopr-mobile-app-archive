@@ -89,6 +89,7 @@ class SetupWalletEnterRepeatPasswordViewController: UIViewController, UITextFiel
             if password != GenerateWalletDataManager.shared.password {
                 showErrorInfoLabel()
             } else {
+                // No need to class resignFirstResponder. pushViewController will dismiss the keyboard.
                 GenerateWalletDataManager.shared.setPassword(repeatPasswordTextField.text!)
                 let viewController = BackupMnemonicViewController()
                 // Generate a new wallet every time.
@@ -100,6 +101,7 @@ class SetupWalletEnterRepeatPasswordViewController: UIViewController, UITextFiel
             if password != ImportWalletUsingPrivateKeyDataManager.shared.devicePassword {
                 showErrorInfoLabel()
             } else {
+                repeatPasswordTextField.resignFirstResponder()
                 ImportWalletUsingPrivateKeyDataManager.shared.complete { (_, error) in
                     if error == nil {
                         self.succeedAndExit(setupWalletMethod: self.setupWalletMethod)
