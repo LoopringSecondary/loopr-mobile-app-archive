@@ -319,8 +319,8 @@
 
     <!-- 新闻相关 -->
     <string name="news">News</string>
-    <string name="news_flash">Flash</string>
-    <string name="news_information">Information</string>
+    <string name="news_flash">Quick Pulse</string>
+    <string name="news_information">News Articles</string>
     <string name="news_source">Source</string>
     <string name="news_bull">Bull</string>
     <string name="news_bear">Bear</string>

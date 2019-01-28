@@ -102,7 +102,7 @@ public class LanguageActivity extends BaseActivity {
                  * 显示英文
                  * */
                 LanguageUtil.changeLanguage(this, Language.en_US);
-                recreate();
+                //                recreate();
                 break;
             case R.id.ll_chinese:
                 SPUtils.put(this, "isRecreate", true);//mainactivity更改语言设置标志
@@ -111,7 +111,7 @@ public class LanguageActivity extends BaseActivity {
                 ivChineseTranditionalCheck.setVisibility(View.GONE);
                 //显示中文
                 LanguageUtil.changeLanguage(this, Language.zh_CN);
-                recreate();
+                //                recreate();
                 break;
             case R.id.ll_chinese_traditional:
                 SPUtils.put(this, "isRecreate", true);//mainactivity更改语言设置标志
@@ -120,7 +120,7 @@ public class LanguageActivity extends BaseActivity {
                 ivChineseTranditionalCheck.setVisibility(View.VISIBLE);
                 //显示中文
                 LanguageUtil.changeLanguage(this, Language.zh_Hant);
-                recreate();
+                //                recreate();
                 break;
         }
     }
