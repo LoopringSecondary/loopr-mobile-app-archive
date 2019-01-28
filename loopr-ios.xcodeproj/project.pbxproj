@@ -150,6 +150,7 @@
 		9B76456621FD707900896B3E /* NewsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76456521FD707900896B3E /* NewsList.swift */; };
 		9B76456921FD98D100896B3E /* NoDataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76456721FD98D000896B3E /* NoDataCollectionViewCell.swift */; };
 		9B76456A21FD98D100896B3E /* NoDataCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B76456821FD98D000896B3E /* NoDataCollectionViewCell.xib */; };
+		9B76458421FED36E00896B3E /* NewsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76458321FED36E00896B3E /* NewsFooterView.swift */; };
 		9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */; };
 		9BA3014821B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */; };
 		9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */; };
@@ -731,6 +732,7 @@
 		9B76456521FD707900896B3E /* NewsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsList.swift; sourceTree = "<group>"; };
 		9B76456721FD98D000896B3E /* NoDataCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataCollectionViewCell.swift; sourceTree = "<group>"; };
 		9B76456821FD98D000896B3E /* NoDataCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoDataCollectionViewCell.xib; sourceTree = "<group>"; };
+		9B76458321FED36E00896B3E /* NewsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFooterView.swift; sourceTree = "<group>"; };
 		9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerDepth.swift; sourceTree = "<group>"; };
 		9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerTradeHistory.swift; sourceTree = "<group>"; };
 		9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerSwipe.swift; sourceTree = "<group>"; };
@@ -1322,6 +1324,7 @@
 				ACDBA19421E72CE600CE2D22 /* NewsSwipeViewController.xib */,
 				ACDBA19B21EB39DC00CE2D22 /* NewsNavigationViewController.swift */,
 				9BA4FC9F21E9CA20005A3DC0 /* NewsViewController.swift */,
+				9B76458321FED36E00896B3E /* NewsFooterView.swift */,
 				9BA4FCA021E9CA20005A3DC0 /* NewsViewController.xib */,
 				9B2ED7F821D460EA00ACEE84 /* NewsCollectionCell.swift */,
 				9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */,
@@ -3381,6 +3384,7 @@
 				94DFE4052122BD48000E1831 /* BuyViewController.swift in Sources */,
 				AC4B894B2110262B00643910 /* MarketTradeHistoryDataManager.swift in Sources */,
 				AC9DC45821159084002D7D23 /* MiniToLargeViewAnimator.swift in Sources */,
+				9B76458421FED36E00896B3E /* NewsFooterView.swift in Sources */,
 				947B1FD921CB7D5A009AE556 /* Data+Extension.swift in Sources */,
 				947B1FDB21CB7FA7009AE556 /* Base58Util.swift in Sources */,
 				940B452B2060F67E00ADE2B9 /* SettingDataManager.swift in Sources */,

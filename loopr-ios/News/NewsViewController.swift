@@ -74,6 +74,8 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         let noDataCollectionCellNib = UINib(nibName: NoDataCollectionViewCell.getCellIdentifier(), bundle: nil)
         collectionView.register(noDataCollectionCellNib, forCellWithReuseIdentifier: NoDataCollectionViewCell.getCellIdentifier())
 
+        collectionView.register(NewsFooterView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: NewsFooterView.getReuseIdentifier())
+
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = true
@@ -126,6 +128,15 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
 extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: NewsFooterView.getReuseIdentifier(), for: indexPath)
+        return footer
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: NewsFooterView.getHeight())
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if newsParamsList[currentIndex].category == .information {
             return NewsDataManager.shared.isInformationEmpty() ? 1: NewsDataManager.shared.getInformationItems().count

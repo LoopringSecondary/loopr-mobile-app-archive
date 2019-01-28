@@ -22,6 +22,8 @@ class NoDataCollectionViewCell: UICollectionViewCell {
         self.backgroundColor = .clear
         noDataLabel.font = FontConfigManager.shared.getCharactorFont(size: 14)
         noDataLabel.theme_textColor = GlobalPicker.textLightColor
+        
+        noDataImageView.image = UIImage(named: "No-data-orderbook")
     }
 
     class func getCellIdentifier() -> String {
