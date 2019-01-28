@@ -28,6 +28,7 @@ class NewsCollectionCell: UICollectionViewCell {
     static let descriptionTextViewLineSpacing: CGFloat = 3
 
     @IBOutlet weak var buttonView: UIView!
+    @IBOutlet weak var seperateLine: UIView!
     @IBOutlet weak var upvoteButton: UIButton!
     @IBOutlet weak var downvoteButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
@@ -83,6 +84,8 @@ class NewsCollectionCell: UICollectionViewCell {
         descriptionTextView.showsHorizontalScrollIndicator = false
         descriptionTextView.textContainer.lineBreakMode = .byTruncatingTail
         descriptionTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
+        
+        seperateLine.theme_backgroundColor = ColorPicker.cardHighLightColor
         
         upvoteButton.setTitle(LocalizedString("News_Up", comment: ""), for: .normal)
         // upInChart color is better than up color here
@@ -342,7 +345,7 @@ class NewsCollectionCell: UICollectionViewCell {
             let rawLineNumber = CGFloat(numberOfLines(textView: titleTextView))
             let titleHeight = titleTextView.font!.lineHeight*rawLineNumber
             
-            let otherHeight: CGFloat = 72
+            let otherHeight: CGFloat = 72 + 14
             var height = textViewheight + otherHeight + titleHeight
             if height < flashMinHeight {
                 height = flashMinHeight

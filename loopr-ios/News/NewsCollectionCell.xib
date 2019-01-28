@@ -31,6 +31,13 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xp6-GB-jZo">
                         <rect key="frame" x="0.0" y="208" width="320" height="42"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dBM-ca-qQ0">
+                                <rect key="frame" x="10" y="0.0" width="300" height="0.66666666666666663"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="0.5" id="ufv-nL-SS6"/>
+                                </constraints>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8cV-VL-MOR">
                                 <rect key="frame" x="10" y="10.666666666666657" width="80" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -61,8 +68,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="dBM-ca-qQ0" firstAttribute="leading" secondItem="Xp6-GB-jZo" secondAttribute="leading" constant="10" id="03P-qq-6pF"/>
                             <constraint firstItem="wHZ-gX-Xf6" firstAttribute="height" secondItem="Xp6-GB-jZo" secondAttribute="height" id="0YG-4J-EEU"/>
+                            <constraint firstAttribute="trailing" secondItem="dBM-ca-qQ0" secondAttribute="trailing" constant="10" id="6Kj-iC-9nx"/>
                             <constraint firstItem="gzD-X7-KCV" firstAttribute="leading" secondItem="wHZ-gX-Xf6" secondAttribute="trailing" id="DBW-3C-G6h"/>
+                            <constraint firstItem="dBM-ca-qQ0" firstAttribute="top" secondItem="Xp6-GB-jZo" secondAttribute="top" id="EPU-Kt-EtU"/>
                             <constraint firstItem="2Bu-T0-uhP" firstAttribute="leading" secondItem="8cV-VL-MOR" secondAttribute="trailing" constant="20" id="FRb-pt-fpI"/>
                             <constraint firstItem="wHZ-gX-Xf6" firstAttribute="leading" secondItem="2Bu-T0-uhP" secondAttribute="trailing" id="Fgi-la-j3q"/>
                             <constraint firstItem="8cV-VL-MOR" firstAttribute="centerY" secondItem="Xp6-GB-jZo" secondAttribute="centerY" id="Lau-Nf-5Tt"/>
@@ -87,7 +97,7 @@
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kU5-lE-jir">
-                        <rect key="frame" x="10" y="66" width="300" height="147"/>
+                        <rect key="frame" x="10" y="66" width="300" height="136"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -112,7 +122,7 @@
             <constraints>
                 <constraint firstItem="QkU-Zl-7hg" firstAttribute="top" secondItem="d4b-xd-SfR" secondAttribute="top" constant="39" id="0wy-CY-Cmv"/>
                 <constraint firstItem="kU5-lE-jir" firstAttribute="top" secondItem="QkU-Zl-7hg" secondAttribute="bottom" constant="6" id="6MG-Bt-frQ"/>
-                <constraint firstAttribute="bottom" secondItem="kU5-lE-jir" secondAttribute="bottom" constant="37" id="9SR-nW-5dM"/>
+                <constraint firstItem="Xp6-GB-jZo" firstAttribute="top" secondItem="kU5-lE-jir" secondAttribute="bottom" constant="6" id="9SR-nW-5dM"/>
                 <constraint firstAttribute="trailing" secondItem="DNx-ER-xxx" secondAttribute="trailing" constant="10" id="ACg-AH-YfH"/>
                 <constraint firstItem="XAT-Bg-hXT" firstAttribute="top" secondItem="d4b-xd-SfR" secondAttribute="top" constant="14" id="Ixi-nd-UCI"/>
                 <constraint firstAttribute="trailing" secondItem="Xp6-GB-jZo" secondAttribute="trailing" id="MbZ-nG-ANK"/>
@@ -139,6 +149,7 @@
                 <outlet property="downvoteButton" destination="wHZ-gX-Xf6" id="N4k-Y0-ADD"/>
                 <outlet property="informationImageView" destination="DNx-ER-xxx" id="zxR-EY-CTG"/>
                 <outlet property="informationImageViewHeightLayoutConstraint" destination="4Qu-mm-xdP" id="wii-Xg-OVx"/>
+                <outlet property="seperateLine" destination="dBM-ca-qQ0" id="5uI-1N-26z"/>
                 <outlet property="shareButton" destination="gzD-X7-KCV" id="MIp-5g-eUf"/>
                 <outlet property="sourceLabel" destination="8cV-VL-MOR" id="LXM-Ca-v2B"/>
                 <outlet property="titleTextView" destination="QkU-Zl-7hg" id="ox0-TR-BuJ"/>
