@@ -39,6 +39,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     var isAnimating: Bool = false
     
+    var tiggerPopNewsDetailViewControllerReceived: Bool = false
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
         setBackButton()
@@ -97,6 +99,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @objc func tiggerPopNewsDetailViewControllerReceivedNotification() {
         print("tiggerPopNewsDetailViewControllerReceivedNotification")
+        tiggerPopNewsDetailViewControllerReceived = true
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -130,8 +133,17 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print(news.title)
-        print("scrollView y: \(scrollView.contentOffset.y)")
+        print("NewsDetailViewController scrollView y: \(scrollView.contentOffset.y)")
+
+        // scrollViewDidScroll will continue even self.navigationController?.popViewController(animated: true) is called.
+        // setNavigationBarTitle is reset when updating the navigation items.
+        guard !tiggerPopNewsDetailViewControllerReceived else {
+            print("tiggerPopNewsDetailViewControllerReceived == true skipped")
+            return
+        }
+        
         guard !isAnimating else {
+            print("isAnimating == true skipped")
             return
         }
 

@@ -42,7 +42,6 @@ class NewsDataManager {
     
     func getInformationItems() -> [News] {
         if self.newsLists[self.currentNewsListKey] != nil {
-            print(self.newsLists[self.currentNewsListKey]!.informationItems)
             return self.newsLists[self.currentNewsListKey]!.informationItems
         } else {
             return []

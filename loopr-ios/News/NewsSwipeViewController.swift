@@ -257,7 +257,6 @@ extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
 
     func setNavigationBarTitle(_ newValue: String) {
         // The implementation is not reliable
-        /*
         guard newValue != "" else {
             navigationBar.topItem?.title = ""
             return
@@ -268,6 +267,5 @@ extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
         } else {
             navigationBar.topItem?.title = newValue.substring(toIndex: 16) + "..."
         }
-        */
     }
 }
