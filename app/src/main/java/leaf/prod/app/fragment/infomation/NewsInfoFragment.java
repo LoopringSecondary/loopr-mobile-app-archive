@@ -86,7 +86,7 @@ public class NewsInfoFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        tvTitle.setText(getString(R.string.news_information));
+        tvTitle.setText(symbol + " " + getString(R.string.news_information));
         tvTitle.setTypeface(FontUtil.getTypeface(getContext(), 11));
     }
 

@@ -11,7 +11,9 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.views.TitleView;
+import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.model.Language;
+import leaf.prod.walletsdk.model.UserConfig;
 import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.SPUtils;
 
@@ -57,32 +59,23 @@ public class LanguageActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        if ((int) SPUtils.get(this, "language", 0) == 1) {
-            ivEnglishCheck.setVisibility(View.VISIBLE);
-            ivChineseCheck.setVisibility(View.GONE);
-            ivChineseTranditionalCheck.setVisibility(View.GONE);
-        } else if ((int) SPUtils.get(this, "language", 0) == 2) {
-            ivEnglishCheck.setVisibility(View.GONE);
-            ivChineseCheck.setVisibility(View.VISIBLE);
-            ivChineseTranditionalCheck.setVisibility(View.GONE);
-        } else if ((int) SPUtils.get(this, "language", 0) == 3) {
-            ivEnglishCheck.setVisibility(View.GONE);
-            ivChineseCheck.setVisibility(View.GONE);
-            ivChineseTranditionalCheck.setVisibility(View.VISIBLE);
-        } else {
-            if (LanguageUtil.getLanguage(this) == Language.en_US) {
+        Language language = LanguageUtil.getSettingLanguage(this);
+        switch (language) {
+            case en_US:
                 ivEnglishCheck.setVisibility(View.VISIBLE);
                 ivChineseCheck.setVisibility(View.GONE);
                 ivChineseTranditionalCheck.setVisibility(View.GONE);
-            } else if (LanguageUtil.getLanguage(this) == Language.zh_Hant) {
-                ivEnglishCheck.setVisibility(View.GONE);
-                ivChineseCheck.setVisibility(View.GONE);
-                ivChineseTranditionalCheck.setVisibility(View.VISIBLE);
-            } else {
+                break;
+            case zh_CN:
                 ivEnglishCheck.setVisibility(View.GONE);
                 ivChineseCheck.setVisibility(View.VISIBLE);
                 ivChineseTranditionalCheck.setVisibility(View.GONE);
-            }
+                break;
+            case zh_Hant:
+                ivEnglishCheck.setVisibility(View.GONE);
+                ivChineseCheck.setVisibility(View.GONE);
+                ivChineseTranditionalCheck.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
@@ -92,37 +85,31 @@ public class LanguageActivity extends BaseActivity {
 
     @OnClick({R.id.ll_english, R.id.ll_chinese, R.id.ll_chinese_traditional})
     public void onViewClicked(View view) {
+        UserConfig userConfig = LoginDataManager.getInstance(this).getLocalUser();
         switch (view.getId()) {
             case R.id.ll_english:
                 SPUtils.put(this, "isRecreate", true);//通知mainactivity更改语言设置标志
                 ivEnglishCheck.setVisibility(View.VISIBLE);
                 ivChineseCheck.setVisibility(View.GONE);
                 ivChineseTranditionalCheck.setVisibility(View.GONE);
-                /**
-                 * 显示英文
-                 * */
-                LanguageUtil.changeLanguage(this, Language.en_US);
-                //                recreate();
+                userConfig.setLanguage(Language.en_US.getText());
                 break;
             case R.id.ll_chinese:
                 SPUtils.put(this, "isRecreate", true);//mainactivity更改语言设置标志
                 ivEnglishCheck.setVisibility(View.GONE);
                 ivChineseCheck.setVisibility(View.VISIBLE);
                 ivChineseTranditionalCheck.setVisibility(View.GONE);
-                //显示中文
-                LanguageUtil.changeLanguage(this, Language.zh_CN);
-                //                recreate();
+                userConfig.setLanguage(Language.zh_CN.getText());
                 break;
             case R.id.ll_chinese_traditional:
                 SPUtils.put(this, "isRecreate", true);//mainactivity更改语言设置标志
                 ivEnglishCheck.setVisibility(View.GONE);
                 ivChineseCheck.setVisibility(View.GONE);
                 ivChineseTranditionalCheck.setVisibility(View.VISIBLE);
-                //显示中文
-                LanguageUtil.changeLanguage(this, Language.zh_Hant);
-                //                recreate();
+                userConfig.setLanguage(Language.zh_Hant.getText());
                 break;
         }
+        LoginDataManager.getInstance(this).updateRemote(userConfig);
     }
 
     @Override

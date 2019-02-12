@@ -6,19 +6,28 @@
  */
 package leaf.prod.walletsdk.model;
 
+import java.util.Locale;
+
 public enum Language {
-    zh_CN("zh-Hans"),
-    en_US("en"),
-    zh_Hant("zh-Hant");
+    zh_CN("zh-Hans", Locale.SIMPLIFIED_CHINESE),
+    en_US("en", Locale.ENGLISH),
+    zh_Hant("zh-Hant", Locale.TRADITIONAL_CHINESE);
 
     private final String text;
 
-    Language(final String text) {
+    private Locale locale;
+
+    Language(String text, Locale locale) {
         this.text = text;
+        this.locale = locale;
     }
 
     public String getText() {
         return text;
+    }
+
+    public Locale getLocale() {
+        return locale;
     }
 
     public static Language getLanguage(String text) {

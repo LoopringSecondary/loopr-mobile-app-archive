@@ -4,11 +4,9 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.util.DisplayMetrics;
 
 import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.model.Language;
-import leaf.prod.walletsdk.model.UserConfig;
 
 /**
  * 标题:    LanguageUtil
@@ -16,29 +14,18 @@ import leaf.prod.walletsdk.model.UserConfig;
  */
 public class LanguageUtil {
 
-    public static void changeLanguage(Context context, Language language) {
+    /**
+     * 修改app语言
+     *
+     * @param context
+     * @param language
+     * @return
+     */
+    public static Context changeLanguage(Context context, Language language) {
         Configuration configuration = context.getResources().getConfiguration();
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        UserConfig userConfig = LoginDataManager.getInstance(context).getLocalUser();
-        switch (language) {
-            case zh_CN:
-                configuration.locale = Locale.SIMPLIFIED_CHINESE;
-                SPUtils.put(context, "language", 2);
-                userConfig.setLanguage(Language.zh_CN.getText());
-                break;
-            case zh_Hant:
-                configuration.locale = Locale.TRADITIONAL_CHINESE;
-                SPUtils.put(context, "language", 3);
-                userConfig.setLanguage(Language.zh_Hant.getText());
-                break;
-            case en_US:
-                configuration.locale = Locale.US;
-                SPUtils.put(context, "language", 1);
-                userConfig.setLanguage(Language.en_US.getText());
-                break;
-        }
-        LoginDataManager.getInstance(context).updateRemote(userConfig);
-        context.getResources().updateConfiguration(configuration, displayMetrics);
+        configuration.setLocale(language.getLocale());
+        context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+        return context;
     }
 
     /**
