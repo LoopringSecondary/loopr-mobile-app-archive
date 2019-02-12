@@ -14,6 +14,9 @@ class NewsUIStyleConfig {
     
     var scrollingDistance: CGFloat = -100
     
+    var newsDescriptionNormalFont: CGFloat = 12
+    var newsDescriptionExpandedFont: CGFloat = 14
+    
     let newsViewControllerPresentAnimationDuration: TimeInterval = 1
     let newsViewControllerPresentAnimationDelay: TimeInterval = 0.1
     let newsViewControllerPresentAnimationSpringWithDamping: CGFloat = 0.75
@@ -23,7 +26,7 @@ class NewsUIStyleConfig {
     var newsDetailTitleFont: CGFloat = 20
     var newsDetailSubtitleFont: CGFloat = 12
     var newsDetailBodyFont: CGFloat = 16
-    var newsDetailPadding: CGFloat = 10
+    var newsDetailPadding: CGFloat = 20
     var newsDetailTextViewLineSpacing: CGFloat = 1
     
     init() {
@@ -50,13 +53,13 @@ class NewsUIStyleConfig {
             newsDetailTitleFont = 22
             newsDetailSubtitleFont = 12
             newsDetailBodyFont = 16
-            newsDetailPadding = 10
+            newsDetailPadding = 30
             newsDetailTextViewLineSpacing = 1
         } else {
             newsDetailTitleFont = 28
             newsDetailSubtitleFont = 16
             newsDetailBodyFont = 22
-            newsDetailPadding = 20
+            newsDetailPadding = 40
             newsDetailTextViewLineSpacing = 2
         }
     }

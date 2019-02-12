@@ -34,7 +34,6 @@ class MarketDetailDepthModalViewController: UIViewController, UITableViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.backgroundColor = UIColor.clear // UIColor.black.withAlphaComponent(0.8)
 
         headerView.theme_backgroundColor = ColorPicker.backgroundColor

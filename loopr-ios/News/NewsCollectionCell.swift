@@ -9,28 +9,6 @@
 import Foundation
 import UIKit
 
-extension UIImage {
-    
-    public func maskWithColor(color: UIColor) -> UIImage {
-        
-        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
-        let context = UIGraphicsGetCurrentContext()!
-        
-        let rect = CGRect(origin: CGPoint.zero, size: size)
-        
-        color.setFill()
-        self.draw(in: rect)
-        
-        context.setBlendMode(.sourceIn)
-        context.fill(rect)
-        
-        let resultImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return resultImage
-    }
-    
-}
-
 class NewsCollectionCell: UICollectionViewCell {
     
     var news: News!
@@ -50,6 +28,7 @@ class NewsCollectionCell: UICollectionViewCell {
     static let descriptionTextViewLineSpacing: CGFloat = 3
 
     @IBOutlet weak var buttonView: UIView!
+    @IBOutlet weak var seperateLine: UIView!
     @IBOutlet weak var upvoteButton: UIButton!
     @IBOutlet weak var downvoteButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
@@ -106,6 +85,8 @@ class NewsCollectionCell: UICollectionViewCell {
         descriptionTextView.textContainer.lineBreakMode = .byTruncatingTail
         descriptionTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
         
+        seperateLine.theme_backgroundColor = ColorPicker.cardHighLightColor
+        
         upvoteButton.setTitle(LocalizedString("News_Up", comment: ""), for: .normal)
         // upInChart color is better than up color here
         upvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
@@ -115,7 +96,7 @@ class NewsCollectionCell: UICollectionViewCell {
         upvoteButton.addTarget(self, action: #selector(pressedUpvoteButton), for: .touchUpInside)
         upvoteButton.set(image: UIImage.init(named: "Upvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         
-        // downvoteButton.setTitle(LocalizedString("News_Down", comment: ""), for: .normal)
+        downvoteButton.setTitle(LocalizedString("News_Down", comment: ""), for: .normal)
         // downInChart color is better than down color here
         downvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         downvoteButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
@@ -127,10 +108,9 @@ class NewsCollectionCell: UICollectionViewCell {
         shareButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         shareButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         shareButton.addTarget(self, action: #selector(pressedshareButton), for: .touchUpInside)
-        // shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
-        shareButton.set(image: UIImage.init(named: "News-share")?.alpha(0.4), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
+        shareButton.set(image: UIImage.init(named: "News-share")?.alpha(0.4), title: LocalizedString("Share", comment: ""), titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         
-        informationImageViewHeightLayoutConstraint.constant = 100
+        informationImageViewHeightLayoutConstraint.constant = 111
         informationImageView.cornerRadius = 4
         informationImageView.contentMode = .scaleAspectFill
         informationImageView.clipsToBounds = true
@@ -140,15 +120,15 @@ class NewsCollectionCell: UICollectionViewCell {
         self.news = news
 
         // parse data
-        dateLabel.text = news.publishTime
+        dateLabel.text = timeAgoSince(news.publishTimeDate)
         sourceLabel.text = news.source
         titleTextView.text = news.title
-        
+
         if news.category == .information && news.newsImage != nil {
             informationImageView.image = news.newsImage?.image
-            titleTextViewTrailingLayoutConstraint.constant = 118
+            titleTextViewTrailingLayoutConstraint.constant = informationImageViewHeightLayoutConstraint.constant + 18
             // descriptionTextViewLeadingLayoutConstraint.constant = 135
-            descriptionTextViewTrailingLayoutConstraint.constant = 118
+            descriptionTextViewTrailingLayoutConstraint.constant = informationImageViewHeightLayoutConstraint.constant + 18
             informationImageView.isHidden = false
             if news.newsImage!.isLoading == true {
                 news.newsImage!.downloadImage { (image) in
@@ -181,37 +161,26 @@ class NewsCollectionCell: UICollectionViewCell {
         // TODO: 4 will break the measure of lines
         titleTextViewHeightLayout.constant = titleTextView.font!.lineHeight*numLines + 4
 
-        // TODO: this causes slow scrolling
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = NewsCollectionCell.descriptionTextViewLineSpacing
-        let attributes = [NSAttributedStringKey.paragraphStyle: style]
-        descriptionTextView.attributedText = NSAttributedString(string: news.description, attributes: attributes)
-        
-        // TODO: We have two ways to show an expanded cell
-        /*
+        descriptionTextView.attributedText = news.descriptionAttributedText
+
         descriptionTextView.theme_textColor = GlobalPicker.textLightColor
         if isExpanded {
-            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDescriptionExpandedFont)
         } else {
-            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 10)
+            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDescriptionNormalFont)
         }
-        */
         
-        descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+        // descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+        /*
         if isExpanded {
             descriptionTextView.theme_textColor = GlobalPicker.textColor
         } else {
             descriptionTextView.theme_textColor = GlobalPicker.textLightColor
         }
+        */
 
         updateVoteButtons()
-        if news.category == .information {
-            upvoteButton.isHidden = true
-            downvoteButton.isHidden = true
-        } else {
-            upvoteButton.isHidden = false
-            downvoteButton.isHidden = false
-        }
+        shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)
     }
     
     class func numberOfLines(textView: UITextView) -> Int {
@@ -313,8 +282,8 @@ class NewsCollectionCell: UICollectionViewCell {
         let upvoteSelectedImageName: String
         let downvoteSelectedImageName: String
         if language == Language(name: "zh-Hans") {
-            upvoteSelectedImageName = "Upvote-selected-green"
-            downvoteSelectedImageName = "Downvote-selected-red"
+            upvoteSelectedImageName = "Upvote-selected-red"
+            downvoteSelectedImageName = "Downvote-selected-green"
         } else {
             upvoteSelectedImageName = "Upvote-selected-green"
             downvoteSelectedImageName = "Downvote-selected-red"
@@ -324,7 +293,7 @@ class NewsCollectionCell: UICollectionViewCell {
         if vote > 0 {
             // upvoteButton.setTitleColor(UIColor.upInChart, for: .normal)
             upvoteButton.setTitleColor(UIColor.up, for: .normal)
-            upvoteButton.set(image: UIImage.init(named: upvoteSelectedImageName)?.maskWithColor(color: UIColor.up), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
+            upvoteButton.set(image: UIImage.init(named: upvoteSelectedImageName), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
             downvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
             downvoteButton.set(image: UIImage.init(named: "Downvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         } else if vote < 0 {
@@ -333,7 +302,7 @@ class NewsCollectionCell: UICollectionViewCell {
             
             // downvoteButton.setTitleColor(UIColor.downInChart, for: .normal)
             downvoteButton.setTitleColor(UIColor.down, for: .normal)
-            downvoteButton.set(image: UIImage.init(named: downvoteSelectedImageName)?.maskWithColor(color: UIColor.down), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
+            downvoteButton.set(image: UIImage.init(named: downvoteSelectedImageName), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         } else {
             upvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
             upvoteButton.set(image: UIImage.init(named: "Upvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
@@ -341,17 +310,20 @@ class NewsCollectionCell: UICollectionViewCell {
             downvoteButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
             downvoteButton.set(image: UIImage.init(named: "Downvote"), title: "", titlePosition: .right, additionalSpacing: iconTitlePadding, state: .normal)
         }
+        
+        upvoteButton.imageEdgeInsets = UIEdgeInsets.init(top: -2, left: 0, bottom: 2, right: 0)
+        downvoteButton.imageEdgeInsets = UIEdgeInsets.init(top: 3, left: 0, bottom: -3, right: 0)
 
-        upvoteButton.setTitle("\(news.bullIndex)", for: .normal)
-        downvoteButton.setTitle("\(news.bearIndex)", for: .normal)
+        upvoteButton.setTitle("\(LocalizedString("News_Up", comment: "")) \(news.bullIndex)", for: .normal)
+        downvoteButton.setTitle("\(LocalizedString("News_Down", comment: "")) \(news.bearIndex)", for: .normal)
         
         if language == Language(name: "en") {
             
         }
     }
     
-    static let informationMinHeight: CGFloat = 190
-    static let flashMinHeight: CGFloat = 190
+    static let informationMinHeight: CGFloat = 195
+    static let flashMinHeight: CGFloat = 195
     
     class func getSize(news: News, isExpanded: Bool) -> CGSize {
         let width: CGFloat = UIScreen.main.bounds.width - 15*2
@@ -359,7 +331,7 @@ class NewsCollectionCell: UICollectionViewCell {
         if isExpanded {
             let maxHeight: CGFloat = UIScreen.main.bounds.height * 0.7
             let descriptionTextView: UITextView = UITextView(frame: CGRect(x: 0, y: 0, width: width-10*2, height: maxHeight))
-            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
+            descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDescriptionExpandedFont)
             descriptionTextView.text = news.description
             let padding = descriptionTextView.textContainer.lineFragmentPadding
             descriptionTextView.textContainerInset = UIEdgeInsetsMake(0, -padding, 0, -padding)
@@ -373,7 +345,7 @@ class NewsCollectionCell: UICollectionViewCell {
             let rawLineNumber = CGFloat(numberOfLines(textView: titleTextView))
             let titleHeight = titleTextView.font!.lineHeight*rawLineNumber
             
-            let otherHeight: CGFloat = 74
+            let otherHeight: CGFloat = 72 + 14
             var height = textViewheight + otherHeight + titleHeight
             if height < flashMinHeight {
                 height = flashMinHeight

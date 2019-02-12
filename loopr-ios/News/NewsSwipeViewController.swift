@@ -15,7 +15,7 @@ protocol NewsSwipeViewControllerDelegate: class {
 
 class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
 
-    weak var delegate: NewsSwipeViewControllerDelegate?
+    weak var newsSwipeViewControllerDelegate: NewsSwipeViewControllerDelegate?
     
     // Setup the background color at the status bar
     @IBOutlet weak var headerView: UIView!
@@ -44,6 +44,7 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(pushedNewsDetailViewControllerReceivedNotification), name: .pushedNewsDetailViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willShowNewsViewControllerReceivedNotification), name: .willShowNewsViewController, object: nil)
         
+        // TODO: Thiw will disable scroll delegate in SwipeViewController. Why adding this?
         swipeView.swipeContentScrollView?.delegate = self
     }
 
@@ -92,9 +93,7 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
 
         let navigationItem = UINavigationItem(title: "")
         let button = UIButton(type: UIButtonType.custom)
-        
-        // button.theme_setImage(GlobalPicker.close, forState: .normal)
-        // button.theme_setImage(GlobalPicker.closeHighlight, forState: .highlighted)
+
         button.setImage(UIImage(named: "News-close-dark"), for: .normal)
         button.setImage(UIImage(named: "News-close-dark")?.alpha(0.6), for: .normal)
 
@@ -133,18 +132,16 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
 
-        // Move the safari button to bottom tab bar.
         // Safari button
         let safariButton = UIButton(type: UIButtonType.custom)
-        safariButton.setImage(UIImage(named: "Safari-item-button"), for: .normal)
+        safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.5), for: .normal)
         safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.3), for: .highlighted)
-        safariButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
+        // safariButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: -8, bottom: 0, right: 8)
         safariButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
         safariButton.frame = CGRect(x: 0, y: 0, width: 23, height: 23)
         let shareBarButton = UIBarButtonItem(customView: safariButton)
-        // navigationItem.rightBarButtonItem = shareBarButton
-        navigationItem.rightBarButtonItem = nil
+        navigationItem.rightBarButtonItem = shareBarButton
 
         navigationBar.setItems([navigationItem], animated: true)
 
@@ -165,7 +162,7 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
 
     @objc fileprivate func closeButtonAction(_ button: UIBarButtonItem) {
         if isCloseButton {
-            delegate?.closeButtonAction()
+            newsSwipeViewControllerDelegate?.closeButtonAction()
         } else {
             NotificationCenter.default.post(name: .tiggerPopNewsDetailViewController, object: nil)
             setupCloseButtton()
@@ -173,9 +170,10 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
     }
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
-        let news = NewsDataManager.shared.getCurrentInformationItem()
-        if let url = URL(string: news.url) {
-            UIApplication.shared.open(url)
+        if let news = NewsDataManager.shared.getCurrentInformationItem() {
+            if let url = URL(string: news.url) {
+                UIApplication.shared.open(url)
+            }
         }
     }
     
@@ -192,11 +190,25 @@ class NewsSwipeViewController: SwipeViewController, UIScrollViewDelegate {
         return viewControllers[index]
     }
     
+    override func swipeView(_ swipeView: SwipeView, didChangeIndexFrom fromIndex: Int, to toIndex: Int) {
+        print(toIndex)
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // UIView.animate(withDuration: 0.3) {
             self.viewControllers[0].viewController.rightFakeView.alpha = 0
             self.viewControllers[1].viewController.leftFakeView.alpha = 0
         // }
+
+        // update currentIndex
+        if scrollView.contentOffset.x >= swipeView.frame.width * CGFloat(swipeView.currentIndex + 1) {
+            // update(from: currentIndex, to: currentIndex + 1)
+            swipeView.setCurrentIndexInNewsSwipeViewController(swipeView.currentIndex + 1)
+        } else if scrollView.contentOffset.x <= swipeView.frame.width * CGFloat(swipeView.currentIndex - 1) {
+            // update(from: currentIndex, to: currentIndex - 1)
+            swipeView.setCurrentIndexInNewsSwipeViewController(swipeView.currentIndex - 1)
+        }
+        print(scrollView.contentOffset.x)
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -213,7 +225,7 @@ extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
     func setNavigationBarHidden(_ newValue: Bool, animated: Bool) {
         
         // Send data to MainTabController
-        delegate?.setBottomTabBarHidden(newValue, animated: animated)
+        newsSwipeViewControllerDelegate?.setBottomTabBarHidden(newValue, animated: animated)
         
         if newValue {
             if !isNavigationBarHide {
@@ -244,6 +256,7 @@ extension NewsSwipeViewController: NewsNavigationViewControllerDelegate {
     }
 
     func setNavigationBarTitle(_ newValue: String) {
+        // The implementation is not reliable
         guard newValue != "" else {
             navigationBar.topItem?.title = ""
             return

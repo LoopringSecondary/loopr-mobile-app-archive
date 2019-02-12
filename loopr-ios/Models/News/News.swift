@@ -17,6 +17,7 @@ class News {
     var content: String
     var url: String
     var publishTime: String = ""
+    var publishTimeDate: Date = Date()
     var source: String
     var author: String
     var imageUrl: String
@@ -28,6 +29,7 @@ class News {
     // not from API
     var paragraphs: [NewsParagraph] = []
     var description: String
+    var descriptionAttributedText: NSAttributedString
 
     init?(json: JSON, category: NewsCategory) {
         self.uuid = json["uuid"].stringValue
@@ -46,7 +48,7 @@ class News {
         self.source = json["source"].stringValue
         self.author = json["author"].stringValue
         self.imageUrl = json["imageUrl"].stringValue
-        self.newsImage = NewsImage(imageUrl: self.imageUrl)
+        self.newsImage = NewsImage(imageFolderName: "NewsThumbnail", imageUrl: self.imageUrl)
 
         self.bullIndex = json["bullIndex"].intValue
         self.bearIndex = json["bearIndex"].intValue
@@ -78,18 +80,28 @@ class News {
         } catch {
             return nil
         }
-
+        
+        if description.count > 150 && category == .information {
+            self.description = self.description.substring(toIndex: 150) + "..."
+        }
+        
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = NewsCollectionCell.descriptionTextViewLineSpacing
+        let attributes = [NSAttributedStringKey.paragraphStyle: style]
+        descriptionAttributedText = NSAttributedString(string: self.description, attributes: attributes)
+        
         // TODO: how to change the line distance in html and css?
         self.content = self.content.replacingOccurrences(of: "\n\n", with: "\n")
         self.content = self.content.replacingOccurrences(of: "\n", with: "\n\n")
         
         let filteredParagraphs = paragraphs.filter { !$0.isString && $0.newsImage != nil }
         if filteredParagraphs.count > 0 && newsImage == nil {
-            newsImage = NewsImage(imageUrl: filteredParagraphs[0].newsImage!.imageUrl)
+            newsImage = NewsImage(imageFolderName: "NewsThumbnail", imageUrl: filteredParagraphs[0].newsImage!.imageUrl)
         }
         
         let publichTimeInUTC = json["publishTime"].stringValue
         self.publishTime = self.utcToCurrent(publishTimeInUTC: publichTimeInUTC, currentDateFormat: "MM-dd HH:mm:ss")
+        self.publishTimeDate = self.utcToCurrent(publishTimeInUTC: publichTimeInUTC)
     }
     
     func utcToCurrent(publishTimeInUTC: String, currentDateFormat: String) -> String {
@@ -105,6 +117,15 @@ class News {
         dateFormatter2.dateFormat = currentDateFormat
         
         return dateFormatter2.string(from: date)
+    }
+    
+    func utcToCurrent(publishTimeInUTC: String) -> Date {
+        // UTC timezone
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        let date = dateFormatter.date(from: publishTimeInUTC)!
+        return date
     }
 
 }

@@ -97,7 +97,7 @@ class ConvertETHResultViewController: UIViewController {
             }
             
             // Jumps back to asset detail view controller
-            if controller.isKind(of: AssetSwipeViewController.self) {
+            if controller.isKind(of: AssetDetailViewController.self) {
                 self.navigationController?.setNavigationBarHidden(false, animated: false)
                 self.navigationController!.popToViewController(controller, animated: true)
                 break

@@ -42,8 +42,8 @@
                         <constraint firstAttribute="height" constant="120" id="H3H-0g-7HE"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="快讯" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xuV-Wi-ouO">
-                    <rect key="frame" x="25" y="71.666666666666671" width="34" height="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="快讯" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xuV-Wi-ouO">
+                    <rect key="frame" x="25" y="71.666666666666671" width="364" height="17"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -85,6 +85,7 @@
                 <constraint firstItem="uXZ-cm-sXG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="hl8-6W-f1M"/>
                 <constraint firstItem="XW0-fx-l3R" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="ihJ-N1-V6U"/>
                 <constraint firstItem="oEv-op-oeT" firstAttribute="centerY" secondItem="jFm-6a-lLr" secondAttribute="centerY" id="kNp-zz-EOB"/>
+                <constraint firstItem="jFm-6a-lLr" firstAttribute="trailing" secondItem="xuV-Wi-ouO" secondAttribute="trailing" constant="10" id="lol-ks-Wex"/>
                 <constraint firstItem="XW0-fx-l3R" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="ob4-ph-Fxd"/>
                 <constraint firstItem="XW0-fx-l3R" firstAttribute="width" secondItem="fnl-2z-Ty3" secondAttribute="width" multiplier="0.6" id="q6e-2x-FDC"/>
                 <constraint firstItem="oEv-op-oeT" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="tvI-Fy-bwT"/>

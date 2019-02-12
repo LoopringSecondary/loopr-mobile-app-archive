@@ -57,7 +57,6 @@ class TradeReviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         setBackButton()
         setupShareButton()
         self.view.theme_backgroundColor = ColorPicker.backgroundColor

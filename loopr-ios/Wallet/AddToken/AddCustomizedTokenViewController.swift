@@ -45,7 +45,6 @@ class AddCustomizedTokenViewController: UIViewController, UITextFieldDelegate, D
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         setBackButton()
         self.navigationItem.title = LocalizedString("Add Custom Token", comment: "")
         

@@ -42,7 +42,6 @@ class QRCodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         self.navigationItem.title = navigationTitle
         
         view.theme_backgroundColor = ColorPicker.backgroundColor

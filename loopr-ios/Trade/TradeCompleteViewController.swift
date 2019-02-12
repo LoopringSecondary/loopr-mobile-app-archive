@@ -33,7 +33,6 @@ class TradeCompleteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         
         setBackToTopViewContollersButton()

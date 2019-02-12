@@ -10,7 +10,6 @@ import UIKit
 import UserNotifications
 import Crashlytics
 import Social
-import MKDropdownMenu
 // import ESTabBarController_swift
 
 // ESTabBarController
@@ -25,17 +24,23 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     var viewController2: UIViewController!
     var viewController4: UIViewController!
 
+    var isFirtTimeAppear: Bool = true
+    
     // Use ViewController to avoid the tab bar
-    let newsViewController = NewsSwipeViewController()
+    let newsSwipeViewController = NewsSwipeViewController()
     var newsViewControllerHeight: CGFloat = 4 * NewsCollectionCell.flashMinHeight
     var newsViewControllerEnabled: Bool = false
 
     var bottomButtonView: UIView = UIView()
+    let bottomButtonViewHeight: CGFloat = 49
     var bottomPadding: CGFloat = 0
     
     var isDropdownMenuExpanded: Bool = false
-    let dropdownMenu = MKDropdownMenu(frame: .zero)
-    
+    let dropdownMenu = NewsDetailDropdownMenu(frame: .zero)
+
+    // Mask view
+    var blurVisualEffectView = UIView(frame: .zero)
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -52,7 +57,7 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         // Setting view controller
         viewController4 = SettingNavigationViewController()
         
-        newsViewController.delegate = self
+        newsSwipeViewController.newsSwipeViewControllerDelegate = self
 
         setTabBarItems()
         if FeatureConfigDataManager.shared.getShowTradingFeature() {
@@ -61,25 +66,14 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
             viewControllers = [viewController1, viewController4]
         }
         
-        newsViewController.willMove(toParentViewController: self)
-        view.addSubview(newsViewController.view)
+        newsSwipeViewController.view.frame = CGRect.zero
+        newsSwipeViewController.willMove(toParentViewController: self)
+        view.addSubview(newsSwipeViewController.view)
         
         // TODO: self.navigationController? is nil. call addChildViewController(newsViewController) will cause viewWillAppear not firing
-        self.navigationController?.addChildViewController(newsViewController)
+        self.navigationController?.addChildViewController(newsSwipeViewController)
         // view.bringSubview(toFront: newsViewController.view)
-        self.newsViewController.didMove(toParentViewController: self)
-        
-        // Preload News data
-        NewsDataManager.shared.get(category: .flash, pageIndex: 0, completion: { (_, _) in
-            DispatchQueue.main.async {
-                self.newsViewController.viewControllers[0].viewController.collectionView.reloadData()
-            }
-        })
-        NewsDataManager.shared.get(category: .information, pageIndex: 0, completion: { (_, _) in
-            DispatchQueue.main.async {
-                self.newsViewController.viewControllers[1].viewController.collectionView.reloadData()
-            }
-        })
+        self.newsSwipeViewController.didMove(toParentViewController: self)
 
         // Setup notifications
         NotificationCenter.default.addObserver(self, selector: #selector(languageChangedReceivedNotification), name: .languageChanged, object: nil)
@@ -106,20 +100,24 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        // 8 is the padding between collection cells.
-        // 128 is the height of the header view
-        // TODO: 20 is the bottom paddding. I think we don't need this. Fix it later
-        let window = UIApplication.shared.keyWindow
-        let topPadding = window?.safeAreaInsets.top ?? 0
-        
-        self.newsViewControllerHeight = 3 * (NewsCollectionCell.flashMinHeight + 8) + 128 + topPadding + 20
-        if self.newsViewControllerHeight < UIScreen.main.bounds.size.height {
-            self.newsViewControllerHeight += (NewsCollectionCell.flashMinHeight + 8)
+        if isFirtTimeAppear {
+            isFirtTimeAppear = false
+
+            // 8 is the padding between collection cells.
+            // 128 is the height of the header view
+            // TODO: 20 is the bottom paddding. I think we don't need this. Fix it later
+            let window = UIApplication.shared.keyWindow
+            let topPadding = window?.safeAreaInsets.top ?? 0
+            
+            self.newsViewControllerHeight = 3 * (NewsCollectionCell.flashMinHeight + 8) + 128 + topPadding + 20
+            if self.newsViewControllerHeight < UIScreen.main.bounds.size.height {
+                self.newsViewControllerHeight += (NewsCollectionCell.flashMinHeight + 8)
+            }
+            self.newsSwipeViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
+            
+            setupTabBarInNewsDetailViewController()
+            setupDropdownMenu()
         }
-        self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
-        
-        setupTabBarInNewsDetailViewController()
-        setupDropdownMenu()
     }
 
     func setTabBarItems() {
@@ -140,82 +138,91 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         let window = UIApplication.shared.keyWindow
         bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
         
-        bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding)
+        bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: bottomButtonViewHeight + self.bottomPadding)
         
         self.bottomButtonView.theme_backgroundColor = ColorPicker.cardHighLightColor
         
         let fontAdjustmentButton = UIButton(type: UIButtonType.custom)
         fontAdjustmentButton.setImage(UIImage(named: "Font-adjust-item"), for: .normal)
         fontAdjustmentButton.setImage(UIImage(named: "Font-adjust-item")?.alpha(0.3), for: .highlighted)
-        // fontAdjustmentButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         fontAdjustmentButton.addTarget(self, action: #selector(pressedFontAdjustmentButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
-        fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 40, y: 6, width: 23, height: 23)
+        fontAdjustmentButton.frame = CGRect(x: bottomButtonView.width - 40, y: (bottomButtonViewHeight-23)*0.5, width: 23, height: 23)
         bottomButtonView.addSubview(fontAdjustmentButton)
-        
-        let safariButton = UIButton(type: UIButtonType.custom)
-        safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.6), for: .normal)
-        safariButton.setImage(UIImage(named: "Safari-item-button")?.alpha(0.3), for: .highlighted)
-        safariButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
-        safariButton.addTarget(self, action: #selector(pressedSafariButton(_:)), for: UIControlEvents.touchUpInside)
-        // The size of the image.
-        safariButton.frame = CGRect(x: (bottomButtonView.width - 23)*0.5 - 2, y: 7, width: 23, height: 23)
-        bottomButtonView.addSubview(safariButton)
-        
+
         let shareButton = UIButton(type: UIButtonType.custom)
         shareButton.setImage(UIImage(named: "News-share-large")?.alpha(0.4), for: .normal)
         shareButton.setImage(UIImage(named: "News-share-large")?.alpha(0.2), for: .highlighted)
         shareButton.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: -8)
         shareButton.addTarget(self, action: #selector(pressedShareButton(_:)), for: UIControlEvents.touchUpInside)
         // The size of the image.
-        shareButton.frame = CGRect(x: 7, y: 7, width: 23, height: 23)
+        shareButton.frame = CGRect(x: fontAdjustmentButton.frame.minX - 68, y: (bottomButtonViewHeight-23)*0.5, width: 23, height: 23)
         bottomButtonView.addSubview(shareButton)
+        
+        blurVisualEffectView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        blurVisualEffectView.alpha = 0
+        blurVisualEffectView.frame = UIScreen.main.bounds
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleBlurVisualEffectView(_:)))
+        tap.delegate = self
+        blurVisualEffectView.addGestureRecognizer(tap)
     }
     
     func setupDropdownMenu() {
-        dropdownMenu.dataSource = self
-        dropdownMenu.delegate = self
-        dropdownMenu.disclosureIndicatorImage = nil
-        
-        dropdownMenu.dropdownShowsTopRowSeparator = false
-        dropdownMenu.dropdownBouncesScroll = false
-        dropdownMenu.backgroundDimmingOpacity = 0
-        dropdownMenu.dropdownCornerRadius = 6
-        dropdownMenu.dropdownRoundedCorners = UIRectCorner.allCorners
-        dropdownMenu.dropdownBackgroundColor = UIColor.dark2
-        dropdownMenu.rowSeparatorColor = UIColor.dark2
-        dropdownMenu.componentSeparatorColor = UIColor.dark2
-        dropdownMenu.dropdownShowsTopRowSeparator = false
-        dropdownMenu.dropdownShowsBottomRowSeparator = false
-        dropdownMenu.dropdownShowsBorder = false
-        dropdownMenu.dropdownShowsContentAbove = true
-        dropdownMenu.spacerView = nil
-
         self.view.addSubview(dropdownMenu)
         if UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20 {
-            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-50-60, width: 110, height: 50)
+            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-55-60-4 - 50, width: 110, height: 50)
         } else {
-            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-44, width: 110, height: 50)
+            dropdownMenu.frame = CGRect(x: UIScreen.main.bounds.width-110 - 4, y: bottomButtonView.frame.minY-49-2 - 50, width: 110, height: 50)
         }
+        
+        dropdownMenu.delegate = self
         
         dropdownMenu.isHidden = true
         isDropdownMenuExpanded = false
     }
-    
+
     func showDropdownMenu() {
         dropdownMenu.isHidden = false
+        view.bringSubview(toFront: dropdownMenu)
+        isDropdownMenuExpanded = true
+        
+        view.addSubview(blurVisualEffectView)
+        view.insertSubview(blurVisualEffectView, aboveSubview: bottomButtonView)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.blurVisualEffectView.alpha = 1.0
+        }, completion: {(_) in
+            
+        })
     }
     
     func hideDropdownMenu() {
         dropdownMenu.isHidden = true
+        isDropdownMenuExpanded = false
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            self.blurVisualEffectView.alpha = 0.0
+        }, completion: {(_) in
+            self.blurVisualEffectView.removeFromSuperview()
+        })
+    }
+    
+    @objc func handleBlurVisualEffectView(_ sender: UITapGestureRecognizer? = nil) {
+        hideDropdownMenu()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touchesBegan")
+        if isDropdownMenuExpanded {
+            hideDropdownMenu()
+        }
     }
     
     @objc func languageChangedReceivedNotification() {
         setTabBarItems()
-        newsViewController.viewControllers[0].viewController.collectionView.reloadData()
-        newsViewController.viewControllers[0].viewController.refreshData()
-        newsViewController.viewControllers[1].viewController.collectionView.reloadData()
-        newsViewController.viewControllers[1].viewController.refreshData()
+        newsSwipeViewController.viewControllers[0].viewController.collectionView.reloadData()
+        newsSwipeViewController.viewControllers[0].viewController.refreshData()
+        newsSwipeViewController.viewControllers[1].viewController.collectionView.reloadData()
+        newsSwipeViewController.viewControllers[1].viewController.refreshData()
     }
     
     @objc func showTradingFeatureChangedReceivedNotification(notification: NSNotification) {
@@ -243,29 +250,28 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         print("pressed fontAdjustmentButton")
         if !isDropdownMenuExpanded {
             showDropdownMenu()
-            dropdownMenu.openComponent(0, animated: true)
         } else {
             hideDropdownMenu()
-            dropdownMenu.closeAllComponents(animated: true)
         }
-
     }
     
     @objc func pressedSafariButton(_ button: UIBarButtonItem) {
         print("pressed pressedSafariButton")
-        let news = NewsDataManager.shared.getCurrentInformationItem()
-        if let url = URL(string: news.url) {
-            UIApplication.shared.open(url)
+        if let news = NewsDataManager.shared.getCurrentInformationItem() {
+            if let url = URL(string: news.url) {
+                UIApplication.shared.open(url)
+            }
         }
     }
     
     @objc func pressedShareButton(_ button: UIBarButtonItem) {
-        let news = NewsDataManager.shared.getCurrentInformationItem()
-        if let url = URL(string: news.url) {
-            let shareAll = [news.title, url] as [Any]
-            let activityVC = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
-            activityVC.popoverPresentationController?.sourceView = self.view
-            self.present(activityVC, animated: true, completion: nil)
+        if let news = NewsDataManager.shared.getCurrentInformationItem() {
+            if let url = URL(string: news.url) {
+                let shareAll = [news.title, url] as [Any]
+                let activityVC = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
+                activityVC.popoverPresentationController?.sourceView = self.view
+                self.present(activityVC, animated: true, completion: nil)
+            }
         }
     }
 
@@ -316,8 +322,9 @@ extension MainTabController {
 extension MainTabController: WalletViewControllerDelegate {
 
     func scrollViewDidScroll(y: CGFloat) {
+        
         if !newsViewControllerEnabled {
-            newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight-y, width: view.frame.width, height: self.newsViewControllerHeight)
+            newsSwipeViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight-y, width: view.frame.width, height: self.newsViewControllerHeight)
         }
 
         if y < NewsUIStyleConfig.shared.scrollingDistance && !newsViewControllerEnabled {
@@ -325,18 +332,27 @@ extension MainTabController: WalletViewControllerDelegate {
             SettingDataManager.shared.setNewsIndicatorHasShownBefore()
             
             newsViewControllerEnabled = true
-            view.bringSubview(toFront: newsViewController.view)
-
+            view.bringSubview(toFront: newsSwipeViewController.view)
+            
             UIView.animate(withDuration: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationDuration, delay: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationDelay, usingSpringWithDamping: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationSpringWithDamping, initialSpringVelocity: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationInitialSpringVelocity, options: .curveEaseInOut, animations: {
-                self.newsViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: self.newsViewControllerHeight)
+                self.newsSwipeViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: self.newsViewControllerHeight)
                 self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: self.viewController1.viewController.assetTableView.frame.height, width: self.view.frame.width, height: self.viewController1.viewController.assetTableView.frame.height)
             }) { (_) in
                 self.viewController1.viewController.refreshControl.endRefreshing()
                 
                 // TODO: need to consider the height when hiding the tab bar in NewsDetailViewController
-                self.newsViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: UIScreen.main.bounds.height + 44)
+                self.newsSwipeViewController.view.frame = CGRect(x: 0, y: UIApplication.shared.keyWindow!.safeAreaInsets.top, width: self.view.frame.width, height: UIScreen.main.bounds.height + 44)
+                
+                self.newsSwipeViewController.swipeView.swipeContentScrollView?.isScrollEnabled = true
+                self.newsSwipeViewController.viewControllers[0].viewController.rightFakeView.alpha = 1
+                self.newsSwipeViewController.viewControllers[1].viewController.leftFakeView.alpha = 1
             }
         }
+    }
+    
+    func reloadCollectionViewInNewsViewController() {
+        self.newsSwipeViewController.viewControllers[0].viewController.collectionView.reloadData()
+        self.newsSwipeViewController.viewControllers[1].viewController.collectionView.reloadData()
     }
     
 }
@@ -345,16 +361,19 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
     
     func closeButtonAction() {
         newsViewControllerEnabled = false
-        self.newsViewController.removeFromParentViewController()
+        // self.newsViewController.removeFromParentViewController()
         
         self.viewController1.viewController.walletBalanceView.frame = CGRect(x: 0, y: self.viewController1.viewController.assetTableView.frame.height, width: self.viewController1.viewController.walletBalanceView.frame.width, height: WalletButtonTableViewCell.getHeight())
-        
+                
         UIView.animate(withDuration: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationDuration, delay: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationDelay, usingSpringWithDamping: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationSpringWithDamping, initialSpringVelocity: NewsUIStyleConfig.shared.newsViewControllerPresentAnimationInitialSpringVelocity, options: .curveEaseInOut, animations: {
-            self.newsViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
+            self.newsSwipeViewController.view.frame = CGRect(x: 0, y: -self.newsViewControllerHeight, width: self.view.frame.width, height: self.newsViewControllerHeight)
+            // self.newsSwipeViewController.view.frame = CGRect(x: 0, y: -100, width: self.view.frame.width, height: self.newsViewControllerHeight)
             self.viewController1.viewController.assetTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.viewController1.viewController.assetTableView.frame.height)
             self.viewController1.viewController.walletBalanceView.frame = CGRect(x: 0, y: 0, width: self.viewController1.viewController.walletBalanceView.frame.width, height: WalletButtonTableViewCell.getHeight())
         }) { (_) in
-            
+            self.newsSwipeViewController.swipeView.swipeContentScrollView?.isScrollEnabled = true
+            self.newsSwipeViewController.viewControllers[0].viewController.rightFakeView.alpha = 1
+            self.newsSwipeViewController.viewControllers[1].viewController.leftFakeView.alpha = 1
         }
     }
     
@@ -364,25 +383,31 @@ extension MainTabController: NewsSwipeViewControllerDelegate {
         if newValue {
             if animated {
                 UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-                    self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+                    self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: self.bottomButtonViewHeight + self.bottomPadding + 20)
                 }) { (_) in
                     
                 }
             } else {
-                self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+                self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height + self.bottomPadding, width: UIScreen.main.bounds.width, height: self.bottomButtonViewHeight + self.bottomPadding + 20)
             }
             
         } else {
             if animated {
                 UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-                    self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height - 40 - self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+                    self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height - self.bottomButtonViewHeight - self.bottomPadding, width: UIScreen.main.bounds.width, height: self.bottomButtonViewHeight + self.bottomPadding + 20)
                 }) { (_) in
                     
                 }
             } else {
-                self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height - 40 - self.bottomPadding, width: UIScreen.main.bounds.width, height: 40 + self.bottomPadding + 20)
+                self.bottomButtonView.frame = CGRect(x: 0, y: self.view.height - self.bottomButtonViewHeight - self.bottomPadding, width: UIScreen.main.bounds.width, height: self.bottomButtonViewHeight + self.bottomPadding + 20)
             }
         }
     }
 
+}
+
+extension MainTabController: NewsDetailDropdownMenuProtocol {
+    func dismiss() {
+        hideDropdownMenu()
+    }
 }

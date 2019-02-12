@@ -1,33 +1,34 @@
 //
-//  MainTabControllerDropdown.swift
+//  File.swift
 //  loopr-ios
 //
-//  Created by ruby on 1/20/19.
+//  Created by ruby on 1/26/19.
 //  Copyright © 2019 Loopring. All rights reserved.
 //
 
 import Foundation
-import UIKit
 import MKDropdownMenu
 
-extension MainTabController: MKDropdownMenuDataSource {
-
-    func numberOfComponents(in dropdownMenu: MKDropdownMenu) -> Int {
-        return 1
-    }
-    
-    func dropdownMenu(_ dropdownMenu: MKDropdownMenu, numberOfRowsInComponent component: Int) -> Int {
-        return 1
-    }
+protocol NewsDetailDropdownMenuProtocol: class {
+    func dismiss()
 }
 
-extension MainTabController: MKDropdownMenuDelegate {
+class NewsDetailDropdownMenu: UIView {
     
-    func dropdownMenu(_ dropdownMenu: MKDropdownMenu, rowHeightForComponent component: Int) -> CGFloat {
-        return 50
+    weak var delegate: NewsDetailDropdownMenuProtocol?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupBaseView()
+        cornerRadius = 6
+        clipsToBounds = true
     }
     
-    func dropdownMenu(_ dropdownMenu: MKDropdownMenu, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupBaseView() {
         let baseView = UIView(frame: CGRect(x: 0, y: 0, width: 110, height: 50))
         baseView.theme_backgroundColor = ColorPicker.cardHighLightColor
         
@@ -46,34 +47,20 @@ extension MainTabController: MKDropdownMenuDelegate {
         // The size of the image.
         largeFontButton.frame = CGRect(x: baseView.width - 50, y: 0, width: 50, height: 50)
         baseView.addSubview(largeFontButton)
-
-        return baseView
-    }
-    
-    func dropdownMenu(_ dropdownMenu: MKDropdownMenu, didSelectRow row: Int, inComponent component: Int) {
-    }
-    
-    func dropdownMenu(_ dropdownMenu: MKDropdownMenu, backgroundColorForHighlightedRowsInComponent component: Int) -> UIColor? {
-        return UIColor.dark4
-    }
-    
-    func dropdownMenu(_ dropdownMenu: MKDropdownMenu, didOpenComponent component: Int) {
-        isDropdownMenuExpanded = true
-    }
-    
-    func dropdownMenu(_ dropdownMenu: MKDropdownMenu, didCloseComponent component: Int) {
-        hideDropdownMenu()
-        isDropdownMenuExpanded = false
+        
+        addSubview(baseView)
     }
     
     @objc func pressedSmallFontButton(_ button: UIBarButtonItem) {
         print("pressed pressedSmallFontButton")
         NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: true)
+        delegate?.dismiss()
     }
     
     @objc func pressedLargeFontButton(_ button: UIBarButtonItem) {
         print("pressed pressedLargeFontButton")
         NewsUIStyleConfig.shared.setNewsDetailBodyFont(isSmall: false)
+        delegate?.dismiss()
     }
-
+    
 }

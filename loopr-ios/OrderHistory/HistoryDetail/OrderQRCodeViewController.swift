@@ -51,7 +51,6 @@ class OrderQRCodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.backgroundColor = UIColor.clear
         
         titleLabel.setTitleCharFont()

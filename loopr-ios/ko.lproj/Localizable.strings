@@ -142,12 +142,27 @@
 "News" = "News";
 "News_Up" = "Up";
 "News_Down" = "Down";
-"News_information" = "News";
-"News_flash" = "Newsletter";
+"News_information" = "News Articles";
+"News_flash" = "Quick Pulse";
 "Pull to read previous" = "Pull to read previous";
 "Pull to read more" = "Pull to read more";
 "Release to read more" = "Release to read more";
 "Pull Down for the Latest News" = "Pull Down for the Latest News";
+
+"years ago" = "years ago";
+"Last year" = "Last year";
+"months ago" = "months ago";
+"Last month" = "Last month";
+"weeks ago" = "weeks ago";
+"Last week" = "Last week";
+"days ago" = "days ago";
+"Yesterday" = "Yesterday";
+"hours ago" = "hours ago";
+"An hour ago" = "An hour ago";
+"minutes ago" = "minutes ago";
+"A minute ago" = "A minute ago";
+"seconds ago" = "seconds ago";
+"Just now" = "Just now";
 
 /* DEX Trade page */
 "DEX Trade" = "DEX 거래";
@@ -394,6 +409,8 @@
 "No-data-order" = "No order yet";
 "No-data-asset" = "No transaction yet";
 "No-data-contact" = "No contact yet";
+"No-data-flash" = "No related quick pulse";
+"No-data-information" = "No related news article";
 
 /* Unlock app using Touch ID or Face ID. */
 "Unlock" = "완료";

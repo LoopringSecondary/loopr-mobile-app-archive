@@ -39,7 +39,6 @@ class BackupMnemonicViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         setBackButton()
         view.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationItem.title = LocalizedString("Backup Mnemonic", comment: "")

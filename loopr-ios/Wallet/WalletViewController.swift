@@ -14,6 +14,7 @@ import Lottie
 
 protocol WalletViewControllerDelegate: class {
     func scrollViewDidScroll(y: CGFloat)
+    func reloadCollectionViewInNewsViewController()
 }
 
 class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, QRCodeScanProtocol {
@@ -138,6 +139,21 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         spaceView.contentMode = .center
         dropdownMenu.spacerView = spaceView
         dropdownMenu.spacerViewOffset = UIOffset.init(horizontal: self.dropdownMenu.bounds.size.width - 95, vertical: 1)
+        
+        if NewsDataManager.shared.currentNewsListKey != "ALL_CURRENCY" {
+            NewsDataManager.shared.currentNewsListKey = "ALL_CURRENCY"
+            delegate?.reloadCollectionViewInNewsViewController()
+            NewsDataManager.shared.get(category: .information, pageIndex: 0) { (news, _) in
+                DispatchQueue.main.async {
+                    self.delegate?.reloadCollectionViewInNewsViewController()
+                }
+            }
+            NewsDataManager.shared.get(category: .flash, pageIndex: 0) { (news, _) in
+                DispatchQueue.main.async {
+                    self.delegate?.reloadCollectionViewInNewsViewController()
+                }
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -351,10 +367,6 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        print("scrollViewDidEndDragging: \(scrollView.contentOffset.y)")
-    }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         print("scrollViewDidEndDecelerating")
@@ -445,7 +457,8 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
             tableView.deselectRow(at: indexPath, animated: true)
             let asset = CurrentAppWalletDataManager.shared.getAssetsWithHideSmallAssetsOption()[indexPath.row]
-            let viewController = AssetSwipeViewController()
+            let viewController = AssetDetailViewController()
+            viewController.delegate = self
             viewController.asset = asset
             viewController.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(viewController, animated: true)
@@ -508,6 +521,18 @@ extension WalletViewController: WalletButtonTableViewCellDelegate {
         let viewController = AirdropViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+
+}
+
+extension WalletViewController: AssetViewControllerDelegate {
+
+    func scrollViewDidScroll(y: CGFloat) {
+        delegate?.scrollViewDidScroll(y: y)
+    }
+    
+    func reloadCollectionViewInNewsViewController() {
+        delegate?.reloadCollectionViewInNewsViewController()
     }
 
 }

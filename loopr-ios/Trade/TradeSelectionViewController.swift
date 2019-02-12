@@ -26,7 +26,6 @@ class TradeSelectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         
         button1.cornerRadius = 8

@@ -1,5 +1,25 @@
 # Release Note:
 
+## v1.6.2
+### 中文
+1. 新增代币过滤的新闻聚合及阅读功能  
+2. 多处UI的修复及bug改进
+
+### English
+1. Add news integration and reading feature according to different tokens  
+2. Fix bugs and improve many UI display features
+
+## v1.6.1
+### 中文
+1. 新增新闻聚合及阅读功能
+2. 多处UI的修复及改进
+3. 修复新闻加载的闪退
+
+### English
+1. Add news integration and reading feature  
+2. Fix and improve many UI display features 
+3. Fix a crash when loading news
+
 ## v1.6
 ### 中文
 1. 新增新闻聚合及阅读功能

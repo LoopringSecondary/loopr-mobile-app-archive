@@ -27,7 +27,6 @@ class TradeRatioViewController: UIViewController, UIPickerViewDelegate, UIPicker
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         self.modalPresentationStyle = .custom
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         seperateLine.theme_backgroundColor = ColorPicker.cardHighLightColor

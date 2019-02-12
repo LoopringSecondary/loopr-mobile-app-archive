@@ -21,7 +21,6 @@ class WalletCreateSuccessfullyPopViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         self.modalPresentationStyle = .custom
         view.backgroundColor = .clear
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor

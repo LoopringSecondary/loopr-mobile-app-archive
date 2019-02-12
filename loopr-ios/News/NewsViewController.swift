@@ -52,6 +52,7 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         categoryLabel.font = FontConfigManager.shared.getNewsTitleFont() // FontConfigManager.shared.getMediumFont(size: 20)
         categoryLabel.textColor = .white
         categoryLabel.text = newsParamsList[currentIndex].title
+        categoryLabel.textAlignment = .center
         
         leftFakeView.round(corners: [.topRight, .bottomRight], radius: 2)
         leftFakeView.backgroundColor = UIColor(rgba: "#fdbc4c")
@@ -67,8 +68,14 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
             rightFakeView.isHidden = true
         }
         
-        let nib = UINib(nibName: NewsCollectionCell.getCellIdentifier(), bundle: nil)
-        collectionView.register(nib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())
+        let newsCollectionCellNib = UINib(nibName: NewsCollectionCell.getCellIdentifier(), bundle: nil)
+        collectionView.register(newsCollectionCellNib, forCellWithReuseIdentifier: NewsCollectionCell.getCellIdentifier())
+        
+        let noDataCollectionCellNib = UINib(nibName: NoDataCollectionViewCell.getCellIdentifier(), bundle: nil)
+        collectionView.register(noDataCollectionCellNib, forCellWithReuseIdentifier: NoDataCollectionViewCell.getCellIdentifier())
+
+        collectionView.register(NewsFooterView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: NewsFooterView.getReuseIdentifier())
+
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = true
@@ -79,7 +86,7 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         collectionView.refreshControl = refreshControl
 
         bottomSeperateLine.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        bottomSeperateLine.round(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 1)
+        bottomSeperateLine.round(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 2)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,21 +128,37 @@ class NewsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
 extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: NewsFooterView.getReuseIdentifier(), for: indexPath)
+        return footer
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: NewsFooterView.getHeight())
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if newsParamsList[currentIndex].category == .information {
-            return NewsDataManager.shared.informationItems.count
+            return NewsDataManager.shared.isInformationEmpty() ? 1: NewsDataManager.shared.getInformationItems().count
         } else {
-            return NewsDataManager.shared.flashItems.count
+            return NewsDataManager.shared.isFlashEmpty() ? 1: NewsDataManager.shared.getFlashItems().count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // revoke GarlandConfig.shared.cardsSize
+        if newsParamsList[currentIndex].category == .information && NewsDataManager.shared.isInformationEmpty() {
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 450)
+        }
+        
+        if newsParamsList[currentIndex].category == .flash && NewsDataManager.shared.isFlashEmpty() {
+            return CGSize(width: UIScreen.main.bounds.width - 15*2, height: 450)
+        }
+
         let news: News
         if newsParamsList[currentIndex].category == .information {
-            news = NewsDataManager.shared.informationItems[indexPath.row]
+            news = NewsDataManager.shared.getInformationItems()[indexPath.row]
         } else {
-            news = NewsDataManager.shared.flashItems[indexPath.row]
+            news = NewsDataManager.shared.getFlashItems()[indexPath.row]
         }
         return NewsCollectionCell.getSize(news: news, isExpanded: NewsViewController.expandedNewsUuids.contains(news.uuid))
     }
@@ -145,20 +168,32 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if newsParamsList[currentIndex].category == .information && NewsDataManager.shared.isInformationEmpty() {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoDataCollectionViewCell.getCellIdentifier(), for: indexPath) as? NoDataCollectionViewCell else { return UICollectionViewCell() }
+            cell.noDataLabel.text = LocalizedString("No-data-information", comment: "")
+            return cell
+        }
+
+        if newsParamsList[currentIndex].category == .flash && NewsDataManager.shared.isFlashEmpty() {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoDataCollectionViewCell.getCellIdentifier(), for: indexPath) as? NoDataCollectionViewCell else { return UICollectionViewCell() }
+            cell.noDataLabel.text = LocalizedString("No-data-flash", comment: "")
+            return cell
+        }
+
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionCell.getCellIdentifier(), for: indexPath) as? NewsCollectionCell else { return UICollectionViewCell() }
         
         let isLastCell = indexPath.row == collectionView.numberOfItems(inSection: 0) - 1
         
         let news: News
         if newsParamsList[currentIndex].category == .information {
-            news = NewsDataManager.shared.informationItems[indexPath.row]
-            if NewsDataManager.shared.informationHasMoreData && isLastCell {
+            news = NewsDataManager.shared.getInformationItems()[indexPath.row]
+            if NewsDataManager.shared.getInformationHasMoreData() && isLastCell {
                 pageIndex += 1
                 getNewsFromAPIServer()
             }
         } else {
-            news = NewsDataManager.shared.flashItems[indexPath.row]
-            if NewsDataManager.shared.flashHasMoreData && isLastCell {
+            news = NewsDataManager.shared.getFlashItems()[indexPath.row]
+            if NewsDataManager.shared.getFlashHasMoreData() && isLastCell {
                 pageIndex += 1
                 getNewsFromAPIServer()
             }
@@ -168,7 +203,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.didClickedCollectionCellClosure = { (news) -> Void in
             let news: News
             if self.newsParamsList[self.currentIndex].category == .information {
-                news = NewsDataManager.shared.informationItems[indexPath.row]
+                news = NewsDataManager.shared.getInformationItems()[indexPath.row]
                 let detailViewController = NewsDetailViewController()
                 detailViewController.currentIndex = indexPath.row
                 detailViewController.news = news
@@ -178,7 +213,7 @@ extension NewsViewController: UICollectionViewDataSource, UICollectionViewDelega
                 self.navigationController?.pushViewController(detailViewController, animated: true)
                 
             } else {
-                news = NewsDataManager.shared.flashItems[indexPath.row]
+                news = NewsDataManager.shared.getFlashItems()[indexPath.row]
                 if NewsViewController.expandedNewsUuids.contains(news.uuid) {
                     NewsViewController.expandedNewsUuids.remove(news.uuid)
                     self.expandedIndexPathes.remove(indexPath)
