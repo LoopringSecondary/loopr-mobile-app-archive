@@ -22,7 +22,6 @@ class BuyAndSellSwipeViewController: SwipeViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         setBackButton()
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
 

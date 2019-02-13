@@ -172,7 +172,14 @@ extension MarketDetailViewController {
     
     func clickedMarketDetailDepthTableViewCell(amount: String, price: String, tradeType: TradeType) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            /*
             let viewController = BuyAndSellSwipeViewController()
+            viewController.market = self.market
+            viewController.initialType = tradeType
+            viewController.initialPrice = price
+            self.navigationController?.pushViewController(viewController, animated: true)
+            */
+            let viewController = UpdatedMarketPlaceOrderViewController()
             viewController.market = self.market
             viewController.initialType = tradeType
             viewController.initialPrice = price
