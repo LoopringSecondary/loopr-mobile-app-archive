@@ -3,6 +3,7 @@ package leaf.prod.app.activity.trade;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,8 +34,14 @@ public class P2PTradeQrActivity extends BaseActivity {
     @BindView(R.id.iv_token_s)
     public ImageView ivTokenS;
 
+    @BindView(R.id.tv_token_s)
+    public TextView tvTokenS;
+
     @BindView(R.id.iv_token_b)
     public ImageView ivTokenB;
+
+    @BindView(R.id.tv_token_b)
+    public TextView tvTokenB;
 
     @BindView(R.id.iv_qr_code)
     public ImageView ivQrCode;
@@ -139,8 +146,24 @@ public class P2PTradeQrActivity extends BaseActivity {
             String currencyS = marketManager.getCurrencyBySymbol(order.getTokenS(), order.getAmountSell());
             String validSince = DateUtil.formatDateTime(order.getValidS() * 1000L, "MM-dd HH:mm");
             String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000L, "MM-dd HH:mm");
-            ivTokenB.setImageDrawable(getResources().getDrawable(resourceB));
-            ivTokenS.setImageDrawable(getResources().getDrawable(resourceS));
+            if (resourceB == 0) {
+                ivTokenB.setVisibility(View.INVISIBLE);
+                tvTokenB.setVisibility(View.VISIBLE);
+                tvTokenB.setText(order.getTokenB());
+            } else {
+                ivTokenB.setVisibility(View.VISIBLE);
+                tvTokenB.setVisibility(View.INVISIBLE);
+                ivTokenB.setImageResource(resourceB);
+            }
+            if (resourceS == 0) {
+                ivTokenS.setVisibility(View.INVISIBLE);
+                tvTokenS.setVisibility(View.VISIBLE);
+                tvTokenS.setText(order.getTokenS());
+            } else {
+                ivTokenS.setVisibility(View.VISIBLE);
+                tvTokenS.setVisibility(View.INVISIBLE);
+                ivTokenS.setImageResource(resourceS);
+            }
             tvBuyToken.setText(getString(R.string.buy) + " " + order.getTokenB());
             tvSellToken.setText(getString(R.string.sell) + " " + order.getTokenS());
             tvBuyAmount.setText(amountB);

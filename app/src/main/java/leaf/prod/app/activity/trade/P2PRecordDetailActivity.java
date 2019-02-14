@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,14 +45,20 @@ P2PRecordDetailActivity extends BaseActivity {
     @BindView(R.id.iv_token_s)
     public ImageView ivTokenS;
 
+    @BindView(R.id.tv_token_s)
+    public TextView tvTokenS;
+
     @BindView(R.id.iv_token_b)
     public ImageView ivTokenB;
 
+    @BindView(R.id.tv_token_b)
+    public TextView tvTokenB;
+
     @BindView(R.id.tv_sell_token)
-    public TextView tvTokenS;
+    public TextView tvTokenSell;
 
     @BindView(R.id.tv_buy_token)
-    public TextView tvTokenB;
+    public TextView tvTokenBuy;
 
     @BindView(R.id.tv_sell_amount)
     public TextView tvAmountS;
@@ -196,10 +203,28 @@ P2PRecordDetailActivity extends BaseActivity {
         String ratioStr = formatter.format(ratio);
         String validSince = DateUtil.formatDateTime(order.getValidS() * 1000L, "MM-dd HH:mm");
         String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000L, "MM-dd HH:mm");
-        ivTokenB.setImageDrawable(getResources().getDrawable(resourceB));
-        ivTokenS.setImageDrawable(getResources().getDrawable(resourceS));
-        tvTokenB.setText(getString(R.string.buy) + " " + order.getTokenB());
-        tvTokenS.setText(getString(R.string.sell) + " " + order.getTokenS());
+
+        if (resourceB == 0) {
+            ivTokenB.setVisibility(View.INVISIBLE);
+            tvTokenB.setVisibility(View.VISIBLE);
+            tvTokenB.setText(order.getTokenB());
+        } else {
+            ivTokenB.setVisibility(View.VISIBLE);
+            tvTokenB.setVisibility(View.INVISIBLE);
+            ivTokenB.setImageResource(resourceB);
+        }
+        if (resourceS == 0) {
+            ivTokenS.setVisibility(View.INVISIBLE);
+            tvTokenS.setVisibility(View.VISIBLE);
+            tvTokenS.setText(order.getTokenS());
+        } else {
+            ivTokenS.setVisibility(View.VISIBLE);
+            tvTokenS.setVisibility(View.INVISIBLE);
+            ivTokenS.setImageResource(resourceS);
+        }
+
+        tvTokenBuy.setText(getString(R.string.buy) + " " + order.getTokenB());
+        tvTokenSell.setText(getString(R.string.sell) + " " + order.getTokenS());
         tvAmountB.setText(amountB);
         tvAmountS.setText(amountS);
         tvPriceB.setText(currencyB);

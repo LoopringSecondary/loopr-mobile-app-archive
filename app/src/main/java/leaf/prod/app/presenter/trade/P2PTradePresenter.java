@@ -44,6 +44,7 @@ import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
@@ -323,10 +324,26 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             p2pTradeDialog.setCanceledOnTouchOutside(true);
             p2pTradeDialog.getWindow().setGravity(Gravity.CENTER);
         }
-        ((ImageView) p2pTradeDialogView.findViewById(R.id.iv_token_s)).setImageDrawable(view.getResources()
-                .getDrawable(tokenDataManager.getTokenBySymbol(p2pOrderManager.getTokenSell()).getImageResId()));
-        ((ImageView) p2pTradeDialogView.findViewById(R.id.iv_token_b)).setImageDrawable(view.getResources()
-                .getDrawable(tokenDataManager.getTokenBySymbol(p2pOrderManager.getTokenBuy()).getImageResId()));
+        Token tokenB = tokenDataManager.getTokenBySymbol(p2pOrderManager.getTokenBuy());
+        if (tokenB == null || tokenB.getImageResId() == 0) {
+            p2pTradeDialogView.findViewById(R.id.tv_token_b).setVisibility(View.VISIBLE);
+            p2pTradeDialogView.findViewById(R.id.iv_token_b).setVisibility(View.INVISIBLE);
+            ((TextView) p2pTradeDialogView.findViewById(R.id.tv_token_b)).setText(p2pOrderManager.getTokenBuy());
+        } else {
+            p2pTradeDialogView.findViewById(R.id.tv_token_b).setVisibility(View.INVISIBLE);
+            p2pTradeDialogView.findViewById(R.id.iv_token_b).setVisibility(View.VISIBLE);
+            ((ImageView) p2pTradeDialogView.findViewById(R.id.iv_token_b)).setImageResource(tokenB.getImageResId());
+        }
+        Token tokenS = tokenDataManager.getTokenBySymbol(p2pOrderManager.getTokenSell());
+        if (tokenS == null || tokenS.getImageResId() == 0) {
+            p2pTradeDialogView.findViewById(R.id.tv_token_s).setVisibility(View.VISIBLE);
+            p2pTradeDialogView.findViewById(R.id.iv_token_s).setVisibility(View.INVISIBLE);
+            ((TextView) p2pTradeDialogView.findViewById(R.id.tv_token_s)).setText(p2pOrderManager.getTokenSell());
+        } else {
+            p2pTradeDialogView.findViewById(R.id.tv_token_s).setVisibility(View.INVISIBLE);
+            p2pTradeDialogView.findViewById(R.id.iv_token_s).setVisibility(View.VISIBLE);
+            ((ImageView) p2pTradeDialogView.findViewById(R.id.iv_token_s)).setImageResource(tokenS.getImageResId());
+        }
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_sell_token)).setText(view.getResources()
                 .getString(R.string.sell) + " " + p2pOrderManager.getTokenSell());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_buy_token)).setText(view.getResources()
@@ -341,7 +358,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_buy_amount)).setText(view.buyAmount.getText());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_price)).setText(NumberUtils.format1(Double.parseDouble(view.buyAmount
                 .getText().toString()) / Double.parseDouble(view.sellAmount.getText()
-                .toString()), BalanceDataManager.getPrecision(p2pOrderManager.getTokenSell())) + " " + p2pOrderManager.getTokenSell() + "/" + p2pOrderManager
+                .toString()), 4) + " " + p2pOrderManager.getTokenSell() + "/" + p2pOrderManager
                 .getTokenBuy());
         ((TextView) p2pTradeDialogView.findViewById(R.id.tv_trading_fee)).setText("0 LRC ≈ " + CurrencyUtil.format(context, 0));
         validSince = new Date();

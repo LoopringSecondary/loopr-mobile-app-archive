@@ -353,14 +353,28 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
     }
 
     private void setupToken(OriginOrder order) {
-        int tokenBID = tokenDataManager.getTokenBySymbol(order.getTokenB()).getImageResId();
-        int tokenSID = tokenDataManager.getTokenBySymbol(order.getTokenS()).getImageResId();
         String tokenBTip = view.getResources().getString(R.string.buy) + " " + order.getTokenB();
         String tokenSTip = view.getResources().getString(R.string.sell) + " " + order.getTokenS();
-        ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_b)).setImageDrawable(view.getResources()
-                .getDrawable(tokenBID));
-        ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_s)).setImageDrawable(view.getResources()
-                .getDrawable(tokenSID));
+        int tokenBID = tokenDataManager.getTokenBySymbol(order.getTokenB()).getImageResId();
+        int tokenSID = tokenDataManager.getTokenBySymbol(order.getTokenS()).getImageResId();
+        if (tokenBID == 0) {
+            marketTradeDialogView.findViewById(R.id.tv_token_b).setVisibility(View.VISIBLE);
+            marketTradeDialogView.findViewById(R.id.iv_token_b).setVisibility(View.INVISIBLE);
+            ((TextView) marketTradeDialogView.findViewById(R.id.tv_token_b)).setText(order.getTokenB());
+        } else {
+            marketTradeDialogView.findViewById(R.id.tv_token_b).setVisibility(View.INVISIBLE);
+            marketTradeDialogView.findViewById(R.id.iv_token_b).setVisibility(View.VISIBLE);
+            ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_b)).setImageResource(tokenBID);
+        }
+        if (tokenSID == 0) {
+            marketTradeDialogView.findViewById(R.id.tv_token_s).setVisibility(View.VISIBLE);
+            marketTradeDialogView.findViewById(R.id.iv_token_s).setVisibility(View.INVISIBLE);
+            ((TextView) marketTradeDialogView.findViewById(R.id.tv_token_s)).setText(order.getTokenS());
+        } else {
+            marketTradeDialogView.findViewById(R.id.tv_token_s).setVisibility(View.INVISIBLE);
+            marketTradeDialogView.findViewById(R.id.iv_token_s).setVisibility(View.VISIBLE);
+            ((ImageView) marketTradeDialogView.findViewById(R.id.iv_token_s)).setImageResource(tokenSID);
+        }
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_token)).setText(tokenBTip);
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_token)).setText(tokenSTip);
     }
