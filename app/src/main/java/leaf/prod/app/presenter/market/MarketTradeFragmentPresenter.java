@@ -164,9 +164,9 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                 if (tradeType == TradeType.buy) {
                     double tradePrice = Double.parseDouble(view.tradePrice.getText().toString());
                     maxTradeAmount = asset.getValue() / tradePrice;
-                    view.tradeAmount.setText(NumberUtils.format7(progressFloat / 100 * maxTradeAmount, 0, 8));
+                    view.tradeAmount.setText(NumberUtils.format6(progressFloat / 100 * maxTradeAmount, 0, 8));
                 } else {
-                    view.tradeAmount.setText(NumberUtils.format7(progressFloat / 100 * asset.getValue(), 0, 8));
+                    view.tradeAmount.setText(NumberUtils.format6(progressFloat / 100 * asset.getValue(), 0, 8));
                 }
             }
 
@@ -196,7 +196,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                 view.seekBar.setEnabled(false);
                 if (StringUtils.isEmpty(value)) {
                     setHint(0);
-                } else if (value.equals(".") || 0d == Double.valueOf(value)) {
+                } else if (value.equals(".") || 0d == Double.parseDouble(value)) {
                     setHint(1);
                 } else {
                     setHint(2);
@@ -223,7 +223,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                 if (StringUtils.isEmpty(value)) {
                     setHint(3);
                     view.seekBar.setProgress(0);
-                } else if (value.equals(".") || 0d == Double.valueOf(value)) {
+                } else if (value.equals(".") || 0d == Double.parseDouble(value)) {
                     setHint(4);
                     view.seekBar.setProgress(0);
                 } else {
@@ -380,8 +380,8 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
     }
 
     private void setupPrice(OriginOrder order) {
-        String amountB = NumberUtils.format7(order.getAmountBuy(), 0, 6);
-        String amountS = NumberUtils.format7(order.getAmountSell(), 0, 6);
+        String amountB = NumberUtils.format6(order.getAmountBuy(), 0, 6);
+        String amountS = NumberUtils.format6(order.getAmountSell(), 0, 6);
         String amountBPrice = CurrencyUtil.format(context, marketcapDataManager
                 .getPriceBySymbol(order.getTokenB()) * order.getAmountBuy());
         String amountSPrice = CurrencyUtil.format(context, marketcapDataManager
@@ -566,7 +566,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                                     .getValueShown()) + " " + orderDataManager.getTokenA());
                 } else {
                     view.tvAmountHint.setText(view.getResources()
-                            .getString(R.string.market_max_buy, NumberUtils.format7(maxTradeAmount, 0, 8) + " " + orderDataManager
+                            .getString(R.string.market_max_buy, NumberUtils.format6(maxTradeAmount, 0, 8) + " " + orderDataManager
                                     .getTokenBuy()));
                 }
                 break;

@@ -3,6 +3,7 @@ package leaf.prod.walletsdk.util;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -140,11 +141,12 @@ public class NumberUtils {
         return Double.parseDouble(ds);
     }
 
-    public static double format6(double d) {
-        DecimalFormat df = new DecimalFormat("#,##0.000000");
-        df.setGroupingUsed(false);
+    public static String format6(double d, int minPrecision, int maxPrecision) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setMinimumFractionDigits(minPrecision);
+        df.setMaximumFractionDigits(maxPrecision);
         String ds = df.format(d);
-        return Double.parseDouble(ds);
+        return ds;
     }
 
     public static String format7(double d, int minPrecision, int maxPrecision) {
@@ -152,6 +154,17 @@ public class NumberUtils {
         formater.setMinimumFractionDigits(minPrecision);
         formater.setMaximumFractionDigits(maxPrecision);
         return formater.format(d);
+    }
+
+    public static Double parseDouble2(String value) {
+        Double result = 0d;
+        DecimalFormat formater = new DecimalFormat();
+        try {
+            Number number = formater.parse(value);
+            result = number.doubleValue();
+        } catch (ParseException e) {
+        }
+        return result;
     }
 
     public static String formatSix(String s1, String s2) {
@@ -741,112 +754,5 @@ public class NumberUtils {
         BigDecimal b = new BigDecimal(Float.toString(value));
         BigDecimal one = new BigDecimal("1");
         return b.divide(one, scale, roundingMode).floatValue();
-    }
-
-    /**
-     * @param investAmount 投资金额
-     * @param period       投资期限
-     * @param yield        年化收益率
-     */
-    public static double calculateProfit(Double investAmount, Integer period, Double yield, boolean isDay) {
-        investAmount = NumberUtils.valueOf(investAmount);
-        period = NumberUtils.valueOf(period);
-        yield = NumberUtils.divide(NumberUtils.valueOf(yield), 100.0);//服务端返回的年化收益是10.8表示年化10.8%
-        double result = 0;
-        if (isDay) {
-            result = NumberUtils.roundDown(NumberUtils.divide(NumberUtils.multiply(NumberUtils.multiply(investAmount, period), yield), 360.0), 2);
-        } else {
-            result = NumberUtils.roundDown(NumberUtils.divide(NumberUtils.multiply(NumberUtils.multiply(investAmount, period), yield), 12.0), 2);
-        }
-        return result;
-    }
-
-    /**
-     * @param investAmount 投资金额
-     * @param period       投资期限
-     * @param yield        年化收益率
-     * @param isDebx       是否是等额本息
-     */
-    public static double calculateProfit(Double investAmount, Integer period, Double yield, boolean isDay, boolean isDebx) {
-        investAmount = NumberUtils.valueOf(investAmount);
-        period = NumberUtils.valueOf(period);
-        yield = NumberUtils.divide(NumberUtils.valueOf(yield), 100.0);//服务端返回的年化收益是10.8表示年化10.8%
-        double result = 0;
-        if (isDebx) {
-            result = getTotalInterest(investAmount, yield, period / 30);
-        } else {
-            if (isDay) {
-                result = NumberUtils.roundDown(NumberUtils.divide(NumberUtils.multiply(NumberUtils.multiply(investAmount, period), yield), 360.0), 2);
-            } else {
-                result = NumberUtils.roundDown(NumberUtils.divide(NumberUtils.multiply(NumberUtils.multiply(investAmount, period), yield), 12.0), 2);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * @param p 本金
-     * @param r 月利率
-     * @param n 还款月数
-     * @return 每月还款金额
-     */
-    public static double Mrpi(double p, double r, int n) {
-        BigDecimal mr = new BigDecimal(r).divide(new BigDecimal(12), 8, BigDecimal.ROUND_DOWN);
-        mr = (mr.compareTo(new BigDecimal(0)) <= 0) ? (new BigDecimal(0)) : mr;
-        BigDecimal aprPow = new BigDecimal(Math.pow(mr.add(new BigDecimal(1)).doubleValue(), n));
-        return (new BigDecimal(p)).multiply(mr)
-                .multiply(aprPow)
-                .divide(aprPow.subtract(new BigDecimal(1)), 2, BigDecimal.ROUND_DOWN)
-                .doubleValue();
-    }
-
-    /**
-     * 等额本息
-     *
-     * @param account 本金
-     * @param apr     年利率
-     * @param period  期数
-     * @return
-     */
-    public static double getTotalInterest(double account, double apr, int period) {
-        double totalInterest = 0.0;
-        //计算平均每月还款
-        double moneyPerMonth = Mrpi(account, apr, period);
-        //总共需要还款金额
-        double totalRemain = BigDecimal.valueOf(moneyPerMonth)
-                .multiply(BigDecimal.valueOf(period))
-                .setScale(6, BigDecimal.ROUND_FLOOR)
-                .doubleValue();
-        //每期还款后剩余金额
-        double remain = account;
-        //每期需要还款中的本金
-        double accountPerMon = 0.0;
-        //每期需要还款中的利息
-        double interest = 0.0;
-        //累计还款本金
-        double remainCapital = 0.0;
-        //循环计算accountPerMon、interest、totalRemain
-        for (int i = 0; i < period; i++) {
-            if (period - i > 1) {
-                //计算每月需要支付的利息
-                interest = format4(new BigDecimal(remain).multiply(new BigDecimal(apr))
-                        .divide(new BigDecimal(12), 6, BigDecimal.ROUND_DOWN)
-                        .doubleValue());
-                //用于计算利息的剩余金额
-                remain = format6(remain + interest - moneyPerMonth);
-                //计算每月需要还款中的本金
-                accountPerMon = format4(moneyPerMonth - interest);
-                remainCapital = BigDecimal.valueOf(remainCapital).add(BigDecimal.valueOf(accountPerMon)).doubleValue();
-                //实际支付的金额扣除本月已经支付的金额
-                totalRemain = BigDecimal.valueOf(totalRemain).subtract(BigDecimal.valueOf(moneyPerMonth)).doubleValue();
-            } else {
-                accountPerMon = BigDecimal.valueOf(account).subtract(BigDecimal.valueOf(remainCapital)).doubleValue();
-                interest = BigDecimal.valueOf(totalRemain).subtract(BigDecimal.valueOf(accountPerMon)).doubleValue();
-                moneyPerMonth = totalRemain;
-                totalRemain = format6(totalRemain - moneyPerMonth);
-            }
-            totalInterest += interest;
-        }
-        return totalInterest;
     }
 }

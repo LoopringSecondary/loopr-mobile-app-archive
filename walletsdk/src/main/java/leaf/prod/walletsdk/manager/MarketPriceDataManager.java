@@ -252,10 +252,15 @@ public class MarketPriceDataManager {
             appendArray = constructAppendArray(length - buyArray.length);
             buyArray = ArrayUtils.addAll(buyArray, appendArray);
             result.getDepth().setBuy(buyArray);
+        } else if (buyArray.length > length) {
+            buyArray = ArrayUtils.subarray(buyArray, 0, length);
+            result.getDepth().setBuy(buyArray);
         }
         if (sellArray.length < length) {
             appendArray = constructAppendArray(length - sellArray.length);
             sellArray = ArrayUtils.addAll(sellArray, appendArray);
+        } else if (sellArray.length > length) {
+            sellArray = ArrayUtils.subarray(sellArray, 0, length);
         }
         result.getDepth().setSell(sellArray);
         this.depth = result;
