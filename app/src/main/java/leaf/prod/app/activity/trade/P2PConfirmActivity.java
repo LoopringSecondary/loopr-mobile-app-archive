@@ -27,8 +27,14 @@ public class P2PConfirmActivity extends BaseActivity {
     @BindView(R.id.iv_token_s)
     public ImageView ivTokenS;
 
+    @BindView(R.id.tv_token_s)
+    public TextView tvTokenS;
+
     @BindView(R.id.iv_token_b)
     public ImageView ivTokenB;
+
+    @BindView(R.id.tv_token_b)
+    public TextView tvTokenB;
 
     @BindView(R.id.tv_sell_token)
     public TextView tvSellToken;

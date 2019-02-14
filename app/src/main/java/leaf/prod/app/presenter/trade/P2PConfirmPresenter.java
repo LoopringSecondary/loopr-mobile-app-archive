@@ -8,6 +8,7 @@ package leaf.prod.app.presenter.trade;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.View;
 
 import com.google.gson.JsonObject;
 import com.vondear.rxtool.view.RxToast;
@@ -68,8 +69,24 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
             String priceStr = NumberUtils.format1(price, 6) + " " + taker.getTokenS() + " / " + taker.getTokenB();
             String lrcFee = balanceManager.getFormattedBySymbol("LRC", taker.getLrc());
             String lrcCurrency = marketManager.getCurrencyBySymbol("LRC", taker.getLrc());
-            view.ivTokenB.setImageDrawable(context.getResources().getDrawable(resourceB));
-            view.ivTokenS.setImageDrawable(context.getResources().getDrawable(resourceS));
+            if (resourceB == 0) {
+                view.ivTokenB.setVisibility(View.INVISIBLE);
+                view.tvTokenB.setVisibility(View.VISIBLE);
+                view.tvTokenB.setText(taker.getTokenB());
+            } else {
+                view.ivTokenB.setVisibility(View.VISIBLE);
+                view.tvTokenB.setVisibility(View.INVISIBLE);
+                view.ivTokenB.setImageResource(resourceB);
+            }
+            if (resourceS == 0) {
+                view.ivTokenS.setVisibility(View.INVISIBLE);
+                view.tvTokenS.setVisibility(View.VISIBLE);
+                view.tvTokenS.setText(taker.getTokenS());
+            } else {
+                view.ivTokenS.setVisibility(View.VISIBLE);
+                view.tvTokenS.setVisibility(View.INVISIBLE);
+                view.ivTokenS.setImageResource(resourceS);
+            }
             view.tvBuyToken.setText(context.getString(R.string.buy) + " " + taker.getTokenB());
             view.tvSellToken.setText(context.getString(R.string.sell) + " " + taker.getTokenS());
             view.tvBuyAmount.setText(amountB);
