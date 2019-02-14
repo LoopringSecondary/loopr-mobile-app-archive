@@ -49,7 +49,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
             cell = nib![0] as? MarketPlaceOrderTableViewCell
         }
         cell?.market = market
-        cell?.type = .buy
+        cell?.type = initialType
         cell?.update()
         return cell!
     }
