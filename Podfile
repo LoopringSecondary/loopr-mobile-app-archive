@@ -14,6 +14,7 @@ def shared_pods
     pod 'CDMarkdownKit', '1.2.1'
     pod 'MKDropdownMenu'
     pod 'StepSlider', git: 'https://github.com/xiaowheat/StepSlider.git'
+    pod 'ValueStepper'
     
     # TODO: deprecated in in 1.7
     pod 'Fabric'

@@ -56,13 +56,29 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bNA-oN-Lnv" customClass="ValueStepper" customModule="ValueStepper">
+                                <rect key="frame" x="8" y="54" width="191" height="34"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="lpk-I8-urG"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="stepValue">
+                                        <real key="value" value="100"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="enableManualEditing" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="bNA-oN-Lnv" firstAttribute="leading" secondItem="bpf-We-MG7" secondAttribute="leading" constant="8" id="0VX-SD-CSA"/>
                             <constraint firstAttribute="trailing" secondItem="4cF-w5-on3" secondAttribute="trailing" id="720-Vw-tVH"/>
                             <constraint firstAttribute="trailing" secondItem="hyQ-B0-5v4" secondAttribute="trailing" constant="15" id="Jlx-fP-J1w"/>
                             <constraint firstItem="4cF-w5-on3" firstAttribute="top" secondItem="bpf-We-MG7" secondAttribute="top" id="L20-L8-JKj"/>
                             <constraint firstItem="hyQ-B0-5v4" firstAttribute="leading" secondItem="bpf-We-MG7" secondAttribute="leading" constant="15" id="Tby-Os-Bh0"/>
                             <constraint firstAttribute="bottom" secondItem="hyQ-B0-5v4" secondAttribute="bottom" constant="5" id="dkg-EL-RJ7"/>
+                            <constraint firstAttribute="trailing" secondItem="bNA-oN-Lnv" secondAttribute="trailing" constant="8" id="mct-Xh-l2R"/>
+                            <constraint firstItem="bNA-oN-Lnv" firstAttribute="top" secondItem="4cF-w5-on3" secondAttribute="bottom" constant="10" id="n6D-5S-Hcj"/>
                             <constraint firstItem="4cF-w5-on3" firstAttribute="leading" secondItem="bpf-We-MG7" secondAttribute="leading" id="wXY-FN-T3q"/>
                         </constraints>
                     </view>
@@ -86,6 +102,7 @@
             <connections>
                 <outlet property="buyTabButton" destination="J7V-ft-rli" id="Dag-yc-fFt"/>
                 <outlet property="nextButton" destination="hyQ-B0-5v4" id="niM-co-OGb"/>
+                <outlet property="priceValueStepper" destination="bNA-oN-Lnv" id="OnW-26-Boq"/>
                 <outlet property="sellTabButton" destination="43d-HS-yMx" id="oYa-SG-sje"/>
             </connections>
             <point key="canvasLocation" x="127.53623188405798" y="72.554347826086968"/>

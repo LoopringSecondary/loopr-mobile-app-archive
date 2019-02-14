@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ValueStepper
 
 class MarketPlaceOrderTableViewCell: UITableViewCell {
     
@@ -15,6 +16,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell {
     
     @IBOutlet weak var buyTabButton: UIButton!
     @IBOutlet weak var sellTabButton: UIButton!
+    @IBOutlet weak var priceValueStepper: ValueStepper!
     
     @IBOutlet weak var nextButton: GradientButton!
     
@@ -30,6 +32,14 @@ class MarketPlaceOrderTableViewCell: UITableViewCell {
         sellTabButton.title = LocalizedString("Sell", comment: "")
         sellTabButton.backgroundColor = UIColor.clear
         sellTabButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)
+        
+        priceValueStepper.tintColor = .white
+        priceValueStepper.minimumValue = 0
+        priceValueStepper.maximumValue = 1000
+        priceValueStepper.stepValue = 100
+        // priceValueStepper.enableManualEditing = true
+        priceValueStepper.backgroundButtonColor = UIColor.red
+        priceValueStepper.labelTextColor = UIColor.dark1
     }
     
     func update() {

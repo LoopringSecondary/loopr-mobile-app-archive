@@ -32,6 +32,7 @@ PODS:
   - UMCAnalytics (5.5.2):
     - UMCCommon
   - UMCCommon (1.5.3)
+  - ValueStepper (1.6)
   - web3.swift (0.0.5):
     - BigInt (~> 3.0.1)
     - secp256k1_ios (~> 0.1.3)
@@ -60,6 +61,7 @@ DEPENDENCIES:
   - TrezorCrypto (= 0.0.9)
   - UMCAnalytics
   - UMCCommon
+  - ValueStepper
   - web3.swift (from `https://github.com/xiaowheat/web3.swift.git`)
   - WeChat_SDK (~> 1.8.1)
 
@@ -88,6 +90,7 @@ SPEC REPOS:
     - TrezorCrypto
     - UMCAnalytics
     - UMCCommon
+    - ValueStepper
     - WeChat_SDK
 
 EXTERNAL SOURCES:
@@ -135,9 +138,10 @@ SPEC CHECKSUMS:
   TrezorCrypto: bfeea47a052dca2c77d4a39e1e183865e52de14d
   UMCAnalytics: 6654fd3c8201ff6da5c86a3ae29cd5c8436d3b7b
   UMCCommon: 016af43c0f769feb1ae1861d65aaf2b23b89c9c7
+  ValueStepper: 8b120c72c8d1391cd874a427485e2e57fda1a0b9
   web3.swift: 7b89fef89eb474685b7ffaf50a9eb30b9727f1d7
   WeChat_SDK: 681388233ac24a3ed6c4803cb3e0b6d3602050aa
 
-PODFILE CHECKSUM: ea1d4b3773bc0549ae06b1707018a9a8caf6741a
+PODFILE CHECKSUM: 3e884ed336ed3952a4141eb6367c7d5b0cd01570
 
 COCOAPODS: 1.5.3
