@@ -210,13 +210,13 @@ private enum Button: Int {
 
     open override func layoutSubviews() {
         // Size constants
-        let sliceWidth = bounds.width / 3
+        let sliceWidth = bounds.height  // bounds.width / 3
         let sliceHeight = bounds.height
 
         // Set frames
         decreaseButton.frame = CGRect(x: 0, y: 0, width: sliceWidth, height: sliceHeight)
-        valueLabel.frame = CGRect(x: sliceWidth, y: 0, width: sliceWidth, height: sliceHeight)
-        increaseButton.frame = CGRect(x: sliceWidth * 2, y: 0, width: sliceWidth, height: sliceHeight)
+        valueLabel.frame = CGRect(x: sliceWidth, y: 0, width: bounds.width - 2*sliceWidth, height: sliceHeight)
+        increaseButton.frame = CGRect(x: bounds.width - sliceWidth, y: 0, width: sliceWidth, height: sliceHeight)
 
         // Set initial formatted value
         setFormattedValue(value)
@@ -224,17 +224,17 @@ private enum Button: Int {
 
     open override func draw(_ rect: CGRect) {
         // Size constants
-        let sliceWidth = bounds.width / 3
+        let sliceWidth = bounds.height  // bounds.width / 3
         let sliceHeight = bounds.height
         let thickness = 1.0 as CGFloat
-        let iconSize: CGFloat = sliceHeight * 0.6
+        let iconSize: CGFloat = sliceHeight * 0.4
 
         valueLabel.backgroundColor = backgroundLabelColor
         valueLabel.textColor = labelTextColor
 
         // Layer customizations
         layer.borderColor = tintColor.cgColor
-        layer.borderWidth = 1.0
+        layer.borderWidth = 0  // 1.0
         layer.cornerRadius = 4.0
         backgroundColor = .clear
         clipsToBounds = true
@@ -253,8 +253,8 @@ private enum Button: Int {
 
         // Right separator line
         let rightPath = UIBezierPath()
-        rightPath.move(to: CGPoint(x: sliceWidth * 2, y: 0.0))
-        rightPath.addLine(to: CGPoint(x: sliceWidth * 2, y: sliceHeight))
+        rightPath.move(to: CGPoint(x: bounds.width - sliceWidth, y: 0.0))
+        rightPath.addLine(to: CGPoint(x: bounds.width - sliceWidth, y: sliceHeight))
         tintColor.setStroke()
         rightPath.stroke()
 
@@ -281,11 +281,11 @@ private enum Button: Int {
         let increasePath = UIBezierPath()
         increasePath.lineWidth = thickness
         // Horizontal + line
-        increasePath.move(to: CGPoint(x: (sliceWidth - iconSize) / 2 + 0.5 + sliceWidth * 2, y: sliceHeight / 2 + 0.5))
-        increasePath.addLine(to: CGPoint(x: (sliceWidth - iconSize) / 2 + 0.5 + iconSize + sliceWidth * 2, y: sliceHeight / 2 + 0.5))
+        increasePath.move(to: CGPoint(x: (sliceWidth - iconSize) / 2 + 0.5 + bounds.width - sliceWidth, y: sliceHeight / 2 + 0.5))
+        increasePath.addLine(to: CGPoint(x: (sliceWidth - iconSize) / 2 + 0.5 + iconSize + bounds.width - sliceWidth, y: sliceHeight / 2 + 0.5))
         // Vertical + line
-        increasePath.move(to: CGPoint(x: sliceWidth / 2 + 0.5 + sliceWidth * 2, y: (sliceHeight / 2) - (iconSize / 2) + 0.5))
-        increasePath.addLine(to: CGPoint(x: sliceWidth / 2 + 0.5 + sliceWidth * 2, y: (sliceHeight / 2) + (iconSize / 2) + 0.5))
+        increasePath.move(to: CGPoint(x: sliceWidth / 2 + 0.5 + bounds.width - sliceWidth, y: (sliceHeight / 2) - (iconSize / 2) + 0.5))
+        increasePath.addLine(to: CGPoint(x: sliceWidth / 2 + 0.5 + bounds.width - sliceWidth, y: (sliceHeight / 2) + (iconSize / 2) + 0.5))
         tintColor.setStroke()
         increasePath.stroke()
 
