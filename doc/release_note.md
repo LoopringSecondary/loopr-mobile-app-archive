@@ -1,6 +1,13 @@
 
 # Release Note:
 
+## v1.6.2
+### 中文
+<font color=white> 修复下单功能，部分代币闪退的bug </font>  
+
+### English
+<font color=white> fix crash bug when place order </font>  
+
 ## v1.6.1
 ### 中文
 <font color=white> 1. 新增代币过滤的新闻聚合及阅读功能 </font>  
