@@ -523,6 +523,11 @@ extension WalletViewController: WalletButtonTableViewCellDelegate {
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 
+    func navigationToContactViewController() {
+        let viewController = ContactTableViewController()
+        viewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 extension WalletViewController: AssetViewControllerDelegate {

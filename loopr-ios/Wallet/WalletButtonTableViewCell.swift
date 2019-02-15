@@ -13,6 +13,7 @@ protocol WalletButtonTableViewCellDelegate: class {
     func navigationToReceiveViewController()
     func navigationToSendViewController()
     func navigationToTradeViewController()
+    func navigationToContactViewController()
 }
 
 class WalletButtonTableViewCell: UITableViewCell {
@@ -23,7 +24,7 @@ class WalletButtonTableViewCell: UITableViewCell {
     @IBOutlet weak var button2: UIButton!
     @IBOutlet weak var button3: UIButton!
     @IBOutlet weak var button4: UIButton!
-    @IBOutlet weak var buttonHeightLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var button5: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -67,7 +68,15 @@ class WalletButtonTableViewCell: UITableViewCell {
         button4.addTarget(self, action: #selector(self.pressedButton4(_:)), for: .touchUpInside)
         button4.set(image: UIImage.init(named: "Transaction-airdrop-dark"), title: LocalizedString("Airdrop", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .normal)
         button4.set(image: UIImage.init(named: "Transaction-airdrop-dark")?.alpha(0.6), title: LocalizedString("Airdrop", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .highlighted)
-        buttonHeightLayoutConstraint.constant = WalletButtonTableViewCell.getButtonHeight()
+        
+        button5.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 13)
+        button5.titleLabel?.theme_textColor = GlobalPicker.textLightColor
+        button5.theme_setTitleColor(GlobalPicker.textColor, forState: .normal)
+        button5.theme_setBackgroundImage(ColorPicker.button, forState: .normal)
+        button5.theme_setBackgroundImage(ColorPicker.buttonHighlight, forState: .highlighted)
+        button5.addTarget(self, action: #selector(self.pressedButton5(_:)), for: .touchUpInside)
+        button5.set(image: UIImage.init(named: "Contact-light"), title: LocalizedString("Address", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .normal)
+        button5.set(image: UIImage.init(named: "Contact-light")?.alpha(0.6), title: LocalizedString("Address", comment: ""), titlePosition: .bottom, additionalSpacing: iconTitlePadding, state: .highlighted)
     }
     
     @objc func pressedButton1(_ button: UIButton) {
@@ -88,6 +97,11 @@ class WalletButtonTableViewCell: UITableViewCell {
     @objc func pressedButton4(_ button: UIButton) {
         print("pressedItem4Button")
         delegate?.navigationToTradeViewController()
+    }
+    
+    @objc func pressedButton5(_ button: UIButton) {
+        print("pressedItem5Button")
+        delegate?.navigationToContactViewController()
     }
     
     func setup(showTradingFeature: Bool, isLaunching: Bool) {
