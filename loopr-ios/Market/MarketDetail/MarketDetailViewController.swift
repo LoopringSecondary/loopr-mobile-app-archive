@@ -173,7 +173,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
 
         let viewController = UpdatedMarketPlaceOrderViewController()
         viewController.market = market
-        viewController.initialType = .sell
+        viewController.initialType = .buy
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
