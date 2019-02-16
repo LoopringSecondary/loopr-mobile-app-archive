@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource {
+class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
     var market: Market!
     var type: TradeType!
@@ -22,10 +22,25 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     // Price
     @IBOutlet weak var minusPriceStepperButton: UIButton!
     @IBOutlet weak var plusPriceStepperButton: UIButton!
+    @IBOutlet weak var priceTextField: UITextField!
+    @IBOutlet weak var priceTipLabel: UILabel!
 
     // Amount
     @IBOutlet weak var minusAmountStepperButton: UIButton!
     @IBOutlet weak var plusAmountStepperButton: UIButton!
+    @IBOutlet weak var amountTextField: UITextField!
+    
+    // Percentage
+    @IBOutlet weak var percentage25Button: UIButton!
+    @IBOutlet weak var percentage50Button: UIButton!
+    @IBOutlet weak var percentage75Button: UIButton!
+    @IBOutlet weak var percentage100Button: UIButton!
+    
+    // Info
+    @IBOutlet weak var availableAmountInfoLabel: UILabel!
+    @IBOutlet weak var availableAmountLabel: UILabel!
+    @IBOutlet weak var totalAmountInforLabel: UILabel!
+    @IBOutlet weak var totalAmountLabel: UILabel!
     
     @IBOutlet weak var nextButton: GradientButton!
     
@@ -34,25 +49,99 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .clear
+        selectionStyle = .none
         baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         
         buyTabButton.title = LocalizedString("Buy", comment: "")
         buyTabButton.backgroundColor = UIColor.clear
         buyTabButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)
+        buyTabButton.clipsToBounds = true
+        buyTabButton.round(corners: [.topLeft, .bottomLeft], radius: 6)
         
         sellTabButton.title = LocalizedString("Sell", comment: "")
         sellTabButton.backgroundColor = UIColor.clear
         sellTabButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)
-        
-        latestPriceLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
-        latestPriceLabel.theme_textColor = GlobalPicker.textColor
+        sellTabButton.clipsToBounds = true
+        sellTabButton.round(corners: [.topRight, .bottomRight], radius: 6)
+
+        latestPriceLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
+        // latestPriceLabel.theme_textColor = GlobalPicker.textColor
+        latestPriceLabel.textColor = UIColor.theme
         latestPriceLabel.text = "最新成交价\n0.00045460 WETH"
         
+        // Price
         minusPriceStepperButton.theme_backgroundColor = ColorPicker.cardHighLightColor
         plusPriceStepperButton.theme_backgroundColor = ColorPicker.cardHighLightColor
+        priceTextField.delegate = self
+        priceTextField.tag = 1
+        priceTextField.theme_tintColor = GlobalPicker.textColor
+        priceTextField.theme_textColor = GlobalPicker.textColor
+        priceTextField.theme_backgroundColor = ColorPicker.cardHighLightColor
+        priceTextField.keyboardAppearance = Themes.isDark() ? .dark : .default
+        priceTextField.textAlignment = .center
+        priceTextField.font = FontConfigManager.shared.getRegularFont(size: 12)
+        priceTextField.placeholder = LocalizedString("Price", comment: "")
+        priceTextField.setValue(UIColor.init(white: 1, alpha: 0.4), forKeyPath: "_placeholderLabel.textColor")
+        priceTextField.contentMode = UIViewContentMode.bottom
         
+        priceTipLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
+        priceTipLabel.theme_textColor = GlobalPicker.textLightColor
+        priceTipLabel.text = "≈ $100"
+        
+        // Amount
         minusAmountStepperButton.theme_backgroundColor = ColorPicker.cardHighLightColor
         plusAmountStepperButton.theme_backgroundColor = ColorPicker.cardHighLightColor
+        amountTextField.delegate = self
+        amountTextField.tag = 1
+        amountTextField.theme_tintColor = GlobalPicker.textColor
+        amountTextField.theme_textColor = GlobalPicker.textColor
+        amountTextField.theme_backgroundColor = ColorPicker.cardHighLightColor
+        amountTextField.keyboardAppearance = Themes.isDark() ? .dark : .default
+        amountTextField.textAlignment = .center
+        amountTextField.font = FontConfigManager.shared.getRegularFont(size: 12)
+        amountTextField.placeholder = LocalizedString("Amount", comment: "")
+        amountTextField.setValue(UIColor.init(white: 1, alpha: 0.4), forKeyPath: "_placeholderLabel.textColor")
+        amountTextField.contentMode = UIViewContentMode.bottom
+        
+        percentage25Button.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+        percentage25Button.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 10)
+        percentage25Button.setBackgroundColor(UIColor.dark3, for: .normal)
+        percentage25Button.setBackgroundColor(UIColor.dark4, for: .highlighted)
+        percentage25Button.clipsToBounds = true
+        percentage25Button.round(corners: [.topLeft, .bottomLeft], radius: 6)
+
+        percentage50Button.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+        percentage50Button.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 10)
+        percentage50Button.setBackgroundColor(UIColor.dark3, for: .normal)
+        percentage50Button.setBackgroundColor(UIColor.dark4, for: .highlighted)
+
+        percentage75Button.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+        percentage75Button.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 10)
+        percentage75Button.setBackgroundColor(UIColor.dark3, for: .normal)
+        percentage75Button.setBackgroundColor(UIColor.dark4, for: .highlighted)
+
+        percentage100Button.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+        percentage100Button.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 10)
+        percentage100Button.setBackgroundColor(UIColor.dark3, for: .normal)
+        percentage100Button.setBackgroundColor(UIColor.dark4, for: .highlighted)
+        percentage100Button.clipsToBounds = true
+        percentage100Button.round(corners: [.topRight, .bottomRight], radius: 6)
+
+        // Info
+        availableAmountInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
+        availableAmountInfoLabel.theme_textColor = GlobalPicker.textLightColor
+        
+        availableAmountLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
+        availableAmountLabel.theme_textColor = GlobalPicker.textLightColor
+        availableAmountLabel.textAlignment = .right
+
+        totalAmountInforLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
+        totalAmountInforLabel.theme_textColor = GlobalPicker.textLightColor
+        
+        totalAmountLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
+        totalAmountLabel.theme_textColor = GlobalPicker.textLightColor
+        totalAmountLabel.textAlignment = .right
+
     }
     
     func update() {
@@ -85,6 +174,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     }
     
     class func getHeight() -> CGFloat {
-        return 400
+        return 363
     }
+
 }
