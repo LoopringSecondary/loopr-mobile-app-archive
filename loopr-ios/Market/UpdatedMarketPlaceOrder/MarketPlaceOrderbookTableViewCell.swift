@@ -18,7 +18,7 @@ class MarketPlaceOrderbookTableViewCell: UITableViewCell {
         backgroundColor = .clear
     }
     
-    func update(index: Int) {
+    func update(indexPath: IndexPath) {
         priceLabel.textAlignment = .left
         priceLabel.font = FontConfigManager.shared.getMediumFont(size: 12)
 
@@ -26,7 +26,7 @@ class MarketPlaceOrderbookTableViewCell: UITableViewCell {
         amountLabel.font = FontConfigManager.shared.getMediumFont(size: 12)
         amountLabel.theme_textColor = GlobalPicker.textColor
         
-        if index < 5 {
+        if indexPath.section == 0 {
             priceLabel.textColor = UIColor.success
         } else {
             priceLabel.textColor = UIColor.fail

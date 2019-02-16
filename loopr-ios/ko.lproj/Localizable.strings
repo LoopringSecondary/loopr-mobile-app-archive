@@ -252,7 +252,7 @@
 "Enter the address" = "주소를 입력해주세요";
 "Available Balance" = "잔액";
 "Transaction Fee" = "거래 수수료";
-
+"Decimals" = "Decimals";
 
 /* Trade tips */
 "Convert_DES" = "● 지폐를 동전으로 교환하는 것과 같은 원리입니다. 예를 들어서, 동전만 받는 자판기를 이용하기 위해서 동전교환기를 이용하는 경우를 떠올리시면 이해하기 쉽습니다. ETH 와 WETH의 변환 비율은 1:1 입니다. 모든 변환 거래는 이더리움으로부터 권리 보장을 받습니다.";

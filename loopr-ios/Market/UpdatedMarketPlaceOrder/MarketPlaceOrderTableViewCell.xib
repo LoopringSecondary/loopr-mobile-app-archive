@@ -266,6 +266,13 @@
                                     <constraint firstItem="91x-Fx-BGU" firstAttribute="leading" secondItem="Lce-r8-usD" secondAttribute="leading" constant="4" id="yjC-b5-99e"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yBw-Qe-Jeo">
+                                <rect key="frame" x="179.66666666666663" y="47.666666666666664" width="155.33333333333337" height="0.3333333333333357"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="0.5" id="VMW-lc-7nE"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MZK-k2-i17">
                                 <rect key="frame" x="171.66666666666663" y="48" width="171.33333333333337" height="323.66666666666669"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -279,6 +286,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="yBw-Qe-Jeo" firstAttribute="leading" secondItem="MZK-k2-i17" secondAttribute="leading" constant="8" id="3WQ-Yw-ERY"/>
                             <constraint firstItem="MZK-k2-i17" firstAttribute="top" secondItem="PH9-QR-ZMm" secondAttribute="bottom" id="A1N-pc-vhq"/>
                             <constraint firstAttribute="bottom" secondItem="MZK-k2-i17" secondAttribute="bottom" id="CUW-FX-SmB"/>
                             <constraint firstItem="PH9-QR-ZMm" firstAttribute="top" secondItem="aCh-6l-5LM" secondAttribute="top" constant="12" id="OTd-j7-A9K"/>
@@ -289,8 +297,10 @@
                             <constraint firstItem="bpf-We-MG7" firstAttribute="leading" secondItem="aCh-6l-5LM" secondAttribute="leading" id="evs-Of-J3S"/>
                             <constraint firstItem="MZK-k2-i17" firstAttribute="top" secondItem="aCh-6l-5LM" secondAttribute="top" constant="48" id="fjB-8D-v41"/>
                             <constraint firstItem="PH9-QR-ZMm" firstAttribute="trailing" secondItem="MZK-k2-i17" secondAttribute="trailing" id="jvW-nC-DjL"/>
+                            <constraint firstItem="MZK-k2-i17" firstAttribute="top" secondItem="yBw-Qe-Jeo" secondAttribute="bottom" id="ogU-bz-aga"/>
                             <constraint firstItem="bpf-We-MG7" firstAttribute="top" secondItem="aCh-6l-5LM" secondAttribute="top" id="pVQ-rw-Yc9"/>
                             <constraint firstItem="bpf-We-MG7" firstAttribute="width" secondItem="aCh-6l-5LM" secondAttribute="width" multiplier="0.5" id="sIQ-qw-yVa"/>
+                            <constraint firstItem="MZK-k2-i17" firstAttribute="trailing" secondItem="yBw-Qe-Jeo" secondAttribute="trailing" constant="8" id="zul-II-aIA"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -323,6 +333,7 @@
                 <outlet property="priceTextField" destination="O9z-BB-wad" id="ffn-Jq-2Jj"/>
                 <outlet property="priceTipLabel" destination="91x-Fx-BGU" id="hqf-gf-Ygn"/>
                 <outlet property="sellTabButton" destination="43d-HS-yMx" id="oYa-SG-sje"/>
+                <outlet property="seperateLine" destination="yBw-Qe-Jeo" id="dI7-cM-YY4"/>
                 <outlet property="totalAmountInforLabel" destination="VEW-Ml-QHI" id="wY1-D3-egm"/>
                 <outlet property="totalAmountLabel" destination="oaV-gL-s8H" id="Z3R-qy-ly3"/>
             </connections>
