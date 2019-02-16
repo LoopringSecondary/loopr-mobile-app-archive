@@ -270,15 +270,25 @@
                                 <rect key="frame" x="171.66666666666663" y="48" width="171.33333333333337" height="323.66666666666669"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PH9-QR-ZMm">
+                                <rect key="frame" x="179.66666666666663" y="12" width="163.33333333333337" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="MZK-k2-i17" firstAttribute="top" secondItem="PH9-QR-ZMm" secondAttribute="bottom" id="A1N-pc-vhq"/>
                             <constraint firstAttribute="bottom" secondItem="MZK-k2-i17" secondAttribute="bottom" id="CUW-FX-SmB"/>
+                            <constraint firstItem="PH9-QR-ZMm" firstAttribute="top" secondItem="aCh-6l-5LM" secondAttribute="top" constant="12" id="OTd-j7-A9K"/>
                             <constraint firstAttribute="bottom" secondItem="bpf-We-MG7" secondAttribute="bottom" id="WXo-19-DQz"/>
                             <constraint firstItem="MZK-k2-i17" firstAttribute="width" secondItem="aCh-6l-5LM" secondAttribute="width" multiplier="0.5" id="cF7-Fm-8AX"/>
                             <constraint firstAttribute="trailing" secondItem="MZK-k2-i17" secondAttribute="trailing" id="eD7-42-iuU"/>
+                            <constraint firstItem="PH9-QR-ZMm" firstAttribute="leading" secondItem="MZK-k2-i17" secondAttribute="leading" constant="8" id="eRe-ov-joG"/>
                             <constraint firstItem="bpf-We-MG7" firstAttribute="leading" secondItem="aCh-6l-5LM" secondAttribute="leading" id="evs-Of-J3S"/>
                             <constraint firstItem="MZK-k2-i17" firstAttribute="top" secondItem="aCh-6l-5LM" secondAttribute="top" constant="48" id="fjB-8D-v41"/>
+                            <constraint firstItem="PH9-QR-ZMm" firstAttribute="trailing" secondItem="MZK-k2-i17" secondAttribute="trailing" id="jvW-nC-DjL"/>
                             <constraint firstItem="bpf-We-MG7" firstAttribute="top" secondItem="aCh-6l-5LM" secondAttribute="top" id="pVQ-rw-Yc9"/>
                             <constraint firstItem="bpf-We-MG7" firstAttribute="width" secondItem="aCh-6l-5LM" secondAttribute="width" multiplier="0.5" id="sIQ-qw-yVa"/>
                         </constraints>
@@ -298,6 +308,7 @@
                 <outlet property="availableAmountLabel" destination="jWc-lh-FFB" id="biB-0i-MaC"/>
                 <outlet property="baseView" destination="aCh-6l-5LM" id="53g-a9-VUf"/>
                 <outlet property="buyTabButton" destination="J7V-ft-rli" id="Dag-yc-fFt"/>
+                <outlet property="decimalInfoLabel" destination="PH9-QR-ZMm" id="6M7-yp-awM"/>
                 <outlet property="latestPriceLabel" destination="E6G-pc-Gpz" id="SFh-NF-eUm"/>
                 <outlet property="minusAmountStepperButton" destination="eo8-eQ-qm6" id="ZLz-lN-ekb"/>
                 <outlet property="minusPriceStepperButton" destination="l3p-Wh-PIA" id="C8w-Vp-G5G"/>

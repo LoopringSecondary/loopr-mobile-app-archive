@@ -44,6 +44,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     
     @IBOutlet weak var nextButton: GradientButton!
     
+    // Orderbook
+    @IBOutlet weak var decimalInfoLabel: UILabel!
     @IBOutlet weak var orderbookTableView: UITableView!
     
     override func awakeFromNib() {
@@ -142,6 +144,15 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         totalAmountLabel.theme_textColor = GlobalPicker.textLightColor
         totalAmountLabel.textAlignment = .right
 
+        // Orderbook
+        decimalInfoLabel.font = FontConfigManager.shared.getMediumFont(size: 14)
+        decimalInfoLabel.theme_textColor = GlobalPicker.textColor
+        decimalInfoLabel.text = "8 decimals"
+        
+        orderbookTableView.dataSource = self
+        orderbookTableView.delegate = self
+        orderbookTableView.separatorStyle = .none
+        orderbookTableView.backgroundColor = .clear
     }
     
     func update() {
@@ -161,12 +172,50 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         nextButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return MarketPlaceOrderbookTableViewCell.getHeight()
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let screenWidth = (UIScreen.main.bounds.width - 16*2)*0.5
+        let labelWidth = (screenWidth - 8*2)*0.5
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: MarketPlaceOrderbookTableViewCell.getHeight()))
+        headerView.backgroundColor = .clear
+        
+        let label1 = UILabel(frame: CGRect(x: 8, y: 0, width: labelWidth, height: MarketPlaceOrderbookTableViewCell.getHeight()))
+        label1.theme_textColor = GlobalPicker.textLightColor
+        label1.font = FontConfigManager.shared.getMediumFont(size: 12)
+        label1.text = LocalizedString("Price", comment: "")
+        label1.textAlignment = .left
+        headerView.addSubview(label1)
+
+        let label4 = UILabel(frame: CGRect(x: label1.frame.maxX, y: 0, width: labelWidth, height: MarketPlaceOrderbookTableViewCell.getHeight()))
+        label4.theme_textColor = GlobalPicker.textLightColor
+        label4.font = FontConfigManager.shared.getMediumFont(size: 12)
+        label4.text = LocalizedString("Amount", comment: "")
+        label4.textAlignment = .right
+        headerView.addSubview(label4)
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return MarketPlaceOrderbookTableViewCell.getHeight()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        var cell = tableView.dequeueReusableCell(withIdentifier: MarketPlaceOrderbookTableViewCell.getCellIdentifier()) as? MarketPlaceOrderbookTableViewCell
+        if cell == nil {
+            let nib = Bundle.main.loadNibNamed("MarketPlaceOrderbookTableViewCell", owner: self, options: nil)
+            cell = nib![0] as? MarketPlaceOrderbookTableViewCell
+        }
+        cell?.update(index: indexPath.row)
+        return cell!
     }
 
     class func getCellIdentifier() -> String {

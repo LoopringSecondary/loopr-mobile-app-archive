@@ -155,6 +155,8 @@
 		9B82E7812213FF91009441BD /* UpdatedMarketPlaceOrderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B82E77F2213FF91009441BD /* UpdatedMarketPlaceOrderViewController.xib */; };
 		9B82E7842214034F009441BD /* MarketPlaceOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B82E7822214034F009441BD /* MarketPlaceOrderTableViewCell.swift */; };
 		9B82E7852214034F009441BD /* MarketPlaceOrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B82E7832214034F009441BD /* MarketPlaceOrderTableViewCell.xib */; };
+		9B82E78A221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B82E788221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift */; };
+		9B82E78B221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B82E789221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib */; };
 		9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */; };
 		9BA3014821B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */; };
 		9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */; };
@@ -739,6 +741,8 @@
 		9B82E77F2213FF91009441BD /* UpdatedMarketPlaceOrderViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpdatedMarketPlaceOrderViewController.xib; sourceTree = "<group>"; };
 		9B82E7822214034F009441BD /* MarketPlaceOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPlaceOrderTableViewCell.swift; sourceTree = "<group>"; };
 		9B82E7832214034F009441BD /* MarketPlaceOrderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketPlaceOrderTableViewCell.xib; sourceTree = "<group>"; };
+		9B82E788221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPlaceOrderbookTableViewCell.swift; sourceTree = "<group>"; };
+		9B82E789221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketPlaceOrderbookTableViewCell.xib; sourceTree = "<group>"; };
 		9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerDepth.swift; sourceTree = "<group>"; };
 		9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerTradeHistory.swift; sourceTree = "<group>"; };
 		9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerSwipe.swift; sourceTree = "<group>"; };
@@ -1394,6 +1398,8 @@
 				9B82E77F2213FF91009441BD /* UpdatedMarketPlaceOrderViewController.xib */,
 				9B82E7822214034F009441BD /* MarketPlaceOrderTableViewCell.swift */,
 				9B82E7832214034F009441BD /* MarketPlaceOrderTableViewCell.xib */,
+				9B82E788221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift */,
+				9B82E789221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib */,
 			);
 			path = UpdatedMarketPlaceOrder;
 			sourceTree = "<group>";
@@ -2838,6 +2844,7 @@
 				943C1CB320CE26CE008A8CED /* LoginResultViewController.xib in Resources */,
 				942FE782210D5A1C005C723D /* SendConfirmViewController.xib in Resources */,
 				AC06193A208401EB0060F416 /* MnemonicAddressTableViewCell.xib in Resources */,
+				9B82E78B221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib in Resources */,
 				ACB746E62043C5F5006C2BF5 /* QRCodeViewController.xib in Resources */,
 				ACB1482421057B9300AB2343 /* GenerateWalletEnterNameViewController.xib in Resources */,
 				AC6466092083EE1E00EBEC97 /* MnemonicDerivationPathTableViewCell.xib in Resources */,
@@ -3221,6 +3228,7 @@
 				ACB9118C20266A9C00F14644 /* AssetDetailViewController.swift in Sources */,
 				94D94CE32084A9380000BBC8 /* ConfirmationResultViewController.swift in Sources */,
 				AC4141FF20356A4D0089861D /* MarketSwipeViewType.swift in Sources */,
+				9B82E78A221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift in Sources */,
 				9461851021D0F8E200393432 /* IndexType.swift in Sources */,
 				9BA3015021B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.swift in Sources */,
 				AC0CD58B20D393F300ABB7BA /* SendCurrentAppWalletDataManager.swift in Sources */,
