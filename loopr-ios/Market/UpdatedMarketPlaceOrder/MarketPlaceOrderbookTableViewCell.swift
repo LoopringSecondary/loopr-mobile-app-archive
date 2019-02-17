@@ -18,21 +18,22 @@ class MarketPlaceOrderbookTableViewCell: UITableViewCell {
         backgroundColor = .clear
     }
     
-    func update(indexPath: IndexPath) {
+    func update(indexPath: IndexPath, depth: Depth) {
         priceLabel.textAlignment = .left
         priceLabel.font = FontConfigManager.shared.getMediumFont(size: 12)
 
         amountLabel.textAlignment = .right
         amountLabel.font = FontConfigManager.shared.getMediumFont(size: 12)
-        amountLabel.theme_textColor = GlobalPicker.textColor
+        amountLabel.theme_textColor = GlobalPicker.textLightColor
         
         if indexPath.section == 0 {
-            priceLabel.textColor = UIColor.success
-        } else {
             priceLabel.textColor = UIColor.fail
+        } else {
+            priceLabel.textColor = UIColor.success
         }
-        priceLabel.text = "0.00044289"
-        amountLabel.text = "1081.76"
+        
+        priceLabel.text = depth.price.toDecimalPlaces(8)
+        amountLabel.text = depth.amountA.toDecimalPlaces(2).trailingZero()
     }
     
     class func getCellIdentifier() -> String {
@@ -40,7 +41,7 @@ class MarketPlaceOrderbookTableViewCell: UITableViewCell {
     }
     
     class func getHeight() -> CGFloat {
-        return 28
+        return 27
     }
 
 }

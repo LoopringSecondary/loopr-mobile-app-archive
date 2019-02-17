@@ -45,7 +45,6 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.theme_backgroundColor = ColorPicker.backgroundColor
         setBackButton()
         setupMarket()
@@ -158,6 +157,8 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
 
         let viewController = UpdatedMarketPlaceOrderViewController()
         viewController.market = market
+        viewController.buys = buys
+        viewController.sells = sells
         viewController.initialType = .sell
         self.navigationController?.pushViewController(viewController, animated: true)
     }
@@ -173,6 +174,8 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
 
         let viewController = UpdatedMarketPlaceOrderViewController()
         viewController.market = market
+        viewController.buys = buys
+        viewController.sells = sells
         viewController.initialType = .buy
         self.navigationController?.pushViewController(viewController, animated: true)
     }

@@ -17,6 +17,10 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
     
     private var types: [TradeType] = [.buy, .sell]
     
+    // TODO: needs to update buys and sells in Relay 2.0
+    var buys: [Depth] = []
+    var sells: [Depth] = []
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -50,8 +54,13 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         }
         cell?.market = market
         cell?.type = initialType
+        
+        cell?.setBuys(buys)
+        cell?.setSells(sells)
+        
         cell?.update()
+        cell?.updateUI()
         return cell!
     }
-    
+
 }
