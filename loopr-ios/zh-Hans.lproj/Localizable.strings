@@ -224,6 +224,7 @@
 "Sender" = "发送方地址";
 "Custom" = "自定义";
 "Can Buy" = "可买";
+"Can Sell" = "可卖";
 "Time to Live" = "有效期";
 "Expiration Time" = "过期时间";
 "Change" = "涨跌";
@@ -265,6 +266,7 @@
 "P2P Order History" = "场外交易记录";
 "Enter the address" = "请输入地址";
 "Available Balance" = "可用余额";
+"Available" = "可用";
 "Can Buy" = "可买";
 "Tx Fee Limit" = "交易费上限";
 "Loopring_TIP" = "请用支持路印协议的钱包扫码交易";

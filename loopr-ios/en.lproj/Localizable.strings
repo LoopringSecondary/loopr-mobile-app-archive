@@ -224,6 +224,7 @@
 "Sender" = "Sender";
 "Custom" = "Custom";
 "Can Buy" = "Can Buy";
+"Can Sell" = "Can Sell";
 "Time to Live" = "Time to Live";
 "Expiration Time" = "Expiration Time";
 "Change" = "Change";
@@ -265,6 +266,7 @@
 "P2P Order History" = "P2P Order History";
 "Enter the address" = "Enter the address";
 "Available Balance" = "Available Balance";
+"Available" = "Available";
 "Can Buy" = "Can Buy";
 "Tx Fee Limit" = "Tx Fee Limit";
 "Loopring_TIP" = "Please use wallet supporting Loopring protocol to scan";

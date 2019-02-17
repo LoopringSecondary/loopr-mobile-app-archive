@@ -215,13 +215,11 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
             var total: Double
             total = Double(marketPlaceOrderTableViewCell.priceTextField.text!.removeComma())! * Double(marketPlaceOrderTableViewCell.amountTextField.text!.removeComma())!
             self.orderAmount = total
-            setupLabels()
-            // syncAllTextFieldsAndStepSlider()
         }
         return isValid
     }
     
-    func validateTokenPrice() -> Bool {
+    func validateTokenPrice(withErrorNotification: Bool = true) -> Bool {
         if let value = Double(marketPlaceOrderTableViewCell.priceTextField.text!.removeComma()) {
             let validate = value > 0.0
             if validate {
@@ -231,10 +229,12 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
                 marketPlaceOrderTableViewCell.priceTipLabel.isHidden = false
                 marketPlaceOrderTableViewCell.priceTipLabel.theme_textColor = GlobalPicker.textLightColor
             } else {
-                marketPlaceOrderTableViewCell.priceTipLabel.text = LocalizedString("Please input a valid price", comment: "")
-                marketPlaceOrderTableViewCell.priceTipLabel.isHidden = false
-                marketPlaceOrderTableViewCell.priceTipLabel.textColor = .fail
-                marketPlaceOrderTableViewCell.priceTipLabel.shake()
+                if withErrorNotification {
+                    marketPlaceOrderTableViewCell.priceTipLabel.text = LocalizedString("Please input a valid price", comment: "")
+                    marketPlaceOrderTableViewCell.priceTipLabel.isHidden = false
+                    marketPlaceOrderTableViewCell.priceTipLabel.textColor = .fail
+                    marketPlaceOrderTableViewCell.priceTipLabel.shake()
+                }
             }
             return validate
         } else {
@@ -247,38 +247,15 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         }
     }
     
-    func validateAmount() -> Bool {
+    func validateAmount(withErrorNotification: Bool = true) -> Bool {
         if let value = Double(marketPlaceOrderTableViewCell.amountTextField.text!.removeComma()) {
             let validate = value > 0.0
-            if validate {
-                setupLabels()
-            } else {
-                /*
-                 tipLabel.isHidden = false
-                 tipLabel.textColor = .fail
-                 tipLabel.text = LocalizedString("Please input a valid amount", comment: "")
-                 tipLabel.shake()
-                 */
-            }
             return validate
         } else {
-            if marketPlaceOrderTableViewCell.activeTextFieldTag == marketPlaceOrderTableViewCell.amountTextField.tag {
-                if type == .buy {
-                    /*
-                     tipLabel.isHidden = true
-                     */
-                } else {
-                    setupLabels()
-                }
-            }
             return false
         }
     }
-    
-    func setupLabels() {
-        
-    }
-    
+
     func switchToBuy() {
         type = .buy
         marketPlaceOrderTableViewCell.type = .buy
@@ -312,16 +289,8 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         }
 
         if !isAmountValid {
-            /*
-            tipLabel.textColor = .fail
-            tipLabel.isHidden = false
-            tipLabel.text = LocalizedString("Please input a valid amount", comment: "")
-            tipLabel.shake()
-            */
-            // TODO: how to display
             marketPlaceOrderTableViewCell.amountView.shake(withTranslation: 5)
         }
-
     }
 
     func pushController() {
@@ -355,13 +324,6 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         }
     }
 
-    func getBalance() -> Double? {
-        if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenS) {
-            return asset.balance
-        }
-        return nil
-    }
-    
     func constructOrder() -> OriginalOrder? {
         var buyNoMoreThanAmountB: Bool
         var side, tokenSell, tokenBuy: String
@@ -415,44 +377,6 @@ extension UpdatedMarketPlaceOrderViewController {
         // do not know what this logic for. temp annotation
         let minLrc = GasDataManager.shared.getGasAmount(by: "eth_transfer", in: "LRC")
         return max(result, minLrc)
-    }
-    
-    func getMaxPossibleAmount(side: TradeType, tokenBuy: String, tokenSell: String) -> Double {
-        var maxPossibleAmount: Double = 0
-        
-        if side == .buy {
-            /*
-             if tokenBuy.uppercased() == "LRC" {
-             
-             } else {
-             
-             }
-             */
-            maxPossibleAmount = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenSell)?.balance ?? 0
-            
-        } else {
-            /*
-             if tokenSell.uppercased() == "LRC" {
-             // This line of code will trigger a Relay API call
-             let lrcFrozen = PlaceOrderDataManager.shared.getFrozenLRCFeeFromServer()
-             let lrcBlance = CurrentAppWalletDataManager.shared.getBalance(of: "LRC")!
-             
-             let lrcFee = getLrcFee(lrcBlance-lrcFrozen, tokenSell)
-             
-             maxPossibleAmount = lrcBlance - lrcFrozen - lrcFee
-             
-             } else {
-             maxPossibleAmount = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenSell)?.balance ?? 0
-             }
-             */
-            maxPossibleAmount = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenSell)?.balance ?? 0
-        }
-        
-        if maxPossibleAmount < 0 {
-            maxPossibleAmount = 0
-        }
-        
-        return maxPossibleAmount
     }
 
 }

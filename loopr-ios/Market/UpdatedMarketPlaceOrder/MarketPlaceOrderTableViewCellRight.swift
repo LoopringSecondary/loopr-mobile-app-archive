@@ -12,9 +12,9 @@ extension MarketPlaceOrderTableViewCell {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return 30
+            return 34
         } else if section == 1 {
-            return 8
+            return 10
         } else {
             return 0
         }

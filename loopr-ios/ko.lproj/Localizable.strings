@@ -211,6 +211,7 @@
 "Sender" = "전송인";
 "Custom" = "상세 설정";
 "Can Buy" = "ㅌㅌㅌㅌ";
+"Can Sell" = "Can Sell";
 "Time to Live" = "주문 기한";
 "Change" = "가격 변동";
 "Accept" = "완료";
@@ -251,6 +252,7 @@
 "P2P Order History" = "P2P 거래 기록";
 "Enter the address" = "주소를 입력해주세요";
 "Available Balance" = "잔액";
+"Available" = "Available";
 "Transaction Fee" = "거래 수수료";
 "Decimals" = "Decimals";
 

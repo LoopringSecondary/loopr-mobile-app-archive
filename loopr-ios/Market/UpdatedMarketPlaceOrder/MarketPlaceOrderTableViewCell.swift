@@ -14,6 +14,13 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     var market: Market!
     var type: TradeType!
     
+    private var amountValueDecimal: Int = 8
+    private var amountValue: Double = 0
+    
+    private var totalValueDecimal: Int = 8
+    private var totalValue: Double = 0
+    
+    // Setting
     let decimalsValue: Int = 8
     
     // TODO: needs to update buys and sells in Relay 2.0
@@ -148,27 +155,32 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         percentage25Button.setBackgroundColor(UIColor.dark4, for: .highlighted)
         percentage25Button.clipsToBounds = true
         percentage25Button.round(corners: [.topLeft, .bottomLeft], radius: viewCornerRadius)
+        percentage25Button.addTarget(self, action: #selector(pressedPercentage25Button), for: .touchUpInside)
 
         percentage50Button.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         percentage50Button.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 10)
         percentage50Button.setBackgroundColor(UIColor.dark3, for: .normal)
         percentage50Button.setBackgroundColor(UIColor.dark4, for: .highlighted)
+        percentage50Button.addTarget(self, action: #selector(pressedPercentage50Button), for: .touchUpInside)
 
         percentage75Button.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         percentage75Button.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 10)
         percentage75Button.setBackgroundColor(UIColor.dark3, for: .normal)
         percentage75Button.setBackgroundColor(UIColor.dark4, for: .highlighted)
-
+        percentage75Button.addTarget(self, action: #selector(pressedPercentage75Button), for: .touchUpInside)
+        
         percentage100Button.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         percentage100Button.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 10)
         percentage100Button.setBackgroundColor(UIColor.dark3, for: .normal)
         percentage100Button.setBackgroundColor(UIColor.dark4, for: .highlighted)
         percentage100Button.clipsToBounds = true
         percentage100Button.round(corners: [.topRight, .bottomRight], radius: viewCornerRadius)
+        percentage100Button.addTarget(self, action: #selector(pressedPercentage100Button), for: .touchUpInside)
 
         // Info
         availableAmountInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         availableAmountInfoLabel.theme_textColor = GlobalPicker.textLightColor
+         availableAmountInfoLabel.text = LocalizedString("Available", comment: "")
         
         availableAmountLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         availableAmountLabel.theme_textColor = GlobalPicker.textLightColor
@@ -214,6 +226,9 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     
     func update() {
         latestPriceButton.title = "\(LocalizedString("Market Price", comment: ""))\n\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)"
+        
+        updateAvailableLabel()
+        updateTotalLabel()
 
         if type == .buy {
             buyTabButton.setBackgroundColor(UIColor.init(rgba: "#5ED279"), for: .normal)
@@ -257,6 +272,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     @objc func pressedLatestPriceButton() {
         priceTextField.text = market.balanceWithDecimals
         priceTipLabel.text = "≈ \(market.display.description)"
+        updateTotalLabel()
     }
     
     func pressedDepthCell(depth: Depth) {
@@ -269,6 +285,102 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         }
 
         amountTextField.text = depth.amountA.toDecimalPlaces(2).trailingZero()
+        
+        updateTotalLabel()
+    }
+    
+    // Only update at init method and switch buy and sell type
+    func updateAvailableLabel() {
+        var message: String = ""
+        var tokenB: String = ""
+        var tokenS: String = ""
+
+        if self.type == .buy {
+            tokenB = PlaceOrderDataManager.shared.tokenA.symbol
+            tokenS = PlaceOrderDataManager.shared.tokenB.symbol
+        } else {
+            tokenB = PlaceOrderDataManager.shared.tokenB.symbol
+            tokenS = PlaceOrderDataManager.shared.tokenA.symbol
+        }
+        if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenS) {
+            // Have to drop last chars due to the size
+            
+            amountValue = asset.balance
+            amountValueDecimal = asset.decimals
+            if amountValue > 100 {
+                amountValueDecimal = 4
+            } else if amountValue > 1000 {
+                amountValueDecimal = 2
+            }
+            
+            message = "\(asset.display) \(tokenS)"
+        } else {
+            message = "0.0 \(tokenS)"
+        }
+        availableAmountLabel.text = message
+    }
+    
+    // Update when priceTextField is changed.
+    func updateTotalLabel() {
+        var message: String = ""
+        var tokenB: String = ""
+        var tokenS: String = ""
+        
+        if self.type == .buy {
+            tokenB = PlaceOrderDataManager.shared.tokenA.symbol
+            tokenS = PlaceOrderDataManager.shared.tokenB.symbol
+            totalAmountInforLabel.text = LocalizedString("Can Buy", comment: "")
+        } else {
+            tokenB = PlaceOrderDataManager.shared.tokenB.symbol
+            tokenS = PlaceOrderDataManager.shared.tokenA.symbol
+            totalAmountInforLabel.text = LocalizedString("Can Sell", comment: "")
+        }
+
+        if updatedMarketPlaceOrderViewController.validateTokenPrice(withErrorNotification: false), let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenS) {
+            let priceValue = Double(priceTextField.text!.removeComma())!
+            if self.type == .buy {
+                totalValue = asset.balance/priceValue
+            } else {
+                totalValue = priceValue * asset.balance
+            }
+            totalValueDecimal = asset.decimals
+            if totalValue > 100 {
+                totalValueDecimal = 4
+            } else if totalValue > 1000 {
+                totalValueDecimal = 2
+            }
+            message = "\(totalValue.withCommas(totalValueDecimal).trailingZero()) \(tokenB)"
+        } else {
+            message = "-- \(tokenB)"
+        }
+
+        totalAmountLabel.text = message
+    }
+    
+    // Percentage buttons
+    @objc func pressedPercentage25Button() {
+        updateAmountTextFieldAfterPressedPercentageButton(percentage: 0.25)
+    }
+
+    @objc func pressedPercentage50Button() {
+        updateAmountTextFieldAfterPressedPercentageButton(percentage: 0.5)
+    }
+
+    @objc func pressedPercentage75Button() {
+        updateAmountTextFieldAfterPressedPercentageButton(percentage: 0.75)
+    }
+
+    @objc func pressedPercentage100Button() {
+        // TODO: how to calculate 100%
+        updateAmountTextFieldAfterPressedPercentageButton(percentage: 0.98)
+    }
+    
+    private func updateAmountTextFieldAfterPressedPercentageButton(percentage: Double) {
+        if self.type == .buy {
+            amountTextField.text = (totalValue*percentage).withCommas(totalValueDecimal).trailingZero()
+        } else {
+            amountTextField.text = (amountValue*percentage).withCommas(amountValueDecimal).trailingZero()
+        }
     }
 
     @objc func pressedBuyTabButton() {
@@ -323,7 +435,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     }
     
     class func getHeight() -> CGFloat {
-        return 363
+        return 363 + 5 + 4
     }
 
 }
