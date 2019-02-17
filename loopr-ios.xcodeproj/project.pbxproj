@@ -157,6 +157,7 @@
 		9B82E7852214034F009441BD /* MarketPlaceOrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B82E7832214034F009441BD /* MarketPlaceOrderTableViewCell.xib */; };
 		9B82E78A221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B82E788221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift */; };
 		9B82E78B221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B82E789221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib */; };
+		9B82E78D221902FE009441BD /* MarketPlaceOrderTableViewCellRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B82E78C221902FE009441BD /* MarketPlaceOrderTableViewCellRight.swift */; };
 		9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */; };
 		9BA3014821B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */; };
 		9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */; };
@@ -743,6 +744,7 @@
 		9B82E7832214034F009441BD /* MarketPlaceOrderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketPlaceOrderTableViewCell.xib; sourceTree = "<group>"; };
 		9B82E788221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPlaceOrderbookTableViewCell.swift; sourceTree = "<group>"; };
 		9B82E789221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketPlaceOrderbookTableViewCell.xib; sourceTree = "<group>"; };
+		9B82E78C221902FE009441BD /* MarketPlaceOrderTableViewCellRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPlaceOrderTableViewCellRight.swift; sourceTree = "<group>"; };
 		9BA3014521B06A1300E55E49 /* MarketDetailViewControllerDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerDepth.swift; sourceTree = "<group>"; };
 		9BA3014721B0954600E55E49 /* MarketDetailViewControllerTradeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerTradeHistory.swift; sourceTree = "<group>"; };
 		9BA3014921B097D100E55E49 /* MarketDetailViewControllerSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewControllerSwipe.swift; sourceTree = "<group>"; };
@@ -1398,6 +1400,7 @@
 				9B82E77F2213FF91009441BD /* UpdatedMarketPlaceOrderViewController.xib */,
 				9B82E7822214034F009441BD /* MarketPlaceOrderTableViewCell.swift */,
 				9B82E7832214034F009441BD /* MarketPlaceOrderTableViewCell.xib */,
+				9B82E78C221902FE009441BD /* MarketPlaceOrderTableViewCellRight.swift */,
 				9B82E788221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift */,
 				9B82E789221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib */,
 			);
@@ -3310,6 +3313,7 @@
 				AC7BC85C2145B477004204D3 /* AppWalletExtension.swift in Sources */,
 				AC2D2C05208882BD00D619AD /* FoundationArray+Extension.swift in Sources */,
 				ACB5DD9E202D5B8D00140A09 /* NumericKeyboardItem.swift in Sources */,
+				9B82E78D221902FE009441BD /* MarketPlaceOrderTableViewCellRight.swift in Sources */,
 				949629DF204E9C9800858F03 /* MinedRing.swift in Sources */,
 				94C11FDA208C2DE40050E180 /* SettingCurrencyTableViewCell.swift in Sources */,
 				AC9DC45921159084002D7D23 /* BaseAnimator.swift in Sources */,
