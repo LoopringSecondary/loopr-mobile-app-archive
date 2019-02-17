@@ -31,6 +31,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     @IBOutlet weak var textFieldHeightLayoutConstraint: NSLayoutConstraint!
     
     // Price
+    @IBOutlet weak var priceView: UIView!
     @IBOutlet weak var minusPriceStepperButton: UIButton!
     @IBOutlet weak var plusPriceStepperButton: UIButton!
     @IBOutlet weak var priceTextField: UITextField!
@@ -77,12 +78,14 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         buyTabButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)
         buyTabButton.clipsToBounds = true
         buyTabButton.round(corners: [.topLeft, .bottomLeft], radius: viewCornerRadius)
+        buyTabButton.addTarget(self, action: #selector(pressedBuyTabButton), for: .touchUpInside)
         
         sellTabButton.title = LocalizedString("Sell", comment: "")
         sellTabButton.backgroundColor = UIColor.clear
         sellTabButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)
         sellTabButton.clipsToBounds = true
         sellTabButton.round(corners: [.topRight, .bottomRight], radius: viewCornerRadius)
+        sellTabButton.addTarget(self, action: #selector(pressedSellTabButton), for: .touchUpInside)
 
         latestPriceLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         // latestPriceLabel.theme_textColor = GlobalPicker.textColor
@@ -113,8 +116,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         
         priceTipLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         priceTipLabel.theme_textColor = GlobalPicker.textLightColor
-        priceTipLabel.text = "≈ 0"
-        
+        priceTipLabel.text = "≈ \(0.0.currency)"
+
         // Amount
         minusAmountStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
         minusAmountStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
@@ -210,6 +213,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
 
         if type == .buy {
             buyTabButton.setBackgroundColor(UIColor.init(rgba: "#5ED279"), for: .normal)
+            buyTabButton.setTitleColor(UIColor.white, for: .normal)
 
             sellTabButton.setBackgroundColor(UIColor.dark3, for: .normal)
             sellTabButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
@@ -223,6 +227,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             buyTabButton.setTitleColor(UIColor.text2, for: .normal)
 
             sellTabButton.setBackgroundColor(UIColor.init(rgba: "#DD5252"), for: .normal)
+            sellTabButton.setTitleColor(UIColor.white, for: .normal)
 
             nextButton.title = LocalizedString("Sell", comment: "") + " " + market.tradingPair.tradingA
             nextButton.setRed()
@@ -244,6 +249,20 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         plusAmountStepperButton.round(corners: [.topRight, .bottomRight], radius: 6)
     }
     
+    @objc func pressedBuyTabButton() {
+        guard type != .buy else {
+            return
+        }
+        updatedMarketPlaceOrderViewController.switchToBuy()
+    }
+
+    @objc func pressedSellTabButton() {
+        guard type != .sell else {
+            return
+        }
+        updatedMarketPlaceOrderViewController.switchToSell()
+    }
+
     @objc func pressedNextButton() {
         updatedMarketPlaceOrderViewController.pressedPlaceOrderButton()
     }

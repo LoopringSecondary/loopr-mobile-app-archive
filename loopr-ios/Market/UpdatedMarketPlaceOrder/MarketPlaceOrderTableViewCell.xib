@@ -324,6 +324,7 @@
                 <outlet property="plusPriceStepperButton" destination="3Hq-Qt-M5g" id="G6S-hN-fQ0"/>
                 <outlet property="priceTextField" destination="O9z-BB-wad" id="ffn-Jq-2Jj"/>
                 <outlet property="priceTipLabel" destination="91x-Fx-BGU" id="hqf-gf-Ygn"/>
+                <outlet property="priceView" destination="Lce-r8-usD" id="7tc-FH-msH"/>
                 <outlet property="sellTabButton" destination="43d-HS-yMx" id="oYa-SG-sje"/>
                 <outlet property="textFieldHeightLayoutConstraint" destination="oFM-MA-mA5" id="dGF-hf-mMq"/>
                 <outlet property="totalAmountInforLabel" destination="VEW-Ml-QHI" id="wY1-D3-egm"/>

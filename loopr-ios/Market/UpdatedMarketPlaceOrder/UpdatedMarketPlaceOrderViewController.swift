@@ -229,7 +229,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
                 let estimateValue: Double = value * tokenBPrice
                 marketPlaceOrderTableViewCell.priceTipLabel.text = "≈ \(estimateValue.currency)"
                 marketPlaceOrderTableViewCell.priceTipLabel.isHidden = false
-                marketPlaceOrderTableViewCell.priceTipLabel.textColor = .text1
+                marketPlaceOrderTableViewCell.priceTipLabel.theme_textColor = GlobalPicker.textLightColor
             } else {
                 marketPlaceOrderTableViewCell.priceTipLabel.text = LocalizedString("Please input a valid price", comment: "")
                 marketPlaceOrderTableViewCell.priceTipLabel.isHidden = false
@@ -240,7 +240,8 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         } else {
             if marketPlaceOrderTableViewCell.activeTextFieldTag == marketPlaceOrderTableViewCell.priceTextField.tag {
                 marketPlaceOrderTableViewCell.priceTipLabel.isHidden = false
-                marketPlaceOrderTableViewCell.priceTipLabel.text = "≈ 0"
+                marketPlaceOrderTableViewCell.priceTipLabel.theme_textColor = GlobalPicker.textLightColor
+                marketPlaceOrderTableViewCell.priceTipLabel.text = "≈ \(0.0.currency)"
             }
             return false
         }
@@ -277,10 +278,21 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
     func setupLabels() {
         
     }
+    
+    func switchToBuy() {
+        type = .buy
+        marketPlaceOrderTableViewCell.type = .buy
+        marketPlaceOrderTableViewCell.update()
+    }
+
+    func switchToSell() {
+        type = .sell
+        marketPlaceOrderTableViewCell.type = .sell
+        marketPlaceOrderTableViewCell.update()
+    }
 
     func pressedPlaceOrderButton() {
         print("pressedPlaceOrderButton")
-        hideNumericKeyboard()
         marketPlaceOrderTableViewCell.priceTextField.resignFirstResponder()
         marketPlaceOrderTableViewCell.amountTextField.resignFirstResponder()
         
@@ -289,13 +301,14 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         
         // Need to call validate()
         if isPriceValid && isAmountValid && validate() {
+            hideNumericKeyboard()
             self.pushController()
         }
         if !isPriceValid {
             marketPlaceOrderTableViewCell.priceTipLabel.textColor = .fail
             marketPlaceOrderTableViewCell.priceTipLabel.isHidden = false
             marketPlaceOrderTableViewCell.priceTipLabel.text = LocalizedString("Please input a valid price", comment: "")
-            marketPlaceOrderTableViewCell.priceTipLabel.shake()
+            marketPlaceOrderTableViewCell.priceView.shake(withTranslation: 5)
         }
 
         if !isAmountValid {
@@ -305,6 +318,8 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
             tipLabel.text = LocalizedString("Please input a valid amount", comment: "")
             tipLabel.shake()
             */
+            // TODO: how to display
+            marketPlaceOrderTableViewCell.amountView.shake(withTranslation: 5)
         }
 
     }
