@@ -253,9 +253,22 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         plusAmountStepperButton.round(corners: [.topRight, .bottomRight], radius: 6)
     }
     
+    // Prefill textFields
     @objc func pressedLatestPriceButton() {
         priceTextField.text = market.balanceWithDecimals
         priceTipLabel.text = "≈ \(market.display.description)"
+    }
+    
+    func pressedDepthCell(depth: Depth) {
+        priceTextField.text = depth.price.toDecimalPlaces(8)
+        
+        if let value = Double(priceTextField.text!.removeComma()) {
+            let tokenBPrice = PriceDataManager.shared.getPrice(of: PlaceOrderDataManager.shared.tokenB.symbol)!
+            let estimateValue: Double = value * tokenBPrice
+            priceTipLabel.text = "≈ \(estimateValue.currency)"
+        }
+
+        amountTextField.text = depth.amountA.toDecimalPlaces(2).trailingZero()
     }
 
     @objc func pressedBuyTabButton() {

@@ -85,11 +85,20 @@ extension MarketPlaceOrderTableViewCell {
         }
         
         if indexPath.section == 0 {
-            let depth = sells[sells.count-1-indexPath.row]
-            cell?.update(indexPath: indexPath, depth: depth)
+            let index = sells.count-1-indexPath.row
+            if index < sells.count && index >= 0 {
+                let depth = sells[sells.count-1-indexPath.row]
+                cell?.update(indexPath: indexPath, depth: depth)
+            } else {
+                cell?.setEmptyUI()
+            }
         } else if indexPath.section == 1 {
-            let depth = buys[indexPath.row]
-            cell?.update(indexPath: indexPath, depth: depth)
+            if indexPath.row < buys.count {
+                let depth = buys[indexPath.row]
+                cell?.update(indexPath: indexPath, depth: depth)
+            } else {
+                cell?.setEmptyUI()
+            }
         }
         
         return cell!
@@ -97,6 +106,22 @@ extension MarketPlaceOrderTableViewCell {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 0 {
+            let index = sells.count-1-indexPath.row
+            if index < sells.count && index >= 0 {
+                let depth = sells[sells.count-1-indexPath.row]
+                pressedDepthCell(depth: depth)
+            } else {
+                
+            }
+        } else if indexPath.section == 1 {
+            if indexPath.row < buys.count {
+                let depth = buys[indexPath.row]
+                pressedDepthCell(depth: depth)
+            } else {
+                
+            }
+        }
     }
 
 }

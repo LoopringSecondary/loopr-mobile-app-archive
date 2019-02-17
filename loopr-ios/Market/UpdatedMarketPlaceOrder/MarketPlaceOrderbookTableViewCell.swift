@@ -18,10 +18,21 @@ class MarketPlaceOrderbookTableViewCell: UITableViewCell {
         backgroundColor = .clear
     }
     
+    func setEmptyUI() {
+        isUserInteractionEnabled = false
+
+        priceLabel.isHidden = true
+        amountLabel.isHidden = true
+    }
+    
     func update(indexPath: IndexPath, depth: Depth) {
+        isUserInteractionEnabled = true
+
+        priceLabel.isHidden = false
         priceLabel.textAlignment = .left
         priceLabel.font = FontConfigManager.shared.getMediumFont(size: 12)
 
+        amountLabel.isHidden = false
         amountLabel.textAlignment = .right
         amountLabel.font = FontConfigManager.shared.getMediumFont(size: 12)
         amountLabel.theme_textColor = GlobalPicker.textLightColor
