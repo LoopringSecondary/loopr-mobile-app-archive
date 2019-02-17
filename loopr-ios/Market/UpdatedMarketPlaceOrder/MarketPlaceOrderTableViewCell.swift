@@ -19,6 +19,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     private var buys: [Depth] = []
     private var sells: [Depth] = []
     
+    var activeTextFieldTag = -1
+    
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var buyTabButton: UIButton!
     @IBOutlet weak var sellTabButton: UIButton!
@@ -84,17 +86,19 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         latestPriceLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         // latestPriceLabel.theme_textColor = GlobalPicker.textColor
         latestPriceLabel.textColor = UIColor.theme
-        latestPriceLabel.text = "最新成交价\n0.00045460 WETH"
 
         let textFieldWidth = (UIScreen.main.bounds.width - 16*2)*0.5 - 4*2 - 4*2
         textFieldHeightLayoutConstraint.constant = (textFieldWidth - 2*3)/4
         
         // Price
-        minusPriceStepperButton.theme_backgroundColor = ColorPicker.cardHighLightColor
-        plusPriceStepperButton.theme_backgroundColor = ColorPicker.cardHighLightColor
+        minusPriceStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
+        minusPriceStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
+
+        plusPriceStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
+        plusPriceStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
 
         priceTextField.delegate = self
-        priceTextField.tag = 1
+        priceTextField.tag = 0
         priceTextField.theme_tintColor = GlobalPicker.textColor
         priceTextField.theme_textColor = GlobalPicker.textColor
         priceTextField.theme_backgroundColor = ColorPicker.cardHighLightColor
@@ -110,10 +114,12 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         priceTipLabel.text = "≈ $100"
         
         // Amount
-        minusAmountStepperButton.theme_backgroundColor = ColorPicker.cardHighLightColor
-
-        plusAmountStepperButton.theme_backgroundColor = ColorPicker.cardHighLightColor
+        minusAmountStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
+        minusAmountStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
         
+        plusAmountStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
+        plusAmountStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
+
         amountTextField.delegate = self
         amountTextField.tag = 1
         amountTextField.theme_tintColor = GlobalPicker.textColor
@@ -191,6 +197,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     }
     
     func update() {
+        latestPriceLabel.text = "最新成交价\n\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)"
+
         if type == .buy {
             buyTabButton.setBackgroundColor(UIColor.init(rgba: "#5ED279"), for: .normal)
 
@@ -225,6 +233,33 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
 
         plusAmountStepperButton.clipsToBounds = true
         plusAmountStepperButton.round(corners: [.topRight, .bottomRight], radius: 6)
+    }
+    
+    // TextField
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        print("textFieldShouldBeginEditing")
+        activeTextFieldTag = textField.tag
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("textFieldDidBeginEditing")
+        if activeTextFieldTag == 0 {
+            priceTextField.placeholder = nil
+            amountTextField.placeholder = LocalizedString("Amount", comment: "")
+        } else if activeTextFieldTag == 1 {
+            priceTextField.placeholder = LocalizedString("Price", comment: "")
+            amountTextField.placeholder = nil
+        }
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("textFieldDidEndEditing")
+        if activeTextFieldTag == 0 {
+            priceTextField.placeholder = LocalizedString("Price", comment: "")
+        } else if activeTextFieldTag == 1 {
+            amountTextField.placeholder = LocalizedString("Amount", comment: "")
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
