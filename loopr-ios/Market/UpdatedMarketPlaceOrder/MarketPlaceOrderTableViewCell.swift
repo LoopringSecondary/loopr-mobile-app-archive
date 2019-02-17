@@ -173,6 +173,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         totalAmountLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         totalAmountLabel.theme_textColor = GlobalPicker.textLightColor
         totalAmountLabel.textAlignment = .right
+        
+        nextButton.addTarget(self, action: #selector(pressedNextButton), for: .touchUpInside)
 
         // Orderbook
         decimalInfoLabel.font = FontConfigManager.shared.getMediumFont(size: 12)
@@ -240,6 +242,10 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
 
         plusAmountStepperButton.clipsToBounds = true
         plusAmountStepperButton.round(corners: [.topRight, .bottomRight], radius: 6)
+    }
+    
+    @objc func pressedNextButton() {
+        updatedMarketPlaceOrderViewController.pressedPlaceOrderButton()
     }
     
     // TextField
