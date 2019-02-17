@@ -26,7 +26,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     @IBOutlet weak var buyTabButton: UIButton!
     @IBOutlet weak var sellTabButton: UIButton!
     
-    @IBOutlet weak var latestPriceLabel: UILabel!
+    @IBOutlet weak var latestPriceButton: UIButton!
 
     @IBOutlet weak var textFieldHeightLayoutConstraint: NSLayoutConstraint!
     
@@ -87,9 +87,13 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         sellTabButton.round(corners: [.topRight, .bottomRight], radius: viewCornerRadius)
         sellTabButton.addTarget(self, action: #selector(pressedSellTabButton), for: .touchUpInside)
 
-        latestPriceLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
-        // latestPriceLabel.theme_textColor = GlobalPicker.textColor
-        latestPriceLabel.textColor = UIColor.theme
+        latestPriceButton.contentHorizontalAlignment = .left
+        latestPriceButton.setTitleColor(UIColor.theme, for: .normal)
+        latestPriceButton.setTitleColor(UIColor.theme.withAlphaComponent(0.6), for: .highlighted)
+        latestPriceButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
+        latestPriceButton.title = ""
+        latestPriceButton.titleLabel?.numberOfLines = 2
+        latestPriceButton.addTarget(self, action: #selector(pressedLatestPriceButton), for: .touchUpInside)
 
         let textFieldWidth = (UIScreen.main.bounds.width - 16*2)*0.5 - 4*2 - 4*2
         textFieldHeightLayoutConstraint.constant = (textFieldWidth - 2*3)/4
@@ -209,7 +213,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     }
     
     func update() {
-        latestPriceLabel.text = "最新成交价\n\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)"
+        latestPriceButton.title = "\(LocalizedString("Market Price", comment: ""))\n\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)"
 
         if type == .buy {
             buyTabButton.setBackgroundColor(UIColor.init(rgba: "#5ED279"), for: .normal)
@@ -249,6 +253,11 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         plusAmountStepperButton.round(corners: [.topRight, .bottomRight], radius: 6)
     }
     
+    @objc func pressedLatestPriceButton() {
+        priceTextField.text = market.balanceWithDecimals
+        priceTipLabel.text = "≈ \(market.display.description)"
+    }
+
     @objc func pressedBuyTabButton() {
         guard type != .buy else {
             return

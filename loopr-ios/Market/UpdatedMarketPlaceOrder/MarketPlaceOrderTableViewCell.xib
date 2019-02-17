@@ -53,19 +53,17 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2ov-qy-ZRP">
                                         <rect key="frame" x="4" y="60" width="163.66666666666666" height="36"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最新成交价0.00045460 WETH" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E6G-pc-Gpz">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9aF-3l-cux">
                                                 <rect key="frame" x="4" y="0.0" width="155.66666666666666" height="36"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                                <state key="normal" title="Button"/>
+                                            </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="E6G-pc-Gpz" firstAttribute="leading" secondItem="2ov-qy-ZRP" secondAttribute="leading" constant="4" id="08y-v1-QuZ"/>
-                                            <constraint firstAttribute="bottom" secondItem="E6G-pc-Gpz" secondAttribute="bottom" id="Dsh-4V-BQy"/>
-                                            <constraint firstAttribute="trailing" secondItem="E6G-pc-Gpz" secondAttribute="trailing" constant="4" id="Q4d-UV-fnH"/>
+                                            <constraint firstItem="9aF-3l-cux" firstAttribute="leading" secondItem="2ov-qy-ZRP" secondAttribute="leading" constant="4" id="6JO-2v-VZJ"/>
+                                            <constraint firstAttribute="trailing" secondItem="9aF-3l-cux" secondAttribute="trailing" constant="4" id="FBs-Hu-sEY"/>
+                                            <constraint firstAttribute="bottom" secondItem="9aF-3l-cux" secondAttribute="bottom" id="Y7g-We-yeN"/>
+                                            <constraint firstItem="9aF-3l-cux" firstAttribute="top" secondItem="2ov-qy-ZRP" secondAttribute="top" id="Z0b-hA-61V"/>
                                             <constraint firstAttribute="height" constant="36" id="a8c-CE-8br"/>
-                                            <constraint firstItem="E6G-pc-Gpz" firstAttribute="top" secondItem="2ov-qy-ZRP" secondAttribute="top" id="f2A-CL-uHW"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lce-r8-usD">
@@ -311,7 +309,7 @@
                 <outlet property="baseView" destination="aCh-6l-5LM" id="53g-a9-VUf"/>
                 <outlet property="buyTabButton" destination="J7V-ft-rli" id="Dag-yc-fFt"/>
                 <outlet property="decimalInfoLabel" destination="PH9-QR-ZMm" id="6M7-yp-awM"/>
-                <outlet property="latestPriceLabel" destination="E6G-pc-Gpz" id="SFh-NF-eUm"/>
+                <outlet property="latestPriceButton" destination="9aF-3l-cux" id="gRa-aD-nK4"/>
                 <outlet property="minusAmountStepperButton" destination="eo8-eQ-qm6" id="ZLz-lN-ekb"/>
                 <outlet property="minusPriceStepperButton" destination="l3p-Wh-PIA" id="C8w-Vp-G5G"/>
                 <outlet property="nextButton" destination="hyQ-B0-5v4" id="niM-co-OGb"/>
