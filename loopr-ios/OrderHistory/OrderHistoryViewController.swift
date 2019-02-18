@@ -54,7 +54,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
         let bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: bottomPadding))
         footerView.backgroundColor = .clear
-        historyTableView.tableFooterView = UIView(frame: .zero)
+        historyTableView.tableFooterView = footerView
         historyTableView.separatorStyle = .none
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 10))
@@ -128,7 +128,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
         getOrderHistoryFromRelay()
     }
     
-    func getOrderHistoryFromRelay() {
+    private func getOrderHistoryFromRelay() {
         OrderDataManager.shared.getOrdersFromServer(pageIndex: pageIndex, completionHandler: { _ in
             DispatchQueue.main.async {
                 if self.isLaunching {
@@ -147,7 +147,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
         })
     }
     
-    func isTableEmpty() -> Bool {
+    private func isTableEmpty() -> Bool {
         return orders.count == 0 && !isLaunching
     }
     

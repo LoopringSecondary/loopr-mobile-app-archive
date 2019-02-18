@@ -9,6 +9,7 @@
 import UIKit
 import Geth
 import BigInt
+import NotificationBannerSwift
 
 class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NumericKeyboardDelegate, NumericKeyboardProtocol {
 
@@ -23,8 +24,10 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
     var buys: [Depth] = []
     var sells: [Depth] = []
     
-    @IBOutlet weak var tableView: UITableView!
-    
+    // TODO: needs to change tableView1 to a UIView
+    @IBOutlet weak var tableView1: UITableView!
+    @IBOutlet weak var tableView2: UITableView!
+
     // keyboard
     var marketPlaceOrderTableViewCell: MarketPlaceOrderTableViewCell!
     
@@ -44,20 +47,54 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
     
     var blurVisualEffectView = UIView(frame: .zero)
     
+    // Data source
+    var orders: [Order] = []
+    
+    var isLaunching: Bool = true
+
+    var previousOrderCount: Int = 0
+    var pageIndex: UInt = 1
+    var hasMoreData: Bool = true
+    
+    let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setBackButton()
         navigationItem.title = PlaceOrderDataManager.shared.market?.description ?? LocalizedString("Trade", comment: "")
         view.theme_backgroundColor = ColorPicker.backgroundColor
-        tableView.theme_backgroundColor = ColorPicker.backgroundColor
+        tableView1.theme_backgroundColor = ColorPicker.backgroundColor
         
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableView1.dataSource = self
+        tableView1.delegate = self
         
-        tableView.tableFooterView = UIView(frame: .zero)
-        tableView.separatorStyle = .none
+        tableView1.tableFooterView = UIView(frame: .zero)
+        tableView1.separatorStyle = .none
+        tableView1.isScrollEnabled = false
+        tableView1.tag = 1
+
+        tableView2.theme_backgroundColor = ColorPicker.backgroundColor
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 0))
+        tableView2.tableHeaderView = headerView
+
+        tableView2.dataSource = self
+        tableView2.delegate = self
+        tableView2.separatorStyle = .none
+        tableView2.tag = 2
+
+        let window = UIApplication.shared.keyWindow
+        let bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: bottomPadding))
+        footerView.backgroundColor = .clear
+        tableView2.tableFooterView = footerView
         
+        tableView2.refreshControl = refreshControl
+        refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .orderHistoryViewController))
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        
+        getOrderHistoryFromRelay()
+
         let nib = Bundle.main.loadNibNamed("MarketPlaceOrderTableViewCell", owner: self, options: nil)
         marketPlaceOrderTableViewCell = nib![0] as! MarketPlaceOrderTableViewCell
         
@@ -68,32 +105,138 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         blurVisualEffectView.alpha = 1
         blurVisualEffectView.frame = UIScreen.main.bounds
     }
+    
+    @objc private func refreshData(_ sender: Any) {
+        pageIndex = 1
+        hasMoreData = true
+        getOrderHistoryFromRelay()
+    }
+    
+    private func getOrderHistoryFromRelay() {
+        OrderDataManager.shared.getOrdersFromServer(pageIndex: pageIndex, completionHandler: { _ in
+            DispatchQueue.main.async {
+                if self.isLaunching {
+                    self.isLaunching = false
+                }
+                self.orders = OrderDataManager.shared.getOrders(type: .all)
+                if self.previousOrderCount != self.orders.count {
+                    self.hasMoreData = true
+                } else {
+                    self.hasMoreData = false
+                }
+                self.previousOrderCount = self.orders.count
+                self.tableView2.reloadData()
+                self.refreshControl.endRefreshing(refreshControlType: .orderHistoryViewController)
+            }
+        })
+    }
+    
+    private func isTableEmpty() -> Bool {
+        return orders.count == 0 && !isLaunching
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if tableView.tag == tableView1.tag {
+            return 0
+            
+        } else {
+            if orders.count == 0 {
+                return 0
+            }
+            return 30+0.5
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if tableView.tag == tableView1.tag {
+            return nil
+        } else {
+            return UIView.getOrderHistoryHeaderView()
+        }
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if tableView.tag == tableView1.tag {
+            return 1
+        } else {
+            return isTableEmpty() ? 1 : orders.count
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return MarketPlaceOrderTableViewCell.getHeight()
+        if tableView.tag == tableView1.tag {
+            return MarketPlaceOrderTableViewCell.getHeight()
+        } else {
+            if isTableEmpty() {
+                return OrderNoDataTableViewCell.getHeight()
+            } else {
+                return OrderTableViewCell.getHeight()
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        marketPlaceOrderTableViewCell.updatedMarketPlaceOrderViewController = self
-        marketPlaceOrderTableViewCell.market = market
-        marketPlaceOrderTableViewCell.type = initialType
-        
-        marketPlaceOrderTableViewCell.setBuys(buys)
-        marketPlaceOrderTableViewCell.setSells(sells)
-        
-        marketPlaceOrderTableViewCell.update()
-        marketPlaceOrderTableViewCell.updateUI()
-        return marketPlaceOrderTableViewCell
+        if tableView.tag == tableView1.tag {
+            marketPlaceOrderTableViewCell.updatedMarketPlaceOrderViewController = self
+            marketPlaceOrderTableViewCell.market = market
+            marketPlaceOrderTableViewCell.type = initialType
+            
+            marketPlaceOrderTableViewCell.setBuys(buys)
+            marketPlaceOrderTableViewCell.setSells(sells)
+            
+            marketPlaceOrderTableViewCell.update()
+            marketPlaceOrderTableViewCell.updateUI()
+            return marketPlaceOrderTableViewCell
+        } else {
+            if isTableEmpty() {
+                var cell = tableView.dequeueReusableCell(withIdentifier: OrderNoDataTableViewCell.getCellIdentifier()) as? OrderNoDataTableViewCell
+                if cell == nil {
+                    let nib = Bundle.main.loadNibNamed("OrderNoDataTableViewCell", owner: self, options: nil)
+                    cell = nib![0] as? OrderNoDataTableViewCell
+                }
+                cell?.noDataLabel.text = LocalizedString("No-data-order", comment: "")
+                cell?.noDataImageView.image = UIImage(named: "No-data-order")
+                return cell!
+            } else {
+                var cell = tableView.dequeueReusableCell(withIdentifier: OrderTableViewCell.getCellIdentifier()) as? OrderTableViewCell
+                if cell == nil {
+                    let nib = Bundle.main.loadNibNamed("OrderTableViewCell", owner: self, options: nil)
+                    cell = nib![0] as? OrderTableViewCell
+                }
+                let order: Order
+                order = orders[indexPath.row]
+
+                cell?.order = order
+                cell?.pressedCancelButtonClosure = {
+                    let title = LocalizedString("You are going to cancel the order.", comment: "")
+                    let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
+                        SendCurrentAppWalletDataManager.shared._cancelOrder(order: order.originalOrder, completion: { (txHash, error) in
+                            self.getOrderHistoryFromRelay()
+                            self.completion(txHash, error)
+                        })
+                    }))
+                    alert.addAction(UIAlertAction(title: LocalizedString("Cancel", comment: ""), style: .cancel, handler: { _ in
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+                cell?.update()
+                
+                // Pagination
+                if hasMoreData && indexPath.row == orders.count - 1 {
+                    pageIndex += 1
+                    getOrderHistoryFromRelay()
+                }
+                
+                return cell!
+            }
+        }
     }
     
     func showNumericKeyboard(textField: UITextField) {
         if !isNumericKeyboardShow {
             let width = view.frame.width
-            let height = tableView.height
+            let height = tableView1.height
             let window = UIApplication.shared.keyWindow
             let bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
 
@@ -104,7 +247,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
             numericKeyboardBaseView.frame = CGRect(x: 0, y: height, width: width, height: DefaultNumericKeyboard.height + bottomPadding)
             numericKeyboardBaseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
             numericKeyboardBaseView.addSubview(numericKeyboardView)
-            tableView.addSubview(numericKeyboardBaseView)
+            tableView1.addSubview(numericKeyboardBaseView)
 
             let destinateY = height - bottomPadding - DefaultNumericKeyboard.height
             
@@ -121,7 +264,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
     func hideNumericKeyboard() {
         if isNumericKeyboardShow {
             let width = view.frame.width
-            let height = tableView.height
+            let height = tableView1.height
             let destinateY = height
             
             let window = UIApplication.shared.keyWindow
@@ -379,4 +522,28 @@ extension UpdatedMarketPlaceOrderViewController {
         return max(result, minLrc)
     }
 
+}
+
+// TODO: needs to merge UpdatedMarketPlaceOrderViewController and OrderHistoryViewController
+extension UpdatedMarketPlaceOrderViewController {
+    
+    func completion(_ txHash: String?, _ error: Error?) {
+        var title: String = ""
+        guard error == nil && txHash != nil else {
+            DispatchQueue.main.async {
+                title = NSLocalizedString("Order cancellation Failed, Please try again.", comment: "")
+                let banner = NotificationBanner.generate(title: title, style: .danger)
+                banner.duration = 5
+                banner.show()
+            }
+            return
+        }
+        DispatchQueue.main.async {
+            print(txHash!)
+            title = NSLocalizedString("Order cancellation Successful.", comment: "")
+            let banner = NotificationBanner.generate(title: title, style: .success)
+            banner.duration = 2
+            banner.show()
+        }
+    }
 }
