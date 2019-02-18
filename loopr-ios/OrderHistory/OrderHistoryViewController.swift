@@ -40,7 +40,6 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         self.navigationItem.title = LocalizedString("Orders", comment: "")
         view.theme_backgroundColor = ColorPicker.backgroundColor
         historyTableView.theme_backgroundColor = ColorPicker.backgroundColor
@@ -50,6 +49,11 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
 
         historyTableView.dataSource = self
         historyTableView.delegate = self
+        
+        let window = UIApplication.shared.keyWindow
+        let bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: bottomPadding))
+        footerView.backgroundColor = .clear
         historyTableView.tableFooterView = UIView(frame: .zero)
         historyTableView.separatorStyle = .none
         
@@ -167,42 +171,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let screenWidth = view.frame.size.width
-        
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 30+0.5))
-        headerView.theme_backgroundColor = ColorPicker.backgroundColor
-        
-        let baseView = UIView(frame: CGRect(x: 15, y: 0, width: screenWidth - 15*2, height: 30))
-        baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        baseView.round(corners: [.topLeft, .topRight], radius: 6)
-        headerView.addSubview(baseView)
-        
-        let labelWidth = (view.frame.size.width-15*2)/3
-        let paddingX: CGFloat = 10
-        
-        let label1 = UILabel(frame: CGRect(x: paddingX, y: 0, width: labelWidth, height: 30))
-        label1.theme_textColor = GlobalPicker.textLightColor
-        label1.font = FontConfigManager.shared.getCharactorFont(size: 13)
-        label1.text = LocalizedString("Market/Price", comment: "")
-        label1.textAlignment = .left
-        baseView.addSubview(label1)
-        
-        let label2Width = LocalizedString("Amount/Filled", comment: "").textWidth(font: FontConfigManager.shared.getCharactorFont(size: 13))
-        let label2 = UILabel(frame: CGRect(x: (UIScreen.main.bounds.width-15*2)*0.5-label2Width*0.5, y: 0, width: labelWidth, height: 30))
-        label2.theme_textColor = GlobalPicker.textLightColor
-        label2.font = FontConfigManager.shared.getCharactorFont(size: 13)
-        label2.text = LocalizedString("Amount/Filled", comment: "")
-        label2.textAlignment = .left
-        baseView.addSubview(label2)
-        
-        let label3 = UILabel(frame: CGRect(x: baseView.width - labelWidth - 10, y: 0, width: labelWidth, height: 30))
-        label3.theme_textColor = GlobalPicker.textLightColor
-        label3.font = FontConfigManager.shared.getCharactorFont(size: 13)
-        label3.text = LocalizedString("Status/Date", comment: "")
-        label3.textAlignment = .right
-        baseView.addSubview(label3)
-        
-        return headerView
+        return UIView.getOrderHistoryHeaderView()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
