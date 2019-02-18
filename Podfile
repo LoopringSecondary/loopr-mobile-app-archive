@@ -22,7 +22,7 @@ def shared_pods
     pod 'UMCCommon'
     pod 'UMCAnalytics'
 
-    pod 'SDWebImage', '~> 4.0'
+    pod 'SDWebImage', git: 'https://github.com/SDWebImage/SDWebImage.git', :branch => '5.x'
     
     # Note from cocoapods https://github.com/CocoaPods/CocoaPods/issues/7238
     # https://developer.umeng.com/docs/66632/detail/67204?spm=a311a.9588098.0.0

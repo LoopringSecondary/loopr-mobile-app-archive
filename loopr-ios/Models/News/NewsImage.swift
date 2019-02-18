@@ -75,6 +75,9 @@ class NewsImage {
         isLoading = true
         let url = URL(string: imageUrl)!
         print("Download Started")
+        
+        
+        
         getData(from: url) { data, response, error in
             self.isLoading = false
             guard let data = data, error == nil else {

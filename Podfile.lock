@@ -17,9 +17,9 @@ PODS:
   - NotificationBannerSwift (1.6.3):
     - MarqueeLabel/Swift
     - SnapKit (~> 4.0)
-  - SDWebImage (4.4.3):
-    - SDWebImage/Core (= 4.4.3)
-  - SDWebImage/Core (4.4.3)
+  - SDWebImage (5.0.0-beta5):
+    - SDWebImage/Core (= 5.0.0-beta5)
+  - SDWebImage/Core (5.0.0-beta5)
   - secp256k1_ios (0.1.3)
   - SipHash (1.2.0)
   - SnapKit (4.2.0)
@@ -52,7 +52,7 @@ DEPENDENCIES:
   - lottie-ios
   - MKDropdownMenu
   - NotificationBannerSwift (~> 1.6.3)
-  - SDWebImage (~> 4.0)
+  - SDWebImage (from `https://github.com/SDWebImage/SDWebImage.git`, branch `5.x`)
   - secp256k1_ios (from `https://github.com/xiaowheat/secp256k1_ios.git`)
   - SipHash (= 1.2.0)
   - Socket.IO-Client-Swift (~> 13.1.0)
@@ -81,7 +81,6 @@ SPEC REPOS:
     - MarqueeLabel
     - MKDropdownMenu
     - NotificationBannerSwift
-    - SDWebImage
     - SipHash
     - SnapKit
     - Socket.IO-Client-Swift
@@ -96,6 +95,9 @@ SPEC REPOS:
     - WeChat_SDK
 
 EXTERNAL SOURCES:
+  SDWebImage:
+    :branch: 5.x
+    :git: https://github.com/SDWebImage/SDWebImage.git
   secp256k1_ios:
     :git: https://github.com/xiaowheat/secp256k1_ios.git
   StepSlider:
@@ -104,6 +106,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/xiaowheat/web3.swift.git
 
 CHECKOUT OPTIONS:
+  SDWebImage:
+    :commit: 537affb9af4d42696902444830040d47bc7b4a7c
+    :git: https://github.com/SDWebImage/SDWebImage.git
   secp256k1_ios:
     :commit: e3ab3e26fafc3688436528f2ca24cc679c7d746e
     :git: https://github.com/xiaowheat/secp256k1_ios.git
@@ -127,7 +132,7 @@ SPEC CHECKSUMS:
   MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
   MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
   NotificationBannerSwift: b231e4c3244848ef300e1c53ce027b9756b9b06f
-  SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
+  SDWebImage: fd609df53c0f55fdcd4705bd14c01c9d5c348d0c
   secp256k1_ios: ac9ef04e761f43c58012b28548afa91493761f17
   SipHash: c6e9e43e9c531b5bc6602545130c26194a6d31ce
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
@@ -144,6 +149,6 @@ SPEC CHECKSUMS:
   web3.swift: 7b89fef89eb474685b7ffaf50a9eb30b9727f1d7
   WeChat_SDK: 681388233ac24a3ed6c4803cb3e0b6d3602050aa
 
-PODFILE CHECKSUM: 520eb5949060d28e842474e460dfd05f39606f34
+PODFILE CHECKSUM: d6a65d261605450153afee17233cc47161659ff5
 
 COCOAPODS: 1.5.3
