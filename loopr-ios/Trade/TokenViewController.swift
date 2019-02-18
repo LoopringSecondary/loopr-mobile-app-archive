@@ -21,7 +21,6 @@ class TokenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.backgroundColor = UIColor.clear
         
         iconImageView.contentMode = .scaleAspectFit

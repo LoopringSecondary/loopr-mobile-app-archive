@@ -53,16 +53,30 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2ov-qy-ZRP">
                                         <rect key="frame" x="4" y="62" width="163.66666666666666" height="36"/>
                                         <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GQj-UI-8lL">
+                                                <rect key="frame" x="4" y="0.0" width="159.66666666666666" height="18"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="18" id="ZIW-qd-B2e"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9aF-3l-cux">
-                                                <rect key="frame" x="4" y="0.0" width="159.66666666666666" height="36"/>
+                                                <rect key="frame" x="4" y="18" width="159.66666666666666" height="18"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="18" id="hsL-aF-t3S"/>
+                                                </constraints>
                                                 <state key="normal" title="Button"/>
                                             </button>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="9aF-3l-cux" firstAttribute="leading" secondItem="2ov-qy-ZRP" secondAttribute="leading" constant="4" id="6JO-2v-VZJ"/>
                                             <constraint firstAttribute="trailing" secondItem="9aF-3l-cux" secondAttribute="trailing" id="FBs-Hu-sEY"/>
+                                            <constraint firstItem="GQj-UI-8lL" firstAttribute="leading" secondItem="2ov-qy-ZRP" secondAttribute="leading" constant="4" id="HRq-b6-TK0"/>
+                                            <constraint firstAttribute="trailing" secondItem="GQj-UI-8lL" secondAttribute="trailing" id="Met-Vk-l1Y"/>
+                                            <constraint firstItem="GQj-UI-8lL" firstAttribute="top" secondItem="2ov-qy-ZRP" secondAttribute="top" id="PNS-61-9Dm"/>
                                             <constraint firstAttribute="bottom" secondItem="9aF-3l-cux" secondAttribute="bottom" id="Y7g-We-yeN"/>
-                                            <constraint firstItem="9aF-3l-cux" firstAttribute="top" secondItem="2ov-qy-ZRP" secondAttribute="top" id="Z0b-hA-61V"/>
                                             <constraint firstAttribute="height" constant="36" id="a8c-CE-8br"/>
                                         </constraints>
                                     </view>
@@ -310,6 +324,7 @@
                 <outlet property="buyTabButton" destination="J7V-ft-rli" id="Dag-yc-fFt"/>
                 <outlet property="decimalInfoLabel" destination="PH9-QR-ZMm" id="6M7-yp-awM"/>
                 <outlet property="latestPriceButton" destination="9aF-3l-cux" id="gRa-aD-nK4"/>
+                <outlet property="latestPriceInfoLabel" destination="GQj-UI-8lL" id="lRg-JD-TyB"/>
                 <outlet property="minusAmountStepperButton" destination="eo8-eQ-qm6" id="ZLz-lN-ekb"/>
                 <outlet property="minusPriceStepperButton" destination="l3p-Wh-PIA" id="C8w-Vp-G5G"/>
                 <outlet property="nextButton" destination="hyQ-B0-5v4" id="niM-co-OGb"/>

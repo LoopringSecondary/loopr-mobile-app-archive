@@ -33,6 +33,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     @IBOutlet weak var buyTabButton: UIButton!
     @IBOutlet weak var sellTabButton: UIButton!
     
+    @IBOutlet weak var latestPriceInfoLabel: UILabel!
     @IBOutlet weak var latestPriceButton: UIButton!
 
     @IBOutlet weak var textFieldHeightLayoutConstraint: NSLayoutConstraint!
@@ -94,12 +95,16 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         sellTabButton.round(corners: [.topRight, .bottomRight], radius: viewCornerRadius)
         sellTabButton.addTarget(self, action: #selector(pressedSellTabButton), for: .touchUpInside)
 
+        latestPriceInfoLabel.text = "\(LocalizedString("Market Price", comment: ""))"
+        latestPriceInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
+        latestPriceInfoLabel.theme_textColor = GlobalPicker.textLightColor
+        
         latestPriceButton.contentHorizontalAlignment = .left
-        latestPriceButton.setTitleColor(UIColor.theme, for: .normal)
-        latestPriceButton.setTitleColor(UIColor.theme.withAlphaComponent(0.6), for: .highlighted)
+        latestPriceButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
+        latestPriceButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .highlighted)
         latestPriceButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 12)
         latestPriceButton.title = ""
-        latestPriceButton.titleLabel?.numberOfLines = 2
+        latestPriceButton.titleLabel?.numberOfLines = 1
         latestPriceButton.addTarget(self, action: #selector(pressedLatestPriceButton), for: .touchUpInside)
 
         let textFieldWidth = (UIScreen.main.bounds.width - 16*2)*0.5 - 4*2 - 4*2
@@ -225,7 +230,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     }
     
     func update() {
-        latestPriceButton.title = "\(LocalizedString("Market Price", comment: ""))\n\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)"
+        latestPriceButton.setAttributedTitle("\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)".higlighted(words: [market.balanceWithDecimals], attributes: [NSAttributedStringKey.foregroundColor: UIColor.theme]), for: .normal)
+        latestPriceButton.setAttributedTitle("\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)".higlighted(words: [market.balanceWithDecimals], attributes: [NSAttributedStringKey.foregroundColor: UIColor.theme.withAlphaComponent(0.6)]), for: .highlighted)
         
         updateAvailableLabel()
         updateTotalLabel()
