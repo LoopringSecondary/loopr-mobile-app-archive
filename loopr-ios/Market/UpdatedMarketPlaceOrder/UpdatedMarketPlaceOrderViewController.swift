@@ -236,7 +236,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
     func showNumericKeyboard(textField: UITextField) {
         if !isNumericKeyboardShow {
             let width = view.frame.width
-            let height = tableView1.height
+            let height = view.height
             let window = UIApplication.shared.keyWindow
             let bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
 
@@ -247,7 +247,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
             numericKeyboardBaseView.frame = CGRect(x: 0, y: height, width: width, height: DefaultNumericKeyboard.height + bottomPadding)
             numericKeyboardBaseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
             numericKeyboardBaseView.addSubview(numericKeyboardView)
-            tableView1.addSubview(numericKeyboardBaseView)
+            view.addSubview(numericKeyboardBaseView)
 
             let destinateY = height - bottomPadding - DefaultNumericKeyboard.height
             
@@ -264,7 +264,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
     func hideNumericKeyboard() {
         if isNumericKeyboardShow {
             let width = view.frame.width
-            let height = tableView1.height
+            let height = view.height
             let destinateY = height
             
             let window = UIApplication.shared.keyWindow
