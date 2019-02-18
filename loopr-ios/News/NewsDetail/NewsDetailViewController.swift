@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import SDWebImage
 
 protocol NewsDetailViewControllerDelegate: class {
     func setNavigationBarHidden(_ newValue: Bool, animated: Bool)
@@ -379,17 +380,20 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                         let nib = Bundle.main.loadNibNamed("NewsDetailImageTableViewCell", owner: self, options: nil)
                         cell = nib![0] as? NewsDetailImageTableViewCell
                     }
-                    
-                    cell?.backgroundImageView.image = newsParagraph.newsImage?.image
-                    if newsParagraph.newsImage!.isLoading == true {
-                        newsParagraph.newsImage?.downloadImage { (image) in
+
+                    if newsParagraph.newsImage!.image == nil {
+                        SDWebImageManager.shared.loadImage(with: URL(string: newsParagraph.newsImage!.imageUrl), options: [], progress: { (_, _, _) in
+                            
+                        }) { (image, data, error, cacheType, finished, _) in
                             DispatchQueue.main.async {
-                                cell?.backgroundImageView.image = image
-                                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                                newsParagraph.newsImage!.image = image
+                                // cell?.backgroundImageView.image = image
+                                self.tableView.reloadRows(at: [indexPath], with: .none)
                             }
                         }
+                    } else {
+                        cell?.backgroundImageView.image = newsParagraph.newsImage?.image
                     }
-                    
                     return cell!
                 }
             }

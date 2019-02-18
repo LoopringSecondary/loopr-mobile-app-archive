@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
 class NewsCollectionCell: UICollectionViewCell {
     
@@ -125,17 +126,17 @@ class NewsCollectionCell: UICollectionViewCell {
         titleTextView.text = news.title
 
         if news.category == .information && news.newsImage != nil {
-            informationImageView.image = news.newsImage?.image
+            // informationImageView.image = news.newsImage?.image
             titleTextViewTrailingLayoutConstraint.constant = informationImageViewHeightLayoutConstraint.constant + 18
             // descriptionTextViewLeadingLayoutConstraint.constant = 135
             descriptionTextViewTrailingLayoutConstraint.constant = informationImageViewHeightLayoutConstraint.constant + 18
             informationImageView.isHidden = false
-            if news.newsImage!.isLoading == true {
-                news.newsImage!.downloadImage { (image) in
-                    DispatchQueue.main.async {
-                        self.informationImageView.image = image
-                    }
-                }
+
+            let transformer = SDImageResizingTransformer(size: CGSize(width: 300, height: 300), scaleMode: .aspectFill)
+            informationImageView.sd_setImage(with: URL(string: news.newsImage!.imageUrl), placeholderImage: nil, context: [.imageTransformer: transformer], progress: { (_, _, _) in
+                
+            }) { (image, error, _, _) in
+                self.news.newsImage?.image = image
             }
         } else {
             titleTextViewTrailingLayoutConstraint.constant = 10

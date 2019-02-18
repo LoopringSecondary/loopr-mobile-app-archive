@@ -27,7 +27,7 @@ class NewsParagraph {
             if tmps.count < 0 {
                 return nil
             }
-            self.newsImage = NewsImage(imageFolderName: "NewsParagraph", imageUrl: tmps[0].replacingOccurrences(of: "<img src=\"", with: "").trim())
+            self.newsImage = NewsImage(imageUrl: tmps[0].replacingOccurrences(of: "<img src=\"", with: "").trim())
             self.isString = false
         } else {
             self.isString = true
