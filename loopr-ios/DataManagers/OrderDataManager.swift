@@ -80,9 +80,9 @@ class OrderDataManager {
         return result
     }
 
-    func getOrdersFromServer(pageIndex: UInt, pageSize: UInt = 50, completionHandler: @escaping (_ error: Error?) -> Void) {
+    func getOrdersFromServer(pageIndex: UInt, pageSize: UInt = 50, status: String? = nil, completionHandler: @escaping (_ error: Error?) -> Void) {
         if let owner = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address {
-            LoopringAPIRequest.getOrders(owner: owner, pageIndex: pageIndex, pageSize: pageSize) { orders, error in
+            LoopringAPIRequest.getOrders(owner: owner, status: status, pageIndex: pageIndex, pageSize: pageSize) { orders, error in
                 guard let orders = orders, error == nil else {
                     self.orders = []
                     completionHandler(error)

@@ -113,7 +113,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
     }
     
     private func getOrderHistoryFromRelay() {
-        OrderDataManager.shared.getOrdersFromServer(pageIndex: pageIndex, completionHandler: { _ in
+        OrderDataManager.shared.getOrdersFromServer(pageIndex: pageIndex, status: "ORDER_OPENED", completionHandler: { _ in
             DispatchQueue.main.async {
                 if self.isLaunching {
                     self.isLaunching = false
@@ -168,7 +168,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
             return MarketPlaceOrderTableViewCell.getHeight()
         } else {
             if isTableEmpty() {
-                return OrderNoDataTableViewCell.getHeight()
+                return OrderNoDataTableViewCell.getHeight() / 2
             } else {
                 return OrderTableViewCell.getHeight()
             }
@@ -251,7 +251,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
 
             let destinateY = height - bottomPadding - DefaultNumericKeyboard.height
             
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                 self.numericKeyboardBaseView.frame = CGRect(x: 0, y: destinateY, width: width, height: DefaultNumericKeyboard.height + bottomPadding)
             }, completion: { finished in
                 self.isNumericKeyboardShow = true
