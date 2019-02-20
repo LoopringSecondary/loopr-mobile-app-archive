@@ -178,7 +178,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
             return MarketPlaceOrderTableViewCell.getHeight()
         } else {
             if isTableEmpty() {
-                return OrderNoDataTableViewCell.getHeight() / 2
+                return OrderNoDataTableViewCell.getHeight() / 1.8
             } else {
                 return OrderTableViewCell.getHeight()
             }
