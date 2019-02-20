@@ -93,6 +93,9 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .orderHistoryViewController))
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         
+        // let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        // tableView2.addGestureRecognizer(tap)
+        
         getOrderHistoryFromRelay()
 
         let nib = Bundle.main.loadNibNamed("MarketPlaceOrderTableViewCell", owner: self, options: nil)
@@ -111,7 +114,14 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         hasMoreData = true
         getOrderHistoryFromRelay()
     }
-    
+
+    // This will conflict to tableview2 click
+    @objc func handleTap(_ sender: UITapGestureRecognizer?) {
+        hideNumericKeyboard()
+        marketPlaceOrderTableViewCell.priceTextField.resignFirstResponder()
+        marketPlaceOrderTableViewCell.amountTextField.resignFirstResponder()
+    }
+
     private func getOrderHistoryFromRelay() {
         OrderDataManager.shared.getOrdersFromServer(pageIndex: pageIndex, status: "ORDER_OPENED", completionHandler: { _ in
             DispatchQueue.main.async {

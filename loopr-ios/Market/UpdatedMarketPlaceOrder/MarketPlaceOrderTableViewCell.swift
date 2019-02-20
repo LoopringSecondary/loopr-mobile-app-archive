@@ -30,6 +30,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     var activeTextFieldTag = -1
     
     @IBOutlet weak var baseView: UIView!
+    @IBOutlet weak var leftBaseView: UIView!
+
     @IBOutlet weak var buyTabButton: UIButton!
     @IBOutlet weak var sellTabButton: UIButton!
     
@@ -78,6 +80,10 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // baseView.applyShadow()
         baseView.cornerRadius = 8
         baseView.clipsToBounds = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        tap.delegate = self
+        baseView.addGestureRecognizer(tap)
         
         let viewCornerRadius: CGFloat = 6
         
@@ -272,6 +278,20 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
 
         plusAmountStepperButton.clipsToBounds = true
         plusAmountStepperButton.round(corners: [.topRight, .bottomRight], radius: 6)
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer?) {
+        print("handleTap")
+        updatedMarketPlaceOrderViewController.hideNumericKeyboard()
+        priceTextField.resignFirstResponder()
+        amountTextField.resignFirstResponder()
+    }
+
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view?.isDescendant(of: self.orderbookTableView) == true {
+            return false
+        }
+        return true
     }
     
     // Prefill textFields

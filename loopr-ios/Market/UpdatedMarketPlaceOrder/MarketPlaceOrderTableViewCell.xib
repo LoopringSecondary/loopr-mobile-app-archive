@@ -325,6 +325,7 @@
                 <outlet property="decimalInfoLabel" destination="PH9-QR-ZMm" id="6M7-yp-awM"/>
                 <outlet property="latestPriceButton" destination="9aF-3l-cux" id="gRa-aD-nK4"/>
                 <outlet property="latestPriceInfoLabel" destination="GQj-UI-8lL" id="lRg-JD-TyB"/>
+                <outlet property="leftBaseView" destination="bpf-We-MG7" id="awL-Zs-2iU"/>
                 <outlet property="minusAmountStepperButton" destination="eo8-eQ-qm6" id="ZLz-lN-ekb"/>
                 <outlet property="minusPriceStepperButton" destination="l3p-Wh-PIA" id="C8w-Vp-G5G"/>
                 <outlet property="nextButton" destination="hyQ-B0-5v4" id="niM-co-OGb"/>
