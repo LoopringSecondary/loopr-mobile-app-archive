@@ -323,6 +323,9 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             var priceValue = Double(priceTextField.text!.removeComma())!
             priceValue += getPriceValueStep()
             setPriceTextField(priceValue: priceValue)
+        } else {
+            let priceValue = getPriceValueStep()
+            setPriceTextField(priceValue: priceValue)
         }
     }
     
@@ -398,6 +401,9 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         if updatedMarketPlaceOrderViewController.validateAmount(withErrorNotification: false) {
             var amountValue = Double(amountTextField.text!.removeComma())!
             amountValue += getAmountValueStep()
+            setAmountTextField(amountValue: amountValue)
+        } else {
+            let amountValue = getAmountValueStep()
             setAmountTextField(amountValue: amountValue)
         }
     }
