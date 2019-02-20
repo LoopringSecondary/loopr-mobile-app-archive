@@ -21,7 +21,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     private var totalValue: Double = 0
     
     // Setting
-    let decimalsValue: Int = 8
+    let decimalsSettingValue: Int = 8
     
     // TODO: needs to update buys and sells in Relay 2.0
     var buys: [Depth] = []
@@ -119,9 +119,11 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // Price
         minusPriceStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
         minusPriceStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
+        minusPriceStepperButton.addTarget(self, action: #selector(pressedMinusPriceStepperButton), for: .touchUpInside)
 
         plusPriceStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
         plusPriceStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
+        plusPriceStepperButton.addTarget(self, action: #selector(pressedPlusPriceStepperButton), for: .touchUpInside)
 
         priceTextField.delegate = self
         priceTextField.tag = 0
@@ -143,9 +145,11 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // Amount
         minusAmountStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
         minusAmountStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
-        
+        minusAmountStepperButton.addTarget(self, action: #selector(pressedMinusAmountStepperButton), for: .touchUpInside)
+
         plusAmountStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
         plusAmountStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
+        plusAmountStepperButton.addTarget(self, action: #selector(pressedPlusAmountStepperButton), for: .touchUpInside)
 
         amountTextField.delegate = self
         amountTextField.tag = 1
@@ -209,7 +213,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // Orderbook
         decimalInfoLabel.font = FontConfigManager.shared.getMediumFont(size: 12)
         decimalInfoLabel.theme_textColor = GlobalPicker.textLightColor
-        decimalInfoLabel.text = "\(decimalsValue)\(LocalizedString("Decimals", comment: ""))"
+        decimalInfoLabel.text = "\(decimalsSettingValue)\(LocalizedString("Decimals", comment: ""))"
 
         orderbookTableView.dataSource = self
         orderbookTableView.delegate = self
@@ -240,7 +244,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         latestPriceButton.setAttributedTitle("\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)".higlighted(words: [market.balanceWithDecimals], attributes: [NSAttributedStringKey.foregroundColor: UIColor.theme.withAlphaComponent(0.6)]), for: .highlighted)
         
         updateAvailableLabel()
-        updateTotalLabel()
+        updateTotalLabels()
 
         if type == .buy {
             buyTabButton.setBackgroundColor(UIColor.init(rgba: "#5ED279"), for: .normal)
@@ -296,23 +300,130 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     
     // Prefill textFields
     @objc func pressedLatestPriceButton() {
-        priceTextField.text = market.balanceWithDecimals
+        priceTextField.text = market.balanceWithDecimals.trailingZero()
         priceTipLabel.text = "≈ \(market.display.description)"
-        updateTotalLabel()
+        updateTotalLabels()
     }
     
+    // Update textFields
+    @objc func pressedMinusPriceStepperButton() {
+        if updatedMarketPlaceOrderViewController.validateTokenPrice(withErrorNotification: false) {
+            var priceValue = Double(priceTextField.text!.removeComma())!
+            if priceValue - getPriceValueStep() > 0 {
+                priceValue -= getPriceValueStep()
+                setPriceTextField(priceValue: priceValue)
+            } else {
+                setPriceTextField(priceValue: 0)
+            }
+        }
+    }
+
+    @objc func pressedPlusPriceStepperButton() {
+        if updatedMarketPlaceOrderViewController.validateTokenPrice(withErrorNotification: false) {
+            var priceValue = Double(priceTextField.text!.removeComma())!
+            priceValue += getPriceValueStep()
+            setPriceTextField(priceValue: priceValue)
+        }
+    }
+    
+    func setPriceTextField(priceValue: Double) {
+        if priceValue == 0 {
+            priceTextField.text = ""
+            priceTipLabel.text = "≈ \(0.0.currency)"
+            updateTotalLabels()
+        } else {
+            priceTextField.text = priceValue.withCommas(14).trailingZero()
+            let tokenBPrice = PriceDataManager.shared.getPrice(of: PlaceOrderDataManager.shared.tokenB.symbol)!
+            let estimateValue: Double = priceValue * tokenBPrice
+            priceTipLabel.text = "≈ \(estimateValue.currency)"
+            updateTotalLabels()
+        }
+    }
+    
+    // TODO: value step will be defined in Relay API
+    func getPriceValueStep() -> Double {
+        switch decimalsSettingValue {
+        case 8:
+            return 0.000001
+        default:
+            return 0.00000001
+        }
+    }
+    
+    func getAmountValueStep() -> Double {
+        if type == .buy {
+            if totalValue > 1000 {
+                return 100
+            } else if totalValue > 100 {
+                return 10
+            } else if totalValue > 10 {
+                return 1
+            } else if totalValue > 1 {
+                return 0.1
+            } else if totalValue > 0.1 {
+                return 0.01
+            } else {
+                return 0
+            }
+        } else {
+            if amountValue > 1000 {
+                return 100
+            } else if amountValue > 100 {
+                return 10
+            } else if amountValue > 10 {
+                return 1
+            } else if amountValue > 1 {
+                return 0.1
+            } else if amountValue > 0.1 {
+                return 0.01
+            } else {
+                return 0
+            }
+        }
+    }
+    
+    @objc func pressedMinusAmountStepperButton() {
+        if updatedMarketPlaceOrderViewController.validateAmount(withErrorNotification: false) {
+            var amountValue = Double(amountTextField.text!.removeComma())!
+            if amountValue - getAmountValueStep() > 0 {
+                amountValue -= getAmountValueStep()
+                setAmountTextField(amountValue: amountValue)
+            } else {
+                setAmountTextField(amountValue: 0)
+            }
+        }
+    }
+
+    @objc func pressedPlusAmountStepperButton() {
+        if updatedMarketPlaceOrderViewController.validateAmount(withErrorNotification: false) {
+            var amountValue = Double(amountTextField.text!.removeComma())!
+            amountValue += getAmountValueStep()
+            setAmountTextField(amountValue: amountValue)
+        }
+    }
+    
+    func setAmountTextField(amountValue: Double) {
+        if amountValue == 0 {
+            amountTextField.text = ""
+        } else {
+            amountTextField.text = amountValue.withCommas(14).trailingZero()
+        }
+    }
+
     func pressedDepthCell(depth: Depth) {
-        priceTextField.text = depth.price.toDecimalPlaces(8)
+        // TODO: Should put it to func setPriceTextField(priceValue: Double)
+        priceTextField.text = depth.price.toDecimalPlaces(decimalsSettingValue)
         
         if let value = Double(priceTextField.text!.removeComma()) {
-            let tokenBPrice = PriceDataManager.shared.getPrice(of: PlaceOrderDataManager.shared.tokenB.symbol)!
-            let estimateValue: Double = value * tokenBPrice
-            priceTipLabel.text = "≈ \(estimateValue.currency)"
+            setPriceTextField(priceValue: value)
         }
 
-        amountTextField.text = depth.amountA.toDecimalPlaces(2).trailingZero()
+        // amountTextField.text = depth.amountA.toDecimalPlaces(2).trailingZero()
+        // doesn't have commas
+        // The following implementation does have commas
+        amountTextField.text = depth.amountAInDouble.withCommas(2).trailingZero()
         
-        updateTotalLabel()
+        updateTotalLabels()
     }
     
     // Only update at init method and switch buy and sell type
@@ -346,8 +457,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         availableAmountLabel.text = message
     }
     
-    // Update when priceTextField is changed.
-    func updateTotalLabel() {
+    // Update when priceTextField is changed. It's not related to amountTextField change
+    func updateTotalLabels() {
         var message: String = ""
         var tokenB: String = ""
         var tokenS: String = ""
