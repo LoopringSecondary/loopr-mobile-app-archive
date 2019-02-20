@@ -41,10 +41,7 @@ enum GlobalPicker {
             NSAttributedStringKey.shadow: shadow
         ]
     }
-        
-    static let keyboard: ThemeImagePicker = ThemeImagePicker(images: UIImage.getImage(from: UIColor.init(rgba: "#f5f5f5")), UIImage.getImage(from: UIColor.init(rgba: "#8f8f8f")))
-    static let keyboardHighlight: ThemeImagePicker = ThemeImagePicker(images: UIImage.getImage(from: UIColor.init(rgba: "#f5f5f5")), UIImage.getImage(from: UIColor.init(rgba: "#9f9f9f")))
-    
+
     static let back: ThemeImagePicker = ThemeImagePicker(images: UIImage(named: "Back-button-light")!, UIImage(named: "Back-button-dark")!)
     static let backHighlight: ThemeImagePicker = ThemeImagePicker(images: UIImage(named: "Back-button-light")!.alpha(0.3), UIImage(named: "Back-button-dark")!.alpha(0.3))
     static let indicator: ThemeImagePicker = ThemeImagePicker(images: UIImage(named: "Indicator-light\(ColorTheme.getTheme())") ?? UIImage(named: "Indicator-light-yellow")!, UIImage(named: "Indicator-dark\(ColorTheme.getTheme())") ?? UIImage(named: "Indicator-dark-yellow")!)

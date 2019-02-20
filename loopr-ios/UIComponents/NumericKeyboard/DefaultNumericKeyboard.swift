@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftTheme
 
 open class DefaultNumericKeyboard: NumericKeyboard, NumericKeyboardDelegate {
     
@@ -14,6 +15,8 @@ open class DefaultNumericKeyboard: NumericKeyboard, NumericKeyboardDelegate {
     
     var textColor: UIColor! = UIColor.black
     var font: UIFont! = UIFont.init(name: FontConfigManager.shared.getLight(), size: 34) ?? UIFont.systemFont(ofSize: 34)
+
+    static let keyboardHighlight: ThemeImagePicker = ThemeImagePicker(images: UIImage.getImage(from: UIColor.dark3), UIImage.getImage(from: UIColor.dark3))
     
     open weak var delegate2: DefaultNumericKeyboardDelegate?
     var currentText: String = ""
