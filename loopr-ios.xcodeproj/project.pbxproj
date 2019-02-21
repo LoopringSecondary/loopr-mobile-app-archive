@@ -1328,6 +1328,17 @@
 			path = ImageScrollView;
 			sourceTree = "<group>";
 		};
+		9B15B843221E917B00B58C40 /* MarketPlaceOrderConfirmation */ = {
+			isa = PBXGroup;
+			children = (
+				AC13B30C2055A646008A72C0 /* PlaceOrderConfirmationViewController.swift */,
+				94AA0A9D211550440092D2CE /* PlaceOrderConfirmationViewController.xib */,
+				94D94CE12084A9380000BBC8 /* ConfirmationResultViewController.swift */,
+				94AA0A9F211578460092D2CE /* ConfirmationResultViewController.xib */,
+			);
+			path = MarketPlaceOrderConfirmation;
+			sourceTree = "<group>";
+		};
 		9B2ED7EC21D4468000ACEE84 /* News */ = {
 			isa = PBXGroup;
 			children = (
@@ -1405,6 +1416,7 @@
 				9B82E78C221902FE009441BD /* MarketPlaceOrderTableViewCellRight.swift */,
 				9B82E788221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift */,
 				9B82E789221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib */,
+				9B15B843221E917B00B58C40 /* MarketPlaceOrderConfirmation */,
 			);
 			path = UpdatedMarketPlaceOrder;
 			sourceTree = "<group>";
@@ -1499,10 +1511,6 @@
 				AC13B30220548767008A72C0 /* BuyAndSellSwipeViewController.xib */,
 				94DFE4032122BD47000E1831 /* BuyViewController.swift */,
 				94DFE4022122BD47000E1831 /* BuyViewController.xib */,
-				AC13B30C2055A646008A72C0 /* PlaceOrderConfirmationViewController.swift */,
-				94AA0A9D211550440092D2CE /* PlaceOrderConfirmationViewController.xib */,
-				94D94CE12084A9380000BBC8 /* ConfirmationResultViewController.swift */,
-				94AA0A9F211578460092D2CE /* ConfirmationResultViewController.xib */,
 			);
 			path = MarketPlaceOrder;
 			sourceTree = "<group>";
