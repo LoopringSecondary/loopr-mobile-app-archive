@@ -96,7 +96,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         // let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         // tableView2.addGestureRecognizer(tap)
         
-        getOrderHistoryFromRelay()
+        getDataFromRelay()
 
         let nib = Bundle.main.loadNibNamed("MarketPlaceOrderTableViewCell", owner: self, options: nil)
         marketPlaceOrderTableViewCell = nib![0] as! MarketPlaceOrderTableViewCell
@@ -112,7 +112,13 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
     @objc private func refreshData(_ sender: Any) {
         pageIndex = 1
         hasMoreData = true
-        getOrderHistoryFromRelay()
+        getDataFromRelay()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Update the orderbook after users place a order successfully.
+        getDataFromRelay()
     }
 
     // This will conflict to tableview2 click
@@ -122,8 +128,8 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         marketPlaceOrderTableViewCell.amountTextField.resignFirstResponder()
     }
 
-    private func getOrderHistoryFromRelay() {
-        OrderDataManager.shared.getOrdersFromServer(pageIndex: pageIndex, status: "ORDER_OPENED", completionHandler: { _ in
+    private func getDataFromRelay() {
+        OrderDataManager.shared.getOrdersFromServer(pageIndex: pageIndex, status: OrderStatus.opened.rawValue, completionHandler: { _ in
             DispatchQueue.main.async {
                 if self.isLaunching {
                     self.isLaunching = false
@@ -135,8 +141,21 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
                     self.hasMoreData = false
                 }
                 self.previousOrderCount = self.orders.count
-                self.tableView2.reloadData()
                 self.refreshControl.endRefreshing(refreshControlType: .orderHistoryViewController)
+                
+                self.tableView2.reloadData()
+            }
+        })
+        
+        MarketDepthDataManager.shared.getDepthFromServer(market: market.name, completionHandler: { buys, sells, _ in
+            self.buys = buys
+            self.sells = sells
+
+            DispatchQueue.main.async {
+                // Update the orderbook on the right
+                self.marketPlaceOrderTableViewCell.setBuys(buys)
+                self.marketPlaceOrderTableViewCell.setSells(sells)
+                self.marketPlaceOrderTableViewCell.orderbookTableView.reloadData()
             }
         })
     }
@@ -222,7 +241,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
                     let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
                         SendCurrentAppWalletDataManager.shared._cancelOrder(order: order.originalOrder, completion: { (txHash, error) in
-                            self.getOrderHistoryFromRelay()
+                            self.getDataFromRelay()
                             self.completion(txHash, error)
                         })
                     }))
@@ -235,7 +254,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
                 // Pagination
                 if hasMoreData && indexPath.row == orders.count - 1 {
                     pageIndex += 1
-                    getOrderHistoryFromRelay()
+                    getDataFromRelay()
                 }
                 
                 return cell!

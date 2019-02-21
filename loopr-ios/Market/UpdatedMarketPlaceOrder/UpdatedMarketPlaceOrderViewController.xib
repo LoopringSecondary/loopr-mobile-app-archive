@@ -30,7 +30,7 @@
                     </constraints>
                 </tableView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XjR-hR-5KR">
-                    <rect key="frame" x="0.0" y="408" width="414" height="328"/>
+                    <rect key="frame" x="0.0" y="417" width="414" height="319"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
             </subviews>
@@ -39,7 +39,7 @@
                 <constraint firstItem="XjR-hR-5KR" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="B4Y-8R-W9W"/>
                 <constraint firstAttribute="bottom" secondItem="XjR-hR-5KR" secondAttribute="bottom" id="CyA-k7-4st"/>
                 <constraint firstItem="XjR-hR-5KR" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="KT8-fG-Bd3"/>
-                <constraint firstItem="XjR-hR-5KR" firstAttribute="top" secondItem="6n5-Uh-mtX" secondAttribute="bottom" constant="6" id="Qap-PX-uxK"/>
+                <constraint firstItem="XjR-hR-5KR" firstAttribute="top" secondItem="6n5-Uh-mtX" secondAttribute="bottom" constant="15" id="Qap-PX-uxK"/>
                 <constraint firstItem="6n5-Uh-mtX" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="dBf-QD-DGI"/>
                 <constraint firstItem="6n5-Uh-mtX" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="gQT-vx-u2E"/>
                 <constraint firstItem="6n5-Uh-mtX" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="tEe-uM-yHh"/>
