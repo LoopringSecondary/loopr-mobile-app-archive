@@ -43,7 +43,7 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
         // Add Refresh Control to Table View
         historyTableView.refreshControl = refreshControl
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .p2POrderHistoryViewController))
-        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
 
         P2POrderHistoryDataManager.shared.shouldReloadData = false
         getOrderHistoryFromRelay()
@@ -58,7 +58,7 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
         }
     }
     
-    @objc private func refreshData(_ sender: Any) {
+    @objc private func refreshData() {
         pageIndex = 1
         hasMoreData = true
         getOrderHistoryFromRelay()
@@ -171,7 +171,8 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
                 let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
                     SendCurrentAppWalletDataManager.shared._cancelOrder(order: order.originalOrder, completion: { (txHash, error) in
-                        self.getOrderHistoryFromRelay()
+                        // TODO: if the page index is not 1, it may have some bugs
+                        self.refreshData()
                         self.completion(txHash, error)
                     })
                 }))

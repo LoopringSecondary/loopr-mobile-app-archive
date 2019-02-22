@@ -91,7 +91,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         
         tableView2.refreshControl = refreshControl
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .orderHistoryViewController))
-        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         
         // let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         // tableView2.addGestureRecognizer(tap)
@@ -109,7 +109,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
         blurVisualEffectView.frame = UIScreen.main.bounds
     }
     
-    @objc private func refreshData(_ sender: Any) {
+    @objc private func refreshData() {
         pageIndex = 1
         hasMoreData = true
         getDataFromRelay()
@@ -134,7 +134,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
                 if self.isLaunching {
                     self.isLaunching = false
                 }
-                self.orders = OrderDataManager.shared.getOrders(type: .all)
+                self.orders = OrderDataManager.shared.getOrders(type: .open)
                 if self.previousOrderCount != self.orders.count {
                     self.hasMoreData = true
                 } else {
@@ -241,7 +241,8 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
                     let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
                         SendCurrentAppWalletDataManager.shared._cancelOrder(order: order.originalOrder, completion: { (txHash, error) in
-                            self.getDataFromRelay()
+                            // TODO: if the page index is not 1, it may have some bugs
+                            self.refreshData()
                             self.completion(txHash, error)
                         })
                     }))
