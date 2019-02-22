@@ -101,6 +101,8 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
             padding += " "
         }
         buttonInNavigationBar.title = padding + market!.description
+        
+        getDepthFromRelay()
     }
     
     func setupMarket() {

@@ -209,6 +209,9 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
             marketPlaceOrderTableViewCell.updatedMarketPlaceOrderViewController = self
             marketPlaceOrderTableViewCell.market = market
             marketPlaceOrderTableViewCell.type = initialType
+            if Double(initialPrice ?? "") != nil {
+                marketPlaceOrderTableViewCell.setPriceTextField(priceValue: Double(initialPrice!)!)
+            }
             
             marketPlaceOrderTableViewCell.setBuys(buys)
             marketPlaceOrderTableViewCell.setSells(sells)
