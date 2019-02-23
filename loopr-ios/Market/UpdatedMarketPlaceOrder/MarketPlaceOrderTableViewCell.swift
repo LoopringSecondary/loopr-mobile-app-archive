@@ -213,7 +213,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // Orderbook
         decimalInfoLabel.font = FontConfigManager.shared.getMediumFont(size: 12)
         decimalInfoLabel.theme_textColor = GlobalPicker.textLightColor
-        decimalInfoLabel.text = "\(decimalsSettingValue)\(LocalizedString("Decimals", comment: ""))"
+        decimalInfoLabel.text = "\(decimalsSettingValue) \(LocalizedString("Decimals", comment: ""))"
 
         orderbookTableView.dataSource = self
         orderbookTableView.delegate = self
