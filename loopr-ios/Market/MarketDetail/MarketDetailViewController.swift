@@ -157,7 +157,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         self.navigationController?.pushViewController(viewController, animated: true)
         */
 
-        let viewController = UpdatedMarketPlaceOrderViewController()
+        let viewController = MarketPlaceOrderViewController()
         viewController.market = market
         viewController.buys = buys
         viewController.sells = sells
@@ -174,7 +174,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         self.navigationController?.pushViewController(viewController, animated: true)
         */
 
-        let viewController = UpdatedMarketPlaceOrderViewController()
+        let viewController = MarketPlaceOrderViewController()
         viewController.market = market
         viewController.buys = buys
         viewController.sells = sells

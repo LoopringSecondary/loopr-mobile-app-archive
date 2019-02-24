@@ -10,7 +10,7 @@ import UIKit
 
 class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
-    weak var updatedMarketPlaceOrderViewController: UpdatedMarketPlaceOrderViewController!
+    weak var marketPlaceOrderViewController: MarketPlaceOrderViewController!
     var market: Market!
     var type: TradeType!
     
@@ -286,7 +286,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     
     @objc func handleTap(_ sender: UITapGestureRecognizer?) {
         print("handleTap")
-        updatedMarketPlaceOrderViewController.hideNumericKeyboard()
+        marketPlaceOrderViewController.hideNumericKeyboard()
         priceTextField.resignFirstResponder()
         amountTextField.resignFirstResponder()
     }
@@ -307,7 +307,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     
     // Update textFields
     @objc func pressedMinusPriceStepperButton() {
-        if updatedMarketPlaceOrderViewController.validateTokenPrice(withErrorNotification: false) {
+        if marketPlaceOrderViewController.validateTokenPrice(withErrorNotification: false) {
             var priceValue = Double(priceTextField.text!.removeComma())!
             if priceValue - getPriceValueStep() > 0 {
                 priceValue -= getPriceValueStep()
@@ -319,7 +319,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     }
 
     @objc func pressedPlusPriceStepperButton() {
-        if updatedMarketPlaceOrderViewController.validateTokenPrice(withErrorNotification: false) {
+        if marketPlaceOrderViewController.validateTokenPrice(withErrorNotification: false) {
             var priceValue = Double(priceTextField.text!.removeComma())!
             priceValue += getPriceValueStep()
             setPriceTextField(priceValue: priceValue)
@@ -386,7 +386,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     }
     
     @objc func pressedMinusAmountStepperButton() {
-        if updatedMarketPlaceOrderViewController.validateAmount(withErrorNotification: false) {
+        if marketPlaceOrderViewController.validateAmount(withErrorNotification: false) {
             var amountValue = Double(amountTextField.text!.removeComma())!
             if amountValue - getAmountValueStep() > 0 {
                 amountValue -= getAmountValueStep()
@@ -398,7 +398,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     }
 
     @objc func pressedPlusAmountStepperButton() {
-        if updatedMarketPlaceOrderViewController.validateAmount(withErrorNotification: false) {
+        if marketPlaceOrderViewController.validateAmount(withErrorNotification: false) {
             var amountValue = Double(amountTextField.text!.removeComma())!
             amountValue += getAmountValueStep()
             setAmountTextField(amountValue: amountValue)
@@ -479,7 +479,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             totalAmountInforLabel.text = LocalizedString("Can Sell", comment: "")
         }
 
-        if updatedMarketPlaceOrderViewController.validateTokenPrice(withErrorNotification: false), let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenS) {
+        if marketPlaceOrderViewController.validateTokenPrice(withErrorNotification: false), let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenS) {
             let priceValue = Double(priceTextField.text!.removeComma())!
             if self.type == .buy {
                 totalValue = asset.balance/priceValue
@@ -530,26 +530,26 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         guard type != .buy else {
             return
         }
-        updatedMarketPlaceOrderViewController.switchToBuy()
+        marketPlaceOrderViewController.switchToBuy()
     }
 
     @objc func pressedSellTabButton() {
         guard type != .sell else {
             return
         }
-        updatedMarketPlaceOrderViewController.switchToSell()
+        marketPlaceOrderViewController.switchToSell()
     }
 
     @objc func pressedNextButton() {
-        updatedMarketPlaceOrderViewController.pressedPlaceOrderButton()
+        marketPlaceOrderViewController.pressedPlaceOrderButton()
     }
     
     // TextField
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         print("textFieldShouldBeginEditing")
         activeTextFieldTag = textField.tag
-        updatedMarketPlaceOrderViewController.showNumericKeyboard(textField: textField)
-        _ = updatedMarketPlaceOrderViewController.validate()
+        marketPlaceOrderViewController.showNumericKeyboard(textField: textField)
+        _ = marketPlaceOrderViewController.validate()
         return true
     }
     

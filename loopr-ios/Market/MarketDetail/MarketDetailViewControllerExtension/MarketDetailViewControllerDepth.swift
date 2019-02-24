@@ -179,7 +179,7 @@ extension MarketDetailViewController {
             viewController.initialPrice = price
             self.navigationController?.pushViewController(viewController, animated: true)
             */
-            let viewController = UpdatedMarketPlaceOrderViewController()
+            let viewController = MarketPlaceOrderViewController()
             viewController.market = self.market
             viewController.initialType = tradeType
             viewController.initialPrice = price

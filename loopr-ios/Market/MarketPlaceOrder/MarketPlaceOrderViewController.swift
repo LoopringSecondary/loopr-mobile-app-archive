@@ -11,7 +11,7 @@ import Geth
 import BigInt
 import NotificationBannerSwift
 
-class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NumericKeyboardDelegate, NumericKeyboardProtocol {
+class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NumericKeyboardDelegate, NumericKeyboardProtocol {
 
     var market: Market!
     
@@ -206,7 +206,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView.tag == tableView1.tag {
-            marketPlaceOrderTableViewCell.updatedMarketPlaceOrderViewController = self
+            marketPlaceOrderTableViewCell.marketPlaceOrderViewController = self
             marketPlaceOrderTableViewCell.market = market
             marketPlaceOrderTableViewCell.type = initialType
             if Double(initialPrice ?? "") != nil {
@@ -537,7 +537,7 @@ class UpdatedMarketPlaceOrderViewController: UIViewController, UITableViewDelega
 
 }
 
-extension UpdatedMarketPlaceOrderViewController {
+extension MarketPlaceOrderViewController {
 
     // TODO: this will be out of date in Relay 2.0
     func getLrcFee(_ amountS: Double, _ tokenS: String) -> Double {
@@ -557,8 +557,8 @@ extension UpdatedMarketPlaceOrderViewController {
 
 }
 
-// TODO: needs to merge UpdatedMarketPlaceOrderViewController and OrderHistoryViewController
-extension UpdatedMarketPlaceOrderViewController {
+// TODO: needs to merge MarketPlaceOrderViewController and OrderHistoryViewController
+extension MarketPlaceOrderViewController {
     
     func completion(_ txHash: String?, _ error: Error?) {
         var title: String = ""

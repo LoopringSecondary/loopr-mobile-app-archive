@@ -152,8 +152,8 @@
 		9B76456921FD98D100896B3E /* NoDataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76456721FD98D000896B3E /* NoDataCollectionViewCell.swift */; };
 		9B76456A21FD98D100896B3E /* NoDataCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B76456821FD98D000896B3E /* NoDataCollectionViewCell.xib */; };
 		9B76458421FED36E00896B3E /* NewsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76458321FED36E00896B3E /* NewsFooterView.swift */; };
-		9B82E7802213FF91009441BD /* UpdatedMarketPlaceOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B82E77E2213FF91009441BD /* UpdatedMarketPlaceOrderViewController.swift */; };
-		9B82E7812213FF91009441BD /* UpdatedMarketPlaceOrderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B82E77F2213FF91009441BD /* UpdatedMarketPlaceOrderViewController.xib */; };
+		9B82E7802213FF91009441BD /* MarketPlaceOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B82E77E2213FF91009441BD /* MarketPlaceOrderViewController.swift */; };
+		9B82E7812213FF91009441BD /* MarketPlaceOrderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B82E77F2213FF91009441BD /* MarketPlaceOrderViewController.xib */; };
 		9B82E7842214034F009441BD /* MarketPlaceOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B82E7822214034F009441BD /* MarketPlaceOrderTableViewCell.swift */; };
 		9B82E7852214034F009441BD /* MarketPlaceOrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B82E7832214034F009441BD /* MarketPlaceOrderTableViewCell.xib */; };
 		9B82E78A221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B82E788221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift */; };
@@ -740,8 +740,8 @@
 		9B76456721FD98D000896B3E /* NoDataCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataCollectionViewCell.swift; sourceTree = "<group>"; };
 		9B76456821FD98D000896B3E /* NoDataCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoDataCollectionViewCell.xib; sourceTree = "<group>"; };
 		9B76458321FED36E00896B3E /* NewsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFooterView.swift; sourceTree = "<group>"; };
-		9B82E77E2213FF91009441BD /* UpdatedMarketPlaceOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedMarketPlaceOrderViewController.swift; sourceTree = "<group>"; };
-		9B82E77F2213FF91009441BD /* UpdatedMarketPlaceOrderViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpdatedMarketPlaceOrderViewController.xib; sourceTree = "<group>"; };
+		9B82E77E2213FF91009441BD /* MarketPlaceOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPlaceOrderViewController.swift; sourceTree = "<group>"; };
+		9B82E77F2213FF91009441BD /* MarketPlaceOrderViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketPlaceOrderViewController.xib; sourceTree = "<group>"; };
 		9B82E7822214034F009441BD /* MarketPlaceOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPlaceOrderTableViewCell.swift; sourceTree = "<group>"; };
 		9B82E7832214034F009441BD /* MarketPlaceOrderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketPlaceOrderTableViewCell.xib; sourceTree = "<group>"; };
 		9B82E788221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPlaceOrderbookTableViewCell.swift; sourceTree = "<group>"; };
@@ -1406,11 +1406,11 @@
 			path = AssetTransactionDetail;
 			sourceTree = "<group>";
 		};
-		9B82E77D2213FEBC009441BD /* UpdatedMarketPlaceOrder */ = {
+		9B82E77D2213FEBC009441BD /* MarketPlaceOrder */ = {
 			isa = PBXGroup;
 			children = (
-				9B82E77E2213FF91009441BD /* UpdatedMarketPlaceOrderViewController.swift */,
-				9B82E77F2213FF91009441BD /* UpdatedMarketPlaceOrderViewController.xib */,
+				9B82E77E2213FF91009441BD /* MarketPlaceOrderViewController.swift */,
+				9B82E77F2213FF91009441BD /* MarketPlaceOrderViewController.xib */,
 				9B82E7822214034F009441BD /* MarketPlaceOrderTableViewCell.swift */,
 				9B82E7832214034F009441BD /* MarketPlaceOrderTableViewCell.xib */,
 				9B82E78C221902FE009441BD /* MarketPlaceOrderTableViewCellRight.swift */,
@@ -1418,7 +1418,7 @@
 				9B82E789221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib */,
 				9B15B843221E917B00B58C40 /* MarketPlaceOrderConfirmation */,
 			);
-			path = UpdatedMarketPlaceOrder;
+			path = MarketPlaceOrder;
 			sourceTree = "<group>";
 		};
 		9BA3014B21B097DB00E55E49 /* MarketDetailViewControllerExtension */ = {
@@ -1504,7 +1504,7 @@
 			path = MarketDetailTradeHistory;
 			sourceTree = "<group>";
 		};
-		AC13B305205488CF008A72C0 /* MarketPlaceOrder */ = {
+		AC13B305205488CF008A72C0 /* Out-date-MarketPlaceOrder */ = {
 			isa = PBXGroup;
 			children = (
 				AC13B30120548767008A72C0 /* BuyAndSellSwipeViewController.swift */,
@@ -1512,7 +1512,7 @@
 				94DFE4032122BD47000E1831 /* BuyViewController.swift */,
 				94DFE4022122BD47000E1831 /* BuyViewController.xib */,
 			);
-			path = MarketPlaceOrder;
+			path = "Out-date-MarketPlaceOrder";
 			sourceTree = "<group>";
 		};
 		AC1B6D712130FB510026C1B2 /* NewKeystore */ = {
@@ -2405,8 +2405,8 @@
 				ACB9117320255A6600F14644 /* MarketTableViewCell.swift */,
 				ACB9117420255A6600F14644 /* MarketTableViewCell.xib */,
 				ACB5DD79202A1F3000140A09 /* MarketDetail */,
-				9B82E77D2213FEBC009441BD /* UpdatedMarketPlaceOrder */,
-				AC13B305205488CF008A72C0 /* MarketPlaceOrder */,
+				9B82E77D2213FEBC009441BD /* MarketPlaceOrder */,
+				AC13B305205488CF008A72C0 /* Out-date-MarketPlaceOrder */,
 			);
 			path = Market;
 			sourceTree = "<group>";
@@ -2932,7 +2932,7 @@
 				94DFE4042122BD48000E1831 /* BuyViewController.xib in Resources */,
 				ACE58B8620BE796A005BC1C8 /* VerifyMnemonicViewController.xib in Resources */,
 				9BA3021521D0260300E55E49 /* AppReleaseNotePopViewController.xib in Resources */,
-				9B82E7812213FF91009441BD /* UpdatedMarketPlaceOrderViewController.xib in Resources */,
+				9B82E7812213FF91009441BD /* MarketPlaceOrderViewController.xib in Resources */,
 				AC2ACA5320FA0EC3009C77E7 /* Rubik-LightItalic.ttf in Resources */,
 				AC131A11210ED2BB001998A0 /* MarketDetailDepthTableViewCell.xib in Resources */,
 				ACBA47EB207897C60032C2B4 /* SettingWalletDetailViewController.xib in Resources */,
@@ -3432,7 +3432,7 @@
 				9BA4FCAB21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.swift in Sources */,
 				AC6A3478210D740500AE615B /* MarketDetailSwipeViewController.swift in Sources */,
 				ACA677B82079970600D34A2F /* ExportKeystoreSwipeViewController.swift in Sources */,
-				9B82E7802213FF91009441BD /* UpdatedMarketPlaceOrderViewController.swift in Sources */,
+				9B82E7802213FF91009441BD /* MarketPlaceOrderViewController.swift in Sources */,
 				ACA677C42079990A00D34A2F /* DisplayKeystoreInQRCodeViewController.swift in Sources */,
 				ACB911992027F65800F14644 /* LoopringAPIRequest.swift in Sources */,
 				AC147BEE208D2FD2008D5104 /* ImportWalletProtocol.swift in Sources */,
