@@ -32,14 +32,14 @@ extension MarketPlaceOrderTableViewCell {
             let label1 = UILabel(frame: CGRect(x: 8, y: 0, width: labelWidth, height: height))
             label1.theme_textColor = GlobalPicker.textLightColor
             label1.font = FontConfigManager.shared.getMediumFont(size: 12)
-            label1.text = "\(LocalizedString("Price", comment: ""))(\(market.tradingPair.tradingB))"
+            label1.text = "\(LocalizedString("Price", comment: ""))"
             label1.textAlignment = .left
             headerView.addSubview(label1)
             
             let label4 = UILabel(frame: CGRect(x: label1.frame.maxX, y: 0, width: labelWidth, height: height))
             label4.theme_textColor = GlobalPicker.textLightColor
             label4.font = FontConfigManager.shared.getMediumFont(size: 12)
-            label4.text = "\(LocalizedString("Amount", comment: ""))(\(market.tradingPair.tradingA))"
+            label4.text = "\(LocalizedString("Amount", comment: ""))"
             label4.textAlignment = .right
             headerView.addSubview(label4)
             

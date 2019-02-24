@@ -109,6 +109,7 @@ class WalletButtonTableViewCell: UITableViewCell {
         button2.isHidden = isLaunching
         button3.isHidden = isLaunching
         button4.isHidden = isLaunching
+        button5.isHidden = isLaunching
     }
 
     class func getCellIdentifier() -> String {
