@@ -10,7 +10,7 @@ import Foundation
 
 enum MarketSwipeViewType: String, CustomStringConvertible {
     
-    case favorite = "Favorite"
+    case favorite = "Favorites"
     case LRC = "LRC"
     case ETH = "WETH"
     case USDT = "USDT"
@@ -19,7 +19,7 @@ enum MarketSwipeViewType: String, CustomStringConvertible {
     
     var description: String {
         switch self {
-        case .favorite: return LocalizedString("Favorite", comment: "")
+        case .favorite: return LocalizedString("Favorites", comment: "")
         case .LRC: return "LRC"
         case .ETH: return "WETH"
         case .USDT: return "USDT"
