@@ -252,7 +252,7 @@
 "P2P Order History" = "P2P 거래 기록";
 "Enter the address" = "주소를 입력해주세요";
 "Available Balance" = "잔액";
-"Available" = "Available";
+"Available" = "Balance";
 "Transaction Fee" = "거래 수수료";
 "Decimals" = "Decimals";
 
@@ -409,6 +409,7 @@
 "No-data-orderbook" = "Orderbook is empty";
 "No-data-transaction" = "No trade yet";
 "No-data-order" = "No order yet";
+"No-opened-order" = "No opened order yet";
 "No-data-asset" = "No transaction yet";
 "No-data-contact" = "No contact yet";
 "No-data-flash" = "No related quick pulse";

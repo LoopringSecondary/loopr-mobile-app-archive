@@ -226,7 +226,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
                     let nib = Bundle.main.loadNibNamed("OrderNoDataTableViewCell", owner: self, options: nil)
                     cell = nib![0] as? OrderNoDataTableViewCell
                 }
-                cell?.noDataLabel.text = LocalizedString("No-data-order", comment: "")
+                cell?.noDataLabel.text = LocalizedString("No-opened-order", comment: "")
                 cell?.noDataImageView.image = UIImage(named: "No-data-order")
                 return cell!
             } else {

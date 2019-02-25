@@ -266,7 +266,7 @@
 "P2P Order History" = "P2P Order History";
 "Enter the address" = "Enter the address";
 "Available Balance" = "Available Balance";
-"Available" = "Available";
+"Available" = "Balance";
 "Can Buy" = "Can Buy";
 "Tx Fee Limit" = "Tx Fee Limit";
 "Loopring_TIP" = "Please use wallet supporting Loopring protocol to scan";
@@ -444,6 +444,7 @@
 "No-data-orderbook" = "Orderbook is empty";
 "No-data-transaction" = "No trade yet";
 "No-data-order" = "No order yet";
+"No-opened-order" = "No opened order yet";
 "No-data-asset" = "No transaction yet";
 "No-data-contact" = "No contact yet";
 "No-data-flash" = "No related quick pulse";

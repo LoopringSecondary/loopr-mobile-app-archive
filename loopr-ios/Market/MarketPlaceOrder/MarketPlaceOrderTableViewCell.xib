@@ -203,7 +203,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.000 LRC" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jWc-lh-FFB">
-                                                <rect key="frame" x="42.000000000000007" y="4" width="117.66666666666669" height="20"/>
+                                                <rect key="frame" x="34.000000000000007" y="4" width="125.66666666666669" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -215,14 +215,14 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.000 ETH" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oaV-gL-s8H">
-                                                <rect key="frame" x="42.000000000000007" y="26" width="117.66666666666669" height="20.333333333333329"/>
+                                                <rect key="frame" x="34.000000000000007" y="26" width="125.66666666666669" height="20.333333333333329"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="jWc-lh-FFB" firstAttribute="leading" secondItem="fZO-7C-KU1" secondAttribute="trailing" constant="8" id="8X6-6c-LPx"/>
+                                            <constraint firstItem="jWc-lh-FFB" firstAttribute="leading" secondItem="fZO-7C-KU1" secondAttribute="trailing" id="8X6-6c-LPx"/>
                                             <constraint firstItem="oaV-gL-s8H" firstAttribute="leading" secondItem="jWc-lh-FFB" secondAttribute="leading" id="Agm-Tu-Acz"/>
                                             <constraint firstItem="oaV-gL-s8H" firstAttribute="height" secondItem="VEW-Ml-QHI" secondAttribute="height" id="B6d-5X-sI5"/>
                                             <constraint firstItem="jWc-lh-FFB" firstAttribute="height" secondItem="fZO-7C-KU1" secondAttribute="height" id="ByP-mS-CXM"/>
@@ -319,6 +319,7 @@
                 <outlet property="amountTextField" destination="3rl-lT-WpM" id="LQM-Zk-aht"/>
                 <outlet property="amountView" destination="DLb-yv-8aL" id="mE4-tg-BrL"/>
                 <outlet property="availableAmountInfoLabel" destination="fZO-7C-KU1" id="AiQ-Zs-zAc"/>
+                <outlet property="availableAmountInfoLabelWidthLayoutConstraint" destination="Kgm-qb-gDB" id="lp7-Zo-hzQ"/>
                 <outlet property="availableAmountLabel" destination="jWc-lh-FFB" id="biB-0i-MaC"/>
                 <outlet property="baseView" destination="aCh-6l-5LM" id="53g-a9-VUf"/>
                 <outlet property="buyTabButton" destination="J7V-ft-rli" id="Dag-yc-fFt"/>

@@ -60,6 +60,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     @IBOutlet weak var percentage100Button: UIButton!
     
     // Info
+    @IBOutlet weak var availableAmountInfoLabelWidthLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var availableAmountInfoLabel: UILabel!
     @IBOutlet weak var availableAmountLabel: UILabel!
     @IBOutlet weak var totalAmountInforLabel: UILabel!
@@ -195,7 +196,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // Info
         availableAmountInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         availableAmountInfoLabel.theme_textColor = GlobalPicker.textLightColor
-         availableAmountInfoLabel.text = LocalizedString("Available", comment: "")
+        availableAmountInfoLabel.text = LocalizedString("Available", comment: "")
+        availableAmountInfoLabelWidthLayoutConstraint.constant = availableAmountInfoLabel.text?.widthOfString(usingFont: availableAmountLabel.font) ?? 30
         
         availableAmountLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         availableAmountLabel.theme_textColor = GlobalPicker.textLightColor
@@ -414,12 +416,13 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         } else {
             amountTextField.text = amountValue.withCommas(14).trailingZero()
         }
+        // No need to update available label
+        // updateAvailableLabel()
     }
 
     func pressedDepthCell(depth: Depth) {
         // TODO: Should put it to func setPriceTextField(priceValue: Double)
         priceTextField.text = depth.price.toDecimalPlaces(decimalsSettingValue)
-        
         if let value = Double(priceTextField.text!.removeComma()) {
             setPriceTextField(priceValue: value)
         }
@@ -429,6 +432,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // The following implementation does have commas
         amountTextField.text = depth.amountAInDouble.withCommas(2).trailingZero()
         
+        // No need to update available label
+        // updateAvailableLabel()
         updateTotalLabels()
     }
     
@@ -446,17 +451,19 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             tokenS = PlaceOrderDataManager.shared.tokenA.symbol
         }
         if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenS) {
-            // Have to drop last chars due to the size
-            
             amountValue = asset.balance
             amountValueDecimal = asset.decimals
-            if amountValue > 100 {
-                amountValueDecimal = 4
-            } else if amountValue > 1000 {
+            if amountValue > 1000 {
+                amountValueDecimal = 0
+            } else if amountValue > 100 {
                 amountValueDecimal = 2
+            } else if totalValue > 10 {
+                amountValueDecimal = 4
+            } else {
+                amountValueDecimal = 6
             }
             
-            message = "\(asset.display) \(tokenS)"
+            message = "\(asset.balance.withCommas(amountValueDecimal).trailingZero()) \(tokenS)"
         } else {
             message = "0.0 \(tokenS)"
         }
@@ -487,10 +494,15 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
                 totalValue = priceValue * asset.balance
             }
             totalValueDecimal = asset.decimals
-            if totalValue > 100 {
-                totalValueDecimal = 4
-            } else if totalValue > 1000 {
+            
+            if totalValue > 1000 {
+                totalValueDecimal = 0
+            } else if totalValue > 100 {
                 totalValueDecimal = 2
+            } else if totalValue > 10 {
+                totalValueDecimal = 4
+            } else {
+                totalValueDecimal = 6
             }
             message = "\(totalValue.withCommas(totalValueDecimal).trailingZero()) \(tokenB)"
         } else {

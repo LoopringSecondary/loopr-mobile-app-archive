@@ -444,6 +444,7 @@
 "No-data-orderbook" = "还没有挂单";
 "No-data-transaction" = "还没有成交记录";
 "No-data-order" = "还没有订单记录";
+"No-opened-order" = "暂无限价单";
 "No-data-asset" = "还没有收付账记录";
 "No-data-contact" = "还没有地址";
 "No-data-flash" = "没有相关资讯";
