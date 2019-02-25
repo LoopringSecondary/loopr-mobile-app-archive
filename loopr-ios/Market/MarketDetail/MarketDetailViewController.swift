@@ -118,9 +118,9 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
     func updateHistoryButton() {
         var icon: UIImage?
         if Themes.isDark() {
-            icon = UIImage(named: "Order-history-dark")?.withRenderingMode(.alwaysOriginal)
+            icon = UIImage(named: "Trade-order-dark-small")?.withRenderingMode(.alwaysOriginal)
         } else {
-            icon = UIImage(named: "Order-history-light")?.withRenderingMode(.alwaysOriginal)
+            icon = UIImage(named: "Trade-order-dark-small")?.withRenderingMode(.alwaysOriginal)
         }
         let starButton = UIBarButtonItem(image: icon, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.pressHistoryButton(_:)))
         self.navigationItem.rightBarButtonItem = starButton
