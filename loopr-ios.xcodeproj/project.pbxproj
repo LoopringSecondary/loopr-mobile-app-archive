@@ -125,6 +125,8 @@
 		9B018DC621FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */; };
 		9B018DC821FC3096009D079D /* TimeAgoSince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC721FC3096009D079D /* TimeAgoSince.swift */; };
 		9B15B842221A92D400B58C40 /* OrderHistoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B841221A92D400B58C40 /* OrderHistoryHeaderView.swift */; };
+		9B15B84B2223A80F00B58C40 /* CancelOrderConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */; };
+		9B15B84C2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */; };
 		9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */; };
 		9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */; };
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
@@ -713,6 +715,8 @@
 		9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailSeperateLineTableViewCell.xib; sourceTree = "<group>"; };
 		9B018DC721FC3096009D079D /* TimeAgoSince.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAgoSince.swift; sourceTree = "<group>"; };
 		9B15B841221A92D400B58C40 /* OrderHistoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistoryHeaderView.swift; sourceTree = "<group>"; };
+		9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderConfirmationViewController.swift; sourceTree = "<group>"; };
+		9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelOrderConfirmationViewController.xib; sourceTree = "<group>"; };
 		9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
 		9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlType.swift; sourceTree = "<group>"; };
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
@@ -1339,6 +1343,15 @@
 			path = MarketPlaceOrderConfirmation;
 			sourceTree = "<group>";
 		};
+		9B15B8482223A7D800B58C40 /* CancelOrderConfirmation */ = {
+			isa = PBXGroup;
+			children = (
+				9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */,
+				9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */,
+			);
+			path = CancelOrderConfirmation;
+			sourceTree = "<group>";
+		};
 		9B2ED7EC21D4468000ACEE84 /* News */ = {
 			isa = PBXGroup;
 			children = (
@@ -1416,6 +1429,7 @@
 				9B82E78C221902FE009441BD /* MarketPlaceOrderTableViewCellRight.swift */,
 				9B82E788221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift */,
 				9B82E789221809E2009441BD /* MarketPlaceOrderbookTableViewCell.xib */,
+				9B15B8482223A7D800B58C40 /* CancelOrderConfirmation */,
 				9B15B843221E917B00B58C40 /* MarketPlaceOrderConfirmation */,
 			);
 			path = MarketPlaceOrder;
@@ -2829,6 +2843,7 @@
 				9B2ED81B21D85DC700ACEE84 /* NewsDetailViewController.xib in Resources */,
 				ACB41A7020B54BB300A92C9D /* AuthenticationViewController.xib in Resources */,
 				94AEF3B7218AA6A900112AAC /* ThirdPartyViewController.xib in Resources */,
+				9B15B84C2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib in Resources */,
 				AC9FFF2E2126C07800957175 /* MarketChangeTokenTableViewCell.xib in Resources */,
 				AC6A3479210D740500AE615B /* MarketDetailSwipeViewController.xib in Resources */,
 				94AA0A9E211550440092D2CE /* PlaceOrderConfirmationViewController.xib in Resources */,
@@ -3299,6 +3314,7 @@
 				AC8866A4217C2D5500815DD1 /* GradientButton.swift in Sources */,
 				AC31CE17205A121000A30335 /* NumericKeyboardProtocol.swift in Sources */,
 				AC31CE142057B5A400A30335 /* TradeReviewViewController.swift in Sources */,
+				9B15B84B2223A80F00B58C40 /* CancelOrderConfirmationViewController.swift in Sources */,
 				AC128D3E21993BF300939F4E /* WalletViewControllerGetDataFromRelay.swift in Sources */,
 				AC1B6D7E2130FB510026C1B2 /* Bytes+SecureRandom.swift in Sources */,
 				AC4F601620773E9D00F1D954 /* EthTypeEncoder.swift in Sources */,
