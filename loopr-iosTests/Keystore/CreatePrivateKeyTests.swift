@@ -36,7 +36,7 @@ class CreatePrivateKeyTests: XCTestCase {
         print(keystoreKey1.address.eip55String)
         
         // Private key
-        print(decrypted1.hexString)
+        print(decrypted1.toHexString())
         
         let keystoneKey2 = try! KeystoreKey(password: password, key: decrypted1)
         
@@ -55,7 +55,7 @@ class CreatePrivateKeyTests: XCTestCase {
         print(keystoreKey1.address.eip55String)
         
         // Private key
-        print(decrypted1.hexString)
+        print(decrypted1.toHexString())
         
         // If the password is different, then it should return an invalid input error.
         XCTAssertThrowsError(try KeystoreKey(password: "password", key: decrypted1)) { error in
@@ -77,9 +77,9 @@ class CreatePrivateKeyTests: XCTestCase {
         print("Public key: \(keystoreKey1.address.eip55String)")
         
         // Private key
-        print("Private key: \(decrypted1.hexString)")
+        print("Private key: \(decrypted1.toHexString())")
 
-        let privateKeyString = decrypted1.hexString
+        let privateKeyString = decrypted1.toHexString()
 
         // TODO: seems create a KeystoreKey doesn't need any password.
         // The password is used to generate a keystore immediately.

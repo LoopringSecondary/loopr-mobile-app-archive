@@ -38,10 +38,10 @@ class _KeystoreAndWeb3SwiftTests: XCTestCase {
         
         // Private key
         let privateKey = wallet.getKey(at: 0).privateKey
-        print(privateKey.hexString)
-        XCTAssertEqual(privateKey.hexString, correctPrivateKey)
+        print(privateKey.toHexString())
+        XCTAssertEqual(privateKey.toHexString(), correctPrivateKey)
         
-        guard let data = Data(hexString: privateKey.hexString) else {
+        guard let data = Data(hexString: privateKey.toHexString()) else {
             return // .failure(KeystoreError.failedToImportPrivateKey)
         }
         do {
@@ -119,7 +119,7 @@ class _KeystoreAndWeb3SwiftTests: XCTestCase {
         
         let data = Data(hexString: a)!
         
-        print(data.hexString)
+        print(data.toHexString())
     }
     
     func test12() {

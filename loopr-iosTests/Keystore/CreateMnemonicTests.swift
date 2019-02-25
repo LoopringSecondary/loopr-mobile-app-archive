@@ -64,7 +64,7 @@ class CreateMnemonicTests: XCTestCase {
         
         // Private key
         let privateKey = wallet.getKey(at: 0).privateKey
-        print(privateKey.hexString)
+        print(privateKey.toHexString())
     }
     
     func testMnemonic24() {
@@ -82,7 +82,7 @@ class CreateMnemonicTests: XCTestCase {
         
         // Private key
         let privateKey = wallet.getKey(at: 0).privateKey
-        print(privateKey.hexString)
+        print(privateKey.toHexString())
     }
 
 }

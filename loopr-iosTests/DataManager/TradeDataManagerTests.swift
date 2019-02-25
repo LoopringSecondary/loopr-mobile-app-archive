@@ -37,7 +37,7 @@ class TradeDataManagerTests: XCTestCase {
     // TODO: This test will cause crash. So disable it.
     func _test1() {
         let data = TradeDataManager.shared.encode()
-        print(data.hexString)
+        print(data.toHexString())
     }
     
     func test2() {
@@ -60,7 +60,7 @@ class TradeDataManagerTests: XCTestCase {
         let data = "dcbac2731b334e2ac624bf028018c84947429eb9c378af5fbdc2b53d2495c530b94065482ad64d4c2b9252358d746b39e820a5820000"
         let data1 = Data(bytes: data.hexBytes)
         let hash = data1.sha3(SHA3.Variant.keccak256)
-        print(hash.hexString)
+        print(hash.toHexString())
     }
     
     func test4() {
