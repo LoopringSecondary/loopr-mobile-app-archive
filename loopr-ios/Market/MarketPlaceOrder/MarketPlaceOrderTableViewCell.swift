@@ -457,7 +457,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
                 amountValueDecimal = 0
             } else if amountValue > 100 {
                 amountValueDecimal = 2
-            } else if totalValue > 10 {
+            } else if amountValue > 10 {
                 amountValueDecimal = 4
             } else {
                 amountValueDecimal = 6

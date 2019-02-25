@@ -34,6 +34,7 @@ extension Double {
         numberFormatter.numberStyle = .decimal
         numberFormatter.roundingMode = .floor
         numberFormatter.minimumFractionDigits = minimumFractionDigits
+        numberFormatter.maximumFractionDigits = minimumFractionDigits
         if let formattedNumber = numberFormatter.string(from: NSNumber(value: self)) {
             return formattedNumber
         } else {
