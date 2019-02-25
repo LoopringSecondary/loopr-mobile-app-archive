@@ -85,14 +85,12 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l3p-Wh-PIA">
                                                 <rect key="frame" x="4" y="0.0" width="34" height="34"/>
-                                                <state key="normal" title="-"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Hq-Qt-M5g">
                                                 <rect key="frame" x="125.66666666666666" y="0.0" width="34" height="34"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="3Hq-Qt-M5g" secondAttribute="height" id="duT-2G-Lim"/>
                                                 </constraints>
-                                                <state key="normal" title="+"/>
                                             </button>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O9z-BB-wad">
                                                 <rect key="frame" x="40.000000000000007" y="0.0" width="83.666666666666686" height="34"/>
@@ -125,14 +123,12 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="eo8-eQ-qm6" secondAttribute="height" id="ruq-H8-t30"/>
                                                 </constraints>
-                                                <state key="normal" title="-"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Df-Ck-LHP">
                                                 <rect key="frame" x="125.66666666666666" y="0.0" width="34" height="34"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="1Df-Ck-LHP" secondAttribute="height" id="AHj-oq-RLY"/>
                                                 </constraints>
-                                                <state key="normal" title="+"/>
                                             </button>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Amount" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3rl-lT-WpM">
                                                 <rect key="frame" x="40.000000000000007" y="0.0" width="83.666666666666686" height="34"/>

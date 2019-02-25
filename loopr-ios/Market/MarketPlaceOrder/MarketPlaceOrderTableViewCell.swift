@@ -121,10 +121,12 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         minusPriceStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
         minusPriceStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
         minusPriceStepperButton.addTarget(self, action: #selector(pressedMinusPriceStepperButton), for: .touchUpInside)
+        minusPriceStepperButton.setImage(UIImage(named: "Minus-button-dark")?.alpha(0.9), for: .normal)
 
         plusPriceStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
         plusPriceStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
         plusPriceStepperButton.addTarget(self, action: #selector(pressedPlusPriceStepperButton), for: .touchUpInside)
+        plusPriceStepperButton.setImage(UIImage(named: "Add-button-dark")?.alpha(0.9), for: .normal)
 
         priceTextField.delegate = self
         priceTextField.tag = 0
@@ -147,10 +149,12 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         minusAmountStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
         minusAmountStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
         minusAmountStepperButton.addTarget(self, action: #selector(pressedMinusAmountStepperButton), for: .touchUpInside)
+        minusAmountStepperButton.setImage(UIImage(named: "Minus-button-dark")?.alpha(0.9), for: .normal)
 
         plusAmountStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
         plusAmountStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
         plusAmountStepperButton.addTarget(self, action: #selector(pressedPlusAmountStepperButton), for: .touchUpInside)
+        plusAmountStepperButton.setImage(UIImage(named: "Add-button-dark")?.alpha(0.9), for: .normal)
 
         amountTextField.delegate = self
         amountTextField.tag = 1
