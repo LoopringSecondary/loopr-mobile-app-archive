@@ -42,12 +42,4 @@ extension Double {
         }        
     }
 
-//    func withCommas(_ digits: Int = 4) -> String {
-//        let formatter = NumberFormatter()
-//        formatter.maximumFractionDigits = digits
-//        formatter.roundingMode = .floor
-//        formatter.numberStyle = .decimal
-//        let myNumber = NSNumber(value: self)
-//        return formatter.string(from: myNumber)!
-//    }
 }
