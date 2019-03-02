@@ -23,6 +23,7 @@ class Depth {
     let amountB: String
     let amountBInDouble: Double
     
+    // The data structure has amountA and amountB. However, don't remember what are different.
     init(market: String, price: String, amountA: String, amountB: String) {
         self.market = market
         self.price = price

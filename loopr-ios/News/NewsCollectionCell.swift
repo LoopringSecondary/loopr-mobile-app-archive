@@ -170,15 +170,6 @@ class NewsCollectionCell: UICollectionViewCell {
         } else {
             descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: NewsUIStyleConfig.shared.newsDescriptionNormalFont)
         }
-        
-        // descriptionTextView.font = FontConfigManager.shared.getRegularFont(size: 14)
-        /*
-        if isExpanded {
-            descriptionTextView.theme_textColor = GlobalPicker.textColor
-        } else {
-            descriptionTextView.theme_textColor = GlobalPicker.textLightColor
-        }
-        */
 
         updateVoteButtons()
         shareButton.setTitle(LocalizedString("Share", comment: ""), for: .normal)

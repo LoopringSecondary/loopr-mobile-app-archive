@@ -110,7 +110,7 @@ class Localizator {
             UserDefaults.standard.set([newLanguage], forKey: "AppleLanguages")
             UserDefaults.standard.synchronize()
             
-            if syncToServer{
+            if syncToServer {
                 AppServiceUserManager.shared.updateUserConfigWithUserDefaults()
             }
 

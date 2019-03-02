@@ -22,7 +22,6 @@ class SettingChangeWalletNameViewController: UIViewController, UITextFieldDelega
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         self.navigationItem.title = LocalizedString("Wallet Name", comment: "")
         setBackButton()
         view.theme_backgroundColor = ColorPicker.backgroundColor

@@ -18,7 +18,6 @@ class DisplayContractVersionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         setBackButton()
         self.navigationItem.title = LocalizedString("Contract Version", comment: "")
         view.theme_backgroundColor = ColorPicker.backgroundColor
