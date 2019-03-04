@@ -37,8 +37,7 @@ def shared_pods
     # Pods for keystone
     pod 'Geth', '1.8.8'
     pod 'BigInt', '3.0.1'
-    # We are using Swift 4.0. CryptoSwift 0.9.0 is using Swift 4.1
-    pod 'CryptoSwift', '0.8.3'
+    pod 'CryptoSwift', '0.14.0'
     pod 'secp256k1_ios', git: 'https://github.com/xiaowheat/secp256k1_ios.git'
     pod 'TrezorCrypto', '0.0.9', inhibit_warnings: true
     pod 'SipHash', '1.2.0'

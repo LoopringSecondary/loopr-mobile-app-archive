@@ -173,15 +173,15 @@ public enum IVBlockModeType: String {
     public func blockMode(iv: [UInt8]) -> BlockMode {
         switch self {
         case .cbc:
-            return BlockMode.CBC(iv: iv)
+            return CBC(iv: iv)
         case .cfb:
-            return BlockMode.CFB(iv: iv)
+            return CFB(iv: iv)
         case .ctr:
-            return BlockMode.CTR(iv: iv)
+            return CTR(iv: iv)
         case .ofb:
-            return BlockMode.OFB(iv: iv)
+            return OFB(iv: iv)
         case .pcbc:
-            return BlockMode.OFB(iv: iv)
+            return OFB(iv: iv)
         }
     }
 }

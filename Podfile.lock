@@ -7,7 +7,7 @@ PODS:
   - Charts/Core (3.2.1)
   - Crashlytics (3.12.0):
     - Fabric (~> 1.9.0)
-  - CryptoSwift (0.8.3)
+  - CryptoSwift (0.14.0)
   - ESTabBarController-swift (2.6.4)
   - Fabric (1.9.0)
   - Geth (1.8.8)
@@ -45,7 +45,7 @@ DEPENDENCIES:
   - CDMarkdownKit (= 1.2.1)
   - Charts (= 3.2.1)
   - Crashlytics
-  - CryptoSwift (= 0.8.3)
+  - CryptoSwift (= 0.14.0)
   - ESTabBarController-swift
   - Fabric
   - Geth (= 1.8.8)
@@ -124,7 +124,7 @@ SPEC CHECKSUMS:
   CDMarkdownKit: 5b0a629f057c1b07e79d7eeaa62693381029fbdb
   Charts: f122fb70b19847fa5817d018b77d6c5a2296ab25
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
-  CryptoSwift: 033efc3523865d19cc6ab6612fa17a62613b5dfa
+  CryptoSwift: 35a10419f4dbf0619c13f8c1c180037e115323fa
   ESTabBarController-swift: 58cca4ab7de980657d99a02181c1ff310983e975
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   Geth: 483ea44b5f930b72320218290b939ba8e2389aaf
@@ -149,6 +149,6 @@ SPEC CHECKSUMS:
   web3.swift: 7b89fef89eb474685b7ffaf50a9eb30b9727f1d7
   WeChat_SDK: 681388233ac24a3ed6c4803cb3e0b6d3602050aa
 
-PODFILE CHECKSUM: 970e30e0daf2e0f8057fa14e73388ce9b856476e
+PODFILE CHECKSUM: 03901bd05a82754b82b33058e50892103ee3743e
 
 COCOAPODS: 1.5.3

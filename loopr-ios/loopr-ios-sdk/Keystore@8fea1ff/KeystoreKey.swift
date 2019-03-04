@@ -66,7 +66,7 @@ public struct KeystoreKey {
         let derivedKey = try scrypt.calculate(password: password)
 
         let encryptionKey = derivedKey[0...15]
-        let aecCipher = try AES(key: encryptionKey.bytes, blockMode: .CTR(iv: cipherParams.iv.bytes), padding: .noPadding)
+        let aecCipher = try AES(key: encryptionKey.bytes, blockMode: CTR(iv: cipherParams.iv.bytes), padding: .noPadding)
 
         let encryptedKey = try aecCipher.encrypt(key.bytes)
         let prefix = derivedKey[(derivedKey.count - 16) ..< derivedKey.count]
@@ -106,10 +106,10 @@ public struct KeystoreKey {
         let decryptedPK: [UInt8]
         switch crypto.cipher {
         case "aes-128-ctr":
-            let aesCipher = try AES(key: decryptionKey.bytes, blockMode: .CTR(iv: crypto.cipherParams.iv.bytes), padding: .noPadding)
+            let aesCipher = try AES(key: decryptionKey.bytes, blockMode: CTR(iv: crypto.cipherParams.iv.bytes), padding: .noPadding)
             decryptedPK = try aesCipher.decrypt(crypto.cipherText.bytes)
         case "aes-128-cbc":
-            let aesCipher = try AES(key: decryptionKey.bytes, blockMode: .CBC(iv: crypto.cipherParams.iv.bytes), padding: .noPadding)
+            let aesCipher = try AES(key: decryptionKey.bytes, blockMode: CBC(iv: crypto.cipherParams.iv.bytes), padding: .noPadding)
             decryptedPK = try aesCipher.decrypt(crypto.cipherText.bytes)
         default:
             throw DecryptError.unsupportedCipher
