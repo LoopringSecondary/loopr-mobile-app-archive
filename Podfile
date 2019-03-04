@@ -22,6 +22,7 @@ def shared_pods
     pod 'UMCCommon'
     pod 'UMCAnalytics'
 
+    # We use 5.x branch to use transform function in SDWebImage
     pod 'SDWebImage', git: 'https://github.com/SDWebImage/SDWebImage.git', :branch => '5.x'
     
     # Note from cocoapods https://github.com/CocoaPods/CocoaPods/issues/7238
@@ -36,6 +37,7 @@ def shared_pods
     # Pods for keystone
     pod 'Geth', '1.8.8'
     pod 'BigInt', '3.0.1'
+    # We are using Swift 4.0. CryptoSwift 0.9.0 is using Swift 4.1
     pod 'CryptoSwift', '0.8.3'
     pod 'secp256k1_ios', git: 'https://github.com/xiaowheat/secp256k1_ios.git'
     pod 'TrezorCrypto', '0.0.9', inhibit_warnings: true
