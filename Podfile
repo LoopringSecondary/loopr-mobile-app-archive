@@ -41,7 +41,7 @@ def shared_pods
     pod 'TrezorCrypto', '0.0.9', inhibit_warnings: true
     pod 'SipHash', '1.2.0'
     
-    pod 'web3.swift', git: 'https://github.com/xiaowheat/web3.swift.git'
+    pod 'web3.swift', git: 'https://github.com/Loopring/web3.swift.git'
 end
 
 target 'loopr-ios' do

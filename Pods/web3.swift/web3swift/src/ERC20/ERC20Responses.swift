@@ -46,7 +46,7 @@ enum ERC20Responses {
             self.value = try ABIDecoder.decode(values[0], to: BigUInt.self)
         }
     }
-    
+
     struct bindResponse: ABIResponse {
         static var types: [ABIType.Type] = [ String.self ]
         let value: String
@@ -55,4 +55,5 @@ enum ERC20Responses {
             self.value = try ABIDecoder.decode(values[0], to: String.self)
         }
     }
+
 }
