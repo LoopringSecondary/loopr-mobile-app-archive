@@ -97,6 +97,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             print("Found keys.plist")
             WXApi.registerApp(getWechatAppId()!)
         }
+        
+        // CloudBackup
+        // print(CloudBackDataManager.shared.get())
 
         return true
     }
