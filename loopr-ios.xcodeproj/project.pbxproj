@@ -127,8 +127,9 @@
 		9B15B842221A92D400B58C40 /* OrderHistoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B841221A92D400B58C40 /* OrderHistoryHeaderView.swift */; };
 		9B15B84B2223A80F00B58C40 /* CancelOrderConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */; };
 		9B15B84C2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */; };
-		9B15B85F222E603B00B58C40 /* ASEGCMTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B85E222E603B00B58C40 /* ASEGCMTestCase.swift */; };
 		9B15B86222323AE200B58C40 /* CloudBackDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86122323AE200B58C40 /* CloudBackDataManager.swift */; };
+		9B15B8652233A50B00B58C40 /* ASE_GCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8642233A50B00B58C40 /* ASE_GCM.swift */; };
+		9B15B86A2233A55F00B58C40 /* ASEGCMTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8692233A55F00B58C40 /* ASEGCMTestCase.swift */; };
 		9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */; };
 		9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */; };
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
@@ -719,8 +720,9 @@
 		9B15B841221A92D400B58C40 /* OrderHistoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistoryHeaderView.swift; sourceTree = "<group>"; };
 		9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderConfirmationViewController.swift; sourceTree = "<group>"; };
 		9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelOrderConfirmationViewController.xib; sourceTree = "<group>"; };
-		9B15B85E222E603B00B58C40 /* ASEGCMTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ASEGCMTestCase.swift; path = "loopr-iosTests/ASEGCMTestCase.swift"; sourceTree = SOURCE_ROOT; };
 		9B15B86122323AE200B58C40 /* CloudBackDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackDataManager.swift; sourceTree = "<group>"; };
+		9B15B8642233A50B00B58C40 /* ASE_GCM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASE_GCM.swift; sourceTree = "<group>"; };
+		9B15B8692233A55F00B58C40 /* ASEGCMTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ASEGCMTestCase.swift; path = "loopr-iosTests/CloudBackup/ASEGCMTestCase.swift"; sourceTree = SOURCE_ROOT; };
 		9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
 		9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlType.swift; sourceTree = "<group>"; };
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
@@ -1356,21 +1358,29 @@
 			path = CancelOrderConfirmation;
 			sourceTree = "<group>";
 		};
-		9B15B85D222E5FB700B58C40 /* CloudBackup */ = {
-			isa = PBXGroup;
-			children = (
-				9B15B85E222E603B00B58C40 /* ASEGCMTestCase.swift */,
-			);
-			name = CloudBackup;
-			path = "New Group1";
-			sourceTree = "<group>";
-		};
 		9B15B86022323AB600B58C40 /* CloudBackup */ = {
 			isa = PBXGroup;
 			children = (
 				9B15B86122323AE200B58C40 /* CloudBackDataManager.swift */,
 			);
 			path = CloudBackup;
+			sourceTree = "<group>";
+		};
+		9B15B86322325AF300B58C40 /* ASE_GCM */ = {
+			isa = PBXGroup;
+			children = (
+				9B15B8642233A50B00B58C40 /* ASE_GCM.swift */,
+			);
+			path = ASE_GCM;
+			sourceTree = "<group>";
+		};
+		9B15B8682233A55000B58C40 /* CloudBackup */ = {
+			isa = PBXGroup;
+			children = (
+				9B15B8692233A55F00B58C40 /* ASEGCMTestCase.swift */,
+			);
+			name = CloudBackup;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		9B2ED7EC21D4468000ACEE84 /* News */ = {
@@ -1956,6 +1966,7 @@
 				ACDBF10F203FEC96000F0DEC /* UIConfig */,
 				ACB5DD85202AD74D00140A09 /* UIComponents */,
 				AC5E3E72205E21E00051ACFC /* NotificationCenter */,
+				9B15B86322325AF300B58C40 /* ASE_GCM */,
 				ACB911672025470B00F14644 /* DataManagers */,
 				ACB9115E20242E2400F14644 /* Models */,
 				ACB9116C2025572700F14644 /* Market */,
@@ -1986,7 +1997,7 @@
 		AC798E582022B93B0071D477 /* loopr-iosTests */ = {
 			isa = PBXGroup;
 			children = (
-				9B15B85D222E5FB700B58C40 /* CloudBackup */,
+				9B15B8682233A55000B58C40 /* CloudBackup */,
 				AC0CD58C20D3964500ABB7BA /* ImportWallet */,
 				AC0CD58720D38B9400ABB7BA /* CreateWallet */,
 				ACE65E3C2071C6BE001EE499 /* Web3Swift */,
@@ -3273,6 +3284,7 @@
 				ACB8485920BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.swift in Sources */,
 				9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */,
 				AC9280E92030C7440009B574 /* UIColorExtensions.swift in Sources */,
+				9B15B8652233A50B00B58C40 /* ASE_GCM.swift in Sources */,
 				AC4141F920352DA70089861D /* SwipeTabView.swift in Sources */,
 				AC4141F320352C460089861D /* SwipeViewController.swift in Sources */,
 				9457417020D0E9CD00110CFD /* CancelOrder.swift in Sources */,
@@ -3538,7 +3550,6 @@
 				AC1E4BB8204B28D000C6B1FA /* WalletTests.swift in Sources */,
 				94580025205921D600E08DEF /* PriceQuoteDataManagerTests.swift in Sources */,
 				AC0CE96D209E4BB60072A6EC /* GethBigIntTests.swift in Sources */,
-				9B15B85F222E603B00B58C40 /* ASEGCMTestCase.swift in Sources */,
 				ACA677CC207C8A0500D34A2F /* KeystoreAndWeb3SwiftTests.swift in Sources */,
 				AC2D2C0D2089D23E00D619AD /* ImportKeystoreTests.swift in Sources */,
 				ACCC7EA32082BE0B008E58BA /* ImportMnemonicTests.swift in Sources */,
@@ -3553,6 +3564,7 @@
 				AC1E4BC6204B58D400C6B1FA /* CreatePrivateKeyTests.swift in Sources */,
 				AC1E4BBC204B420D00C6B1FA /* KeystoreIntegrationTests.swift in Sources */,
 				AC9280DD202E0F9F0009B574 /* EthereumAPIRequestTests.swift in Sources */,
+				9B15B86A2233A55F00B58C40 /* ASEGCMTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

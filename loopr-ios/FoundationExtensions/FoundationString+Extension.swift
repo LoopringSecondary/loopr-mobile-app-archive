@@ -309,4 +309,30 @@ extension String {
     func hexString() -> String {
         return self.data(using: .utf8)?.hexString ?? ""
     }
+    
+    func hexToString() -> String? {
+        guard self.count % 2 == 0 else {
+            return nil
+        }
+        
+        var bytes = [CChar]()
+        
+        var startIndex = self.index(self.startIndex, offsetBy: 0)
+        while startIndex < self.endIndex {
+            let endIndex = self.index(startIndex, offsetBy: 2)
+            let substr = self[startIndex..<endIndex]
+            
+            if let byte = Int8(substr, radix: 16) {
+                bytes.append(byte)
+            } else {
+                return nil
+            }
+            
+            startIndex = endIndex
+        }
+        
+        bytes.append(0)
+        return String(cString: bytes)
+    }
+
 }

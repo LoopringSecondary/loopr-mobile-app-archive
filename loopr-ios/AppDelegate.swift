@@ -100,6 +100,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         // CloudBackup
         // print(CloudBackDataManager.shared.get())
+        // Example: move to other places
+        let (encrypted, authenticationTag) = ASE_GCM.encryptEncoded(plainText: "hello world")
+        let plainText = ASE_GCM.decryptEncoded(cipherText: encrypted, authenticationTag: authenticationTag)!.hexToString()
 
         return true
     }
