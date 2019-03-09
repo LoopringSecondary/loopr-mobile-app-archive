@@ -104,10 +104,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         let plainText = "hello world"
         
         // The size of the key has to be 16 bytes (AES-128), 24 bytes (AES-192), 32 bytes (AES-256)
-        let key = "loopringloopringloopringloopring".hexString().hexBytes
+        let secretKeyPlainText = "loopringloopringloopringloopring"
+        let secretKey = ASE_GCM.strengthenKey(plaintext: secretKeyPlainText)
         
-        let (encrypted, authenticationTag) = ASE_GCM.encryptEncoded(plainText: plainText, key: key)
-        let decrypted = ASE_GCM.decryptEncoded(cipherText: encrypted, authenticationTag: authenticationTag, key: key)!.hexToString()
+        let text2 = "hello world"
+        let secretKey2 = ASE_GCM.strengthenKey(plaintext: text2)
+        // if secretKey == secretKey2 {
+        //     print("fail")
+        // }
+        print(secretKey.hexString.hexString())
+        print(secretKey2.hexString.hexString())
+        
+        let (encrypted, authenticationTag) = ASE_GCM.encryptEncoded(plainText: plainText, secretKey: secretKey2)
+        let decrypted = ASE_GCM.decryptEncoded(cipherText: encrypted, authenticationTag: authenticationTag, secretKey: secretKey2)!.hexToString()
         print(decrypted)
 
         return true
