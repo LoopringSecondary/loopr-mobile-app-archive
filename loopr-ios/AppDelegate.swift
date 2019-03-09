@@ -101,8 +101,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         // CloudBackup
         // print(CloudBackDataManager.shared.get())
         // Example: move to other places
-        let (encrypted, authenticationTag) = ASE_GCM.encryptEncoded(plainText: "hello world")
-        let plainText = ASE_GCM.decryptEncoded(cipherText: encrypted, authenticationTag: authenticationTag)!.hexToString()
+        let plainText = "hello world"
+        
+        // The size of the key has to be 16 bytes (AES-128), 24 bytes (AES-192), 32 bytes (AES-256)
+        let key = "loopringloopringloopringloopring".hexString().hexBytes
+        
+        let (encrypted, authenticationTag) = ASE_GCM.encryptEncoded(plainText: plainText, key: key)
+        let decrypted = ASE_GCM.decryptEncoded(cipherText: encrypted, authenticationTag: authenticationTag, key: key)!.hexToString()
+        print(decrypted)
 
         return true
     }

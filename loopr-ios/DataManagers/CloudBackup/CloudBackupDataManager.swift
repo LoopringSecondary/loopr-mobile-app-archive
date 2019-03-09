@@ -8,9 +8,9 @@
 
 import Foundation
 
-class CloudBackDataManager {
+class CloudBackupDataManager {
     
-    static let shared = CloudBackDataManager()
+    static let shared = CloudBackupDataManager()
     
     private init() {
         
@@ -24,7 +24,7 @@ class CloudBackDataManager {
     
     func get() -> String? {
         let keyStore = NSUbiquitousKeyValueStore()
-        let storedUserName = keyStore.string(forKey: "userName")
+        let storedUserName = keyStore.string(forKey: "upwallet")
         return storedUserName
     }
     

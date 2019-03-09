@@ -127,7 +127,7 @@
 		9B15B842221A92D400B58C40 /* OrderHistoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B841221A92D400B58C40 /* OrderHistoryHeaderView.swift */; };
 		9B15B84B2223A80F00B58C40 /* CancelOrderConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */; };
 		9B15B84C2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */; };
-		9B15B86222323AE200B58C40 /* CloudBackDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86122323AE200B58C40 /* CloudBackDataManager.swift */; };
+		9B15B86222323AE200B58C40 /* CloudBackupDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86122323AE200B58C40 /* CloudBackupDataManager.swift */; };
 		9B15B8652233A50B00B58C40 /* ASE_GCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8642233A50B00B58C40 /* ASE_GCM.swift */; };
 		9B15B86A2233A55F00B58C40 /* ASEGCMTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8692233A55F00B58C40 /* ASEGCMTestCase.swift */; };
 		9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */; };
@@ -720,7 +720,7 @@
 		9B15B841221A92D400B58C40 /* OrderHistoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistoryHeaderView.swift; sourceTree = "<group>"; };
 		9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderConfirmationViewController.swift; sourceTree = "<group>"; };
 		9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelOrderConfirmationViewController.xib; sourceTree = "<group>"; };
-		9B15B86122323AE200B58C40 /* CloudBackDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackDataManager.swift; sourceTree = "<group>"; };
+		9B15B86122323AE200B58C40 /* CloudBackupDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupDataManager.swift; sourceTree = "<group>"; };
 		9B15B8642233A50B00B58C40 /* ASE_GCM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASE_GCM.swift; sourceTree = "<group>"; };
 		9B15B8692233A55F00B58C40 /* ASEGCMTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ASEGCMTestCase.swift; path = "loopr-iosTests/CloudBackup/ASEGCMTestCase.swift"; sourceTree = SOURCE_ROOT; };
 		9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
@@ -1361,7 +1361,7 @@
 		9B15B86022323AB600B58C40 /* CloudBackup */ = {
 			isa = PBXGroup;
 			children = (
-				9B15B86122323AE200B58C40 /* CloudBackDataManager.swift */,
+				9B15B86122323AE200B58C40 /* CloudBackupDataManager.swift */,
 			);
 			path = CloudBackup;
 			sourceTree = "<group>";
@@ -3213,7 +3213,7 @@
 				ACE9F0482186FD1A00695E37 /* AppDelegateNotificationExtension.swift in Sources */,
 				ACB5DD9C202D5B8000140A09 /* NumericKeyboardCell.swift in Sources */,
 				AC5E0991205F256500801738 /* AddTokenViewController.swift in Sources */,
-				9B15B86222323AE200B58C40 /* CloudBackDataManager.swift in Sources */,
+				9B15B86222323AE200B58C40 /* CloudBackupDataManager.swift in Sources */,
 				AC1BDECB2184E149002CF4ED /* LocalNotificationManager.swift in Sources */,
 				AC31B949204A8DF400B16155 /* Scrypt.swift in Sources */,
 				AC8DBC6D20BE8B0C007AC862 /* MnemonicBackupModeCollectionViewCell.swift in Sources */,
