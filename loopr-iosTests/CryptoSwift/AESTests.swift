@@ -9,8 +9,7 @@
 import XCTest
 import CryptoSwift
 
-class CryptoSwiftTestCase: XCTestCase {
-
+final class AESTests: XCTestCase {
     // 128 bit key
     let aesKey: Array<UInt8> = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f]
     
@@ -380,7 +379,7 @@ class CryptoSwiftTestCase: XCTestCase {
 }
 
 // MARK: - GCM
-extension CryptoSwiftTestCase {
+extension AESTests {
     func testAESGCMTestCase1() {
         // Test Case 1
         let key = Array<UInt8>(hex: "0x00000000000000000000000000000000")
@@ -632,5 +631,4 @@ extension CryptoSwiftTestCase {
         let decrypted = decrypt(encrypted)
         XCTAssertEqual(decrypted, plaintext)
     }
-
 }

@@ -129,13 +129,15 @@
 		9B15B84C2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */; };
 		9B15B86222323AE200B58C40 /* CloudBackupDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86122323AE200B58C40 /* CloudBackupDataManager.swift */; };
 		9B15B8652233A50B00B58C40 /* Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8642233A50B00B58C40 /* Encryption.swift */; };
-		9B15B86A2233A55F00B58C40 /* CryptoSwiftTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8692233A55F00B58C40 /* CryptoSwiftTestCase.swift */; };
+		9B15B86A2233A55F00B58C40 /* AESTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8692233A55F00B58C40 /* AESTests.swift */; };
 		9B15B86C2234893700B58C40 /* EncryptionConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86B2234893600B58C40 /* EncryptionConfigV1.swift */; };
 		9B15B86E223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86D223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift */; };
 		9B15B87022348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86F22348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift */; };
 		9B15B87222348EA500B58C40 /* KeyStrengtheningTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B87122348EA500B58C40 /* KeyStrengtheningTestCase.swift */; };
 		9B15B8762234957E00B58C40 /* EncryptionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8752234957D00B58C40 /* EncryptionTestCase.swift */; };
 		9B15B8782234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8772234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift */; };
+		9B15B87B2234C41D00B58C40 /* AESTestsPerf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B87A2234C41D00B58C40 /* AESTestsPerf.swift */; };
+		9B15B87D2234C5D700B58C40 /* PBKDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B87C2234C5D700B58C40 /* PBKDF.swift */; };
 		9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */; };
 		9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */; };
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
@@ -728,13 +730,15 @@
 		9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelOrderConfirmationViewController.xib; sourceTree = "<group>"; };
 		9B15B86122323AE200B58C40 /* CloudBackupDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupDataManager.swift; sourceTree = "<group>"; };
 		9B15B8642233A50B00B58C40 /* Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryption.swift; sourceTree = "<group>"; };
-		9B15B8692233A55F00B58C40 /* CryptoSwiftTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CryptoSwiftTestCase.swift; path = "loopr-iosTests/CloudBackup/CryptoSwiftTestCase.swift"; sourceTree = SOURCE_ROOT; };
+		9B15B8692233A55F00B58C40 /* AESTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AESTests.swift; path = "loopr-iosTests/CryptoSwift/AESTests.swift"; sourceTree = SOURCE_ROOT; };
 		9B15B86B2234893600B58C40 /* EncryptionConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionConfigV1.swift; sourceTree = "<group>"; };
 		9B15B86D223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionPBKDF2ConfigV1.swift; sourceTree = "<group>"; };
 		9B15B86F22348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionAESGCMConfigV1.swift; sourceTree = "<group>"; };
 		9B15B87122348EA500B58C40 /* KeyStrengtheningTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeyStrengtheningTestCase.swift; path = "loopr-iosTests/CloudBackup/KeyStrengtheningTestCase.swift"; sourceTree = SOURCE_ROOT; };
 		9B15B8752234957D00B58C40 /* EncryptionTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EncryptionTestCase.swift; path = "loopr-iosTests/CloudBackup/EncryptionTestCase.swift"; sourceTree = SOURCE_ROOT; };
 		9B15B8772234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionCloudBackupConfigV1.swift; sourceTree = "<group>"; };
+		9B15B87A2234C41D00B58C40 /* AESTestsPerf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AESTestsPerf.swift; sourceTree = "<group>"; };
+		9B15B87C2234C5D700B58C40 /* PBKDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBKDF.swift; sourceTree = "<group>"; };
 		9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
 		9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlType.swift; sourceTree = "<group>"; };
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
@@ -1393,12 +1397,21 @@
 		9B15B8682233A55000B58C40 /* CloudBackup */ = {
 			isa = PBXGroup;
 			children = (
-				9B15B8692233A55F00B58C40 /* CryptoSwiftTestCase.swift */,
 				9B15B87122348EA500B58C40 /* KeyStrengtheningTestCase.swift */,
 				9B15B8752234957D00B58C40 /* EncryptionTestCase.swift */,
 			);
 			name = CloudBackup;
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		9B15B8792234C36300B58C40 /* CryptoSwift */ = {
+			isa = PBXGroup;
+			children = (
+				9B15B8692233A55F00B58C40 /* AESTests.swift */,
+				9B15B87A2234C41D00B58C40 /* AESTestsPerf.swift */,
+				9B15B87C2234C5D700B58C40 /* PBKDF.swift */,
+			);
+			path = CryptoSwift;
 			sourceTree = "<group>";
 		};
 		9B2ED7EC21D4468000ACEE84 /* News */ = {
@@ -2015,6 +2028,7 @@
 		AC798E582022B93B0071D477 /* loopr-iosTests */ = {
 			isa = PBXGroup;
 			children = (
+				9B15B8792234C36300B58C40 /* CryptoSwift */,
 				9B15B8682233A55000B58C40 /* CloudBackup */,
 				AC0CD58C20D3964500ABB7BA /* ImportWallet */,
 				AC0CD58720D38B9400ABB7BA /* CreateWallet */,
@@ -3584,11 +3598,13 @@
 				9B15B8762234957E00B58C40 /* EncryptionTestCase.swift in Sources */,
 				AC1E4BC0204B51AB00C6B1FA /* ImportWalletTests.swift in Sources */,
 				9B15B87222348EA500B58C40 /* KeyStrengtheningTestCase.swift in Sources */,
+				9B15B87D2234C5D700B58C40 /* PBKDF.swift in Sources */,
 				943C657A209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift in Sources */,
 				AC1E4BC6204B58D400C6B1FA /* CreatePrivateKeyTests.swift in Sources */,
+				9B15B87B2234C41D00B58C40 /* AESTestsPerf.swift in Sources */,
 				AC1E4BBC204B420D00C6B1FA /* KeystoreIntegrationTests.swift in Sources */,
 				AC9280DD202E0F9F0009B574 /* EthereumAPIRequestTests.swift in Sources */,
-				9B15B86A2233A55F00B58C40 /* CryptoSwiftTestCase.swift in Sources */,
+				9B15B86A2233A55F00B58C40 /* AESTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
