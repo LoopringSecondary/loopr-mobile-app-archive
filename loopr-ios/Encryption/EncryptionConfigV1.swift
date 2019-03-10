@@ -16,4 +16,6 @@ class EncryptionConfigV1 {
     static let AESGCMConfigV1 = EncryptionAESGCMConfigV1()
     
     // icloud key
+    static let cloudBackupConfig = EncryptionCloudBackupConfigV1()
+
 }

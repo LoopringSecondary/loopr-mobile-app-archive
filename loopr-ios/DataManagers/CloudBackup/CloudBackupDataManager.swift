@@ -16,9 +16,13 @@ class CloudBackupDataManager {
         
     }
 
+    func getRawWalletData() {
+        
+    }
+
     func set() {
         let keyStore = NSUbiquitousKeyValueStore()
-        keyStore.set("John Appleseed", forKey: "userName")
+        keyStore.set("John Appleseed", forKey: EncryptionConfigV1.cloudBackupConfig.key)
         keyStore.synchronize()
     }
     

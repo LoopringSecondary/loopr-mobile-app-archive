@@ -26,6 +26,7 @@ class AppWallet: NSObject, NSCoding {
     final var mnemonics: [String]
     private final let keystoreString: String
 
+    // TODO: We may need to drop this value
     /*
     // TODO: deprecated after 1.3.2. Use devicePassword instead.
     // Only used when the wallet is imported using a private key and using mnemonics without password
@@ -178,6 +179,7 @@ class AppWallet: NSObject, NSCoding {
         
         let password = aDecoder.decodeObject(forKey: "password") as? String
         
+        // TODO: We may need to drop this value
         // Before 1.3.2, devicePassword is not available, use keystorePassword at that time.
         // devicePassword is also used to decode keystore file.
         let devicePassword = aDecoder.decodeObject(forKey: "devicePassword") as? String ?? "123456"
@@ -215,6 +217,20 @@ class AppWallet: NSObject, NSCoding {
     // TODO: this doesn't work in result.contains(value)
     static func == (lhs: AppWallet, rhs: AppWallet) -> Bool {
         return lhs.address.uppercased() == rhs.address.uppercased()
+    }
+
+    // Must have the same format for all fields in Android App
+    func exportToCloudBackupFormat() {
+        // We don't store private key. So we will need to generate private key here
+
+        var data = [String: String]()
+        data["keystore"] = keystoreString
+        data["setupWalletMethod"] = setupWalletMethod.rawValue
+        data["address"] = address
+        data["password"] = password
+        data["devicePassword"] = devicePassword
+        data["name"] = name
+        data["mnemonics"] = mnemonics.joined(separator: " ")
     }
 
 }

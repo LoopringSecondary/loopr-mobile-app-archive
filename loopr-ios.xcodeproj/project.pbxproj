@@ -135,6 +135,7 @@
 		9B15B87022348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86F22348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift */; };
 		9B15B87222348EA500B58C40 /* KeyStrengtheningTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B87122348EA500B58C40 /* KeyStrengtheningTestCase.swift */; };
 		9B15B8762234957E00B58C40 /* EncryptionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8752234957D00B58C40 /* EncryptionTestCase.swift */; };
+		9B15B8782234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8772234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift */; };
 		9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */; };
 		9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */; };
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
@@ -733,6 +734,7 @@
 		9B15B86F22348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionAESGCMConfigV1.swift; sourceTree = "<group>"; };
 		9B15B87122348EA500B58C40 /* KeyStrengtheningTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeyStrengtheningTestCase.swift; path = "loopr-iosTests/CloudBackup/KeyStrengtheningTestCase.swift"; sourceTree = SOURCE_ROOT; };
 		9B15B8752234957D00B58C40 /* EncryptionTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EncryptionTestCase.swift; path = "loopr-iosTests/CloudBackup/EncryptionTestCase.swift"; sourceTree = SOURCE_ROOT; };
+		9B15B8772234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionCloudBackupConfigV1.swift; sourceTree = "<group>"; };
 		9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
 		9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlType.swift; sourceTree = "<group>"; };
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
@@ -1380,6 +1382,7 @@
 			isa = PBXGroup;
 			children = (
 				9B15B8642233A50B00B58C40 /* Encryption.swift */,
+				9B15B8772234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift */,
 				9B15B86B2234893600B58C40 /* EncryptionConfigV1.swift */,
 				9B15B86D223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift */,
 				9B15B86F22348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift */,
@@ -3521,6 +3524,7 @@
 				ACA677C92079D5A000D34A2F /* DisplayPrivateKeyViewController.swift in Sources */,
 				AC72AEEA204F038300E9D3B0 /* OrderTradeError.swift in Sources */,
 				AC0C5C86203D168C00C8618D /* TickerLabel.swift in Sources */,
+				9B15B8782234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift in Sources */,
 				AC13B30E2055A646008A72C0 /* PlaceOrderConfirmationViewController.swift in Sources */,
 				AC4F8638209D483B002E62AB /* SettingLRCFeeRatioViewController.swift in Sources */,
 				942E2CAB2148B2E100041733 /* TikcerSource.swift in Sources */,
