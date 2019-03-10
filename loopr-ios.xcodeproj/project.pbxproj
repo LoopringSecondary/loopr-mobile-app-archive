@@ -128,8 +128,13 @@
 		9B15B84B2223A80F00B58C40 /* CancelOrderConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */; };
 		9B15B84C2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */; };
 		9B15B86222323AE200B58C40 /* CloudBackupDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86122323AE200B58C40 /* CloudBackupDataManager.swift */; };
-		9B15B8652233A50B00B58C40 /* ASE_GCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8642233A50B00B58C40 /* ASE_GCM.swift */; };
+		9B15B8652233A50B00B58C40 /* Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8642233A50B00B58C40 /* Encryption.swift */; };
 		9B15B86A2233A55F00B58C40 /* CryptoSwiftTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8692233A55F00B58C40 /* CryptoSwiftTestCase.swift */; };
+		9B15B86C2234893700B58C40 /* EncryptionConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86B2234893600B58C40 /* EncryptionConfigV1.swift */; };
+		9B15B86E223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86D223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift */; };
+		9B15B87022348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86F22348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift */; };
+		9B15B87222348EA500B58C40 /* KeyStrengtheningTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B87122348EA500B58C40 /* KeyStrengtheningTestCase.swift */; };
+		9B15B8762234957E00B58C40 /* EncryptionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8752234957D00B58C40 /* EncryptionTestCase.swift */; };
 		9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */; };
 		9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */; };
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
@@ -721,8 +726,13 @@
 		9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderConfirmationViewController.swift; sourceTree = "<group>"; };
 		9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelOrderConfirmationViewController.xib; sourceTree = "<group>"; };
 		9B15B86122323AE200B58C40 /* CloudBackupDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupDataManager.swift; sourceTree = "<group>"; };
-		9B15B8642233A50B00B58C40 /* ASE_GCM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASE_GCM.swift; sourceTree = "<group>"; };
+		9B15B8642233A50B00B58C40 /* Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryption.swift; sourceTree = "<group>"; };
 		9B15B8692233A55F00B58C40 /* CryptoSwiftTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CryptoSwiftTestCase.swift; path = "loopr-iosTests/CloudBackup/CryptoSwiftTestCase.swift"; sourceTree = SOURCE_ROOT; };
+		9B15B86B2234893600B58C40 /* EncryptionConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionConfigV1.swift; sourceTree = "<group>"; };
+		9B15B86D223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionPBKDF2ConfigV1.swift; sourceTree = "<group>"; };
+		9B15B86F22348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionAESGCMConfigV1.swift; sourceTree = "<group>"; };
+		9B15B87122348EA500B58C40 /* KeyStrengtheningTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeyStrengtheningTestCase.swift; path = "loopr-iosTests/CloudBackup/KeyStrengtheningTestCase.swift"; sourceTree = SOURCE_ROOT; };
+		9B15B8752234957D00B58C40 /* EncryptionTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EncryptionTestCase.swift; path = "loopr-iosTests/CloudBackup/EncryptionTestCase.swift"; sourceTree = SOURCE_ROOT; };
 		9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
 		9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlType.swift; sourceTree = "<group>"; };
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
@@ -1366,18 +1376,23 @@
 			path = CloudBackup;
 			sourceTree = "<group>";
 		};
-		9B15B86322325AF300B58C40 /* ASE_GCM */ = {
+		9B15B86322325AF300B58C40 /* Encryption */ = {
 			isa = PBXGroup;
 			children = (
-				9B15B8642233A50B00B58C40 /* ASE_GCM.swift */,
+				9B15B8642233A50B00B58C40 /* Encryption.swift */,
+				9B15B86B2234893600B58C40 /* EncryptionConfigV1.swift */,
+				9B15B86D223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift */,
+				9B15B86F22348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift */,
 			);
-			path = ASE_GCM;
+			path = Encryption;
 			sourceTree = "<group>";
 		};
 		9B15B8682233A55000B58C40 /* CloudBackup */ = {
 			isa = PBXGroup;
 			children = (
 				9B15B8692233A55F00B58C40 /* CryptoSwiftTestCase.swift */,
+				9B15B87122348EA500B58C40 /* KeyStrengtheningTestCase.swift */,
+				9B15B8752234957D00B58C40 /* EncryptionTestCase.swift */,
 			);
 			name = CloudBackup;
 			path = "New Group";
@@ -1966,7 +1981,7 @@
 				ACDBF10F203FEC96000F0DEC /* UIConfig */,
 				ACB5DD85202AD74D00140A09 /* UIComponents */,
 				AC5E3E72205E21E00051ACFC /* NotificationCenter */,
-				9B15B86322325AF300B58C40 /* ASE_GCM */,
+				9B15B86322325AF300B58C40 /* Encryption */,
 				ACB911672025470B00F14644 /* DataManagers */,
 				ACB9115E20242E2400F14644 /* Models */,
 				ACB9116C2025572700F14644 /* Market */,
@@ -3207,6 +3222,7 @@
 				AC9FFF2D2126C07800957175 /* MarketChangeTokenTableViewCell.swift in Sources */,
 				94A1C0DF2128461100FD3A1F /* Partner.swift in Sources */,
 				AC70E84E20683C7500451047 /* IconView.swift in Sources */,
+				9B15B86E223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift in Sources */,
 				94AEF3B6218AA6A900112AAC /* ThirdPartyViewController.swift in Sources */,
 				943C1CB220CE26CE008A8CED /* LoginResultViewController.swift in Sources */,
 				AC865C1021B32962000BFBCA /* TrendInterval.swift in Sources */,
@@ -3284,7 +3300,7 @@
 				ACB8485920BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.swift in Sources */,
 				9BA3014A21B097D100E55E49 /* MarketDetailViewControllerSwipe.swift in Sources */,
 				AC9280E92030C7440009B574 /* UIColorExtensions.swift in Sources */,
-				9B15B8652233A50B00B58C40 /* ASE_GCM.swift in Sources */,
+				9B15B8652233A50B00B58C40 /* Encryption.swift in Sources */,
 				AC4141F920352DA70089861D /* SwipeTabView.swift in Sources */,
 				AC4141F320352C460089861D /* SwipeViewController.swift in Sources */,
 				9457417020D0E9CD00110CFD /* CancelOrder.swift in Sources */,
@@ -3396,6 +3412,7 @@
 				AC6466082083EE1E00EBEC97 /* MnemonicDerivationPathTableViewCell.swift in Sources */,
 				949629DB204E836400858F03 /* Depth.swift in Sources */,
 				AC2C93D32105AE7A004B8456 /* SetupWalletEnterPasswordViewController.swift in Sources */,
+				9B15B86C2234893700B58C40 /* EncryptionConfigV1.swift in Sources */,
 				940B45232060F67E00ADE2B9 /* CurrentAppWalletDataManager.swift in Sources */,
 				AC9089F3214D7ABB00F421F1 /* SplashImageView.swift in Sources */,
 				ACB5DD9A202D5B7100140A09 /* DefaultNumericKeyboard.swift in Sources */,
@@ -3474,6 +3491,7 @@
 				AC9DC45821159084002D7D23 /* MiniToLargeViewAnimator.swift in Sources */,
 				9B76458421FED36E00896B3E /* NewsFooterView.swift in Sources */,
 				947B1FD921CB7D5A009AE556 /* Data+Extension.swift in Sources */,
+				9B15B87022348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift in Sources */,
 				947B1FDB21CB7FA7009AE556 /* Base58Util.swift in Sources */,
 				940B452B2060F67E00ADE2B9 /* SettingDataManager.swift in Sources */,
 				ACB41A6F20B54BB300A92C9D /* AuthenticationViewController.swift in Sources */,
@@ -3559,7 +3577,9 @@
 				AC0CD58920D38E2900ABB7BA /* GenerateWalletDataManagerTests.swift in Sources */,
 				AC798E5A2022B93B0071D477 /* LoopringAPIRequestTests.swift in Sources */,
 				AC0CD58E20D3967700ABB7BA /* ImportWalletUsingPrivateKeyDataManagerTests.swift in Sources */,
+				9B15B8762234957E00B58C40 /* EncryptionTestCase.swift in Sources */,
 				AC1E4BC0204B51AB00C6B1FA /* ImportWalletTests.swift in Sources */,
+				9B15B87222348EA500B58C40 /* KeyStrengtheningTestCase.swift in Sources */,
 				943C657A209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift in Sources */,
 				AC1E4BC6204B58D400C6B1FA /* CreatePrivateKeyTests.swift in Sources */,
 				AC1E4BBC204B420D00C6B1FA /* KeystoreIntegrationTests.swift in Sources */,
