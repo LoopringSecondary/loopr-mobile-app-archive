@@ -208,8 +208,12 @@ public class TokenDataManager {
         }
     }
 
-    public static Token getToken(String symbol) {
+    public static Token getTokenWithSymbol(String symbol) {
         return tokenDataManager.getTokenBySymbol(symbol);
+    }
+
+    public static Token getTokenWithProtocol(String protocol) {
+        return tokenDataManager.getTokenByProtocol(protocol);
     }
 
     public static Double getDouble(String symbol, String valueInWei) {

@@ -27,8 +27,8 @@ import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.Order;
-import leaf.prod.walletsdk.model.OrderStatus;
+import leaf.prod.walletsdk.model.order.RawOrder;
+import leaf.prod.walletsdk.model.order.OrderStatus;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.P2PSide;
@@ -119,7 +119,7 @@ P2PRecordDetailActivity extends BaseActivity {
 
     P2PRecordDetailPresenter presenter;
 
-    private Order order;
+    private RawOrder rawOrder;
 
     private TokenDataManager tokenDataManager;
 
@@ -150,16 +150,16 @@ P2PRecordDetailActivity extends BaseActivity {
     public void initTitle() {
         title.setBTitle(getResources().getString(R.string.order_detail));
         title.clickLeftGoBack(getWContext());
-        order = (Order) getIntent().getSerializableExtra("order");
-        if (order.getOriginOrder().getOrderType() == OrderType.P2P && order.getOriginOrder()
+        rawOrder = (RawOrder) getIntent().getSerializableExtra("order");
+        if (rawOrder.getOriginOrder().getOrderType() == OrderType.P2P && rawOrder.getOriginOrder()
                 .getP2pSide() == P2PSide.MAKER
-                && (order.getOrderStatus() == OrderStatus.OPENED || order.getOrderStatus() == OrderStatus.WAITED)) {
+                && (rawOrder.getOrderStatus() == OrderStatus.OPENED || rawOrder.getOrderStatus() == OrderStatus.WAITED)) {
             title.setRightImageButton(R.mipmap.icon_title_qrcode, button -> {
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) {
-                    String authAddr = order.getOriginOrder().getAuthAddr().toLowerCase();
+                    String authAddr = rawOrder.getOriginOrder().getAuthAddr().toLowerCase();
                     String p2pContent = (String) SPUtils.get(getApplicationContext(), authAddr, "");
                     if (!p2pContent.isEmpty() && p2pContent.contains("-")) {
-                        String qrCode = p2pOrderManager.generateQRCode(order.getOriginOrder());
+                        String qrCode = p2pOrderManager.generateQRCode(rawOrder.getOriginOrder());
                         presenter.showShareDialog(qrCode);
                     } else {
                         RxToast.error(getString(R.string.detail_qr_error));
@@ -175,9 +175,9 @@ P2PRecordDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        if (order != null) {
+        if (rawOrder != null) {
             setOrderStatus();
-            OriginOrder originOrder = order.getOriginOrder();
+            OriginOrder originOrder = rawOrder.getOriginOrder();
             if (originOrder != null) {
                 setOverview(originOrder);
             }
@@ -195,7 +195,7 @@ P2PRecordDetailActivity extends BaseActivity {
         String priceStr = NumberUtils.format1(price, 6) + " " + order.getTokenS() + " / " + order.getTokenB();
         String lrcFee = balanceDataManager.getFormattedBySymbol("LRC", order.getLrc());
         String lrcCurrency = marketDataManager.getCurrencyBySymbol("LRC", order.getLrc());
-        Double ratio = this.order.getDealtAmountSell() / order.getAmountSell();
+        Double ratio = this.rawOrder.getDealtAmountSell() / order.getAmountSell();
         // Use NumberFormat
         NumberFormat formatter = NumberFormat.getPercentInstance();
         formatter.setMaximumFractionDigits(2);
@@ -246,7 +246,7 @@ P2PRecordDetailActivity extends BaseActivity {
     }
 
     private void setOrderStatus() {
-        switch (order.getOrderStatus()) {
+        switch (rawOrder.getOrderStatus()) {
             case OPENED:
                 tvStatus.setText(OrderStatus.OPENED.getDescription(this));
                 break;

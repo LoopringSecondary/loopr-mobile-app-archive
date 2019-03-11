@@ -7,7 +7,7 @@ import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.model.Depth;
 import leaf.prod.walletsdk.model.LoginUser;
-import leaf.prod.walletsdk.model.Order;
+import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.OrderFill;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.model.Ticker;
@@ -139,10 +139,10 @@ public interface RpcDelegate {
     Observable<RelayResponseWrapper<List<OrderFill>>> getOrderFills(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<RelayResponseWrapper<PageWrapper<Order>>> getOrders(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<PageWrapper<RawOrder>>> getOrders(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<RelayResponseWrapper<Order>> getOrderByHash(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<RawOrder>> getOrderByHash(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<String>> getFrozenLRCFee(@Body RequestWrapper request);

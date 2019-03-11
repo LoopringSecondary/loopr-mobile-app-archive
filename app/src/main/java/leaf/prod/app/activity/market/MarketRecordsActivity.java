@@ -31,7 +31,7 @@ import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.model.NoDataType;
-import leaf.prod.walletsdk.model.Order;
+import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.response.relay.PageWrapper;
 import leaf.prod.walletsdk.util.WalletUtil;
@@ -69,9 +69,9 @@ public class MarketRecordsActivity extends BaseActivity {
 
     private NoDataAdapter emptyAdapter;
 
-    private List<Order> orderList = new ArrayList<>();
+    private List<RawOrder> rawOrderList = new ArrayList<>();
 
-    private List<Order> searchList = new ArrayList<>();
+    private List<RawOrder> searchList = new ArrayList<>();
 
     private MarketOrderDataManager marketManager;
 
@@ -117,9 +117,9 @@ public class MarketRecordsActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 searchList.clear();
-                for (Order order : orderList) {
-                    if (order.getOriginOrder().getMarket().contains(s.toString().toUpperCase())) {
-                        searchList.add(order);
+                for (RawOrder rawOrder : rawOrderList) {
+                    if (rawOrder.getOriginOrder().getMarket().contains(s.toString().toUpperCase())) {
+                        searchList.add(rawOrder);
                     }
                 }
                 isFiltering = true;
@@ -147,7 +147,7 @@ public class MarketRecordsActivity extends BaseActivity {
 //                .inflate(R.layout.adapter_header_order, recyclerView, false));
         setupListeners();
         recordAdapter.setOnItemClickListener((adapter, view, position) -> {
-            getOperation().addParameter("order", orderList.get(position));
+            getOperation().addParameter("order", rawOrderList.get(position));
             getOperation().forward(P2PRecordDetailActivity.class);
         });
         emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.market_order);
@@ -162,7 +162,7 @@ public class MarketRecordsActivity extends BaseActivity {
                 getOperation().forward(P2PRecordDetailActivity.class);
             });
         } else {
-            recordAdapter.setNewData(orderList);
+            recordAdapter.setNewData(rawOrderList);
             recordAdapter.setOnLoadMoreListener(() -> {
                 if (recordAdapter.getData().size() >= totalCount) {
                     recordAdapter.loadMoreEnd();
@@ -171,7 +171,7 @@ public class MarketRecordsActivity extends BaseActivity {
                 }
             }, recyclerView);
             recordAdapter.setOnItemClickListener((adapter, view, position) -> {
-                getOperation().addParameter("order", orderList.get(position));
+                getOperation().addParameter("order", rawOrderList.get(position));
                 getOperation().forward(P2PRecordDetailActivity.class);
             });
         }
@@ -197,7 +197,7 @@ public class MarketRecordsActivity extends BaseActivity {
                 .getOrders(WalletUtil.getCurrentAddress(this), OrderType.MARKET.getDescription(), currentPageIndex, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<PageWrapper<Order>>() {
+                .subscribe(new Subscriber<PageWrapper<RawOrder>>() {
                     @Override
                     public void onCompleted() {
                         refreshLayout.finishRefresh(true);
@@ -216,23 +216,23 @@ public class MarketRecordsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(PageWrapper<Order> orderPageWrapper) {
+                    public void onNext(PageWrapper<RawOrder> orderPageWrapper) {
                         hideSearch();
                         totalCount = orderPageWrapper.getTotal();
                         if (totalCount == 0) {
                             recyclerView.setAdapter(emptyAdapter);
                             emptyAdapter.refresh();
                         } else {
-                            List<Order> list = new ArrayList<>();
-                            for (Order order : orderPageWrapper.getData()) {
-                                list.add(order.convert());
+                            List<RawOrder> list = new ArrayList<>();
+                            for (RawOrder rawOrder : orderPageWrapper.getData()) {
+                                list.add(rawOrder.convert());
                             }
                             if (currentPageIndex == 1) {
                                 recordAdapter.setNewData(list);
                             } else {
                                 recordAdapter.addData(list);
                             }
-                            orderList = recordAdapter.getData();
+                            rawOrderList = recordAdapter.getData();
                             refreshLayout.finishRefresh(true);
                         }
                         clLoading.setVisibility(View.GONE);

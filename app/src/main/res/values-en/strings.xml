@@ -214,7 +214,7 @@
     <string name="wallet_address_share">Share Wallet Address</string>
     <string name="download_share">Share Link</string>
 
-    <!-- order related -->
+    <!-- rawOrder related -->
     <string name="open">Open</string>
     <string name="filled">Filled</string>
     <string name="finished">Finished</string>
@@ -235,21 +235,21 @@
     <string name="completed">Completed</string>
     <string name="failed">Failed</string>
     <string name="R10001">Sorry, system error, please try again later</string>
-    <string name="R32000">Sorry, balance is not enough to submit order</string>
-    <string name="R50001">Sorry, selling order does not exist, could not complete this order</string>
-    <string name="R50002">Sorry, only p2p order could be submitted, could not complete this order</string>
-    <string name="R50003">Sorry, selling order already dealt with another buying order, please try with other orders</string>
-    <string name="R50004">Sorry, selling and buying price did not match between two orders, could not complete this order</string>
-    <string name="R50005">Sorry, owner of buying order is the same as selling, could not complete this order</string>
-    <string name="R50006">Sorry, buying order has expired, please try with other orders</string>
-    <string name="R50007">Sorry, undealt amount of order is too small, could not complete this order</string>
-    <string name="R50008">Sorry, buying order does not exist, could not complete this order</string>
-    <string name="submit_success">Congratulations! Your order has been submitted!</string>
-    <string name="submitted_failed">Your order has not been submitted! Please make sure you have enough balance to complete the trade.</string>
+    <string name="R32000">Sorry, balance is not enough to submit rawOrder</string>
+    <string name="R50001">Sorry, selling rawOrder does not exist, could not complete this rawOrder</string>
+    <string name="R50002">Sorry, only p2p rawOrder could be submitted, could not complete this rawOrder</string>
+    <string name="R50003">Sorry, selling rawOrder already dealt with another buying rawOrder, please try with other orders</string>
+    <string name="R50004">Sorry, selling and buying price did not match between two orders, could not complete this rawOrder</string>
+    <string name="R50005">Sorry, owner of buying rawOrder is the same as selling, could not complete this rawOrder</string>
+    <string name="R50006">Sorry, buying rawOrder has expired, please try with other orders</string>
+    <string name="R50007">Sorry, undealt amount of rawOrder is too small, could not complete this rawOrder</string>
+    <string name="R50008">Sorry, buying rawOrder does not exist, could not complete this rawOrder</string>
+    <string name="submit_success">Congratulations! Your rawOrder has been submitted!</string>
+    <string name="submitted_failed">Your rawOrder has not been submitted! Please make sure you have enough balance to complete the trade.</string>
     <string name="cancel_all">Cancel All</string>
     <string name="cancel_order">Cancel Order</string>
     <string name="going_cancel_all">You are going to cancel all open orders.</string>
-    <string name="going_cancel_order">You are going to cancel the order.</string>
+    <string name="going_cancel_order">You are going to cancel the rawOrder.</string>
     <string name="cancel_failed">Order cancellation Failed, Please try again.</string>
     <string name="cancel_success">Order cancellation Successful.</string>
     <string name="canceling">Canceling</string>
@@ -277,7 +277,7 @@
     <string name="custom">Custom</string>
     <string name="part">Part</string>
     <string name="place_order">Place Order</string>
-    <string name="place_order_tip">Placing order will not consume gas</string>
+    <string name="place_order_tip">Placing rawOrder will not consume gas</string>
     <string name="price">Price</string>
     <string name="trading_fee">Trading Fee</string>
     <string name="margin_split">Magin Split</string>
@@ -295,8 +295,8 @@
     <string name="no_data_p2p">You do not have p2p trading record yet</string>
     <string name="no_data_market">You do not have market trading record yet</string>
     <string name="minimal_count_error">Minimal count should be at least one</string>
-    <string name="detail_qr_error">The P2P order is not created in this iPhone. You can\'t share the QR code.</string>
-    <string name="qr_p2p_error_tip">Please make sure the QR code is type of P2P order.</string>
+    <string name="detail_qr_error">The P2P rawOrder is not created in this iPhone. You can\'t share the QR code.</string>
+    <string name="qr_p2p_error_tip">Please make sure the QR code is type of P2P rawOrder.</string>
     <string name="qr_addr_error_tip">Please make sure the QR code is type of wallet address.</string>
     <string name="share_order">Share Order</string>
     <string name="save_to_album">Save to album</string>

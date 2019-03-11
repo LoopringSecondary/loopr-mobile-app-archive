@@ -31,7 +31,7 @@ import com.google.gson.JsonObject;
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.R;
 import leaf.prod.walletsdk.Transfer;
-import leaf.prod.walletsdk.model.Order;
+import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.P2PSide;
@@ -426,9 +426,9 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private OriginOrder getOrderBy(String hash) {
-        Order order = loopringService.getOrderByHash(hash)
+        RawOrder rawOrder = loopringService.getOrderByHash(hash)
                 .subscribeOn(Schedulers.io()).toBlocking().single();
-        return order.getOriginOrder();
+        return rawOrder.getOriginOrder();
     }
 
     public void verify(String password) throws Exception {

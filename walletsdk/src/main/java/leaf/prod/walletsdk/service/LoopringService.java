@@ -12,9 +12,9 @@ import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
 import leaf.prod.walletsdk.model.CancelOrder;
 import leaf.prod.walletsdk.model.Depth;
-import leaf.prod.walletsdk.model.Order;
+import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.OrderFill;
-import leaf.prod.walletsdk.model.OrderStatus;
+import leaf.prod.walletsdk.model.order.OrderStatus;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.Partner;
@@ -244,8 +244,8 @@ public class LoopringService {
     }
 
     // 订单相关接口
-    public Observable<PageWrapper<Order>> getOrders(String owner, String orderHash, OrderStatus status, String market,
-                                                    String side, OrderType type, int pageIndex, int pageSize) {
+    public Observable<PageWrapper<RawOrder>> getOrders(String owner, String orderHash, OrderStatus status, String market,
+                                                       String side, OrderType type, int pageIndex, int pageSize) {
         GetOrdersParam param = GetOrdersParam.builder()
                 .delegateAddress(Default.DELEGATE_ADDRESS)
                 .owner(owner)
@@ -258,11 +258,11 @@ public class LoopringService {
                 .pageSize(pageSize)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getOrders", param);
-        Observable<RelayResponseWrapper<PageWrapper<Order>>> observable = rpcDelegate.getOrders(request);
+        Observable<RelayResponseWrapper<PageWrapper<RawOrder>>> observable = rpcDelegate.getOrders(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    public Observable<PageWrapper<Order>> getOrders(String owner, String orderType, int pageIndex, int pageSize) {
+    public Observable<PageWrapper<RawOrder>> getOrders(String owner, String orderType, int pageIndex, int pageSize) {
         GetOrdersParam param = GetOrdersParam.builder()
                 .delegateAddress(Default.DELEGATE_ADDRESS)
                 .owner(owner)
@@ -271,18 +271,18 @@ public class LoopringService {
                 .pageSize(pageSize)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getOrders", param);
-        Observable<RelayResponseWrapper<PageWrapper<Order>>> observable = rpcDelegate.getOrders(request);
+        Observable<RelayResponseWrapper<PageWrapper<RawOrder>>> observable = rpcDelegate.getOrders(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
     // 订单相关接口
-    public Observable<Order> getOrderByHash(String orderHash) {
+    public Observable<RawOrder> getOrderByHash(String orderHash) {
         GetOrdersParam param = GetOrdersParam.builder()
                 .delegateAddress(Default.DELEGATE_ADDRESS)
                 .orderHash(orderHash)
                 .build();
         RequestWrapper request = new RequestWrapper("loopring_getOrderByHash", param);
-        Observable<RelayResponseWrapper<Order>> observable = rpcDelegate.getOrderByHash(request);
+        Observable<RelayResponseWrapper<RawOrder>> observable = rpcDelegate.getOrderByHash(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 

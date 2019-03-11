@@ -4,7 +4,7 @@
  * Time: 2018-11-16 11:35 AM
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.walletsdk.model;
+package leaf.prod.walletsdk.model.order;
 
 import java.io.Serializable;
 
@@ -16,26 +16,20 @@ import leaf.prod.walletsdk.R;
 
 public enum OrderStatus implements Serializable {
 
-    @SerializedName("ORDER_OPENED")
+    @SerializedName(value = "STATUS_PENDING_ACTIVE")
+    PENDING(R.string.order_pending),
+
+    @SerializedName(value = "STATUS_NEW", alternate = {"STATUS_PENDING", "STATUS_PARTIALLY_FILLED"})
     OPENED(R.string.order_open),
 
-    @SerializedName("ORDER_WAIT_SUBMIT_RING")
-    WAITED(R.string.order_submitted),
-
-    @SerializedName("ORDER_FINISHED")
+    @SerializedName("STATUS_COMPLETELY_FILLED")
     FINISHED(R.string.order_completed),
 
-    @SerializedName("ORDER_CUTOFF")
-    CUTOFF(R.string.order_cutoff),
-
-    @SerializedName("ORDER_CANCELLED")
+    @SerializedName(value = "STATUS_SOFT_CANCELLED_BY_USER", alternate = {"STATUS_ONCHAIN_CANCELLED_BY_USER", "STATUS_ONCHAIN_CANCELLED_BY_USER_TRADING_PAIR", "STATUS_SOFT_CANCELLED_BY_USER_TRADING_PAIR"})
     CANCELLED(R.string.order_cancelled),
 
-    @SerializedName("ORDER_EXPIRE")
+    @SerializedName("STATUS_EXPIRED")
     EXPIRED(R.string.order_expired),
-
-    @SerializedName("ORDER_P2P_LOCKED")
-    LOCKED(R.string.order_locked),
 
     @SerializedName("ORDER_UNKNOWN")
     UNKNOWN(R.string.order_unknown);

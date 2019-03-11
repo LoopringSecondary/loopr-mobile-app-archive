@@ -25,7 +25,7 @@ import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.model.NoDataType;
-import leaf.prod.walletsdk.model.Order;
+import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.OrderType;
 import leaf.prod.walletsdk.model.response.relay.PageWrapper;
 import leaf.prod.walletsdk.util.WalletUtil;
@@ -54,7 +54,7 @@ public class P2PRecordsFragment extends BaseFragment {
 
     private P2POrderDataManager p2pManager;
 
-    private List<Order> orderList = new ArrayList<>();
+    private List<RawOrder> rawOrderList = new ArrayList<>();
 
     private int currentPageIndex = 1, pageSize = 20, totalCount = 0;
 
@@ -100,7 +100,7 @@ public class P2PRecordsFragment extends BaseFragment {
             }
         }, recyclerView);
         recordAdapter.setOnItemClickListener((adapter, view, position) -> {
-            getOperation().addParameter("order", orderList.get(position));
+            getOperation().addParameter("order", rawOrderList.get(position));
             getOperation().forward(P2PRecordDetailActivity.class);
         });
         emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.p2p_order);
@@ -129,7 +129,7 @@ public class P2PRecordsFragment extends BaseFragment {
                 .getOrders(WalletUtil.getCurrentAddress(getContext()), OrderType.P2P.getDescription(), currentPageIndex, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<PageWrapper<Order>>() {
+                .subscribe(new Subscriber<PageWrapper<RawOrder>>() {
                     @Override
                     public void onCompleted() {
                         refreshLayout.finishRefresh(true);
@@ -148,22 +148,22 @@ public class P2PRecordsFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(PageWrapper<Order> orderPageWrapper) {
+                    public void onNext(PageWrapper<RawOrder> orderPageWrapper) {
                         totalCount = orderPageWrapper.getTotal();
                         if (totalCount == 0) {
                             recyclerView.setAdapter(emptyAdapter);
                             emptyAdapter.refresh();
                         } else {
-                            List<Order> list = new ArrayList<>();
-                            for (Order order : orderPageWrapper.getData()) {
-                                list.add(order.convert());
+                            List<RawOrder> list = new ArrayList<>();
+                            for (RawOrder rawOrder : orderPageWrapper.getData()) {
+                                list.add(rawOrder.convert());
                             }
                             if (currentPageIndex == 1) {
                                 recordAdapter.setNewData(list);
                             } else {
                                 recordAdapter.addData(list);
                             }
-                            orderList = recordAdapter.getData();
+                            rawOrderList = recordAdapter.getData();
                             refreshLayout.finishRefresh(true);
                         }
                         clLoading.setVisibility(View.GONE);
