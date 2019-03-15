@@ -9,7 +9,6 @@ def shared_pods
     pod 'Socket.IO-Client-Swift', '~> 13.1.0'
     pod 'NotificationBannerSwift', '~> 1.6.3'
     pod 'SVProgressHUD'
-    pod 'ESTabBarController-swift'
     pod 'SwiftyMarkdown'
     pod 'CDMarkdownKit', '1.2.1'
     pod 'MKDropdownMenu'

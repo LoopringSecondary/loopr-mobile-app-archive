@@ -221,11 +221,6 @@
 		AC0C5C82203D153F00C8618D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0C5C81203D153F00C8618D /* CoreGraphics.framework */; };
 		AC0C5C84203D154700C8618D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0C5C83203D154700C8618D /* QuartzCore.framework */; };
 		AC0C5C86203D168C00C8618D /* TickerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0C5C85203D168C00C8618D /* TickerLabel.swift */; };
-		AC0CD57920D21BF100ABB7BA /* TabBarItemBasicContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0CD57820D21BF100ABB7BA /* TabBarItemBasicContentView.swift */; };
-		AC0CD57B20D21C1100ABB7BA /* TabBarItemBouncesContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0CD57A20D21C1100ABB7BA /* TabBarItemBouncesContentView.swift */; };
-		AC0CD57D20D21F3C00ABB7BA /* TabBarItemBackgroundContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0CD57C20D21F3C00ABB7BA /* TabBarItemBackgroundContentView.swift */; };
-		AC0CD57F20D21F8400ABB7BA /* TabBarItemHighlightableContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0CD57E20D21F8400ABB7BA /* TabBarItemHighlightableContentView.swift */; };
-		AC0CD58120D226C500ABB7BA /* TabBarItemAnimateTipsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0CD58020D226C500ABB7BA /* TabBarItemAnimateTipsContentView.swift */; };
 		AC0CD58920D38E2900ABB7BA /* GenerateWalletDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0CD58820D38E2900ABB7BA /* GenerateWalletDataManagerTests.swift */; };
 		AC0CD58B20D393F300ABB7BA /* SendCurrentAppWalletDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0CD58A20D393F200ABB7BA /* SendCurrentAppWalletDataManager.swift */; };
 		AC0CD58E20D3967700ABB7BA /* ImportWalletUsingPrivateKeyDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0CD58D20D3967700ABB7BA /* ImportWalletUsingPrivateKeyDataManagerTests.swift */; };
@@ -825,11 +820,6 @@
 		AC0C5C81203D153F00C8618D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AC0C5C83203D154700C8618D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AC0C5C85203D168C00C8618D /* TickerLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerLabel.swift; sourceTree = "<group>"; };
-		AC0CD57820D21BF100ABB7BA /* TabBarItemBasicContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemBasicContentView.swift; sourceTree = "<group>"; };
-		AC0CD57A20D21C1100ABB7BA /* TabBarItemBouncesContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemBouncesContentView.swift; sourceTree = "<group>"; };
-		AC0CD57C20D21F3C00ABB7BA /* TabBarItemBackgroundContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemBackgroundContentView.swift; sourceTree = "<group>"; };
-		AC0CD57E20D21F8400ABB7BA /* TabBarItemHighlightableContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemHighlightableContentView.swift; sourceTree = "<group>"; };
-		AC0CD58020D226C500ABB7BA /* TabBarItemAnimateTipsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemAnimateTipsContentView.swift; sourceTree = "<group>"; };
 		AC0CD58820D38E2900ABB7BA /* GenerateWalletDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateWalletDataManagerTests.swift; sourceTree = "<group>"; };
 		AC0CD58A20D393F200ABB7BA /* SendCurrentAppWalletDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendCurrentAppWalletDataManager.swift; sourceTree = "<group>"; };
 		AC0CD58D20D3967700ABB7BA /* ImportWalletUsingPrivateKeyDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportWalletUsingPrivateKeyDataManagerTests.swift; sourceTree = "<group>"; };
@@ -1532,18 +1522,6 @@
 				9B76456521FD707900896B3E /* NewsList.swift */,
 			);
 			path = News;
-			sourceTree = "<group>";
-		};
-		AC0CD58220D2294D00ABB7BA /* TabBarItem */ = {
-			isa = PBXGroup;
-			children = (
-				AC0CD58020D226C500ABB7BA /* TabBarItemAnimateTipsContentView.swift */,
-				AC0CD57820D21BF100ABB7BA /* TabBarItemBasicContentView.swift */,
-				AC0CD57A20D21C1100ABB7BA /* TabBarItemBouncesContentView.swift */,
-				AC0CD57C20D21F3C00ABB7BA /* TabBarItemBackgroundContentView.swift */,
-				AC0CD57E20D21F8400ABB7BA /* TabBarItemHighlightableContentView.swift */,
-			);
-			path = TabBarItem;
 			sourceTree = "<group>";
 		};
 		AC0CD58720D38B9400ABB7BA /* CreateWallet */ = {
@@ -2281,7 +2259,6 @@
 			isa = PBXGroup;
 			children = (
 				9B018DBE21F67991009D079D /* ImageScrollView */,
-				AC0CD58220D2294D00ABB7BA /* TabBarItem */,
 				AC76E46E2047F1AE008BA229 /* CircleChart */,
 				ACE6F71A204210E80039273D /* DashedLineView */,
 				AC4141F120352C130089861D /* SwipeViewController */,
@@ -3070,7 +3047,6 @@
 				"${BUILT_PRODUCTS_DIR}/CDMarkdownKit/CDMarkdownKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/ESTabBarController-swift/ESTabBarController_swift.framework",
 				"${BUILT_PRODUCTS_DIR}/MKDropdownMenu/MKDropdownMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
@@ -3094,7 +3070,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CDMarkdownKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ESTabBarController_swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MKDropdownMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
@@ -3220,7 +3195,6 @@
 				ACDBA19C21EB39DC00CE2D22 /* NewsNavigationViewController.swift in Sources */,
 				943A9A4120909597008BCBFD /* DefaultWebViewController.swift in Sources */,
 				942C4A0021293022008A6B4F /* ConvertETHResultViewController.swift in Sources */,
-				AC0CD58120D226C500ABB7BA /* TabBarItemAnimateTipsContentView.swift in Sources */,
 				AC9ADF91205EE3B900CBE368 /* ConvertETHViewController.swift in Sources */,
 				94B35BB021A55A0200F6B708 /* BigInt+Extension.swift in Sources */,
 				ACB729D0205DC27800DD4DF3 /* SwitchTradeTokenTableViewCell.swift in Sources */,
@@ -3303,7 +3277,6 @@
 				ACB911842026388700F14644 /* SettingViewController.swift in Sources */,
 				AC9FFF292126C05000957175 /* MarketChangeTokenViewController.swift in Sources */,
 				ACFD5FB42171B8AB00E161EE /* OrderHistoryViewController.swift in Sources */,
-				AC0CD57B20D21C1100ABB7BA /* TabBarItemBouncesContentView.swift in Sources */,
 				942C4A02212A9D89008A6B4F /* P2PType.swift in Sources */,
 				ACE9F04A218AAB4300695E37 /* AppServiceUserManager.swift in Sources */,
 				AC1B6D7F2130FB510026C1B2 /* Secp256k1Helper.swift in Sources */,
@@ -3410,7 +3383,6 @@
 				AC4141FD203532ED0089861D /* SwipeViewOptions.swift in Sources */,
 				ACB9119F202967A500F14644 /* OrderStatus.swift in Sources */,
 				AC1B6D7C2130FB510026C1B2 /* NewKeystore.swift in Sources */,
-				AC0CD57D20D21F3C00ABB7BA /* TabBarItemBackgroundContentView.swift in Sources */,
 				ACB9117520255A6600F14644 /* MarketTableViewCell.swift in Sources */,
 				941B1EFC209C41BC00710DFF /* GasDataManager.swift in Sources */,
 				AC31B94C204A8DF400B16155 /* KeyStore.Error.swift in Sources */,
@@ -3506,7 +3478,6 @@
 				AC865C1221B3989A000BFBCA /* TrendRange.swift in Sources */,
 				AC31B95D204A8E4F00B16155 /* DerivationPath.swift in Sources */,
 				948952D3205A74BE009B03FE /* Transaction.swift in Sources */,
-				AC0CD57F20D21F8400ABB7BA /* TabBarItemHighlightableContentView.swift in Sources */,
 				AC2CFAA120BB3BEE00387DB1 /* BiometricType.swift in Sources */,
 				9461851821D0FD8700393432 /* NewsCategory.swift in Sources */,
 				9BA3015521B0EBC000E55E49 /* MarketDetailViewControllerChart.swift in Sources */,
@@ -3550,7 +3521,6 @@
 				AC4F8638209D483B002E62AB /* SettingLRCFeeRatioViewController.swift in Sources */,
 				942E2CAB2148B2E100041733 /* TikcerSource.swift in Sources */,
 				940076B220554A4100DDA37D /* LoopringSocketIORequest.swift in Sources */,
-				AC0CD57920D21BF100ABB7BA /* TabBarItemBasicContentView.swift in Sources */,
 				C8BF959D202696A900343B9A /* MainTabController.swift in Sources */,
 				ACB911522024254F00F14644 /* WalletNavigationViewController.swift in Sources */,
 				9BA3015C21C72DF000E55E49 /* ContactTableViewController.swift in Sources */,
