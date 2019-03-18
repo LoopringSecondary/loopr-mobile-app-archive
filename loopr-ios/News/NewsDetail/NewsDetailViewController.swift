@@ -133,8 +133,8 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(news.title)
-        print("NewsDetailViewController scrollView y: \(scrollView.contentOffset.y)")
+        // print(news.title)
+        // print("NewsDetailViewController scrollView y: \(scrollView.contentOffset.y)")
 
         // scrollViewDidScroll will continue even self.navigationController?.popViewController(animated: true) is called.
         // setNavigationBarTitle is reset when updating the navigation items.
@@ -167,7 +167,7 @@ class NewsDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let bottomY = tableView.contentSize.height - tableView.height
 
-        print("the bottom of scrollView: \(bottomY)")
+        // print("the bottom of scrollView: \(bottomY)")
         if scrollView.contentOffset.y >= bottomY - 20 {
             var delta = scrollView.contentOffset.y - bottomY
             
