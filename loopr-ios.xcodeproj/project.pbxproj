@@ -138,8 +138,6 @@
 		9B15B8782234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8772234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift */; };
 		9B15B87B2234C41D00B58C40 /* AESTestsPerf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B87A2234C41D00B58C40 /* AESTestsPerf.swift */; };
 		9B15B87D2234C5D700B58C40 /* PBKDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B87C2234C5D700B58C40 /* PBKDF.swift */; };
-		9B15B8802237669500B58C40 /* MutipleWalletsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B87E2237669500B58C40 /* MutipleWalletsViewController.swift */; };
-		9B15B8812237669500B58C40 /* MutipleWalletsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B15B87F2237669500B58C40 /* MutipleWalletsViewController.xib */; };
 		9B2AEBB921DB707C00A8C32C /* UIRefreshControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */; };
 		9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */; };
 		9B2ED7FA21D460EA00ACEE84 /* NewsCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */; };
@@ -742,8 +740,6 @@
 		9B15B8772234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionCloudBackupConfigV1.swift; sourceTree = "<group>"; };
 		9B15B87A2234C41D00B58C40 /* AESTestsPerf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AESTestsPerf.swift; sourceTree = "<group>"; };
 		9B15B87C2234C5D700B58C40 /* PBKDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBKDF.swift; sourceTree = "<group>"; };
-		9B15B87E2237669500B58C40 /* MutipleWalletsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutipleWalletsViewController.swift; sourceTree = "<group>"; };
-		9B15B87F2237669500B58C40 /* MutipleWalletsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MutipleWalletsViewController.xib; sourceTree = "<group>"; };
 		9B2AEBB821DB707C00A8C32C /* UIRefreshControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtension.swift; sourceTree = "<group>"; };
 		9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlType.swift; sourceTree = "<group>"; };
 		9B2ED7F621D460EA00ACEE84 /* NewsCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionCell.xib; sourceTree = "<group>"; };
@@ -2370,8 +2366,6 @@
 				9453596D21CA2DF400FA624E /* Airdrop */,
 				943C1CAF20CE269B008A8CED /* AuthorizeLogin */,
 				ACB911512024254F00F14644 /* WalletNavigationViewController.swift */,
-				9B15B87E2237669500B58C40 /* MutipleWalletsViewController.swift */,
-				9B15B87F2237669500B58C40 /* MutipleWalletsViewController.xib */,
 				ACB911532024260E00F14644 /* WalletViewController.swift */,
 				ACB911542024260E00F14644 /* WalletViewController.xib */,
 				AC128D3D21993BF300939F4E /* WalletViewControllerGetDataFromRelay.swift */,
@@ -2983,7 +2977,6 @@
 				94AA0AA0211578460092D2CE /* ConfirmationResultViewController.xib in Resources */,
 				940B45292060F67E00ADE2B9 /* gas_limit.json in Resources */,
 				AC2ACA5620FA0EC3009C77E7 /* Rubik-BoldItalic.ttf in Resources */,
-				9B15B8812237669500B58C40 /* MutipleWalletsViewController.xib in Resources */,
 				AC2ACA5A20FA1A5F009C77E7 /* WalletButtonTableViewCell.xib in Resources */,
 				942C49FE21292FF8008A6B4F /* ConvertETHResultViewController.xib in Resources */,
 				ACDA889C20F85F9C004FA10B /* InfoPlist.strings in Resources */,
@@ -3561,7 +3554,6 @@
 				AC2ACA5C21005C18009C77E7 /* UIButton+AlignedIcon.swift in Sources */,
 				AC147BEA208D0613008D5104 /* UIDeviceExtension.swift in Sources */,
 				940B45252060F67E00ADE2B9 /* UserDefaultsKeys.swift in Sources */,
-				9B15B8802237669500B58C40 /* MutipleWalletsViewController.swift in Sources */,
 				947B1FDD21CBA0CC009AE556 /* AirdropAmount.swift in Sources */,
 				ACB911552024260E00F14644 /* WalletViewController.swift in Sources */,
 				AC5E0995205F270000801738 /* ScanQRCodeViewController.swift in Sources */,
