@@ -10,7 +10,7 @@ import UIKit
 
 class AddTokenTableViewCell: UITableViewCell {
     
-    var token: Token?
+    var token: TokenV1?
 
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var iconImageView: UIImageView!

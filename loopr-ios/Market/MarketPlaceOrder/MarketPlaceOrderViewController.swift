@@ -13,7 +13,7 @@ import NotificationBannerSwift
 
 class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NumericKeyboardDelegate, NumericKeyboardProtocol {
 
-    var market: Market!
+    var market: MarketV1!
     
     var initialType: TradeType = .buy
     var initialPrice: String?

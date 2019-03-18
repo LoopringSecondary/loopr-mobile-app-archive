@@ -14,7 +14,7 @@ protocol MarketDetailSwipeViewControllerDelegate: class {
 
 class MarketDetailSwipeViewController: SwipeViewController {
     
-    var market: Market!
+    var market: MarketV1!
 
     private var types: [String] = []
     private var viewControllers: [UIViewController] = []

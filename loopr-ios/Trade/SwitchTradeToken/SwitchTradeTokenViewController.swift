@@ -17,8 +17,8 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
 
     var needUpdateClosure: (() -> Void)?
     
-    var tokens: [Token] = []
-    var filteredTokens: [Token] = []
+    var tokens: [TokenV1] = []
+    var filteredTokens: [TokenV1] = []
     
     var type: SwitchTradeTokenType = .tokenS
     @IBOutlet weak var tableView: UITableView!
@@ -70,7 +70,7 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
     
     // We have to write code like this to make it not too slow.
     func getTokens() {
-        var tokens: [Token] = []
+        var tokens: [TokenV1] = []
         if self.type == .tokenB {
             tokens = TokenDataManager.shared.getErcTokensExcept(for: [TradeDataManager.shared.tokenS.symbol])
         } else {
@@ -148,7 +148,7 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
             cell = nib![0] as? SwitchTradeTokenTableViewCell
         }
 
-        let token: Token
+        let token: TokenV1
         if isSearching {
             token = filteredTokens[indexPath.row]
         } else {
@@ -168,7 +168,7 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             tableView.deselectRow(at: indexPath, animated: true)
-            let token: Token
+            let token: TokenV1
             if self.isSearching {
                 token = self.filteredTokens[indexPath.row]
             } else {
@@ -205,7 +205,7 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
     }
 
     func filterContentForSearchText(_ searchText: String) {
-        filteredTokens = self.tokens.filter({(token: Token) -> Bool in
+        filteredTokens = self.tokens.filter({(token: TokenV1) -> Bool in
             if token.symbol.range(of: searchText, options: .caseInsensitive) != nil {
                 return true
             } else {

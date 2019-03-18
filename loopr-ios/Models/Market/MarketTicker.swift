@@ -11,22 +11,22 @@ import Foundation
 class MarketTicker {
 
     let baseToken: String
-    let baseTokenSymbol: String = ""
+    var baseTokenSymbol: String = ""
     let quoteToken: String
-    let quoteTokenSymbol: String = ""
+    var quoteTokenSymbol: String = ""
     let exchangeRate: Double
-    let volume24H: Double
-    let percentChange1H: String
-    let percentChange24H: String
-    let percentChange7D: String
+    let volume24H: String
+    var percentChange1H: String = ""
+    var percentChange24H: String = ""
+    var percentChange7D: String = ""
 
     init(json: JSON) {
         self.baseToken = json["baseToken"].stringValue
         self.quoteToken = json["quoteToken"].stringValue
         self.exchangeRate = json["exchangeRate"].doubleValue
         self.volume24H = json["volume24H"].stringValue
-        self.baseTokenSymbol = TokenDataManager.shared.getTokenByAddress(baseToken)
-        self.quoteTokenSymbol = TokenDataManager.shared.getTokenByAddress(quoteToken)
+        self.baseTokenSymbol = TokenDataManager.shared.getTokenByAddress(baseToken)!.source
+        self.quoteTokenSymbol = TokenDataManager.shared.getTokenByAddress(quoteToken)!.source
         self.percentChange1H = toString(json: json["percentChange1H"])
         self.percentChange24H = toString(json: json["percentChange24H"])
         self.percentChange7D = toString(json: json["percentChange7D"])

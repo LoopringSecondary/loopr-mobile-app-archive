@@ -12,9 +12,9 @@ class TokenTicker {
     let token: String
     let price: Double
     let volume24H: Int
-    let percentChange1H: Double
-    let percentChange24H: Double
-    let percentChange7D: Double
+    var percentChange1H: String = ""
+    var percentChange24H: String = ""
+    var percentChange7D: String = ""
 
     init(json: JSON) {
         self.token = json["token"].stringValue

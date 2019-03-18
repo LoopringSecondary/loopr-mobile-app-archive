@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TokenStatus: CustomStringConvertible {
+enum TokenStatus: String, CustomStringConvertible {
 
     case valid = "VALID"
     case invalid = "INVALID"

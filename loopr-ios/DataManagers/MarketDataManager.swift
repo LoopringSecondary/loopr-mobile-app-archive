@@ -19,7 +19,7 @@ class MarketDataManager {
     private var oneDayTrends: [Trend]
     private var oneWeekTrends: [Trend]
     
-    private var markets: [Market]
+    private var markets: [MarketV1]
     
     private var favoriteSequence: [String]
     
@@ -47,7 +47,7 @@ class MarketDataManager {
         return markets.isEmpty
     }
 
-    func setMarkets(newMarkets: [Market]) {
+    func setMarkets(newMarkets: [MarketV1]) {
         let filteredMarkets = newMarkets.filter { (market) -> Bool in
             return market.description != ""
         }
@@ -166,15 +166,15 @@ class MarketDataManager {
         }
     }
     
-    func getMarket(byTradingPair tradingPair: String) -> Market? {
+    func getMarket(byTradingPair tradingPair: String) -> MarketV1? {
         for case let market in self.markets where market.description.lowercased() == tradingPair.lowercased() {
             return market
         }
         return nil
     }
     
-    func getMarketsWithoutReordered(type: MarketSwipeViewType = .all, tag: TickerTag = .all) -> [Market] {
-        var result: [Market]
+    func getMarketsWithoutReordered(type: MarketSwipeViewType = .all, tag: TickerTag = .all) -> [MarketV1] {
+        var result: [MarketV1]
         switch type {
         case .favorite:
             result = markets.filter({ (market) -> Bool in
@@ -225,12 +225,12 @@ class MarketDataManager {
         return favoriteSequence
     }
 
-    func setFavoriteMarket(market: Market) {
+    func setFavoriteMarket(market: MarketV1) {
         favoriteSequence.append(market.description)
         UserDefaults.standard.set(favoriteSequence, forKey: UserDefaultsKeys.favoriteSequence.rawValue)
     }
     
-    func removeFavoriteMarket(market: Market) {
+    func removeFavoriteMarket(market: MarketV1) {
         favoriteSequence = favoriteSequence.filter { $0 != market.description }
         UserDefaults.standard.set(favoriteSequence, forKey: UserDefaultsKeys.favoriteSequence.rawValue)
     }
@@ -244,9 +244,9 @@ class MarketDataManager {
     }
 
     func onTickerResponse(json: JSON) {
-        var newMarkets: [Market] = []
+        var newMarkets: [MarketV1] = []
         for subJson in json.arrayValue {
-            if let market = Market(json: subJson) {
+            if let market = MarketV1(json: subJson) {
                 newMarkets.append(market)
             }
         }

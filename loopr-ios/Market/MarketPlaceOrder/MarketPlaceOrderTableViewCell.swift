@@ -11,7 +11,7 @@ import UIKit
 class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
     weak var marketPlaceOrderViewController: MarketPlaceOrderViewController!
-    var market: Market!
+    var market: MarketV1!
     var type: TradeType!
     
     private var amountValueDecimal: Int = 8
@@ -102,7 +102,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         sellTabButton.round(corners: [.topRight, .bottomRight], radius: viewCornerRadius)
         sellTabButton.addTarget(self, action: #selector(pressedSellTabButton), for: .touchUpInside)
 
-        latestPriceInfoLabel.text = "\(LocalizedString("Market Price", comment: ""))"
+        latestPriceInfoLabel.text = "\(LocalizedString("MarketV1 Price", comment: ""))"
         latestPriceInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         latestPriceInfoLabel.theme_textColor = GlobalPicker.textLightColor
         

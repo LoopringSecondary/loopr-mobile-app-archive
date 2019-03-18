@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MarketStatus: CustomStringConvertible {
+enum MarketStatus: String, CustomStringConvertible {
 
     case active = "ACTIVE"
     case readonly = "READONLY"

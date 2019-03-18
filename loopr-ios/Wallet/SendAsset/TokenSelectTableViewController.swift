@@ -12,7 +12,7 @@ class TokenSelectTableViewController: UITableViewController, UISearchBarDelegate
     
     var searchText: String = ""
     var isSearching = false
-    var filteredTokens = [Token]()
+    var filteredTokens = [TokenV1]()
     let searchBar = UISearchBar()
     var searchButton = UIBarButtonItem()
     
@@ -98,7 +98,7 @@ class TokenSelectTableViewController: UITableViewController, UISearchBarDelegate
             let nib = Bundle.main.loadNibNamed("SwitchTradeTokenTableViewCell", owner: self, options: nil)
             cell = nib![0] as? SwitchTradeTokenTableViewCell
         }
-        let token: Token
+        let token: TokenV1
         if isSearching {
             token = filteredTokens[indexPath.row]
         } else {
@@ -116,7 +116,7 @@ class TokenSelectTableViewController: UITableViewController, UISearchBarDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let token: Token
+        let token: TokenV1
         if isSearching {
             token = filteredTokens[indexPath.row]
         } else {
@@ -146,7 +146,7 @@ class TokenSelectTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     func filterContentForSearchText(_ searchText: String) {
-        filteredTokens = TokenDataManager.shared.getTokens().filter({(token: Token) -> Bool in
+        filteredTokens = TokenDataManager.shared.getTokens().filter({(token: TokenV1) -> Bool in
             if token.symbol.range(of: searchText, options: .caseInsensitive) != nil {
                 return true
             } else {

@@ -15,7 +15,7 @@ enum MarketDetailSection: Int {
 
 class MarketDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MarketDetailDepthTableViewCellDelegate {
 
-    var market: Market!
+    var market: MarketV1!
     var marketDetailSwipeViewController = MarketDetailSwipeViewController()
     
     var swipeViewIndex: Int = 0

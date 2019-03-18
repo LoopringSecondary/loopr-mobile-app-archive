@@ -10,11 +10,11 @@ import Foundation
 
 class Market {
 
-    let metadata: Metadata
-    let ticker: Ticker
+    let metadata: MarketMetadata
+    let ticker: MarketTicker
 
     init(json: JSON) {
-        self.metadata = Metadata(json: json["metadata"])
-        self.ticker = Ticker(json: json["ticker"])
+        self.metadata = MarketMetadata(json: json["metadata"])
+        self.ticker = MarketTicker(json: json["ticker"])
     }
 }

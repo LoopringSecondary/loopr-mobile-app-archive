@@ -13,7 +13,7 @@ private let blackList: [String] = ["BAR", "FOO", "EOS"]
 class TokenDataManager {
     
     static let shared = TokenDataManager()
-    private var tokens: [Token]
+    private var tokens: [TokenV1]
 
     private init() {
         self.tokens = []
@@ -32,7 +32,7 @@ class TokenDataManager {
             let jsonString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8)
             let json = JSON(parseJSON: jsonString!)
             for subJson in json.arrayValue {
-                let token = Token(json: subJson)
+                let token = TokenV1(json: subJson)
                 if !blackList.contains(token.symbol.uppercased()) {
                     tokens.append(token)
                 }
@@ -109,33 +109,33 @@ class TokenDataManager {
     }
 
     // Get a list of tokens
-    func getTokens() -> [Token] {
+    func getTokens() -> [TokenV1] {
         return tokens
     }
     
-    private func getTokensExcept(for symbols: [String]) -> [Token] {
+    private func getTokensExcept(for symbols: [String]) -> [TokenV1] {
         return tokens.filter({ (token) -> Bool in
             return !symbols.contains(token.symbol.uppercased())
         })
     }
     
-    func getErcTokens() -> [Token] {
+    func getErcTokens() -> [TokenV1] {
         return getTokensExcept(for: ["ETH"])
     }
     
-    func getErcTokensExcept(for symbols: [String]) -> [Token] {
+    func getErcTokensExcept(for symbols: [String]) -> [TokenV1] {
         let list = symbols + ["ETH"]
         return tokens.filter({ (token) -> Bool in
             return !list.contains(token.symbol.uppercased())
         })
     }
 
-    func getTokensToAdd() -> [Token] {
+    func getTokensToAdd() -> [TokenV1] {
         return tokens
     }
 
-    func getTokenBySymbol(_ symbol: String) -> Token? {
-        var result: Token?
+    func getTokenBySymbol(_ symbol: String) -> TokenV1? {
+        var result: TokenV1?
         for case let token in tokens where token.symbol.lowercased() == symbol.lowercased() {
             result = token
             break
@@ -143,8 +143,8 @@ class TokenDataManager {
         return result
     }
     
-    func getTokenByAddress(_ address: String) -> Token? {
-        var result: Token?
+    func getTokenByAddress(_ address: String) -> TokenV1? {
+        var result: TokenV1?
         for case let token in tokens where token.protocol_value.lowercased() == address.lowercased() {
             result = token
             break

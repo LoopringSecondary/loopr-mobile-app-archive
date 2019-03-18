@@ -18,17 +18,17 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
     
     var viewAppear: Bool = false
     
-    var didSelectRowClosure: ((Market) -> Void)?
+    var didSelectRowClosure: ((MarketV1) -> Void)?
     var didSelectBlankClosure: (() -> Void)?
     
     var searchText: String = ""
     var isSearching: Bool = false
-    var filteredMarkets = [Market]()
+    var filteredMarkets = [MarketV1]()
     
     var canHideKeyboard = true
     
     // TODO: copy data from MarketDataManager.shared.getMarkets()
-    var markets = [Market]()
+    var markets = [MarketV1]()
     
     convenience init(type: MarketSwipeViewType) {
         self.init(nibName: nil, bundle: nil)
@@ -143,7 +143,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
     // MARK: - Private instance methods
     
     func filterContentForSearchText(_ searchText: String) {
-        let newFilteredMarkets = MarketDataManager.shared.getMarketsWithoutReordered(type: type).filter({(market: Market) -> Bool in
+        let newFilteredMarkets = MarketDataManager.shared.getMarketsWithoutReordered(type: type).filter({(market: MarketV1) -> Bool in
             return market.tradingPair.tradingA.lowercased().contains(searchText.lowercased()) || market.tradingPair.tradingB.lowercased().contains(searchText.lowercased())
         })
         
@@ -188,7 +188,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
             let nib = Bundle.main.loadNibNamed("MarketChangeTokenTableViewCell", owner: self, options: nil)
             cell = nib![0] as? MarketChangeTokenTableViewCell
         }
-        let market: Market
+        let market: MarketV1
         if isSearching {
             market = filteredMarkets[indexPath.row]
         } else {
@@ -209,7 +209,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let market: Market
+        let market: MarketV1
         if isSearching && filteredMarkets.count > 0 {
             market = filteredMarkets[indexPath.row]
         } else {

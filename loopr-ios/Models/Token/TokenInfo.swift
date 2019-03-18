@@ -22,8 +22,8 @@ class TokenInfo {
         self.circulatingSupply = json["circulatingSupply"].intValue
         self.totalSupply = json["totalSupply"].intValue
         self.maxSupply = json["maxSupply"].intValue
-        self.cmcRank = json["cmcRank"].boolValue
+        self.cmcRank = json["cmcRank"].intValue
         self.icoRateWithEth = json["icoRateWithEth"].doubleValue
-        self.websiteUrl = json["websiteUrl"].stringValue
+        self.websiteURL = json["websiteUrl"].stringValue
     }
 }

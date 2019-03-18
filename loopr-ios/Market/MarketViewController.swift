@@ -19,16 +19,16 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var viewAppear: Bool = false
     var isListeningSocketIO: Bool = false
     
-    var didSelectRowClosure: ((Market) -> Void)?
+    var didSelectRowClosure: ((MarketV1) -> Void)?
     var didSelectBlankClosure: (() -> Void)?
 
     var searchText: String = ""
     var isSearching: Bool = false
-    var filteredMarkets = [Market]()
+    var filteredMarkets = [MarketV1]()
     
     var canHideKeyboard = true
     
-    var markets = [Market]()
+    var markets = [MarketV1]()
     
     convenience init(type: MarketSwipeViewType) {
         self.init(nibName: nil, bundle: nil)
@@ -174,7 +174,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: - Private instance methods
     
     func filterContentForSearchText(_ searchText: String) {
-        let newFilteredMarkets = MarketDataManager.shared.getMarketsWithoutReordered(type: type).filter({(market: Market) -> Bool in
+        let newFilteredMarkets = MarketDataManager.shared.getMarketsWithoutReordered(type: type).filter({(market: MarketV1) -> Bool in
             return market.tradingPair.tradingA.lowercased().contains(searchText.lowercased()) || market.tradingPair.tradingB.lowercased().contains(searchText.lowercased())
         })
 
@@ -231,7 +231,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let label1 = UILabel(frame: CGRect(x: paddingX, y: 0, width: labelWidth, height: 30))
         label1.theme_textColor = GlobalPicker.textLightColor
         label1.font = FontConfigManager.shared.getMediumFont(size: 14)
-        label1.text = LocalizedString("Market", comment: "")
+        label1.text = LocalizedString("MarketV1", comment: "")
         label1.textAlignment = .left
         baseView.addSubview(label1)
 
@@ -271,7 +271,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let nib = Bundle.main.loadNibNamed("MarketTableViewCell", owner: self, options: nil)
             cell = nib![0] as? MarketTableViewCell
         }
-        let market: Market
+        let market: MarketV1
         if isSearching {
             market = filteredMarkets[indexPath.row]
         } else {
@@ -290,7 +290,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let market: Market
+        let market: MarketV1
         if isSearching && filteredMarkets.count > 0 {
             market = filteredMarkets[indexPath.row]
         } else {

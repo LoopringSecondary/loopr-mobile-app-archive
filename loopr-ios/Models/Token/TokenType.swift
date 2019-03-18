@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TokenType: CustomStringConvertible {
+enum TokenType: String, CustomStringConvertible {
 
     case erc20 = "TOKEN_TYPE_ERC20"
     case erc1400 = "TOKEN_TYPE_ERC1400"

@@ -10,7 +10,7 @@ import UIKit
 
 class MarketChangeTokenTableViewCell: UITableViewCell {
 
-    var market: Market?
+    var market: MarketV1?
 
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var nameLabel: UILabel!

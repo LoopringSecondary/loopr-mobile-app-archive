@@ -23,11 +23,11 @@ class PlaceOrderDataManager {
     private let sendManager = SendCurrentAppWalletDataManager.shared
     
     // Similar naming in Trade.swift
-    var tokenA: Token = Token(symbol: "LRC")!
-    var tokenB: Token = Token(symbol: "WETH")!
-    var market: Market?
+    var tokenA: TokenV1 = TokenV1(symbol: "LRC")!
+    var tokenB: TokenV1 = TokenV1(symbol: "WETH")!
+    var market: MarketV1?
     
-    func new(tokenA: String, tokenB: String, market: Market) {
+    func new(tokenA: String, tokenB: String, market: MarketV1) {
         self.tokenA = TokenDataManager.shared.getTokenBySymbol(tokenA)!
         self.tokenB = TokenDataManager.shared.getTokenBySymbol(tokenB)!
         self.market = market

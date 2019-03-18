@@ -16,7 +16,7 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
     var isSearching = false
     let searchBar = UISearchBar()
     var searchButton = UIBarButtonItem()
-    var filtedTokens: [Token] = []
+    var filtedTokens: [TokenV1] = []
     var canHideKeyboard = true
     
     var addTokenButton = UIBarButtonItem()
@@ -143,7 +143,7 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
                 cell?.selectionStyle = .none
             }
             
-            let token: Token
+            let token: TokenV1
             if isSearching {
                 token = filtedTokens[indexPath.row]
             } else {
@@ -190,7 +190,7 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func filterContentForSearchText(_ searchText: String) {
-        let newFiltedTokens = TokenDataManager.shared.getTokensToAdd().filter({(token: Token) -> Bool in
+        let newFiltedTokens = TokenDataManager.shared.getTokensToAdd().filter({(token: TokenV1) -> Bool in
             return token.symbol.lowercased().contains(searchText.lowercased())
         })
         // If filteredMarkets is the same for different searchText, no update tableView.

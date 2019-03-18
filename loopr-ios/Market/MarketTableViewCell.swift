@@ -10,7 +10,7 @@ import UIKit
 
 class MarketTableViewCell: UITableViewCell {
 
-    var market: Market?
+    var market: MarketV1?
 
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var favButton: UIButton!
@@ -57,7 +57,7 @@ class MarketTableViewCell: UITableViewCell {
         }
     }
     
-    func updateStarButton(market: Market) {
+    func updateStarButton(market: MarketV1) {
         if market.isFavorite() {
             favButton.image = UIImage(named: "Star" + ColorTheme.getTheme())?.withRenderingMode(.alwaysOriginal)
         } else {

@@ -21,7 +21,7 @@ class MarketChangeTokenSwipeViewController: SwipeViewController, UISearchBarDele
     let searchBar = UISearchBar()
     var searchButton = UIBarButtonItem()
     
-    var didSelectRowClosure: ((Market) -> Void)?
+    var didSelectRowClosure: ((MarketV1) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()

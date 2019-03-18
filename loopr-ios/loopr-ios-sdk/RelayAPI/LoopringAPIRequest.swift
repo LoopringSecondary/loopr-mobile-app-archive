@@ -156,7 +156,7 @@ class LoopringAPIRequest {
     }
 
     // Get markets
-    static func getTicker(by source: TikcerSource, completionHandler: @escaping (_ markets: [Market], _ error: Error?) -> Void) {
+    static func getTicker(by source: TikcerSource, completionHandler: @escaping (_ markets: [MarketV1], _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["method"] = "loopring_getTickerBySource"
         body["params"] = [["delegateAddress": RelayAPIConfiguration.delegateAddress, "tickerSource": source.description]]
@@ -166,12 +166,12 @@ class LoopringAPIRequest {
                 print("error=\(String(describing: error))")
                 return
             }
-            var markets: [Market] = []
+            var markets: [MarketV1] = []
             let json = JSON(data)
             let offerData = json["result"]
 
             for subJson in offerData.arrayValue {
-                if let market = Market(json: subJson) {
+                if let market = MarketV1(json: subJson) {
                     markets.append(market)
                 }
             }
@@ -180,9 +180,9 @@ class LoopringAPIRequest {
     }
 
     // READY
-    static func getTicker(completionHandler: @escaping (_ markets: [Market], _ error: Error?) -> Void) {
+    static func getTicker(completionHandler: @escaping (_ markets: [MarketV1], _ error: Error?) -> Void) {
         var body: JSON = JSON()
-        print("WARNING: please use getTicker(by source: TikcerSource, completionHandler: @escaping (_ markets: [Market], _ error: Error?)")
+        print("WARNING: please use getTicker(by source: TikcerSource, completionHandler: @escaping (_ markets: [MarketV1], _ error: Error?)")
         body["method"] = "loopring_getTicker"
         body["params"] = [["delegateAddress": RelayAPIConfiguration.delegateAddress]]
         body["id"] = JSON(UUID().uuidString)
@@ -192,12 +192,12 @@ class LoopringAPIRequest {
                 print("error=\(String(describing: error))")
                 return
             }
-            var markets: [Market] = []
+            var markets: [MarketV1] = []
             let json = JSON(data)
             let offerData = json["result"]
 
             for subJson in offerData.arrayValue {
-                if let market = Market(json: subJson) {
+                if let market = MarketV1(json: subJson) {
                     markets.append(market)
                 }
             }
@@ -205,8 +205,8 @@ class LoopringAPIRequest {
         }
     }
 
-    static func getTickers(market: String, completionHandler: @escaping (_ markets: [Market], _ error: Error?) -> Void) {
-        print("WARNING: please use getTicker(by source: TikcerSource, completionHandler: @escaping (_ markets: [Market], _ error: Error?)")
+    static func getTickers(market: String, completionHandler: @escaping (_ markets: [MarketV1], _ error: Error?) -> Void) {
+        print("WARNING: please use getTicker(by source: TikcerSource, completionHandler: @escaping (_ markets: [MarketV1], _ error: Error?)")
         var body: JSON = JSON()
         body["method"] = "loopring_getTickers"
         body["params"] = [["delegateAddress": RelayAPIConfiguration.delegateAddress, "market": market]]
@@ -217,14 +217,14 @@ class LoopringAPIRequest {
                 print("error=\(String(describing: error))")
                 return
             }
-            var markets: [Market] = []
+            var markets: [MarketV1] = []
             let json = JSON(data)
             let offerData = json["result"]
             print(offerData)
 
             for (key, value) in json["result"] {
                 print("key \(key) value2 \(value)")
-                if let market = Market(json: value) {
+                if let market = MarketV1(json: value) {
                     market.exchange = key
                     markets.append(market)
                 }
@@ -394,7 +394,7 @@ class LoopringAPIRequest {
     }
 
     // Please use getCustomTokens rather than getSupportedTokens. getCustomTokens = getSupportedTokens + custom tokens.
-    static func getSupportedTokens(completionHandler: @escaping (_ tokens: [Token]?, _ error: Error?) -> Void) {
+    static func getSupportedTokens(completionHandler: @escaping (_ tokens: [TokenV1]?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["method"] = "loopring_getSupportedTokens"
         body["id"] = JSON(UUID().uuidString)
@@ -404,18 +404,18 @@ class LoopringAPIRequest {
                 completionHandler(nil, error)
                 return
             }
-            var tokens: [Token] = []
+            var tokens: [TokenV1] = []
             let json = JSON(data)
             let offerData = json["result"]
             for subJson in offerData.arrayValue {
-                let token = Token(json: subJson)
+                let token = TokenV1(json: subJson)
                 tokens.append(token)
             }
             completionHandler(tokens, nil)
         }
     }
 
-    static func getCustomTokens(owner: String, completionHandler: @escaping (_ tokens: [Token]?, _ error: Error?) -> Void) {
+    static func getCustomTokens(owner: String, completionHandler: @escaping (_ tokens: [TokenV1]?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["method"] = "loopring_getCustomTokens"
         body["params"] = [["owner": owner]]
@@ -426,12 +426,12 @@ class LoopringAPIRequest {
                 completionHandler(nil, error)
                 return
             }
-            var tokens: [Token] = []
+            var tokens: [TokenV1] = []
             let json = JSON(data)
             let offerData = json["result"]
             // print(offerData)
             for subJson in offerData.arrayValue {
-                let token = Token(json: subJson)
+                let token = TokenV1(json: subJson)
                 tokens.append(token)
             }
             completionHandler(tokens, nil)
@@ -762,7 +762,7 @@ class LoopringAPIRequest {
     }
 
     //==========================================relay 2.0===========================================
-    static func getMarkets(requireMetadata: Bool, requireTicker: Bool, quoteCurrencyForTicker: String, completionHandler: @escaping (_ result: [Market]?, _ error: Error?) -> Void) {
+    static func getMarkets(requireMetadata: Bool, requireTicker: Bool, quoteCurrencyForTicker: String, completionHandler: @escaping (_ result: [MarketV1]?, _ error: Error?) -> Void) {
 
     }
 }

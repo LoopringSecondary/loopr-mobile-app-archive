@@ -17,7 +17,7 @@ class SendCurrentAppWalletDataManager {
     private var client: EthereumClient?
 
     // sending token in send controller
-    open var token: Token?
+    open var token: TokenV1?
     
     private var wethAddress: GethAddress?
     private var protocolAddress: GethAddress?

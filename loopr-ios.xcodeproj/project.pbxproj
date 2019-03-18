@@ -123,6 +123,7 @@
 		9B018DC521FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC321FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.swift */; };
 		9B018DC621FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */; };
 		9B018DC821FC3096009D079D /* TimeAgoSince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC721FC3096009D079D /* TimeAgoSince.swift */; };
+		9B0752C7223FF743004E3A51 /* TokenV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752C6223FF743004E3A51 /* TokenV1.swift */; };
 		9B15B842221A92D400B58C40 /* OrderHistoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B841221A92D400B58C40 /* OrderHistoryHeaderView.swift */; };
 		9B15B84B2223A80F00B58C40 /* CancelOrderConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */; };
 		9B15B84C2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */; };
@@ -502,7 +503,7 @@
 		ACB91172202557B100F14644 /* MarketViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACB91170202557B100F14644 /* MarketViewController.xib */; };
 		ACB9117520255A6600F14644 /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB9117320255A6600F14644 /* MarketTableViewCell.swift */; };
 		ACB9117620255A6600F14644 /* MarketTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACB9117420255A6600F14644 /* MarketTableViewCell.xib */; };
-		ACB9117820256B0300F14644 /* Market.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB9117720256B0300F14644 /* Market.swift */; };
+		ACB9117820256B0300F14644 /* MarketV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB9117720256B0300F14644 /* MarketV1.swift */; };
 		ACB9117C20256BBA00F14644 /* TradingPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB9117B20256BBA00F14644 /* TradingPair.swift */; };
 		ACB9117F2026385100F14644 /* SettingNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB9117E2026385100F14644 /* SettingNavigationViewController.swift */; };
 		ACB911842026388700F14644 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB911822026388700F14644 /* SettingViewController.swift */; };
@@ -575,7 +576,6 @@
 		C8BF959D202696A900343B9A /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BF959C202696A900343B9A /* MainTabController.swift */; };
 		CED8215D90E063EB60DD01AF /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82CEEB520984B433AE6F0 /* Token.swift */; };
 		CED8216BA3C87EFBF800110B /* TokenInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED825CB0FB9FC5E4EEC749C /* TokenInfo.swift */; };
-		CED82484DFCE181FDB675DFF /* MarketPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED8290634126F5509E9E5F0 /* MarketPair.swift */; };
 		CED82512CC49FD798562C078 /* BurnRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED8287175B284D5143B2CAB /* BurnRate.swift */; };
 		CED826681EAAEB7CE29DC003 /* MarketSwipeViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82262161AF57DC4CCD11E /* MarketSwipeViewType.swift */; };
 		CED827B0D7460B51C7E0B9E2 /* TokenTicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82B54D0B78E3717BDDA47 /* TokenTicker.swift */; };
@@ -736,6 +736,7 @@
 		9B018DC321FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailSeperateLineTableViewCell.swift; sourceTree = "<group>"; };
 		9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailSeperateLineTableViewCell.xib; sourceTree = "<group>"; };
 		9B018DC721FC3096009D079D /* TimeAgoSince.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAgoSince.swift; sourceTree = "<group>"; };
+		9B0752C6223FF743004E3A51 /* TokenV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenV1.swift; sourceTree = "<group>"; };
 		9B15B841221A92D400B58C40 /* OrderHistoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistoryHeaderView.swift; sourceTree = "<group>"; };
 		9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderConfirmationViewController.swift; sourceTree = "<group>"; };
 		9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelOrderConfirmationViewController.xib; sourceTree = "<group>"; };
@@ -1123,7 +1124,7 @@
 		ACB91170202557B100F14644 /* MarketViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketViewController.xib; sourceTree = "<group>"; };
 		ACB9117320255A6600F14644 /* MarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketTableViewCell.swift; sourceTree = "<group>"; };
 		ACB9117420255A6600F14644 /* MarketTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketTableViewCell.xib; sourceTree = "<group>"; };
-		ACB9117720256B0300F14644 /* Market.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Market.swift; sourceTree = "<group>"; };
+		ACB9117720256B0300F14644 /* MarketV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketV1.swift; sourceTree = "<group>"; };
 		ACB9117B20256BBA00F14644 /* TradingPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingPair.swift; sourceTree = "<group>"; };
 		ACB9117E2026385100F14644 /* SettingNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNavigationViewController.swift; sourceTree = "<group>"; };
 		ACB911822026388700F14644 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -1223,7 +1224,6 @@
 		CED825CB0FB9FC5E4EEC749C /* TokenInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenInfo.swift; sourceTree = "<group>"; };
 		CED82663E035884F1548EEAE /* MarketTicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketTicker.swift; sourceTree = "<group>"; };
 		CED8287175B284D5143B2CAB /* BurnRate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BurnRate.swift; sourceTree = "<group>"; };
-		CED8290634126F5509E9E5F0 /* MarketPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketPair.swift; sourceTree = "<group>"; };
 		CED82B036C1C6701010C1D5C /* MarketMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketMetadata.swift; sourceTree = "<group>"; };
 		CED82B54D0B78E3717BDDA47 /* TokenTicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenTicker.swift; sourceTree = "<group>"; };
 		CED82CEEB520984B433AE6F0 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -1558,7 +1558,6 @@
 			isa = PBXGroup;
 			children = (
 				9BB0F245223F60D700A4D23B /* AccountBalance.swift */,
-				9BB0F247223F622200A4D23B /* MarketPair.swift */,
 				9BB0F249223F647800A4D23B /* Sort.swift */,
 				9BB0F24B223F64B300A4D23B /* Paging.swift */,
 				9BB0F24D223F69D500A4D23B /* Activity.swift */,
@@ -2423,7 +2422,8 @@
 				AC4B894C21103EAF00643910 /* TradeType.swift */,
 				AC72AEE7204F020B00E9D3B0 /* OrderTradeState.swift */,
 				AC72AEE9204F038300E9D3B0 /* OrderTradeError.swift */,
-				ACB9117720256B0300F14644 /* Market.swift */,
+				ACB9117720256B0300F14644 /* MarketV1.swift */,
+				9B0752C6223FF743004E3A51 /* TokenV1.swift */,
 				ACB9117B20256BBA00F14644 /* TradingPair.swift */,
 				AC31B939204A4F9000B16155 /* Language.swift */,
 				949629DA204E836400858F03 /* Depth.swift */,
@@ -2784,8 +2784,8 @@
 				CED82262161AF57DC4CCD11E /* MarketSwipeViewType.swift */,
 				CED82E620C2F4563A0CAA6F2 /* Market.swift */,
 				CED82B036C1C6701010C1D5C /* MarketMetadata.swift */,
-				CED8290634126F5509E9E5F0 /* MarketPair.swift */,
 				CED82663E035884F1548EEAE /* MarketTicker.swift */,
+				9BB0F247223F622200A4D23B /* MarketPair.swift */,
 				CED82EE29FADF5ED0FA52050 /* MarketStatus.swift */,
 			);
 			path = Market;
@@ -3357,6 +3357,7 @@
 				ACFD5FB42171B8AB00E161EE /* OrderHistoryViewController.swift in Sources */,
 				942C4A02212A9D89008A6B4F /* P2PType.swift in Sources */,
 				ACE9F04A218AAB4300695E37 /* AppServiceUserManager.swift in Sources */,
+				9B0752C7223FF743004E3A51 /* TokenV1.swift in Sources */,
 				AC1B6D7F2130FB510026C1B2 /* Secp256k1Helper.swift in Sources */,
 				ACFEFE9F20C3436000013921 /* loopr_ios.xcdatamodeld in Sources */,
 				AC4F601520773E9D00F1D954 /* EthFunction.swift in Sources */,
@@ -3546,7 +3547,7 @@
 				ACBA47E220788ECD0032C2B4 /* SettingManageWalletViewController.swift in Sources */,
 				ACEC0FBF21F1B4FC0006485A /* NewsImage.swift in Sources */,
 				ACE65E4520720500001EE499 /* MnemonicCollectionViewCell.swift in Sources */,
-				ACB9117820256B0300F14644 /* Market.swift in Sources */,
+				ACB9117820256B0300F14644 /* MarketV1.swift in Sources */,
 				941138C7210F12AD007FDC82 /* TimeToLiveViewController.swift in Sources */,
 				9B76456621FD707900896B3E /* NewsList.swift in Sources */,
 				9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */,
@@ -3627,7 +3628,6 @@
 				CED826681EAAEB7CE29DC003 /* MarketSwipeViewType.swift in Sources */,
 				CED82D1DC121419D7CAE6D18 /* Market.swift in Sources */,
 				CED82B265EAA0109210FE4B3 /* MarketMetadata.swift in Sources */,
-				CED82484DFCE181FDB675DFF /* MarketPair.swift in Sources */,
 				CED82F958F3CAD9C87CC6EEC /* MarketTicker.swift in Sources */,
 				CED82BAB96C35C606D64B621 /* MarketStatus.swift in Sources */,
 				CED8215D90E063EB60DD01AF /* Token.swift in Sources */,

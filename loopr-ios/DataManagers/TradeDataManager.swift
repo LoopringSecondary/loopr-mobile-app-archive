@@ -36,12 +36,12 @@ class TradeDataManager {
     let orderCount: Int = 2
     let byteLength: Int = EthType.MAX_BYTE_LENGTH
     
-    var tokenS: Token {
+    var tokenS: TokenV1 {
         didSet {
             updatePair()
         }
     }
-    var tokenB: Token {
+    var tokenB: TokenV1 {
         didSet {
             updatePair()
         }
@@ -52,19 +52,19 @@ class TradeDataManager {
         state = .empty
         // Get TokenS and TokenB from UserDefaults
         let defaults = UserDefaults.standard
-        var tokenS: Token?
+        var tokenS: TokenV1?
         if let symbol = defaults.string(forKey: UserDefaultsKeys.tradeTokenS.rawValue) {
-            tokenS = Token(symbol: symbol)
+            tokenS = TokenV1(symbol: symbol)
         }
-        var tokenB: Token?
+        var tokenB: TokenV1?
         if let symbol = defaults.string(forKey: UserDefaultsKeys.tradeTokenB.rawValue) {
-            tokenB = Token(symbol: symbol)
+            tokenB = TokenV1(symbol: symbol)
         }
 
         // Use default values if loopring_getSupportedTokens returns errors.
         if tokenS == nil || tokenB == nil {
-            self.tokenS = Token(symbol: "WETH")!
-            self.tokenB = Token(symbol: "LRC")!
+            self.tokenS = TokenV1(symbol: "WETH")!
+            self.tokenB = TokenV1(symbol: "LRC")!
         } else {
             self.tokenS = tokenS!
             self.tokenB = tokenB!
@@ -97,18 +97,18 @@ class TradeDataManager {
     }
     
     func swapTokenSAndTokenB() {
-        let tmpToken = Token(symbol: tokenB.symbol)!
+        let tmpToken = TokenV1(symbol: tokenB.symbol)!
         changeTokenB(tokenS)
         changeTokenS(tmpToken)
     }
 
-    func changeTokenS(_ token: Token) {
+    func changeTokenS(_ token: TokenV1) {
         tokenS = token
         let defaults = UserDefaults.standard
         defaults.set(token.symbol, forKey: UserDefaultsKeys.tradeTokenS.rawValue)
     }
 
-    func changeTokenB(_ token: Token) {
+    func changeTokenB(_ token: TokenV1) {
         tokenB = token
         let defaults = UserDefaults.standard
         defaults.set(token.symbol, forKey: UserDefaultsKeys.tradeTokenB.rawValue)

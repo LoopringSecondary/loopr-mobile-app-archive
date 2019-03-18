@@ -25,7 +25,7 @@ class MarketMetadata {
         self.precisionForAmount = json["precisionForAmount"].intValue
         self.precisionForTotal = json["precisionForTotal"].intValue
         self.browsableInWallet = json["browsableInWallet"].boolValue
-        self.marketPair = marketPair(json: json["marketPair"])
+        self.marketPair = MarketPair(json: json["marketPair"])
         self.marketHash = json["marketHash"].stringValue
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Market: Equatable, CustomStringConvertible {
+class MarketV1: Equatable, CustomStringConvertible {
     
     var exchange: String
     var name: String
@@ -94,7 +94,7 @@ class Market: Equatable, CustomStringConvertible {
         }
     }
     
-    static func == (lhs: Market, rhs: Market) -> Bool {
+    static func == (lhs: MarketV1, rhs: MarketV1) -> Bool {
         return lhs.tradingPair == rhs.tradingPair
     }
 
