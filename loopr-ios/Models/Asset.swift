@@ -22,10 +22,10 @@ class Asset: CustomStringConvertible, Equatable {
     var total: Double  // total and currency are for the same value.
     var currency: String
     var description: String
-    
+
     // Get it from \(symbol)-USDT in loopring_getTickerBySource endpoint.
     var decimals: Int
-    
+
     init(json: JSON) {
         self.enable = true
         self.balance = 0.0
@@ -61,7 +61,7 @@ class Asset: CustomStringConvertible, Equatable {
             self.allowance = allowance
         }
     }
-    
+
     init(token: Token) {
         self.symbol = token.symbol
         self.name = token.source
@@ -75,7 +75,7 @@ class Asset: CustomStringConvertible, Equatable {
         self.icon = UIImage(named: "Token-\(self.symbol)-\(Themes.getTheme())") ?? nil
         self.decimals = MarketDataManager.shared.getDecimals(tokenSymbol: self.symbol)
     }
-    
+
     static func getAmount(fromWeiAmount weiAmount: String, of decimals: Int) -> Double? {
         var index: String.Index
         var result: Double?
