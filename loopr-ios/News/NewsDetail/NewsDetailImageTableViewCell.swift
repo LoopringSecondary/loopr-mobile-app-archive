@@ -30,12 +30,13 @@ class NewsDetailImageTableViewCell: UITableViewCell {
     }
 
     class func getHeight(image: UIImage?) -> CGFloat {
+        let height: CGFloat = NewsUIStyleConfig.shared.newsDetailPadding + 4*2
         if image != nil {
             let width: CGFloat = UIScreen.main.bounds.width - 15*2
-            let height = image!.size.height/image!.size.width*width
-            return height + NewsUIStyleConfig.shared.newsDetailPadding + 4*2
+            let imageHeight = image!.size.height/image!.size.width*width
+            return height + imageHeight
         } else {
-            return 0
+            return height
         }
     }
 }

@@ -64,7 +64,8 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
             viewControllers = [viewController1, viewController4]
         }
         
-        newsSwipeViewController.view.frame = CGRect.zero
+        // Avoid - Unable to simultaneously satisfy constraints.
+        // newsSwipeViewController.view.frame = CGRect.zero
         newsSwipeViewController.willMove(toParentViewController: self)
         view.addSubview(newsSwipeViewController.view)
         
