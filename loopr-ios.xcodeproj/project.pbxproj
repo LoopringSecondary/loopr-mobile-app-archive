@@ -204,6 +204,12 @@
 		9BA4FCA821EC0020005A3DC0 /* NewsParagraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FCA721EC0020005A3DC0 /* NewsParagraph.swift */; };
 		9BA4FCAB21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FCA921EC05EF005A3DC0 /* NewsDetailImageTableViewCell.swift */; };
 		9BA4FCAC21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA4FCAA21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.xib */; };
+		9BB0F243223F5C2D00A4D23B /* LoopringLightcoreAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB0F242223F5C2D00A4D23B /* LoopringLightcoreAPIRequest.swift */; };
+		9BB0F246223F60D700A4D23B /* AccountBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB0F245223F60D700A4D23B /* AccountBalance.swift */; };
+		9BB0F248223F622200A4D23B /* MarketPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB0F247223F622200A4D23B /* MarketPair.swift */; };
+		9BB0F24A223F647800A4D23B /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB0F249223F647800A4D23B /* Sort.swift */; };
+		9BB0F24C223F64B300A4D23B /* Paging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB0F24B223F64B300A4D23B /* Paging.swift */; };
+		9BB0F24E223F69D500A4D23B /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB0F24D223F69D500A4D23B /* Activity.swift */; };
 		9BB789EE21EC22C90095631D /* NewsDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB789EC21EC22C90095631D /* NewsDetailTitleTableViewCell.swift */; };
 		9BB789EF21EC22C90095631D /* NewsDetailTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BB789ED21EC22C90095631D /* NewsDetailTitleTableViewCell.xib */; };
 		9BB789F221EC23250095631D /* NewsDetailSubtitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB789F021EC23250095631D /* NewsDetailSubtitleTableViewCell.swift */; };
@@ -802,6 +808,12 @@
 		9BA4FCA721EC0020005A3DC0 /* NewsParagraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsParagraph.swift; sourceTree = "<group>"; };
 		9BA4FCA921EC05EF005A3DC0 /* NewsDetailImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailImageTableViewCell.swift; sourceTree = "<group>"; };
 		9BA4FCAA21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailImageTableViewCell.xib; sourceTree = "<group>"; };
+		9BB0F242223F5C2D00A4D23B /* LoopringLightcoreAPIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopringLightcoreAPIRequest.swift; sourceTree = "<group>"; };
+		9BB0F245223F60D700A4D23B /* AccountBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalance.swift; sourceTree = "<group>"; };
+		9BB0F247223F622200A4D23B /* MarketPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPair.swift; sourceTree = "<group>"; };
+		9BB0F249223F647800A4D23B /* Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sort.swift; sourceTree = "<group>"; };
+		9BB0F24B223F64B300A4D23B /* Paging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paging.swift; sourceTree = "<group>"; };
+		9BB0F24D223F69D500A4D23B /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		9BB789EC21EC22C90095631D /* NewsDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
 		9BB789ED21EC22C90095631D /* NewsDetailTitleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailTitleTableViewCell.xib; sourceTree = "<group>"; };
 		9BB789F021EC23250095631D /* NewsDetailSubtitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailSubtitleTableViewCell.swift; sourceTree = "<group>"; };
@@ -1522,6 +1534,18 @@
 				9B76456521FD707900896B3E /* NewsList.swift */,
 			);
 			path = News;
+			sourceTree = "<group>";
+		};
+		9BB0F244223F609C00A4D23B /* Lightcore */ = {
+			isa = PBXGroup;
+			children = (
+				9BB0F245223F60D700A4D23B /* AccountBalance.swift */,
+				9BB0F247223F622200A4D23B /* MarketPair.swift */,
+				9BB0F249223F647800A4D23B /* Sort.swift */,
+				9BB0F24B223F64B300A4D23B /* Paging.swift */,
+				9BB0F24D223F69D500A4D23B /* Activity.swift */,
+			);
+			path = Lightcore;
 			sourceTree = "<group>";
 		};
 		AC0CD58720D38B9400ABB7BA /* CreateWallet */ = {
@@ -2422,6 +2446,7 @@
 				9461851321D0FA4900393432 /* IndexResult.swift */,
 				9BA4FC9A21DC4FA4005A3DC0 /* News */,
 				9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */,
+				9BB0F244223F609C00A4D23B /* Lightcore */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2508,6 +2533,7 @@
 				ACA677D2207DCF1900D34A2F /* RelayAPIConfiguration.swift */,
 				ACB9119420278A4000F14644 /* Request.swift */,
 				ACB911982027F65800F14644 /* LoopringAPIRequest.swift */,
+				9BB0F242223F5C2D00A4D23B /* LoopringLightcoreAPIRequest.swift */,
 				ACB5DD94202C434B00140A09 /* EthereumAPIRequest.swift */,
 				947B1FD621CB789F009AE556 /* NeoAPIRequest.swift */,
 				943F8F2621D3516F00D4703C /* CrawlerAPIRequest.swift */,
@@ -3232,6 +3258,7 @@
 				AC31B949204A8DF400B16155 /* Scrypt.swift in Sources */,
 				AC8DBC6D20BE8B0C007AC862 /* MnemonicBackupModeCollectionViewCell.swift in Sources */,
 				ACB746E52043C5F5006C2BF5 /* QRCodeViewController.swift in Sources */,
+				9BB0F24C223F64B300A4D23B /* Paging.swift in Sources */,
 				9461851421D0FA4900393432 /* IndexResult.swift in Sources */,
 				ACE6F7242042228A0039273D /* GlobalPicker.swift in Sources */,
 				AC9DC45321156F3A002D7D23 /* MarketDetailDepthModalViewController.swift in Sources */,
@@ -3266,6 +3293,7 @@
 				AC45EFEB20D0CCF5004F6EC0 /* SetupWalletViewControllerExtension.swift in Sources */,
 				AC3756702038D3ED00AADC60 /* UnlockWalletType.swift in Sources */,
 				AC8866992174688500815DD1 /* AppServiceUpdateManager.swift in Sources */,
+				9BB0F243223F5C2D00A4D23B /* LoopringLightcoreAPIRequest.swift in Sources */,
 				9BA3020B21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift in Sources */,
 				ACC6E12221B517F6001729EC /* FeatureConfigDataManager.swift in Sources */,
 				ACB97C6D20707B6F00775D4C /* AddTokenTableViewCell.swift in Sources */,
@@ -3303,6 +3331,7 @@
 				9457417020D0E9CD00110CFD /* CancelOrder.swift in Sources */,
 				AC2D2C072089C08E00D619AD /* ImportWalletUsingPrivateKeyDataManager.swift in Sources */,
 				AC5E0DDE203B447700AF03C7 /* WalletBalanceTableViewCell.swift in Sources */,
+				9BB0F24E223F69D500A4D23B /* Activity.swift in Sources */,
 				AC31B962204A8E4F00B16155 /* DerivationPath.Index.swift in Sources */,
 				9401C4D521C11CBF00A01E0B /* Contact.swift in Sources */,
 				ACB91171202557B100F14644 /* MarketViewController.swift in Sources */,
@@ -3331,6 +3360,7 @@
 				940B45242060F67E00ADE2B9 /* TradeDataManager.swift in Sources */,
 				ACB729D4205DE21B00DD4DF3 /* TradeConfirmationViewController.swift in Sources */,
 				94E665E9207234C5001328BF /* OrderTableViewCell.swift in Sources */,
+				9BB0F24A223F647800A4D23B /* Sort.swift in Sources */,
 				AC9280E1202EC53D0009B574 /* TradeNavigationViewController.swift in Sources */,
 				AC5E3E74205E22080051ACFC /* NotificationName.swift in Sources */,
 				AC31B95F204A8E4F00B16155 /* WalletDescriptor.swift in Sources */,
@@ -3340,6 +3370,7 @@
 				942E2CAD2148F15F00041733 /* TickerTag.swift in Sources */,
 				949774F021181E38001BF79D /* TradeRatioViewController.swift in Sources */,
 				AC31B951204A8DF400B16155 /* DataHex.swift in Sources */,
+				9BB0F246223F60D700A4D23B /* AccountBalance.swift in Sources */,
 				AC4141F520352D300089861D /* SwipeContentScrollView.swift in Sources */,
 				AC5288B4208300580002AEAD /* DateUtil.swift in Sources */,
 				940B45222060F67E00ADE2B9 /* PriceDataManager.swift in Sources */,
@@ -3452,6 +3483,7 @@
 				9B76456021FD2CF200896B3E /* AssetBalanceTableViewCell.swift in Sources */,
 				AC0619422085D01E0060F416 /* SearchBarContainerView.swift in Sources */,
 				AC56625B20563C05003C925C /* TradeViewController.swift in Sources */,
+				9BB0F248223F622200A4D23B /* MarketPair.swift in Sources */,
 				AC31B95E204A8E4F00B16155 /* Mnemonic.swift in Sources */,
 				94C11FD6208C2DC60050E180 /* SettingCurrencyViewController.swift in Sources */,
 				9BA3014621B06A1300E55E49 /* MarketDetailViewControllerDepth.swift in Sources */,
