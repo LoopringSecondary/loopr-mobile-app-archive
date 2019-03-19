@@ -124,6 +124,9 @@
 		9B018DC621FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */; };
 		9B018DC821FC3096009D079D /* TimeAgoSince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC721FC3096009D079D /* TimeAgoSince.swift */; };
 		9B0752C7223FF743004E3A51 /* TokenV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752C6223FF743004E3A51 /* TokenV1.swift */; };
+		9B0752CB2240BDDD004E3A51 /* KeyStrengtheningTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752C92240BDDD004E3A51 /* KeyStrengtheningTestCase.swift */; };
+		9B0752CC2240BDDD004E3A51 /* EncryptionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752CA2240BDDD004E3A51 /* EncryptionTestCase.swift */; };
+		9B0752CE2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752CD2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift */; };
 		9B15B842221A92D400B58C40 /* OrderHistoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B841221A92D400B58C40 /* OrderHistoryHeaderView.swift */; };
 		9B15B84B2223A80F00B58C40 /* CancelOrderConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */; };
 		9B15B84C2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */; };
@@ -133,8 +136,6 @@
 		9B15B86C2234893700B58C40 /* EncryptionConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86B2234893600B58C40 /* EncryptionConfigV1.swift */; };
 		9B15B86E223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86D223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift */; };
 		9B15B87022348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B86F22348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift */; };
-		9B15B87222348EA500B58C40 /* KeyStrengtheningTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B87122348EA500B58C40 /* KeyStrengtheningTestCase.swift */; };
-		9B15B8762234957E00B58C40 /* EncryptionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8752234957D00B58C40 /* EncryptionTestCase.swift */; };
 		9B15B8782234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B8772234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift */; };
 		9B15B87B2234C41D00B58C40 /* AESTestsPerf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B87A2234C41D00B58C40 /* AESTestsPerf.swift */; };
 		9B15B87D2234C5D700B58C40 /* PBKDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15B87C2234C5D700B58C40 /* PBKDF.swift */; };
@@ -737,6 +738,9 @@
 		9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailSeperateLineTableViewCell.xib; sourceTree = "<group>"; };
 		9B018DC721FC3096009D079D /* TimeAgoSince.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAgoSince.swift; sourceTree = "<group>"; };
 		9B0752C6223FF743004E3A51 /* TokenV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenV1.swift; sourceTree = "<group>"; };
+		9B0752C92240BDDD004E3A51 /* KeyStrengtheningTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyStrengtheningTestCase.swift; sourceTree = "<group>"; };
+		9B0752CA2240BDDD004E3A51 /* EncryptionTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptionTestCase.swift; sourceTree = "<group>"; };
+		9B0752CD2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopringLightcoreAPIRequestTests.swift; sourceTree = "<group>"; };
 		9B15B841221A92D400B58C40 /* OrderHistoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistoryHeaderView.swift; sourceTree = "<group>"; };
 		9B15B8492223A80F00B58C40 /* CancelOrderConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderConfirmationViewController.swift; sourceTree = "<group>"; };
 		9B15B84A2223A80F00B58C40 /* CancelOrderConfirmationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelOrderConfirmationViewController.xib; sourceTree = "<group>"; };
@@ -746,8 +750,6 @@
 		9B15B86B2234893600B58C40 /* EncryptionConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionConfigV1.swift; sourceTree = "<group>"; };
 		9B15B86D223489E300B58C40 /* EncryptionPBKDF2ConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionPBKDF2ConfigV1.swift; sourceTree = "<group>"; };
 		9B15B86F22348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionAESGCMConfigV1.swift; sourceTree = "<group>"; };
-		9B15B87122348EA500B58C40 /* KeyStrengtheningTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeyStrengtheningTestCase.swift; path = "loopr-iosTests/CloudBackup/KeyStrengtheningTestCase.swift"; sourceTree = SOURCE_ROOT; };
-		9B15B8752234957D00B58C40 /* EncryptionTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EncryptionTestCase.swift; path = "loopr-iosTests/CloudBackup/EncryptionTestCase.swift"; sourceTree = SOURCE_ROOT; };
 		9B15B8772234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionCloudBackupConfigV1.swift; sourceTree = "<group>"; };
 		9B15B87A2234C41D00B58C40 /* AESTestsPerf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AESTestsPerf.swift; sourceTree = "<group>"; };
 		9B15B87C2234C5D700B58C40 /* PBKDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBKDF.swift; sourceTree = "<group>"; };
@@ -1378,6 +1380,15 @@
 			path = ImageScrollView;
 			sourceTree = "<group>";
 		};
+		9B0752C82240BDDD004E3A51 /* CloudBackup */ = {
+			isa = PBXGroup;
+			children = (
+				9B0752C92240BDDD004E3A51 /* KeyStrengtheningTestCase.swift */,
+				9B0752CA2240BDDD004E3A51 /* EncryptionTestCase.swift */,
+			);
+			path = CloudBackup;
+			sourceTree = "<group>";
+		};
 		9B15B843221E917B00B58C40 /* MarketPlaceOrderConfirmation */ = {
 			isa = PBXGroup;
 			children = (
@@ -1416,16 +1427,6 @@
 				9B15B86F22348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift */,
 			);
 			path = Encryption;
-			sourceTree = "<group>";
-		};
-		9B15B8682233A55000B58C40 /* CloudBackup */ = {
-			isa = PBXGroup;
-			children = (
-				9B15B87122348EA500B58C40 /* KeyStrengtheningTestCase.swift */,
-				9B15B8752234957D00B58C40 /* EncryptionTestCase.swift */,
-			);
-			name = CloudBackup;
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		9B15B8792234C36300B58C40 /* CryptoSwift */ = {
@@ -1638,6 +1639,7 @@
 			children = (
 				AC9280DC202E0F9F0009B574 /* EthereumAPIRequestTests.swift */,
 				AC798E592022B93B0071D477 /* LoopringAPIRequestTests.swift */,
+				9B0752CD2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift */,
 			);
 			path = RelayAPI;
 			sourceTree = "<group>";
@@ -2052,7 +2054,7 @@
 			isa = PBXGroup;
 			children = (
 				9B15B8792234C36300B58C40 /* CryptoSwift */,
-				9B15B8682233A55000B58C40 /* CloudBackup */,
+				9B0752C82240BDDD004E3A51 /* CloudBackup */,
 				AC0CD58C20D3964500ABB7BA /* ImportWallet */,
 				AC0CD58720D38B9400ABB7BA /* CreateWallet */,
 				ACE65E3C2071C6BE001EE499 /* Web3Swift */,
@@ -3646,8 +3648,10 @@
 			files = (
 				ACE65E3E2071C6FA001EE499 /* Web3SwiftTests.swift in Sources */,
 				940B44D52060F45B00ADE2B9 /* SendAssetDataManagerTests.swift in Sources */,
+				9B0752CE2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift in Sources */,
 				94E1976E2099A68200E70E42 /* OrderDataManagerTests.swift in Sources */,
 				AC72AEE2204D084500E9D3B0 /* AppWalletDataManagerTests.swift in Sources */,
+				9B0752CB2240BDDD004E3A51 /* KeyStrengtheningTestCase.swift in Sources */,
 				ACF06A06204C736A00C3FF86 /* CreateMnemonicTests.swift in Sources */,
 				945800232059006200E08DEF /* AssetDataManagerTests.swift in Sources */,
 				AC0CD59220D5E28B00ABB7BA /* ImportWalletUsingMnemonicDataManagerTests.swift in Sources */,
@@ -3657,6 +3661,7 @@
 				94580025205921D600E08DEF /* PriceQuoteDataManagerTests.swift in Sources */,
 				AC0CE96D209E4BB60072A6EC /* GethBigIntTests.swift in Sources */,
 				ACA677CC207C8A0500D34A2F /* KeystoreAndWeb3SwiftTests.swift in Sources */,
+				9B0752CC2240BDDD004E3A51 /* EncryptionTestCase.swift in Sources */,
 				AC2D2C0D2089D23E00D619AD /* ImportKeystoreTests.swift in Sources */,
 				ACCC7EA32082BE0B008E58BA /* ImportMnemonicTests.swift in Sources */,
 				AC69914220ABC3B7003593AE /* RandomAuthAddressTests.swift in Sources */,
@@ -3665,9 +3670,7 @@
 				AC0CD58920D38E2900ABB7BA /* GenerateWalletDataManagerTests.swift in Sources */,
 				AC798E5A2022B93B0071D477 /* LoopringAPIRequestTests.swift in Sources */,
 				AC0CD58E20D3967700ABB7BA /* ImportWalletUsingPrivateKeyDataManagerTests.swift in Sources */,
-				9B15B8762234957E00B58C40 /* EncryptionTestCase.swift in Sources */,
 				AC1E4BC0204B51AB00C6B1FA /* ImportWalletTests.swift in Sources */,
-				9B15B87222348EA500B58C40 /* KeyStrengtheningTestCase.swift in Sources */,
 				9B15B87D2234C5D700B58C40 /* PBKDF.swift in Sources */,
 				943C657A209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift in Sources */,
 				AC1E4BC6204B58D400C6B1FA /* CreatePrivateKeyTests.swift in Sources */,
