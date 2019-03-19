@@ -9,15 +9,15 @@
 import Foundation
 
 struct NewsParams {
-    
+
     let token: String
-    let category: NewsCategory
     let title: String
-    
+    let category: NewsCategory
+
     init(token: String, category: NewsCategory) {
         self.token = token
         self.category = category
-        
+
         if token == "ALL_CURRENCY" {
             title = category.description
         } else {

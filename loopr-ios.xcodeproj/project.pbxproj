@@ -578,6 +578,7 @@
 		CED8215D90E063EB60DD01AF /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82CEEB520984B433AE6F0 /* Token.swift */; };
 		CED8216BA3C87EFBF800110B /* TokenInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED825CB0FB9FC5E4EEC749C /* TokenInfo.swift */; };
 		CED82512CC49FD798562C078 /* BurnRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED8287175B284D5143B2CAB /* BurnRate.swift */; };
+		CED826564C25057337F7F38A /* FeeParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82569A41FD6E7862D7124 /* FeeParams.swift */; };
 		CED826681EAAEB7CE29DC003 /* MarketSwipeViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82262161AF57DC4CCD11E /* MarketSwipeViewType.swift */; };
 		CED827B0D7460B51C7E0B9E2 /* TokenTicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82B54D0B78E3717BDDA47 /* TokenTicker.swift */; };
 		CED828BDE5F560C603D05742 /* TokenStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82D28482FBE645FE1F957 /* TokenStatus.swift */; };
@@ -1223,6 +1224,7 @@
 		CED821256952D0D21864CC5F /* TokenType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenType.swift; sourceTree = "<group>"; };
 		CED82262161AF57DC4CCD11E /* MarketSwipeViewType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketSwipeViewType.swift; sourceTree = "<group>"; };
 		CED822D145850724C25CFA0D /* TokenMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenMetadata.swift; sourceTree = "<group>"; };
+		CED82569A41FD6E7862D7124 /* FeeParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeeParams.swift; sourceTree = "<group>"; };
 		CED825CB0FB9FC5E4EEC749C /* TokenInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenInfo.swift; sourceTree = "<group>"; };
 		CED82663E035884F1548EEAE /* MarketTicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketTicker.swift; sourceTree = "<group>"; };
 		CED8287175B284D5143B2CAB /* BurnRate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BurnRate.swift; sourceTree = "<group>"; };
@@ -2796,6 +2798,7 @@
 		CED82E0BCD90FD051E716A15 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				CED82569A41FD6E7862D7124 /* FeeParams.swift */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -3639,6 +3642,7 @@
 				CED82512CC49FD798562C078 /* BurnRate.swift in Sources */,
 				CED828BDE5F560C603D05742 /* TokenStatus.swift in Sources */,
 				CED82E6122E1878A301726DE /* TokenType.swift in Sources */,
+				CED826564C25057337F7F38A /* FeeParams.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
