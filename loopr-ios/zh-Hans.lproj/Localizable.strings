@@ -1,7 +1,7 @@
 /*
  File.strings
  loopr-ios
- 
+
  Created by xiaoruby on 2/27/18.
  Copyright © 2018 Loopring. All rights reserved.
  */
@@ -303,12 +303,11 @@
 "Finished" = "已成交";
 "Cancelled" = "已取消";
 "Expired" = "已过期";
+"Order Pending" = "未开始";
 "Order Submitted" = "挂单中";
-"Order Wait Matching" = "撮合中";
 "Order Cancelled" = "已取消";
 "Order Completed" = "完全成交";
 "Order Expired" = "已过期";
-"Order Locked" = "已锁定";
 "Order Unknown" = "未知状态";
 "Unknown" = "其他";
 "Order Detail" = "订单详情";

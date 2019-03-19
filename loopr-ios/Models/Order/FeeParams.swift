@@ -14,13 +14,13 @@ class FeeParams {
     let tokenFee: String
 
     // token name e.g. lrc
-    let tokenF: String = ""
+    var tokenF: String = ""
 
     // big integer hex string e.g. "0x34f07768a92a83d00000"
     let amountFee: String
 
     // double value e.g. 0.02
-    let amountF: Double = 0
+    var amountF: Double = 0
 
     let tokenBFeePercentage: Int
 
@@ -30,13 +30,11 @@ class FeeParams {
 
     init(json: JSON) {
         self.tokenFee = json["tokenFee"].stringValue
-        self.tokenF = TokenDataManager.shared.getTokenByAddress(tokenFee)
+        self.tokenF = TokenDataManager.shared.getTokenByAddress(tokenFee)?.symbol ?? ""
         self.amountFee = json["amountFee"].stringValue
-        self.amountF = json["amountFee"].stringValue
-        self.totalSupply = json["totalSupply"].intValue
-        self.maxSupply = json["maxSupply"].intValue
-        self.cmcRank = json["cmcRank"].boolValue
-        self.icoRateWithEth = json["icoRateWithEth"].doubleValue
-        self.websiteUrl = json["websiteUrl"].stringValue
+        self.amountF = json["amountFee"].doubleValue  sdfsf
+        self.tokenBFeePercentage = json["tokenBFeePercentage"].intValue
+        self.tokenSFeePercentage = json["tokenSFeePercentage"].intValue
+        self.walletSplitPercentage = json["walletSplitPercentage"].intValue
     }
 }

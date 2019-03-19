@@ -1,5 +1,5 @@
 //
-//  Order.swift
+//  RawOrder.swift
 //  loopr-ios
 //
 //  Created by Xiao Dou Dou on 2/1/18.
@@ -16,7 +16,7 @@ class Order: Equatable {
     let dealtAmountS: Double
     let price: Double
     let tradingPairDescription: String
-    
+
     init(originalOrder: OriginalOrder, orderStatus: OrderStatus) {
         self.originalOrder = originalOrder
         self.orderStatus = orderStatus
@@ -29,7 +29,7 @@ class Order: Equatable {
         } else {
             self.price = 0.0
         }
-        
+
         // TODO: this is not correct.
         if originalOrder.tokenBuy == "WETH" {
             tradingPairDescription = "\(originalOrder.tokenSell)-\(originalOrder.tokenBuy)"
@@ -50,7 +50,7 @@ class Order: Equatable {
         } else {
             price = 0.0
         }
-        
+
         // TODO: this is not correct.
         if originalOrder.tokenBuy == "WETH" {
             tradingPairDescription = "\(originalOrder.tokenSell)-\(originalOrder.tokenBuy)"
@@ -58,7 +58,7 @@ class Order: Equatable {
             tradingPairDescription = "\(originalOrder.tokenBuy)-\(originalOrder.tokenSell)"
         }
     }
-    
+
     static func == (lhs: Order, rhs: Order) -> Bool {
         return lhs.originalOrder.hash == rhs.originalOrder.hash
     }

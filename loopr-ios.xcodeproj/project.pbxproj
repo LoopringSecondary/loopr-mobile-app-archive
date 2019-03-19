@@ -396,7 +396,6 @@
 		AC72AED9204C8AAD00E9D3B0 /* BackupMnemonicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC72AED7204C8AAD00E9D3B0 /* BackupMnemonicViewController.xib */; };
 		AC72AEE2204D084500E9D3B0 /* AppWalletDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC72AEE1204D084500E9D3B0 /* AppWalletDataManagerTests.swift */; };
 		AC72AEE8204F020B00E9D3B0 /* OrderTradeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC72AEE7204F020B00E9D3B0 /* OrderTradeState.swift */; };
-		AC72AEEA204F038300E9D3B0 /* OrderTradeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC72AEE9204F038300E9D3B0 /* OrderTradeError.swift */; };
 		AC76E4702047F1D3008BA229 /* CircleChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC76E46F2047F1D3008BA229 /* CircleChart.swift */; };
 		AC76E47320493CAE008BA229 /* SettingLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC76E47120493CAE008BA229 /* SettingLanguageViewController.swift */; };
 		AC76E47420493CAE008BA229 /* SettingLanguageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC76E47220493CAE008BA229 /* SettingLanguageViewController.xib */; };
@@ -513,7 +512,6 @@
 		ACB9118D20266A9C00F14644 /* AssetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACB9118B20266A9C00F14644 /* AssetDetailViewController.xib */; };
 		ACB9119520278A4000F14644 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB9119420278A4000F14644 /* Request.swift */; };
 		ACB911992027F65800F14644 /* LoopringAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB911982027F65800F14644 /* LoopringAPIRequest.swift */; };
-		ACB9119F202967A500F14644 /* OrderStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB9119E202967A500F14644 /* OrderStatus.swift */; };
 		ACB911A320296B9900F14644 /* OriginalOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB911A220296B9900F14644 /* OriginalOrder.swift */; };
 		ACB97C6D20707B6F00775D4C /* AddTokenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB97C6B20707B6F00775D4C /* AddTokenTableViewCell.swift */; };
 		ACB97C6E20707B6F00775D4C /* AddTokenTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACB97C6C20707B6F00775D4C /* AddTokenTableViewCell.xib */; };
@@ -580,11 +578,17 @@
 		CED82512CC49FD798562C078 /* BurnRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED8287175B284D5143B2CAB /* BurnRate.swift */; };
 		CED826564C25057337F7F38A /* FeeParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82569A41FD6E7862D7124 /* FeeParams.swift */; };
 		CED826681EAAEB7CE29DC003 /* MarketSwipeViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82262161AF57DC4CCD11E /* MarketSwipeViewType.swift */; };
+		CED8268E825CE89A0182300E /* Amount.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82A870194186EF1B3B753 /* Amount.swift */; };
 		CED827B0D7460B51C7E0B9E2 /* TokenTicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82B54D0B78E3717BDDA47 /* TokenTicker.swift */; };
+		CED82848E571F2A834739FFE /* OrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82150D0DE8AAB2BD95377 /* OrderParams.swift */; };
 		CED828BDE5F560C603D05742 /* TokenStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82D28482FBE645FE1F957 /* TokenStatus.swift */; };
+		CED82AAC17AFA81A234BDDCC /* RawOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED824494F0AD495F94AF0B0 /* RawOrder.swift */; };
 		CED82B265EAA0109210FE4B3 /* MarketMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82B036C1C6701010C1D5C /* MarketMetadata.swift */; };
 		CED82BAB96C35C606D64B621 /* MarketStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82EE29FADF5ED0FA52050 /* MarketStatus.swift */; };
+		CED82C253D6F9C83FB6CBAB2 /* OrderStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82259B7AD42C2476BEA31 /* OrderStatus.swift */; };
 		CED82D1DC121419D7CAE6D18 /* Market.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82E620C2F4563A0CAA6F2 /* Market.swift */; };
+		CED82D48CA812BB1D2755DCE /* OrderTradeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED8279E5F0131FEF3F71E3D /* OrderTradeError.swift */; };
+		CED82E4FC9FFE110F261C01E /* OrderState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82315AC8B6885C04B8EAC /* OrderState.swift */; };
 		CED82E6122E1878A301726DE /* TokenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED821256952D0D21864CC5F /* TokenType.swift */; };
 		CED82F4D2A1E8A5FC3D14309 /* TokenMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED822D145850724C25CFA0D /* TokenMetadata.swift */; };
 		CED82F958F3CAD9C87CC6EEC /* MarketTicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82663E035884F1548EEAE /* MarketTicker.swift */; };
@@ -1013,7 +1017,6 @@
 		AC72AED7204C8AAD00E9D3B0 /* BackupMnemonicViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BackupMnemonicViewController.xib; sourceTree = "<group>"; };
 		AC72AEE1204D084500E9D3B0 /* AppWalletDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWalletDataManagerTests.swift; sourceTree = "<group>"; };
 		AC72AEE7204F020B00E9D3B0 /* OrderTradeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTradeState.swift; sourceTree = "<group>"; };
-		AC72AEE9204F038300E9D3B0 /* OrderTradeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTradeError.swift; sourceTree = "<group>"; };
 		AC76E46F2047F1D3008BA229 /* CircleChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleChart.swift; sourceTree = "<group>"; };
 		AC76E47120493CAE008BA229 /* SettingLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingLanguageViewController.swift; sourceTree = "<group>"; };
 		AC76E47220493CAE008BA229 /* SettingLanguageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingLanguageViewController.xib; sourceTree = "<group>"; };
@@ -1136,7 +1139,6 @@
 		ACB9118B20266A9C00F14644 /* AssetDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AssetDetailViewController.xib; sourceTree = "<group>"; };
 		ACB9119420278A4000F14644 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		ACB911982027F65800F14644 /* LoopringAPIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopringAPIRequest.swift; sourceTree = "<group>"; };
-		ACB9119E202967A500F14644 /* OrderStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatus.swift; sourceTree = "<group>"; };
 		ACB911A220296B9900F14644 /* OriginalOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalOrder.swift; sourceTree = "<group>"; };
 		ACB97C6B20707B6F00775D4C /* AddTokenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTokenTableViewCell.swift; sourceTree = "<group>"; };
 		ACB97C6C20707B6F00775D4C /* AddTokenTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddTokenTableViewCell.xib; sourceTree = "<group>"; };
@@ -1222,12 +1224,18 @@
 		C8BF959C202696A900343B9A /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		CBFBD618D375438178B6033F /* Pods_loopr_iosUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_loopr_iosUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED821256952D0D21864CC5F /* TokenType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenType.swift; sourceTree = "<group>"; };
+		CED82150D0DE8AAB2BD95377 /* OrderParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderParams.swift; sourceTree = "<group>"; };
+		CED82259B7AD42C2476BEA31 /* OrderStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderStatus.swift; sourceTree = "<group>"; };
 		CED82262161AF57DC4CCD11E /* MarketSwipeViewType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketSwipeViewType.swift; sourceTree = "<group>"; };
 		CED822D145850724C25CFA0D /* TokenMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenMetadata.swift; sourceTree = "<group>"; };
+		CED82315AC8B6885C04B8EAC /* OrderState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderState.swift; sourceTree = "<group>"; };
+		CED824494F0AD495F94AF0B0 /* RawOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawOrder.swift; sourceTree = "<group>"; };
 		CED82569A41FD6E7862D7124 /* FeeParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeeParams.swift; sourceTree = "<group>"; };
 		CED825CB0FB9FC5E4EEC749C /* TokenInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenInfo.swift; sourceTree = "<group>"; };
 		CED82663E035884F1548EEAE /* MarketTicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketTicker.swift; sourceTree = "<group>"; };
+		CED8279E5F0131FEF3F71E3D /* OrderTradeError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderTradeError.swift; sourceTree = "<group>"; };
 		CED8287175B284D5143B2CAB /* BurnRate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BurnRate.swift; sourceTree = "<group>"; };
+		CED82A870194186EF1B3B753 /* Amount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Amount.swift; sourceTree = "<group>"; };
 		CED82B036C1C6701010C1D5C /* MarketMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketMetadata.swift; sourceTree = "<group>"; };
 		CED82B54D0B78E3717BDDA47 /* TokenTicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenTicker.swift; sourceTree = "<group>"; };
 		CED82CEEB520984B433AE6F0 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -2420,12 +2428,10 @@
 				9401C4D421C11CBF00A01E0B /* Contact.swift */,
 				ACB911632024504E00F14644 /* Order.swift */,
 				ACB911A220296B9900F14644 /* OriginalOrder.swift */,
-				ACB9119E202967A500F14644 /* OrderStatus.swift */,
 				ACC2A2CE209EC39E00F2B7A1 /* OrderExpire.swift */,
 				ACB911652024505D00F14644 /* OrderFill.swift */,
 				AC4B894C21103EAF00643910 /* TradeType.swift */,
 				AC72AEE7204F020B00E9D3B0 /* OrderTradeState.swift */,
-				AC72AEE9204F038300E9D3B0 /* OrderTradeError.swift */,
 				ACB9117720256B0300F14644 /* MarketV1.swift */,
 				9B0752C6223FF743004E3A51 /* TokenV1.swift */,
 				ACB9117B20256BBA00F14644 /* TradingPair.swift */,
@@ -2799,6 +2805,12 @@
 			isa = PBXGroup;
 			children = (
 				CED82569A41FD6E7862D7124 /* FeeParams.swift */,
+				CED82A870194186EF1B3B753 /* Amount.swift */,
+				CED8279E5F0131FEF3F71E3D /* OrderTradeError.swift */,
+				CED82259B7AD42C2476BEA31 /* OrderStatus.swift */,
+				CED82150D0DE8AAB2BD95377 /* OrderParams.swift */,
+				CED824494F0AD495F94AF0B0 /* RawOrder.swift */,
+				CED82315AC8B6885C04B8EAC /* OrderState.swift */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -3467,7 +3479,6 @@
 				AC8DBC7720BE8C13007AC862 /* MnemonicBackupModeCollectionViewController.swift in Sources */,
 				AC9DC462211C0D87002D7D23 /* TradeSelectionNavigationViewController.swift in Sources */,
 				AC4141FD203532ED0089861D /* SwipeViewOptions.swift in Sources */,
-				ACB9119F202967A500F14644 /* OrderStatus.swift in Sources */,
 				AC1B6D7C2130FB510026C1B2 /* NewKeystore.swift in Sources */,
 				ACB9117520255A6600F14644 /* MarketTableViewCell.swift in Sources */,
 				941B1EFC209C41BC00710DFF /* GasDataManager.swift in Sources */,
@@ -3601,7 +3612,6 @@
 				942FE781210D5A1C005C723D /* SendConfirmViewController.swift in Sources */,
 				942C49FA212911B0008A6B4F /* ConvertETHConfirmViewController.swift in Sources */,
 				ACA677C92079D5A000D34A2F /* DisplayPrivateKeyViewController.swift in Sources */,
-				AC72AEEA204F038300E9D3B0 /* OrderTradeError.swift in Sources */,
 				AC0C5C86203D168C00C8618D /* TickerLabel.swift in Sources */,
 				9B15B8782234AE5800B58C40 /* EncryptionCloudBackupConfigV1.swift in Sources */,
 				AC13B30E2055A646008A72C0 /* PlaceOrderConfirmationViewController.swift in Sources */,
@@ -3643,6 +3653,12 @@
 				CED828BDE5F560C603D05742 /* TokenStatus.swift in Sources */,
 				CED82E6122E1878A301726DE /* TokenType.swift in Sources */,
 				CED826564C25057337F7F38A /* FeeParams.swift in Sources */,
+				CED8268E825CE89A0182300E /* Amount.swift in Sources */,
+				CED82D48CA812BB1D2755DCE /* OrderTradeError.swift in Sources */,
+				CED82C253D6F9C83FB6CBAB2 /* OrderStatus.swift in Sources */,
+				CED82848E571F2A834739FFE /* OrderParams.swift in Sources */,
+				CED82AAC17AFA81A234BDDCC /* RawOrder.swift in Sources */,
+				CED82E4FC9FFE110F261C01E /* OrderState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

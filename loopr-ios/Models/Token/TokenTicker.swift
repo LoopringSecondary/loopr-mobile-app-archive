@@ -27,7 +27,7 @@ class TokenTicker {
 
     func toString(json: JSON) -> String {
         var result: String
-        var value = json.doubleValue
+        let value = json.doubleValue
         let numberFormatter = NumberFormatter()
         if value > 0 {
             result = "↑\(value)\(numberFormatter.percentSymbol)"

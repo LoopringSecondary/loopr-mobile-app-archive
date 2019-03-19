@@ -1,7 +1,7 @@
 /*
  File.strings
  loopr-ios
- 
+
  Created by xiaoruby on 2/27/18.
  Copyright © 2018 Loopring. All rights reserved.
  */
@@ -303,12 +303,11 @@
 "Finished" = "Finished";
 "Cancelled" = "Cancelled";
 "Expired" = "Expired";
+"Order Pending" = "Pending";
 "Order Submitted" = "Submitted";
-"Order Wait Matching" = "Waiting";
 "Order Cancelled" = "Cancelled";
 "Order Completed" = "Completed";
 "Order Expired" = "Expired";
-"Order Locked" = "Locked";
 "Order Unknown" = "Unknown";
 "Unknown" = "Unknown";
 "Order Detail" = "Order Detail";
