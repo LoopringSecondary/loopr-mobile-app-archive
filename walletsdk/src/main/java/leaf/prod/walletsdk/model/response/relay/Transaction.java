@@ -2,8 +2,8 @@ package leaf.prod.walletsdk.model.response.relay;
 
 import java.io.Serializable;
 
-import leaf.prod.walletsdk.model.TxStatus;
-import leaf.prod.walletsdk.model.TxType;
+import leaf.prod.walletsdk.model.Transaction.TxStatus;
+import leaf.prod.walletsdk.model.Transaction.TxType;
 import lombok.Data;
 
 @Data

@@ -13,7 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import leaf.prod.walletsdk.listener.TransactionStatusListener;
-import leaf.prod.walletsdk.model.TxStatus;
+import leaf.prod.walletsdk.model.Transaction.TxStatus;
 import leaf.prod.walletsdk.model.response.relay.Transaction;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.WalletUtil;

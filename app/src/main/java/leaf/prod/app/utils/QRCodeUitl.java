@@ -91,7 +91,7 @@ public class QRCodeUitl {
      * @return
      */
     public static boolean isApprove(String content) {
-        return isContentOf(content, "APPROVE");
+        return isContentOf(content, "AUTH");
     }
 
     /**

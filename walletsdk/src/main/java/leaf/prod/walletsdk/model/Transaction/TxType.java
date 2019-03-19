@@ -4,37 +4,34 @@
  * Time: 2018-09-19 下午2:32
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.walletsdk.model;
+package leaf.prod.walletsdk.model.Transaction;
 
 import com.google.gson.annotations.SerializedName;
 
 public enum TxType {
-    @SerializedName("approve")
-    APPROVE("Approve"),
+    @SerializedName("TOKEN_AUTH")
+    AUTH("Auth"),
 
-    @SerializedName("send")
+    @SerializedName(value = "ETHER_TRANSFER_OUT", alternate = {"TOKEN_TRANSFER_OUT"})
     SEND("Send"),
 
-    @SerializedName("receive")
+    @SerializedName(value = "ETHER_TRANSFER_IN", alternate = {"TOKEN_TRANSFER_IN"})
     RECEIVE("Receive"),
 
-    @SerializedName("sell")
+    @SerializedName("TRADE_SELL")
     SELL("Sell"),
 
-    @SerializedName("buy")
+    @SerializedName("TRADE_BUY")
     BUY("Buy"),
 
-    @SerializedName("convert_income")
-    CONVERT_INCOME("Convert"),
+    @SerializedName("ETHER_WRAP")
+    WRAP("Wrap"),
 
-    @SerializedName("convert_outcome")
-    CONVERT_OUTCOME("Convert"),
+    @SerializedName("ETHER_UNWRAP")
+    UNWRAP("Unwrap"),
 
-    @SerializedName("cancel_order")
-    CANCEL("Cancel_Order"),
-
-    @SerializedName("cutoff")
-    CUTOFF("Cancel_Order"),
+    @SerializedName("ORDER_CANCEL")
+    CANCEL("Cancel"),
 
     @SerializedName("unsupported_contract")
     UNSUPPORTED("Unsupported"),

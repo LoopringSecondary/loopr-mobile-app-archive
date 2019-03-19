@@ -40,7 +40,7 @@ import leaf.prod.walletsdk.manager.GasDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.NoDataType;
-import leaf.prod.walletsdk.model.TxType;
+import leaf.prod.walletsdk.model.Transaction.TxType;
 import leaf.prod.walletsdk.model.response.relay.Transaction;
 import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
 import leaf.prod.walletsdk.service.LoopringService;
@@ -258,7 +258,7 @@ public class WalletDetailFragment extends BaseFragment {
             Window window = dialog.getWindow();
             window.setGravity(Gravity.BOTTOM);
         }
-        if (tx.getType() == TxType.APPROVE) {
+        if (tx.getType() == TxType.AUTH) {
             txApprove.setText(getResources().getString(R.string.approve_details, symbol));
             txApproveLayout.setVisibility(View.VISIBLE);
             txReceivedLayout.setVisibility(View.GONE);
@@ -298,13 +298,13 @@ public class WalletDetailFragment extends BaseFragment {
             switch (tx.getType()) {
                 case SEND:
                 case SELL:
-                case CONVERT_OUTCOME:
+                case UNWRAP:
                     valueShown = "-" + valueShown + " " + tx.getSymbol();
                     txAmount.setTextColor(getContext().getResources().getColor(R.color.colorRed));
                     break;
                 case BUY:
                 case RECEIVE:
-                case CONVERT_INCOME:
+                case WRAP:
                     valueShown = "+" + valueShown + " " + tx.getSymbol();
                     txAmount.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
                     break;

@@ -11,8 +11,8 @@ import leaf.prod.app.R;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.TxStatus;
-import leaf.prod.walletsdk.model.TxType;
+import leaf.prod.walletsdk.model.Transaction.TxStatus;
+import leaf.prod.walletsdk.model.Transaction.TxType;
 import leaf.prod.walletsdk.model.response.relay.Transaction;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
@@ -94,7 +94,7 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
                 helper.setVisible(R.id.wallet_money, true);
                 helper.setVisible(R.id.wallet_count, true);
                 break;
-            case APPROVE:
+            case AUTH:
                 helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.approve));
                 helper.setVisible(R.id.wallet_money, false);
                 helper.setVisible(R.id.wallet_count, false);
@@ -105,10 +105,10 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
                 helper.setVisible(R.id.wallet_money, false);
                 helper.setVisible(R.id.wallet_count, false);
                 break;
-            case CONVERT_INCOME:
+            case WRAP:
                 this.updateIncome(helper, item, value);
                 break;
-            case CONVERT_OUTCOME:
+            case ETHER_UNWRAP:
                 this.updateOutcome(helper, item, value);
                 break;
             case UNSUPPORTED:
