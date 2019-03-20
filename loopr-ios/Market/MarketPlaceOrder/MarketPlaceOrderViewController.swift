@@ -14,50 +14,50 @@ import NotificationBannerSwift
 class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NumericKeyboardDelegate, NumericKeyboardProtocol {
 
     var market: MarketV1!
-    
-    var initialType: TradeType = .buy
+
+    var initialType: OrderSide = .buy
     var initialPrice: String?
-    
-    private var types: [TradeType] = [.buy, .sell]
-    
+
+    private var types: [OrderSide] = [.buy, .sell]
+
     // TODO: needs to update buys and sells in Relay 2.0
     var buys: [Depth] = []
     var sells: [Depth] = []
-    
+
     // TODO: needs to change tableView1 to a UIView
     @IBOutlet weak var tableView1: UITableView!
     @IBOutlet weak var tableView2: UITableView!
 
     // keyboard
     var marketPlaceOrderTableViewCell: MarketPlaceOrderTableViewCell!
-    
+
     var isNumericKeyboardShow: Bool = false
     var numericKeyboardView: DefaultNumericKeyboard!
     var numericKeyboardBaseView: UIView = UIView()
-    
+
     var orderAmount: Double = 0
-    
+
     // config
-    var type: TradeType = .buy
+    var type: OrderSide = .buy
     var tokenS: String = ""
     var tokenB: String = ""
-    
+
     // Expires
     var orderIntervalTime = SettingDataManager.shared.getOrderIntervalTime()
-    
+
     var blurVisualEffectView = UIView(frame: .zero)
-    
+
     // Data source
     var orders: [Order] = []
-    
+
     var isLaunching: Bool = true
 
     var previousOrderCount: Int = 0
     var pageIndex: UInt = 1
     var hasMoreData: Bool = true
-    
+
     let refreshControl = UIRefreshControl()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,10 +65,10 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         navigationItem.title = PlaceOrderDataManager.shared.market?.description ?? LocalizedString("Trade", comment: "")
         view.theme_backgroundColor = ColorPicker.backgroundColor
         tableView1.theme_backgroundColor = ColorPicker.backgroundColor
-        
+
         tableView1.dataSource = self
         tableView1.delegate = self
-        
+
         tableView1.tableFooterView = UIView(frame: .zero)
         tableView1.separatorStyle = .none
         tableView1.isScrollEnabled = false
@@ -88,33 +88,33 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: bottomPadding))
         footerView.backgroundColor = .clear
         tableView2.tableFooterView = footerView
-        
+
         tableView2.refreshControl = refreshControl
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .orderHistoryViewController))
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        
+
         // let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         // tableView2.addGestureRecognizer(tap)
-        
+
         getDataFromRelay()
 
         let nib = Bundle.main.loadNibNamed("MarketPlaceOrderTableViewCell", owner: self, options: nil)
         marketPlaceOrderTableViewCell = nib![0] as! MarketPlaceOrderTableViewCell
-        
+
         numericKeyboardBaseView.theme_backgroundColor = ColorPicker.backgroundColor
         numericKeyboardBaseView.backgroundColor = .clear
-        
+
         blurVisualEffectView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         blurVisualEffectView.alpha = 1
         blurVisualEffectView.frame = UIScreen.main.bounds
     }
-    
+
     @objc private func refreshData() {
         pageIndex = 1
         hasMoreData = true
         getDataFromRelay()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Update the orderbook after users place a order successfully.
@@ -142,11 +142,11 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
                 }
                 self.previousOrderCount = self.orders.count
                 self.refreshControl.endRefreshing(refreshControlType: .orderHistoryViewController)
-                
+
                 self.tableView2.reloadData()
             }
         })
-        
+
         MarketDepthDataManager.shared.getDepthFromServer(market: market.name, completionHandler: { buys, sells, _ in
             self.buys = buys
             self.sells = sells
@@ -159,15 +159,15 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             }
         })
     }
-    
+
     private func isTableEmpty() -> Bool {
         return orders.count == 0 && !isLaunching
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if tableView.tag == tableView1.tag {
             return 0
-            
+
         } else {
             if orders.count == 0 {
                 return 0
@@ -175,7 +175,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             return 30+0.5
         }
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if tableView.tag == tableView1.tag {
             return nil
@@ -191,7 +191,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             return isTableEmpty() ? 1 : orders.count
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView.tag == tableView1.tag {
             return MarketPlaceOrderTableViewCell.getHeight()
@@ -203,7 +203,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             }
         }
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView.tag == tableView1.tag {
             marketPlaceOrderTableViewCell.marketPlaceOrderViewController = self
@@ -212,10 +212,10 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             if Double(initialPrice ?? "") != nil {
                 marketPlaceOrderTableViewCell.setPriceTextField(priceValue: Double(initialPrice!)!)
             }
-            
+
             marketPlaceOrderTableViewCell.setBuys(buys)
             marketPlaceOrderTableViewCell.setSells(sells)
-            
+
             marketPlaceOrderTableViewCell.update()
             marketPlaceOrderTableViewCell.updateUI()
             return marketPlaceOrderTableViewCell
@@ -254,18 +254,18 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
                     self.present(alert, animated: true, completion: nil)
                 }
                 cell?.update()
-                
+
                 // Pagination
                 if hasMoreData && indexPath.row == orders.count - 1 {
                     pageIndex += 1
                     getDataFromRelay()
                 }
-                
+
                 return cell!
             }
         }
     }
-    
+
     func showNumericKeyboard(textField: UITextField) {
         if !isNumericKeyboardShow {
             let width = view.frame.width
@@ -276,33 +276,33 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             numericKeyboardView = DefaultNumericKeyboard(frame: CGRect(x: 0, y: 0, width: width, height: DefaultNumericKeyboard.height))
             numericKeyboardView.collectionView.theme_backgroundColor = ColorPicker.backgroundColor
             numericKeyboardView.delegate = self
-            
+
             numericKeyboardBaseView.frame = CGRect(x: 0, y: height, width: width, height: DefaultNumericKeyboard.height + bottomPadding)
             numericKeyboardBaseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
             numericKeyboardBaseView.addSubview(numericKeyboardView)
             view.addSubview(numericKeyboardBaseView)
 
             let destinateY = height - bottomPadding - DefaultNumericKeyboard.height
-            
+
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                 self.numericKeyboardBaseView.frame = CGRect(x: 0, y: destinateY, width: width, height: DefaultNumericKeyboard.height + bottomPadding)
             }, completion: { finished in
                 self.isNumericKeyboardShow = true
             })
         } else {
-            
+
         }
     }
-    
+
     func hideNumericKeyboard() {
         if isNumericKeyboardShow {
             let width = view.frame.width
             let height = view.height
             let destinateY = height
-            
+
             let window = UIApplication.shared.keyWindow
             let bottomPadding = (window?.safeAreaInsets.bottom ?? 0)
-            
+
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                 self.numericKeyboardBaseView.frame = CGRect(x: 0, y: destinateY, width: width, height: DefaultNumericKeyboard.height + bottomPadding)
             }, completion: { finished in
@@ -311,10 +311,10 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
                 }
             })
         } else {
-            
+
         }
     }
-    
+
     func numericKeyboard(_ numericKeyboard: NumericKeyboard, itemTapped item: NumericKeyboardItem, atPosition position: Position) {
         print("pressed keyboard: (\(position.row), \(position.column))")
         let activeTextField = getActiveTextField()
@@ -347,10 +347,10 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         }
         _ = validate()
     }
-    
+
     func numericKeyboard(_ numericKeyboard: NumericKeyboard, itemLongPressed item: NumericKeyboardItem, atPosition position: Position) {
         print("Long pressed keyboard: (\(position.row), \(position.column))")
-        
+
         let activeTextField = getActiveTextField()
         guard activeTextField != nil else {
             return
@@ -363,7 +363,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             activeTextField!.text = currentText
         }
     }
-    
+
     func getActiveTextField() -> UITextField? {
         if marketPlaceOrderTableViewCell.activeTextFieldTag == marketPlaceOrderTableViewCell.priceTextField.tag {
             return marketPlaceOrderTableViewCell.priceTextField
@@ -373,7 +373,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             return nil
         }
     }
-    
+
     func validate() -> Bool {
         var isValid = false
         if marketPlaceOrderTableViewCell.activeTextFieldTag == marketPlaceOrderTableViewCell.priceTextField.tag {
@@ -394,7 +394,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         }
         return isValid
     }
-    
+
     func validateTokenPrice(withErrorNotification: Bool = true) -> Bool {
         if let value = Double(marketPlaceOrderTableViewCell.priceTextField.text!.removeComma()) {
             let validate = value > 0.0
@@ -422,7 +422,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             return false
         }
     }
-    
+
     func validateAmount(withErrorNotification: Bool = true) -> Bool {
         if let value = Double(marketPlaceOrderTableViewCell.amountTextField.text!.removeComma()) {
             let validate = value > 0.0
@@ -448,10 +448,10 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         print("pressedPlaceOrderButton")
         marketPlaceOrderTableViewCell.priceTextField.resignFirstResponder()
         marketPlaceOrderTableViewCell.amountTextField.resignFirstResponder()
-        
+
         let isPriceValid = validateTokenPrice()
         let isAmountValid = validateAmount()
-        
+
         // Need to call validate()
         if isPriceValid && isAmountValid && validate() {
             hideNumericKeyboard()
@@ -474,7 +474,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             let viewController = PlaceOrderConfirmationViewController()
             viewController.order = order
             viewController.price = marketPlaceOrderTableViewCell.priceTextField.text
-            
+
             // viewController.transitioningDelegate = self
             viewController.modalPresentationStyle = .overFullScreen
             viewController.dismissClosure = {
@@ -488,14 +488,14 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             self.present(viewController, animated: true) {
                 // self.dismissInteractor.attachToViewController(viewController: viewController, withView: viewController.containerView, presentViewController: nil, backgroundView: self.blurVisualEffectView)
             }
-            
+
             self.navigationController?.view.addSubview(self.blurVisualEffectView)
             UIView.animate(withDuration: 0.3, animations: {
                 self.blurVisualEffectView.alpha = 1.0
             }, completion: {(_) in
-                
+
             })
-            
+
             viewController.parentNavController = self.navigationController
         }
     }
@@ -524,7 +524,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             amountB = BigInt.generate(from: amountBuy, by: PlaceOrderDataManager.shared.tokenB.decimals)
             amountS = BigInt.generate(from: amountSell, by: PlaceOrderDataManager.shared.tokenA.decimals)
         }
-        
+
         lrcFee = getLrcFee(amountSell, tokenSell)
         let delegate = RelayAPIConfiguration.delegateAddress
         let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
@@ -559,7 +559,7 @@ extension MarketPlaceOrderViewController {
 
 // TODO: needs to merge MarketPlaceOrderViewController and OrderHistoryViewController
 extension MarketPlaceOrderViewController {
-    
+
     func completion(_ txHash: String?, _ error: Error?) {
         var title: String = ""
         guard error == nil && txHash != nil else {

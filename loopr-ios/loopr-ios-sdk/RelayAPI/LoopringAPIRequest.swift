@@ -58,60 +58,6 @@ class LoopringAPIRequest {
         }
     }
 
-    // TODO: how to handle unknown status?
-    static func getOrders(owner: String? = nil, orderHash: String? = nil, status: String? = nil, market: String? = nil, side: String? = nil, orderType: String? = "market_order", pageIndex: UInt = 1, pageSize: UInt = 50, completionHandler: @escaping (_ orders: [Order]?, _ error: Error?) -> Void) {
-
-        var body: JSON = JSON()
-        body["method"] = "loopring_getOrders"
-        body["params"] = [["owner": owner, "orderHash": orderHash, "delegateAddress": RelayAPIConfiguration.delegateAddress, "status": status, "market": market, "side": side, "orderType": orderType, "pageIndex": pageIndex, "pageSize": pageSize]]
-        body["id"] = JSON(UUID().uuidString)
-
-        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            guard let data = data, error == nil else {
-                print("error=\(String(describing: error))")
-                completionHandler([], error)
-                return
-            }
-            var orders: [Order] = []
-            let json = JSON(data)
-            let offerData = json["result"]["data"]
-
-            for subJson in offerData.arrayValue {
-                let originalOrderJson = subJson["originalOrder"]
-                let originalOrder = OriginalOrder(json: originalOrderJson)
-                let orderStatus = OrderStatus(rawValue: subJson["status"].stringValue) ?? OrderStatus.unknown
-                let dealtAmountB = subJson["dealtAmountB"].stringValue
-                let dealtAmountS = subJson["dealtAmountS"].stringValue
-                let order = Order(originalOrder: originalOrder, orderStatus: orderStatus, dealtAmountB: dealtAmountB, dealtAmountS: dealtAmountS)
-                orders.append(order)
-            }
-            completionHandler(orders, nil)
-        }
-    }
-
-    static func getOrderByHash(orderHash: String, completionHandler: @escaping (_ orders: Order?, _ error: Error?) -> Void) {
-        var body: JSON = JSON()
-        body["method"] = "loopring_getOrderByHash"
-        body["params"] = [["orderHash": orderHash]]
-        body["id"] = JSON(UUID().uuidString)
-        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            guard let data = data, error == nil else {
-                print("error=\(String(describing: error))")
-                completionHandler(nil, error)
-                return
-            }
-            let json = JSON(data)
-            let offerData = json["result"]
-            let originalOrderJson = offerData["originalOrder"]
-            let originalOrder = OriginalOrder(json: originalOrderJson)
-            let orderStatus = OrderStatus(rawValue: offerData["status"].stringValue) ?? OrderStatus.unknown
-            let dealtAmountB = offerData["dealtAmountB"].stringValue
-            let dealtAmountS = offerData["dealtAmountS"].stringValue
-            let order = Order(originalOrder: originalOrder, orderStatus: orderStatus, dealtAmountB: dealtAmountB, dealtAmountS: dealtAmountS)
-            completionHandler(order, nil)
-        }
-    }
-
     // READY
     static func getDepths(market: String, length: UInt, completionHandler: @escaping (_ buyDepths: [Depth]?, _ sellDepths: [Depth]?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
@@ -152,117 +98,6 @@ class LoopringAPIRequest {
                 })
             }
             completionHandler(buyDepths, sellDepths, nil)
-        }
-    }
-
-    // Get markets
-    static func getTicker(by source: TikcerSource, completionHandler: @escaping (_ markets: [MarketV1], _ error: Error?) -> Void) {
-        var body: JSON = JSON()
-        body["method"] = "loopring_getTickerBySource"
-        body["params"] = [["delegateAddress": RelayAPIConfiguration.delegateAddress, "tickerSource": source.description]]
-        body["id"] = JSON(UUID().uuidString)
-        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            guard let data = data, error == nil else {
-                print("error=\(String(describing: error))")
-                return
-            }
-            var markets: [MarketV1] = []
-            let json = JSON(data)
-            let offerData = json["result"]
-
-            for subJson in offerData.arrayValue {
-                if let market = MarketV1(json: subJson) {
-                    markets.append(market)
-                }
-            }
-            completionHandler(markets, nil)
-        }
-    }
-
-    // READY
-    static func getTicker(completionHandler: @escaping (_ markets: [MarketV1], _ error: Error?) -> Void) {
-        var body: JSON = JSON()
-        print("WARNING: please use getTicker(by source: TikcerSource, completionHandler: @escaping (_ markets: [MarketV1], _ error: Error?)")
-        body["method"] = "loopring_getTicker"
-        body["params"] = [["delegateAddress": RelayAPIConfiguration.delegateAddress]]
-        body["id"] = JSON(UUID().uuidString)
-
-        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            guard let data = data, error == nil else {
-                print("error=\(String(describing: error))")
-                return
-            }
-            var markets: [MarketV1] = []
-            let json = JSON(data)
-            let offerData = json["result"]
-
-            for subJson in offerData.arrayValue {
-                if let market = MarketV1(json: subJson) {
-                    markets.append(market)
-                }
-            }
-            completionHandler(markets, nil)
-        }
-    }
-
-    static func getTickers(market: String, completionHandler: @escaping (_ markets: [MarketV1], _ error: Error?) -> Void) {
-        print("WARNING: please use getTicker(by source: TikcerSource, completionHandler: @escaping (_ markets: [MarketV1], _ error: Error?)")
-        var body: JSON = JSON()
-        body["method"] = "loopring_getTickers"
-        body["params"] = [["delegateAddress": RelayAPIConfiguration.delegateAddress, "market": market]]
-        body["id"] = JSON(UUID().uuidString)
-
-        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            guard let data = data, error == nil else {
-                print("error=\(String(describing: error))")
-                return
-            }
-            var markets: [MarketV1] = []
-            let json = JSON(data)
-            let offerData = json["result"]
-            print(offerData)
-
-            for (key, value) in json["result"] {
-                print("key \(key) value2 \(value)")
-                if let market = MarketV1(json: value) {
-                    market.exchange = key
-                    markets.append(market)
-                }
-            }
-            markets.sort(by: { (a, b) -> Bool in
-                return a.volumeInPast24 > b.volumeInPast24
-            })
-            completionHandler(markets, nil)
-        }
-    }
-
-    // Need update
-    static func getFills(market: String, owner: String?, orderHash: String?, ringHash: String?, pageIndex: UInt = 1, pageSize: UInt = 50, completionHandler: @escaping (_ trades: [Order]?, _ error: Error?) -> Void) {
-        var body: JSON = JSON()
-        body["method"] = "loopring_getFills"
-        body["params"] = [["market": market, "delegateAddress": RelayAPIConfiguration.delegateAddress, "owner": owner, "orderHash": orderHash, "ringHash": ringHash]]
-        body["id"] = JSON(UUID().uuidString)
-        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            guard let data = data, error == nil else {
-                print("error=\(String(describing: error))")
-                return
-            }
-            // var trades: [Trade] = []
-            var orders: [Order] = []
-            let json = JSON(data)
-            let offerData = json["result"]["data"]
-            for subJson in offerData.arrayValue {
-                let originalOrderJson = subJson["originalOrder"]
-                let originalOrder = OriginalOrder(json: originalOrderJson)
-                let orderStatus = OrderStatus(rawValue: subJson["status"].stringValue) ?? OrderStatus.unknown
-                let dealtAmountB = subJson["dealtAmountB"].stringValue
-                let dealtAmountS = subJson["dealtAmountS"].stringValue
-                let order = Order(originalOrder: originalOrder, orderStatus: orderStatus, dealtAmountB: dealtAmountB, dealtAmountS: dealtAmountS)
-                orders.append(order)
-            }
-            print(orders.count)
-
-            completionHandler(orders, nil)
         }
     }
 
@@ -435,30 +270,6 @@ class LoopringAPIRequest {
                 tokens.append(token)
             }
             completionHandler(tokens, nil)
-        }
-    }
-
-    // READY
-    static func getSupportedMarket(completionHandler: @escaping (_ pairs: [TradingPair]?, _ error: Error?) -> Void) {
-        var body: JSON = JSON()
-        body["method"] = "loopring_getSupportedMarket"
-        body["params"] = [["delegateAddress": RelayAPIConfiguration.delegateAddress]]
-        body["id"] = JSON(UUID().uuidString)
-        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            guard let data = data, error == nil else {
-                print("error=\(String(describing: error))")
-                completionHandler(nil, error)
-                return
-            }
-            var pairs: [TradingPair] = []
-            let json = JSON(data)
-            let resultJson = json["result"]
-            for pair in resultJson.arrayValue {
-                let tokens = pair.stringValue.components(separatedBy: "-")
-                let pair = TradingPair(tokens[0], tokens[1])
-                pairs.append(pair)
-            }
-            completionHandler(pairs, nil)
         }
     }
 
@@ -762,7 +573,70 @@ class LoopringAPIRequest {
     }
 
     //==========================================relay 2.0===========================================
-    static func getMarkets(requireMetadata: Bool, requireTicker: Bool, quoteCurrencyForTicker: String, completionHandler: @escaping (_ result: [MarketV1]?, _ error: Error?) -> Void) {
+    static func getMarkets(requireMetadata: Bool, requireTicker: Bool, quoteCurrencyForTicker: Currency, completionHandler: @escaping (_ result: [Market]?, _ error: Error?) -> Void) {
+        var body: JSON = JSON()
+        body["method"] = "get_markets"
+        body["params"] = ["requireMetadata": requireMetadata, "requireTicker": requireTicker, "quoteCurrencyForTicker": quoteCurrencyForTicker.name]
+        body["id"] = JSON(UUID().uuidString)
 
+        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler([], error)
+                return
+            }
+            let json = JSON(data)
+            var markets: [Market] = []
+            let offerData = json["result"]["markets"]
+            for subJson in offerData.arrayValue {
+                let market = Market(json: subJson)
+                markets.append(market)
+            }
+            completionHandler(markets, error)
+        }
     }
+
+    static func getTokens(requireMetadata: Bool, requireInfo: Bool, requirePrice: Bool, quoteCurrencyForTicker: Currency, completionHandler: @escaping (_ result: [Token]?, _ error: Error?) -> Void) {
+        var body: JSON = JSON()
+        body["method"] = "get_tokens"
+        body["params"] = ["requireMetadata": requireMetadata, "requireInfo": requireInfo, "requirePrice": requirePrice, "quoteCurrencyForTicker": quoteCurrencyForTicker.name]
+        body["id"] = JSON(UUID().uuidString)
+
+        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler([], error)
+                return
+            }
+            let json = JSON(data)
+            var tokens: [Token] = []
+            let offerData = json["result"]["tokens"]
+            for subJson in offerData.arrayValue {
+                let token = Token(json: subJson)
+                tokens.append(token)
+            }
+            completionHandler(tokens, error)
+        }
+    }
+
+    static func getOrders(owner: String, statuses: [OrderStatus]? = nil, marketPair: MarketPair? = nil, side: OrderSide? = nil, sort: Sort? = nil, skip: UInt = 0, size: UInt = 20, completionHandler: @escaping (_ order: Order?, _ error: Error?) -> Void) {
+
+        var body: JSON = JSON()
+        body["method"] = "get_orders"
+        body["params"] = ["owner": owner, "status": statuses?.map { $0.rawValue }, "marketPair": marketPair?.toJSON(),
+                          "side": side?.rawValue, "sort": sort?.rawValue, "paging": Paging(skip: skip, size: size).toJSON()]
+        body["id"] = JSON(UUID().uuidString)
+
+        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler(nil, error)
+                return
+            }
+            let json = JSON(data)["result"]
+            var order = Order(json: json)
+            completionHandler(order, nil)
+        }
+    }
+
 }

@@ -22,12 +22,12 @@ class TokenViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.clear
-        
+
         iconImageView.contentMode = .scaleAspectFit
-        
+
         iconView.isHidden = true
         iconView.backgroundColor = UIColor.clear
-        
+
         titleLabel.textAlignment = .center
         titleLabel.font = FontConfigManager.shared.getCharactorFont(size: 13)
         titleLabel.theme_textColor = GlobalPicker.textColor
@@ -35,7 +35,7 @@ class TokenViewController: UIViewController {
         amountLabel.textAlignment = .center
         amountLabel.font = FontConfigManager.shared.getRegularFont(size: 13)
         amountLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         totalPriceInFiatCurrency.textAlignment = .center
         totalPriceInFiatCurrency.font = FontConfigManager.shared.getRegularFont(size: 13)
         totalPriceInFiatCurrency.theme_textColor = GlobalPicker.textLightColor
@@ -54,16 +54,16 @@ class TokenViewController: UIViewController {
             iconImageView.isHidden = true
         }
     }
-    
+
     // Used in ConvertETHViewController
     func update(symbol: String) {
         amountLabel.text = symbol
         updateIcon(symbol: symbol)
         totalPriceInFiatCurrency.isHidden = true
     }
-    
+
     // Used in Trade
-    func update(type: TradeType, symbol: String, amount: Double) {
+    func update(type: OrderSide, symbol: String, amount: Double) {
         if type == .buy {
             let title = LocalizedString("Buy", comment: "")
             titleLabel.textColor = .success

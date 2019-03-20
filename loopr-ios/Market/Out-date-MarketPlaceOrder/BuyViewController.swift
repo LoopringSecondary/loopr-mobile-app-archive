@@ -14,10 +14,10 @@ import StepSlider
 class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, NumericKeyboardDelegate, NumericKeyboardProtocol, StepSliderDelegate {
 
     var market: MarketV1!
-    
+
     // container
     @IBOutlet weak var containerView: UIView!
-    
+
     // TokenS
     @IBOutlet weak var tokenSButton: UIButton!
     @IBOutlet weak var priceTextField: UITextField!
@@ -31,29 +31,29 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
     @IBOutlet weak var amountTokenLabel: UILabel!
     @IBOutlet weak var buyTipLabel: UILabel!
     @IBOutlet weak var tipLabel: UILabel!
-    
+
     // Slider
     @IBOutlet weak var sliderView: UIView!
-    
+
     // TTL Buttons
     @IBOutlet weak var hourButton: UIButton!
     @IBOutlet weak var dayButton: UIButton!
     @IBOutlet weak var monthButton: UIButton!
     @IBOutlet weak var customButton: UIButton!
-    
+
     @IBOutlet weak var lrcRatioInfoLabel: UILabel!
     @IBOutlet weak var lrcRatioValueLabel: UILabel!
     @IBOutlet weak var lrcRatioButton: UIButton!
-    
+
     // Place button
     @IBOutlet weak var nextButton: GradientButton!
-    
+
     // Scroll view
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollViewButtonLayoutConstraint: NSLayoutConstraint!
-    
+
     var blurVisualEffectView = UIView(frame: .zero)
-    
+
     // Drag down to close a present view controller.
     var dismissInteractor: MiniToLargeViewInteractive!
 
@@ -63,35 +63,35 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
     var activeTextFieldTag = -1
     var stepSlider: StepSlider = StepSlider.getDefault()
     var stepSliderPercentage: Double = 0.0
-    
+
     // Expires
     var buttons: [UIButton] = []
     var orderIntervalTime = SettingDataManager.shared.getOrderIntervalTime()
-    
+
     // config
-    var type: TradeType
+    var type: OrderSide
     var initialPrice: String?
     var orderAmount: Double = 0
     var tokenS: String = ""
     var tokenB: String = ""
-    
-    convenience init(type: TradeType) {
+
+    convenience init(type: OrderSide) {
         self.init(nibName: nil, bundle: nil)
         self.type = type
     }
-    
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         type = .buy
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setBackButton()
         view.theme_backgroundColor = ColorPicker.backgroundColor
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
@@ -114,7 +114,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         priceTextField.setLeftPaddingPoints(textFieldLeftPadding)
         priceTextField.setRightPaddingPoints(72)
         priceTextField.contentMode = UIViewContentMode.bottom
-        
+
         sellTipLabel.setTitleDigitFont()
         sellTipLabel.text = LocalizedString("Price", comment: "")
         priceTokenLabel.setTitleDigitFont()
@@ -132,7 +132,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         amountTextField.setLeftPaddingPoints(textFieldLeftPadding)
         amountTextField.setRightPaddingPoints(72)
         amountTextField.contentMode = UIViewContentMode.bottom
-        
+
         // Slider
         let screenWidth = UIScreen.main.bounds.width
         stepSlider.frame = CGRect(x: 15, y: sliderView.frame.minY, width: screenWidth-15*4, height: 20)
@@ -141,16 +141,16 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         stepSlider.setIndex(0, animated: false)
         stepSlider.labels = ["0%", "25%", "50%", "75%", "100%"]
         containerView.addSubview(stepSlider)
-        
+
         // Buttons
         hourButton.round(corners: [.topLeft, .bottomLeft], radius: 8)
         customButton.round(corners: [.topRight, .bottomRight], radius: 8)
-        
+
         hourButton.title = LocalizedString("1 Hour", comment: "")
         dayButton.title = LocalizedString("1 Day", comment: "")
         monthButton.title = LocalizedString("1 Month", comment: "")
         customButton.title = LocalizedString("Custom", comment: "")
-        
+
         buttons = [hourButton, dayButton, monthButton, customButton]
         buttons.forEach {
             $0.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 13)
@@ -174,20 +174,20 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
             customButton.isSelected = true
             customButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 13)
         }
-        
+
         lrcRatioInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 14)
         lrcRatioInfoLabel.theme_textColor = GlobalPicker.textLightColor
         lrcRatioInfoLabel.text = LocalizedString("LRC Fee Ratio", comment: "")
-        
+
         lrcRatioValueLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         lrcRatioValueLabel.theme_textColor = GlobalPicker.textColor
         lrcRatioValueLabel.text = SettingDataManager.shared.getLrcFeeRatioDescription()
         lrcRatioValueLabel.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(pressedLRCRatioButton))
         lrcRatioValueLabel.addGestureRecognizer(tap)
-        
+
         lrcRatioButton.addTarget(self, action: #selector(pressedLRCRatioButton), for: .touchUpInside)
-        
+
         // Place button
         if type == .buy {
             nextButton.title = LocalizedString("Buy", comment: "") + " " + market.tradingPair.tradingA
@@ -196,39 +196,39 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
             nextButton.title = LocalizedString("Sell", comment: "") + " " + market.tradingPair.tradingA
             nextButton.setRed()
         }
-        
+
         // Scroll view
         let scrollViewTap = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
         scrollViewTap.numberOfTapsRequired = 1
         scrollView.addGestureRecognizer(scrollViewTap)
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: containerView.frame.maxY)
-        
+
         // TODO: This cause wired animation.
         scrollView.delaysContentTouches = false
 
         self.scrollViewButtonLayoutConstraint.constant = 0
-        
+
         blurVisualEffectView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         blurVisualEffectView.alpha = 1
         blurVisualEffectView.frame = UIScreen.main.bounds
-        
+
         containerView.applyShadow()
-        
+
         if let initialPrice = initialPrice {
             priceTextField.text = initialPrice.trailingZero()
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         update()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         customButton.round(corners: [.topRight, .bottomRight], radius: 8)
     }
-    
+
     func update() {
         var message: String = ""
         let title = LocalizedString("Available Balance", comment: "")
@@ -245,17 +245,17 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
             message = "\(title) 0.0 \(tokenS)"
         }
         tipLabel.text = message
-        
+
         lrcRatioValueLabel.text = SettingDataManager.shared.getLrcFeeRatioDescription()
     }
-    
+
     @objc func scrollViewTapped() {
         print("scrollViewTapped")
         priceTextField.resignFirstResponder()
         amountTextField.resignFirstResponder()
         hideNumericKeyboard()
     }
-    
+
     @IBAction func pressedUpdatePriceButton(_ sender: Any) {
         print("pressedUpdatePriceButton")
         presentMarketDetailDepthModalViewController()
@@ -265,26 +265,26 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         print("pressedUpdateAmountButton")
         presentMarketDetailDepthModalViewController()
     }
-    
+
     func presentMarketDetailDepthModalViewController() {
         let nextViewController = MarketDetailDepthModalViewController()
         nextViewController.market = market
         nextViewController.delegate = self
         // nextViewController.transitioningDelegate = self
         nextViewController.modalPresentationStyle = .overFullScreen
-        
+
         dismissInteractor = MiniToLargeViewInteractive()
         // dismissInteractor.attachToViewController(viewController: nextViewController, withView: nextViewController.view, presentViewController: nil, backgroundView: blurVisualEffectView)
-        
+
         self.present(nextViewController, animated: true) {
-            
+
         }
-        
+
         self.navigationController?.view.addSubview(self.blurVisualEffectView)
         UIView.animate(withDuration: 0.3, animations: {
             self.blurVisualEffectView.alpha = 1.0
         }, completion: {(_) in
-            
+
         })
     }
 
@@ -305,7 +305,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         sender.isSelected = true
         sender.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 13)
     }
-    
+
     func present() {
         self.hideNumericKeyboard()
         let parentView = self.parent!.view!
@@ -320,17 +320,17 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         vc.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         self.present(vc, animated: true, completion: nil)
     }
-    
+
     // TODO: I agree that the code is very complicated.
     func stepSliderValueChanged(_ value: Double) {
         stepSliderPercentage = value
-        
+
         var message: String = ""
         let length = MarketDataManager.shared.getDecimals(tokenSymbol: tokenS)
-        
+
         let maxPossibleAmount = getMaxPossibleAmount(side: type, tokenBuy: tokenB, tokenSell: tokenS)
         let price = Double(priceTextField.text!) ?? 0
-        
+
         if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenS) {
             if price > 0 {
                 switch type {
@@ -350,12 +350,12 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
             message = "\(title) 0.0 \(tokenS)"
             amountTextField.text = "0.0"
         }
-        
+
         tipLabel.text = message
         tipLabel.textColor = .text1
         tipLabel.isHidden = false
     }
-    
+
     @objc func pressedLRCRatioButton() {
         let viewController = SettingLRCFeeRatioViewController()
         viewController.hidesBottomBarWhenPushed = true
@@ -376,7 +376,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         }
         return nil
     }
-    
+
     func constructOrder() -> OriginalOrder? {
         var buyNoMoreThanAmountB: Bool
         var side, tokenSell, tokenBuy: String
@@ -417,10 +417,10 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         hideNumericKeyboard()
         priceTextField.resignFirstResponder()
         amountTextField.resignFirstResponder()
-        
+
         let isPriceValid = validateTokenPrice()
         let isAmountValid = validateAmount()
-        
+
         // Need to call validate()
         if isPriceValid && isAmountValid && validate() {
             self.pushController()
@@ -444,7 +444,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
             let viewController = PlaceOrderConfirmationViewController()
             viewController.order = order
             viewController.price = priceTextField.text
-            
+
             // viewController.transitioningDelegate = self
             viewController.modalPresentationStyle = .overFullScreen
             viewController.dismissClosure = {
@@ -454,28 +454,28 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
                     self.blurVisualEffectView.removeFromSuperview()
                 })
             }
-            
+
             dismissInteractor = MiniToLargeViewInteractive()
             dismissInteractor.percentThreshold = 0.2
             dismissInteractor.dismissClosure = {
-                
+
             }
-            
+
             self.present(viewController, animated: true) {
                 // self.dismissInteractor.attachToViewController(viewController: viewController, withView: viewController.containerView, presentViewController: nil, backgroundView: self.blurVisualEffectView)
             }
-            
+
             self.navigationController?.view.addSubview(self.blurVisualEffectView)
             UIView.animate(withDuration: 0.3, animations: {
                 self.blurVisualEffectView.alpha = 1.0
             }, completion: {(_) in
-                
+
             })
-            
+
             viewController.parentNavController = self.navigationController
         }
     }
-    
+
     func validateTokenPrice() -> Bool {
         if let value = Double(priceTextField.text!.removeComma()) {
             let validate = value > 0.0
@@ -499,7 +499,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
             return false
         }
     }
-   
+
     func setupLabels() {
         switch type {
         case .buy:
@@ -514,7 +514,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
                     tipLabel.text = "\(title) \(maxAmountToBuy.withCommas().trailingZero()) \(tokenB)"
                 }
             }
-            
+
         case .sell:
             if let balance = getBalance() {
                 let title = LocalizedString("Available Balance", comment: "")
@@ -524,7 +524,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
             }
         }
     }
-    
+
     func syncAllTextFieldsAndStepSlider() {
         guard validateTokenPrice() && validateAmount() else {
             return
@@ -533,7 +533,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         if activeTextFieldTag == priceTextField.tag {
             // Reuse the function
             stepSliderValueChanged(stepSliderPercentage)
-            
+
         } else if activeTextFieldTag == amountTextField.tag {
             let price = Double(priceTextField.text!) ?? 0
             let amount = Double(amountTextField.text!.removeComma())!
@@ -551,10 +551,10 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
             }
             stepSlider.setPercentageValue(Float(percentage))
         } else {
-            
+
         }
     }
-    
+
     func validateAmount() -> Bool {
         if let value = Double(amountTextField.text!.removeComma()) {
             let validate = value > 0.0
@@ -609,7 +609,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         _ = validate()
         return true
     }
-    
+
     func getActiveTextField() -> UITextField? {
         if activeTextFieldTag == priceTextField.tag {
             return priceTextField
@@ -619,20 +619,20 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
             return nil
         }
     }
-    
+
     func showNumericKeyboard(textField: UITextField) {
         if !isNumericKeyboardShow {
             let width = self.view.frame.width
             let height = self.view.frame.height
 
             scrollViewButtonLayoutConstraint.constant = DefaultNumericKeyboard.height
-            
+
             numericKeyboardView = DefaultNumericKeyboard(frame: CGRect(x: 0, y: height, width: width, height: DefaultNumericKeyboard.height))
             numericKeyboardView.delegate = self
             view.addSubview(numericKeyboardView)
-            
+
             let destinateY = height - DefaultNumericKeyboard.height
-            
+
             // TODO: improve the animation.
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
                 self.numericKeyboardView.frame = CGRect(x: 0, y: destinateY, width: width, height: DefaultNumericKeyboard.height)
@@ -652,7 +652,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
             }
         }
     }
-    
+
     func hideNumericKeyboard() {
         if isNumericKeyboardShow {
             let width = self.view.frame.width
@@ -673,7 +673,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
             self.scrollView.setContentOffset(CGPoint.zero, animated: true)
         }
     }
-    
+
     func numericKeyboard(_ numericKeyboard: NumericKeyboard, itemTapped item: NumericKeyboardItem, atPosition position: Position) {
         print("pressed keyboard: (\(position.row), \(position.column))")
         let activeTextField = getActiveTextField()
@@ -709,7 +709,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
 
     func numericKeyboard(_ numericKeyboard: NumericKeyboard, itemLongPressed item: NumericKeyboardItem, atPosition position: Position) {
         print("Long pressed keyboard: (\(position.row), \(position.column))")
-        
+
         let activeTextField = getActiveTextField()
         guard activeTextField != nil else {
             return
@@ -741,7 +741,7 @@ extension BuyViewController: UIViewControllerTransitioningDelegate {
 }
 
 extension BuyViewController: MarketDetailDepthModalViewControllerDelegate {
-    
+
     func dismissedMarketDetailDepthModalViewController() {
         UIView.animate(withDuration: 0.1, animations: {
             self.blurVisualEffectView.alpha = 0.0
@@ -766,7 +766,7 @@ extension BuyViewController: MarketDetailDepthModalViewControllerDelegate {
 }
 
 extension BuyViewController {
-    
+
     func getLrcFee(_ amountS: Double, _ tokenS: String) -> Double {
         var result: Double = 0
         let pair = tokenS + "/LRC"
@@ -781,38 +781,38 @@ extension BuyViewController {
         let minLrc = GasDataManager.shared.getGasAmount(by: "eth_transfer", in: "LRC")
         return max(result, minLrc)
     }
-    
-    func getMaxPossibleAmount(side: TradeType, tokenBuy: String, tokenSell: String) -> Double {
+
+    func getMaxPossibleAmount(side: OrderSide, tokenBuy: String, tokenSell: String) -> Double {
         var maxPossibleAmount: Double = 0
 
         if side == .buy {
             /*
             if tokenBuy.uppercased() == "LRC" {
-                
+
             } else {
-                
+
             }
             */
             maxPossibleAmount = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenSell)?.balance ?? 0
-            
+
         } else {
             /*
             if tokenSell.uppercased() == "LRC" {
                 // This line of code will trigger a Relay API call
                 let lrcFrozen = PlaceOrderDataManager.shared.getFrozenLRCFeeFromServer()
                 let lrcBlance = CurrentAppWalletDataManager.shared.getBalance(of: "LRC")!
-                
+
                 let lrcFee = getLrcFee(lrcBlance-lrcFrozen, tokenSell)
-                
+
                 maxPossibleAmount = lrcBlance - lrcFrozen - lrcFee
-                
+
             } else {
                 maxPossibleAmount = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenSell)?.balance ?? 0
             }
             */
             maxPossibleAmount = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenSell)?.balance ?? 0
         }
-        
+
         if maxPossibleAmount < 0 {
             maxPossibleAmount = 0
         }

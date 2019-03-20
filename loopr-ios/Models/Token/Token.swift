@@ -18,9 +18,9 @@ class Token: Equatable {
     var icon: UIImage?
 
     init(json: JSON) {
-        self.metadata = TokenMetadata(json: json["symbol"])
-        self.info = TokenInfo(json: json["source"])
-        self.ticker = TokenTicker(json: json["isMarket"])
+        self.metadata = TokenMetadata(json: json["metadata"])
+        self.info = TokenInfo(json: json["info"])
+        self.ticker = TokenTicker(json: json["ticker"])
         self.icon = UIImage(named: "Token-\(self.info.symbol)-\(Themes.getTheme())")
     }
 

@@ -26,7 +26,7 @@ class TradeDataManager {
     var takerSignature: SignatureData?
 
     var isTaker: Bool = false
-    var type: TradeType = .buy
+    var type: OrderSide = .buy
     var makerHash: String?
     var makerPrivateKey: String?
     var sellCount: Int = 1

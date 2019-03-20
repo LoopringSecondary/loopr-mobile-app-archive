@@ -12,34 +12,34 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
 
     weak var marketPlaceOrderViewController: MarketPlaceOrderViewController!
     var market: MarketV1!
-    var type: TradeType!
-    
+    var type: OrderSide!
+
     private var amountValueDecimal: Int = 8
     private var amountValue: Double = 0
-    
+
     private var totalValueDecimal: Int = 8
     private var totalValue: Double = 0
-    
+
     // Setting
     let decimalsSettingValue: Int = 8
-    
+
     // TODO: needs to update buys and sells in Relay 2.0
     var buys: [Depth] = []
     var sells: [Depth] = []
-    
+
     var activeTextFieldTag = -1
-    
+
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var leftBaseView: UIView!
 
     @IBOutlet weak var buyTabButton: UIButton!
     @IBOutlet weak var sellTabButton: UIButton!
-    
+
     @IBOutlet weak var latestPriceInfoLabel: UILabel!
     @IBOutlet weak var latestPriceButton: UIButton!
 
     @IBOutlet weak var textFieldHeightLayoutConstraint: NSLayoutConstraint!
-    
+
     // Price
     @IBOutlet weak var priceView: UIView!
     @IBOutlet weak var minusPriceStepperButton: UIButton!
@@ -52,26 +52,26 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     @IBOutlet weak var minusAmountStepperButton: UIButton!
     @IBOutlet weak var plusAmountStepperButton: UIButton!
     @IBOutlet weak var amountTextField: UITextField!
-    
+
     // Percentage
     @IBOutlet weak var percentage25Button: UIButton!
     @IBOutlet weak var percentage50Button: UIButton!
     @IBOutlet weak var percentage75Button: UIButton!
     @IBOutlet weak var percentage100Button: UIButton!
-    
+
     // Info
     @IBOutlet weak var availableAmountInfoLabelWidthLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var availableAmountInfoLabel: UILabel!
     @IBOutlet weak var availableAmountLabel: UILabel!
     @IBOutlet weak var totalAmountInforLabel: UILabel!
     @IBOutlet weak var totalAmountLabel: UILabel!
-    
+
     @IBOutlet weak var nextButton: GradientButton!
-    
+
     // Orderbook
     @IBOutlet weak var decimalInfoLabel: UILabel!
     @IBOutlet weak var orderbookTableView: UITableView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .clear
@@ -81,20 +81,20 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // baseView.applyShadow()
         baseView.cornerRadius = 8
         baseView.clipsToBounds = true
-        
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         tap.delegate = self
         baseView.addGestureRecognizer(tap)
-        
+
         let viewCornerRadius: CGFloat = 6
-        
+
         buyTabButton.title = LocalizedString("Buy", comment: "")
         buyTabButton.backgroundColor = UIColor.clear
         buyTabButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)
         buyTabButton.clipsToBounds = true
         buyTabButton.round(corners: [.topLeft, .bottomLeft], radius: viewCornerRadius)
         buyTabButton.addTarget(self, action: #selector(pressedBuyTabButton), for: .touchUpInside)
-        
+
         sellTabButton.title = LocalizedString("Sell", comment: "")
         sellTabButton.backgroundColor = UIColor.clear
         sellTabButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)
@@ -105,7 +105,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         latestPriceInfoLabel.text = "\(LocalizedString("MarketV1 Price", comment: ""))"
         latestPriceInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         latestPriceInfoLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         latestPriceButton.contentHorizontalAlignment = .left
         latestPriceButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         latestPriceButton.theme_setTitleColor(GlobalPicker.textLightColor, forState: .highlighted)
@@ -116,7 +116,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
 
         let textFieldWidth = (UIScreen.main.bounds.width - 16*2)*0.5 - 4*2 - 4*2
         textFieldHeightLayoutConstraint.constant = (textFieldWidth - 2*3)/4
-        
+
         // Price
         minusPriceStepperButton.setBackgroundColor(UIColor.dark3, for: .normal)
         minusPriceStepperButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
@@ -140,7 +140,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         priceTextField.placeholder = LocalizedString("Price", comment: "")
         priceTextField.setValue(UIColor.init(white: 1, alpha: 0.4), forKeyPath: "_placeholderLabel.textColor")
         priceTextField.contentMode = UIViewContentMode.bottom
-        
+
         priceTipLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         priceTipLabel.theme_textColor = GlobalPicker.textLightColor
         priceTipLabel.text = "≈ \(0.0.currency)"
@@ -168,7 +168,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         amountTextField.placeholder = LocalizedString("Amount", comment: "")
         amountTextField.setValue(UIColor.init(white: 1, alpha: 0.4), forKeyPath: "_placeholderLabel.textColor")
         amountTextField.contentMode = UIViewContentMode.bottom
-        
+
         percentage25Button.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         percentage25Button.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 10)
         percentage25Button.setBackgroundColor(UIColor.dark3, for: .normal)
@@ -188,7 +188,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         percentage75Button.setBackgroundColor(UIColor.dark3, for: .normal)
         percentage75Button.setBackgroundColor(UIColor.dark4, for: .highlighted)
         percentage75Button.addTarget(self, action: #selector(pressedPercentage75Button), for: .touchUpInside)
-        
+
         percentage100Button.theme_setTitleColor(GlobalPicker.textLightColor, forState: .normal)
         percentage100Button.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 10)
         percentage100Button.setBackgroundColor(UIColor.dark3, for: .normal)
@@ -202,18 +202,18 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         availableAmountInfoLabel.theme_textColor = GlobalPicker.textLightColor
         availableAmountInfoLabel.text = LocalizedString("Available", comment: "")
         availableAmountInfoLabelWidthLayoutConstraint.constant = availableAmountInfoLabel.text?.widthOfString(usingFont: availableAmountLabel.font) ?? 30
-        
+
         availableAmountLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         availableAmountLabel.theme_textColor = GlobalPicker.textLightColor
         availableAmountLabel.textAlignment = .right
 
         totalAmountInforLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         totalAmountInforLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         totalAmountLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         totalAmountLabel.theme_textColor = GlobalPicker.textLightColor
         totalAmountLabel.textAlignment = .right
-        
+
         nextButton.addTarget(self, action: #selector(pressedNextButton), for: .touchUpInside)
 
         // Orderbook
@@ -226,7 +226,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         orderbookTableView.separatorStyle = .none
         orderbookTableView.backgroundColor = .clear
         orderbookTableView.isScrollEnabled = false
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.updateUI()
         }
@@ -235,7 +235,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     func setBuys(_ buys: [Depth]) {
         self.buys = buys
     }
-    
+
     func setSells(_ sells: [Depth]) {
         // get first 5
         if sells.count >= 5 {
@@ -244,11 +244,11 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             self.sells = sells
         }
     }
-    
+
     func update() {
         latestPriceButton.setAttributedTitle("\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)".higlighted(words: [market.balanceWithDecimals], attributes: [NSAttributedStringKey.foregroundColor: UIColor.theme]), for: .normal)
         latestPriceButton.setAttributedTitle("\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)".higlighted(words: [market.balanceWithDecimals], attributes: [NSAttributedStringKey.foregroundColor: UIColor.theme.withAlphaComponent(0.6)]), for: .highlighted)
-        
+
         updateAvailableLabel()
         updateTotalLabels()
 
@@ -259,7 +259,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             sellTabButton.setBackgroundColor(UIColor.dark3, for: .normal)
             sellTabButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
             sellTabButton.setTitleColor(UIColor.text2, for: .normal)
-            
+
             nextButton.title = LocalizedString("Buy", comment: "") + " " + market.tradingPair.tradingA
             nextButton.setGreen()
         } else {
@@ -275,11 +275,11 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         }
         nextButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)
     }
-    
+
     func updateUI() {
         minusPriceStepperButton.clipsToBounds = true
         minusPriceStepperButton.round(corners: [.topLeft, .bottomLeft], radius: 6)
-        
+
         plusPriceStepperButton.clipsToBounds = true
         plusPriceStepperButton.round(corners: [.topRight, .bottomRight], radius: 6)
 
@@ -289,7 +289,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         plusAmountStepperButton.clipsToBounds = true
         plusAmountStepperButton.round(corners: [.topRight, .bottomRight], radius: 6)
     }
-    
+
     @objc func handleTap(_ sender: UITapGestureRecognizer?) {
         print("handleTap")
         marketPlaceOrderViewController.hideNumericKeyboard()
@@ -303,14 +303,14 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         }
         return true
     }
-    
+
     // Prefill textFields
     @objc func pressedLatestPriceButton() {
         priceTextField.text = market.balanceWithDecimals.trailingZero()
         priceTipLabel.text = "≈ \(market.display.description)"
         updateTotalLabels()
     }
-    
+
     // Update textFields
     @objc func pressedMinusPriceStepperButton() {
         if marketPlaceOrderViewController.validateTokenPrice(withErrorNotification: false) {
@@ -334,7 +334,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             setPriceTextField(priceValue: priceValue)
         }
     }
-    
+
     func setPriceTextField(priceValue: Double) {
         if priceValue == 0 {
             priceTextField.text = ""
@@ -348,7 +348,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             updateTotalLabels()
         }
     }
-    
+
     // TODO: value step will be defined in Relay API
     func getPriceValueStep() -> Double {
         switch decimalsSettingValue {
@@ -358,7 +358,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             return 0.00000001
         }
     }
-    
+
     func getAmountValueStep() -> Double {
         if type == .buy {
             if totalValue > 1000 {
@@ -390,7 +390,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             }
         }
     }
-    
+
     @objc func pressedMinusAmountStepperButton() {
         if marketPlaceOrderViewController.validateAmount(withErrorNotification: false) {
             var amountValue = Double(amountTextField.text!.removeComma())!
@@ -413,7 +413,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             setAmountTextField(amountValue: amountValue)
         }
     }
-    
+
     func setAmountTextField(amountValue: Double) {
         if amountValue == 0 {
             amountTextField.text = ""
@@ -435,12 +435,12 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // doesn't have commas
         // The following implementation does have commas
         amountTextField.text = depth.amountAInDouble.withCommas(2).trailingZero()
-        
+
         // No need to update available label
         // updateAvailableLabel()
         updateTotalLabels()
     }
-    
+
     // Only update at init method and switch buy and sell type
     func updateAvailableLabel() {
         var message: String = ""
@@ -466,20 +466,20 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             } else {
                 amountValueDecimal = 6
             }
-            
+
             message = "\(asset.balance.withCommas(amountValueDecimal).trailingZero()) \(tokenS)"
         } else {
             message = "0.0 \(tokenS)"
         }
         availableAmountLabel.text = message
     }
-    
+
     // Update when priceTextField is changed. It's not related to amountTextField change
     func updateTotalLabels() {
         var message: String = ""
         var tokenB: String = ""
         var tokenS: String = ""
-        
+
         if self.type == .buy {
             tokenB = PlaceOrderDataManager.shared.tokenA.symbol
             tokenS = PlaceOrderDataManager.shared.tokenB.symbol
@@ -498,7 +498,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
                 totalValue = priceValue * asset.balance
             }
             totalValueDecimal = asset.decimals
-            
+
             if totalValue > 1000 {
                 totalValueDecimal = 0
             } else if totalValue > 100 {
@@ -515,7 +515,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
 
         totalAmountLabel.text = message
     }
-    
+
     // Percentage buttons
     @objc func pressedPercentage25Button() {
         updateAmountTextFieldAfterPressedPercentageButton(percentage: 0.25)
@@ -533,7 +533,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // TODO: how to calculate 100%
         updateAmountTextFieldAfterPressedPercentageButton(percentage: 0.98)
     }
-    
+
     private func updateAmountTextFieldAfterPressedPercentageButton(percentage: Double) {
         if self.type == .buy {
             amountTextField.text = (totalValue*percentage).withCommas(totalValueDecimal).trailingZero()
@@ -559,7 +559,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     @objc func pressedNextButton() {
         marketPlaceOrderViewController.pressedPlaceOrderButton()
     }
-    
+
     // TextField
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         print("textFieldShouldBeginEditing")
@@ -568,7 +568,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         _ = marketPlaceOrderViewController.validate()
         return true
     }
-    
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         print("textFieldDidBeginEditing")
         if activeTextFieldTag == 0 {
@@ -588,11 +588,11 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             amountTextField.placeholder = LocalizedString("Amount", comment: "")
         }
     }
-    
+
     class func getCellIdentifier() -> String {
         return "MarketPlaceOrderTableViewCell"
     }
-    
+
     class func getHeight() -> CGFloat {
         return 363 + 5 + 4
     }

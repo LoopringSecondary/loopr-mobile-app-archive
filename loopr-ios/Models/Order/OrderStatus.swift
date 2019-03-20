@@ -36,7 +36,15 @@ enum OrderStatus: String, CustomStringConvertible, Equatable {
         case .unknown: return LocalizedString("Order Unknown", comment: "")
         }
     }
-    
+
+    func toJson() -> JSON {
+        return JSON(self.rawValue)
+    }
+
+    func toJsonArray(statuses: [OrderStatus]) -> [JSON] {
+        return statuses.map { JSON($0.rawValue) }
+    }
+
     static func == (lhs: OrderStatus, rhs: OrderStatus) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }

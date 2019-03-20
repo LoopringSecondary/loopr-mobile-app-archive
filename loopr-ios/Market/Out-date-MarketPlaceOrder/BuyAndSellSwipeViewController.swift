@@ -9,16 +9,16 @@
 import UIKit
 
 class BuyAndSellSwipeViewController: SwipeViewController {
-    
+
     var market: MarketV1!
 
-    var initialType: TradeType = .buy
+    var initialType: OrderSide = .buy
     var initialPrice: String?
-    
-    private var types: [TradeType] = [.buy, .sell]
+
+    private var types: [OrderSide] = [.buy, .sell]
     private var viewControllers: [UIViewController] = []
     var options = SwipeViewOptions.getDefault()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,7 +33,7 @@ class BuyAndSellSwipeViewController: SwipeViewController {
 
         let vc2 = BuyViewController(type: .sell)
         vc2.market = market
-        
+
         vc1.initialPrice = initialPrice
         vc2.initialPrice = initialPrice
 
@@ -56,7 +56,7 @@ class BuyAndSellSwipeViewController: SwipeViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-    
+
     // To avoid gesture conflicts in swiping to back and UISlider
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if touch.view != nil && touch.view!.isKind(of: UIControl.self) {
@@ -69,28 +69,28 @@ class BuyAndSellSwipeViewController: SwipeViewController {
     override func swipeView(_ swipeView: SwipeView, viewWillSetupAt currentIndex: Int) {
         // print("will setup SwipeView")
     }
-    
+
     override func swipeView(_ swipeView: SwipeView, viewDidSetupAt currentIndex: Int) {
         // print("did setup SwipeView")
     }
-    
+
     override func swipeView(_ swipeView: SwipeView, willChangeIndexFrom fromIndex: Int, to toIndex: Int) {
         // print("will change from item \(fromIndex) to item \(toIndex)")
     }
-    
+
     override func swipeView(_ swipeView: SwipeView, didChangeIndexFrom fromIndex: Int, to toIndex: Int) {
         // print("did change from item \(fromIndex) to section \(toIndex)")
     }
-    
+
     // MARK: - DataSource
     override func numberOfPages(in swipeView: SwipeView) -> Int {
         return viewControllers.count
     }
-    
+
     override func swipeView(_ swipeView: SwipeView, titleForPageAt index: Int) -> String {
         return types[index].description
     }
-    
+
     override func swipeView(_ swipeView: SwipeView, viewControllerForPageAt index: Int) -> UIViewController {
         return viewControllers[index]
     }
