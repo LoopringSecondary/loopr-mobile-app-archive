@@ -22,15 +22,15 @@ class OrderState {
     // 订单未成交数量，计算fill
     let outstandingAmountS: Amount
 
-    var outstandingAmountSell: Double = 0
+    var outstandingAmountSell: Double?
 
     let outstandingAmountB: Amount
 
-    var outstandingAmountBuy: Double = 0
+    var outstandingAmountBuy: Double?
 
     let outstandingAmountFee: Amount
 
-    var outstandingAmountF: Double = 0
+    var outstandingAmountF: Double?
 
     init(json: JSON) {
         self.status = OrderStatus(rawValue: json["status"].stringValue) ?? .unknown

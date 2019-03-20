@@ -23,68 +23,68 @@ class SendConfirmViewController: UIViewController {
     @IBOutlet weak var gasTipLabel: UILabel!
     @IBOutlet weak var gasInfoLabel: UILabel!
     @IBOutlet weak var sendButton: GradientButton!
-    
+
     @IBOutlet weak var cellBackgroundView: UIView!
     @IBOutlet weak var cellA: UIView!
     @IBOutlet weak var cellB: UIView!
     @IBOutlet weak var cellC: UIView!
-    
+
     var sendAsset: Asset!
     var sendAmount: String!
     var receiveAddress: String!
     var gasAmountText: String!
     var dismissClosure: (() -> Void)?
     var parentNavController: UINavigationController?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+
         self.modalPresentationStyle = .custom
         view.backgroundColor = .clear
-        
+
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        
+
         let cells = [cellA, cellB, cellC]
         cells.forEach { $0?.theme_backgroundColor = ColorPicker.cardBackgroundColor }
         cellBackgroundView.theme_backgroundColor = ColorPicker.cardHighLightColor
-        
+
         titleLabel.theme_textColor = GlobalPicker.textColor
         titleLabel.font = FontConfigManager.shared.getMediumFont(size: 16)
         titleLabel.text = LocalizedString("Send Confirmation", comment: "")
-        
+
         amountLabel.font = FontConfigManager.shared.getDigitalFont()
         amountLabel.textColor = .theme
         amountLabel.text = "\(self.sendAmount!) \(self.sendAsset.symbol)"
-        
+
         toTipLabel.setTitleCharFont()
         toTipLabel.text = LocalizedString("Receiver", comment: "")
-        
+
         toInfoLabel.font = FontConfigManager.shared.getLightFont(size: 13)
         toInfoLabel.theme_textColor = GlobalPicker.textLightColor
         toInfoLabel.text = self.receiveAddress ?? ""
         toInfoLabel.lineBreakMode = .byTruncatingMiddle
-        
+
         fromTipLabel.setTitleCharFont()
         fromTipLabel.text = LocalizedString("Sender", comment: "")
         fromInfoLabel.font = FontConfigManager.shared.getLightFont(size: 13)
         fromInfoLabel.theme_textColor = GlobalPicker.textLightColor
         fromInfoLabel.text = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address
         fromInfoLabel.lineBreakMode = .byTruncatingMiddle
-        
+
         gasTipLabel.setTitleCharFont()
         gasTipLabel.text = LocalizedString("Tx Fee Limit", comment: "")
         gasInfoLabel.font = FontConfigManager.shared.getLightFont(size: 13)
         gasInfoLabel.theme_textColor = GlobalPicker.textLightColor
         gasInfoLabel.text = gasAmountText
-        
+
         sendButton.title = LocalizedString("Send", comment: "")
-        
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         tap.delegate = self
         view.addGestureRecognizer(tap)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
@@ -96,11 +96,11 @@ class SendConfirmViewController: UIViewController {
         self.dismiss(animated: true, completion: {
         })
     }
-    
+
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         close()
     }
-    
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let location = touch.location(in: nil)
         if containerView.frame.contains(location) {
@@ -108,7 +108,7 @@ class SendConfirmViewController: UIViewController {
         }
         return true
     }
-    
+
     @IBAction func pressedSendButton(_ sender: UIButton) {
         if AuthenticationDataManager.shared.getPasscodeSetting() {
             AuthenticationDataManager.shared.authenticate(reason: LocalizedString("Authenticate to send", comment: "")) { (error) in
@@ -121,11 +121,11 @@ class SendConfirmViewController: UIViewController {
             self.authorizeToSend()
         }
     }
-    
+
 }
 
 extension SendConfirmViewController {
-    
+
     private func authorizeToSend() {
         SVProgressHUD.show(withStatus: LocalizedString("Processing the transaction ...", comment: ""))
         if let toAddress = self.receiveAddress,
@@ -139,12 +139,12 @@ extension SendConfirmViewController {
             } else {
                 let amount = Double(self.sendAmount)!
                 let gethAmount = GethBigInt.generate(valueInEther: amount, symbol: token.symbol)!
-                let contractAddress = GethNewAddressFromHex(token.protocol_value, &error)!
+                let contractAddress = GethNewAddressFromHex(token.address, &error)!
                 SendCurrentAppWalletDataManager.shared._transferToken(contractAddress: contractAddress, toAddress: toAddress, tokenAmount: gethAmount, completion: completion)
             }
         }
     }
-    
+
     func completion(_ txHash: String?, _ error: Error?) {
         SVProgressHUD.dismiss()
         DispatchQueue.main.async {
@@ -172,7 +172,7 @@ extension SendConfirmViewController {
                 closure()
             }
             self.dismiss(animated: true, completion: nil)
-            
+
             // TODO: iOS 12 doesn't work
             self.parentNavController?.pushViewController(vc, animated: true)
         }

@@ -11,20 +11,20 @@ import Geth
 import BigInt
 
 class TradeDataManager {
-    
+
     static let shared = TradeDataManager()
     static let qrcodeType: String = "P2P"
     static let qrcodeHash: String = "hash"
     static let qrcodeAuth: String = "auth"
     static let sellCount: String = "count"
-    
+
     var state: OrderTradeState
     var orders: [OriginalOrder] = []
     var balanceInfo: [String: Double] = [:]
     var errorMessage: [String: String] = [:]
     var makerSignature: SignatureData?
     var takerSignature: SignatureData?
-    
+
     var isTaker: Bool = false
     var type: TradeType = .buy
     var makerHash: String?
@@ -32,16 +32,16 @@ class TradeDataManager {
     var sellCount: Int = 1
     var amountTokenS: Double = 0.0
     var amountTokenB: Double = 0.0
-    
+
     let orderCount: Int = 2
     let byteLength: Int = EthType.MAX_BYTE_LENGTH
-    
-    var tokenS: TokenV1 {
+
+    var tokenS: Token {
         didSet {
             updatePair()
         }
     }
-    var tokenB: TokenV1 {
+    var tokenB: Token {
         didSet {
             updatePair()
         }
@@ -52,19 +52,19 @@ class TradeDataManager {
         state = .empty
         // Get TokenS and TokenB from UserDefaults
         let defaults = UserDefaults.standard
-        var tokenS: TokenV1?
+        var tokenS: Token?
         if let symbol = defaults.string(forKey: UserDefaultsKeys.tradeTokenS.rawValue) {
-            tokenS = TokenV1(symbol: symbol)
+            tokenS = Token(symbol: symbol)
         }
-        var tokenB: TokenV1?
+        var tokenB: Token?
         if let symbol = defaults.string(forKey: UserDefaultsKeys.tradeTokenB.rawValue) {
-            tokenB = TokenV1(symbol: symbol)
+            tokenB = Token(symbol: symbol)
         }
 
         // Use default values if loopring_getSupportedTokens returns errors.
         if tokenS == nil || tokenB == nil {
-            self.tokenS = TokenV1(symbol: "WETH")!
-            self.tokenB = TokenV1(symbol: "LRC")!
+            self.tokenS = Token(symbol: "WETH")!
+            self.tokenB = Token(symbol: "LRC")!
         } else {
             self.tokenS = tokenS!
             self.tokenB = tokenB!
@@ -87,7 +87,7 @@ class TradeDataManager {
             "50008": LocalizedString("50008", comment: "")
         ]
     }
-    
+
     func updatePair() {
         self.tradePair = "\(self.tokenS.symbol)/\(self.tokenB.symbol)"
     }
@@ -95,25 +95,25 @@ class TradeDataManager {
     func clear() {
         state = .empty
     }
-    
+
     func swapTokenSAndTokenB() {
-        let tmpToken = TokenV1(symbol: tokenB.symbol)!
+        let tmpToken = Token(symbol: tokenB.symbol)!
         changeTokenB(tokenS)
         changeTokenS(tmpToken)
     }
 
-    func changeTokenS(_ token: TokenV1) {
+    func changeTokenS(_ token: Token) {
         tokenS = token
         let defaults = UserDefaults.standard
         defaults.set(token.symbol, forKey: UserDefaultsKeys.tradeTokenS.rawValue)
     }
 
-    func changeTokenB(_ token: TokenV1) {
+    func changeTokenB(_ token: Token) {
         tokenB = token
         let defaults = UserDefaults.standard
         defaults.set(token.symbol, forKey: UserDefaultsKeys.tradeTokenB.rawValue)
     }
-    
+
     func handleResult(of scanning: JSON) {
         self.makerHash = scanning[TradeDataManager.qrcodeHash].stringValue
         let makerPrivateKey = scanning[TradeDataManager.qrcodeAuth].stringValue
@@ -130,7 +130,7 @@ class TradeDataManager {
 
     func getOrder(by hash: String) -> OriginalOrder? {
         var result: OriginalOrder?
-        let semaphore = DispatchSemaphore(value: 0)        
+        let semaphore = DispatchSemaphore(value: 0)
         LoopringAPIRequest.getOrderByHash(orderHash: hash) { order, error in
             guard error == nil && order != nil else {
                 return
@@ -147,7 +147,7 @@ class TradeDataManager {
         var amountB, amountS: BigInt
         var amountBuy, amountSell: Double
         var tokenSell, tokenBuy, market: String
-        
+
         buyNoMoreThanAmountB = true
         tokenBuy = maker.tokenSell
         tokenSell = maker.tokenBuy
@@ -158,12 +158,12 @@ class TradeDataManager {
         } else {
             amountS = maker.amountB / BigInt(sellCount) + 1
         }
-        
+
         let tokenB = TokenDataManager.shared.getTokenBySymbol(maker.tokenSell)!
         let tokenS = TokenDataManager.shared.getTokenBySymbol(maker.tokenBuy)!
         amountBuy = amountB.toDouble(by: tokenB.decimals)
         amountSell = amountS.toDouble(by: tokenS.decimals)
-        
+
         let delegate = RelayAPIConfiguration.delegateAddress
         let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
         let since = maker.validSince
@@ -172,7 +172,7 @@ class TradeDataManager {
         PlaceOrderDataManager.shared.completeOrder(&order)
         return order
     }
-    
+
     func validate(completion: @escaping (String?, Error?) -> Void) -> Bool {
         var result = false
         if self.orders.count >= 2 {
@@ -190,7 +190,7 @@ class TradeDataManager {
         }
         return result
     }
-    
+
     func _submitRing(completion: @escaping (String?, Error?) -> Void) {
         guard validate(completion: completion) else { return }
         guard let rawTx = _generate(completion: completion) else { return }
@@ -208,7 +208,7 @@ class TradeDataManager {
             completion(txHash, nil)
         })
     }
-    
+
     func generateOffset() -> [Any] {
         var result: [Any] = []
         result.append(GethBigInt.init(Int64(byteLength * 9)))
@@ -220,26 +220,26 @@ class TradeDataManager {
         result.append(GethBigInt.init(Int64(byteLength * 47)))
         return result
     }
-    
+
     func generateFee() -> [Any] {
         var result: [Any] = []
         result.append(GethAddress.init(fromHex: orders[0].walletAddress)) // feeReceipt
         result.append(GethBigInt.init(0)) // feeSelection
         return result
     }
-    
+
     func insertOrderCounts() -> [Any] {
         var result: [Any] = []
         result.append(GethBigInt.init(Int64(orderCount)))
         return result
     }
-    
+
     func insertListCounts() -> [Any] {
         var result: [Any] = []
         result.append(GethBigInt.init(Int64(orderCount * 2)))
         return result
     }
-    
+
     func generateAddresses() -> [Any] {
         var result: [Any] = []
         for order in orders {
@@ -251,7 +251,7 @@ class TradeDataManager {
         }
         return result
     }
-    
+
     func generateValues() -> [Any] {
         var result: [Any] = []
         for order in orders {
@@ -267,7 +267,7 @@ class TradeDataManager {
         }
         return result
     }
-    
+
     func generateMargin() -> [Any] {
         var result: [Any] = []
         for order in orders {
@@ -276,7 +276,7 @@ class TradeDataManager {
         }
         return result
     }
-    
+
     func generateFlag() -> [Any] {
         var result: [Any] = []
         for order in orders {
@@ -285,7 +285,7 @@ class TradeDataManager {
         }
         return result
     }
-    
+
     func generateVList() -> [Any] {
         var result: [Any] = []
         for order in orders {
@@ -297,7 +297,7 @@ class TradeDataManager {
         }
         return result
     }
-    
+
     func generateRList() -> Data {
         var data: Data = Data()
         let value = GethBigInt.init(Int64(self.orderCount * 2))!
@@ -311,7 +311,7 @@ class TradeDataManager {
         }
         return data
     }
-    
+
     func generateSList() -> Data {
         var data: Data = Data()
         let value = GethBigInt.init(Int64(self.orderCount * 2))!
@@ -325,12 +325,12 @@ class TradeDataManager {
         }
         return data
     }
-    
+
     func encode(array: [Any]) -> Data {
         let method = Data()
         return EthFunctionEncoder.default.encodeParameters(array, method)
     }
-    
+
     func encode() -> Data {
         var array: [Any] = generateOffset()
         array += generateFee()
@@ -350,7 +350,7 @@ class TradeDataManager {
         data += generateSList()
         return data
     }
-    
+
     func generateHash() -> Data {
         var result: Data = Data()
         let orderAHash = orders[0].hash.hexBytes
@@ -376,7 +376,7 @@ class TradeDataManager {
         }
         return result
     }
-    
+
     func _generate(completion: @escaping (String?, Error?) -> Void) -> String? {
         self.signRinghash() // cost time in debug
         let data = encode()
@@ -385,29 +385,29 @@ class TradeDataManager {
         let gasLimit: Int64 = GasDataManager.shared.getGasLimit(by: "submitRing")!
         return SendCurrentAppWalletDataManager.shared._sign(data: data, address: protocolAddress, amount: GethBigInt.init(0), gasLimit: GethBigInt(gasLimit), completion: completion)
     }
-    
+
     func signHash(privateKey: String, hash: Data) -> SignatureData? {
         let password = "123456"
-        
+
         // Generate keystore data. Note that: this is slow in the debug mode, however it's fast in the release mode.
         let data = Data(hexString: privateKey)!
         let key = try! KeystoreKey(password: password, key: data)
         let keystoreData = try! JSONEncoder().encode(key)
         let json = try! JSON(data: keystoreData)
         let keystoreStringValue = json.description
-        
+
         // Create key directory
         let fileManager = FileManager.default
         let keyDirectory = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("signHash")
         try? fileManager.removeItem(at: keyDirectory)
         try? fileManager.createDirectory(at: keyDirectory, withIntermediateDirectories: true, attributes: nil)
         print(keyDirectory)
-        
+
         let walletDirectory = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("signHash")
         try? fileManager.removeItem(at: walletDirectory)
         try? fileManager.createDirectory(at: walletDirectory, withIntermediateDirectories: true, attributes: nil)
         print(walletDirectory)
-        
+
         // Save the keystore string value to keyDirectory
         let fileURL = keyDirectory.appendingPathComponent("key.json")
         try! keystoreStringValue.write(to: fileURL, atomically: false, encoding: .utf8)
@@ -423,7 +423,7 @@ class TradeDataManager {
         let (signature, _) = web3swift.sign(message: hash)
         return signature!
     }
-    
+
     func signRinghash() {
         let hex = generateHash().hexString
         let hash = Data(bytes: hex.hexBytes)
@@ -437,7 +437,7 @@ class TradeDataManager {
         checkBalanceEnough(of: order)
         return balanceInfo
     }
-    
+
     func checkBalanceEnough(of order: OriginalOrder) {
         guard isTaker else { return }
         var result: Double = 0
@@ -449,7 +449,7 @@ class TradeDataManager {
             balanceInfo["MINUS_\(tokens)"] = -result
         }
     }
-    
+
     func checkGasEnough(of order: OriginalOrder) {
         var result: Double = 0
         if let ethBalance = CurrentAppWalletDataManager.shared.getBalance(of: "ETH"), let tokenGas = calculateGas(for: order.tokenSell, to: order.amountSell) {
@@ -464,7 +464,7 @@ class TradeDataManager {
             balanceInfo["MINUS_ETH"] = -result
         }
     }
-    
+
     func calculateGas(for token: String, to amount: Double) -> Double? {
         var result: Double?
         if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: token) {
@@ -483,15 +483,15 @@ class TradeDataManager {
         }
         return result
     }
-    
+
     func startGetOrderStatus(of maker: String) {
         LoopringSocketIORequest.getOrderStatus(orderHash: maker)
     }
-    
+
     func stopGetOrderStatus() {
         LoopringSocketIORequest.endOrderStatus()
     }
-    
+
     /*
      1. 需要备份maker订单，response中加以判断
      2. 若json中含有maker，需要在接收orderResponseReceived地方判断

@@ -394,7 +394,7 @@ class LoopringAPIRequest {
     }
 
     // Please use getCustomTokens rather than getSupportedTokens. getCustomTokens = getSupportedTokens + custom tokens.
-    static func getSupportedTokens(completionHandler: @escaping (_ tokens: [TokenV1]?, _ error: Error?) -> Void) {
+    static func getSupportedTokens(completionHandler: @escaping (_ tokens: [Token]?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["method"] = "loopring_getSupportedTokens"
         body["id"] = JSON(UUID().uuidString)
@@ -404,18 +404,18 @@ class LoopringAPIRequest {
                 completionHandler(nil, error)
                 return
             }
-            var tokens: [TokenV1] = []
+            var tokens: [Token] = []
             let json = JSON(data)
             let offerData = json["result"]
             for subJson in offerData.arrayValue {
-                let token = TokenV1(json: subJson)
+                let token = Token(json: subJson)
                 tokens.append(token)
             }
             completionHandler(tokens, nil)
         }
     }
 
-    static func getCustomTokens(owner: String, completionHandler: @escaping (_ tokens: [TokenV1]?, _ error: Error?) -> Void) {
+    static func getCustomTokens(owner: String, completionHandler: @escaping (_ tokens: [Token]?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["method"] = "loopring_getCustomTokens"
         body["params"] = [["owner": owner]]
@@ -426,12 +426,12 @@ class LoopringAPIRequest {
                 completionHandler(nil, error)
                 return
             }
-            var tokens: [TokenV1] = []
+            var tokens: [Token] = []
             let json = JSON(data)
             let offerData = json["result"]
             // print(offerData)
             for subJson in offerData.arrayValue {
-                let token = TokenV1(json: subJson)
+                let token = Token(json: subJson)
                 tokens.append(token)
             }
             completionHandler(tokens, nil)

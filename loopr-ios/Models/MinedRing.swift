@@ -9,7 +9,7 @@
 import Foundation
 
 class MinedRing {
-    
+
     let id: UInt
     let ringhash: String
     let tradeAmount: UInt
@@ -18,11 +18,11 @@ class MinedRing {
     let txHash: String
     let blockNumber: UInt
     let totalLrcFee: String
-    let protocol_value: String
+    let address: String
     let isRinghashReserved: Bool
     let ringIndex: String
     let timestamp: UInt
-    
+
     init(json: JSON) {
         self.id = json["id"].uIntValue
         self.ringhash = json["ringhash"].stringValue
@@ -32,7 +32,7 @@ class MinedRing {
         self.txHash = json["txHash"].stringValue
         self.blockNumber = json["blockNumber"].uIntValue
         self.totalLrcFee = json["totalLrcFee"].stringValue
-        self.protocol_value = json["protocol_value"].stringValue
+        self.address = json["address"].stringValue
         self.isRinghashReserved = json["isRinghashReserved"].boolValue
         self.ringIndex = json["ringIndex"].stringValue
         self.timestamp = json["timestamp"].uIntValue

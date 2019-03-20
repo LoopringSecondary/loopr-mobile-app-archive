@@ -10,7 +10,7 @@ import UIKit
 
 class SwitchTradeTokenTableViewCell: UITableViewCell {
 
-    var token: TokenV1?
+    var token: Token?
 
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var iconImageView: UIImageView!
@@ -18,7 +18,7 @@ class SwitchTradeTokenTableViewCell: UITableViewCell {
     @IBOutlet weak var symbolLabel: UILabel!
     @IBOutlet weak var balanceLabel: UILabel!
     @IBOutlet weak var enabledIcon: UIImageView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -35,7 +35,7 @@ class SwitchTradeTokenTableViewCell: UITableViewCell {
         enabledIcon.contentMode = .center
         baseView.applyShadow()
     }
-    
+
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         if highlighted {
             baseView.theme_backgroundColor = ColorPicker.cardHighLightColor
@@ -43,7 +43,7 @@ class SwitchTradeTokenTableViewCell: UITableViewCell {
             baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         }
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         if selected {
             baseView.theme_backgroundColor = ColorPicker.cardHighLightColor

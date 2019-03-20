@@ -44,7 +44,7 @@ class RawOrder: Equatable {
     let validSince: String
 
     // int value e.g. 3562653865313739
-    var validS: Int = 0
+    var validS: Int?
 
     let params: OrderParams
 
@@ -72,27 +72,42 @@ class RawOrder: Equatable {
         self.amountB = json["amountB"].stringValue
         self.amountS = json["amountS"].stringValue
         self.validSince = json["validSince"].stringValue
+        self.validS = validSince.hexToInteger
         self.params = OrderParams(json: json["params"])
         self.feeParams = FeeParams(json: json["feeParams"])
         self.state = OrderState(json: json["state"])
-
-        self.tokenBuy = TokenDataManager.shared.getTokenByAddress(tokenB)?.symbol
-        self.tokenSell = TokenDataManager.shared.getTokenByAddress(tokenS)?.symbol
-        self.amountBuy = TokenDataManager.shared.get
-
-        initPrice();
-
+        self.initPrice();
     }
 
     func initPrice() {
-
-
-        self.amountBuy =
-
-        var value =
+        if let tokenB = TokenDataManager.shared.getTokenByAddress(tokenB),
+           let tokenS = TokenDataManager.shared.getTokenByAddress(tokenS) {
+            self.tokenBuy = tokenB.symbol
+            self.tokenSell = tokenS.symbol
+            self.amountBuy = TokenDataManager.shared.getAmount(fromWeiAmount: amountB, of: tokenB.decimals)
+            self.amountSell = TokenDataManager.shared.getAmount(fromWeiAmount: amountS, of: tokenS.decimals)
+            if let amountBuy = self.amountBuy, let amountSell = self.amountSell {
+                self.priceBuy = amountBuy / amountSell
+                self.priceSell = amountSell / amountBuy
+                self.priceB = "≈\(priceBuy) \(tokenB.symbol)/\(tokenS.symbol)"  //TODO: market precision
+                self.priceS = "≈\(priceSell) \(tokenS.symbol)/\(tokenB.symbol)"  //TODO: market precision
+            }
+            if let symbol = feeParams.tokenF, let tokenF = TokenDataManager.shared.getTokenBySymbol(symbol),
+               let outstandingAmountBuy = TokenDataManager.shared.getAmount(fromWeiAmount: amountB, of: tokenB.decimals),
+               let outstandingAmountSell = TokenDataManager.shared.getAmount(fromWeiAmount: amountS, of: tokenS.decimals) {
+                self.state.outstandingAmountBuy = outstandingAmountBuy
+                self.state.outstandingAmountSell = outstandingAmountSell
+                self.state.outstandingAmountF = TokenDataManager.shared.getAmount(fromWeiAmount: feeParams.tokenFee, of: tokenF.decimals)
+            }
+            if let amountBuy = self.amountBuy, let outstandingAmountBuy = self.state.outstandingAmountBuy {
+                let numberFormatter = NumberFormatter()
+                let rate = (amountBuy - outstandingAmountBuy) / amountBuy * 100
+                self.filled = rate.withCommas(0) + numberFormatter.percentSymbol
+            }
+        }
     }
 
-    static func == (lhs: RawOrder, rhs: RawOrder) -> Bool {
+    static func ==(lhs: RawOrder, rhs: RawOrder) -> Bool {
         return lhs.hash == rhs.hash
     }
 

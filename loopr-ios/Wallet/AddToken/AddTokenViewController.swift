@@ -9,33 +9,33 @@
 import UIKit
 
 class AddTokenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
-    
+
     @IBOutlet weak var tableView: UITableView!
-    
+
     var searchText = ""
     var isSearching = false
     let searchBar = UISearchBar()
     var searchButton = UIBarButtonItem()
-    var filtedTokens: [TokenV1] = []
+    var filtedTokens: [Token] = []
     var canHideKeyboard = true
-    
+
     var addTokenButton = UIBarButtonItem()
-    
+
     var numberOfTokens: Int = 0
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+
         setBackButton()
         self.navigationItem.title = LocalizedString("Add Token", comment: "")
-        
+
         view.theme_backgroundColor = ColorPicker.backgroundColor
         tableView.theme_backgroundColor = ColorPicker.backgroundColor
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
-        
+
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 10))
         headerView.theme_backgroundColor = ColorPicker.backgroundColor
         tableView.tableHeaderView = headerView
@@ -54,10 +54,10 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
         searchBar.theme_tintColor = GlobalPicker.textColor
         searchBar.textColor = Themes.isDark() ? UIColor.init(rgba: "#ffffffcc") : UIColor.init(rgba: "#000000cc")
         searchBar.setTextFieldColor(color: UIColor.dark3)
-        
+
         numberOfTokens = TokenDataManager.shared.getTokensToAdd().count
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
@@ -72,20 +72,20 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
         let viewController = AddCustomizedTokenViewController()
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
     @objc func pressOrderSearchButton(_ button: UIBarButtonItem) {
         let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.pressSearchCancel))
         self.navigationItem.rightBarButtonItems = [cancelBarButton]
         self.navigationItem.leftBarButtonItem = nil
         self.navigationItem.hidesBackButton = true
-        
+
         let searchBarContainer = SearchBarContainerView(customSearchBar: searchBar)
         searchBarContainer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
         self.navigationItem.titleView = searchBarContainer
-        
+
         searchBar.becomeFirstResponder()
     }
-    
+
     @objc func pressSearchCancel(_ button: UIBarButtonItem) {
         print("pressSearchCancel")
         self.navigationItem.rightBarButtonItems = [addTokenButton, searchButton]
@@ -96,7 +96,7 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
         searchTextDidUpdate(searchText: "")
         setBackButton()
     }
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print("scrollViewDidScroll")
         // isSearching = false
@@ -104,7 +104,7 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
             searchBar.resignFirstResponder()
         }
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearching {
             return filtedTokens.count == 0 ? 1 : filtedTokens.count
@@ -142,8 +142,8 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
                 cell = nib![0] as? AddTokenTableViewCell
                 cell?.selectionStyle = .none
             }
-            
-            let token: TokenV1
+
+            let token: Token
             if isSearching {
                 token = filtedTokens[indexPath.row]
             } else {
@@ -158,7 +158,7 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
+
     func searchTextDidUpdate(searchText: String) {
         self.searchText = searchText.trim()
         if self.searchText != "" {
@@ -169,28 +169,28 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
             tableView.reloadSections(IndexSet(integersIn: 0...0), with: .fade)
         }
     }
-    
+
     // MARK: - SearchBar Delegate
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print("searchBar textDidChange \(searchText)")
         searchTextDidUpdate(searchText: searchText)
     }
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("searchBarSearchButtonClicked")
     }
-    
+
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         print("searchBarTextDidBeginEditing")
         searchBar.becomeFirstResponder()
     }
-    
+
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         print("searchBarTextDidEndEditing")
     }
 
     func filterContentForSearchText(_ searchText: String) {
-        let newFiltedTokens = TokenDataManager.shared.getTokensToAdd().filter({(token: TokenV1) -> Bool in
+        let newFiltedTokens = TokenDataManager.shared.getTokensToAdd().filter({(token: Token) -> Bool in
             return token.symbol.lowercased().contains(searchText.lowercased())
         })
         // If filteredMarkets is the same for different searchText, no update tableView.
@@ -198,7 +198,7 @@ class AddTokenViewController: UIViewController, UITableViewDelegate, UITableView
             return
         }
         filtedTokens = newFiltedTokens
-        
+
         if tableView.contentOffset.y == 0 {
             tableView.reloadSections(IndexSet(integersIn: 0...0), with: .fade)
         } else {

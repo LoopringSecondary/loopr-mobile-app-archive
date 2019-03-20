@@ -11,22 +11,22 @@ import Geth
 import BigInt
 
 class PlaceOrderDataManager {
-    
+
     static let shared = PlaceOrderDataManager()
-    
+
     private var errorInfo: [String: Any] = [:]
     private var balanceInfo: [String: Double] = [:]
-    
+
     private let gasManager = GasDataManager.shared
     private let tokenManager = TokenDataManager.shared
     private let walletManager = CurrentAppWalletDataManager.shared
     private let sendManager = SendCurrentAppWalletDataManager.shared
-    
+
     // Similar naming in Trade.swift
-    var tokenA: TokenV1 = TokenV1(symbol: "LRC")!
-    var tokenB: TokenV1 = TokenV1(symbol: "WETH")!
+    var tokenA: Token = Token(symbol: "LRC")!
+    var tokenB: Token = Token(symbol: "WETH")!
     var market: MarketV1?
-    
+
     func new(tokenA: String, tokenB: String, market: MarketV1) {
         self.tokenA = TokenDataManager.shared.getTokenBySymbol(tokenA)!
         self.tokenB = TokenDataManager.shared.getTokenBySymbol(tokenB)!
@@ -48,7 +48,7 @@ class PlaceOrderDataManager {
         _ = semaphore.wait(timeout: .distantFuture)
         return result
     }
-    
+
     func getAllowance(of token: String) -> Double {
         var result: Double = 0
         let semaphore = DispatchSemaphore(value: 0)
@@ -64,7 +64,7 @@ class PlaceOrderDataManager {
         _ = semaphore.wait(timeout: .distantFuture)
         return result
     }
-    
+
     func checkLRCEnough(of order: OriginalOrder) {
         var result: Double = 0
         let lrcFrozen = getFrozenLRCFeeFromServer()
@@ -91,7 +91,7 @@ class PlaceOrderDataManager {
             balanceInfo["MINUS_ETH"] = -result
         }
     }
-    
+
     func checkLRCGasEnough(of order: OriginalOrder) {
         var result: Double = 0
         if let ethBalance = walletManager.getBalance(of: "ETH"),
@@ -102,7 +102,7 @@ class PlaceOrderDataManager {
             balanceInfo["MINUS_ETH"] = -result
         }
     }
-    
+
     func calculateGas(for token: String, to amount: Double, lrcFee: Double) -> Double? {
         var result: Double?
         if let asset = walletManager.getAsset(symbol: token) {
@@ -129,7 +129,7 @@ class PlaceOrderDataManager {
         }
         return result
     }
-    
+
     func calculateGasForLRC(of order: OriginalOrder) -> Double? {
         var result: Double?
         if let asset = walletManager.getAsset(symbol: "LRC") {
@@ -153,7 +153,7 @@ class PlaceOrderDataManager {
         }
         return result
     }
-    
+
     /*
      1. LRC FEE 比较的是当前订单lrc fee + getFrozenLrcfee() >< 账户lrc 余额 不够失败
      2. 如果够了，看lrc授权够不够，够则成功，如果不够需要授权是否等于=0，如果不是，先授权lrc = 0， 再授权lrc = max，是则直接授权lrc = max。看两笔授权支付的eth gas够不够，如果eth够则两次授权，不够失败
@@ -202,27 +202,27 @@ class PlaceOrderDataManager {
         result.append(contentsOf: [order.marginSplitPercentage])
         return result
     }
-    
+
     func _encode(_ amount: BigInt) -> [UInt8] {
         let bigInt = amount.toEth()
         return try! EthTypeEncoder.default.encode(bigInt).bytes
     }
-    
+
     func _encode(_ amount: Double, _ token: String) -> [UInt8] {
         let bigInt = GethBigInt.generate(valueInEther: amount, symbol: token)!
         return try! EthTypeEncoder.default.encode(bigInt).bytes
     }
-    
+
     func _encode(_ value: Int64) -> [UInt8] {
         let bigInt = GethBigInt.init(value)!
         return try! EthTypeEncoder.default.encode(bigInt).bytes
     }
-    
+
     func _encodeString(_ amount: Double, _ token: String) -> String {
         let bigInt = GethBigInt.generate(valueInEther: amount, symbol: token)!
         return bigInt.hexString
     }
-    
+
     func completeOrder(_ order: inout OriginalOrder) {
         let orderData = getOrderHash(order: order)
         SendCurrentAppWalletDataManager.shared._keystore()
@@ -233,7 +233,7 @@ class PlaceOrderDataManager {
             order.v = UInt(signature.v)!
         }
     }
-    
+
     func _submitOrder(_ order: OriginalOrder, completion: @escaping (String?, Error?) -> Void) {
         let tokens = tokenManager.getAddress(by: order.tokenSell)!
         let tokenb = tokenManager.getAddress(by: order.tokenBuy)!
@@ -244,12 +244,12 @@ class PlaceOrderDataManager {
         let validUntil = order.validUntil.hex
         let authPrivateKey = order.orderType == .marketOrder ? order.authPrivateKey : nil
         let powNonce = 1
-  
+
         LoopringAPIRequest.submitOrder(owner: order.address, walletAddress: order.walletAddress, tokenS: tokens, tokenB: tokenb, amountS: amountS, amountB: amountB, lrcFee: lrcFee, validSince: validSince, validUntil: validUntil, marginSplitPercentage: order.marginSplitPercentage, buyNoMoreThanAmountB: order.buyNoMoreThanAmountB, authAddr: order.authAddr, authPrivateKey: authPrivateKey, powNonce: powNonce, orderType: order.orderType.rawValue, v: order.v, r: order.r, s: order.s, completionHandler: completion)
     }
-    
+
     func _submitOrderForP2P(_ order: OriginalOrder, completion: @escaping (String?, Error?) -> Void) {
-        
+
         guard let hash = TradeDataManager.shared.makerHash else { return }
         let tokens = tokenManager.getAddress(by: order.tokenSell)!
         let tokenb = tokenManager.getAddress(by: order.tokenBuy)!
@@ -260,7 +260,7 @@ class PlaceOrderDataManager {
         let validUntil = order.validUntil.hex
         let authPrivateKey = order.orderType == .marketOrder ? order.authPrivateKey : nil
         let powNonce = 1
-        
+
         LoopringAPIRequest.submitOrderForP2P(owner: order.address, walletAddress: order.walletAddress, tokenS: tokens, tokenB: tokenb, amountS: amountS, amountB: amountB, lrcFee: lrcFee, validSince: validSince, validUntil: validUntil, marginSplitPercentage: order.marginSplitPercentage, buyNoMoreThanAmountB: order.buyNoMoreThanAmountB, authAddr: order.authAddr, authPrivateKey: authPrivateKey, powNonce: powNonce, orderType: order.orderType.rawValue, v: order.v, r: order.r, s: order.s, makerOrderHash: hash, completionHandler: completion)
     }
 }

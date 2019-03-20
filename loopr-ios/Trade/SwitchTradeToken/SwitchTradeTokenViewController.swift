@@ -16,10 +16,10 @@ enum SwitchTradeTokenType {
 class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     var needUpdateClosure: (() -> Void)?
-    
-    var tokens: [TokenV1] = []
-    var filteredTokens: [TokenV1] = []
-    
+
+    var tokens: [Token] = []
+    var filteredTokens: [Token] = []
+
     var type: SwitchTradeTokenType = .tokenS
     @IBOutlet weak var tableView: UITableView!
 
@@ -31,7 +31,7 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+
         view.theme_backgroundColor = ColorPicker.backgroundColor
         tableView.theme_backgroundColor = ColorPicker.backgroundColor
 
@@ -41,7 +41,7 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
-        
+
         getTokens()
     }
 
@@ -49,11 +49,11 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
         super.viewWillAppear(animated)
         // self.navigationController?.isNavigationBarHidden = false
     }
-    
+
     func setupSearchBar() {
         searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(self.pressOrderSearchButton(_:)))
         self.navigationItem.rightBarButtonItems = [searchButton]
-        
+
         searchBar.showsCancelButton = false
         searchBar.placeholder = LocalizedString("Search", comment: "")
         searchBar.delegate = self
@@ -67,22 +67,22 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
 
         self.navigationItem.title = LocalizedString("Tokens", comment: "")
     }
-    
+
     // We have to write code like this to make it not too slow.
     func getTokens() {
-        var tokens: [TokenV1] = []
+        var tokens: [Token] = []
         if self.type == .tokenB {
             tokens = TokenDataManager.shared.getErcTokensExcept(for: [TradeDataManager.shared.tokenS.symbol])
         } else {
             tokens = TokenDataManager.shared.getErcTokensExcept(for: [TradeDataManager.shared.tokenB.symbol])
         }
-        
+
         var dict: [String: Double] = [:]
         let notZeroAssets = CurrentAppWalletDataManager.shared.getAssets(isNotZero: true)
         for notZeroAsset in notZeroAssets {
             dict[notZeroAsset.symbol] = notZeroAsset.balance
         }
-        
+
         self.tokens = tokens.sorted { (a, b) -> Bool in
             let balanceA = dict[a.symbol] ?? 0.0
             let balanceB = dict[b.symbol] ?? 0.0
@@ -93,20 +93,20 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
             }
         }
     }
-    
+
     @objc func pressOrderSearchButton(_ button: UIBarButtonItem) {
         let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.pressSearchCancel))
         self.navigationItem.rightBarButtonItems = [cancelBarButton]
         self.navigationItem.leftBarButtonItem = nil
         self.navigationItem.hidesBackButton = true
-        
+
         let searchBarContainer = SearchBarContainerView(customSearchBar: searchBar)
         searchBarContainer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
         self.navigationItem.titleView = searchBarContainer
-        
+
         searchBar.becomeFirstResponder()
     }
-    
+
     @objc func pressSearchCancel(_ button: UIBarButtonItem) {
         print("pressSearchCancel")
         self.navigationItem.rightBarButtonItems = [searchButton]
@@ -136,7 +136,7 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
             return self.tokens.count
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return SwitchTradeTokenTableViewCell.getHeight()
     }
@@ -148,7 +148,7 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
             cell = nib![0] as? SwitchTradeTokenTableViewCell
         }
 
-        let token: TokenV1
+        let token: Token
         if isSearching {
             token = filteredTokens[indexPath.row]
         } else {
@@ -168,7 +168,7 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             tableView.deselectRow(at: indexPath, animated: true)
-            let token: TokenV1
+            let token: Token
             if self.isSearching {
                 token = self.filteredTokens[indexPath.row]
             } else {
@@ -190,22 +190,22 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
         print("searchBar textDidChange \(searchText)")
         searchTextDidUpdate(searchText: searchText)
     }
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("searchBarSearchButtonClicked")
     }
-    
+
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         print("searchBarTextDidBeginEditing")
         searchBar.becomeFirstResponder()
     }
-    
+
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         print("searchBarTextDidEndEditing")
     }
 
     func filterContentForSearchText(_ searchText: String) {
-        filteredTokens = self.tokens.filter({(token: TokenV1) -> Bool in
+        filteredTokens = self.tokens.filter({(token: Token) -> Bool in
             if token.symbol.range(of: searchText, options: .caseInsensitive) != nil {
                 return true
             } else {

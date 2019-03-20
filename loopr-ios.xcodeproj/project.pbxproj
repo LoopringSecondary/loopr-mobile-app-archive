@@ -123,7 +123,6 @@
 		9B018DC521FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC321FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.swift */; };
 		9B018DC621FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */; };
 		9B018DC821FC3096009D079D /* TimeAgoSince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC721FC3096009D079D /* TimeAgoSince.swift */; };
-		9B0752C7223FF743004E3A51 /* TokenV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752C6223FF743004E3A51 /* TokenV1.swift */; };
 		9B0752CB2240BDDD004E3A51 /* KeyStrengtheningTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752C92240BDDD004E3A51 /* KeyStrengtheningTestCase.swift */; };
 		9B0752CC2240BDDD004E3A51 /* EncryptionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752CA2240BDDD004E3A51 /* EncryptionTestCase.swift */; };
 		9B0752CE2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752CD2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift */; };
@@ -742,7 +741,6 @@
 		9B018DC321FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailSeperateLineTableViewCell.swift; sourceTree = "<group>"; };
 		9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailSeperateLineTableViewCell.xib; sourceTree = "<group>"; };
 		9B018DC721FC3096009D079D /* TimeAgoSince.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAgoSince.swift; sourceTree = "<group>"; };
-		9B0752C6223FF743004E3A51 /* TokenV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenV1.swift; sourceTree = "<group>"; };
 		9B0752C92240BDDD004E3A51 /* KeyStrengtheningTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyStrengtheningTestCase.swift; sourceTree = "<group>"; };
 		9B0752CA2240BDDD004E3A51 /* EncryptionTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptionTestCase.swift; sourceTree = "<group>"; };
 		9B0752CD2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopringLightcoreAPIRequestTests.swift; sourceTree = "<group>"; };
@@ -2433,7 +2431,6 @@
 				AC4B894C21103EAF00643910 /* TradeType.swift */,
 				AC72AEE7204F020B00E9D3B0 /* OrderTradeState.swift */,
 				ACB9117720256B0300F14644 /* MarketV1.swift */,
-				9B0752C6223FF743004E3A51 /* TokenV1.swift */,
 				ACB9117B20256BBA00F14644 /* TradingPair.swift */,
 				AC31B939204A4F9000B16155 /* Language.swift */,
 				949629DA204E836400858F03 /* Depth.swift */,
@@ -3374,7 +3371,6 @@
 				ACFD5FB42171B8AB00E161EE /* OrderHistoryViewController.swift in Sources */,
 				942C4A02212A9D89008A6B4F /* P2PType.swift in Sources */,
 				ACE9F04A218AAB4300695E37 /* AppServiceUserManager.swift in Sources */,
-				9B0752C7223FF743004E3A51 /* TokenV1.swift in Sources */,
 				AC1B6D7F2130FB510026C1B2 /* Secp256k1Helper.swift in Sources */,
 				ACFEFE9F20C3436000013921 /* loopr_ios.xcdatamodeld in Sources */,
 				AC4F601520773E9D00F1D954 /* EthFunction.swift in Sources */,

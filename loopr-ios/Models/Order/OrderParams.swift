@@ -25,7 +25,7 @@ class OrderParams {
     let validUntil: String
 
     // int value e.g. 3562653865313739
-    var validU: Int = 0
+    var validU: Int?
 
     init(json: JSON) {
         self.dualAuthAddr = json["dualAuthAddr"].stringValue
@@ -33,6 +33,6 @@ class OrderParams {
         self.wallet = json["wallet"].stringValue
         self.status = OrderStatus(rawValue: json["status"].stringValue) ?? .unknown
         self.validUntil = json["validUntil"].stringValue
-        self.validU = validUntil.hexToInteger ?? 0
+        self.validU = validUntil.hexToInteger
     }
 }

@@ -62,7 +62,7 @@ class Asset: CustomStringConvertible, Equatable {
         }
     }
 
-    init(token: TokenV1) {
+    init(token: Token) {
         self.symbol = token.symbol
         self.name = token.source
         self.enable = true

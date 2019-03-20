@@ -9,8 +9,8 @@
 import UIKit
 
 class AddTokenTableViewCell: UITableViewCell {
-    
-    var token: TokenV1?
+
+    var token: Token?
 
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var iconImageView: UIImageView!
@@ -18,17 +18,17 @@ class AddTokenTableViewCell: UITableViewCell {
     @IBOutlet weak var symbolLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addSwitch: UISwitchCustom!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+
         baseView.cornerRadius = 6
         baseView.clipsToBounds = true
         baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        
+
         theme_backgroundColor = ColorPicker.backgroundColor
-        
+
         iconView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         symbolLabel.setTitleDigitFont()
         nameLabel.setSubTitleDigitFont()
@@ -60,7 +60,7 @@ class AddTokenTableViewCell: UITableViewCell {
             }
         }
     }
-    
+
     @IBAction func toggledAddSwitch(_ sender: Any) {
         if addSwitch.isOn {
             print("toggledAddSwitch ON")
@@ -74,7 +74,7 @@ class AddTokenTableViewCell: UITableViewCell {
     class func getCellIdentifier() -> String {
         return "AddTokenTableViewCell"
     }
-    
+
     class func getHeight() -> CGFloat {
         return 68+8
     }
