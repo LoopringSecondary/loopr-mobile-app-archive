@@ -129,7 +129,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
     }
 
     private func getDataFromRelay() {
-        OrderDataManager.shared.getOrdersFromServer(pageIndex: pageIndex, status: OrderStatus.opened.rawValue, completionHandler: { _ in
+        OrderDataManager.shared.getOrdersFromServer(pageIndex: pageIndex, status: OrderStatus.pending_active.rawValue, completionHandler: { _ in
             DispatchQueue.main.async {
                 if self.isLaunching {
                     self.isLaunching = false

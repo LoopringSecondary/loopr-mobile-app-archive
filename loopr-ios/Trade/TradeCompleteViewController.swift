@@ -124,7 +124,7 @@ class TradeCompleteViewController: UIViewController {
     
     @IBAction func pressedDetailsButton(_ sender: UIButton) {
         if let original = self.order {
-            let order = Order(originalOrder: original, orderStatus: .locked, dealtAmountB: "0.0", dealtAmountS: "0.0")
+            let order = Order(originalOrder: original, orderStatus: .pending_active, dealtAmountB: "0.0", dealtAmountS: "0.0")
             let viewController = OrderDetailViewController()
             viewController.order = order
             viewController.hidesBottomBarWhenPushed = true

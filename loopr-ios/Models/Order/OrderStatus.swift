@@ -7,7 +7,7 @@
 //
 import UIKit
 
-enum OrderStatus: String, CustomStringConvertible {
+enum OrderStatus: String, CustomStringConvertible, Equatable {
 
     case pending_active = "STATUS_PENDING_ACTIVE"
     case new = "STATUS_NEW"
@@ -35,5 +35,9 @@ enum OrderStatus: String, CustomStringConvertible {
         case .expired: return LocalizedString("Order Expired", comment: "")
         case .unknown: return LocalizedString("Order Unknown", comment: "")
         }
+    }
+    
+    static func == (lhs: OrderStatus, rhs: OrderStatus) -> Bool {
+        return lhs.rawValue == rhs.rawValue
     }
 }

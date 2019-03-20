@@ -499,7 +499,7 @@ class TradeDataManager {
      4. 停止接收sockeio的推送
      */
     func onOrderResponse(json: JSON) {
-        if json["status"].stringValue == OrderStatus.locked.rawValue {
+        if json["status"].stringValue == OrderStatus.new.rawValue {
             stopGetOrderStatus()
             NotificationCenter.default.post(name: .orderResponseReceived, object: nil)
         }

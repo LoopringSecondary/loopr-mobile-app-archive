@@ -81,7 +81,7 @@ class OrderTableViewCell: UITableViewCell {
     }
     
     func getOrderStatus(order: Order) -> (Bool, String) {
-        if order.orderStatus == .opened || order.orderStatus == .waited {
+        if order.orderStatus == .pending_active || order.orderStatus == .pending {
             let cancelledAll = UserDefaults.standard.bool(forKey: UserDefaultsKeys.cancelledAll.rawValue)
             if cancelledAll || isOrderCancelling(order: order) {
                 cancelButton.setTitleColor(.pending, for: .normal)
@@ -90,9 +90,9 @@ class OrderTableViewCell: UITableViewCell {
                 cancelButton.setTitleColor(buttonColor, for: .normal)
                 return (true, LocalizedString("Cancel", comment: ""))
             }
-        } else if order.orderStatus == .cancelled || order.orderStatus == .expire {
+        } else if [OrderStatus.soft_cancelled_by_user_trading_pair, OrderStatus.expired].contains(order.orderStatus) {
             cancelButton.setTitleColor(.text2, for: .normal)
-        } else if order.orderStatus == .finished {
+        } else if order.orderStatus == .completely_filled {
             cancelButton.setTitleColor(.success, for: .normal)
         }
         return (false, order.orderStatus.description)
@@ -118,7 +118,7 @@ class OrderTableViewCell: UITableViewCell {
             displayLabel.text = order.originalOrder.amountBuy.withCommas().trailingZero()
             volumeLabel.text = ((order.dealtAmountB/order.originalOrder.amountBuy)*100).withCommas(0) + NumberFormatter().percentSymbol
         }
-        if order.orderStatus == .finished {
+        if order.orderStatus == .completely_filled {
             volumeLabel.text = "100%"
         }
         if volumeLabel.text == "0%" {

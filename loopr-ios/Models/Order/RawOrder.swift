@@ -92,8 +92,8 @@ class RawOrder: Equatable {
         var value =
     }
 
-    static func ==(lhs: Order, rhs: Order) -> Bool {
-        return lhs.originalOrder.hash == rhs.originalOrder.hash
+    static func == (lhs: RawOrder, rhs: RawOrder) -> Bool {
+        return lhs.hash == rhs.hash
     }
 
 }
