@@ -7,11 +7,11 @@ import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.model.Depth;
 import leaf.prod.walletsdk.model.LoginUser;
-import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.OrderFill;
 import leaf.prod.walletsdk.model.Partner;
 import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.Trend;
+import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
@@ -19,11 +19,17 @@ import leaf.prod.walletsdk.model.response.app.VersionResp;
 import leaf.prod.walletsdk.model.response.crawler.BlogWrapper;
 import leaf.prod.walletsdk.model.response.crawler.IndexResult;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
+import leaf.prod.walletsdk.model.response.relay.AccountBalance;
+import leaf.prod.walletsdk.model.response.relay.ActivityResult;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.ClaimBindAmount;
+import leaf.prod.walletsdk.model.response.relay.FillsResult;
 import leaf.prod.walletsdk.model.response.relay.GetBindAmount;
+import leaf.prod.walletsdk.model.response.relay.MarketHistoryResult;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
+import leaf.prod.walletsdk.model.response.relay.OrderBookResult;
 import leaf.prod.walletsdk.model.response.relay.PageWrapper;
+import leaf.prod.walletsdk.model.response.relay.RingsResult;
 import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
 import okhttp3.OkHttpClient;
@@ -161,4 +167,29 @@ public interface RpcDelegate {
 
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<String>> sumitRing(@Body RequestWrapper request);
+
+    // 2.0
+    @GET("/get_accounts")
+    Observable<RelayResponseWrapper<AccountBalance>> getAccount();
+
+    @GET("/get_account_nonce")
+    Observable<RelayResponseWrapper<Integer>> getAccountNonce();
+
+    @GET("/get_user_fills")
+    Observable<RelayResponseWrapper<FillsResult>> getUserFills();
+
+    @GET()
+    Observable<RelayResponseWrapper<FillsResult>> getMarketFills();
+
+    @GET()
+    Observable<RelayResponseWrapper<OrderBookResult>> getOrderBook();
+
+    @GET()
+    Observable<RelayResponseWrapper<RingsResult>> getRings();
+
+    @GET()
+    Observable<RelayResponseWrapper<ActivityResult>> getActivities();
+
+    @GET()
+    Observable<RelayResponseWrapper<MarketHistoryResult>> getMarketHistory();
 }

@@ -29,10 +29,17 @@ public class SDK {
 
     private static String APP_SERVICE_BASE = "https://www.loopring.mobi";
 
+    // RELAY2.0
+    private static String RELAY2_BASE = "https://5fcea934-9745-47ef-aeec-5f6ffac06990.mock.pstmn.io";
+
     private static Web3j web3j = null;
 
     public static String relayBase() {
         return LOOPRING_BASE;
+    }
+
+    public static String relay2Base() {
+        return RELAY2_BASE;
     }
 
     public static String ethBase() {

@@ -28,6 +28,7 @@ import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 import leaf.prod.walletsdk.model.response.relay.Token;
 import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.Relay2Service;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
@@ -60,6 +61,8 @@ public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
 
     private String address;
 
+    private Relay2Service relay2Service;
+
     public MainFragmentPresenter(MainWalletFragment view, Context context) {
         super(view, context);
         marketcapDataManager = MarketcapDataManager.getInstance(context);
@@ -68,7 +71,50 @@ public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
         partnerDataManager = PartnerDataManager.getInstance(context);
         partnerDataManager.activatePartner();
         partnerDataManager.createPartner();
+        relay2Service = new Relay2Service();
+        //        test();
     }
+    //
+    //    public void test() {
+    //        //        Observable<AccountBalance> observable = relay2Service.getAccounts(Collections.emptyList(), Collections.emptyList(), true);
+    //        //        observable.subscribeOn(Schedulers.io())
+    //        //                .observeOn(AndroidSchedulers.mainThread())
+    //        //                .subscribe(new Subscriber<AccountBalance>() {
+    //        //                    @Override
+    //        //                    public void onCompleted() {
+    //        //                    }
+    //        //
+    //        //                    @Override
+    //        //                    public void onError(Throwable e) {
+    //        //                        LyqbLogger.log(e.getMessage());
+    //        //                    }
+    //        //
+    //        //                    @Override
+    //        //                    public void onNext(AccountBalance accountBalance) {
+    //        //                        accountBalance.convert();
+    //        //                        LyqbLogger.log(accountBalance.toString());
+    //        //                    }
+    //        // });
+    //        Observable<FillsResult> observable = relay2Service.getUserFills("", "", "", "", null);
+    //        observable.subscribeOn(Schedulers.io())
+    //                .observeOn(AndroidSchedulers.mainThread())
+    //                .subscribe(new Subscriber<FillsResult>() {
+    //                    @Override
+    //                    public void onCompleted() {
+    //                    }
+    //
+    //                    @Override
+    //                    public void onError(Throwable e) {
+    //                        LyqbLogger.log(e.getMessage());
+    //                    }
+    //
+    //                    @Override
+    //                    public void onNext(FillsResult fillsResult) {
+    //                        fillsResult.convert();
+    //                        LyqbLogger.log(fillsResult.toString());
+    //                    }
+    //                });
+    //    }
 
     public void initObservable() {
         LyqbLogger.log("initObservable: " + getAddress());
