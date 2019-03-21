@@ -40,11 +40,8 @@ class RawOrder: Equatable {
     // double value e.g. 0.02
     var amountSell: Double?
 
-    // hex string e.g. 0x5be8e179
-    let validSince: String
-
-    // int value e.g. 3562653865313739
-    var validS: Int?
+    // int value e.g. 1548422323
+    var validSince: Int
 
     let params: OrderParams
 
@@ -71,8 +68,7 @@ class RawOrder: Equatable {
         self.tokenS = json["tokenS"].stringValue
         self.amountB = json["amountB"].stringValue
         self.amountS = json["amountS"].stringValue
-        self.validSince = json["validSince"].stringValue
-        self.validS = validSince.hexToInteger
+        self.validSince = json["validSince"].intValue
         self.params = OrderParams(json: json["params"])
         self.feeParams = FeeParams(json: json["feeParams"])
         self.state = OrderState(json: json["state"])
@@ -105,6 +101,20 @@ class RawOrder: Equatable {
                 self.filled = rate.withCommas(0) + numberFormatter.percentSymbol
             }
         }
+    }
+
+    func toJson() -> JSON {
+        var json = JSON()
+        json["owner"] = JSON(owner)
+        json["version"] = JSON(version)
+        json["tokenS"] = JSON(tokenS)
+        json["tokenB"] = JSON(tokenB)
+        json["amountS"] = JSON(amountS)
+        json["amountB"] = JSON(amountB)
+        json["validSince"] = JSON(validSince)
+        json["params"] = params.toJson()
+        json["feeParams"] = feeParams.toJson()
+        return json
     }
 
     static func ==(lhs: RawOrder, rhs: RawOrder) -> Bool {

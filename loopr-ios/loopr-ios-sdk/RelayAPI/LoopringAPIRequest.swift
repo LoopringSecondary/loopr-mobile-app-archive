@@ -389,22 +389,6 @@ class LoopringAPIRequest {
         }
     }
 
-    static func submitOrder(owner: String, walletAddress: String, tokenS: String, tokenB: String, amountS: String, amountB: String, lrcFee: String, validSince: String, validUntil: String, marginSplitPercentage: UInt8, buyNoMoreThanAmountB: Bool, authAddr: String, authPrivateKey: String?, powNonce: Int, orderType: String, v: UInt, r: String, s: String, completionHandler: @escaping (_ result: String?, _ error: Error?) -> Void) {
-
-        var body: JSON = JSON()
-        let protocolValue = RelayAPIConfiguration.protocolAddress
-        let delegateAddress = RelayAPIConfiguration.delegateAddress
-        body["params"] = [["delegateAddress": delegateAddress, "protocol": protocolValue, "sourceId": Production.getProduct(), "owner": owner, "walletAddress": walletAddress, "tokenS": tokenS, "tokenB": tokenB, "amountS": amountS, "amountB": amountB, "authPrivateKey": authPrivateKey, "authAddr": authAddr, "validSince": validSince, "validUntil": validUntil, "lrcFee": lrcFee, "buyNoMoreThanAmountB": buyNoMoreThanAmountB, "marginSplitPercentage": marginSplitPercentage, "powNonce": powNonce, "orderType": orderType, "v": v, "r": r, "s": s]]
-
-        self.invoke(method: "loopring_submitOrder", withBody: &body) { (_ data: SimpleRespond?, _ error: Error?) in
-            guard error == nil && data != nil else {
-                completionHandler(nil, error!)
-                return
-            }
-            completionHandler(data!.respond, nil)
-        }
-    }
-
     static func submitOrderForP2P(owner: String, walletAddress: String, tokenS: String, tokenB: String, amountS: String, amountB: String, lrcFee: String, validSince: String, validUntil: String, marginSplitPercentage: UInt8, buyNoMoreThanAmountB: Bool, authAddr: String, authPrivateKey: String?, powNonce: Int, orderType: String, v: UInt, r: String, s: String, makerOrderHash: String, completionHandler: @escaping (_ result: String?, _ error: Error?) -> Void) {
 
         var body: JSON = JSON()
@@ -413,18 +397,6 @@ class LoopringAPIRequest {
         body["params"] = [["delegateAddress": delegateAddress, "protocol": protocolValue, "sourceId": Production.getProduct(), "owner": owner, "walletAddress": walletAddress, "tokenS": tokenS, "tokenB": tokenB, "amountS": amountS, "amountB": amountB, "authPrivateKey": authPrivateKey, "authAddr": authAddr, "validSince": validSince, "validUntil": validUntil, "lrcFee": lrcFee, "buyNoMoreThanAmountB": buyNoMoreThanAmountB, "marginSplitPercentage": marginSplitPercentage, "powNonce": powNonce, "orderType": orderType, "v": v, "r": r, "s": s, "makerOrderHash": makerOrderHash]]
 
         self.invoke(method: "loopring_submitOrderForP2P", withBody: &body) { (_ data: SimpleRespond?, _ error: Error?) in
-            guard error == nil && data != nil else {
-                completionHandler(nil, error!)
-                return
-            }
-            completionHandler(data!.respond, nil)
-        }
-    }
-
-    static func cancelOrder(owner: String, type: CancelType, orderHash: String?, cutoff: Int64?, tokenS: String?, tokenB: String?, signature: SignatureData, timestamp: String, completionHandler: @escaping (_ result: String?, _ error: Error?) -> Void) {
-        var body: JSON = JSON()
-        body["params"] = [["orderHash": orderHash, "type": type.rawValue, "cutoff": cutoff, "tokenS": tokenS, "tokenB": tokenB, "sign": ["timestamp": timestamp, "v": Int(signature.v)!, "r": signature.r, "s": signature.s, "owner": owner]]]
-        self.invoke(method: "loopring_flexCancelOrder", withBody: &body) { (_ data: SimpleRespond?, _ error: Error?) in
             guard error == nil && data != nil else {
                 completionHandler(nil, error!)
                 return
@@ -620,11 +592,9 @@ class LoopringAPIRequest {
     }
 
     static func getOrders(owner: String, statuses: [OrderStatus]? = nil, marketPair: MarketPair? = nil, side: OrderSide? = nil, sort: Sort? = nil, skip: UInt = 0, size: UInt = 20, completionHandler: @escaping (_ order: Order?, _ error: Error?) -> Void) {
-
         var body: JSON = JSON()
         body["method"] = "get_orders"
-        body["params"] = ["owner": owner, "status": statuses?.map { $0.rawValue }, "marketPair": marketPair?.toJSON(),
-                          "side": side?.rawValue, "sort": sort?.rawValue, "paging": Paging(skip: skip, size: size).toJSON()]
+        body["params"] = ["owner": owner, "status": statuses?.map { $0.rawValue }, "marketPair": marketPair?.toJSON(), "side": side?.rawValue, "sort": sort?.rawValue, "paging": Paging(skip: skip, size: size).toJSON()]
         body["id"] = JSON(UUID().uuidString)
 
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
@@ -634,8 +604,32 @@ class LoopringAPIRequest {
                 return
             }
             let json = JSON(data)["result"]
-            var order = Order(json: json)
+            let order = Order(json: json)
             completionHandler(order, nil)
+        }
+    }
+
+    static func submitOrder(order: RawOrder, completionHandler: @escaping (_ result: String?, _ error: Error?) -> Void) {
+        var body: JSON = JSON()
+        body["params"] = ["rawOrder": order.toJson()]
+        self.invoke(method: "submit_order", withBody: &body) { (_ data: SimpleRespond?, _ error: Error?) in
+            guard error == nil && data != nil else {
+                completionHandler(nil, error!)
+                return
+            }
+            completionHandler(data!.respond, nil)
+        }
+    }
+
+    static func cancelOrders(param: OrderCancelParam, completionHandler: @escaping (_ result: String?, _ error: Error?) -> Void) {
+        var body: JSON = JSON()
+        body["params"] = param.toJson()
+        self.invoke(method: "cancel_orders", withBody: &body) { (_ data: SimpleRespond?, _ error: Error?) in
+            guard error == nil && data != nil else {
+                completionHandler(nil, error!)
+                return
+            }
+            completionHandler(data!.respond, nil)
         }
     }
 

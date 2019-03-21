@@ -47,8 +47,6 @@
 		943F8F2721D3516F00D4703C /* CrawlerAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943F8F2621D3516F00D4703C /* CrawlerAPIRequest.swift */; };
 		9453597221CA2E5900FA624E /* AirdropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453597021CA2E5900FA624E /* AirdropViewController.swift */; };
 		9453597321CA2E5900FA624E /* AirdropViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9453597121CA2E5900FA624E /* AirdropViewController.xib */; };
-		9457416E20D0D23400110CFD /* CancelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9457416D20D0D23400110CFD /* CancelType.swift */; };
-		9457417020D0E9CD00110CFD /* CancelOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9457416F20D0E9CD00110CFD /* CancelOrder.swift */; };
 		945800212058FEB500E08DEF /* tokens.json in Resources */ = {isa = PBXBuildFile; fileRef = 945800202058FEB500E08DEF /* tokens.json */; };
 		945800232059006200E08DEF /* AssetDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945800222059006200E08DEF /* AssetDataManagerTests.swift */; };
 		94580025205921D600E08DEF /* PriceQuoteDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94580024205921D600E08DEF /* PriceQuoteDataManagerTests.swift */; };
@@ -570,6 +568,7 @@
 		CED822579F89B39158000A16 /* Paging.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED820D4F780E98C9D186C1F /* Paging.swift */; };
 		CED8238B0F9AE06AE9612073 /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED829478B024D865FAD9D8A /* Sort.swift */; };
 		CED8238F5257A2E7D354DE16 /* Amount.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82F8D1B13F4B243696BBC /* Amount.swift */; };
+		CED82418C430C90C79980928 /* OrderCancelParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82E6B19D8E644E2B968F8 /* OrderCancelParam.swift */; };
 		CED82512CC49FD798562C078 /* BurnRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED8287175B284D5143B2CAB /* BurnRate.swift */; };
 		CED826564C25057337F7F38A /* FeeParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82569A41FD6E7862D7124 /* FeeParams.swift */; };
 		CED826681EAAEB7CE29DC003 /* MarketSwipeViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED82262161AF57DC4CCD11E /* MarketSwipeViewType.swift */; };
@@ -662,8 +661,6 @@
 		943F8F2621D3516F00D4703C /* CrawlerAPIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlerAPIRequest.swift; sourceTree = "<group>"; };
 		9453597021CA2E5900FA624E /* AirdropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropViewController.swift; sourceTree = "<group>"; };
 		9453597121CA2E5900FA624E /* AirdropViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AirdropViewController.xib; sourceTree = "<group>"; };
-		9457416D20D0D23400110CFD /* CancelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelType.swift; sourceTree = "<group>"; };
-		9457416F20D0E9CD00110CFD /* CancelOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrder.swift; sourceTree = "<group>"; };
 		945800202058FEB500E08DEF /* tokens.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tokens.json; sourceTree = "<group>"; };
 		945800222059006200E08DEF /* AssetDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDataManagerTests.swift; sourceTree = "<group>"; };
 		94580024205921D600E08DEF /* PriceQuoteDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceQuoteDataManagerTests.swift; sourceTree = "<group>"; };
@@ -1230,6 +1227,7 @@
 		CED82CEEB520984B433AE6F0 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		CED82D28482FBE645FE1F957 /* TokenStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStatus.swift; sourceTree = "<group>"; };
 		CED82E620C2F4563A0CAA6F2 /* Market.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Market.swift; sourceTree = "<group>"; };
+		CED82E6B19D8E644E2B968F8 /* OrderCancelParam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderCancelParam.swift; sourceTree = "<group>"; };
 		CED82EE29FADF5ED0FA52050 /* MarketStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketStatus.swift; sourceTree = "<group>"; };
 		CED82F8D1B13F4B243696BBC /* Amount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Amount.swift; sourceTree = "<group>"; };
 		DB375D875A161ED45585D9CD /* Pods-loopr-ios.vivwallet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-loopr-ios.vivwallet.xcconfig"; path = "Pods/Target Support Files/Pods-loopr-ios/Pods-loopr-ios.vivwallet.xcconfig"; sourceTree = "<group>"; };
@@ -1555,13 +1553,13 @@
 			path = News;
 			sourceTree = "<group>";
 		};
-		9BB0F244223F609C00A4D23B /* Lightcorn */ = {
+		9BB0F244223F609C00A4D23B /* Lightcone */ = {
 			isa = PBXGroup;
 			children = (
 				9BB0F245223F60D700A4D23B /* AccountBalance.swift */,
 				9BB0F24D223F69D500A4D23B /* Activity.swift */,
 			);
-			path = Lightcorn;
+			path = Lightcone;
 			sourceTree = "<group>";
 		};
 		AC0CD58720D38B9400ABB7BA /* CreateWallet */ = {
@@ -2432,9 +2430,7 @@
 				94CA6B5820BC037F000E4E8E /* OrderType.swift */,
 				9461850F21D0F8E200393432 /* IndexType.swift */,
 				94A39E1220C8E4FE00BC1B72 /* SignStatus.swift */,
-				9457416D20D0D23400110CFD /* CancelType.swift */,
 				9461851121D0F99D00393432 /* IndexAction.swift */,
-				9457416F20D0E9CD00110CFD /* CancelOrder.swift */,
 				AC2ACA9B2103075C009C77E7 /* WalletType.swift */,
 				AC2ACA9D21030775009C77E7 /* TradeFAQPage.swift */,
 				94768CA3210DCB2300B5977B /* TradeSwipeType.swift */,
@@ -2451,7 +2447,7 @@
 				9461851321D0FA4900393432 /* IndexResult.swift */,
 				9BA4FC9A21DC4FA4005A3DC0 /* News */,
 				9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */,
-				9BB0F244223F609C00A4D23B /* Lightcorn */,
+				9BB0F244223F609C00A4D23B /* Lightcone */,
 				CED82E0BCD90FD051E716A15 /* Order */,
 				CED821EB2D107E718901FE68 /* Market */,
 				CED8202FF0EA4455C29111D8 /* Token */,
@@ -2804,6 +2800,7 @@
 				CED824494F0AD495F94AF0B0 /* RawOrder.swift */,
 				CED82315AC8B6885C04B8EAC /* OrderState.swift */,
 				CED822A6FE098345B26CDB7E /* OrderSide.swift */,
+				CED82E6B19D8E644E2B968F8 /* OrderCancelParam.swift */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -3384,7 +3381,6 @@
 				9B15B8652233A50B00B58C40 /* Encryption.swift in Sources */,
 				AC4141F920352DA70089861D /* SwipeTabView.swift in Sources */,
 				AC4141F320352C460089861D /* SwipeViewController.swift in Sources */,
-				9457417020D0E9CD00110CFD /* CancelOrder.swift in Sources */,
 				AC2D2C072089C08E00D619AD /* ImportWalletUsingPrivateKeyDataManager.swift in Sources */,
 				AC5E0DDE203B447700AF03C7 /* WalletBalanceTableViewCell.swift in Sources */,
 				9BB0F24E223F69D500A4D23B /* Activity.swift in Sources */,
@@ -3506,7 +3502,6 @@
 				AC9DC45E211AC92C002D7D23 /* TokenViewController.swift in Sources */,
 				AC31B93A204A4F9000B16155 /* Language.swift in Sources */,
 				94E185992051455C00D86FFA /* SimpleRespond.swift in Sources */,
-				9457416E20D0D23400110CFD /* CancelType.swift in Sources */,
 				AC31B961204A8E4F00B16155 /* MnemonicWords.swift in Sources */,
 				AC3756662038CD7E00AADC60 /* SetupNavigationController.swift in Sources */,
 				ACE6F71C204211470039273D /* DashedLineView.swift in Sources */,
@@ -3647,6 +3642,7 @@
 				CED8238B0F9AE06AE9612073 /* Sort.swift in Sources */,
 				CED8201DE1E3676B359A0986 /* OrderSide.swift in Sources */,
 				CED8291C157FFDC85A0CB426 /* Currency.swift in Sources */,
+				CED82418C430C90C79980928 /* OrderCancelParam.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

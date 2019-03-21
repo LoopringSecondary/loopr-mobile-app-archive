@@ -11,19 +11,33 @@ import Foundation
 class MarketPair: Equatable, CustomStringConvertible {
 
     let baseToken: String
+
+    var baseSymbol: String?
+
     let quoteToken: String
-    var description: String
+
+    var quoteSymbol: String?
+
+    var description: String?
 
     init(baseToken: String, quoteToken: String) {
         self.baseToken = baseToken
         self.quoteToken = quoteToken
-        self.description = baseToken + "/" + quoteToken
+        self.baseSymbol = TokenDataManager.shared.getTokenByAddress(baseToken)?.symbol
+        self.quoteSymbol = TokenDataManager.shared.getTokenByAddress(baseToken)?.symbol
+        if let baseSymbol = self.baseSymbol, let quoteSymbol = self.quoteSymbol {
+            self.description = baseSymbol + "/" + quoteSymbol
+        }
     }
 
     init(json: JSON) {
         self.baseToken = json["baseToken"].stringValue
         self.quoteToken = json["quoteToken"].stringValue
-        self.description = baseToken + "/" + quoteToken
+        self.baseSymbol = TokenDataManager.shared.getTokenByAddress(baseToken)?.symbol
+        self.quoteSymbol = TokenDataManager.shared.getTokenByAddress(baseToken)?.symbol
+        if let baseSymbol = self.baseSymbol, let quoteSymbol = self.quoteSymbol {
+            self.description = baseSymbol + "/" + quoteSymbol
+        }
     }
 
     func toJSON() -> JSON {
@@ -33,7 +47,7 @@ class MarketPair: Equatable, CustomStringConvertible {
         return json
     }
 
-    static func == (lhs: MarketPair, rhs: MarketPair) -> Bool {
+    static func ==(lhs: MarketPair, rhs: MarketPair) -> Bool {
         if lhs.baseToken == rhs.baseToken && lhs.quoteToken == rhs.quoteToken {
             return true
         } else {

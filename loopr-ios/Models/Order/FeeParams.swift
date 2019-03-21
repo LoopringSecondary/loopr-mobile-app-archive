@@ -40,4 +40,11 @@ class FeeParams {
             self.amountF = TokenDataManager.shared.getAmount(fromWeiAmount: tokenF.symbol, of: tokenF.decimals)
         }
     }
+
+    func toJson() -> JSON {
+        var json = JSON()
+        json["tokenFee"] = JSON(tokenFee)
+        json["amountFee"] = JSON(amountFee)
+        return json
+    }
 }

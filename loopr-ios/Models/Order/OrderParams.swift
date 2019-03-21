@@ -21,18 +21,29 @@ class OrderParams {
 
     var status: OrderStatus
 
-    // hex string e.g. 0x5be8e179
-    let validUntil: String
+    // int value e.g. 1548422323
+    var validUntil: Int
 
-    // int value e.g. 3562653865313739
-    var validU: Int?
+    // false -- 可以被成交多次， true -- 必须被一次成交
+    var allOrNone: Bool = false
+
+    var sig: String = ""
 
     init(json: JSON) {
         self.dualAuthAddr = json["dualAuthAddr"].stringValue
         self.dualAuthPrivateKey = json["dualAuthPrivateKey"].stringValue
         self.wallet = json["wallet"].stringValue
         self.status = OrderStatus(rawValue: json["status"].stringValue) ?? .unknown
-        self.validUntil = json["validUntil"].stringValue
-        self.validU = validUntil.hexToInteger
+        self.validUntil = json["validUntil"].intValue
+    }
+
+    func toJson() -> JSON {
+        var json = JSON()
+        json["validUntil"] = JSON(validUntil)
+        json["allOrNone"] = JSON(allOrNone)
+        json["sig"] = JSON(sig)
+        json["dualAuthAddr"] = JSON(dualAuthAddr)
+        json["dualAuthPrivateKey"] = JSON(dualAuthPrivateKey)
+        return json
     }
 }
