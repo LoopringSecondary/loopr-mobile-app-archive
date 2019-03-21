@@ -5,9 +5,17 @@ import java.util.List;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
 import leaf.prod.walletsdk.model.IntervalType;
-import leaf.prod.walletsdk.model.MarketPair;
+import leaf.prod.walletsdk.model.common.Currency;
+import leaf.prod.walletsdk.model.common.Sort;
+import leaf.prod.walletsdk.model.common.TradeType;
+import leaf.prod.walletsdk.model.market.MarketPair;
+import leaf.prod.walletsdk.model.order.OrderStatus;
+import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.relayParam.AccountBalanceParam;
 import leaf.prod.walletsdk.model.request.relayParam.ActivityParam;
+import leaf.prod.walletsdk.model.request.relayParam.GetMarketsParam;
+import leaf.prod.walletsdk.model.request.relayParam.GetOrdersParam;
+import leaf.prod.walletsdk.model.request.relayParam.GetTokenParam;
 import leaf.prod.walletsdk.model.request.relayParam.MarketHistoryParam;
 import leaf.prod.walletsdk.model.request.relayParam.OrderBookParam;
 import leaf.prod.walletsdk.model.request.relayParam.RingParam;
@@ -15,11 +23,15 @@ import leaf.prod.walletsdk.model.request.relayParam.UserFillsParam;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.relay.AccountBalance;
 import leaf.prod.walletsdk.model.response.relay.ActivityResult;
-import leaf.prod.walletsdk.model.response.relay.MarketHistoryResult;
-import leaf.prod.walletsdk.model.response.relay.OrderBookResult;
-import leaf.prod.walletsdk.model.response.relay.PageWrapper2;
 import leaf.prod.walletsdk.model.response.relay.FillsResult;
+import leaf.prod.walletsdk.model.response.relay.MarketHistoryResult;
+import leaf.prod.walletsdk.model.response.relay.MarketsResult;
+import leaf.prod.walletsdk.model.response.relay.OrderBookResult;
+import leaf.prod.walletsdk.model.common.Paging;
+import leaf.prod.walletsdk.model.response.relay.OrdersResult;
 import leaf.prod.walletsdk.model.response.relay.RingsResult;
+import leaf.prod.walletsdk.model.response.relay.TokensResult;
+import leaf.prod.walletsdk.model.token.Token;
 import rx.Observable;
 
 /**
@@ -43,29 +55,33 @@ public class Relay2Service {
                 .tokens(tokens)
                 .allTokens(allTokens)
                 .build();
-        Observable<RelayResponseWrapper<AccountBalance>> observable = rpcDelegate.getAccount();
+        RequestWrapper request = new RequestWrapper("get_accounts", param);
+        Observable<RelayResponseWrapper<AccountBalance>> observable = rpcDelegate.getAccount(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<Integer> getAccountNonce(String address) {
-        Observable<RelayResponseWrapper<Integer>> observable = rpcDelegate.getAccountNonce();
+        RequestWrapper request = new RequestWrapper("get_user_fills", address);
+        Observable<RelayResponseWrapper<Integer>> observable = rpcDelegate.getAccountNonce(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    public Observable<FillsResult> getUserFills(String owner, String baseToken, String quoteToken, String sort, PageWrapper2 paging) {
+    public Observable<FillsResult> getUserFills(String owner, String baseToken, String quoteToken, String sort, Paging paging) {
         UserFillsParam param = UserFillsParam.builder()
                 .owner(owner)
                 .marketPair(MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build())
                 .sort(sort)
                 .paging(paging)
                 .build();
-        Observable<RelayResponseWrapper<FillsResult>> observable = rpcDelegate.getUserFills();
+        RequestWrapper request = new RequestWrapper("get_user_fills", param);
+        Observable<RelayResponseWrapper<FillsResult>> observable = rpcDelegate.getUserFills(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
     public Observable<FillsResult> getMarketFills(String baseToken, String quoteToken) {
         MarketPair pair = MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build();
-        Observable<RelayResponseWrapper<FillsResult>> observable = rpcDelegate.getMarketFills();
+        RequestWrapper request = new RequestWrapper("get_market_fills", pair);
+        Observable<RelayResponseWrapper<FillsResult>> observable = rpcDelegate.getMarketFills(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
@@ -75,34 +91,88 @@ public class Relay2Service {
                 .size(size)
                 .marketPair(MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build())
                 .build();
-        Observable<RelayResponseWrapper<OrderBookResult>> observable = rpcDelegate.getOrderBook();
+        RequestWrapper request = new RequestWrapper("get_order_book", param);
+        Observable<RelayResponseWrapper<OrderBookResult>> observable = rpcDelegate.getOrderBook(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    public Observable<RingsResult> getRings(String sort, PageWrapper2 paging, int ringIndex) {
+    public Observable<RingsResult> getRings(String sort, Paging paging, int ringIndex) {
         RingParam param = RingParam.builder()
                 .sort(sort)
                 .paging(paging)
                 .filter(RingParam.Filter.builder().ringIndex(ringIndex).build())
                 .build();
-        Observable<RelayResponseWrapper<RingsResult>> observable = rpcDelegate.getRings();
+        RequestWrapper request = new RequestWrapper("get_rings", param);
+        Observable<RelayResponseWrapper<RingsResult>> observable = rpcDelegate.getRings(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    public Observable<ActivityResult> getActivities(String owner, String token, PageWrapper2 paging) {
+    public Observable<ActivityResult> getActivities(String owner, String token, Paging paging) {
         ActivityParam param = ActivityParam.builder().owner(owner).token(token).paging(paging).build();
-        Observable<RelayResponseWrapper<ActivityResult>> observable = rpcDelegate.getActivities();
+        RequestWrapper request = new RequestWrapper("get_activities", param);
+        Observable<RelayResponseWrapper<ActivityResult>> observable = rpcDelegate.getActivities(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    public Observable<MarketHistoryResult> getMarketHistory(String baseToken, String quoteToken, IntervalType interval, long beginTime, long endTime) {
+    public Observable<MarketsResult> getMarkets(Boolean requireMetadata, Boolean requireTicker, Currency currency, MarketPair[] pairs) {
+        GetMarketsParam param = GetMarketsParam.builder()
+                .requireMetadata(requireMetadata)
+                .requireTicker(requireTicker)
+                .quoteCurrencyForTicker(currency.getText())
+                .marketPairs(pairs)
+                .build();
+        RequestWrapper request = new RequestWrapper("get_markets", param);
+        Observable<RelayResponseWrapper<MarketsResult>> observable = rpcDelegate.getMarkets(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<TokensResult> getTokens(Boolean requireMetadata, Boolean requireInfo, Boolean requirePrice, Token[] tokens) {
+        GetTokenParam param = GetTokenParam.builder()
+                .requireMetadata(requireMetadata)
+                .requireInfo(requireInfo)
+                .requirePrice(requirePrice)
+                .tokens(tokens)
+                .build();
+        RequestWrapper request = new RequestWrapper("get_tokens", param);
+        Observable<RelayResponseWrapper<TokensResult>> observable = rpcDelegate.getTokens(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<OrdersResult> getOrders(String owner, OrderStatus[] statuses, MarketPair marketPair, TradeType side, Sort sort, Paging paging) {
+        GetOrdersParam param = GetOrdersParam.builder()
+                .owner(owner)
+                .statuses(statuses) // TODO
+                .marketPair(marketPair)
+                .side(side.name())
+                .sort(sort.getDescription())
+                .paging(paging)
+                .build();
+        RequestWrapper request = new RequestWrapper("get_orders", param);
+        Observable<RelayResponseWrapper<OrdersResult>> observable = rpcDelegate.getOrders(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<MarketHistoryResult> submitOrder(String baseToken, String quoteToken, IntervalType interval, long beginTime, long endTime) {
         MarketHistoryParam param = MarketHistoryParam.builder()
                 .marketPair(MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build())
                 .interval(interval)
                 .beginTime(beginTime)
                 .endTime(endTime)
                 .build();
-        Observable<RelayResponseWrapper<MarketHistoryResult>> observable = rpcDelegate.getMarketHistory();
+        RequestWrapper request = new RequestWrapper("get_market_history", param);
+        Observable<RelayResponseWrapper<MarketHistoryResult>> observable = rpcDelegate.getMarketHistory(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<MarketHistoryResult> cancelOrders(String baseToken, String quoteToken, IntervalType interval, long beginTime, long endTime) {
+        MarketHistoryParam param = MarketHistoryParam.builder()
+                .marketPair(MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build())
+                .interval(interval)
+                .beginTime(beginTime)
+                .endTime(endTime)
+                .build();
+        RequestWrapper request = new RequestWrapper("get_market_history", param);
+        Observable<RelayResponseWrapper<MarketHistoryResult>> observable = rpcDelegate.getMarketHistory(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 }

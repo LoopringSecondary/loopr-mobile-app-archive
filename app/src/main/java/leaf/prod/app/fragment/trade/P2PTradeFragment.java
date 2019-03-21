@@ -29,7 +29,7 @@ import leaf.prod.app.presenter.trade.P2PTradePresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.MyViewUtils;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
-import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.model.common.TradeType;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class P2PTradeFragment extends BaseFragment {

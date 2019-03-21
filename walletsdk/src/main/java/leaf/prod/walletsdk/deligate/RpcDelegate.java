@@ -27,11 +27,13 @@ import leaf.prod.walletsdk.model.response.relay.FillsResult;
 import leaf.prod.walletsdk.model.response.relay.GetBindAmount;
 import leaf.prod.walletsdk.model.response.relay.MarketHistoryResult;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
+import leaf.prod.walletsdk.model.response.relay.MarketsResult;
 import leaf.prod.walletsdk.model.response.relay.OrderBookResult;
-import leaf.prod.walletsdk.model.response.relay.PageWrapper;
+import leaf.prod.walletsdk.model.response.relay.OrdersResult;
 import leaf.prod.walletsdk.model.response.relay.RingsResult;
-import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.model.response.relay.TokensResult;
 import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
+import leaf.prod.walletsdk.model.token.Token;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -145,9 +147,6 @@ public interface RpcDelegate {
     Observable<RelayResponseWrapper<List<OrderFill>>> getOrderFills(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<RelayResponseWrapper<PageWrapper<RawOrder>>> getOrders(@Body RequestWrapper request);
-
-    @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<RawOrder>> getOrderByHash(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
@@ -169,27 +168,42 @@ public interface RpcDelegate {
     Observable<RelayResponseWrapper<String>> sumitRing(@Body RequestWrapper request);
 
     // 2.0
-    @GET("/get_accounts")
-    Observable<RelayResponseWrapper<AccountBalance>> getAccount();
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<MarketsResult>> getMarkets(@Body RequestWrapper request);
 
-    @GET("/get_account_nonce")
-    Observable<RelayResponseWrapper<Integer>> getAccountNonce();
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<TokensResult>> getTokens(@Body RequestWrapper request);
 
-    @GET("/get_user_fills")
-    Observable<RelayResponseWrapper<FillsResult>> getUserFills();
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<OrdersResult>> getOrders(@Body RequestWrapper request);
 
-    @GET()
-    Observable<RelayResponseWrapper<FillsResult>> getMarketFills();
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<String>> submitOrder(@Body RequestWrapper request);
 
-    @GET()
-    Observable<RelayResponseWrapper<OrderBookResult>> getOrderBook();
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<String>> cancelOrders(@Body RequestWrapper request);
 
-    @GET()
-    Observable<RelayResponseWrapper<RingsResult>> getRings();
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<AccountBalance>> getAccount(@Body RequestWrapper request);
 
-    @GET()
-    Observable<RelayResponseWrapper<ActivityResult>> getActivities();
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<Integer>> getAccountNonce(@Body RequestWrapper request);
 
-    @GET()
-    Observable<RelayResponseWrapper<MarketHistoryResult>> getMarketHistory();
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<FillsResult>> getUserFills(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<FillsResult>> getMarketFills(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<OrderBookResult>> getOrderBook(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<RingsResult>> getRings(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<ActivityResult>> getActivities(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<MarketHistoryResult>> getMarketHistory(@Body RequestWrapper request);
 }

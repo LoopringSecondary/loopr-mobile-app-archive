@@ -1,5 +1,8 @@
 package leaf.prod.walletsdk.model.request.relayParam;
 
+import leaf.prod.walletsdk.model.common.Paging;
+import leaf.prod.walletsdk.model.market.MarketPair;
+import leaf.prod.walletsdk.model.order.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -7,21 +10,15 @@ import lombok.Data;
 @Data
 public class GetOrdersParam {
 
-    private String delegateAddress;
-
     private String owner;
 
-    private String orderHash;
+    private OrderStatus[] statuses;
 
-    private String market;
+    private MarketPair marketPair;
 
     private String side;
 
-    private String status;
+    private String sort;
 
-    private String orderType;
-
-    private int pageIndex;
-
-    private int pageSize;
+    private Paging paging;
 }

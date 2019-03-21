@@ -1,4 +1,4 @@
-package leaf.prod.walletsdk.model;
+package leaf.prod.walletsdk.model.common;
 
 /**
  * Created with IntelliJ IDEA.

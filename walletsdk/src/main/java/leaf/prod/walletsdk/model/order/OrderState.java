@@ -8,14 +8,16 @@ package leaf.prod.walletsdk.model.order;
 
 import java.io.Serializable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import leaf.prod.walletsdk.model.common.Amount;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class State implements Serializable {
+public class OrderState implements Serializable {
 
     @SerializedName(value = "status")
     private OrderStatus status;
@@ -34,15 +36,18 @@ public class State implements Serializable {
     @SerializedName(value = "outstandingAmountS")
     private Amount outstandingAmountS;
 
+    @Expose(serialize = false, deserialize = false)
     private Double outstandingAmountSell;
 
     @SerializedName(value = "outstandingAmountB")
     private Amount outstandingAmountB;
 
+    @Expose(serialize = false, deserialize = false)
     private Double outstandingAmountBuy;
 
     @SerializedName(value = "outstandingAmountFee")
     private Amount outstandingAmountFee;
 
+    @Expose(serialize = false, deserialize = false)
     private Double outstandingAmountF;
 }

@@ -48,7 +48,7 @@ import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.Ticker;
-import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.model.common.TradeType;
 import leaf.prod.walletsdk.model.TradingPair;
 import leaf.prod.walletsdk.model.Trend;
 import leaf.prod.walletsdk.model.TrendInterval;

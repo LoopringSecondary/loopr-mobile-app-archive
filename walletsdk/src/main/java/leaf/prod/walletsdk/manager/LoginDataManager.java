@@ -12,7 +12,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import leaf.prod.walletsdk.model.Contact;
-import leaf.prod.walletsdk.model.Currency;
+import leaf.prod.walletsdk.model.common.Currency;
 import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.LoginUser;
 import leaf.prod.walletsdk.model.TradingPair;

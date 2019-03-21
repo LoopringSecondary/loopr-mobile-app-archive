@@ -4,7 +4,7 @@
  * Time: 2018-09-11 下午6:32
  * Cooperation: loopring.org 路印协议基金会
  */
-package leaf.prod.walletsdk.model;
+package leaf.prod.walletsdk.model.common;
 
 import java.util.Locale;
 

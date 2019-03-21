@@ -6,6 +6,8 @@
  */
 package leaf.prod.walletsdk.model.request.relayParam;
 
+import leaf.prod.walletsdk.model.order.FeeParams;
+import leaf.prod.walletsdk.model.order.OrderParams;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,15 +15,11 @@ import lombok.Data;
 @Builder
 public class SubmitOrderParam {
 
-    private String delegateAddress;
-
-    private String protocol;
-
     private String sourceId;
 
     private String owner;
 
-    private String market;
+    private Integer version;
 
     private String tokenB;
 
@@ -33,33 +31,7 @@ public class SubmitOrderParam {
 
     private String validSince;
 
-    private String validUntil;
+    private OrderParams params;
 
-    private String lrcFee;
-
-    private Boolean buyNoMoreThanAmountB;
-
-    private String side;
-
-    private String hash;
-
-    private String walletAddress;
-
-    private String authPrivateKey;
-
-    private String authAddr;
-
-    private Integer marginSplitPercentage;
-
-    private String orderType;
-
-    private String p2pSide;
-
-    private Integer powNonce;
-
-    private Integer v;
-
-    private String r;
-
-    private String s;
+    private FeeParams feeParams;
 }

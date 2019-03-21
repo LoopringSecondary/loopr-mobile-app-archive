@@ -10,7 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import leaf.prod.app.R;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
-import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.util.SPUtils;
 
 /**

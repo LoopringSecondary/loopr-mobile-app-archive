@@ -15,7 +15,7 @@ import android.content.Context;
 import leaf.prod.walletsdk.listener.BalanceListener;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
-import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.WalletUtil;

@@ -1,6 +1,6 @@
 package leaf.prod.walletsdk.model.request.relayParam;
 
-import leaf.prod.walletsdk.model.MarketPair;
+import leaf.prod.walletsdk.model.market.MarketPair;
 import lombok.Builder;
 import lombok.Data;
 

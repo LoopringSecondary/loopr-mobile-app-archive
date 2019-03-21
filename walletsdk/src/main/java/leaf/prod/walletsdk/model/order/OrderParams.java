@@ -8,7 +8,6 @@ package leaf.prod.walletsdk.model.order;
 
 import java.io.Serializable;
 
-import org.web3j.utils.Numeric;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Builder;
@@ -16,7 +15,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Params implements Serializable {
+public class OrderParams implements Serializable {
 
     // 随机地址
     @SerializedName("dualAuthAddr")
@@ -30,17 +29,10 @@ public class Params implements Serializable {
     @SerializedName("wallet")
     private String wallet;
 
-    @SerializedName(value = "status")
+    @SerializedName("status")
     private OrderStatus status;
 
-    // hex string e.g. 0x5be8e179
-    @SerializedName(value = "validUntil")
-    private String validUntil;
-
-    // int value e.g. 3562653865313739
-    private Integer validU;
-
-    public void convert() {
-        this.validU = Numeric.toBigInt(validUntil).intValue();
-    }
+    // int value e.g. 1548422323
+    @SerializedName("validUntil")
+    private Integer validUntil;
 }

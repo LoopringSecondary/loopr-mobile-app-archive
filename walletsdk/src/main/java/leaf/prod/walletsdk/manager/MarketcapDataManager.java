@@ -3,7 +3,7 @@ package leaf.prod.walletsdk.manager;
 import android.content.Context;
 
 import leaf.prod.walletsdk.listener.MarketcapListener;
-import leaf.prod.walletsdk.model.Currency;
+import leaf.prod.walletsdk.model.common.Currency;
 import leaf.prod.walletsdk.model.request.relayParam.MarketcapParam;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 import leaf.prod.walletsdk.util.CurrencyUtil;

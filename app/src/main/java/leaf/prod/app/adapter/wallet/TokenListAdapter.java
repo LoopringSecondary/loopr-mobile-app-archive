@@ -11,7 +11,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import leaf.prod.app.R;
-import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.model.token.Token;
 
 public class TokenListAdapter extends BaseQuickAdapter<Token, BaseViewHolder> {
 

@@ -25,7 +25,7 @@ import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.Language;
 import leaf.prod.walletsdk.model.NoDataType;
-import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.model.common.TradeType;
 import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.StringUtils;
 

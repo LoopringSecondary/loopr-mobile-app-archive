@@ -19,7 +19,7 @@ import leaf.prod.app.activity.wallet.AddCustomTokenActivity;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.WalletEntity;
-import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.WalletUtil;

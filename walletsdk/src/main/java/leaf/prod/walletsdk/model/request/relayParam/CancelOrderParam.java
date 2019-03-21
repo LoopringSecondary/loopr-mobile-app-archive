@@ -6,6 +6,7 @@
  */
 package leaf.prod.walletsdk.model.request.relayParam;
 
+import leaf.prod.walletsdk.model.market.MarketPair;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,15 +14,13 @@ import lombok.Data;
 @Builder
 public class CancelOrderParam {
 
-    private String orderHash;
+    private String id;
 
-    private Integer type;
+    private MarketPair marketPair;
 
-    private Integer cutoff;
+    private Integer time;
 
-    private String tokenS;
+    private String owner;
 
-    private String tokenB;
-
-    private NotifyScanParam.SignParam sign;
+    private String sig;
 }

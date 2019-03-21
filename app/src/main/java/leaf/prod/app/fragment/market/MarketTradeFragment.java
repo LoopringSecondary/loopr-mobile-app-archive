@@ -25,7 +25,7 @@ import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.MyViewUtils;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.SettingDataManager;
-import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.model.common.TradeType;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class MarketTradeFragment extends BaseFragment {

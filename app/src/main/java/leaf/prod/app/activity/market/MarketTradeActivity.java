@@ -23,7 +23,7 @@ import leaf.prod.app.adapter.ViewPageAdapter;
 import leaf.prod.app.fragment.market.MarketTradeFragment;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
-import leaf.prod.walletsdk.model.TradeType;
+import leaf.prod.walletsdk.model.common.TradeType;
 
 public class MarketTradeActivity extends BaseActivity {
 

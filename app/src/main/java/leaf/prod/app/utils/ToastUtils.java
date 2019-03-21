@@ -97,7 +97,7 @@
 //                }
 //            }
 //        }
-//        toast.setGravity(params.gravity, params.xOffset, params.yOffset);
+//        toast.setGravity(orderParams.gravity, orderParams.xOffset, orderParams.yOffset);
 //        toast.setDuration(params.duration);
 //        toast.setView(view);
 //        return toast;

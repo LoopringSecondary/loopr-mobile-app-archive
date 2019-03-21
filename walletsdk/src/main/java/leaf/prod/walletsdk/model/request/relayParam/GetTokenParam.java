@@ -6,14 +6,21 @@
  */
 package leaf.prod.walletsdk.model.request.relayParam;
 
+import leaf.prod.walletsdk.model.token.Token;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 
 @Data
 @Builder
 public class GetTokenParam {
 
-    @NonNull
-    String owner;
+    private boolean requireMetadata;
+
+    private boolean requireInfo;
+
+    private boolean requirePrice;
+
+    private String quoteCurrencyForPrice;
+
+    private Token[] tokens;
 }

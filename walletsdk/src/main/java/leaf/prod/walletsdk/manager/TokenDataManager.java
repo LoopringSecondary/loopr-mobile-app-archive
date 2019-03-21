@@ -23,7 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import leaf.prod.walletsdk.util.WalletUtil;
-import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.service.LoopringService;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;

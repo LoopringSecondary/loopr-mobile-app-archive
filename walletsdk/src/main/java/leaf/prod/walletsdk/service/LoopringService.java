@@ -32,7 +32,7 @@ import leaf.prod.walletsdk.model.request.relayParam.GetFrozenParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetOrderFillsParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetOrdersParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetSignParam;
-import leaf.prod.walletsdk.model.request.relayParam.GetTickersParam;
+import leaf.prod.walletsdk.model.request.relayParam.GetMarketsParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetTokenParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetTrendsParam;
 import leaf.prod.walletsdk.model.request.relayParam.MarketcapParam;
@@ -50,7 +50,7 @@ import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 import leaf.prod.walletsdk.model.response.relay.PageWrapper;
-import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
 import rx.Observable;
 
@@ -202,7 +202,7 @@ public class LoopringService {
 
     // 市场相关接口
     public Observable<List<Ticker>> getTickers(TickerSource source) {
-        GetTickersParam param = GetTickersParam.builder()
+        GetMarketsParam param = GetMarketsParam.builder()
                 .delegateAddress(Default.DELEGATE_ADDRESS)
                 .tickerSource(source.name())
                 .build();

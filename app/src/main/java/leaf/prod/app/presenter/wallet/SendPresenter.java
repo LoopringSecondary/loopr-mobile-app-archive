@@ -49,7 +49,7 @@ import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.manager.TransactionDataManager;
 import leaf.prod.walletsdk.model.Contact;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
-import leaf.prod.walletsdk.model.response.relay.Token;
+import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.util.CredentialsUtils;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DpUtil;

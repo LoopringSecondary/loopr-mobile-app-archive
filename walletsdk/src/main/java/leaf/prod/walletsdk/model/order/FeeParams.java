@@ -9,9 +9,11 @@ package leaf.prod.walletsdk.model.order;
 import java.io.Serializable;
 
 import org.web3j.utils.Numeric;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import leaf.prod.walletsdk.manager.TokenDataManager;
+import leaf.prod.walletsdk.model.common.Amount;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,6 +26,7 @@ public class FeeParams implements Serializable {
     private String tokenFee;
 
     // token name e.g. lrc
+    @Expose(serialize = false, deserialize = false)
     private String tokenF;
 
     // big integer hex string e.g. "0x34f07768a92a83d00000"
@@ -31,6 +34,7 @@ public class FeeParams implements Serializable {
     private Amount amountFee;
 
     // double value e.g. 0.02
+    @Expose(serialize = false, deserialize = false)
     private Double amountF;
 
     @SerializedName(value = "tokenBFeePercentage")

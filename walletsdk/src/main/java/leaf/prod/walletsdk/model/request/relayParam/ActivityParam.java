@@ -1,6 +1,6 @@
 package leaf.prod.walletsdk.model.request.relayParam;
 
-import leaf.prod.walletsdk.model.response.relay.PageWrapper2;
+import leaf.prod.walletsdk.model.common.Paging;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,5 +18,5 @@ public class ActivityParam {
 
     private String token;
 
-    private PageWrapper2 paging;
+    private Paging paging;
 }

@@ -9,9 +9,11 @@ package leaf.prod.walletsdk.model.order;
 import java.io.Serializable;
 
 import org.web3j.utils.Numeric;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import leaf.prod.walletsdk.manager.TokenDataManager;
+import leaf.prod.walletsdk.model.common.Amount;
 import leaf.prod.walletsdk.util.NumberUtils;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +36,7 @@ public class RawOrder implements Serializable {
     private String tokenB;
 
     // token name e.g. lrc
+    @Expose(serialize = false, deserialize = false)
     private String tokenBuy;
 
     // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
@@ -41,6 +44,7 @@ public class RawOrder implements Serializable {
     private String tokenS;
 
     // token name e.g. lrc
+    @Expose(serialize = false, deserialize = false)
     private String tokenSell;
 
     // big integer hex string e.g. "0x34f07768a92a83d00000"
@@ -48,6 +52,7 @@ public class RawOrder implements Serializable {
     private Amount amountB;
 
     // double value e.g. 0.02
+    @Expose(serialize = false, deserialize = false)
     private Double amountBuy;
 
     // big integer hex string e.g. 0x34f07768a92a83d00000
@@ -55,40 +60,38 @@ public class RawOrder implements Serializable {
     private Amount amountS;
 
     // double value e.g. 0.02
+    @Expose(serialize = false, deserialize = false)
     private Double amountSell;
 
-    // hex string e.g. 0x5be8e179
-    @SerializedName(value = "validSince")
-    private String validSince;
-
     // int value e.g. 3562653865313739
-    private Integer validS;
+    @SerializedName(value = "validSince")
+    private Integer validSince;
 
     @SerializedName(value = "params")
-    private Params params;
+    private OrderParams params;
 
     @SerializedName(value = "feeParams")
     private FeeParams feeParams;
 
     @SerializedName(value = "state")
-    private State state;
+    private OrderState state;
 
+    @Expose(serialize = false, deserialize = false)
     private String buyPrice;
 
+    @Expose(serialize = false, deserialize = false)
     private String sellPrice;
 
     // e.g. 10.50%
     private String filled;
 
     public RawOrder convert() {
-        this.params.convert();
         this.feeParams.convert();
 
-        this.tokenBuy = TokenDataManager.getTokenWithProtocol(tokenB).getName();
-        this.tokenSell = TokenDataManager.getTokenWithProtocol(tokenS).getName();
+        this.tokenBuy = TokenDataManager.getTokenWithProtocol(tokenB).getSymbol();
+        this.tokenSell = TokenDataManager.getTokenWithProtocol(tokenS).getSymbol();
         this.amountBuy = TokenDataManager.getDouble(tokenBuy, Numeric.toBigInt(amountB.getValue()).toString());
         this.amountSell = TokenDataManager.getDouble(tokenSell, Numeric.toBigInt(amountS.getValue()).toString());
-        this.validS = Numeric.toBigInt(validSince).intValue();
 
         String stringValue = Numeric.toBigInt(this.state.getOutstandingAmountB().getValue()).toString();
         this.state.setOutstandingAmountBuy(TokenDataManager.getDouble(tokenBuy, stringValue));
@@ -97,7 +100,7 @@ public class RawOrder implements Serializable {
         stringValue = Numeric.toBigInt(this.state.getOutstandingAmountFee().getValue()).toString();
         this.state.setOutstandingAmountF(TokenDataManager.getDouble(this.feeParams.getTokenF(), stringValue));
 
-        Double rate = amountBuy - this.state.getOutstandingAmountBuy() / amountBuy;
+        Double rate = (amountBuy - this.state.getOutstandingAmountBuy()) / amountBuy;
         this.filled = NumberUtils.format1(rate * 100, 2) + "%";
 
         return this;

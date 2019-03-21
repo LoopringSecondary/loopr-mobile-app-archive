@@ -12,7 +12,7 @@ public class MarketcapResult {
     private List<Token> tokens;
 
     @Data
-    public static class Token {
+    static class Token {
 
         private String symbol;
 

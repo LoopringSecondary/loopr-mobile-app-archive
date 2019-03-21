@@ -37,9 +37,9 @@ public class RecyclerViewBugLayoutManager extends LinearLayoutManager {
         }
     }
     //    @Override
-    //    public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
+    //    public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.OrderState orderState) {
     //        try {
-    //            return super.scrollVerticallyBy(dy, recycler, state);
+    //            return super.scrollVerticallyBy(dy, recycler, orderState);
     //        } catch (Exception e) {
     //            e.printStackTrace();
     //        }
