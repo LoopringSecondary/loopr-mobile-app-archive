@@ -6,8 +6,7 @@
  */
 package leaf.prod.walletsdk.model.request.relayParam;
 
-import leaf.prod.walletsdk.model.order.FeeParams;
-import leaf.prod.walletsdk.model.order.OrderParams;
+import leaf.prod.walletsdk.model.order.RawOrder;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,23 +14,5 @@ import lombok.Data;
 @Builder
 public class SubmitOrderParam {
 
-    private String sourceId;
-
-    private String owner;
-
-    private Integer version;
-
-    private String tokenB;
-
-    private String tokenS;
-
-    private String amountB;
-
-    private String amountS;
-
-    private String validSince;
-
-    private OrderParams params;
-
-    private FeeParams feeParams;
+    private RawOrder rawOrder;
 }
