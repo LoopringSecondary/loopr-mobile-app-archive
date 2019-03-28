@@ -51,13 +51,13 @@ import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.setting.Language;
+import leaf.prod.walletsdk.model.Market;
+import leaf.prod.walletsdk.model.RawOrder;
 import leaf.prod.walletsdk.model.common.NoDataType;
-import leaf.prod.walletsdk.model.OriginOrder;
-import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.common.TradeType;
-import leaf.prod.walletsdk.model.TradingPair;
+import leaf.prod.walletsdk.model.market.MarketPair;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.model.setting.Language;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.LanguageUtil;
@@ -344,7 +344,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
      */
     @SuppressLint("SetTextI18n")
     public void showTradeDetailDialog() {
-        OriginOrder order = constructOrder();
+        RawOrder order = constructOrder();
         setupTradeDialog();
         setupToken(order);
         setupPrice(order);
@@ -352,7 +352,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         marketTradeDialog.show();
     }
 
-    private void setupToken(OriginOrder order) {
+    private void setupToken(RawOrder order) {
         String tokenBTip = view.getResources().getString(R.string.buy) + " " + order.getTokenB();
         String tokenSTip = view.getResources().getString(R.string.sell) + " " + order.getTokenS();
         int tokenBID = tokenDataManager.getTokenBySymbol(order.getTokenB()).getImageResId();
@@ -379,7 +379,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_token)).setText(tokenSTip);
     }
 
-    private void setupPrice(OriginOrder order) {
+    private void setupPrice(RawOrder order) {
         String amountB = NumberUtils.format6(order.getAmountBuy(), 0, 6);
         String amountS = NumberUtils.format6(order.getAmountSell(), 0, 6);
         String amountBPrice = CurrencyUtil.format(context, marketcapDataManager
@@ -397,13 +397,13 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_trading_fee)).setText(lrcFee);
     }
 
-    private void setValidTime(OriginOrder order) {
+    private void setValidTime(RawOrder order) {
         String validSince = sdf.format(order.getValidS() * 1000L);
         String validUntil = sdf.format(order.getValidU() * 1000L);
         ((TextView) marketTradeDialogView.findViewById(R.id.tv_live_time)).setText(validSince + " ~ " + validUntil);
     }
 
-    private OriginOrder constructOrder() {
+    private RawOrder constructOrder() {
         Double amountBuy = view.getAmountBuy();
         Double amountSell = view.getAmountSell();
         Date now = new Date();
@@ -481,12 +481,12 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
 
     private void setupTitle() {
         TextView tvLatest = marketPriceDialogView.findViewById(R.id.tv_latest_price);
-        TradingPair pair = TradingPair.builder()
+        MarketPair pair = MarketPair.builder()
                 .tokenA(orderDataManager.getTokenA())
                 .tokenB(orderDataManager.getTokenB())
                 .description(orderDataManager.getTradePair())
                 .build();
-        Ticker ticker = priceDataManager.getTickerBy(pair);
+        Market ticker = priceDataManager.getTickerBy(pair);
         tvLatest.setText(ticker.getBalanceShown() + " " + orderDataManager.getTokenB() + " ≈ " + ticker.getCurrencyShown());
     }
 

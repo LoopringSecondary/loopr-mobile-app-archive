@@ -1,26 +1,23 @@
 package leaf.prod.walletsdk;
 
-import java.io.IOException;
 import java.math.BigInteger;
 
 import org.web3j.crypto.Credentials;
 import org.web3j.tx.RawTransactionManager;
-import org.web3j.utils.Numeric;
 
 import leaf.prod.walletsdk.api.EthereumApi;
-import leaf.prod.walletsdk.exception.RpcException;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 
 public class Transfer {
 
     private RawTransactionManager transactionManager;
 
-    private LoopringService loopringApi;
+    private RelayService relayApi;
     private EthereumApi ethereumApi;
 
     public Transfer(Credentials credentials) {
         this.transactionManager = new RawTransactionManager(SDK.getWeb3j(), credentials, SDK.CHAIN_ID);
-        loopringApi = new LoopringService();
+        relayApi = new RelayService();
         ethereumApi = new EthereumApi();
     }
 
@@ -30,14 +27,5 @@ public class Transfer {
 
     public EthTransactionManager eth(BigInteger gasPrice, BigInteger gasLimit) {
         return new EthTransactionManager(gasPrice, gasLimit, transactionManager);
-    }
-
-    public BigInteger getSuggestGasPriceFromLoopring() {
-        String estimateGasPrice = loopringApi.getEstimateGasPrice().toBlocking().single();
-        return Numeric.toBigInt(Numeric.cleanHexPrefix(estimateGasPrice));
-    }
-
-    public BigInteger getSuggestGasPriceFromNode() throws IOException, RpcException {
-        return ethereumApi.gasPrice();
     }
 }

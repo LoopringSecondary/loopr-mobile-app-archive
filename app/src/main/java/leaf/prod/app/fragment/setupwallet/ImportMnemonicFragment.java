@@ -41,7 +41,7 @@ import leaf.prod.walletsdk.model.wallet.ImportWalletType;
 import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.model.wallet.WalletFromType;
 import leaf.prod.walletsdk.model.wallet.eventbusData.MnemonicData;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.CredentialsUtils;
 import leaf.prod.walletsdk.util.EncryptUtil;
 import leaf.prod.walletsdk.util.FileUtils;
@@ -100,7 +100,7 @@ public class ImportMnemonicFragment extends BaseFragment {
 
     private String filename;//钱包名称
 
-    private LoopringService loopringService = new LoopringService();
+    private RelayService loopringService = new RelayService();
 
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {

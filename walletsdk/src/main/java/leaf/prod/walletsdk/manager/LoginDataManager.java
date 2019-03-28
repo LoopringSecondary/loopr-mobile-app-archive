@@ -11,13 +11,13 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import leaf.prod.walletsdk.model.wallet.Contact;
 import leaf.prod.walletsdk.model.common.Currency;
+import leaf.prod.walletsdk.model.market.MarketPair;
+import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.model.setting.Language;
 import leaf.prod.walletsdk.model.setting.LoginUser;
-import leaf.prod.walletsdk.model.TradingPair;
 import leaf.prod.walletsdk.model.setting.UserConfig;
-import leaf.prod.walletsdk.model.response.AppResponseWrapper;
+import leaf.prod.walletsdk.model.wallet.Contact;
 import leaf.prod.walletsdk.service.AppService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.LanguageUtil;
@@ -331,10 +331,10 @@ public class LoginDataManager {
         return true;
     }
 
-    public void removeFavorite(TradingPair newPair) {
-        List<TradingPair> favorites = new ArrayList<>();
+    public void removeFavorite(MarketPair newPair) {
+        List<MarketPair> favorites = new ArrayList<>();
         if (userConfig.getFavMarkets() != null) {
-            for (TradingPair tradingPair : userConfig.getFavMarkets()) {
+            for (MarketPair tradingPair : userConfig.getFavMarkets()) {
                 if (!tradingPair.equals(newPair)) {
                     favorites.add(tradingPair);
                 }
@@ -344,16 +344,16 @@ public class LoginDataManager {
         }
     }
 
-    public void addFavorite(TradingPair newPair) {
-        List<TradingPair> favorites = userConfig.getFavMarkets() == null ? new ArrayList<>() : userConfig.getFavMarkets();
+    public void addFavorite(MarketPair newPair) {
+        List<MarketPair> favorites = userConfig.getFavMarkets() == null ? new ArrayList<>() : userConfig.getFavMarkets();
         favorites.add(newPair);
         userConfig.setFavMarkets(favorites);
-        Collections.sort(favorites, (favorite, t1) -> favorite.getTokenA().compareTo(t1.getTokenA()));
+        Collections.sort(favorites, (favorite, t1) -> favorite.getBaseToken().compareTo(t1.getBaseToken()));
         updateRemote(userConfig);
     }
 
-    public boolean isFavorite(TradingPair newPair) {
-        List<TradingPair> favorites = userConfig.getFavMarkets() == null ? new ArrayList<>() : userConfig.getFavMarkets();
+    public boolean isFavorite(MarketPair newPair) {
+        List<MarketPair> favorites = userConfig.getFavMarkets() == null ? new ArrayList<>() : userConfig.getFavMarkets();
         return favorites.contains(newPair);
     }
 

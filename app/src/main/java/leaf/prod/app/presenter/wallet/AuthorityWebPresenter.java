@@ -37,7 +37,7 @@ import leaf.prod.walletsdk.model.ScanWebQRCode;
 import leaf.prod.walletsdk.model.SignStatus;
 import leaf.prod.walletsdk.model.request.relayParam.NotifyScanParam;
 import leaf.prod.walletsdk.model.request.relayParam.NotifyStatusParam;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Observable;
@@ -48,7 +48,7 @@ import rx.schedulers.Schedulers;
 
 public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
 
-    private static LoopringService loopringService = new LoopringService();
+    private static RelayService loopringService = new RelayService();
 
     private static Gson gson = new Gson();
 

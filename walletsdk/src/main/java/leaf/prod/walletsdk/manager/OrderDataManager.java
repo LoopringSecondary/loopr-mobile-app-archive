@@ -26,12 +26,12 @@ import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.Erc20TransactionManager;
 import leaf.prod.walletsdk.R;
 import leaf.prod.walletsdk.Transfer;
-import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.RandomWallet;
-import leaf.prod.walletsdk.model.SignedBody;
+import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.response.RelayError;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.model.transaction.SignedBody;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import lombok.Getter;
@@ -67,20 +67,20 @@ public abstract class OrderDataManager {
 
     protected Map<String, Double> balanceInfo;
 
-    protected LoopringService loopringService;
+    protected RelayService relayService;
 
     OrderDataManager(Context context) {
         this.context = context;
         this.balanceInfo = new HashMap<>();
-        this.loopringService = new LoopringService();
+        this.relayService = new RelayService();
         this.owner = WalletUtil.getCurrentAddress(context);
         this.gas = GasDataManager.getInstance(context);
         this.token = TokenDataManager.getInstance(context);
         this.balance = BalanceDataManager.getInstance(context);
     }
 
-    public OriginOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {
-        OriginOrder order = null;
+    public RawOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {
+        RawOrder order = null;
         try {
             String tokenBuy = token.getTokenBySymbol(getTokenBuy()).getProtocol();
             String tokenSell = token.getTokenBySymbol(getTokenSell()).getProtocol();
@@ -89,7 +89,7 @@ public abstract class OrderDataManager {
             String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
             String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
             RandomWallet randomWallet = WalletUtil.getRandomWallet();
-            order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
+            order = RawOrder.builder()
                     .owner(WalletUtil.getCurrentAddress(context)).market(tradePair)
                     .tokenS(getTokenSell()).tokenSell(tokenSell).tokenB(getTokenBuy()).tokenBuy(tokenBuy)
                     .amountS(amountS).amountSell(amountSell).amountB(amountB).amountBuy(amountBuy)
@@ -105,7 +105,7 @@ public abstract class OrderDataManager {
         return order;
     }
 
-    public OriginOrder signOrder(OriginOrder order) {
+    public RawOrder signOrder(RawOrder order) {
         String encoded = encodeOrder(order);
         byte[] hash = Hash.sha3(Numeric.hexStringToByteArray(encoded));
         SignedBody signedBody = SignUtils.genSignMessage(credentials, hash);
@@ -119,7 +119,7 @@ public abstract class OrderDataManager {
         return order;
     }
 
-    private String encodeOrder(OriginOrder order) {
+    private String encodeOrder(RawOrder order) {
         List<? extends Type<? extends Serializable>> types = Arrays.asList(
                 new Uint256(Numeric.toBigInt(order.getAmountS())),
                 new Uint256(Numeric.toBigInt(order.getAmountB())),
@@ -139,18 +139,6 @@ public abstract class OrderDataManager {
         data += order.getBuyNoMoreThanAmountB() ? "01" : "00";
         data += Numeric.cleanHexPrefix(order.getMarginSplitPercentage());
         return data;
-    }
-
-    protected Double getLRCFrozenFromServer() {
-        String valueInWei = loopringService.getFrozenLRCFee(owner)
-                .subscribeOn(Schedulers.io()).toBlocking().single();
-        return token.getDoubleFromWei("LRC", valueInWei);
-    }
-
-    protected Double getAllowanceFromServer(String symbol) {
-        String valueInWei = loopringService.getEstimatedAllocatedAllowance(owner, symbol)
-                .subscribeOn(Schedulers.io()).toBlocking().single();
-        return token.getDoubleFromWei(symbol, valueInWei);
     }
 
     public Observable<RelayResponseWrapper> handleInfo() {

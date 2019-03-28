@@ -46,8 +46,9 @@ public class FeeParams implements Serializable {
     @SerializedName(value = "walletSplitPercentage")
     private Integer walletSplitPercentage;
 
-    public void convert() {
-        this.tokenF = TokenDataManager.getTokenWithProtocol(tokenFee).getName();
+    public FeeParams convert() {
+        this.tokenF = TokenDataManager.getTokenWithProtocol(tokenFee).getSymbol();
         this.amountF = TokenDataManager.getDouble(tokenF, Numeric.toBigInt(amountFee.getValue()).toString());
+        return this;
     }
 }

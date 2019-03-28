@@ -85,6 +85,10 @@ public class RawOrder implements Serializable {
     // e.g. 10.50%
     private String filled;
 
+    public OrderStatus getStatus() {
+        return state.getStatus();
+    }
+
     public RawOrder convert() {
         this.feeParams.convert();
 

@@ -125,7 +125,7 @@ public class P2PRecordsFragment extends BaseFragment {
 
     public void refreshOrders(int page) {
         currentPageIndex = page == 0 ? currentPageIndex : page;
-        p2pManager.getLoopringService()
+        p2pManager.getRelayService()
                 .getOrders(WalletUtil.getCurrentAddress(getContext()), OrderType.P2P.getDescription(), currentPageIndex, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

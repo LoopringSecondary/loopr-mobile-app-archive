@@ -24,7 +24,7 @@ import com.google.gson.reflect.TypeToken;
 
 import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.model.token.Token;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -41,7 +41,7 @@ public class TokenDataManager {
 
     private Observable<List<Token>> tokenObservable;
 
-    private LoopringService loopringService = new LoopringService();
+    private RelayService loopringService = new RelayService();
 
     private TokenDataManager(Context context) {
         this.context = context;

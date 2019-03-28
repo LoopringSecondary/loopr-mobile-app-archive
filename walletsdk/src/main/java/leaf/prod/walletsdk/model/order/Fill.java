@@ -56,8 +56,9 @@ public class Fill {
 
     private Long blockTimestamp;
 
-    public void convert() {
+    public Fill convert() {
         this.amountBDouble = !StringUtils.isEmpty(this.amountB) ? Numeric.toBigInt(this.amountB).doubleValue() : 0;
         this.amountSDouble = !StringUtils.isEmpty(this.amountS) ? Numeric.toBigInt(this.amountS).doubleValue() : 0;
+        return this;
     }
 }

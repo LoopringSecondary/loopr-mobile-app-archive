@@ -49,20 +49,20 @@ public class MarketRecordAdapter extends BaseQuickAdapter<RawOrder, BaseViewHold
         if (rawOrder == null)  return;
         helper.setGone(R.id.tv_buy_icon, false);
         helper.setGone(R.id.tv_sell_icon, false);
-        if (!StringUtils.isEmpty(rawOrder.getOriginOrder().getSide()) &&
-                rawOrder.getOriginOrder().getSide().equalsIgnoreCase("sell")) {
+        if (!StringUtils.isEmpty(rawOrder.getSide()) &&
+                rawOrder.getSide().equalsIgnoreCase("sell")) {
             helper.setVisible(R.id.tv_sell_icon, true);
-            helper.setText(R.id.tv_token_s, rawOrder.getOriginOrder().getTokenS());
-            helper.setText(R.id.tv_token_b, rawOrder.getOriginOrder().getTokenB());
+            helper.setText(R.id.tv_token_s, rawOrder.getTokenS());
+            helper.setText(R.id.tv_token_b, rawOrder.getTokenB());
             helper.setText(R.id.tv_price, rawOrder.getSellPrice());
         } else {
             helper.setVisible(R.id.tv_buy_icon, true);
-            helper.setText(R.id.tv_token_s, rawOrder.getOriginOrder().getTokenB());
-            helper.setText(R.id.tv_token_b, rawOrder.getOriginOrder().getTokenS());
+            helper.setText(R.id.tv_token_s, rawOrder.getTokenB());
+            helper.setText(R.id.tv_token_b, rawOrder.getTokenS());
             helper.setText(R.id.tv_price, rawOrder.getBuyPrice());
         }
-        helper.setText(R.id.tv_amount, NumberUtils.format1(rawOrder.getOriginOrder()
-                .getAmountSell(), BalanceDataManager.getPrecision(rawOrder.getOriginOrder().getTokenS())));
+        helper.setText(R.id.tv_amount, NumberUtils.format1(rawOrder
+                .getAmountSell(), BalanceDataManager.getPrecision(rawOrder.getTokenS())));
         helper.setText(R.id.tv_filled, rawOrder.getFilled());
         helper.setTextColor(R.id.tv_operate, mContext.getResources().getColor(R.color.colorNineText));
         helper.setGone(R.id.tv_cancel, false);
@@ -72,7 +72,7 @@ public class MarketRecordAdapter extends BaseQuickAdapter<RawOrder, BaseViewHold
             case WAITED:
                 helper.setVisible(R.id.tv_cancel, true);
                 helper.setOnClickListener(R.id.tv_cancel, view -> {
-                    String hash = rawOrder.getOriginOrder().getHash();
+                    String hash = rawOrder.getHash();
                     PasswordDialogUtil.showPasswordDialog(activity, P2PRecordsFragment.PASSWORD_TYPE + "_" + hash, listener -> {
                         NotifyScanParam.SignParam signParam = null;
                         try {
@@ -89,7 +89,7 @@ public class MarketRecordAdapter extends BaseQuickAdapter<RawOrder, BaseViewHold
                                     .type(CancelType.hash)
                                     .orderHash(hash)
                                     .build();
-                            marketOrderDataManager.getLoopringService().cancelOrderFlex(cancelOrder, signParam)
+                            marketOrderDataManager.getRelayService().cancelOrderFlex(cancelOrder, signParam)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
@@ -141,6 +141,6 @@ public class MarketRecordAdapter extends BaseQuickAdapter<RawOrder, BaseViewHold
             default:
                 break;
         }
-        helper.setText(R.id.tv_date, sdf.format(rawOrder.getOriginOrder().getValidS() * 1000L));
+        helper.setText(R.id.tv_date, sdf.format(rawOrder.getValidS() * 1000L));
     }
 }

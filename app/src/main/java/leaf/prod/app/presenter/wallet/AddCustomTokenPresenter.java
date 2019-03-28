@@ -20,7 +20,7 @@ import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.model.token.Token;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Subscriber;
@@ -37,11 +37,11 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
 
     private TokenDataManager tokenManager;
 
-    private LoopringService loopringService;
+    private RelayService loopringService;
 
     public AddCustomTokenPresenter(AddCustomTokenActivity view, Context context) {
         super(view, context);
-        loopringService = new LoopringService();
+        loopringService = new RelayService();
         tokenManager = TokenDataManager.getInstance(context);
     }
 

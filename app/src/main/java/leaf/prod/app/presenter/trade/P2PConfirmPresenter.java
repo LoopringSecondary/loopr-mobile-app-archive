@@ -23,7 +23,7 @@ import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.OriginOrder;
+import leaf.prod.walletsdk.model.RawOrder;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
@@ -55,7 +55,7 @@ public class P2PConfirmPresenter extends BasePresenter<P2PConfirmActivity> {
     @SuppressLint("SetTextI18n")
     public void handleResult() {
         p2pOrderManager.handleResult(p2pContent);
-        OriginOrder taker = p2pOrderManager.getOrder();
+        RawOrder taker = p2pOrderManager.getOrder();
         if (taker != null) {
             int resourceB = tokenManager.getTokenBySymbol(taker.getTokenB()).getImageResId();
             int resourceS = tokenManager.getTokenBySymbol(taker.getTokenS()).getImageResId();

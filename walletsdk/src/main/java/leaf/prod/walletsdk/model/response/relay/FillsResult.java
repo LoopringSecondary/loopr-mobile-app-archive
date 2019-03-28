@@ -17,12 +17,4 @@ public class FillsResult {
     private Long total;
 
     private List<Fill> fills;
-
-    public void convert() {
-        if (this.fills != null) {
-            for (Fill fill : fills) {
-                fill.convert();
-            }
-        }
-    }
 }

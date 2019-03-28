@@ -43,7 +43,7 @@ import leaf.prod.walletsdk.model.common.NoDataType;
 import leaf.prod.walletsdk.model.transaction.TxType;
 import leaf.prod.walletsdk.model.response.relay.Transaction;
 import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
@@ -94,7 +94,7 @@ public class WalletDetailFragment extends BaseFragment {
 
     private NoDataAdapter emptyAdapter;
 
-    private LoopringService loopringService = new LoopringService();
+    private RelayService loopringService = new RelayService();
 
     private GasDataManager gasManager;
 

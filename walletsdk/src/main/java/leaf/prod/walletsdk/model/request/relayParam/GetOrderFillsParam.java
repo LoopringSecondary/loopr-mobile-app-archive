@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class GetOrderFillsParam {
+public class GetFillsParam {
 
     private String delegateAddress;
 

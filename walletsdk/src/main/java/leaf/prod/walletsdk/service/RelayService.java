@@ -1,6 +1,7 @@
 package leaf.prod.walletsdk.service;
 
 import java.util.List;
+import java.util.Map;
 
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
@@ -43,15 +44,14 @@ import rx.Observable;
  * Time: 2019-03-18 3:52 PM
  * Cooperation: loopring.org 路印协议基金会
  */
-public class Relay2Service {
+public class RelayService {
 
     private RpcDelegate rpcDelegate;
 
-    public Relay2Service() {
+    public RelayService() {
         String url = SDK.relay2Base();
         rpcDelegate = RpcDelegate.getService(url);
     }
-
 
     public Observable<MarketsResult> getMarkets(Boolean requireMetadata, Boolean requireTicker, Currency currency, MarketPair[] pairs) {
         GetMarketsParam param = GetMarketsParam.builder()
@@ -142,7 +142,7 @@ public class Relay2Service {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    // OrderFill
+    // Fill No use, because we need socket io interface here for k-line
     public Observable<FillsResult> getMarketFills(String baseToken, String quoteToken) {
         MarketPair pair = MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build();
         RequestWrapper request = new RequestWrapper("get_market_fills", pair);
@@ -150,7 +150,7 @@ public class Relay2Service {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    // OrderDepth
+    // OrderDepth No use, because we need socket io interface here for k-line
     public Observable<OrderBookResult> getOrderBook(int level, int size, String baseToken, String quoteToken) {
         OrderBookParam param = OrderBookParam.builder()
                 .level(level)
@@ -180,6 +180,7 @@ public class Relay2Service {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
+    // No use, because we need socket io interface here for k-line
     public Observable<MarketHistoryResult> getMarketHistory(MarketPair marketPair, MarketInterval interval, Long beginTime, Long endTime) {
         MarketHistoryParam param = MarketHistoryParam.builder()
                 .marketPair(marketPair)
@@ -190,5 +191,8 @@ public class Relay2Service {
         RequestWrapper request = new RequestWrapper("get_market_history", param);
         Observable<RelayResponseWrapper<MarketHistoryResult>> observable = rpcDelegate.getMarketHistory(request);
         return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<Map<String:>> getGasPrice() {
     }
 }

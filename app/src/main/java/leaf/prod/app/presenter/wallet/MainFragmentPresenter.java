@@ -27,8 +27,8 @@ import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 import leaf.prod.walletsdk.model.token.Token;
-import leaf.prod.walletsdk.service.LoopringService;
-import leaf.prod.walletsdk.service.Relay2Service;
+import leaf.prod.walletsdk.service.RelayService;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
@@ -39,7 +39,7 @@ import rx.schedulers.Schedulers;
 
 public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
 
-    private static LoopringService loopringService;
+    private static RelayService loopringService;
 
     private static Observable<MarketcapResult> marketcapObservable;
 
@@ -61,7 +61,7 @@ public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
 
     private String address;
 
-    private Relay2Service relay2Service;
+    private RelayService relayService;
 
     public MainFragmentPresenter(MainWalletFragment view, Context context) {
         super(view, context);
@@ -71,12 +71,12 @@ public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
         partnerDataManager = PartnerDataManager.getInstance(context);
         partnerDataManager.activatePartner();
         partnerDataManager.createPartner();
-        relay2Service = new Relay2Service();
+        relayService = new RelayService();
         //        test();
     }
     //
     //    public void test() {
-    //        //        Observable<AccountBalance> observable = relay2Service.getAccounts(Collections.emptyList(), Collections.emptyList(), true);
+    //        //        Observable<AccountBalance> observable = relayService.getAccounts(Collections.emptyList(), Collections.emptyList(), true);
     //        //        observable.subscribeOn(Schedulers.io())
     //        //                .observeOn(AndroidSchedulers.mainThread())
     //        //                .subscribe(new Subscriber<AccountBalance>() {
@@ -95,7 +95,7 @@ public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
     //        //                        LyqbLogger.log(accountBalance.toString());
     //        //                    }
     //        // });
-    //        Observable<FillsResult> observable = relay2Service.getUserFills("", "", "", "", null);
+    //        Observable<FillsResult> observable = relayService.getUserFills("", "", "", "", null);
     //        observable.subscribeOn(Schedulers.io())
     //                .observeOn(AndroidSchedulers.mainThread())
     //                .subscribe(new Subscriber<FillsResult>() {
@@ -119,7 +119,7 @@ public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
     public void initObservable() {
         LyqbLogger.log("initObservable: " + getAddress());
         if (loopringService == null)
-            loopringService = new LoopringService();
+            loopringService = new RelayService();
         Observable.zip(loopringService.getBalance(getAddress())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread()), loopringService.getCustomToken(getAddress())

@@ -17,12 +17,4 @@ public class OrdersResult {
     private Long total;
 
     private List<RawOrder> orders;
-
-    public void convert() {
-        if (orders != null) {
-            for (RawOrder order : orders) {
-                order.convert();
-            }
-        }
-    }
 }

@@ -30,7 +30,7 @@ import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.order.OrderStatus;
 import leaf.prod.walletsdk.model.order.OrderType;
-import leaf.prod.walletsdk.model.OriginOrder;
+import leaf.prod.walletsdk.model.RawOrder;
 import leaf.prod.walletsdk.model.order.P2PSide;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
@@ -151,12 +151,12 @@ P2PRecordDetailActivity extends BaseActivity {
         title.setBTitle(getResources().getString(R.string.order_detail));
         title.clickLeftGoBack(getWContext());
         rawOrder = (RawOrder) getIntent().getSerializableExtra("order");
-        if (rawOrder.getOriginOrder().getOrderType() == OrderType.P2P && rawOrder.getOriginOrder()
+        if (rawOrder.getOrderType() == OrderType.P2P && rawOrder
                 .getP2pSide() == P2PSide.MAKER
                 && (rawOrder.getOrderStatus() == OrderStatus.OPENED || rawOrder.getOrderStatus() == OrderStatus.WAITED)) {
             title.setRightImageButton(R.mipmap.icon_title_qrcode, button -> {
                 if (!(ButtonClickUtil.isFastDoubleClick(1))) {
-                    String authAddr = rawOrder.getOriginOrder().getAuthAddr().toLowerCase();
+                    String authAddr = rawOrder.getAuthAddr().toLowerCase();
                     String p2pContent = (String) SPUtils.get(getApplicationContext(), authAddr, "");
                     if (!p2pContent.isEmpty() && p2pContent.contains("-")) {
                         String qrCode = p2pOrderManager.generateQRCode(rawOrder.getOriginOrder());
@@ -177,14 +177,14 @@ P2PRecordDetailActivity extends BaseActivity {
     public void initData() {
         if (rawOrder != null) {
             setOrderStatus();
-            OriginOrder originOrder = rawOrder.getOriginOrder();
+            RawOrder originOrder = rawOrder;
             if (originOrder != null) {
                 setOverview(originOrder);
             }
         }
     }
 
-    private void setOverview(OriginOrder order) {
+    private void setOverview(RawOrder order) {
         int resourceB = tokenDataManager.getTokenBySymbol(order.getTokenB()).getImageResId();
         int resourceS = tokenDataManager.getTokenBySymbol(order.getTokenS()).getImageResId();
         String amountB = balanceDataManager.getFormattedBySymbol(order.getTokenB(), order.getAmountBuy());

@@ -34,8 +34,9 @@ public class MarketTicker {
 
     private Double percentChange7D;
 
-    public void convert() {
+    public MarketTicker convert() {
         this.baseSymbol = TokenDataManager.getTokenWithProtocol(baseToken).getSymbol();
         this.quoteSymbol = TokenDataManager.getTokenWithProtocol(quoteToken).getSymbol();
+        return this;
     }
 }

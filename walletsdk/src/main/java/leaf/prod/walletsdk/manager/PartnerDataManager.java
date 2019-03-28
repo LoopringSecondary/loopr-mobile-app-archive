@@ -10,7 +10,7 @@ import android.content.Context;
 
 import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.model.setting.Partner;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -29,11 +29,11 @@ public class PartnerDataManager {
 
     private Partner partnerFrom;
 
-    private LoopringService loopringService;
+    private RelayService loopringService;
 
     private PartnerDataManager(Context context) {
         this.context = context;
-        loopringService = new LoopringService();
+        loopringService = new RelayService();
     }
 
     public static PartnerDataManager getInstance(Context context) {

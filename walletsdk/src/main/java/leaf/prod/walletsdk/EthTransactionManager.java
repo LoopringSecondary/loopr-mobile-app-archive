@@ -19,7 +19,7 @@ import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.tx.RawTransactionManager;
 
 import leaf.prod.walletsdk.exception.TransactionException;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -34,7 +34,7 @@ public class EthTransactionManager {
 
     private RawTransactionManager transactionManager;
 
-    private LoopringService loopringService = new LoopringService();
+    private RelayService loopringService = new RelayService();
 
     public EthTransactionManager(BigInteger gasPrice, BigInteger gasLimit, RawTransactionManager transactionManager) {
         this.gasPrice = gasPrice;

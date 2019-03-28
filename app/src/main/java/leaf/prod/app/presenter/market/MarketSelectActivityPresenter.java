@@ -9,7 +9,7 @@ import leaf.prod.app.activity.market.MarketSelectActivity;
 import leaf.prod.app.fragment.market.MarketSelectFragment;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
-import leaf.prod.walletsdk.model.Ticker;
+import leaf.prod.walletsdk.model.Market;
 
 public class MarketSelectActivityPresenter extends BasePresenter<MarketSelectActivity> {
 
@@ -33,10 +33,10 @@ public class MarketSelectActivityPresenter extends BasePresenter<MarketSelectAct
         }
     }
 
-    public void updateAdapter(boolean isFiltering, List<Ticker> tickers) {
+    public void updateAdapter(boolean isFiltering, List<Market> tickers) {
         marketManager.setFiltering(isFiltering);
         if (isFiltering) {
-            marketManager.setFilteredTickers(tickers);
+            marketManager.setFilteredMarkets(tickers);
         }
         updateAdapters();
     }

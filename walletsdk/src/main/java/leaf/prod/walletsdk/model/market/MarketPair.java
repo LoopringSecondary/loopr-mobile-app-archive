@@ -6,14 +6,22 @@
  */
 package leaf.prod.walletsdk.model.market;
 
+import java.util.Objects;
+
 import com.google.gson.annotations.Expose;
 
 import leaf.prod.walletsdk.manager.TokenDataManager;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class MarketPair {
 
     // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
@@ -30,8 +38,24 @@ public class MarketPair {
     @Expose(serialize = false, deserialize = false)
     private String quoteSymbol;
 
-    public void convert() {
+    public MarketPair convert() {
         this.baseSymbol = TokenDataManager.getTokenWithProtocol(baseToken).getSymbol();
         this.quoteSymbol = TokenDataManager.getTokenWithProtocol(quoteToken).getSymbol();
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MarketPair that = (MarketPair) o;
+        return Objects.equals(baseToken, that.baseToken);
+    }
+
+    @Override
+    public String toString() {
+        return baseSymbol + " / " + quoteSymbol;
     }
 }

@@ -4,9 +4,9 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 
 @RunWith(AndroidJUnit4.class)
 public class HttpServiceTest {
@@ -15,7 +15,7 @@ public class HttpServiceTest {
         SDK.initSDK();
     }
 
-    private LoopringService httpService = new LoopringService();
+    private RelayService httpService = new RelayService();
 
     @Test
     public void supportedTokenTest() {

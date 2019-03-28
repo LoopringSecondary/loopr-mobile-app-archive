@@ -19,7 +19,7 @@ import leaf.prod.app.adapter.market.MarketHistoryAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.common.NoDataType;
-import leaf.prod.walletsdk.model.OrderFill;
+import leaf.prod.walletsdk.model.Fill;
 
 public class MarketHistoryFragment extends BaseFragment {
 
@@ -84,7 +84,7 @@ public class MarketHistoryFragment extends BaseFragment {
 
     public void updateAdapter() {
         if (marketAdapter != null) {
-            List<OrderFill> orderFills = manager.getOrderFills();
+            List<Fill> orderFills = manager.getFills();
             if (orderFills == null || orderFills.size() == 0) {
                 recyclerView.setAdapter(emptyAdapter);
                 emptyAdapter.refresh();

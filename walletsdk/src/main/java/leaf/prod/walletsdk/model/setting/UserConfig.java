@@ -7,6 +7,7 @@ package leaf.prod.walletsdk.model.setting;
 
 import java.util.List;
 
+import leaf.prod.walletsdk.model.market.MarketPair;
 import leaf.prod.walletsdk.model.wallet.Contact;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class UserConfig {
 
     private List<Contact> contacts;
 
-    private List<TradingPair> favMarkets;
+    private List<MarketPair> favMarkets;
 
     @Data
     @Builder

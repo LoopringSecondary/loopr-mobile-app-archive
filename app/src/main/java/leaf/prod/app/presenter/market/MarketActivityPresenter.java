@@ -10,8 +10,9 @@ import leaf.prod.app.activity.market.MarketsActivity;
 import leaf.prod.app.fragment.market.MarketsFragment;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
-import leaf.prod.walletsdk.model.Ticker;
-import leaf.prod.walletsdk.model.TickerSource;
+import leaf.prod.walletsdk.model.market.Market;
+import leaf.prod.walletsdk.model.response.relay.MarketsResult;
+import leaf.prod.walletsdk.util.CurrencyUtil;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -38,21 +39,21 @@ public class MarketActivityPresenter extends BasePresenter<MarketsActivity> {
         }
     }
 
-    public void updateAdapter(boolean isFiltering, List<Ticker> tickers) {
+    public void updateAdapter(boolean isFiltering, List<Market> markets) {
         marketManager.setFiltering(isFiltering);
         if (isFiltering) {
-            marketManager.setFilteredTickers(tickers);
+            marketManager.setFilteredMarkets(markets);
         }
         updateAdapters();
     }
 
     public void refreshTickers() {
         view.clLoading.setVisibility(View.VISIBLE);
-        marketManager.getLoopringService()
-                .getTickers(TickerSource.coinmarketcap)
+        marketManager.getRelayService()
+                .getMarkets(true, true, CurrencyUtil.getCurrency(context), null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Ticker>>() {
+                .subscribe(new Subscriber<MarketsResult>() {
                     @Override
                     public void onCompleted() {
                         view.clLoading.setVisibility(View.GONE);
@@ -65,8 +66,8 @@ public class MarketActivityPresenter extends BasePresenter<MarketsActivity> {
                     }
 
                     @Override
-                    public void onNext(List<Ticker> result) {
-                        marketManager.convertTickers(result);
+                    public void onNext(MarketsResult result) {
+                        marketManager.convertMarkets(result.getMarkets());
                         updateAdapters();
                         view.clLoading.setVisibility(View.GONE);
                         unsubscribe();

@@ -22,7 +22,7 @@ import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.order.OrderStatus;
-import leaf.prod.walletsdk.model.OriginOrder;
+import leaf.prod.walletsdk.model.RawOrder;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 
@@ -136,7 +136,7 @@ public class P2PTradeQrActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     @Override
     public void initView() {
-        OriginOrder order = p2pOrderManager.getOrder();
+        RawOrder order = p2pOrderManager.getOrder();
         if (order != null) {
             int resourceB = tokenManager.getTokenBySymbol(order.getTokenB()).getImageResId();
             int resourceS = tokenManager.getTokenBySymbol(order.getTokenS()).getImageResId();
@@ -189,7 +189,7 @@ public class P2PTradeQrActivity extends BaseActivity {
     }
 
     private void generateQRCode() {
-        OriginOrder order = p2pOrderManager.getOrder();
+        RawOrder order = p2pOrderManager.getOrder();
         String content = p2pOrderManager.generateQRCode(order);
         RxQRCode.Builder builder = RxQRCode.builder(content);
         builder.into(ivQrCode);

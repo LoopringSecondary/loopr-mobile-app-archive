@@ -20,7 +20,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.TransactionManager;
 
 import leaf.prod.walletsdk.api.Erc20Contract;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -37,7 +37,7 @@ public class Erc20TransactionManager {
 
     private BigInteger gasLimit;
 
-    private LoopringService loopringService = new LoopringService();
+    private RelayService relayService = new RelayService();
 
     Erc20TransactionManager(String contractAddress, BigInteger gasPrice, BigInteger gasLimit, TransactionManager transactionManager) {
         this.gasPrice = gasPrice;
@@ -59,35 +59,11 @@ public class Erc20TransactionManager {
                     try {
                         RawTransaction rawTransaction = getRawTransaction(credentials, to, contractAddress, value);
                         String hash = transactionReceipt.getTransactionHash();
-                        return loopringService.notifyTransactionSubmitted(rawTransaction, to, hash);
+                        return relayService.notifyTransactionSubmitted(rawTransaction, to, hash);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     return Observable.just("failed");
-                });
-    }
-
-    private void notifyRelay(String hash, Credentials credentials, String contractAddress, String to, BigInteger value) throws Exception {
-        RawTransaction rawTransaction = getRawTransaction(credentials, to, contractAddress, value);
-        loopringService.notifyTransactionSubmitted(rawTransaction, to, hash)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("notify_relay_error", e.getMessage());
-                        unsubscribe();
-                    }
-
-                    @Override
-                    public void onNext(String s) {
-                        Log.d("notify_relay_success", s);
-                        unsubscribe();
-                    }
                 });
     }
 

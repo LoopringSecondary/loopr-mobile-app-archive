@@ -25,7 +25,7 @@ public class OrderBookResult {
         private List<Order> buys;
 
         @Data
-        static class Order {
+        public static class Order {
 
             private Long amount;
 

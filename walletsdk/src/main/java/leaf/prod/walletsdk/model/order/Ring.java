@@ -29,11 +29,12 @@ public class Ring {
 
     private Long blockTimestamp;
 
-    public void convert() {
+    public Ring convert() {
         if(fees != null) {
             for(Fee fee : fees) {
                 fee.convert();
             }
         }
+        return this;
     }
 }

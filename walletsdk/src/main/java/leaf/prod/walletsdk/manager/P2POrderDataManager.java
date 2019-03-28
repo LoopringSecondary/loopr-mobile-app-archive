@@ -33,7 +33,7 @@ import leaf.prod.walletsdk.R;
 import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.order.OrderType;
-import leaf.prod.walletsdk.model.OriginOrder;
+import leaf.prod.walletsdk.model.RawOrder;
 import leaf.prod.walletsdk.model.order.P2PSide;
 import leaf.prod.walletsdk.model.RandomWallet;
 import leaf.prod.walletsdk.model.common.TradeType;
@@ -66,7 +66,7 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private String makerPrivateKey;
 
-    private OriginOrder[] orders;
+    private RawOrder[] orders;
 
     private List<Type> ringParameters;
 
@@ -146,17 +146,17 @@ public class P2POrderDataManager extends OrderDataManager {
         this.makerHash = scanning.get(QRCODE_HASH).getAsString();
         this.sellCount = scanning.get(SELL_COUNT).getAsBigInteger();
         this.makerPrivateKey = scanning.get(QRCODE_AUTH).getAsString();
-        OriginOrder maker = getOrderBy(makerHash);
-        OriginOrder taker = constructTaker(maker);
+        RawOrder maker = getOrderBy(makerHash);
+        RawOrder taker = constructTaker(maker);
         maker.convert();
         this.isTaker = true;
-        this.orders = new OriginOrder[2];
+        this.orders = new RawOrder[2];
         this.orders[0] = maker;
         this.orders[1] = taker;
     }
 
-    public OriginOrder getOrder() {
-        OriginOrder result = null;
+    public RawOrder getOrder() {
+        RawOrder result = null;
         if (!isTaker) {
             if (orders.length == 1) {
                 result = orders[0];
@@ -169,7 +169,7 @@ public class P2POrderDataManager extends OrderDataManager {
         return result;
     }
 
-    private OriginOrder constructTaker(OriginOrder maker) {
+    private RawOrder constructTaker(RawOrder maker) {
         // tokenSell, tokenBuy
         this.tokenBuy = maker.getTokenS();
         this.tokenSell = maker.getTokenB();
@@ -194,10 +194,10 @@ public class P2POrderDataManager extends OrderDataManager {
         String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
 
         // construct order
-        OriginOrder order = null;
+        RawOrder order = null;
         try {
             RandomWallet randomWallet = WalletUtil.getRandomWallet();
-            order = OriginOrder.builder().delegate(Default.DELEGATE_ADDRESS)
+            order = RawOrder.builder().delegate(Default.DELEGATE_ADDRESS)
                     .owner(WalletUtil.getCurrentAddress(context)).market(tradePair)
                     .tokenS(this.tokenSell).tokenSell(tokenSell).tokenB(this.tokenBuy).tokenBuy(tokenBuy)
                     .amountB(Numeric.toHexStringWithPrefix(amountB)).amountBuy(amountBuy)
@@ -216,7 +216,7 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     public void constructMaker(Double amountBuy, Double amountSell, Integer validS, Integer validU, Integer sellCount) {
-        OriginOrder order = constructOrder(amountBuy, amountSell, validS, validU);
+        RawOrder order = constructOrder(amountBuy, amountSell, validS, validU);
         preserveMaker(order, sellCount);
         order.setSide(TradeType.buy.name());
         order.setOrderType(OrderType.P2P);
@@ -224,9 +224,9 @@ public class P2POrderDataManager extends OrderDataManager {
         order.setAuthPrivateKey("");
     }
 
-    private void preserveMaker(OriginOrder order, Integer sellCount) {
+    private void preserveMaker(RawOrder order, Integer sellCount) {
         this.isTaker = false;
-        this.orders = new OriginOrder[]{order};
+        this.orders = new RawOrder[]{order};
         String value = String.format("%s-%s", order.getAuthPrivateKey(), sellCount);
         SPUtils.put(context.getApplicationContext(), order.getAuthAddr().toLowerCase(), value);
     }
@@ -234,8 +234,8 @@ public class P2POrderDataManager extends OrderDataManager {
     private Boolean validate() {
         Boolean result = false;
         if (orders.length >= 2) {
-            OriginOrder maker = orders[0];
-            OriginOrder taker = orders[1];
+            RawOrder maker = orders[0];
+            RawOrder taker = orders[1];
             if (makerPrivateKey != null && !makerPrivateKey.isEmpty() &&
                     taker.getAuthPrivateKey() != null && maker.getHash() != null && taker.getHash() != null) {
                 result = true;
@@ -327,7 +327,7 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private void generateAddresses() {
-        for (OriginOrder order : orders) {
+        for (RawOrder order : orders) {
             ringParameters.add(new Address(order.getOwner()));
             ringParameters.add(new Address(order.getTokenSell()));
             ringParameters.add(new Address(order.getWalletAddress()));
@@ -336,7 +336,7 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private void generateValues() {
-        for (OriginOrder order : orders) {
+        for (RawOrder order : orders) {
             ringParameters.add(new Address(order.getAmountS()));
             ringParameters.add(new Address(order.getAmountB()));
             ringParameters.add(new Address(order.getValidSince()));
@@ -347,13 +347,13 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private void generateMargin() {
-        for (OriginOrder order : orders) {
+        for (RawOrder order : orders) {
             ringParameters.add(new Address(order.getMarginSplitPercentage()));
         }
     }
 
     private void generateFlag() {
-        for (OriginOrder order : orders) {
+        for (RawOrder order : orders) {
             int flag = order.getBuyNoMoreThanAmountB() ? 1 : 0;
             ringParameters.add(new Uint256(flag));
         }
@@ -361,7 +361,7 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private void generateVList() {
         if (makerSignature != null && takerSignature != null) {
-            for (OriginOrder order : orders) {
+            for (RawOrder order : orders) {
                 ringParameters.add(new Uint256(Numeric.toBigInt(order.getV())));
             }
             ringParameters.add(new Uint256(makerSignature.getV()));
@@ -371,7 +371,7 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private void generateRList() {
         if (makerSignature != null && takerSignature != null) {
-            for (OriginOrder order : orders) {
+            for (RawOrder order : orders) {
                 ringParameters.add(new Uint256(Numeric.toBigInt(order.getR())));
             }
             ringParameters.add(new Uint256(Numeric.toBigInt(makerSignature.getR())));
@@ -381,7 +381,7 @@ public class P2POrderDataManager extends OrderDataManager {
 
     private void generateSList() {
         if (makerSignature != null && takerSignature != null) {
-            for (OriginOrder order : orders) {
+            for (RawOrder order : orders) {
                 ringParameters.add(new Uint256(Numeric.toBigInt(order.getS())));
             }
             ringParameters.add(new Uint256(Numeric.toBigInt(makerSignature.getS())));
@@ -397,7 +397,7 @@ public class P2POrderDataManager extends OrderDataManager {
             String rawTx = generate();
             String makerHash = orders[0].getHash();
             String takerHash = orders[1].getHash();
-            return loopringService.submitRing(makerHash, takerHash, rawTx);
+            return relayService.submitRing(makerHash, takerHash, rawTx);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -409,10 +409,10 @@ public class P2POrderDataManager extends OrderDataManager {
         Observable<RelayResponseWrapper> result = null;
         if (!isTaker) {
             if (orders.length == 1 && orders[0] != null) {
-                result = loopringService.submitOrder(orders[0]);
+                result = relayService.submitOrder(orders[0]);
             }
         } else if (orders.length == 2 && makerHash != null) {
-            result = loopringService.submitOrderForP2P(orders[1], makerHash)
+            result = relayService.submitOrderForP2P(orders[1], makerHash)
                     .observeOn(Schedulers.io())
                     .flatMap((Func1<RelayResponseWrapper, Observable<RelayResponseWrapper>>) response -> {
                         if (response.getError() == null) {
@@ -425,29 +425,29 @@ public class P2POrderDataManager extends OrderDataManager {
         return result;
     }
 
-    private OriginOrder getOrderBy(String hash) {
-        RawOrder rawOrder = loopringService.getOrderByHash(hash)
+    private RawOrder getOrderBy(String hash) {
+        RawOrder rawOrder = relayService.getOrderByHash(hash)
                 .subscribeOn(Schedulers.io()).toBlocking().single();
-        return rawOrder.getOriginOrder();
+        return rawOrder;
     }
 
     public void verify(String password) throws Exception {
-        OriginOrder order = completeOrder(password);
+        RawOrder order = completeOrder(password);
         balanceInfo.clear();
         checkGasEnough(order);
         checkBalanceEnough(order);
     }
 
-    private OriginOrder completeOrder(String password) throws Exception {
+    private RawOrder completeOrder(String password) throws Exception {
         this.credentials = WalletUtil.getCredential(context, password);
         int index = isTaker ? 1 : 0;
-        OriginOrder order = orders[index];
+        RawOrder order = orders[index];
         order = signOrder(order);
         orders[index] = order;
         return order;
     }
 
-    private void checkGasEnough(OriginOrder order) {
+    private void checkGasEnough(RawOrder order) {
         Double result;
         Double ethBalance = token.getDoubleFromWei("ETH", balance.getAssetBySymbol("ETH").getBalance());
         Double tokenGas = calculateGas(order.getTokenS(), order.getAmountSell());
@@ -482,7 +482,7 @@ public class P2POrderDataManager extends OrderDataManager {
         return result;
     }
 
-    private void checkBalanceEnough(OriginOrder order) {
+    private void checkBalanceEnough(RawOrder order) {
         if (isTaker) {
             BigDecimal balanceDecimal = balance.getAssetBySymbol(order.getTokenS()).getBalance();
             Double tokensBalance = token.getDoubleFromWei(order.getTokenS(), balanceDecimal);
@@ -494,7 +494,7 @@ public class P2POrderDataManager extends OrderDataManager {
         }
     }
 
-    public String generateQRCode(OriginOrder order) {
+    public String generateQRCode(RawOrder order) {
         String result = null;
         if (order != null) {
             String address = order.getAuthAddr().toLowerCase();

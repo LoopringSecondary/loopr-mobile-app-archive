@@ -48,7 +48,7 @@ import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.model.wallet.ImportWalletType;
 import leaf.prod.walletsdk.model.wallet.WalletEntity;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.CredentialsUtils;
 import leaf.prod.walletsdk.util.EncryptUtil;
 import leaf.prod.walletsdk.util.FileUtils;
@@ -159,7 +159,7 @@ public class GenerateWalletActivity extends BaseActivity {
 
     private String filename;//钱包keystore名称
 
-    private LoopringService loopringService = new LoopringService();
+    private RelayService loopringService = new RelayService();
 
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {

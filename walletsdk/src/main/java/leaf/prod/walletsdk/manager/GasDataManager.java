@@ -20,7 +20,7 @@ import org.web3j.utils.Numeric;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.NumberUtils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -42,7 +42,7 @@ public class GasDataManager {
 
     private Observable<BigDecimal> gasObservable;
 
-    private LoopringService loopringService = new LoopringService();
+    private RelayService relayService = new RelayService();
 
     private GasDataManager(Context context) {
         this.context = context;
@@ -81,7 +81,7 @@ public class GasDataManager {
     // get recommend gas sellPrice through relay
     private void getGasPriceFromRelay() {
         if (this.gasObservable == null) {
-            this.gasObservable = loopringService.getEstimateGasPrice()
+            this.gasObservable = relayService.getGasPrice()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(result -> {

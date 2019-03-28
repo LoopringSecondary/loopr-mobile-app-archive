@@ -47,11 +47,11 @@ import leaf.prod.app.views.CustomCandleChart;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
-import leaf.prod.walletsdk.model.Ticker;
-import leaf.prod.walletsdk.model.common.TradeType;
-import leaf.prod.walletsdk.model.TradingPair;
+import leaf.prod.walletsdk.model.Market;
 import leaf.prod.walletsdk.model.Trend;
+import leaf.prod.walletsdk.model.common.TradeType;
 import leaf.prod.walletsdk.model.market.MarketInterval;
+import leaf.prod.walletsdk.model.market.MarketPair;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.StringUtils;
 
@@ -316,12 +316,12 @@ public class MarketDetailActivity extends BaseActivity {
     }
 
     private void updateTitleLabel() {
-        TradingPair pair = TradingPair.builder()
+        MarketPair pair = MarketPair.builder()
                 .tokenA(orderDataManager.getTokenA())
                 .tokenB(orderDataManager.getTokenB())
                 .description(orderDataManager.getTradePair())
                 .build();
-        Ticker ticker = priceDataManager.getTickerBy(pair);
+        Market ticker = priceDataManager.getTickerBy(pair);
         if (ticker.getChange().contains("↑")) {
             tvMarketBalance.setTextColor(getResources().getColor(R.color.colorRed));
         } else {

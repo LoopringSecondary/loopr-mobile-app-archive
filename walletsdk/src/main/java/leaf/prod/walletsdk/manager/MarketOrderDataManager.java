@@ -13,9 +13,9 @@ import android.content.Context;
 
 import org.web3j.utils.Numeric;
 
-import leaf.prod.walletsdk.model.order.OrderType;
-import leaf.prod.walletsdk.model.OriginOrder;
 import leaf.prod.walletsdk.model.common.TradeType;
+import leaf.prod.walletsdk.model.order.OrderType;
+import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.util.WalletUtil;
@@ -25,7 +25,7 @@ public class MarketOrderDataManager extends OrderDataManager {
 
     private TradeType type;
 
-    private OriginOrder order;
+    private RawOrder order;
 
     private String priceFromDepth;
 
@@ -51,7 +51,7 @@ public class MarketOrderDataManager extends OrderDataManager {
         return this.type;
     }
 
-    public OriginOrder getOrder() {
+    public RawOrder getOrder() {
         return order;
     }
 
@@ -83,8 +83,8 @@ public class MarketOrderDataManager extends OrderDataManager {
         this.priceFromDepth = priceFromDepth;
     }
 
-    public OriginOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {
-        OriginOrder originOrder = super.constructOrder(amountBuy, amountSell, validS, validU);
+    public RawOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {
+        RawOrder originOrder = super.constructOrder(amountBuy, amountSell, validS, validU);
         originOrder.setSide(type.name());
         originOrder.setOrderType(OrderType.MARKET);
         Double lrcFee = calculateLrcFee(originOrder);
@@ -95,7 +95,7 @@ public class MarketOrderDataManager extends OrderDataManager {
         return originOrder;
     }
 
-    private Double calculateLrcFee(OriginOrder order) {
+    private Double calculateLrcFee(RawOrder order) {
         GasDataManager gasManager = GasDataManager.getInstance(context);
         SettingDataManager settingManager = SettingDataManager.getInstance(context);
         MarketcapDataManager marketManager = MarketcapDataManager.getInstance(context);
@@ -113,7 +113,7 @@ public class MarketOrderDataManager extends OrderDataManager {
         return Numeric.toHexStringWithPrefix(valueInWei);
     }
 
-    private void checkLRCEnough(OriginOrder order) {
+    private void checkLRCEnough(RawOrder order) {
         Double lrcFrozen = getLRCFrozenFromServer();
         Double lrcBalance = token.getDoubleFromWei("LRC", balance.getAssetBySymbol("LRC").getBalance());
         Double result = lrcBalance - order.getLrc() - lrcFrozen;
@@ -122,7 +122,7 @@ public class MarketOrderDataManager extends OrderDataManager {
         }
     }
 
-    private void checkGasEnough(OriginOrder order, Boolean includingLRC) {
+    private void checkGasEnough(RawOrder order, Boolean includingLRC) {
         Double result;
         Double ethBalance = balance.getAssetBySymbol("ETH").getBalance().doubleValue();
         Double tokenGas = calculateGas(order.getTokenS(), order.getAmountSell(), order.getLrc());
@@ -137,7 +137,7 @@ public class MarketOrderDataManager extends OrderDataManager {
         }
     }
 
-    private void checkLRCGasEnough(OriginOrder order) {
+    private void checkLRCGasEnough(RawOrder order) {
         Double ethBalance = token.getDoubleFromWei("ETH", balance.getAssetBySymbol("ETH").getBalance());
         Double lrcGas = calculateGasForLRC(order);
         Double result = ethBalance - lrcGas;
@@ -174,7 +174,7 @@ public class MarketOrderDataManager extends OrderDataManager {
         return result;
     }
 
-    private Double calculateGasForLRC(OriginOrder order) {
+    private Double calculateGasForLRC(RawOrder order) {
         Double result;
         BalanceResult.Asset asset = balance.getAssetBySymbol("LRC");
         Double allowance = token.getDoubleFromWei("LRC", asset.getAllowance());
@@ -235,7 +235,7 @@ public class MarketOrderDataManager extends OrderDataManager {
     protected Observable<RelayResponseWrapper> submit() {
         Observable<RelayResponseWrapper> result = null;
         if (order != null) {
-            result = loopringService.submitOrder(order);
+            result = relayService.submitOrder(order);
         }
         return result;
     }

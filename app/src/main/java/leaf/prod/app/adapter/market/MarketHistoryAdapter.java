@@ -8,18 +8,18 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import leaf.prod.app.R;
-import leaf.prod.walletsdk.model.OrderFill;
+import leaf.prod.walletsdk.model.Fill;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 
-public class MarketHistoryAdapter extends BaseQuickAdapter<OrderFill, BaseViewHolder> {
+public class MarketHistoryAdapter extends BaseQuickAdapter<Fill, BaseViewHolder> {
 
-    public MarketHistoryAdapter(int layoutResId, @Nullable List<OrderFill> data) {
+    public MarketHistoryAdapter(int layoutResId, @Nullable List<Fill> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, OrderFill orderFill) {
+    protected void convert(BaseViewHolder helper, Fill orderFill) {
         if (orderFill == null)  { return; }
         helper.setText(R.id.tv_price, NumberUtils.format1(orderFill.getPrice(), 8));
         helper.setText(R.id.tv_amount, NumberUtils.format7(orderFill.getAmount(), 0, 2));

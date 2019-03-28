@@ -20,7 +20,7 @@ import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.market.MarketsType;
-import leaf.prod.walletsdk.model.Ticker;
+import leaf.prod.walletsdk.model.Market;
 
 public class MarketSelectFragment extends BaseFragment {
 
@@ -65,9 +65,9 @@ public class MarketSelectFragment extends BaseFragment {
         marketAdapter = new MarketSelectAdapter(R.layout.adapter_item_market_select, null);
         recyclerView.setAdapter(marketAdapter);
         marketAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Ticker ticker = getTickers().get(position);
-            marketManager.setTokenBuy(ticker.getTradingPair().getTokenB());
-            marketManager.setTokenSell(ticker.getTradingPair().getTokenA());
+            Market ticker = getTickers().get(position);
+            marketManager.setTokenBuy(ticker.getMarketPair().getTokenB());
+            marketManager.setTokenSell(ticker.getMarketPair().getTokenA());
             getActivity().finish();
             getOperation().forwardDown(MarketDetailActivity.class);
         });
@@ -89,8 +89,8 @@ public class MarketSelectFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    public List<Ticker> getTickers() {
-        List<Ticker> result = null;
+    public List<Market> getTickers() {
+        List<Market> result = null;
         MarketPriceDataManager manager = MarketPriceDataManager.getInstance(getContext());
         switch (this.marketsType) {
             case Favorite:
@@ -100,7 +100,7 @@ public class MarketSelectFragment extends BaseFragment {
             case LRC:
             case USDT:
             case TUSD:
-                result = manager.getTickerBy(this.marketsType.name());
+                result = manager.getMarketsBy(this.marketsType.name());
                 break;
         }
         return result;
@@ -110,7 +110,7 @@ public class MarketSelectFragment extends BaseFragment {
         updateAdapter(getTickers());
     }
 
-    public void updateAdapter(List<Ticker> tickers) {
+    public void updateAdapter(List<Market> tickers) {
         if (marketAdapter != null) {
             marketAdapter.setNewData(tickers);
             marketAdapter.notifyDataSetChanged();

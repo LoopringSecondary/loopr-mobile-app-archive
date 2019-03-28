@@ -34,7 +34,7 @@ import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.model.wallet.ImportWalletType;
 import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.model.wallet.eventbusData.PrivateKeyData;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.KeystoreUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
@@ -77,7 +77,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
 
     private String filename;//钱包名称
 
-    private LoopringService loopringService = new LoopringService();
+    private RelayService loopringService = new RelayService();
 
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {

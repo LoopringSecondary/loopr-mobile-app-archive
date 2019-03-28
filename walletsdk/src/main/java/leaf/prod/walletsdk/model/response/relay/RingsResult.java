@@ -17,12 +17,4 @@ public class RingsResult {
     private Long total;
 
     private List<Ring> rings;
-
-    public void convert() {
-        if (rings != null) {
-            for (Ring ring : rings) {
-                ring.convert();
-            }
-        }
-    }
 }

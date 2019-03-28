@@ -36,7 +36,7 @@ import leaf.prod.app.presenter.market.MarketSelectActivityPresenter;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.market.MarketsType;
-import leaf.prod.walletsdk.model.Ticker;
+import leaf.prod.walletsdk.model.Market;
 
 public class MarketSelectActivity extends BaseActivity {
 
@@ -64,9 +64,9 @@ public class MarketSelectActivity extends BaseActivity {
     @BindView(R.id.view_pager)
     public ViewPager viewPager;
 
-    private List<Ticker> list;
+    private List<Market> list;
 
-    private List<Ticker> listSearch = new ArrayList<>();
+    private List<Market> listSearch = new ArrayList<>();
 
     private boolean isFirstTime = true;
 
@@ -103,7 +103,7 @@ public class MarketSelectActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 listSearch.clear();
                 for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getTradingPair().getDescription().contains(s.toString().toUpperCase())) {
+                    if (list.get(i).getMarketPair().getDescription().contains(s.toString().toUpperCase())) {
                         listSearch.add(list.get(i));
                     }
                 }
@@ -159,7 +159,7 @@ public class MarketSelectActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        list = MarketPriceDataManager.getInstance(this).getAllTickers();
+        list = MarketPriceDataManager.getInstance(this).getAllMarkets();
     }
 
     @OnClick({R.id.left_btn1, R.id.cancel_text})

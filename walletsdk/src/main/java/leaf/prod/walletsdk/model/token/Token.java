@@ -6,6 +6,8 @@
  */
 package leaf.prod.walletsdk.model.token;
 
+import java.math.BigDecimal;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -23,6 +25,14 @@ public class Token {
 
     public String getSymbol() {
         return this.metadata.getSymbol();
+    }
+
+    public String getProtocol() {
+        return this.metadata.getAddress();
+    }
+
+    public BigDecimal getDecimals() {
+        return BigDecimal.valueOf(Math.pow(10, metadata.getDecimals()));
     }
 
     public Token convert() {

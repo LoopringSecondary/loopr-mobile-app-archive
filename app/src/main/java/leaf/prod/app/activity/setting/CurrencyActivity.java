@@ -17,7 +17,7 @@ import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.model.common.Currency;
 import leaf.prod.walletsdk.model.wallet.WalletEntity;
-import leaf.prod.walletsdk.service.LoopringService;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
@@ -44,7 +44,7 @@ public class CurrencyActivity extends BaseActivity {
     @BindView(R.id.cl_loading)
     ConstraintLayout clLoading;
 
-    private LoopringService loopringService;
+    private RelayService loopringService;
 
     private MarketcapDataManager marketcapDataManager;
 
@@ -80,7 +80,7 @@ public class CurrencyActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        loopringService = new LoopringService();
+        loopringService = new RelayService();
         marketcapDataManager = MarketcapDataManager.getInstance(this);
     }
 

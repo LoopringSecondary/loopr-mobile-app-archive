@@ -15,12 +15,4 @@ import lombok.Data;
 public class TokensResult {
 
     private List<Token> tokens;
-
-    public void convert() {
-        if (tokens != null) {
-            for (Token token : tokens) {
-                token.convert();
-            }
-        }
-    }
 }

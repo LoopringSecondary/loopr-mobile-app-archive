@@ -15,12 +15,4 @@ import lombok.Data;
 public class MarketsResult {
 
     private List<Market> markets;
-
-    public void convert() {
-        if (markets != null) {
-            for (Market market : markets) {
-                market.convert();
-            }
-        }
-    }
 }

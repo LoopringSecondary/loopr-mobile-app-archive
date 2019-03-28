@@ -22,8 +22,8 @@ import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.presenter.market.MarketFragmentPresenter;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
+import leaf.prod.walletsdk.model.market.Market;
 import leaf.prod.walletsdk.model.market.MarketsType;
-import leaf.prod.walletsdk.model.Ticker;
 
 public class MarketsFragment extends BaseFragment {
 
@@ -75,9 +75,9 @@ public class MarketsFragment extends BaseFragment {
         marketAdapter = new MarketsAdapter(R.layout.adapter_item_markets, null, this);
         recyclerView.setAdapter(marketAdapter);
         marketAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Ticker ticker = getTickers().get(position);
-            orderManager.setTokenSell(ticker.getTradingPair().getTokenA());
-            orderManager.setTokenBuy(ticker.getTradingPair().getTokenB());
+            Market market = getTickers().get(position);
+            orderManager.setTokenSell(market.getBaseSymbol());
+            orderManager.setTokenBuy(market.getQuoteSymbol());
             getOperation().forward(MarketDetailActivity.class);
         });
     }
@@ -98,8 +98,8 @@ public class MarketsFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    public List<Ticker> getTickers() {
-        List<Ticker> result = null;
+    public List<Market> getTickers() {
+        List<Market> result = null;
         MarketPriceDataManager manager = MarketPriceDataManager.getInstance(getContext());
         switch (this.marketsType) {
             case Favorite:
@@ -109,7 +109,7 @@ public class MarketsFragment extends BaseFragment {
             case LRC:
             case USDT:
             case TUSD:
-                result = manager.getTickerBy(this.marketsType.name());
+                result = manager.getMarketsBy(this.marketsType.name());
                 break;
         }
         return result;
@@ -119,7 +119,7 @@ public class MarketsFragment extends BaseFragment {
         updateAdapter(getTickers());
     }
 
-    public void updateAdapter(List<Ticker> tickers) {
+    public void updateAdapter(List<Market> tickers) {
         if (marketAdapter != null) {
             marketAdapter.setNewData(tickers);
             marketAdapter.notifyDataSetChanged();

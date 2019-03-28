@@ -118,7 +118,7 @@ public class MarketRecordsActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 searchList.clear();
                 for (RawOrder rawOrder : rawOrderList) {
-                    if (rawOrder.getOriginOrder().getMarket().contains(s.toString().toUpperCase())) {
+                    if (rawOrder.getMarket().contains(s.toString().toUpperCase())) {
                         searchList.add(rawOrder);
                     }
                 }
@@ -193,7 +193,7 @@ public class MarketRecordsActivity extends BaseActivity {
 
     public void refreshOrders(int page) {
         currentPageIndex = page == 0 ? currentPageIndex : page;
-        marketManager.getLoopringService()
+        marketManager.getRelayService()
                 .getOrders(WalletUtil.getCurrentAddress(this), OrderType.MARKET.getDescription(), currentPageIndex, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

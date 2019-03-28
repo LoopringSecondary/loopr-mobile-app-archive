@@ -32,8 +32,9 @@ public class Fee {
 
     private String walletSplitPercentage;
 
-    public void convert() {
+    public Fee convert() {
         this.feeAmountSDouble = !StringUtils.isEmpty(feeAmountS) ? Numeric.toBigInt(feeAmountS).doubleValue() : 0;
         this.feeAmountBDouble = !StringUtils.isEmpty(feeAmountB) ? Numeric.toBigInt(feeAmountB).doubleValue() : 0;
+        return this;
     }
 }
