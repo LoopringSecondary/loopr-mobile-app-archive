@@ -2,7 +2,7 @@ package leaf.prod.walletsdk.model.response.relay;
 
 import java.util.List;
 
-import leaf.prod.walletsdk.model.Fill;
+import leaf.prod.walletsdk.model.order.Fill;
 import lombok.Data;
 
 /**

@@ -50,7 +50,7 @@ import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.presenter.wallet.MainFragmentPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.QRCodeUitl;
-import leaf.prod.walletsdk.model.QRCodeType;
+import leaf.prod.walletsdk.model.common.QRCodeType;
 import leaf.prod.walletsdk.util.SPUtils;
 
 public class MainWalletFragment extends BaseFragment {

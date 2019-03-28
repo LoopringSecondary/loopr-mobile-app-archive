@@ -11,12 +11,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import leaf.prod.walletsdk.model.Contact;
+import leaf.prod.walletsdk.model.wallet.Contact;
 import leaf.prod.walletsdk.model.common.Currency;
-import leaf.prod.walletsdk.model.Language;
-import leaf.prod.walletsdk.model.LoginUser;
+import leaf.prod.walletsdk.model.setting.Language;
+import leaf.prod.walletsdk.model.setting.LoginUser;
 import leaf.prod.walletsdk.model.TradingPair;
-import leaf.prod.walletsdk.model.UserConfig;
+import leaf.prod.walletsdk.model.setting.UserConfig;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.service.AppService;
 import leaf.prod.walletsdk.util.CurrencyUtil;

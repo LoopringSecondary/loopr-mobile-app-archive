@@ -10,7 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import leaf.prod.app.R;
 import leaf.prod.app.fragment.market.MarketsFragment;
 import leaf.prod.walletsdk.manager.LoginDataManager;
-import leaf.prod.walletsdk.model.MarketsType;
+import leaf.prod.walletsdk.model.market.MarketsType;
 import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.TradingPair;
 import leaf.prod.walletsdk.util.NumberUtils;

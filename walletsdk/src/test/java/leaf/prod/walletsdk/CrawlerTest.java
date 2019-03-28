@@ -9,12 +9,7 @@ package leaf.prod.walletsdk;
 import org.junit.Before;
 import org.junit.Test;
 
-import leaf.prod.walletsdk.model.Language;
-import leaf.prod.walletsdk.model.NewsCategory;
-import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import leaf.prod.walletsdk.service.CrawlerService;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 public class CrawlerTest {
 

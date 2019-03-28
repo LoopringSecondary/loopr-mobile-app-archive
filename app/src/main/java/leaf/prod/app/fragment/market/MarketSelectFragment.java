@@ -19,7 +19,7 @@ import leaf.prod.app.adapter.market.MarketSelectAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
-import leaf.prod.walletsdk.model.MarketsType;
+import leaf.prod.walletsdk.model.market.MarketsType;
 import leaf.prod.walletsdk.model.Ticker;
 
 public class MarketSelectFragment extends BaseFragment {

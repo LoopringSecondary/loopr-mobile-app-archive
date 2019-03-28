@@ -30,7 +30,7 @@ import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.RecyclerViewBugLayoutManager;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.util.WalletUtil;
 

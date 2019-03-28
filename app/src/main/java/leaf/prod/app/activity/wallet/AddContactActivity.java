@@ -28,8 +28,8 @@ import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.utils.QRCodeUitl;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.LoginDataManager;
-import leaf.prod.walletsdk.model.Contact;
-import leaf.prod.walletsdk.model.QRCodeType;
+import leaf.prod.walletsdk.model.wallet.Contact;
+import leaf.prod.walletsdk.model.common.QRCodeType;
 import leaf.prod.walletsdk.util.ChineseCharUtil;
 import leaf.prod.walletsdk.util.StringUtils;
 

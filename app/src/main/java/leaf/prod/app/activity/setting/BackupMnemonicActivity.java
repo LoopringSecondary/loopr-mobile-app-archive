@@ -26,7 +26,7 @@ import leaf.prod.app.activity.wallet.MainActivity;
 import leaf.prod.app.adapter.setupwallet.MnemonicWordAdapter;
 import leaf.prod.app.views.SpacesItemDecoration;
 import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.util.WalletUtil;
 
 public class BackupMnemonicActivity extends BaseActivity {

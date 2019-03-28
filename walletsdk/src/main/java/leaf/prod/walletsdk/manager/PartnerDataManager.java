@@ -9,7 +9,7 @@ package leaf.prod.walletsdk.manager;
 import android.content.Context;
 
 import leaf.prod.walletsdk.util.WalletUtil;
-import leaf.prod.walletsdk.model.Partner;
+import leaf.prod.walletsdk.model.setting.Partner;
 import leaf.prod.walletsdk.service.LoopringService;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

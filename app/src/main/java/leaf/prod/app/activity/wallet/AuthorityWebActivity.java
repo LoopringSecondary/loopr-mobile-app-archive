@@ -13,7 +13,7 @@ import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.presenter.wallet.AuthorityWebPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.walletsdk.model.QRCodeType;
+import leaf.prod.walletsdk.model.common.QRCodeType;
 import leaf.prod.walletsdk.util.WalletUtil;
 
 public class AuthorityWebActivity extends BaseActivity {

@@ -15,7 +15,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import leaf.prod.walletsdk.model.QRCodeType;
+import leaf.prod.walletsdk.model.common.QRCodeType;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class QRCodeUitl {

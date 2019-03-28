@@ -11,7 +11,7 @@ import java.util.TimeZone;
 
 import android.util.Log;
 
-import leaf.prod.walletsdk.model.Language;
+import leaf.prod.walletsdk.model.setting.Language;
 
 /**
  * 主要功能:

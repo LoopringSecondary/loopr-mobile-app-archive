@@ -23,8 +23,8 @@ import leaf.prod.app.activity.DefaultWebViewActivity;
 import leaf.prod.app.activity.wallet.MainActivity;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.PartnerDataManager;
-import leaf.prod.walletsdk.model.WalletEntity;
-import leaf.prod.walletsdk.model.eventbusData.NameChangeData;
+import leaf.prod.walletsdk.model.wallet.WalletEntity;
+import leaf.prod.walletsdk.model.wallet.eventbusData.NameChangeData;
 import leaf.prod.walletsdk.util.WalletUtil;
 
 public class WalletSafeActivity extends BaseActivity {

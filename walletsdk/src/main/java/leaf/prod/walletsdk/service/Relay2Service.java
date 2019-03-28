@@ -4,7 +4,7 @@ import java.util.List;
 
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
-import leaf.prod.walletsdk.model.IntervalType;
+import leaf.prod.walletsdk.model.market.MarketInterval;
 import leaf.prod.walletsdk.model.common.Currency;
 import leaf.prod.walletsdk.model.common.Paging;
 import leaf.prod.walletsdk.model.common.Sort;
@@ -142,6 +142,7 @@ public class Relay2Service {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
+    // OrderFill
     public Observable<FillsResult> getMarketFills(String baseToken, String quoteToken) {
         MarketPair pair = MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build();
         RequestWrapper request = new RequestWrapper("get_market_fills", pair);
@@ -149,6 +150,7 @@ public class Relay2Service {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
+    // OrderDepth
     public Observable<OrderBookResult> getOrderBook(int level, int size, String baseToken, String quoteToken) {
         OrderBookParam param = OrderBookParam.builder()
                 .level(level)
@@ -178,7 +180,7 @@ public class Relay2Service {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    public Observable<MarketHistoryResult> getMarketHistory(MarketPair marketPair, IntervalType interval, Long beginTime, Long endTime) {
+    public Observable<MarketHistoryResult> getMarketHistory(MarketPair marketPair, MarketInterval interval, Long beginTime, Long endTime) {
         MarketHistoryParam param = MarketHistoryParam.builder()
                 .marketPair(marketPair)
                 .interval(interval)

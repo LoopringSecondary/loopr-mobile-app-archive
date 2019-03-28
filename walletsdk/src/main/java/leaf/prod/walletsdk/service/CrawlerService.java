@@ -8,10 +8,10 @@ package leaf.prod.walletsdk.service;
 
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
-import leaf.prod.walletsdk.model.IndexAction;
-import leaf.prod.walletsdk.model.IndexType;
-import leaf.prod.walletsdk.model.Language;
-import leaf.prod.walletsdk.model.NewsCategory;
+import leaf.prod.walletsdk.model.news.IndexAction;
+import leaf.prod.walletsdk.model.news.IndexType;
+import leaf.prod.walletsdk.model.setting.Language;
+import leaf.prod.walletsdk.model.news.NewsCategory;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.crawlerParam.IndexParam;
 import leaf.prod.walletsdk.model.request.crawlerParam.NewsParam;

@@ -12,8 +12,8 @@ import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.LoginDataManager;
-import leaf.prod.walletsdk.model.Language;
-import leaf.prod.walletsdk.model.UserConfig;
+import leaf.prod.walletsdk.model.setting.Language;
+import leaf.prod.walletsdk.model.setting.UserConfig;
 import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.SPUtils;
 

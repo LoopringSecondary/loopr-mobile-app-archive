@@ -13,7 +13,7 @@ import android.content.Context;
 
 import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.model.common.Currency;
-import leaf.prod.walletsdk.model.UserConfig;
+import leaf.prod.walletsdk.model.setting.UserConfig;
 
 public class CurrencyUtil {
 

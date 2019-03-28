@@ -32,9 +32,9 @@ import leaf.prod.app.presenter.wallet.ContactListPresenter;
 import leaf.prod.app.views.RecyclerViewBugLayoutManager;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.LoginDataManager;
-import leaf.prod.walletsdk.model.Contact;
-import leaf.prod.walletsdk.model.NoDataType;
-import leaf.prod.walletsdk.model.UserConfig;
+import leaf.prod.walletsdk.model.wallet.Contact;
+import leaf.prod.walletsdk.model.common.NoDataType;
+import leaf.prod.walletsdk.model.setting.UserConfig;
 
 public class ContactListActivity extends BaseActivity {
 

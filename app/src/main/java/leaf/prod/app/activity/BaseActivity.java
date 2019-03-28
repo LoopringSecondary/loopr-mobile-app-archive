@@ -36,7 +36,7 @@ import leaf.prod.app.view.Operation;
 import leaf.prod.app.views.swipeback.SwipeBackActivity;
 import leaf.prod.app.views.swipeback.SwipeBackLayout;
 import leaf.prod.walletsdk.manager.LoginDataManager;
-import leaf.prod.walletsdk.model.Network;
+import leaf.prod.walletsdk.model.common.Network;
 
 public abstract class BaseActivity extends SwipeBackActivity {
 

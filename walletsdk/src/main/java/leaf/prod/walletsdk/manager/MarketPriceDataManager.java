@@ -13,13 +13,13 @@ import android.content.Context;
 import org.apache.commons.lang3.ArrayUtils;
 
 import leaf.prod.walletsdk.model.Depth;
-import leaf.prod.walletsdk.model.Language;
+import leaf.prod.walletsdk.model.setting.Language;
 import leaf.prod.walletsdk.model.OrderFill;
 import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.TradingPair;
 import leaf.prod.walletsdk.model.Trend;
-import leaf.prod.walletsdk.model.TrendInterval;
-import leaf.prod.walletsdk.model.UserConfig;
+import leaf.prod.walletsdk.model.market.MarketInterval;
+import leaf.prod.walletsdk.model.setting.UserConfig;
 import leaf.prod.walletsdk.service.LoopringService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
@@ -37,7 +37,7 @@ public class MarketPriceDataManager {
 
     private List<Ticker> filteredTickers;
 
-    private Map<TrendInterval, List<Trend>> trendMap;
+    private Map<MarketInterval, List<Trend>> trendMap;
 
     private Depth depth;
 
@@ -176,14 +176,14 @@ public class MarketPriceDataManager {
             getTrendRange(trend);
             trendList.add(trend);
         }
-        TrendInterval interval = TrendInterval.getInterval(trends.get(0).getIntervals());
+        MarketInterval interval = MarketInterval.getInterval(trends.get(0).getIntervals());
         Collections.sort(trendList, (o1, o2) -> (int) (o1.getCreateTime() - o2.getCreateTime()));
         trendMap.put(interval, trendList);
     }
 
     private void getTrendRange(Trend trend) {
         String start = "", end = "";
-        TrendInterval interval = TrendInterval.getInterval(trend.getIntervals());
+        MarketInterval interval = MarketInterval.getInterval(trend.getIntervals());
         switch (interval) {
             case ONE_HOUR:
             case TWO_HOURS:
@@ -235,7 +235,7 @@ public class MarketPriceDataManager {
         }
     }
 
-    public List<Trend> getTrendMap(TrendInterval interval) {
+    public List<Trend> getTrendMap(MarketInterval interval) {
         return trendMap.get(interval);
     }
 

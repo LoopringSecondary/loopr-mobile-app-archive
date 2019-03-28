@@ -27,7 +27,7 @@ import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.NoDataType;
+import leaf.prod.walletsdk.model.common.NoDataType;
 import leaf.prod.walletsdk.model.common.TradeType;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.token.Token;

@@ -23,9 +23,9 @@ import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
-import leaf.prod.walletsdk.model.ImportWalletType;
+import leaf.prod.walletsdk.model.wallet.ImportWalletType;
 import leaf.prod.walletsdk.model.RandomWallet;
-import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.model.wallet.WalletEntity;
 
 public class WalletUtil {
 

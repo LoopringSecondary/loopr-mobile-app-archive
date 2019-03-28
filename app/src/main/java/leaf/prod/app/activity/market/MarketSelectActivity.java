@@ -35,7 +35,7 @@ import leaf.prod.app.fragment.market.MarketSelectFragment;
 import leaf.prod.app.presenter.market.MarketSelectActivityPresenter;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
-import leaf.prod.walletsdk.model.MarketsType;
+import leaf.prod.walletsdk.model.market.MarketsType;
 import leaf.prod.walletsdk.model.Ticker;
 
 public class MarketSelectActivity extends BaseActivity {

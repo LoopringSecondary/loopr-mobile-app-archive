@@ -2,7 +2,7 @@ package leaf.prod.walletsdk.model.response.relay;
 
 import java.util.List;
 
-import leaf.prod.walletsdk.model.Ring;
+import leaf.prod.walletsdk.model.order.Ring;
 import lombok.Data;
 
 /**

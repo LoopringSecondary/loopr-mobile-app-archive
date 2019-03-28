@@ -30,7 +30,7 @@ import leaf.prod.app.presenter.wallet.SendPresenter;
 import leaf.prod.app.utils.ButtonClickUtil;
 import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.model.QRCodeType;
+import leaf.prod.walletsdk.model.common.QRCodeType;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class SendActivity extends BaseActivity {

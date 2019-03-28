@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import leaf.prod.app.R;
-import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.util.WalletUtil;
 
 /**

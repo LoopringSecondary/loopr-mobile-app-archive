@@ -15,13 +15,13 @@ import leaf.prod.walletsdk.model.Depth;
 import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.OrderFill;
 import leaf.prod.walletsdk.model.order.OrderStatus;
-import leaf.prod.walletsdk.model.OrderType;
+import leaf.prod.walletsdk.model.order.OrderType;
 import leaf.prod.walletsdk.model.OriginOrder;
-import leaf.prod.walletsdk.model.Partner;
+import leaf.prod.walletsdk.model.setting.Partner;
 import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.TickerSource;
 import leaf.prod.walletsdk.model.Trend;
-import leaf.prod.walletsdk.model.TrendInterval;
+import leaf.prod.walletsdk.model.market.MarketInterval;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.relayParam.AddTokenParam;
 import leaf.prod.walletsdk.model.request.relayParam.BalanceParam;
@@ -211,7 +211,7 @@ public class LoopringService {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    public Observable<List<Trend>> getTrend(String market, TrendInterval interval) {
+    public Observable<List<Trend>> getTrend(String market, MarketInterval interval) {
         GetTrendsParam param = GetTrendsParam.builder()
                 .market(market)
                 .interval(interval.getDescription())

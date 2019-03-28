@@ -1,6 +1,6 @@
 package leaf.prod.walletsdk.model.request.relayParam;
 
-import leaf.prod.walletsdk.model.IntervalType;
+import leaf.prod.walletsdk.model.market.MarketInterval;
 import leaf.prod.walletsdk.model.market.MarketPair;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class MarketHistoryParam {
 
     private MarketPair marketPair;
 
-    private IntervalType interval;
+    private MarketInterval interval;
 
     private long beginTime;
 

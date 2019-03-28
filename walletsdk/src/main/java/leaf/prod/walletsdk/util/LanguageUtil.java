@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import leaf.prod.walletsdk.manager.LoginDataManager;
-import leaf.prod.walletsdk.model.Language;
+import leaf.prod.walletsdk.model.setting.Language;
 
 /**
  * 标题:    LanguageUtil

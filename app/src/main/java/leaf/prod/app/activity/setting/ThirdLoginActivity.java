@@ -21,7 +21,7 @@ import leaf.prod.app.activity.wallet.MainActivity;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.PermissionUtils;
 import leaf.prod.walletsdk.manager.LoginDataManager;
-import leaf.prod.walletsdk.model.LoginUser;
+import leaf.prod.walletsdk.model.setting.LoginUser;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.util.WalletUtil;
 import retrofit2.Call;

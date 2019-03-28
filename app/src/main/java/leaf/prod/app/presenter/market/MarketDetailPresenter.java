@@ -17,7 +17,7 @@ import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.Depth;
 import leaf.prod.walletsdk.model.OrderFill;
 import leaf.prod.walletsdk.model.Trend;
-import leaf.prod.walletsdk.model.TrendInterval;
+import leaf.prod.walletsdk.model.market.MarketInterval;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -38,7 +38,7 @@ public class MarketDetailPresenter extends BasePresenter<MarketDetailActivity> {
     }
 
     private void getTrend() {
-        for (TrendInterval interval : TrendInterval.values()) {
+        for (MarketInterval interval : MarketInterval.values()) {
             marketManager.getLoopringService().getTrend(market, interval)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

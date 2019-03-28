@@ -25,7 +25,7 @@ import leaf.prod.app.activity.wallet.MainActivity;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.DialogUtil;
 import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.util.WalletUtil;
 
 public class SetWalletNameActivity extends BaseActivity {

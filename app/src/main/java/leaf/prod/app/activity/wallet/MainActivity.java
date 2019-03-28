@@ -31,7 +31,7 @@ import leaf.prod.app.fragment.trade.TradeFragment;
 import leaf.prod.app.fragment.wallet.MainFragment;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.utils.UpgradeUtil;
-import leaf.prod.walletsdk.model.Language;
+import leaf.prod.walletsdk.model.setting.Language;
 import leaf.prod.walletsdk.util.LanguageUtil;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.WalletUtil;

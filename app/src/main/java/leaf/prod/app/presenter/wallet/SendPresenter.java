@@ -47,7 +47,7 @@ import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.manager.TransactionDataManager;
-import leaf.prod.walletsdk.model.Contact;
+import leaf.prod.walletsdk.model.wallet.Contact;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.util.CredentialsUtils;

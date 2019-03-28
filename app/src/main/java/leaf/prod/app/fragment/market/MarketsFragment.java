@@ -22,7 +22,7 @@ import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.presenter.market.MarketFragmentPresenter;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
-import leaf.prod.walletsdk.model.MarketsType;
+import leaf.prod.walletsdk.model.market.MarketsType;
 import leaf.prod.walletsdk.model.Ticker;
 
 public class MarketsFragment extends BaseFragment {

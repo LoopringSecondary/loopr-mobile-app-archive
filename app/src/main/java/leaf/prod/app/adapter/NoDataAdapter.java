@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import leaf.prod.app.R;
-import leaf.prod.walletsdk.model.NoDataType;
+import leaf.prod.walletsdk.model.common.NoDataType;
 
 public class NoDataAdapter extends BaseQuickAdapter<Object, BaseViewHolder> {
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import leaf.prod.walletsdk.model.Network;
+import leaf.prod.walletsdk.model.common.Network;
 
 public class NetworkUtil {
 

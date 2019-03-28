@@ -21,7 +21,7 @@ import leaf.prod.app.activity.wallet.ActivityScanerCode;
 import leaf.prod.app.presenter.trade.P2PPresenter;
 import leaf.prod.app.utils.QRCodeUitl;
 import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.model.QRCodeType;
+import leaf.prod.walletsdk.model.common.QRCodeType;
 
 public class P2PActivity extends BaseActivity {
 

@@ -32,7 +32,7 @@ import leaf.prod.app.activity.wallet.MainActivity;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.model.CancelOrder;
-import leaf.prod.walletsdk.model.QRCodeType;
+import leaf.prod.walletsdk.model.common.QRCodeType;
 import leaf.prod.walletsdk.model.ScanWebQRCode;
 import leaf.prod.walletsdk.model.SignStatus;
 import leaf.prod.walletsdk.model.request.relayParam.NotifyScanParam;

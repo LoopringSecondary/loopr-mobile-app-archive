@@ -13,7 +13,7 @@ import butterknife.OnClick;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.BaseActivity;
 import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.model.WalletEntity;
+import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.util.WalletUtil;
 
 public class ExportMatchPasSafeActivity extends BaseActivity {

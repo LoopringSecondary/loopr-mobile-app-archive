@@ -26,8 +26,8 @@ import leaf.prod.app.fragment.setupwallet.ImportMnemonicFragment;
 import leaf.prod.app.fragment.setupwallet.ImportPrivateKeyFragment;
 import leaf.prod.app.utils.AppManager;
 import leaf.prod.app.views.TitleView;
-import leaf.prod.walletsdk.model.QRCodeType;
-import leaf.prod.walletsdk.model.eventbusData.KeystoreData;
+import leaf.prod.walletsdk.model.common.QRCodeType;
+import leaf.prod.walletsdk.model.wallet.eventbusData.KeystoreData;
 import leaf.prod.walletsdk.util.StringUtils;
 
 public class ImportWalletActivity extends BaseActivity {

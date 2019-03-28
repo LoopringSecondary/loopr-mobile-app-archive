@@ -12,7 +12,7 @@ import com.vondear.rxtool.RxDataTool;
 import leaf.prod.app.R;
 import leaf.prod.app.activity.wallet.AddContactActivity;
 import leaf.prod.app.activity.wallet.ContactListActivity;
-import leaf.prod.walletsdk.model.Contact;
+import leaf.prod.walletsdk.model.wallet.Contact;
 import leaf.prod.walletsdk.util.ChineseCharUtil;
 
 public class ContactListAdapter extends BaseQuickAdapter<Contact, BaseViewHolder> {

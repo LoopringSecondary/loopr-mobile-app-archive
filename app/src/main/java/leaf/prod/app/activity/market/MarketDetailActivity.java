@@ -51,7 +51,7 @@ import leaf.prod.walletsdk.model.Ticker;
 import leaf.prod.walletsdk.model.common.TradeType;
 import leaf.prod.walletsdk.model.TradingPair;
 import leaf.prod.walletsdk.model.Trend;
-import leaf.prod.walletsdk.model.TrendInterval;
+import leaf.prod.walletsdk.model.market.MarketInterval;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.StringUtils;
 
@@ -140,7 +140,7 @@ public class MarketDetailActivity extends BaseActivity {
 
     private MarketPriceDataManager priceDataManager;
 
-    private TrendInterval interval = TrendInterval.ONE_DAY;
+    private MarketInterval interval = MarketInterval.ONE_DAY;
 
     private final static int REQUEST_MARKET_CODE = 1;
 
@@ -256,7 +256,7 @@ public class MarketDetailActivity extends BaseActivity {
                 Button button1 = (Button) v;
                 button1.getPaint().setFakeBoldText(true);
                 button1.setTextColor(getResources().getColor(R.color.colorWhite));
-                interval = TrendInterval.getByName(button1.getText().toString());
+                interval = MarketInterval.getByName(button1.getText().toString());
                 updateKLineChart();
                 updateBarChart();
             });

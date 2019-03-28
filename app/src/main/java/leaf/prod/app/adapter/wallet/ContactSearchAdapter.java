@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import leaf.prod.app.R;
-import leaf.prod.walletsdk.model.Contact;
+import leaf.prod.walletsdk.model.wallet.Contact;
 
 public class ContactSearchAdapter extends BaseQuickAdapter<Contact, BaseViewHolder> {
 

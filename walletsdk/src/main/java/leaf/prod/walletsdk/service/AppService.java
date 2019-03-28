@@ -10,7 +10,7 @@ import com.google.gson.JsonObject;
 
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
-import leaf.prod.walletsdk.model.LoginUser;
+import leaf.prod.walletsdk.model.setting.LoginUser;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.model.response.app.VersionResp;
 import retrofit2.Callback;
