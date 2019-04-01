@@ -10,3 +10,6 @@
 - Chat
 - QR code
 - Some setting page
+
+### How to add a view
+[Navigate with named routes](https://flutter.dev/docs/cookbook/navigation/named-routes)
