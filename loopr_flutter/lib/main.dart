@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'MyHomePage.dart';
+import 'QRCodeApp.dart';
 
 void main() => runApp(MyApp());
 
 // https://github.com/flutter/flutter/issues/22356
 @pragma('vm:entry-point')
 void second() => runApp(SecondApp());
+
+@pragma('vm:entry-point')
+void qrCode() => runApp(QRCodeApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
