@@ -39,11 +39,42 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getBatteryLevel();
+    // _getBatteryLevel();
+  }
+
+  Future<void> _hello() async {
+    print("_hello");
+    String qrCodeData;
+    try {
+      MethodChannel channel = const MethodChannel('upwallet/hello');
+      final response = await channel.invokeMethod("loopring", []);
+      String body = response;
+      qrCodeData = '$body';
+    } on PlatformException catch (e) {
+      print("PlatformException... $e");
+      qrCodeData = "";
+    }
+
+    print("looks good");
+
+    setState(() {
+      _qrCodeData = qrCodeData;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    // _getBatteryLevel();
+    MethodChannel channel = const MethodChannel('upwallet/hello');
+    final response = channel.invokeMethod("loopring", []);
+    if (_qrCodeData == "") {
+      _hello();
+    }
+    // This will be printed on the console log.
+    print(response);
+    // _qrCodeData = response;
+    
     print("hello world");
     print(widget.title);
   
