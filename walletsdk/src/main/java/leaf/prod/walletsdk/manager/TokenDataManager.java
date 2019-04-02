@@ -41,7 +41,7 @@ public class TokenDataManager {
 
     private Observable<List<Token>> tokenObservable;
 
-    private RelayService loopringService = new RelayService();
+    private RelayService relayService = new RelayService();
 
     private TokenDataManager(Context context) {
         this.context = context;
@@ -81,7 +81,7 @@ public class TokenDataManager {
     private void loadTokensFromRelay() {
         String owner = WalletUtil.getCurrentAddress(context);
         if (this.tokenObservable == null) {
-            this.tokenObservable = loopringService
+            this.tokenObservable = relayService
                     .getCustomToken(owner)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());

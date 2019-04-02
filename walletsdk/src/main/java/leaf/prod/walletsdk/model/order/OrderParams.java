@@ -8,6 +8,7 @@ package leaf.prod.walletsdk.model.order;
 
 import java.io.Serializable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Builder;
@@ -35,4 +36,12 @@ public class OrderParams implements Serializable {
     // int value e.g. 1548422323
     @SerializedName("validUntil")
     private Integer validUntil;
+
+    // true -- 一次被吃完  false -- 不必
+    @Expose(deserialize = false)
+    @SerializedName("allOrNone")
+    private Boolean allOrNone;
+
+    @Expose(deserialize = false)
+    private String sig;
 }

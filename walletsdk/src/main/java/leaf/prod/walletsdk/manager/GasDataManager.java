@@ -85,7 +85,7 @@ public class GasDataManager {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(result -> {
-                        BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(result));
+                        BigInteger bigInteger = Numeric.toBigInt(Numeric.cleanHexPrefix(result.getGasPrice()));
                         return new BigDecimal(bigInteger);
                     });
         }

@@ -13,7 +13,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.common.Amount;
 import lombok.Builder;
 import lombok.Data;
 
@@ -31,11 +30,14 @@ public class FeeParams implements Serializable {
 
     // big integer hex string e.g. "0x34f07768a92a83d00000"
     @SerializedName(value = "amountFee")
-    private Amount amountFee;
+    private String amountFee;
 
     // double value e.g. 0.02
     @Expose(serialize = false, deserialize = false)
     private Double amountF;
+
+    @SerializedName(value = "tokenBFeePercentage")
+    private String tokenRecipient;
 
     @SerializedName(value = "tokenBFeePercentage")
     private Integer tokenBFeePercentage;
@@ -48,7 +50,7 @@ public class FeeParams implements Serializable {
 
     public FeeParams convert() {
         this.tokenF = TokenDataManager.getTokenWithProtocol(tokenFee).getSymbol();
-        this.amountF = TokenDataManager.getDouble(tokenF, Numeric.toBigInt(amountFee.getValue()).toString());
+        this.amountF = TokenDataManager.getDouble(tokenF, Numeric.toBigInt(amountFee).toString());
         return this;
     }
 }

@@ -27,6 +27,8 @@ import leaf.prod.walletsdk.Erc20TransactionManager;
 import leaf.prod.walletsdk.R;
 import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.model.RandomWallet;
+import leaf.prod.walletsdk.model.order.FeeParams;
+import leaf.prod.walletsdk.model.order.OrderParams;
 import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.response.RelayError;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
@@ -79,25 +81,44 @@ public abstract class OrderDataManager {
         this.balance = BalanceDataManager.getInstance(context);
     }
 
-    public RawOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {
+    public RawOrder constructOrder(Double amountBuy, Double amountSell, Integer validSince, Integer validUntil) {
         RawOrder order = null;
         try {
-            String tokenBuy = token.getTokenBySymbol(getTokenBuy()).getProtocol();
-            String tokenSell = token.getTokenBySymbol(getTokenSell()).getProtocol();
-            String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(getTokenBuy(), amountBuy));
-            String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(getTokenSell(), amountSell));
-            String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
-            String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
+            String tokenB = token.getTokenBySymbol(tokenBuy).getProtocol();
+            String tokenS = token.getTokenBySymbol(tokenSell).getProtocol();
+            String tokenFee = token.getTokenBySymbol("LRC").getProtocol();
+            String amountB = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenBuy, amountBuy));
+            String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenSell, amountSell));
+            String owner = WalletUtil.getCurrentAddress(context);
             RandomWallet randomWallet = WalletUtil.getRandomWallet();
+
+            OrderParams orderParams = OrderParams.builder()
+                    .sig("")
+                    .allOrNone(false)
+                    .validUntil(validUntil)
+                    .dualAuthAddr(randomWallet.getAddress())
+                    .dualAuthPrivateKey(randomWallet.getPrivateKey())
+                    .wallet(PartnerDataManager.getInstance(context).getWalletAddress())
+                    .build();
+
+            FeeParams feeParams = FeeParams.builder()
+                    .tokenFee(tokenFee)
+                    .amountFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
+                    .tokenRecipient(owner)
+                    .tokenSFeePercentage(0)
+                    .tokenBFeePercentage(0)
+                    .walletSplitPercentage(50)
+                    .build();
+
             order = RawOrder.builder()
-                    .owner(WalletUtil.getCurrentAddress(context)).market(tradePair)
-                    .tokenS(getTokenSell()).tokenSell(tokenSell).tokenB(getTokenBuy()).tokenBuy(tokenBuy)
-                    .amountS(amountS).amountSell(amountSell).amountB(amountB).amountBuy(amountBuy)
-                    .validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
-                    .lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
-                    .walletAddress(PartnerDataManager.getInstance(context).getWalletAddress())
-                    .authAddr(randomWallet.getAddress()).authPrivateKey(randomWallet.getPrivateKey())
-                    .buyNoMoreThanAmountB(false).marginSplitPercentage("0x32").margin(50).powNonce(1)
+                    .owner(owner).version(0)
+                    .tokenB(tokenB).tokenBuy(tokenBuy)
+                    .tokenS(tokenS).tokenSell(tokenSell)
+                    .amountB(amountB).amountBuy(amountBuy)
+                    .amountS(amountS).amountSell(amountSell)
+                    .validSince(validSince)
+                    .params(orderParams)
+                    .feeParams(feeParams)
                     .build();
         } catch (Exception e) {
             e.printStackTrace();

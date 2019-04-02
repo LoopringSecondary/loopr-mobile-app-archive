@@ -83,8 +83,8 @@ public class MarketOrderDataManager extends OrderDataManager {
         this.priceFromDepth = priceFromDepth;
     }
 
-    public RawOrder constructOrder(Double amountBuy, Double amountSell, Integer validS, Integer validU) {
-        RawOrder originOrder = super.constructOrder(amountBuy, amountSell, validS, validU);
+    public RawOrder constructOrder(Double amountBuy, Double amountSell, Integer validSince, Integer validUntil) {
+        RawOrder originOrder = super.constructOrder(amountBuy, amountSell, validSince, validUntil);
         originOrder.setSide(type.name());
         originOrder.setOrderType(OrderType.MARKET);
         Double lrcFee = calculateLrcFee(originOrder);

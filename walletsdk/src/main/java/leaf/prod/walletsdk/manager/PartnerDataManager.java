@@ -29,11 +29,11 @@ public class PartnerDataManager {
 
     private Partner partnerFrom;
 
-    private RelayService loopringService;
+    private RelayService relayService;
 
     private PartnerDataManager(Context context) {
         this.context = context;
-        loopringService = new RelayService();
+        relayService = new RelayService();
     }
 
     public static PartnerDataManager getInstance(Context context) {
@@ -44,7 +44,7 @@ public class PartnerDataManager {
     }
 
     public void activatePartner() {
-        loopringService.activateInvitation().subscribeOn(Schedulers.io())
+        relayService.activateInvitation().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Partner>() {
                     @Override
@@ -66,7 +66,7 @@ public class PartnerDataManager {
 
     public void createPartner() {
         String owner = WalletUtil.getCurrentAddress(context);
-        loopringService.createPartner(owner).subscribeOn(Schedulers.io())
+        relayService.createPartner(owner).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Partner>() {
                     @Override

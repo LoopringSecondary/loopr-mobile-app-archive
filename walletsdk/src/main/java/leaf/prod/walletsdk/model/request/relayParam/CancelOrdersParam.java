@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CancelOrderParam {
+public class CancelOrdersParam {
 
     private String id;
 

@@ -48,7 +48,7 @@ import rx.schedulers.Schedulers;
 
 public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
 
-    private static RelayService loopringService = new RelayService();
+    private static RelayService relayService = new RelayService();
 
     private static Gson gson = new Gson();
 
@@ -131,14 +131,14 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
     private void handleConvert() {
         if (value != null) {
             NotifyStatusParam.NotifyBody received = getStatus(SignStatus.received);
-            loopringService.notifyStatus(received, owner)
+            relayService.notifyStatus(received, owner)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
-                    .flatMap((Func1<String, Observable<String>>) result -> loopringService.getSignMessage(value))
+                    .flatMap((Func1<String, Observable<String>>) result -> relayService.getSignMessage(value))
                     .observeOn(Schedulers.io())
                     .flatMap((Func1<String, Observable<String>>) rawTx -> {
                         signAndSendRawTx(rawTx);
-                        return loopringService.notifyStatus(getStatus(SignStatus.accept), owner);
+                        return relayService.notifyStatus(getStatus(SignStatus.accept), owner);
                     })
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<String>() {
@@ -186,15 +186,15 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
     private void handleOrder() {
         if (value != null) {
             NotifyStatusParam.NotifyBody received = getStatus(SignStatus.received);
-            loopringService.notifyStatus(received, owner)
+            relayService.notifyStatus(received, owner)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
-                    .flatMap((Func1<String, Observable<String>>) result -> loopringService.getSignMessage(value))
+                    .flatMap((Func1<String, Observable<String>>) result -> relayService.getSignMessage(value))
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
                     .flatMap((Func1<String, Observable<String>>) rawTx -> {
                         signAndSubmitOrder(rawTx);
-                        return loopringService.notifyStatus(getStatus(SignStatus.accept), owner);
+                        return relayService.notifyStatus(getStatus(SignStatus.accept), owner);
                     })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -238,16 +238,16 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
     private void handleCancel() {
         if (value != null) {
             NotifyStatusParam.NotifyBody received = getStatus(SignStatus.received);
-            loopringService.notifyStatus(received, owner)
+            relayService.notifyStatus(received, owner)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
-                    .flatMap((Func1<String, Observable<String>>) result -> loopringService.getSignMessage(value))
+                    .flatMap((Func1<String, Observable<String>>) result -> relayService.getSignMessage(value))
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
                     .flatMap((Func1<String, Observable<String>>) this::signAndCancel)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
-                    .flatMap((Func1<String, Observable<String>>) result -> loopringService.notifyStatus(getStatus(SignStatus.accept), owner))
+                    .flatMap((Func1<String, Observable<String>>) result -> relayService.notifyStatus(getStatus(SignStatus.accept), owner))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<String>() {
@@ -276,14 +276,14 @@ public class AuthorityWebPresenter extends BasePresenter<AuthorityWebActivity> {
     private Observable<String> signAndCancel(String cancel) {
         CancelOrder cancelOrder = gson.fromJson(cancel, CancelOrder.class);
         if (cancelOrder.isValid()) {
-            return loopringService.cancelOrderFlex(cancelOrder, getSignParam());
+            return relayService.cancelOrderFlex(cancelOrder, getSignParam());
         }
         return null;
     }
 
     public void handleLogin() {
         try {
-            loopringService.notifyScanLogin(getSignParam(), owner, value)
+            relayService.notifyScanLogin(getSignParam(), owner, value)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<String>() {

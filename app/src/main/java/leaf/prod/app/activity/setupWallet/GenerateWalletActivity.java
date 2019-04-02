@@ -159,7 +159,7 @@ public class GenerateWalletActivity extends BaseActivity {
 
     private String filename;//钱包keystore名称
 
-    private RelayService loopringService = new RelayService();
+    private RelayService relayService = new RelayService();
 
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
@@ -172,7 +172,7 @@ public class GenerateWalletActivity extends BaseActivity {
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
                     new Thread(() ->
-                            loopringService.notifyCreateWallet(address)
+                            relayService.notifyCreateWallet(address)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<String>() {
                                         @Override

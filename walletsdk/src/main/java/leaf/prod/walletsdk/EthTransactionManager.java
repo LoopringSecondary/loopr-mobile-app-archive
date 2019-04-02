@@ -34,7 +34,7 @@ public class EthTransactionManager {
 
     private RawTransactionManager transactionManager;
 
-    private RelayService loopringService = new RelayService();
+    private RelayService relayService = new RelayService();
 
     public EthTransactionManager(BigInteger gasPrice, BigInteger gasLimit, RawTransactionManager transactionManager) {
         this.gasPrice = gasPrice;
@@ -54,7 +54,7 @@ public class EthTransactionManager {
         // notify relay
         String transactionHash = ethSendTransaction.getTransactionHash();
         RawTransaction rawTransaction = getRawTransaction(credentials, to, data, weiValue);
-        loopringService.notifyTransactionSubmitted(rawTransaction, address, transactionHash)
+        relayService.notifyTransactionSubmitted(rawTransaction, address, transactionHash)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {

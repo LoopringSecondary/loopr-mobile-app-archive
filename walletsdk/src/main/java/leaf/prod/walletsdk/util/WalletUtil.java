@@ -22,9 +22,8 @@ import org.web3j.crypto.Credentials;
 import leaf.prod.walletsdk.exception.IllegalCredentialException;
 import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
-import leaf.prod.walletsdk.exception.KeystoreCreateException;
-import leaf.prod.walletsdk.model.wallet.ImportWalletType;
 import leaf.prod.walletsdk.model.RandomWallet;
+import leaf.prod.walletsdk.model.wallet.ImportWalletType;
 import leaf.prod.walletsdk.model.wallet.WalletEntity;
 
 public class WalletUtil {
@@ -162,7 +161,7 @@ public class WalletUtil {
     /**
      * 生成随机钱包 
      */
-    public static RandomWallet getRandomWallet() throws InvalidPrivateKeyException, KeystoreCreateException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
+    public static RandomWallet getRandomWallet() throws InvalidPrivateKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
         return KeystoreUtils.createFromPrivateKey();
     }
 

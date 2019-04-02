@@ -2,7 +2,6 @@ package leaf.prod.walletsdk.deligate;
 
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.SDK;
-import leaf.prod.walletsdk.model.setting.LoginUser;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.response.AppResponseWrapper;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
@@ -12,15 +11,19 @@ import leaf.prod.walletsdk.model.response.crawler.IndexResult;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
 import leaf.prod.walletsdk.model.response.relay.AccountBalance;
 import leaf.prod.walletsdk.model.response.relay.ActivityResult;
+import leaf.prod.walletsdk.model.response.relay.CancelOrdersResult;
 import leaf.prod.walletsdk.model.response.relay.ClaimBindAmount;
 import leaf.prod.walletsdk.model.response.relay.FillsResult;
 import leaf.prod.walletsdk.model.response.relay.GetBindAmount;
+import leaf.prod.walletsdk.model.response.relay.GetGasResult;
 import leaf.prod.walletsdk.model.response.relay.MarketHistoryResult;
 import leaf.prod.walletsdk.model.response.relay.MarketsResult;
 import leaf.prod.walletsdk.model.response.relay.OrderBookResult;
 import leaf.prod.walletsdk.model.response.relay.OrdersResult;
 import leaf.prod.walletsdk.model.response.relay.RingsResult;
+import leaf.prod.walletsdk.model.response.relay.SubmitOrderResult;
 import leaf.prod.walletsdk.model.response.relay.TokensResult;
+import leaf.prod.walletsdk.model.setting.LoginUser;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -84,10 +87,10 @@ public interface RpcDelegate {
     Observable<RelayResponseWrapper<OrdersResult>> getOrders(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<RelayResponseWrapper<String>> submitOrder(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<SubmitOrderResult>> submitOrder(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<RelayResponseWrapper<String>> cancelOrders(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<CancelOrdersResult>> cancelOrders(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<AccountBalance>> getAccount(@Body RequestWrapper request);
@@ -112,4 +115,7 @@ public interface RpcDelegate {
 
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<MarketHistoryResult>> getMarketHistory(@Body RequestWrapper request);
+
+    @POST(Default.RELAY_RPC_URL)
+    Observable<RelayResponseWrapper<GetGasResult>> getGasPrice(@Body RequestWrapper request);
 }

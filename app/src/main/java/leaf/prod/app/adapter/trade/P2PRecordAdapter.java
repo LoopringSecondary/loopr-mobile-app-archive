@@ -20,7 +20,7 @@ import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.model.CancelOrder;
 import leaf.prod.walletsdk.model.CancelType;
 import leaf.prod.walletsdk.model.order.RawOrder;
-import leaf.prod.walletsdk.model.request.relayParam.CancelOrderParam;
+import leaf.prod.walletsdk.model.request.relayParam.CancelOrdersParam;
 import leaf.prod.walletsdk.model.request.relayParam.NotifyScanParam;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SignUtils;
@@ -87,7 +87,7 @@ public class P2PRecordAdapter extends BaseQuickAdapter<RawOrder, BaseViewHolder>
                             e.printStackTrace();
                         }
                         if (signParam != null) {
-                            CancelOrderParam cancelOrder = CancelOrderParam.builder()
+                            CancelOrdersParam cancelOrder = CancelOrdersParam.builder()
                                     .id(hash)
                                     .owner()
                                     .build();

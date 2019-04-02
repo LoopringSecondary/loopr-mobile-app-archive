@@ -39,7 +39,7 @@ import rx.schedulers.Schedulers;
 
 public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
 
-    private static RelayService loopringService;
+    private static RelayService relayService;
 
     private static Observable<MarketcapResult> marketcapObservable;
 
@@ -118,13 +118,13 @@ public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
 
     public void initObservable() {
         LyqbLogger.log("initObservable: " + getAddress());
-        if (loopringService == null)
-            loopringService = new RelayService();
-        Observable.zip(loopringService.getBalance(getAddress())
+        if (relayService == null)
+            relayService = new RelayService();
+        Observable.zip(relayService.getBalance(getAddress())
                         .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()), loopringService.getCustomToken(getAddress())
+                        .observeOn(AndroidSchedulers.mainThread()), relayService.getCustomToken(getAddress())
                         .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()), loopringService.getMarketcap(CurrencyUtil.getCurrency(context)
+                        .observeOn(AndroidSchedulers.mainThread()), relayService.getMarketcap(CurrencyUtil.getCurrency(context)
                         .getText())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread()),

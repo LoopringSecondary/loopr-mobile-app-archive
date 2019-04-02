@@ -12,14 +12,15 @@ import java.util.List;
 import android.content.Context;
 
 import org.web3j.crypto.WalletUtils;
+import org.web3j.utils.Numeric;
 import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.wallet.AddCustomTokenActivity;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.model.token.Token;
+import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
@@ -37,11 +38,11 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
 
     private TokenDataManager tokenManager;
 
-    private RelayService loopringService;
+    private RelayService relayService;
 
     public AddCustomTokenPresenter(AddCustomTokenActivity view, Context context) {
         super(view, context);
-        loopringService = new RelayService();
+        relayService = new RelayService();
         tokenManager = TokenDataManager.getInstance(context);
     }
 
@@ -86,7 +87,7 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
             }
             this.symbol = symbol.toUpperCase();
             this.decimals = NumberUtils.toBigDecimal(Integer.parseInt(decimals));
-            loopringService.addCustomToken(owner, this.address, this.symbol, this.decimals)
+            relayService.addCustomToken(owner, this.address, this.symbol, this.decimals)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<String>() {

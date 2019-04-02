@@ -94,7 +94,7 @@ public class WalletDetailFragment extends BaseFragment {
 
     private NoDataAdapter emptyAdapter;
 
-    private RelayService loopringService = new RelayService();
+    private RelayService relayService = new RelayService();
 
     private GasDataManager gasManager;
 
@@ -195,7 +195,7 @@ public class WalletDetailFragment extends BaseFragment {
     }
 
     private void getTxsFromRelay(int page) {
-        loopringService.getTransactions(address, symbol, page, PAGE_SIZE)
+        relayService.getTransactions(address, symbol, page, PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<TransactionPageWrapper>() {

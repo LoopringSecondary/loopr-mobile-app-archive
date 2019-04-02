@@ -13,7 +13,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.common.Amount;
 import leaf.prod.walletsdk.util.NumberUtils;
 import lombok.Builder;
 import lombok.Data;
@@ -49,7 +48,7 @@ public class RawOrder implements Serializable {
 
     // big integer hex string e.g. "0x34f07768a92a83d00000"
     @SerializedName(value = "amountB")
-    private Amount amountB;
+    private String amountB;
 
     // double value e.g. 0.02
     @Expose(serialize = false, deserialize = false)
@@ -57,7 +56,7 @@ public class RawOrder implements Serializable {
 
     // big integer hex string e.g. 0x34f07768a92a83d00000
     @SerializedName(value = "amountS")
-    private Amount amountS;
+    private String amountS;
 
     // double value e.g. 0.02
     @Expose(serialize = false, deserialize = false)
@@ -94,14 +93,14 @@ public class RawOrder implements Serializable {
 
         this.tokenBuy = TokenDataManager.getTokenWithProtocol(tokenB).getSymbol();
         this.tokenSell = TokenDataManager.getTokenWithProtocol(tokenS).getSymbol();
-        this.amountBuy = TokenDataManager.getDouble(tokenBuy, Numeric.toBigInt(amountB.getValue()).toString());
-        this.amountSell = TokenDataManager.getDouble(tokenSell, Numeric.toBigInt(amountS.getValue()).toString());
+        this.amountBuy = TokenDataManager.getDouble(tokenBuy, Numeric.toBigInt(amountB).toString());
+        this.amountSell = TokenDataManager.getDouble(tokenSell, Numeric.toBigInt(amountS).toString());
 
-        String stringValue = Numeric.toBigInt(this.state.getOutstandingAmountB().getValue()).toString();
+        String stringValue = Numeric.toBigInt(this.state.getOutstandingAmountB()).toString();
         this.state.setOutstandingAmountBuy(TokenDataManager.getDouble(tokenBuy, stringValue));
-        stringValue = Numeric.toBigInt(this.state.getOutstandingAmountS().getValue()).toString();
+        stringValue = Numeric.toBigInt(this.state.getOutstandingAmountS()).toString();
         this.state.setOutstandingAmountSell(TokenDataManager.getDouble(tokenSell, stringValue));
-        stringValue = Numeric.toBigInt(this.state.getOutstandingAmountFee().getValue()).toString();
+        stringValue = Numeric.toBigInt(this.state.getOutstandingAmountFee()).toString();
         this.state.setOutstandingAmountF(TokenDataManager.getDouble(this.feeParams.getTokenF(), stringValue));
 
         Double rate = (amountBuy - this.state.getOutstandingAmountBuy()) / amountBuy;

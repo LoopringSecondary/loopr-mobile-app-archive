@@ -100,7 +100,7 @@ public class ImportMnemonicFragment extends BaseFragment {
 
     private String filename;//钱包名称
 
-    private RelayService loopringService = new RelayService();
+    private RelayService relayService = new RelayService();
 
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
@@ -134,7 +134,7 @@ public class ImportMnemonicFragment extends BaseFragment {
                     //                            .trim(), password), password, dpath, walletType.getText()
                     //                            .toString(), ImportWalletType.MNEMONIC);
                     LyqbLogger.log(newWallet.toString());
-                    loopringService.notifyCreateWallet(address)
+                    relayService.notifyCreateWallet(address)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<String>() {

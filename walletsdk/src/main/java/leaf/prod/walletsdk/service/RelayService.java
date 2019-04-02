@@ -1,22 +1,21 @@
 package leaf.prod.walletsdk.service;
 
 import java.util.List;
-import java.util.Map;
 
 import leaf.prod.walletsdk.SDK;
 import leaf.prod.walletsdk.deligate.RpcDelegate;
-import leaf.prod.walletsdk.model.market.MarketInterval;
 import leaf.prod.walletsdk.model.common.Currency;
 import leaf.prod.walletsdk.model.common.Paging;
 import leaf.prod.walletsdk.model.common.Sort;
 import leaf.prod.walletsdk.model.common.TradeType;
+import leaf.prod.walletsdk.model.market.MarketInterval;
 import leaf.prod.walletsdk.model.market.MarketPair;
 import leaf.prod.walletsdk.model.order.OrderStatus;
 import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.request.RequestWrapper;
 import leaf.prod.walletsdk.model.request.relayParam.AccountBalanceParam;
 import leaf.prod.walletsdk.model.request.relayParam.ActivityParam;
-import leaf.prod.walletsdk.model.request.relayParam.CancelOrderParam;
+import leaf.prod.walletsdk.model.request.relayParam.CancelOrdersParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetMarketsParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetOrdersParam;
 import leaf.prod.walletsdk.model.request.relayParam.GetTokenParam;
@@ -28,12 +27,15 @@ import leaf.prod.walletsdk.model.request.relayParam.UserFillsParam;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.relay.AccountBalance;
 import leaf.prod.walletsdk.model.response.relay.ActivityResult;
+import leaf.prod.walletsdk.model.response.relay.CancelOrdersResult;
 import leaf.prod.walletsdk.model.response.relay.FillsResult;
+import leaf.prod.walletsdk.model.response.relay.GetGasResult;
 import leaf.prod.walletsdk.model.response.relay.MarketHistoryResult;
 import leaf.prod.walletsdk.model.response.relay.MarketsResult;
 import leaf.prod.walletsdk.model.response.relay.OrderBookResult;
 import leaf.prod.walletsdk.model.response.relay.OrdersResult;
 import leaf.prod.walletsdk.model.response.relay.RingsResult;
+import leaf.prod.walletsdk.model.response.relay.SubmitOrderResult;
 import leaf.prod.walletsdk.model.response.relay.TokensResult;
 import leaf.prod.walletsdk.model.token.Token;
 import rx.Observable;
@@ -91,17 +93,17 @@ public class RelayService {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    public Observable<String> submitOrder(RawOrder rawOrder) {
+    public Observable<SubmitOrderResult> submitOrder(RawOrder rawOrder) {
         SubmitOrderParam param = SubmitOrderParam.builder()
                 .rawOrder(rawOrder)
                 .build();
         RequestWrapper request = new RequestWrapper("submit_order", param);
-        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.submitOrder(request);
+        Observable<RelayResponseWrapper<SubmitOrderResult>> observable = rpcDelegate.submitOrder(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    public Observable<String> cancelOrders(String id, MarketPair marketPair, String owner, Integer time, String sig) {
-        CancelOrderParam param = CancelOrderParam.builder()
+    public Observable<CancelOrdersResult> cancelOrders(String id, MarketPair marketPair, String owner, Integer time, String sig) {
+        CancelOrdersParam param = CancelOrdersParam.builder()
                 .id(id)
                 .marketPair(marketPair)
                 .owner(owner)
@@ -109,7 +111,7 @@ public class RelayService {
                 .sig(sig)
                 .build();
         RequestWrapper request = new RequestWrapper("cancel_orders", param);
-        Observable<RelayResponseWrapper<String>> observable = rpcDelegate.cancelOrders(request);
+        Observable<RelayResponseWrapper<CancelOrdersResult>> observable = rpcDelegate.cancelOrders(request);
         return observable.map(RelayResponseWrapper::getResult);
     }
 
@@ -193,6 +195,9 @@ public class RelayService {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
-    public Observable<Map<String:>> getGasPrice() {
+    public Observable<GetGasResult> getGasPrice() {
+        RequestWrapper request = new RequestWrapper("get_gas_price");
+        Observable<RelayResponseWrapper<GetGasResult>> observable = rpcDelegate.getGasPrice(request);
+        return observable.map(RelayResponseWrapper::getResult);
     }
 }

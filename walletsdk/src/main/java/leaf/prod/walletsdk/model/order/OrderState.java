@@ -11,7 +11,6 @@ import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import leaf.prod.walletsdk.model.common.Amount;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,29 +23,29 @@ public class OrderState implements Serializable {
 
     // tokens可用于订单数量，暂时无用
     @SerializedName(value = "actualAmountS")
-    private Amount actualAmountS;
+    private String actualAmountS;
 
     @SerializedName(value = "actualAmountB")
-    private Amount actualAmountB;
+    private String actualAmountB;
 
     @SerializedName(value = "actualAmountFee")
-    private Amount actualAmountFee;
+    private String actualAmountFee;
 
     // 订单未成交数量，计算fill
     @SerializedName(value = "outstandingAmountS")
-    private Amount outstandingAmountS;
+    private String outstandingAmountS;
 
     @Expose(serialize = false, deserialize = false)
     private Double outstandingAmountSell;
 
     @SerializedName(value = "outstandingAmountB")
-    private Amount outstandingAmountB;
+    private String outstandingAmountB;
 
     @Expose(serialize = false, deserialize = false)
     private Double outstandingAmountBuy;
 
     @SerializedName(value = "outstandingAmountFee")
-    private Amount outstandingAmountFee;
+    private String outstandingAmountFee;
 
     @Expose(serialize = false, deserialize = false)
     private Double outstandingAmountF;

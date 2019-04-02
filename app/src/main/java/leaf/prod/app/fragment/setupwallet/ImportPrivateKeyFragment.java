@@ -77,7 +77,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
 
     private String filename;//钱包名称
 
-    private RelayService loopringService = new RelayService();
+    private RelayService relayService = new RelayService();
 
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
@@ -97,7 +97,7 @@ public class ImportPrivateKeyFragment extends BaseFragment {
                             .chooseTokenList(Arrays.asList("ETH", "WETH", "LRC"))
                             .build();
                     //                    WalletEntity newWallet = new WalletEntity("", filename, address, "", null, "", "", ImportWalletType.PRIVATE_KEY);
-                    loopringService.notifyCreateWallet(address)
+                    relayService.notifyCreateWallet(address)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<String>() {

@@ -44,7 +44,7 @@ public class CurrencyActivity extends BaseActivity {
     @BindView(R.id.cl_loading)
     ConstraintLayout clLoading;
 
-    private RelayService loopringService;
+    private RelayService relayService;
 
     private MarketcapDataManager marketcapDataManager;
 
@@ -80,7 +80,7 @@ public class CurrencyActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        loopringService = new RelayService();
+        relayService = new RelayService();
         marketcapDataManager = MarketcapDataManager.getInstance(this);
     }
 
@@ -110,7 +110,7 @@ public class CurrencyActivity extends BaseActivity {
 
     private void updateWalletList(Currency currency) {
         clLoading.setVisibility(View.VISIBLE);
-        loopringService.getPriceQuoteByToken(currency.getText(), "ETH")
+        relayService.getPriceQuoteByToken(currency.getText(), "ETH")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(marketcapResult -> {
