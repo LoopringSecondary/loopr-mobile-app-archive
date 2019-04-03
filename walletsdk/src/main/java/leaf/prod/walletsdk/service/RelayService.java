@@ -93,6 +93,16 @@ public class RelayService {
         return observable.map(RelayResponseWrapper::getResult);
     }
 
+    public Observable<OrdersResult> getOrders(String owner, Paging paging) {
+        GetOrdersParam param = GetOrdersParam.builder()
+                .owner(owner)
+                .paging(paging)
+                .build();
+        RequestWrapper request = new RequestWrapper("get_orders", param);
+        Observable<RelayResponseWrapper<OrdersResult>> observable = rpcDelegate.getOrders(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
     public Observable<SubmitOrderResult> submitOrder(RawOrder rawOrder) {
         SubmitOrderParam param = SubmitOrderParam.builder()
                 .rawOrder(rawOrder)
@@ -106,6 +116,18 @@ public class RelayService {
         CancelOrdersParam param = CancelOrdersParam.builder()
                 .id(id)
                 .marketPair(marketPair)
+                .owner(owner)
+                .time(time)
+                .sig(sig)
+                .build();
+        RequestWrapper request = new RequestWrapper("cancel_orders", param);
+        Observable<RelayResponseWrapper<CancelOrdersResult>> observable = rpcDelegate.cancelOrders(request);
+        return observable.map(RelayResponseWrapper::getResult);
+    }
+
+    public Observable<CancelOrdersResult> cancelOrders(String id, String owner, Integer time, String sig) {
+        CancelOrdersParam param = CancelOrdersParam.builder()
+                .id(id)
                 .owner(owner)
                 .time(time)
                 .sig(sig)

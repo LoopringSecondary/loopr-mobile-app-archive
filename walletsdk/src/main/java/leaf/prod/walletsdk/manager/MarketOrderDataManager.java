@@ -84,15 +84,13 @@ public class MarketOrderDataManager extends OrderDataManager {
     }
 
     public RawOrder constructOrder(Double amountBuy, Double amountSell, Integer validSince, Integer validUntil) {
-        RawOrder originOrder = super.constructOrder(amountBuy, amountSell, validSince, validUntil);
-        originOrder.setSide(type.name());
-        originOrder.setOrderType(OrderType.MARKET);
-        Double lrcFee = calculateLrcFee(originOrder);
+        RawOrder order = super.constructOrder(amountBuy, amountSell, validSince, validUntil);
+        Double lrcFee = calculateLrcFee(order);
         String lrcFeeHex = calculateLrcFeeString(lrcFee);
-        originOrder.setLrc(lrcFee);
-        originOrder.setLrcFee(lrcFeeHex);
-        this.order = originOrder;
-        return originOrder;
+        order.getFeeParams().setAmountF(lrcFee);
+        order.getFeeParams().setAmountFee(lrcFeeHex);
+        this.order = order;
+        return order;
     }
 
     private Double calculateLrcFee(RawOrder order) {

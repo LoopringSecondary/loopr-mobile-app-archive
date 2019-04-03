@@ -72,6 +72,8 @@ public class RawOrder implements Serializable {
     @SerializedName(value = "feeParams")
     private FeeParams feeParams;
 
+    private Erc1400Params erc1400Params;
+
     @SerializedName(value = "state")
     private OrderState state;
 

@@ -40,9 +40,6 @@ import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.KeystoreUtils;
 import leaf.prod.walletsdk.util.StringUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  *
@@ -95,32 +92,13 @@ public class ImportKeystoreFragment extends BaseFragment {
                             .walletType(ImportWalletType.KEY_STORE)
                             .chooseTokenList(Arrays.asList("ETH", "WETH", "LRC"))
                             .build();
-                    //                    WalletEntity newWallet = new WalletEntity("", filename, address, "", null, "", "", ImportWalletType.KEY_STORE);
-                    relayService.notifyCreateWallet(address)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<String>() {
-                                @Override
-                                public void onCompleted() {
-                                    hideProgress();
-                                    if (WalletUtil.isWalletExisted(getContext(), newWallet)) {
-                                        RxToast.error(getResources().getString(R.string.wallet_existed));
-                                    } else {
-                                        getOperation().addParameter("newWallet", newWallet);
-                                        getOperation().forward(SetWalletNameActivity.class);
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    RxToast.error(getResources().getString(R.string.add_wallet_error));
-                                    hideProgress();
-                                }
-
-                                @Override
-                                public void onNext(String s) {
-                                }
-                            });
+                    hideProgress();
+                    if (WalletUtil.isWalletExisted(getContext(), newWallet)) {
+                        RxToast.error(getResources().getString(R.string.wallet_existed));
+                    } else {
+                        getOperation().addParameter("newWallet", newWallet);
+                        getOperation().forward(SetWalletNameActivity.class);
+                    }
                     break;
                 case ERROR_ONE:
                     RxToast.error(getResources().getString(R.string.add_wallet_error));

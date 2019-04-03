@@ -9,7 +9,7 @@ import leaf.prod.app.activity.market.MarketSelectActivity;
 import leaf.prod.app.fragment.market.MarketSelectFragment;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
-import leaf.prod.walletsdk.model.Market;
+import leaf.prod.walletsdk.model.market.Market;
 
 public class MarketSelectActivityPresenter extends BasePresenter<MarketSelectActivity> {
 

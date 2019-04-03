@@ -18,6 +18,5 @@ public class TokenListSearchAdapter extends BaseQuickAdapter<String, BaseViewHol
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-        //        helper.setText(R.id.mnemonic_word, Integer.valueOf(helper.getPosition())+1+"."+item);
     }
 }

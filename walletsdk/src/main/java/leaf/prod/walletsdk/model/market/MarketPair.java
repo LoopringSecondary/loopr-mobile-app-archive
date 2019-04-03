@@ -44,6 +44,13 @@ public class MarketPair {
         return this;
     }
 
+    public MarketPair(String baseSymbol, String quoteSymbol) {
+        this.baseSymbol = baseSymbol;
+        this.quoteSymbol = quoteSymbol;
+        this.baseToken = TokenDataManager.getTokenWithSymbol(baseSymbol).getProtocol();
+        this.quoteToken = TokenDataManager.getTokenWithSymbol(quoteSymbol).getProtocol();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

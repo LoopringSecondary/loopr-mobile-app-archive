@@ -25,7 +25,7 @@ public class TokenListAdapter extends BaseQuickAdapter<Token, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, Token item) {
         helper.setText(R.id.wallet_title, item.getSymbol());
-        helper.setText(R.id.wallet_name, item.getSource());
+        helper.setText(R.id.wallet_name, item.getName());
         if (item.getImageResId() == 0) {
             helper.setVisible(R.id.wallet_symbol, true);
             helper.setVisible(R.id.wallet_image, false);

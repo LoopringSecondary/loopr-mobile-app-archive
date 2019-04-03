@@ -6,20 +6,15 @@
  */
 package leaf.prod.walletsdk.manager;
 
-import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
 
-import org.web3j.abi.TypeEncoder;
-import org.web3j.abi.datatypes.Type;
-import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.Hash;
+import org.web3j.crypto.Sign.SignatureData;
 import org.web3j.utils.Numeric;
 
 import leaf.prod.walletsdk.Default;
@@ -27,14 +22,17 @@ import leaf.prod.walletsdk.Erc20TransactionManager;
 import leaf.prod.walletsdk.R;
 import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.model.RandomWallet;
+import leaf.prod.walletsdk.model.common.TradeType;
+import leaf.prod.walletsdk.model.order.Erc1400Params;
 import leaf.prod.walletsdk.model.order.FeeParams;
 import leaf.prod.walletsdk.model.order.OrderParams;
 import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.response.RelayError;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
-import leaf.prod.walletsdk.model.transaction.SignedBody;
+import leaf.prod.walletsdk.model.sign.BitStream;
 import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.SignUtils;
+import leaf.prod.walletsdk.util.StringUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -91,16 +89,16 @@ public abstract class OrderDataManager {
             String amountS = Numeric.toHexStringWithPrefix(token.getWeiFromDouble(tokenSell, amountSell));
             String owner = WalletUtil.getCurrentAddress(context);
             RandomWallet randomWallet = WalletUtil.getRandomWallet();
-
             OrderParams orderParams = OrderParams.builder()
                     .sig("")
+                    .broker("")
+                    .orderInterceptor("")
                     .allOrNone(false)
                     .validUntil(validUntil)
                     .dualAuthAddr(randomWallet.getAddress())
                     .dualAuthPrivateKey(randomWallet.getPrivateKey())
                     .wallet(PartnerDataManager.getInstance(context).getWalletAddress())
                     .build();
-
             FeeParams feeParams = FeeParams.builder()
                     .tokenFee(tokenFee)
                     .amountFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
@@ -109,7 +107,7 @@ public abstract class OrderDataManager {
                     .tokenBFeePercentage(0)
                     .walletSplitPercentage(50)
                     .build();
-
+            Erc1400Params erc1400Params = Erc1400Params.builder().build();
             order = RawOrder.builder()
                     .owner(owner).version(0)
                     .tokenB(tokenB).tokenBuy(tokenBuy)
@@ -119,6 +117,7 @@ public abstract class OrderDataManager {
                     .validSince(validSince)
                     .params(orderParams)
                     .feeParams(feeParams)
+                    .erc1400Params(erc1400Params)
                     .build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,39 +126,68 @@ public abstract class OrderDataManager {
     }
 
     public RawOrder signOrder(RawOrder order) {
-        String encoded = encodeOrder(order);
-        byte[] hash = Hash.sha3(Numeric.hexStringToByteArray(encoded));
-        SignedBody signedBody = SignUtils.genSignMessage(credentials, hash);
-        String r = Numeric.toHexStringNoPrefix(signedBody.getSig().getR());
-        String s = Numeric.toHexStringNoPrefix(signedBody.getSig().getS());
-        Integer v = (int) signedBody.getSig().getV();
-        order.setHash(signedBody.getHash());
-        order.setR(r);
-        order.setS(s);
-        order.setV(Numeric.toHexStringWithPrefix(BigInteger.valueOf(v)));
+        String hash = encodeOrder(order);
+        String sign = getSignature(hash);
+        order.setHash(hash);
+        order.getParams().setSig(sign);
         return order;
     }
 
+    private String getSignature(String hash) {
+        byte[] data = Numeric.hexStringToByteArray(hash);
+        SignatureData sigData = SignUtils.genSignMessage(credentials, data);
+        BitStream bitStream = new BitStream();
+        bitStream.addNumber(BigInteger.ONE, 1, true);
+        bitStream.addNumber(BigInteger.valueOf(32 + 32 + 1), 1, true);
+        bitStream.addNumber(BigInteger.valueOf((int) sigData.getV()), 1, true);
+        bitStream.addRawBytes(sigData.getR(), true);
+        bitStream.addRawBytes(sigData.getS(), true);
+        return bitStream.getData();
+    }
+
     private String encodeOrder(RawOrder order) {
-        List<? extends Type<? extends Serializable>> types = Arrays.asList(
-                new Uint256(Numeric.toBigInt(order.getAmountS())),
-                new Uint256(Numeric.toBigInt(order.getAmountB())),
-                new Uint256(Numeric.toBigInt(order.getValidSince())),
-                new Uint256(Numeric.toBigInt(order.getValidUntil())),
-                new Uint256(Numeric.toBigInt(order.getLrcFee()))
-        );
-        String data = Numeric.cleanHexPrefix(order.getDelegate());
-        data += Numeric.cleanHexPrefix(order.getOwner());
-        data += Numeric.cleanHexPrefix(order.getTokenSell());
-        data += Numeric.cleanHexPrefix(order.getTokenBuy());
-        data += Numeric.cleanHexPrefix(order.getWalletAddress());
-        data += Numeric.cleanHexPrefix(order.getAuthAddr());
-        for (Type<? extends Serializable> type : types) {
-            data += TypeEncoder.encode(type);
-        }
-        data += order.getBuyNoMoreThanAmountB() ? "01" : "00";
-        data += Numeric.cleanHexPrefix(order.getMarginSplitPercentage());
-        return data;
+        BitStream bitStream = new BitStream();
+        FeeParams feeParams = order.getFeeParams();
+        OrderParams orderParams = order.getParams();
+        Erc1400Params erc1400Params = order.getErc1400Params();
+        byte[] transferDataBytes = erc1400Params.getTransferDataS().getBytes();
+        String transferDataHash = Numeric.toHexString(Hash.sha3(transferDataBytes));
+        bitStream.addBytes32(SignUtils.Eip712OrderSchemaHash, true);
+        bitStream.addUint(Numeric.toBigInt(order.getAmountS()), true);
+        bitStream.addUint(Numeric.toBigInt(order.getAmountB()), true);
+        bitStream.addUint(Numeric.toBigInt(feeParams.getAmountFee()), true);
+        bitStream.addUint(BigInteger.valueOf(order.getValidSince()), true);
+        bitStream.addUint(BigInteger.valueOf(orderParams.getValidUntil()), true);
+        bitStream.addAddress(order.getOwner(), 32, true);
+        bitStream.addAddress(order.getTokenS(), 32, true);
+        bitStream.addAddress(order.getTokenB(), 32, true);
+        bitStream.addAddress(orderParams.getDualAuthAddr(), 32, true);
+        bitStream.addAddress(orderParams.getBroker(), 32, true);
+        bitStream.addAddress(orderParams.getOrderInterceptor(), 32, true);
+        bitStream.addAddress(orderParams.getWallet(), 32, true);
+        bitStream.addAddress(feeParams.getTokenRecipient(), 32, true);
+        bitStream.addAddress(feeParams.getTokenFee(), true);
+        bitStream.addUint(BigInteger.valueOf(feeParams.getWalletSplitPercentage()), true);
+        bitStream.addUint(BigInteger.valueOf(feeParams.getTokenSFeePercentage()), true);
+        bitStream.addUint(BigInteger.valueOf(feeParams.getTokenBFeePercentage()), true);
+        bitStream.addBoolean(orderParams.getAllOrNone(), true);
+        bitStream.addUint(BigInteger.valueOf(erc1400Params.getTokenStandardS()), true);
+        bitStream.addUint(BigInteger.valueOf(erc1400Params.getTokenStandardB()), true);
+        bitStream.addUint(BigInteger.valueOf(erc1400Params.getTokenStandardFee()), true);
+        bitStream.addBytes32(erc1400Params.getTrancheS(), true);
+        bitStream.addBytes32(erc1400Params.getTrancheB(), true);
+        bitStream.addBytes32(transferDataHash, true);
+        String orderDataHash = Numeric.toHexString(Hash.sha3(bitStream.getBytes()));
+        BitStream outerStream = new BitStream();
+        outerStream.addHex(StringUtils.toHex(SignUtils.Eip191Header), true);
+        outerStream.addBytes32(SignUtils.Eip712DomainHash, true);
+        outerStream.addBytes32(orderDataHash, true);
+        return Numeric.toHexString(Hash.sha3(outerStream.getBytes()));
+    }
+
+    public TradeType getSide(RawOrder order) {
+        MarketPriceDataManager instance = MarketPriceDataManager.getInstance(context);
+        return instance.getOrderSide(order.getTokenBuy(), order.getTokenSell());
     }
 
     public Observable<RelayResponseWrapper> handleInfo() {

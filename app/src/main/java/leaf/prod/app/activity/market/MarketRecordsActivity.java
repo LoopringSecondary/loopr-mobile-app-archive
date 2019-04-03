@@ -31,9 +31,9 @@ import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.model.common.NoDataType;
+import leaf.prod.walletsdk.model.common.Paging;
 import leaf.prod.walletsdk.model.order.RawOrder;
-import leaf.prod.walletsdk.model.order.OrderType;
-import leaf.prod.walletsdk.model.response.relay.PageWrapper;
+import leaf.prod.walletsdk.model.response.relay.OrdersResult;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -77,7 +77,7 @@ public class MarketRecordsActivity extends BaseActivity {
 
     private boolean isFiltering = false;
 
-    private int currentPageIndex = 1, pageSize = 20, totalCount = 0;
+    private int pageCursor = 1, pageSize = 20, totalCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +118,8 @@ public class MarketRecordsActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 searchList.clear();
                 for (RawOrder rawOrder : rawOrderList) {
-                    if (rawOrder.getMarket().contains(s.toString().toUpperCase())) {
+                    if (rawOrder.getTokenBuy().contains(s.toString().toUpperCase()) ||
+                            rawOrder.getTokenSell().contains(s.toString().toUpperCase())) {
                         searchList.add(rawOrder);
                     }
                 }
@@ -143,8 +144,6 @@ public class MarketRecordsActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         recordAdapter = new MarketRecordAdapter(R.layout.adapter_item_p2p_record, null, this);
         recyclerView.setAdapter(recordAdapter);
-//        recordAdapter.addHeaderView(LayoutInflater.from(this)
-//                .inflate(R.layout.adapter_header_order, recyclerView, false));
         setupListeners();
         recordAdapter.setOnItemClickListener((adapter, view, position) -> {
             getOperation().addParameter("order", rawOrderList.get(position));
@@ -167,7 +166,7 @@ public class MarketRecordsActivity extends BaseActivity {
                 if (recordAdapter.getData().size() >= totalCount) {
                     recordAdapter.loadMoreEnd();
                 } else {
-                    refreshOrders(currentPageIndex + 1);
+                    refreshOrders(pageCursor + 1);
                 }
             }, recyclerView);
             recordAdapter.setOnItemClickListener((adapter, view, position) -> {
@@ -192,12 +191,14 @@ public class MarketRecordsActivity extends BaseActivity {
     }
 
     public void refreshOrders(int page) {
-        currentPageIndex = page == 0 ? currentPageIndex : page;
+        pageCursor = page == 0 ? pageCursor : page;
+        Paging paging = Paging.builder().cursor(pageCursor).size(pageSize).build();
+
         marketManager.getRelayService()
-                .getOrders(WalletUtil.getCurrentAddress(this), OrderType.MARKET.getDescription(), currentPageIndex, pageSize)
+                .getOrders(WalletUtil.getCurrentAddress(this), paging)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<PageWrapper<RawOrder>>() {
+                .subscribe(new Subscriber<OrdersResult>() {
                     @Override
                     public void onCompleted() {
                         refreshLayout.finishRefresh(true);
@@ -216,18 +217,18 @@ public class MarketRecordsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(PageWrapper<RawOrder> orderPageWrapper) {
+                    public void onNext(OrdersResult ordersResult) {
                         hideSearch();
-                        totalCount = orderPageWrapper.getTotal();
+                        totalCount = ordersResult.getTotal();
                         if (totalCount == 0) {
                             recyclerView.setAdapter(emptyAdapter);
                             emptyAdapter.refresh();
                         } else {
                             List<RawOrder> list = new ArrayList<>();
-                            for (RawOrder rawOrder : orderPageWrapper.getData()) {
+                            for (RawOrder rawOrder : ordersResult.getOrders()) {
                                 list.add(rawOrder.convert());
                             }
-                            if (currentPageIndex == 1) {
+                            if (pageCursor == 1) {
                                 recordAdapter.setNewData(list);
                             } else {
                                 recordAdapter.addData(list);

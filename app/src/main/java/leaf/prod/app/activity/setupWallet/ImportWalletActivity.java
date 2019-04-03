@@ -111,13 +111,6 @@ public class ImportWalletActivity extends BaseActivity {
                 String result = bundle.getString("result");
                 viewPager.setCurrentItem(1);
                 EventBus.getDefault().post(new KeystoreData(result));
-                //                if (viewPager.getCurrentItem() == 0) {
-                //                    EventBus.getDefault().post(new MnemonicData(result));
-                //                } else if (viewPager.getCurrentItem() == 1) {
-                //                    EventBus.getDefault().post(new KeystoreData(result));
-                //                } else if (viewPager.getCurrentItem() == 2) {
-                //                    EventBus.getDefault().post(new PrivateKeyData(result));
-                //                }
             }
         }
     }

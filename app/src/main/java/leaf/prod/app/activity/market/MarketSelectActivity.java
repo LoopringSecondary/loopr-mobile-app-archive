@@ -35,8 +35,8 @@ import leaf.prod.app.fragment.market.MarketSelectFragment;
 import leaf.prod.app.presenter.market.MarketSelectActivityPresenter;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
+import leaf.prod.walletsdk.model.market.Market;
 import leaf.prod.walletsdk.model.market.MarketsType;
-import leaf.prod.walletsdk.model.Market;
 
 public class MarketSelectActivity extends BaseActivity {
 
@@ -103,7 +103,7 @@ public class MarketSelectActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 listSearch.clear();
                 for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getMarketPair().getDescription().contains(s.toString().toUpperCase())) {
+                    if (list.get(i).getMarketPair().toString().contains(s.toString().toUpperCase())) {
                         listSearch.add(list.get(i));
                     }
                 }

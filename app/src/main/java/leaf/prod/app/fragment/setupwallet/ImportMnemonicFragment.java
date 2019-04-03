@@ -33,7 +33,6 @@ import leaf.prod.app.R;
 import leaf.prod.app.activity.setting.SetWalletNameActivity;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.app.utils.ButtonClickUtil;
-import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.views.wheelPicker.picker.OptionPicker;
 import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
@@ -48,9 +47,6 @@ import leaf.prod.walletsdk.util.FileUtils;
 import leaf.prod.walletsdk.util.KeystoreUtils;
 import leaf.prod.walletsdk.util.MnemonicUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  *
@@ -128,37 +124,13 @@ public class ImportMnemonicFragment extends BaseFragment {
                             .walletType(ImportWalletType.MNEMONIC)
                             .chooseTokenList(Arrays.asList("ETH", "WETH", "LRC"))
                             .build();
-                    //                    WalletEntity newWallet = new WalletEntity("", filename, address, WalletUtil.encryptMnemonic(etMnemonic
-                    //                            .getText()
-                    //                            .toString()
-                    //                            .trim(), password), password, dpath, walletType.getText()
-                    //                            .toString(), ImportWalletType.MNEMONIC);
-                    LyqbLogger.log(newWallet.toString());
-                    relayService.notifyCreateWallet(address)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<String>() {
-                                @Override
-                                public void onCompleted() {
-                                    hideProgress();
-                                    if (WalletUtil.isWalletExisted(getContext(), newWallet)) {
-                                        RxToast.error(getString(R.string.wallet_existed));
-                                    } else {
-                                        getOperation().addParameter("newWallet", newWallet);
-                                        getOperation().forward(SetWalletNameActivity.class);
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    RxToast.error(getString(R.string.add_wallet_error));
-                                    hideProgress();
-                                }
-
-                                @Override
-                                public void onNext(String s) {
-                                }
-                            });
+                    hideProgress();
+                    if (WalletUtil.isWalletExisted(getContext(), newWallet)) {
+                        RxToast.error(getString(R.string.wallet_existed));
+                    } else {
+                        getOperation().addParameter("newWallet", newWallet);
+                        getOperation().forward(SetWalletNameActivity.class);
+                    }
                     break;
                 case ERROR_ONE:
                     RxToast.error(getString(R.string.add_wallet_error));

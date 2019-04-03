@@ -16,7 +16,7 @@ import lombok.val;
  */
 
 @Data
-public class Bitstream {
+public class BitStream {
 
     private String data;
 
@@ -40,7 +40,7 @@ public class Bitstream {
         return addAddress(address, ADDRESS_LENGTH, forceAppend);
     }
 
-    private Integer addAddress(String address, Integer numBytes, Boolean forceAppend) {
+    public Integer addAddress(String address, Integer numBytes, Boolean forceAppend) {
         String value = StringUtils.isEmpty(address) ? "0" : address;
         return insert(Numeric.toHexStringNoPrefixZeroPadded(Numeric.toBigInt(value), numBytes * 2), forceAppend);
     }

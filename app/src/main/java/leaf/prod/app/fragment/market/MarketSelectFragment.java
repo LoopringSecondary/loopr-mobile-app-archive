@@ -19,8 +19,8 @@ import leaf.prod.app.adapter.market.MarketSelectAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
+import leaf.prod.walletsdk.model.market.Market;
 import leaf.prod.walletsdk.model.market.MarketsType;
-import leaf.prod.walletsdk.model.Market;
 
 public class MarketSelectFragment extends BaseFragment {
 
@@ -65,9 +65,9 @@ public class MarketSelectFragment extends BaseFragment {
         marketAdapter = new MarketSelectAdapter(R.layout.adapter_item_market_select, null);
         recyclerView.setAdapter(marketAdapter);
         marketAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Market ticker = getTickers().get(position);
-            marketManager.setTokenBuy(ticker.getMarketPair().getTokenB());
-            marketManager.setTokenSell(ticker.getMarketPair().getTokenA());
+            Market market = getTickers().get(position);
+            marketManager.setTokenBuy(market.getMarketPair().getBaseSymbol());
+            marketManager.setTokenSell(market.getMarketPair().getQuoteSymbol());
             getActivity().finish();
             getOperation().forwardDown(MarketDetailActivity.class);
         });
@@ -110,9 +110,9 @@ public class MarketSelectFragment extends BaseFragment {
         updateAdapter(getTickers());
     }
 
-    public void updateAdapter(List<Market> tickers) {
+    public void updateAdapter(List<Market> markets) {
         if (marketAdapter != null) {
-            marketAdapter.setNewData(tickers);
+            marketAdapter.setNewData(markets);
             marketAdapter.notifyDataSetChanged();
         }
     }

@@ -48,7 +48,6 @@ import leaf.prod.walletsdk.exception.InvalidPrivateKeyException;
 import leaf.prod.walletsdk.exception.KeystoreCreateException;
 import leaf.prod.walletsdk.model.wallet.ImportWalletType;
 import leaf.prod.walletsdk.model.wallet.WalletEntity;
-import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.CredentialsUtils;
 import leaf.prod.walletsdk.util.EncryptUtil;
 import leaf.prod.walletsdk.util.FileUtils;
@@ -57,8 +56,6 @@ import leaf.prod.walletsdk.util.MnemonicUtils;
 import leaf.prod.walletsdk.util.PasswordUtils;
 import leaf.prod.walletsdk.util.SPUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 
 public class GenerateWalletActivity extends BaseActivity {
 
@@ -159,8 +156,6 @@ public class GenerateWalletActivity extends BaseActivity {
 
     private String filename;//钱包keystore名称
 
-    private RelayService relayService = new RelayService();
-
     @SuppressLint("HandlerLeak")
     Handler handlerCreate = new Handler() {
         @Override
@@ -171,44 +166,25 @@ public class GenerateWalletActivity extends BaseActivity {
                     getAddress();
                     break;
                 case CREATE_SUCCESS:  //获取keystore中的address成功后，调用解锁钱包方法（unlockWallet）
-                    new Thread(() ->
-                            relayService.notifyCreateWallet(address)
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber<String>() {
-                                        @Override
-                                        public void onCompleted() {
-                                            String salt = EncryptUtil.getSecureRandom(), iv = EncryptUtil.getSecureRandom();
-                                            WalletUtil.addWallet(GenerateWalletActivity.this, WalletEntity.builder()
-                                                    .walletname(walletName.getText().toString())
-                                                    .filename(filename)
-                                                    .address("0x" + address)
-                                                    .pas(EncryptUtil.encryptSHA3(password.getText().toString()))
-                                                    .salt(salt)
-                                                    .iv(iv)
-                                                    .mnemonic(WalletUtil.encryptMnemonic(mnemonic, password.getText()
-                                                            .toString(), salt, iv))
-                                                    .chooseTokenList(Arrays.asList("ETH", "WETH", "LRC"))
-                                                    .walletType(ImportWalletType.ALL).build());
-                                            hideProgress();
-                                            DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, v -> {
-                                                DialogUtil.dialog.dismiss();
-                                                finish();
-                                                AppManager.getAppManager().finishAllActivity();
-                                                getOperation().forwardClearTop(MainActivity.class);
-                                            });
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            RxToast.error(getResources().getString(R.string.add_wallet_error));
-                                            hideProgress();
-                                        }
-
-                                        @Override
-                                        public void onNext(String s) {
-                                        }
-                                    })
-                    ).start();
+                    String salt = EncryptUtil.getSecureRandom(), iv = EncryptUtil.getSecureRandom();
+                    WalletUtil.addWallet(GenerateWalletActivity.this, WalletEntity.builder()
+                            .walletname(walletName.getText().toString())
+                            .filename(filename)
+                            .address("0x" + address)
+                            .pas(EncryptUtil.encryptSHA3(password.getText().toString()))
+                            .salt(salt)
+                            .iv(iv)
+                            .mnemonic(WalletUtil.encryptMnemonic(mnemonic, password.getText()
+                                    .toString(), salt, iv))
+                            .chooseTokenList(Arrays.asList("ETH", "WETH", "LRC"))
+                            .walletType(ImportWalletType.ALL).build());
+                    hideProgress();
+                    DialogUtil.showWalletCreateResultDialog(GenerateWalletActivity.this, v -> {
+                        DialogUtil.dialog.dismiss();
+                        finish();
+                        AppManager.getAppManager().finishAllActivity();
+                        getOperation().forwardClearTop(MainActivity.class);
+                    });
                     break;
                 case ERROR_ONE:
                     hideProgress();

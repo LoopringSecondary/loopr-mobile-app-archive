@@ -7,6 +7,7 @@ import java.util.Map;
 
 import android.content.Context;
 
+import leaf.prod.walletsdk.model.common.TradeType;
 import leaf.prod.walletsdk.model.market.Market;
 import leaf.prod.walletsdk.model.market.MarketInterval;
 import leaf.prod.walletsdk.model.market.MarketPair;
@@ -106,6 +107,16 @@ public class MarketPriceDataManager {
             }
         }
         return result;
+    }
+
+    public TradeType getOrderSide(String tokenB, String tokenS) {
+        MarketPair forwardPair = new MarketPair(tokenB, tokenS);
+        Market forwardMarket = getMarketsBy(forwardPair);
+        if (forwardMarket == null) {
+            return TradeType.buy;
+        } else {
+            return TradeType.sell;
+        }
     }
 
     public void setFiltering(boolean filtering) {

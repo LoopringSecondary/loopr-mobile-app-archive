@@ -127,7 +127,6 @@ public final class StringUtils {
         if (!hasLength(str)) {
             return false;
         }
-
         int strLen = str.length();
         for (int i = 0; i < strLen; i++) {
             if (Character.isWhitespace(str.charAt(i))) {
@@ -160,7 +159,6 @@ public final class StringUtils {
         if (!hasLength(str)) {
             return str;
         }
-
         StringBuilder sb = new StringBuilder(str);
         while (sb.length() > 0 && Character.isWhitespace(sb.charAt(0))) {
             sb.deleteCharAt(0);
@@ -183,7 +181,6 @@ public final class StringUtils {
         if (!hasLength(str)) {
             return str;
         }
-
         int len = str.length();
         StringBuilder sb = new StringBuilder(str.length());
         for (int i = 0; i < len; i++) {
@@ -206,7 +203,6 @@ public final class StringUtils {
         if (!hasLength(str)) {
             return str;
         }
-
         StringBuilder sb = new StringBuilder(str);
         while (sb.length() > 0 && Character.isWhitespace(sb.charAt(0))) {
             sb.deleteCharAt(0);
@@ -225,7 +221,6 @@ public final class StringUtils {
         if (!hasLength(str)) {
             return str;
         }
-
         StringBuilder sb = new StringBuilder(str);
         while (sb.length() > 0 && Character.isWhitespace(sb.charAt(sb.length() - 1))) {
             sb.deleteCharAt(sb.length() - 1);
@@ -244,7 +239,6 @@ public final class StringUtils {
         if (!hasLength(str)) {
             return str;
         }
-
         StringBuilder sb = new StringBuilder(str);
         while (sb.length() > 0 && sb.charAt(0) == leadingCharacter) {
             sb.deleteCharAt(0);
@@ -263,7 +257,6 @@ public final class StringUtils {
         if (!hasLength(str)) {
             return str;
         }
-
         StringBuilder sb = new StringBuilder(str);
         while (sb.length() > 0 && sb.charAt(sb.length() - 1) == trailingCharacter) {
             sb.deleteCharAt(sb.length() - 1);
@@ -327,7 +320,6 @@ public final class StringUtils {
         if (!hasLength(str) || !hasLength(sub)) {
             return 0;
         }
-
         int count = 0;
         int pos = 0;
         int idx;
@@ -355,13 +347,11 @@ public final class StringUtils {
             // no occurrence -> can return input as-is
             return inString;
         }
-
         int capacity = inString.length();
         if (newPattern.length() > oldPattern.length()) {
             capacity += 16;
         }
         StringBuilder sb = new StringBuilder(capacity);
-
         int pos = 0;  // our position in the old string
         int patLen = oldPattern.length();
         while (index >= 0) {
@@ -370,7 +360,6 @@ public final class StringUtils {
             pos = index + patLen;
             index = inString.indexOf(oldPattern, pos);
         }
-
         // append any characters to the right of a match
         sb.append(inString.substring(pos));
         return sb.toString();
@@ -399,7 +388,6 @@ public final class StringUtils {
         if (!hasLength(inString) || !hasLength(charsToDelete)) {
             return inString;
         }
-
         StringBuilder sb = new StringBuilder(inString.length());
         for (int i = 0; i < inString.length(); i++) {
             char c = inString.charAt(i);
@@ -410,5 +398,18 @@ public final class StringUtils {
         return sb.toString();
     }
 
+    public static String toHex(String value) {
+        StringBuilder str = new StringBuilder();
+        for (byte aBa : value.getBytes())
+            str.append(String.format("%02X", aBa));
+        return str.toString();
+    }
 
+    public static String fromHex(String hex) {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < hex.length(); i += 2) {
+            str.append((char) Integer.parseInt(hex.substring(i, i + 2), 16));
+        }
+        return str.toString();
+    }
 }

@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class OrdersResult {
 
-    private Long total;
+    private Integer total;
 
     private List<RawOrder> orders;
 }

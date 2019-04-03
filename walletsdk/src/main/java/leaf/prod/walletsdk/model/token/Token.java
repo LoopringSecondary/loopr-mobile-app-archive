@@ -27,6 +27,10 @@ public class Token {
         return this.metadata.getSymbol();
     }
 
+    public String getName() {
+        return this.metadata.getName();
+    }
+
     public String getProtocol() {
         return this.metadata.getAddress();
     }

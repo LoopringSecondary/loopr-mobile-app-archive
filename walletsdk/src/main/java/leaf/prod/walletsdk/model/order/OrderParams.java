@@ -26,6 +26,12 @@ public class OrderParams implements Serializable {
     @SerializedName("dualAuthPrivateKey")
     private String dualAuthPrivateKey;
 
+    @SerializedName("broker")
+    private String broker;
+
+    @SerializedName("orderInterceptor")
+    private String orderInterceptor;
+
     // wallet address
     @SerializedName("wallet")
     private String wallet;
