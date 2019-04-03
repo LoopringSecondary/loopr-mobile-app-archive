@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -21,7 +22,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
     String qrCodeData;
     try {
       MethodChannel channel = const MethodChannel('qrCodeDisplay');
-      final response = await channel.invokeMethod("loopring", []);
+      final response = await channel.invokeMethod("qrCodeDisplay.get", []);
       String body = response;
       qrCodeData = '$body';
     } on PlatformException catch (e) {
@@ -32,6 +33,24 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
     setState(() {
       _qrCodeData = qrCodeData;
     });
+  }
+
+  Future<void> _copyAddress() async {
+    try {
+      MethodChannel channel = const MethodChannel('qrCodeDisplay');
+      await channel.invokeMethod("qrCodeDisplay.copyAdress", []);
+    } on PlatformException catch (e) {
+      print("PlatformException... $e");
+    }
+  }
+
+  Future<void> _saveToAlbum() async {
+    try {
+      MethodChannel channel = const MethodChannel('qrCodeDisplay');
+      await channel.invokeMethod("qrCodeDisplay.saveToAlbum", []);
+    } on PlatformException catch (e) {
+      print("PlatformException... $e");
+    }
   }
 
   @override
@@ -48,12 +67,31 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             new Container(
-              color: Colors.white,
+              padding: EdgeInsets.all(8.0),
+              decoration: new BoxDecoration(
+                color: HexColor("#21203A"),
+              ),
               child: Column(
                 children: <Widget>[
                   new QrImage(
                     data: _qrCodeData,
                     size: 200.0,
+                    backgroundColor: Colors.white
+                  ),
+                  CupertinoButton.filled(
+                    borderRadius: BorderRadius.circular(10),
+                    child: const Text('Copy Address'),
+                    onPressed: () {
+                      _copyAddress();
+                      print("Copy Address onPressed");
+                    },
+                  ),
+                  CupertinoButton(
+                    child: const Text('Save to Album'),
+                    onPressed: () {
+                      _saveToAlbum();
+                      print("Save to Album onPressed");
+                    },
                   ),
                 ],
               ),
