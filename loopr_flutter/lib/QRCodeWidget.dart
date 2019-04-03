@@ -67,35 +67,78 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             new Container(
-              padding: EdgeInsets.all(8.0),
+              width: 270,
+              padding: EdgeInsets.all(10.0),
               decoration: new BoxDecoration(
                 color: HexColor("#21203A"),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
                 children: <Widget>[
+                  new Container(
+                    height: 30.0,
+                    width: 180.0,
+                  ),
                   new QrImage(
                     data: _qrCodeData,
-                    size: 200.0,
+                    size: 180.0,
                     backgroundColor: Colors.white
                   ),
-                  CupertinoButton.filled(
-                    borderRadius: BorderRadius.circular(10),
-                    child: const Text('Copy Address'),
-                    onPressed: () {
-                      _copyAddress();
-                      print("Copy Address onPressed");
-                    },
+                  new Container(
+                    height: 10.0,
+                    width: 180.0,
                   ),
-                  CupertinoButton(
-                    child: const Text('Save to Album'),
-                    onPressed: () {
-                      _saveToAlbum();
-                      print("Save to Album onPressed");
-                    },
+                  SizedBox(
+                    height: 40.0,
+                    width: 180.0,
+                    child: 
+                      Text(
+                        _qrCodeData,
+                        style: TextStyle(color: Colors.white),
+                      ),
                   ),
+                  new Container(
+                    height: 20.0,
+                    width: 180.0,
+                  ),
+                  SizedBox(
+                    width: 180.0, // specific value
+                    child: 
+                      CupertinoButton(
+                        color: HexColor("#FDAE25"),
+                        padding: EdgeInsets.only(left: 2, right: 2),
+                        borderRadius: BorderRadius.circular(22),
+                        child: const Text(
+                          'Copy Address',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        onPressed: () {
+                          _copyAddress();
+                          print("Copy Address onPressed");
+                        },
+                      ),
+                  ),
+                  SizedBox(
+                    width: 180.0, // specific value
+                    child: 
+                      CupertinoButton(
+                        child: const Text(
+                          'Save to Album',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        onPressed: () {
+                          _copyAddress();
+                          print("Save to Album onPressed");
+                        },
+                      ),
+                  )
                 ],
               ),
-            )
+            ),
+            new Container(
+              height: 100.0,
+              width: 180.0,
+            ),
           ],
         ),
       ),
