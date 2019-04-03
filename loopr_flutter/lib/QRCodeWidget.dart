@@ -15,38 +15,12 @@ class QRCodeWidget extends StatefulWidget {
 }
 
 class _QRCodeWidgetState extends State<QRCodeWidget> {
-  static const platform = const MethodChannel('qrcode/value');
-
   String _qrCodeData = '';
-  
-  Future<void> _getBatteryLevel() async {
-    print("_getBatteryLevel");
+
+  Future<void> _getQRCodeDataFromNative() async {
     String qrCodeData;
     try {
-      final int result = await platform.invokeMethod('getBatteryLevel');
-      qrCodeData = '$result';
-    } on PlatformException catch (e) {
-      print("PlatformException... $e");
-      qrCodeData = "";
-    }
-
-    setState(() {
-      _qrCodeData = qrCodeData;
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // _getBatteryLevel();
-  }
-
-  Future<void> _hello() async {
-    print("_hello");
-    String qrCodeData;
-    try {
-      MethodChannel channel = const MethodChannel('upwallet/hello');
+      MethodChannel channel = const MethodChannel('qrCodeDisplay');
       final response = await channel.invokeMethod("loopring", []);
       String body = response;
       qrCodeData = '$body';
@@ -55,8 +29,6 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
       qrCodeData = "";
     }
 
-    print("looks good");
-
     setState(() {
       _qrCodeData = qrCodeData;
     });
@@ -64,19 +36,9 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-    // _getBatteryLevel();
-    MethodChannel channel = const MethodChannel('upwallet/hello');
-    final response = channel.invokeMethod("loopring", []);
     if (_qrCodeData == "") {
-      _hello();
+      _getQRCodeDataFromNative();
     }
-    // This will be printed on the console log.
-    print(response);
-    // _qrCodeData = response;
-    
-    print("hello world");
-    print(widget.title);
   
     return Scaffold(
       appBar: null,
