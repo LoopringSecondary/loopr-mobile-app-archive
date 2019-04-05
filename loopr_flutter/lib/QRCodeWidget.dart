@@ -136,7 +136,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
               ),
             ),
             new Container(
-              height: 100.0,
+              height: 50.0,
               width: 180.0,
             ),
           ],

@@ -2,8 +2,20 @@ import 'package:flutter/material.dart';
 import 'MyHomePage.dart';
 import 'QRCodeApp.dart';
 
-void main() => runApp(MyApp());
+// Android
+void main() => runApp(_widgetForRoute("qrCode"));
 
+Widget _widgetForRoute(String route) {
+  print("_widgetForRoute $route");
+  switch (route) {
+    case 'qrCode':
+      return QRCodeApp();
+    default:
+      return MyApp();
+  }
+}
+
+// iOS
 // https://github.com/flutter/flutter/issues/22356
 @pragma('vm:entry-point')
 void second() => runApp(SecondApp());
