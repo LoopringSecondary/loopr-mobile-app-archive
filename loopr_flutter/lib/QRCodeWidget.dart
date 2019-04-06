@@ -17,16 +17,17 @@ class QRCodeWidget extends StatefulWidget {
 
 class _QRCodeWidgetState extends State<QRCodeWidget> {
   String _qrCodeData = '';
+  static const String methodChannel = "qrCodeDisplay";
 
   Future<void> _getQRCodeDataFromNative() async {
     String qrCodeData;
     try {
-      MethodChannel channel = const MethodChannel('qrCodeDisplay');
+      MethodChannel channel = const MethodChannel(methodChannel);
       final response = await channel.invokeMethod("qrCodeDisplay.get", []);
       String body = response;
       qrCodeData = '$body';
-    } on PlatformException catch (e) {
-      print("PlatformException... $e");
+    } on Exception catch (e) {
+      print("MethodChannel... $e");
       qrCodeData = "";
     }
 
@@ -37,19 +38,19 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
 
   Future<void> _copyAddress() async {
     try {
-      MethodChannel channel = const MethodChannel('qrCodeDisplay');
+      MethodChannel channel = const MethodChannel(methodChannel);
       await channel.invokeMethod("qrCodeDisplay.copyAdress", []);
-    } on PlatformException catch (e) {
-      print("PlatformException... $e");
+    } on Exception catch (e) {
+      print("MethodChannel... $e");
     }
   }
 
   Future<void> _saveToAlbum() async {
     try {
-      MethodChannel channel = const MethodChannel('qrCodeDisplay');
+      MethodChannel channel = const MethodChannel(methodChannel);
       await channel.invokeMethod("qrCodeDisplay.saveToAlbum", []);
-    } on PlatformException catch (e) {
-      print("PlatformException... $e");
+    } on Exception catch (e) {
+      print("MethodChannel... $e");
     }
   }
 
