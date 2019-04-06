@@ -127,7 +127,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                         onPressed: () {
-                          _copyAddress();
+                          _saveToAlbum();
                           print("Save to Album onPressed");
                         },
                       ),
