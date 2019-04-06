@@ -19,6 +19,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
   String _qrCodeData = '';
   static const String methodChannel = "qrCodeDisplay";
 
+  // Receive data from native
   Future<void> _getQRCodeDataFromNative() async {
     String qrCodeData;
     try {
@@ -36,6 +37,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
     });
   }
 
+  // Send data to native
   Future<void> _copyAddress() async {
     try {
       MethodChannel channel = const MethodChannel(methodChannel);
