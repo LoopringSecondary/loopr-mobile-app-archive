@@ -9,7 +9,8 @@
 ### Features that will be written in Flutter
 - Chat
 - QR code (Completed)
-- Some setting page
+- Setting
+- Setting detail
 - dialog_wallet_create_success
 - Airdrop
 - Add Contact
