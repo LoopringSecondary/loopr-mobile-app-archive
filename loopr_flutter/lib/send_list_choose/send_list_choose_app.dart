@@ -5,7 +5,7 @@ class SendListChooseApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '',
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => SendListChooseWidget(title: 'second'),
