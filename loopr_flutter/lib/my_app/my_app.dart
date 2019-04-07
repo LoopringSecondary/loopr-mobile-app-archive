@@ -11,7 +11,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => MyHomePage(title: 'Flutter Demo Home Page'),
-        '/second': (context) => MyHomePage(title: 'second'),
       },
       theme: ThemeData(
         // This is the theme of your application.
