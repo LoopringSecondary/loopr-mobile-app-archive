@@ -8,8 +8,20 @@
 
 ### Features that will be written in Flutter
 - Chat
-- QR code
+- QR code (Completed)
 - Some setting page
+- dialog_wallet_create_success
+- Airdrop
+- Add Contact
+- Add Tokens
+- Order list
+- Order detail
+- P2P list
+- P2P detail
+- Asset detail
+- Transaction detail
+- Set gas
+- Select token to send
 
 ### UI view and data
 An app is always to render data in a UI view. flutter-module is primary for UI view and should be stateless. How to fetch data, process data and store data are in iOS and Android native code.
