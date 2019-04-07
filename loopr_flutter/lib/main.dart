@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'MyHomeApp.dart';
-import 'QRCodeApp.dart';
+import 'my_app/my_app.dart';
+import 'qr_code/qr_code_app.dart';
 
 // Android
+// Refer https://github.com/flutter/flutter/issues/10813
 void main() => runApp(
   new MaterialApp(
     home: MyApp(),

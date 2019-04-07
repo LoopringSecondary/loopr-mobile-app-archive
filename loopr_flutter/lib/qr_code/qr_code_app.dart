@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'QRCodeWidget.dart';
+import 'qr_code_widget.dart';
 
 class QRCodeApp extends StatelessWidget {
   @override
