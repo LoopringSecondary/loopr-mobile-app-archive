@@ -10,7 +10,7 @@ import UIKit
 
 class BuyAndSellSwipeViewController: SwipeViewController {
 
-    var market: MarketV1!
+    var market: Market!
 
     var initialType: OrderSide = .buy
     var initialPrice: String?

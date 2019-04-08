@@ -17,7 +17,7 @@ class MarketDetailDepthModalViewController: UIViewController, UITableViewDelegat
 
     weak var delegate: MarketDetailDepthModalViewControllerDelegate?
 
-    var market: MarketV1!
+    var market: Market!
     private var buys: [Depth] = []
     private var sells: [Depth] = []
     private var maxAmountInDepthView: Double = 0

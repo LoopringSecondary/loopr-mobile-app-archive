@@ -25,9 +25,9 @@ class PlaceOrderDataManager {
     // Similar naming in Trade.swift
     var tokenA: Token = Token(symbol: "LRC")!
     var tokenB: Token = Token(symbol: "WETH")!
-    var market: MarketV1?
+    var market: Market?
 
-    func new(tokenA: String, tokenB: String, market: MarketV1) {
+    func new(tokenA: String, tokenB: String, market: Market) {
         self.tokenA = TokenDataManager.shared.getTokenBySymbol(tokenA)!
         self.tokenB = TokenDataManager.shared.getTokenBySymbol(tokenB)!
         self.market = market

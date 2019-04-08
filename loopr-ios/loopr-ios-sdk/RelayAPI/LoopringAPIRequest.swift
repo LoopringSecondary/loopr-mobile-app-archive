@@ -545,6 +545,23 @@ class LoopringAPIRequest {
     }
 
     //==========================================relay 2.0===========================================
+    static func getTime(completionHandler: @escaping (_ error: Error?) -> Void) {
+        var body: JSON = JSON()
+        body["method"] = "get_time"
+        body["id"] = JSON(UUID().uuidString)
+        
+        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler(error)
+                return
+            }
+            let json = JSON(data)
+            print(json)
+            completionHandler(error)
+        }
+    }
+    
     static func getMarkets(requireMetadata: Bool, requireTicker: Bool, quoteCurrencyForTicker: Currency, completionHandler: @escaping (_ result: [Market]?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["method"] = "get_markets"

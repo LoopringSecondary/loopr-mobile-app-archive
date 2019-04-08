@@ -10,7 +10,7 @@ import UIKit
 
 class MarketDetailSummaryTableViewCell: UITableViewCell {
 
-    var market: MarketV1?
+    var market: Market?
     
     // Base View
     @IBOutlet weak var baseView: UIView!
@@ -144,7 +144,7 @@ class MarketDetailSummaryTableViewCell: UITableViewCell {
         changeLabel.textAlignment = .right
     }
     
-    func setup(market: MarketV1) {
+    func setup(market: Market) {
         self.baseView.isHidden = false
         self.highlightView.isHidden = true
         

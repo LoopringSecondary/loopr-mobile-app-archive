@@ -13,7 +13,7 @@ import StepSlider
 
 class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, NumericKeyboardDelegate, NumericKeyboardProtocol, StepSliderDelegate {
 
-    var market: MarketV1!
+    var market: Market!
 
     // container
     @IBOutlet weak var containerView: UIView!
