@@ -10,22 +10,22 @@ import Foundation
 
 class Paging {
 
-    let skip: UInt
+    let cursor: UInt
     let size: UInt
 
-    init(skip: UInt, size: UInt) {
-        self.skip = skip
+    init(cursor: UInt, size: UInt) {
+        self.cursor = cursor
         self.size = size
     }
 
     init(json: JSON) {
-        self.skip = json["skip"].uIntValue
+        self.cursor = json["skip"].uIntValue
         self.size = json["size"].uIntValue
     }
 
     func toJSON() -> JSON {
         var json: JSON = JSON()
-        json["skip"] = JSON(skip)
+        json["skip"] = JSON(cursor)
         json["size"] = JSON(size)
         return json
     }

@@ -8,6 +8,7 @@
 
 import Foundation
 import CommonCrypto
+import BigInt
 
 extension String {
     
@@ -147,13 +148,16 @@ extension String {
         }
     }
     
-    var hexToInteger: Int? {
+    var toInt: Int? {
         if self.isHex() {
-            if self.lowercased().starts(with: "0x") {
-                return Int(self.dropFirst(2), radix: 16)
-            } else {
-                return Int(self, radix: 16)
-            }
+            return Int(self.drop0x(), radix: 16)
+        }
+        return nil
+    }
+    
+    var toBigInt: BigInt? {
+        if self.isHex() {
+            return BigInt(self.drop0x(), radix: 16)
         }
         return nil
     }
@@ -262,6 +266,10 @@ extension String {
         return self.data(using: String.Encoding.utf8)?.sha256
     }
     
+    public var hexString: String {
+        return self.data(using: .utf8)?.hexString ?? ""
+    }
+    
     func hash160() -> String? {
         //NEO Address hash160
         //skip the first byte which is 0x17, revert it then convert to full hex
@@ -304,10 +312,6 @@ extension String {
             data.append(&char, count: 1)
         }
         return data
-    }
-    
-    func hexString() -> String {
-        return self.data(using: .utf8)?.hexString ?? ""
     }
     
     func hexToString() -> String? {

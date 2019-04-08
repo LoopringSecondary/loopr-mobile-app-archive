@@ -1,5 +1,5 @@
 //
-//  Order.swift
+//  OrderResult.swift
 //  loopr-ios
 //
 //  Created by xiaoruby on 3/6/18.

@@ -17,8 +17,34 @@ extension BigInt {
         return gethAmount
     }
     
-    func toHex() -> String {
+    func toHexWithPrefix() -> String {
         return "0x" + String.init(self, radix: 16)
+    }
+    
+    func toHexWithoutPrefix() -> String {
+        return String.init(self, radix: 16).drop0x()
+    }
+    
+    func toHexWithPrefixZero(size: Int) -> String? {
+        return toHexZeroPadded(size: size, withPrefix: true)
+    }
+    
+    func toHexWithoutPrefixZero(size: Int) -> String? {
+        return toHexZeroPadded(size: size, withPrefix: false)
+    }
+    
+    func toHexZeroPadded(size: Int, withPrefix: Bool) -> String? {
+        var result = self.toHexWithoutPrefix()
+        let length = size - result.count
+        if length >= 0 && self.signum() >= 0 {
+            result = String(repeating: "0", count: length) + result
+        } else {
+            return nil
+        }
+        if withPrefix {
+            result = "0x" + result
+        }
+        return result;
     }
     
     func toDouble(by decimal: Int) -> Double {
