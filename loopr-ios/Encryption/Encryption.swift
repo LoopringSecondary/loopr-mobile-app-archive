@@ -20,7 +20,7 @@ class Encryption {
     }
 
     class func encryptEncoded(plainText: String, userEnteredSecretKey secretKey: [UInt8]) -> ([UInt8], [UInt8]) {
-        guard plainText.hexString() != "" && secretKey.count > 0 else {
+        guard plainText.hexString != "" && secretKey.count > 0 else {
             return ([], [])
         }
 

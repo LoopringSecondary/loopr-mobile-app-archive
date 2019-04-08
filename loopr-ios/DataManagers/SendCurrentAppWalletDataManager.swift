@@ -234,8 +234,8 @@ class SendCurrentAppWalletDataManager {
         if let data = Data(hexString: rawTx.data),
             let amount = GethBigInt.generate(rawTx.value),
             let address = GethAddress.init(fromHex: rawTx.to),
-            let gasPrice = rawTx.gasPrice.hexToInteger,
-            let gasLimit = rawTx.gasLimit.hexToInteger {
+            let gasPrice = rawTx.gasPrice.toInt,
+            let gasLimit = rawTx.gasLimit.toInt {
             let signedTransaction = web3swift.sign(address: address, encodedFunctionData: data, nonce: rawTx.nonce, amount: amount, gasLimit: GethBigInt(Int64(gasLimit)), gasPrice: GethBigInt(Int64(gasPrice)), password: password)
             do {
                 if let signedTransactionData = try signedTransaction?.encodeRLP() {

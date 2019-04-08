@@ -18,6 +18,10 @@ extension Data {
         return "0x\(hexString)"
     }
     
+    public var hexStringWithNoPrefix: String {
+        return hexString.drop0x()
+    }
+    
     public var bytes: [UInt8] {
         return [UInt8](self)
     }
