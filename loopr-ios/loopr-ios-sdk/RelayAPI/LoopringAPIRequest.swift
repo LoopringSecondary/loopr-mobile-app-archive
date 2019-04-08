@@ -227,7 +227,7 @@ class LoopringAPIRequest {
     }
     
     // Not ready
-    public static func getOrderBook(level: Int, size: Int, marketPair: MarketPair, completionHandler: @escaping (_ assets: [Asset], _ error: Error?) -> Void) {
+    public static func getOrderBook(level: Int, size: Int, marketPair: MarketPair, completionHandler: @escaping (_ sells: [OrderbookItem], _ buys: [OrderbookItem], _ error: Error?) -> Void) {
         var body = newJSON()
         
         body["method"] = "get_order_book"

@@ -65,7 +65,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         buttonInNavigationBar.addTarget(self, action: #selector(self.clickNavigationTitleButton(_:)), for: .touchUpInside)
         self.navigationItem.titleView = buttonInNavigationBar
         
-        getDepthFromRelay()
+        getOrderbookFromRelay()
         self.buys = MarketDepthDataManager.shared.getBuys()
         self.sells = MarketDepthDataManager.shared.getSells()
         

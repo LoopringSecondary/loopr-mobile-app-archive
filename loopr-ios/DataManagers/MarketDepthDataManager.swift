@@ -31,7 +31,7 @@ class MarketDepthDataManager {
     }
 
     func getOrderbookFromServer(market: String, completionHandler: @escaping (_ buyDepths: [OrderbookItem], _ sellDepths: [OrderbookItem], _ error: Error?) -> Void) {
-        LoopringAPIRequest.getOrderBook(level: 8, size: 100, marketPair: MarketPair(baseToken: "0xef68e7c694f40c8202821edf525de3782458639f", quoteToken: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2")) getDepths(market: market, length: 20) { (buyDepths, sellDepths, error) in
+        LoopringAPIRequest.getOrderBook(level: 8, size: 100, marketPair: MarketPair(baseToken: "0xef68e7c694f40c8202821edf525de3782458639f", quoteToken: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2")) { (buyDepths, sellDepths, error) in
             guard buyDepths != nil && sellDepths != nil && error == nil else { return }
             self.market = market
             self.buys = buyDepths!

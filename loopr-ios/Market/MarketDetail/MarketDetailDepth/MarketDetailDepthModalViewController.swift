@@ -18,8 +18,8 @@ class MarketDetailDepthModalViewController: UIViewController, UITableViewDelegat
     weak var delegate: MarketDetailDepthModalViewControllerDelegate?
 
     var market: Market!
-    private var buys: [Depth] = []
-    private var sells: [Depth] = []
+    private var buys: [OrderbookItem] = []
+    private var sells: [OrderbookItem] = []
     private var maxAmountInDepthView: Double = 0
 
     @IBOutlet weak var headerView: UIView!
@@ -45,7 +45,7 @@ class MarketDetailDepthModalViewController: UIViewController, UITableViewDelegat
 
         headerLastPriceLabel.textColor = UIColor.success
         headerLastPriceLabel.font = FontConfigManager.shared.getDigitalFont(size: 13)
-        headerLastPriceLabel.text = "\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)"
+        headerLastPriceLabel.text = "\(market!.ticker.price) \(market!.ticker.baseSymbol)"
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -56,6 +56,7 @@ class MarketDetailDepthModalViewController: UIViewController, UITableViewDelegat
         self.buys = MarketDepthDataManager.shared.getBuys()
         self.sells = MarketDepthDataManager.shared.getSells()
 
+        /*
         if buys.count > 0 && sells.count > 0 {
             self.maxAmountInDepthView = max(buys[buys.count / 2].amountAInDouble, sells[sells.count / 2].amountAInDouble) * 1.5
         } else if buys.count > 0 {
@@ -65,6 +66,7 @@ class MarketDetailDepthModalViewController: UIViewController, UITableViewDelegat
         } else {
             self.maxAmountInDepthView = 0
         }
+        */
 
         var maxCount = buys.count > sells.count ? buys.count : sells.count
         if maxCount > 10 {

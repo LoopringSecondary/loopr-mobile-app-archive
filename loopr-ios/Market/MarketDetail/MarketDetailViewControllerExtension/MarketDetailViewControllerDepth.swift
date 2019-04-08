@@ -11,7 +11,7 @@ import Foundation
 extension MarketDetailViewController {
 
     func getOrderbookFromRelay() {
-        MarketDepthDataManager.shared.getDepthFromServer(market: market.name, completionHandler: { buys, sells, _ in
+        MarketDepthDataManager.shared.getOrderbookFromServer(market: market.name, completionHandler: { buys, sells, _ in
             self.preivousMarketName = self.market.name
             self.buys = buys
             self.sells = sells

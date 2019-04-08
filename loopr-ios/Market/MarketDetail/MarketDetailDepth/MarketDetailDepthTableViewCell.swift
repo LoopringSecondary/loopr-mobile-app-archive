@@ -19,8 +19,8 @@ class MarketDetailDepthTableViewCell: UITableViewCell {
 
     weak var delegate: MarketDetailDepthTableViewCellDelegate?
 
-    var buyDepth: Depth?
-    var sellDepth: Depth?
+    var buyDepth: OrderbookItem?
+    var sellDepth: OrderbookItem?
     var maxAmountInDepthView: Double = 0
     var minSellPrice: Double = 0
 
@@ -144,15 +144,16 @@ class MarketDetailDepthTableViewCell: UITableViewCell {
         }
 
         if let sellDepth = sellDepth {
-            label3.text = sellDepth.price.toDecimalPlaces(8)
-            label4.text = sellDepth.amountA.toDecimalPlaces(2).trailingZero()
+            label3.text = sellDepth.price.withCommas(8)
+            label4.text = sellDepth.price.withCommas(2).trailingZero()
 
+            /*
             var percentage = (sellDepth.amountAInDouble)/(maxAmountInDepthView)
             if percentage > 1.0 {
                 percentage = 1.0
             }
             depthViewSell.frame = CGRect(x: baseViewSell.width*CGFloat(1.0-percentage), y: 1, width: baseViewSell.width*CGFloat(percentage), height: MarketDetailDepthTableViewCell.getHeight()-2)
-
+            */
         } else {
             label3.text = ""
             label4.text = ""

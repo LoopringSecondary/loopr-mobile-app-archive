@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Used in ordrebook
 class OrderbookItem {
     
     let amount: Double
