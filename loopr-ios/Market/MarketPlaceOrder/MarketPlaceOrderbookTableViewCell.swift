@@ -25,7 +25,7 @@ class MarketPlaceOrderbookTableViewCell: UITableViewCell {
         amountLabel.isHidden = true
     }
     
-    func update(indexPath: IndexPath, depth: Depth) {
+    func update(indexPath: IndexPath, orderbookItem: OrderbookItem) {
         isUserInteractionEnabled = true
 
         priceLabel.isHidden = false
@@ -43,8 +43,8 @@ class MarketPlaceOrderbookTableViewCell: UITableViewCell {
             priceLabel.textColor = UIColor.success
         }
         
-        priceLabel.text = depth.price.toDecimalPlaces(8)
-        amountLabel.text = depth.amountA.toDecimalPlaces(2).trailingZero()
+        priceLabel.text = orderbookItem.price.withCommas(8)
+        amountLabel.text = orderbookItem.amount.withCommas(2).trailingZero()
     }
     
     class func getCellIdentifier() -> String {

@@ -10,8 +10,8 @@ import Foundation
 
 enum TrendInterval: String, CustomStringConvertible {
     
-    case oneHour = "1Hr"
-    case twoHours = "2Hr"
+    case oneMinutes = "OHLC_INTERVAL_ONE_MINUTES"
+    case fiveMinutes = "OHLC_INTERVAL_FIVE_MINUTES"
     case fourHours = "4Hr"
     case oneDay = "1Day"
     case oneWeek = "1Week"

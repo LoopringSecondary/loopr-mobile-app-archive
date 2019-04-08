@@ -158,7 +158,7 @@ class MarketDetailPriceChartTableViewCell: UITableViewCell {
         var upVals: [CandleChartDataEntry] = []
         
         for (i, trend) in trends.enumerated() {
-            let dataEntry = CandleChartDataEntry(x: Double(i), shadowH: trend.high, shadowL: trend.low, open: trend.open, close: trend.close)
+            let dataEntry = CandleChartDataEntry(x: Double(i), shadowH: trend.highestPrice, shadowL: trend.lowestPrice, open: trend.openingPrice, close: trend.closingPrice)
             upVals.append(dataEntry)
         }
         
@@ -175,13 +175,17 @@ class MarketDetailPriceChartTableViewCell: UITableViewCell {
 
         for (i, trend) in trends.enumerated() {
             let dataEntry: CandleChartDataEntry
-            if trend.vol == 0 {
+            if trend.amount == 0 {
                 dataEntry = CandleChartDataEntry(x: Double(i), shadowH: 0, shadowL: 0, open: 0, close: 0)
-            } else if trend.change > 0 {
+            }
+            /*
+            else if trend.change > 0 {
                 dataEntry = CandleChartDataEntry(x: Double(i), shadowH: 0, shadowL: trend.vol, open: 0, close: trend.vol)
             } else {
                 dataEntry = CandleChartDataEntry(x: Double(i), shadowH: trend.vol, shadowL: 0, open: trend.vol, close: 0)
             }
+            */
+            dataEntry = CandleChartDataEntry(x: Double(i), shadowH: 0, shadowL: trend.amount, open: 0, close: trend.amount)
             upVals.append(dataEntry)
         }
         

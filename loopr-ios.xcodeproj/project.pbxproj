@@ -113,6 +113,7 @@
 		9B018DC621FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */; };
 		9B018DC821FC3096009D079D /* TimeAgoSince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC721FC3096009D079D /* TimeAgoSince.swift */; };
 		9B05EB47225B26E8003507B4 /* OrderbookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B05EB46225B26E8003507B4 /* OrderbookItem.swift */; };
+		9B05EB49225B388E003507B4 /* Trend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B05EB48225B388E003507B4 /* Trend.swift */; };
 		9B0752CB2240BDDD004E3A51 /* KeyStrengtheningTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752C92240BDDD004E3A51 /* KeyStrengtheningTestCase.swift */; };
 		9B0752CC2240BDDD004E3A51 /* EncryptionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752CA2240BDDD004E3A51 /* EncryptionTestCase.swift */; };
 		9B0752CE2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752CD2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift */; };
@@ -718,6 +719,7 @@
 		9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailSeperateLineTableViewCell.xib; sourceTree = "<group>"; };
 		9B018DC721FC3096009D079D /* TimeAgoSince.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAgoSince.swift; sourceTree = "<group>"; };
 		9B05EB46225B26E8003507B4 /* OrderbookItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderbookItem.swift; sourceTree = "<group>"; };
+		9B05EB48225B388E003507B4 /* Trend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trend.swift; sourceTree = "<group>"; };
 		9B0752C92240BDDD004E3A51 /* KeyStrengtheningTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyStrengtheningTestCase.swift; sourceTree = "<group>"; };
 		9B0752CA2240BDDD004E3A51 /* EncryptionTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptionTestCase.swift; sourceTree = "<group>"; };
 		9B0752CD2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopringLightcoreAPIRequestTests.swift; sourceTree = "<group>"; };
@@ -2749,6 +2751,7 @@
 				CED82663E035884F1548EEAE /* MarketTicker.swift */,
 				9BB0F247223F622200A4D23B /* MarketPair.swift */,
 				CED82EE29FADF5ED0FA52050 /* MarketStatus.swift */,
+				9B05EB48225B388E003507B4 /* Trend.swift */,
 				CED82EFBDE6D2D0BAEBB579C /* TrendInterval.swift */,
 			);
 			path = Market;
@@ -3413,6 +3416,7 @@
 				AC2ACA85210305F8009C77E7 /* TradeFAQDetailViewController.swift in Sources */,
 				948125672119B38E00453225 /* PartnerDataManager.swift in Sources */,
 				94E49ED4213CE99700CDDA02 /* PreventScreenShotViewController.swift in Sources */,
+				9B05EB49225B388E003507B4 /* Trend.swift in Sources */,
 				9B2ED7FC21D460EA00ACEE84 /* NewsCollectionCell.swift in Sources */,
 				ACD5A88A21EDD105002A94F7 /* WalletBalanceView.swift in Sources */,
 				9B76456921FD98D100896B3E /* NoDataCollectionViewCell.swift in Sources */,

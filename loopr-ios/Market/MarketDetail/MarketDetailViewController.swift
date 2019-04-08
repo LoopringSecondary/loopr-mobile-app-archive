@@ -69,6 +69,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         self.buys = MarketDepthDataManager.shared.getBuys()
         self.sells = MarketDepthDataManager.shared.getSells()
         
+        /*
         if buys.count > 0 && sells.count > 0 {
             self.maxAmountInDepthView = max(buys[buys.count / 2].amountAInDouble, sells[sells.count / 2].amountAInDouble) * 1.5
         } else if buys.count > 0 {
@@ -78,6 +79,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         } else {
             self.maxAmountInDepthView = 0
         }
+        */
         
         getTradeHistoryFromRelay()
 
@@ -86,7 +88,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         // 1 year range, use 1 week interval, 52 counts
         // 2 year range, use 1 week interval, 104 counts
         
-        MarketDataManager.shared.getAllTrends(market: market.name) { (_) in
+        MarketDataManager.shared.getAllTrends(market: market.ticker.baseSymbol) { (_) in
             self.trends = MarketDataManager.shared.getTrends(trendRange: TrendRange.oneMonth)
         }
     }

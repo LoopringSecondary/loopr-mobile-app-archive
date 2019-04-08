@@ -24,8 +24,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     let decimalsSettingValue: Int = 8
 
     // TODO: needs to update buys and sells in Relay 2.0
-    var buys: [Depth] = []
-    var sells: [Depth] = []
+    var buys: [OrderbookItem] = []
+    var sells: [OrderbookItem] = []
 
     var activeTextFieldTag = -1
 
@@ -232,11 +232,11 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         }
     }
 
-    func setBuys(_ buys: [Depth]) {
+    func setBuys(_ buys: [OrderbookItem]) {
         self.buys = buys
     }
 
-    func setSells(_ sells: [Depth]) {
+    func setSells(_ sells: [OrderbookItem]) {
         // get first 5
         if sells.count >= 5 {
             self.sells = Array(sells[0..<5])
