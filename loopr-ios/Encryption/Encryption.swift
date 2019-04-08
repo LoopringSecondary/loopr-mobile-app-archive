@@ -27,7 +27,7 @@ class Encryption {
         // AES-128, AES-192, AES-256 is defined by the length of thkey
         let encGCM = GCM(iv: EncryptionConfigV1.AESGCMConfigV1.iv, mode: EncryptionConfigV1.AESGCMConfigV1.mode)
         let aes = try! AES(key: secretKey, blockMode: encGCM, padding: .noPadding)
-        let encrypted = try! aes.encrypt(plainText.hexString().hexBytes)
+        let encrypted = try! aes.encrypt(plainText.hexString.hexBytes)
         print(encrypted)
         return (encrypted, encGCM.authenticationTag!)
     }

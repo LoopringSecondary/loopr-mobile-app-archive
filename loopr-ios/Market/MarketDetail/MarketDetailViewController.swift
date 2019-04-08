@@ -108,10 +108,10 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func setupMarket() {
-        PlaceOrderDataManager.shared.new(tokenA: market.tradingPair.tradingA, tokenB: market.tradingPair.tradingB, market: market)
+        PlaceOrderDataManager.shared.new(tokenA: market.ticker.quoteSymbol, tokenB: market.ticker.baseSymbol, market: market)
         
-        buyButton.setTitle(LocalizedString("Buy", comment: "") + " " + market.tradingPair.tradingA, for: .normal)
-        sellButton.setTitle(LocalizedString("Sell", comment: "") + " " + market.tradingPair.tradingA, for: .normal)
+        buyButton.setTitle(LocalizedString("Buy", comment: "") + " " + market.ticker.quoteSymbol, for: .normal)
+        sellButton.setTitle(LocalizedString("Sell", comment: "") + " " + market.ticker.quoteSymbol, for: .normal)
         
         marketDetailSwipeViewController.market = market
         addChildViewController(marketDetailSwipeViewController)

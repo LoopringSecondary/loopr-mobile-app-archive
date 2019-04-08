@@ -138,7 +138,7 @@ class MarketDetailDepthModalViewController: UIViewController, UITableViewDelegat
         label3.theme_textColor = GlobalPicker.textLightColor
         label3.font = FontConfigManager.shared.getMediumFont(size: 12)
         if SettingDataManager.shared.getCurrentLanguage().name == "zh-Hans" || SettingDataManager.shared.getCurrentLanguage().name  == "zh-Hant" {
-            label3.text = "\(LocalizedString("Sell Price", comment: ""))(\(market.tradingPair.tradingB))"
+            label3.text = "\(LocalizedString("Sell Price", comment: ""))(\(market.ticker.baseSymbol))"
         } else {
             label3.text = "\(LocalizedString("Sell Price", comment: ""))"
         }
@@ -148,7 +148,7 @@ class MarketDetailDepthModalViewController: UIViewController, UITableViewDelegat
         let label4 = UILabel(frame: CGRect(x: 10, y: 0, width: labelWidth-20, height: 30))
         label4.theme_textColor = GlobalPicker.textLightColor
         label4.font = FontConfigManager.shared.getMediumFont(size: 12)
-        label4.text = "\(LocalizedString("Amount", comment: ""))(\(market.tradingPair.tradingA))"
+        label4.text = "\(LocalizedString("Amount", comment: ""))(\(market.ticker.quoteSymbol))"
         label4.textAlignment = .right
         baseViewSell.addSubview(label4)
 

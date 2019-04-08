@@ -62,7 +62,7 @@ class MarketDataManager {
             return 8
         }
         
-        return filteredMarkets[0].decimals
+        return filteredMarkets[0].metadata.priceDecimals
     }
     
     func getDecimals(tradingPair: String) -> Int {
@@ -73,14 +73,14 @@ class MarketDataManager {
             return 8
         }
         
-        return filteredMarkets[0].decimals
+        return filteredMarkets[0].metadata.priceDecimals
     }
 
     func getBalance(of pair: String) -> Double {
         var result: Double = 0
         for market in markets {
-            if market.tradingPair.description.lowercased() == pair.lowercased() {
-                result = market.balance
+            if market.description.lowercased() == pair.lowercased() {
+                result = market.ticker.price
                 break
             }
         }
@@ -88,6 +88,7 @@ class MarketDataManager {
     }
     
     func getAllTrends(market: String, completionHandler: @escaping (_ error: Error?) -> Void) {
+        /*
         let dispatchGroup = DispatchGroup()
         
         dispatchGroup.enter()
@@ -143,9 +144,11 @@ class MarketDataManager {
         dispatchGroup.notify(queue: .main) {
             completionHandler(nil)
         }
+        */
     }
     
     func getTrends(trendRange: TrendRange) -> [Trend] {
+        /*
         var trends: [Trend] = []
         switch trendRange.getTrendInterval() {
         case .oneHour:
@@ -164,6 +167,8 @@ class MarketDataManager {
         } else {
             return trends.reversed()
         }
+        */
+        return []
     }
     
     func getMarket(byTradingPair tradingPair: String) -> Market? {
@@ -173,7 +178,7 @@ class MarketDataManager {
         return nil
     }
     
-    func getMarketsWithoutReordered(type: MarketSwipeViewType = .all, tag: TickerTag = .all) -> [Market] {
+    func getMarketsWithoutReordered(type: MarketSwipeViewType = .all) -> [Market] {
         var result: [Market]
         switch type {
         case .favorite:
@@ -182,28 +187,28 @@ class MarketDataManager {
             })
         case .LRC:
             let sortedMarkets = markets.filter({ (market) -> Bool in
-                return market.tradingPair.tradingB.uppercased() == "LRC"
+                return market.ticker.baseSymbol.uppercased() == "LRC"
             }).sorted { (a, b) -> Bool in
                 return a.description < b.description
             }
             result = sortedMarkets
         case .ETH:
             let sortedMarkets = markets.filter({ (market) -> Bool in
-                return market.tradingPair.tradingB.uppercased() == "ETH" || market.tradingPair.tradingB.uppercased() == "WETH"
+                return market.ticker.baseSymbol.uppercased() == "ETH" || market.ticker.baseSymbol.uppercased() == "WETH"
             }).sorted { (a, b) -> Bool in
                 return a.description < b.description
             }
             result = sortedMarkets
         case .USDT:
             let sortedMarkets = markets.filter({ (market) -> Bool in
-                return market.tradingPair.tradingB.uppercased() == "USDT"
+                return market.ticker.baseSymbol.uppercased() == "USDT"
             }).sorted { (a, b) -> Bool in
                 return a.description < b.description
             }
             result = sortedMarkets
         case .TUSD:
             let sortedMarkets = markets.filter({ (market) -> Bool in
-                return market.tradingPair.tradingB.uppercased() == "TUSD"
+                return market.ticker.baseSymbol.uppercased() == "TUSD"
             }).sorted { (a, b) -> Bool in
                 return a.description < b.description
             }
@@ -211,13 +216,7 @@ class MarketDataManager {
         case .all:
             result = markets
         }
-        
-        // If it's favorite type, return all with favorite.
-        if tag != .all && type != .favorite {
-            result = result.filter({ (market) -> Bool in
-                return market.tag == tag
-            })
-        }
+
         return result
     }
 
@@ -243,7 +242,9 @@ class MarketDataManager {
         LoopringSocketIORequest.endTicker()
     }
 
+    // onTickerResponse is for the first version of web socket.
     func onTickerResponse(json: JSON) {
+        /*
         var newMarkets: [Market] = []
         for subJson in json.arrayValue {
             if let market = Market(json: subJson) {
@@ -252,6 +253,7 @@ class MarketDataManager {
         }
         setMarkets(newMarkets: newMarkets)
         NotificationCenter.default.post(name: .tickerResponseReceived, object: nil)
+        */
     }
     
     // TODO: deprecate socker io to get trends
