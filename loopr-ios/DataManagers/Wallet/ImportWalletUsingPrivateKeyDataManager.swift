@@ -84,8 +84,6 @@ class ImportWalletUsingPrivateKeyDataManager: ImportWalletProtocol {
                 AppWalletDataManager.shared.updateAppWalletsInLocalStorage(newAppWallet: newAppWallet)
                 CurrentAppWalletDataManager.shared.setCurrentAppWallet(newAppWallet, completionHandler: {})
                 
-                // Inform relay
-                LoopringAPIRequest.unlockWallet(owner: self.address) { (_, _) in }
                 print("Finished unlocking a new wallet in ImportWalletUsingPrivateKeyDataManager")
 
                 DispatchQueue.main.async {

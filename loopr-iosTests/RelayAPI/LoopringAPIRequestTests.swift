@@ -235,20 +235,6 @@ class LoopringAPIRequestTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testUnlockWallet() {
-        let expectation = XCTestExpectation()
-        LoopringAPIRequest.unlockWallet(owner: "0xeE8b2b3aFDE5Fd69E7E0581EE702c202693e7B03") { result, error in
-            guard error == nil && result != nil else {
-                print("error=\(String(describing: error))")
-                XCTFail()
-                return
-            }
-            XCTAssertEqual(result!, "unlock_notice_success")
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 10.0)
-    }
-    
     func testGetPortfolio() {
         let expectation = XCTestExpectation()
         LoopringAPIRequest.getPortfolio(owner: "0x329B97A3E8eC8a8c23D4bD54803e74A9eE66CbcB") { result, error in

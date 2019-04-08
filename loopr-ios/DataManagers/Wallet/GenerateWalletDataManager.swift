@@ -103,9 +103,6 @@ class GenerateWalletDataManager {
                 self.userInputMnemonics = []
                 self.isVerified = false
                 
-                // Inform relay
-                LoopringAPIRequest.unlockWallet(owner: appWallet!.address) { (_, _) in }
-                
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
                     completion(appWallet, error)

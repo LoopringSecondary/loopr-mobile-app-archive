@@ -77,8 +77,6 @@ class ImportWalletUsingKeystoreDataManager: ImportWalletProtocol {
         let newAppWallet = AppWallet(setupWalletMethod: .importUsingKeystore, address: address, password: password, devicePassword: "", keystoreString: keystore, name: walletName.trim(), isVerified: true, tokenList: ["ETH", "WETH", "LRC"], manuallyDisabledTokenList: [])
         AppWalletDataManager.shared.updateAppWalletsInLocalStorage(newAppWallet: newAppWallet)
         CurrentAppWalletDataManager.shared.setCurrentAppWallet(newAppWallet, completionHandler: {})
-        // Inform relay
-        LoopringAPIRequest.unlockWallet(owner: address) { (_, _) in }
         print("Finished unlocking a new wallet in ImportWalletUsingKeystoreDataManager")
     }
 

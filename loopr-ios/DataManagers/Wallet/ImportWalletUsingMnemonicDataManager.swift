@@ -81,8 +81,6 @@ class ImportWalletUsingMnemonicDataManager: ImportWalletProtocol {
 
             AppWalletDataManager.shared.addWallet(setupWalletMethod: .importUsingMnemonic, walletName: self.walletName, mnemonics: self.mnemonic.components(separatedBy: " "), password: self.password, devicePassword: self.devicePassword, derivationPath: pathValue, key: self.selectedKey, isVerified: true, completionHandler: {(appWallet, error) in
                 if error == nil {
-                    // Inform relay
-                    LoopringAPIRequest.unlockWallet(owner: appWallet!.address) { (_, _) in }
                 }
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
