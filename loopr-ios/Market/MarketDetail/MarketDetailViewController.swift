@@ -26,8 +26,8 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
     // Depth
     var preivousMarketName: String = ""
     var minSellPrice: Double = 0
-    var buys: [Depth] = []
-    var sells: [Depth] = []
+    var buys: [OrderbookItem] = []
+    var sells: [OrderbookItem] = []
     var maxAmountInDepthView: Double = 0
     var isDepthLaunching: Bool = true
     
@@ -102,7 +102,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         }
         buttonInNavigationBar.title = padding + market!.description
         
-        getDepthFromRelay()
+        getOrderbookFromRelay()
     }
     
     func setupMarket() {

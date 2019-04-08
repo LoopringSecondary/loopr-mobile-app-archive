@@ -112,6 +112,7 @@
 		9B018DC521FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC321FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.swift */; };
 		9B018DC621FAEDA3009D079D /* NewsDetailSeperateLineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */; };
 		9B018DC821FC3096009D079D /* TimeAgoSince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC721FC3096009D079D /* TimeAgoSince.swift */; };
+		9B05EB47225B26E8003507B4 /* OrderbookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B05EB46225B26E8003507B4 /* OrderbookItem.swift */; };
 		9B0752CB2240BDDD004E3A51 /* KeyStrengtheningTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752C92240BDDD004E3A51 /* KeyStrengtheningTestCase.swift */; };
 		9B0752CC2240BDDD004E3A51 /* EncryptionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752CA2240BDDD004E3A51 /* EncryptionTestCase.swift */; };
 		9B0752CE2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752CD2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift */; };
@@ -191,7 +192,6 @@
 		9BA4FCA821EC0020005A3DC0 /* NewsParagraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FCA721EC0020005A3DC0 /* NewsParagraph.swift */; };
 		9BA4FCAB21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA4FCA921EC05EF005A3DC0 /* NewsDetailImageTableViewCell.swift */; };
 		9BA4FCAC21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA4FCAA21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.xib */; };
-		9BB0F243223F5C2D00A4D23B /* LoopringLightcoreAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB0F242223F5C2D00A4D23B /* LoopringLightcoreAPIRequest.swift */; };
 		9BB0F248223F622200A4D23B /* MarketPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB0F247223F622200A4D23B /* MarketPair.swift */; };
 		9BB789EE21EC22C90095631D /* NewsDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB789EC21EC22C90095631D /* NewsDetailTitleTableViewCell.swift */; };
 		9BB789EF21EC22C90095631D /* NewsDetailTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BB789ED21EC22C90095631D /* NewsDetailTitleTableViewCell.xib */; };
@@ -717,6 +717,7 @@
 		9B018DC321FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailSeperateLineTableViewCell.swift; sourceTree = "<group>"; };
 		9B018DC421FAEDA2009D079D /* NewsDetailSeperateLineTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailSeperateLineTableViewCell.xib; sourceTree = "<group>"; };
 		9B018DC721FC3096009D079D /* TimeAgoSince.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAgoSince.swift; sourceTree = "<group>"; };
+		9B05EB46225B26E8003507B4 /* OrderbookItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderbookItem.swift; sourceTree = "<group>"; };
 		9B0752C92240BDDD004E3A51 /* KeyStrengtheningTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyStrengtheningTestCase.swift; sourceTree = "<group>"; };
 		9B0752CA2240BDDD004E3A51 /* EncryptionTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptionTestCase.swift; sourceTree = "<group>"; };
 		9B0752CD2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopringLightcoreAPIRequestTests.swift; sourceTree = "<group>"; };
@@ -796,7 +797,6 @@
 		9BA4FCA721EC0020005A3DC0 /* NewsParagraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsParagraph.swift; sourceTree = "<group>"; };
 		9BA4FCA921EC05EF005A3DC0 /* NewsDetailImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailImageTableViewCell.swift; sourceTree = "<group>"; };
 		9BA4FCAA21EC05EF005A3DC0 /* NewsDetailImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailImageTableViewCell.xib; sourceTree = "<group>"; };
-		9BB0F242223F5C2D00A4D23B /* LoopringLightcoreAPIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopringLightcoreAPIRequest.swift; sourceTree = "<group>"; };
 		9BB0F247223F622200A4D23B /* MarketPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPair.swift; sourceTree = "<group>"; };
 		9BB789EC21EC22C90095631D /* NewsDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
 		9BB789ED21EC22C90095631D /* NewsDetailTitleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailTitleTableViewCell.xib; sourceTree = "<group>"; };
@@ -2412,6 +2412,7 @@
 				947B1FDC21CBA0CC009AE556 /* AirdropAmount.swift */,
 				9BA4FC9A21DC4FA4005A3DC0 /* News */,
 				9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */,
+				9B05EB46225B26E8003507B4 /* OrderbookItem.swift */,
 				CED82E0BCD90FD051E716A15 /* Order */,
 				CED821EB2D107E718901FE68 /* Market */,
 				CED8202FF0EA4455C29111D8 /* Token */,
@@ -2504,7 +2505,6 @@
 				ACA677D2207DCF1900D34A2F /* RelayAPIConfiguration.swift */,
 				ACB9119420278A4000F14644 /* Request.swift */,
 				ACB911982027F65800F14644 /* LoopringAPIRequest.swift */,
-				9BB0F242223F5C2D00A4D23B /* LoopringLightcoreAPIRequest.swift */,
 				ACB5DD94202C434B00140A09 /* EthereumAPIRequest.swift */,
 				947B1FD621CB789F009AE556 /* NeoAPIRequest.swift */,
 				943F8F2621D3516F00D4703C /* CrawlerAPIRequest.swift */,
@@ -3330,7 +3330,6 @@
 				AC45EFEB20D0CCF5004F6EC0 /* SetupWalletViewControllerExtension.swift in Sources */,
 				AC3756702038D3ED00AADC60 /* UnlockWalletType.swift in Sources */,
 				AC8866992174688500815DD1 /* AppServiceUpdateManager.swift in Sources */,
-				9BB0F243223F5C2D00A4D23B /* LoopringLightcoreAPIRequest.swift in Sources */,
 				9BA3020B21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift in Sources */,
 				ACC6E12221B517F6001729EC /* FeatureConfigDataManager.swift in Sources */,
 				ACB97C6D20707B6F00775D4C /* AddTokenTableViewCell.swift in Sources */,
@@ -3444,6 +3443,7 @@
 				AC31B94E204A8DF400B16155 /* KeystoreKey.swift in Sources */,
 				AC3756732038D64B00AADC60 /* MnemonicViewController.swift in Sources */,
 				AC29949B212BF611005C4D72 /* SettingPartnerViewController.swift in Sources */,
+				9B05EB47225B26E8003507B4 /* OrderbookItem.swift in Sources */,
 				ACA677C0207997F400D34A2F /* DisplayKeystoreViewController.swift in Sources */,
 				ACFEFE9820C338BC00013921 /* TxType.swift in Sources */,
 				AC7BC85C2145B477004204D3 /* AppWalletExtension.swift in Sources */,
