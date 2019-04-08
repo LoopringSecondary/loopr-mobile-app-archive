@@ -17,9 +17,10 @@ class Currency: Equatable, CustomStringConvertible {
     var description: String
     
     // Remove "zh_HK": "HKD" for now
+    // currently support for "USD", "RMB"
     let map = [
         "en_US": "USD",
-        "zh_CN": "CNY"
+        "zh_CN": "RMB"
     ]
     
     init(name: String) {
@@ -27,8 +28,8 @@ class Currency: Equatable, CustomStringConvertible {
             self.name = name
         } else {
             if SettingDataManager.shared.getCurrentLanguage() == Language(name: "zh-Hans") {
-                self.name = "CNY"
-                SettingDataManager.shared.setCurrentCurrency(Currency(name: "CNY"), syncToServer: false)
+                self.name = "RMB"
+                SettingDataManager.shared.setCurrentCurrency(Currency(name: "RMB"), syncToServer: false)
             } else {
                 self.name = "USD"
                 SettingDataManager.shared.setCurrentCurrency(Currency(name: "USD"), syncToServer: false)

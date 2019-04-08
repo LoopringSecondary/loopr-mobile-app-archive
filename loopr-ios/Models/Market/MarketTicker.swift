@@ -15,6 +15,7 @@ class MarketTicker {
     let quoteToken: String
     var quoteSymbol: String = ""
     let exchangeRate: Double
+    let price: Double
     let volume24H: String
     var percentChange1H: String = ""
     var percentChange24H: String = ""
@@ -24,9 +25,10 @@ class MarketTicker {
         self.baseToken = json["baseToken"].stringValue
         self.quoteToken = json["quoteToken"].stringValue
         self.exchangeRate = json["exchangeRate"].doubleValue
-        self.volume24H = json["volume24H"].stringValue
         self.baseSymbol = TokenDataManager.shared.getTokenByAddress(baseToken)!.source
         self.quoteSymbol = TokenDataManager.shared.getTokenByAddress(quoteToken)!.source
+        self.price = json["price"].doubleValue
+        self.volume24H = json["volume24H"].stringValue
         self.percentChange1H = toString(json: json["percentChange1H"])
         self.percentChange24H = toString(json: json["percentChange24H"])
         self.percentChange7D = toString(json: json["percentChange7D"])

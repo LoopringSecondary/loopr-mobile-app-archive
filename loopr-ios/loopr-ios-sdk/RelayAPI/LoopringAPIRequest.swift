@@ -562,9 +562,11 @@ class LoopringAPIRequest {
         }
     }
     
-    static func getMarkets(requireMetadata: Bool, requireTicker: Bool, quoteCurrencyForTicker: Currency, completionHandler: @escaping (_ result: [Market]?, _ error: Error?) -> Void) {
+    static func getMarkets(requireMetadata: Bool, requireTicker: Bool, quoteCurrencyForTicker: Currency, marketPairs: [MarketPair], completionHandler: @escaping (_ result: [Market]?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["method"] = "get_markets"
+        
+        // TODO: add marketPairs
         body["params"] = ["requireMetadata": requireMetadata, "requireTicker": requireTicker, "quoteCurrencyForTicker": quoteCurrencyForTicker.name]
         body["id"] = JSON(UUID().uuidString)
 
