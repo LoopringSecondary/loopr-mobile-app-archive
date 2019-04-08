@@ -1,16 +1,22 @@
 package leaf.prod.walletsdk.model.request.relayParam;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 
 @Data
 @Builder
 public class BalanceParam {
 
-    @NonNull
-    private String owner;
+	private ParamsForAccounts paramsForAccounts;
 
-    @NonNull
-    private String delegateAddress;
+	@Data
+	@Builder
+	public static class ParamsForAccounts {
+
+		private List<String> addresses;
+
+		private List<String> tokens;
+	}
 }

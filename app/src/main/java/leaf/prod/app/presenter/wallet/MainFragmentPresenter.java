@@ -6,7 +6,6 @@
  */
 package leaf.prod.app.presenter.wallet;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,11 +22,11 @@ import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.PartnerDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
+import leaf.prod.walletsdk.model.response.relay.AccountBalance;
+import leaf.prod.walletsdk.model.response.relay.AccountBalanceWrapper;
+import leaf.prod.walletsdk.model.response.relay.MarketsResult;
+import leaf.prod.walletsdk.model.response.relay.TokensResult;
 import leaf.prod.walletsdk.model.wallet.WalletEntity;
-import leaf.prod.walletsdk.model.response.relay.BalanceResult;
-import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
-import leaf.prod.walletsdk.model.token.Token;
-import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.SPUtils;
@@ -35,292 +34,191 @@ import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
 
-    private static RelayService relayService;
+	private static RelayService relayService;
 
-    private static Observable<MarketcapResult> marketcapObservable;
+	private Map<String, AccountBalance> tokenMap = new HashMap<>();
 
-    private static Observable<BalanceResult> balanceObservable;
+	private TokenDataManager tokenDataManager;
 
-    private Map<String, BalanceResult.Asset> tokenMap = new HashMap<>();
+	private MarketcapDataManager marketcapDataManager;
 
-    private TokenDataManager tokenDataManager;
+	private BalanceDataManager balanceDataManager;
 
-    private MarketcapDataManager marketcapDataManager;
+	private PartnerDataManager partnerDataManager;
 
-    private BalanceDataManager balanceDataManager;
+	private List<AccountBalance> listAsset = new ArrayList<>(); //  返回的token列表
 
-    private PartnerDataManager partnerDataManager;
+	private String moneyValue;
 
-    private List<BalanceResult.Asset> listAsset = new ArrayList<>(); //  返回的token列表
+	private String address;
 
-    private String moneyValue;
+	public MainFragmentPresenter(MainWalletFragment view, Context context) {
+		super(view, context);
+		marketcapDataManager = MarketcapDataManager.getInstance(context);
+		tokenDataManager = TokenDataManager.getInstance(context);
+		balanceDataManager = BalanceDataManager.getInstance(context);
+		partnerDataManager = PartnerDataManager.getInstance(context);
+		partnerDataManager.activatePartner();
+		partnerDataManager.createPartner();
+		relayService = new RelayService();
+		address = WalletUtil.getCurrentAddress(context);
+	}
 
-    private String address;
+	/**
+	 * 初始化当前解锁钱包的token、balance和marketcap信息
+	 */
+	public void initObservable() {
+		LyqbLogger.log("initObservable: " + address);
+		if (relayService == null)
+			relayService = new RelayService();
+		tokenDataManager.getObservable()
+				.flatMap((Func1<TokensResult, Observable<AccountBalanceWrapper>>) tokensResult -> {
+					tokenDataManager.setTokens(tokensResult.getTokens());
+					return balanceDataManager.getObservable();
+				})
+				.flatMap((Func1<AccountBalanceWrapper, Observable<MarketsResult>>) balance -> {
+					balanceDataManager.setAccountBalance(balance);
+					balanceDataManager.startSocket(address);
+					return marketcapDataManager.getObservable();
+				})
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<MarketsResult>() {
+					@Override
+					public void onCompleted() {
+						unsubscribe();
+					}
 
-    private RelayService relayService;
+					@Override
+					public void onError(Throwable e) {
+						unsubscribe();
+					}
 
-    public MainFragmentPresenter(MainWalletFragment view, Context context) {
-        super(view, context);
-        marketcapDataManager = MarketcapDataManager.getInstance(context);
-        tokenDataManager = TokenDataManager.getInstance(context);
-        balanceDataManager = BalanceDataManager.getInstance(context);
-        partnerDataManager = PartnerDataManager.getInstance(context);
-        partnerDataManager.activatePartner();
-        partnerDataManager.createPartner();
-        relayService = new RelayService();
-        //        test();
-    }
-    //
-    //    public void test() {
-    //        //        Observable<AccountBalance> observable = relayService.getAccounts(Collections.emptyList(), Collections.emptyList(), true);
-    //        //        observable.subscribeOn(Schedulers.io())
-    //        //                .observeOn(AndroidSchedulers.mainThread())
-    //        //                .subscribe(new Subscriber<AccountBalance>() {
-    //        //                    @Override
-    //        //                    public void onCompleted() {
-    //        //                    }
-    //        //
-    //        //                    @Override
-    //        //                    public void onError(Throwable e) {
-    //        //                        LyqbLogger.log(e.getMessage());
-    //        //                    }
-    //        //
-    //        //                    @Override
-    //        //                    public void onNext(AccountBalance accountBalance) {
-    //        //                        accountBalance.convert();
-    //        //                        LyqbLogger.log(accountBalance.toString());
-    //        //                    }
-    //        // });
-    //        Observable<FillsResult> observable = relayService.getUserFills("", "", "", "", null);
-    //        observable.subscribeOn(Schedulers.io())
-    //                .observeOn(AndroidSchedulers.mainThread())
-    //                .subscribe(new Subscriber<FillsResult>() {
-    //                    @Override
-    //                    public void onCompleted() {
-    //                    }
-    //
-    //                    @Override
-    //                    public void onError(Throwable e) {
-    //                        LyqbLogger.log(e.getMessage());
-    //                    }
-    //
-    //                    @Override
-    //                    public void onNext(FillsResult fillsResult) {
-    //                        fillsResult.convert();
-    //                        LyqbLogger.log(fillsResult.toString());
-    //                    }
-    //                });
-    //    }
+					@Override
+					public void onNext(MarketsResult result) {
+						marketcapDataManager.setMarkets(result.getMarkets());
+						marketcapDataManager.startSocket();
+						setTokenLegalPrice();
+						unsubscribe();
+					}
+				});
+	}
 
-    public void initObservable() {
-        LyqbLogger.log("initObservable: " + getAddress());
-        if (relayService == null)
-            relayService = new RelayService();
-        Observable.zip(relayService.getBalance(getAddress())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()), relayService.getCustomToken(getAddress())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()), relayService.getMarketcap(CurrencyUtil.getCurrency(context)
-                        .getText())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()),
-                CombineObservable::getInstance)
-                .subscribe(new Subscriber<CombineObservable>() {
-                    @Override
-                    public void onCompleted() {
-                        view.finishRefresh();
-                    }
+	/**
+	 * 刷新获得最新的balance和marketcap数据并且显示
+	 */
+	public void initPushService() {
+		marketcapDataManager.getObservable()
+				.flatMap((Func1<MarketsResult, Observable<AccountBalanceWrapper>>) result -> {
+					marketcapDataManager.setMarkets(result.getMarkets());
+					return balanceDataManager.getObservable();
+				})
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(Schedulers.io())
+				.subscribe(new Subscriber<AccountBalanceWrapper>() {
+					@Override
+					public void onCompleted() {
+						unsubscribe();
+					}
 
-                    @Override
-                    public void onError(Throwable e) {
-                        //                        handleNetworkError();
-                    }
+					@Override
+					public void onError(Throwable e) {
+						unsubscribe();
+					}
 
-                    @Override
-                    public void onNext(CombineObservable combineObservable) {
-                        marketcapDataManager.setMarketcapResult(combineObservable.getMarketcapResult());
-                        tokenDataManager.mergeTokens(combineObservable.getTokenList());
-                        balanceDataManager.mergeAssets(combineObservable.getBalanceResult());
-                        setTokenLegalPrice();
-                        unsubscribe();
-                    }
-                });
-    }
+					@Override
+					public void onNext(AccountBalanceWrapper accountBalanceWrapper) {
+						balanceDataManager.setAccountBalance(accountBalanceWrapper);
+						setTokenLegalPrice();
+						unsubscribe();
+						view.finishRefresh();
+					}
+				});
+	}
 
-    public void initPushService() {
-        if (marketcapObservable == null) {
-            marketcapDataManager.getObservable().subscribe(marketcapResult -> {
-                if (marketcapObservable != null) {
-                    marketcapDataManager.setMarketcapResult(marketcapResult);
-                    balanceDataManager.mergeAssets(balanceDataManager.getBalance());
-                    setTokenLegalPrice();
-                    view.finishRefresh();
-                } else
-                    marketcapObservable = marketcapDataManager.getObservable();
-            }, error -> {
-            });
-        }
-        if (balanceObservable == null) {
-            balanceDataManager.getObservable().subscribe(balanceResult -> {
-                if (balanceObservable != null) {
-                    balanceDataManager.mergeAssets(balanceResult);
-                    setTokenLegalPrice();
-                    view.finishRefresh();
-                } else {
-                    balanceObservable = balanceDataManager.getBalanceObservable();
-                }
-            }, error -> {
-            });
-        }
-    }
+	private void setTokenLegalPrice() {
+		for (AccountBalance accountBalance : balanceDataManager.getAccountBalances()) {
+			tokenMap.put(accountBalance.getToken(), accountBalance);
+		}
+		Collections.sort(balanceDataManager.getAccountBalances(), (o1, o2) -> Double.compare(o2.getLegalValue(), o1.getLegalValue()));
+		List<AccountBalance> listChooseAsset = new ArrayList<>(), positiveList = new ArrayList<>(), zeroList = new ArrayList<>();
+		List<String> listChooseSymbol = WalletUtil.getChooseTokens(context);
+		double amount = 0;
+		for (String symbol : listChooseSymbol) {
+			listChooseAsset.add(tokenMap.get(symbol));
+		}
+		for (AccountBalance asset : balanceDataManager.getAccountBalances()) {
+			if (!listChooseSymbol.contains(asset.getToken()) && asset.getLegalValue() != 0) {
+				listChooseAsset.add(asset);
+			}
+		}
+		// 根据金额拆分列表
+		for (AccountBalance asset : listChooseAsset) {
+			if (Arrays.asList("ETH", "WETH", "LRC").contains(asset.getToken()))
+				continue;
+			if (asset.getBalanceDouble() > 0) {
+				positiveList.add(asset);
+			} else {
+				zeroList.add(asset);
+			}
+		}
+		Collections.sort(positiveList, (asset, t1) -> asset.getTokenSymbol().compareTo(t1.getTokenSymbol()));
+		Collections.sort(zeroList, (asset, t1) -> asset.getTokenSymbol().compareTo(t1.getTokenSymbol()));
+		listChooseAsset.clear();
+		for (String symbol : Arrays.asList("ETH", "WETH", "LRC")) {
+			AccountBalance asset = tokenMap.get(symbol);
+			listChooseAsset.add(asset);
+			amount += asset.getLegalValue();
+		}
+		for (AccountBalance asset : positiveList) {
+			listChooseAsset.add(asset);
+			amount += asset.getLegalValue();
+		}
+		for (AccountBalance asset : zeroList) {
+			listChooseAsset.add(asset);
+			amount += asset.getLegalValue();
+		}
+		moneyValue = CurrencyUtil.format(context, amount);
+		SPUtils.put(this.context, "amount", moneyValue);
+		SPUtils.put(this.context, "amountValue", amount + "");
+		listAsset = listChooseAsset;
+		view.getmAdapter().setNewData(listChooseAsset);
+		view.setWalletCount(moneyValue);
+		view.getmAdapter().notifyDataSetChanged();
+		/**
+		 * 更新钱包信息
+		 */
+		WalletEntity myWallet = WalletUtil.getCurrentWallet(context);
+		myWallet.setAmount(amount);
+		myWallet.setAmountShow(moneyValue);
+		WalletUtil.updateWallet(context, myWallet);
+	}
 
-    public void destroy() {
-        if (marketcapObservable != null) {
-            marketcapObservable.unsubscribeOn(Schedulers.io());
-            marketcapObservable = null;
-        }
-        if (balanceObservable != null) {
-            balanceObservable.unsubscribeOn(Schedulers.io());
-            balanceObservable = null;
-        }
-    }
+	public List<AccountBalance> getListAsset() {
+		return listAsset;
+	}
 
-    private void setTokenLegalPrice() {
-        for (BalanceResult.Asset asset : balanceDataManager.getAssets()) {
-            tokenMap.put(asset.getSymbol(), asset);
-        }
-        Collections.sort(balanceDataManager.getAssets(), (o1, o2) -> Double.compare(o2.getLegalValue(), o1.getLegalValue()));
-        List<BalanceResult.Asset> listChooseAsset = new ArrayList<>(), positiveList = new ArrayList<>(), zeroList = new ArrayList<>();
-        List<String> listChooseSymbol = WalletUtil.getChooseTokens(context);
-        double amount = 0;
-        for (String symbol : listChooseSymbol) {
-            listChooseAsset.add(tokenMap.get(symbol));
-        }
-        for (BalanceResult.Asset asset : balanceDataManager.getAssets()) {
-            if (!listChooseSymbol.contains(asset.getSymbol()) && asset.getLegalValue() != 0) {
-                listChooseAsset.add(asset);
-            }
-        }
-        // 根据金额拆分列表
-        for (BalanceResult.Asset asset : listChooseAsset) {
-            if (Arrays.asList("ETH", "WETH", "LRC").contains(asset.getSymbol()))
-                continue;
-            if (asset.getBalance().compareTo(BigDecimal.ZERO) > 0) {
-                positiveList.add(asset);
-            } else {
-                zeroList.add(asset);
-            }
-        }
-        Collections.sort(positiveList, (asset, t1) -> asset.getSymbol().compareTo(t1.getSymbol()));
-        Collections.sort(zeroList, (asset, t1) -> asset.getSymbol().compareTo(t1.getSymbol()));
-        listChooseAsset.clear();
-        for (String symbol : Arrays.asList("ETH", "WETH", "LRC")) {
-            BalanceResult.Asset asset = tokenMap.get(symbol);
-            listChooseAsset.add(asset);
-            amount += asset.getLegalValue();
-        }
-        for (BalanceResult.Asset asset : positiveList) {
-            listChooseAsset.add(asset);
-            amount += asset.getLegalValue();
-        }
-        for (BalanceResult.Asset asset : zeroList) {
-            listChooseAsset.add(asset);
-            amount += asset.getLegalValue();
-        }
-        moneyValue = CurrencyUtil.format(context, amount);
-        SPUtils.put(this.context, "amount", moneyValue);
-        SPUtils.put(this.context, "amountValue", amount + "");
-        listAsset = listChooseAsset;
-        view.getmAdapter().setNewData(listChooseAsset);
-        view.setWalletCount(moneyValue);
-        view.getmAdapter().notifyDataSetChanged();
-        /**
-         * 更新钱包信息
-         */
-        WalletEntity myWallet = WalletUtil.getCurrentWallet(context);
-        myWallet.setAmount(amount);
-        myWallet.setAmountShow(moneyValue);
-        WalletUtil.updateWallet(context, myWallet);
-    }
+	public String getAddress() {
+		if (address == null) {
+			WalletEntity wallet = WalletUtil.getCurrentWallet(context);
+			return wallet != null ? wallet.getAddress() : "";
+		}
+		return address;
+	}
 
-    public List<BalanceResult.Asset> getListAsset() {
-        return listAsset;
-    }
+	public String getWalletName() {
+		WalletEntity walletEntity = WalletUtil.getCurrentWallet(context);
+		if (walletEntity == null)
+			return null;
+		return walletEntity.getWalletname();
+	}
 
-    public String getAddress() {
-        if (address == null) {
-            WalletEntity wallet = WalletUtil.getCurrentWallet(context);
-            return wallet != null ? wallet.getAddress() : "";
-        }
-        return address;
-    }
-
-    public String getWalletName() {
-        WalletEntity walletEntity = WalletUtil.getCurrentWallet(context);
-        if (walletEntity == null)
-            return null;
-        return walletEntity.getWalletname();
-    }
-
-    public String getMoneyValue() {
-        return moneyValue;
-    }
-
-    private static class CombineObservable {
-
-        private static CombineObservable combineObservable;
-
-        private BalanceResult balanceResult;
-
-        private List<Token> tokenList;
-
-        private MarketcapResult marketcapResult;
-
-        private CombineObservable() {
-        }
-
-        private CombineObservable(BalanceResult balanceResult, List<Token> tokenList, MarketcapResult marketcapResult) {
-            this.balanceResult = balanceResult;
-            this.tokenList = tokenList;
-            this.marketcapResult = marketcapResult;
-        }
-
-        public static CombineObservable getInstance(BalanceResult balanceResult, List<Token> tokenList, MarketcapResult marketcapResult) {
-            if (combineObservable == null) {
-                return new CombineObservable(balanceResult, tokenList, marketcapResult);
-            }
-            combineObservable.setBalanceResult(balanceResult);
-            combineObservable.setMarketcapResult(marketcapResult);
-            combineObservable.setTokenList(tokenList);
-            return combineObservable;
-        }
-
-        public BalanceResult getBalanceResult() {
-            return balanceResult;
-        }
-
-        public void setBalanceResult(BalanceResult balanceResult) {
-            this.balanceResult = balanceResult;
-        }
-
-        public List<Token> getTokenList() {
-            return tokenList;
-        }
-
-        public void setTokenList(List<Token> tokenList) {
-            this.tokenList = tokenList;
-        }
-
-        public MarketcapResult getMarketcapResult() {
-            return marketcapResult;
-        }
-
-        public void setMarketcapResult(MarketcapResult marketcapResult) {
-            this.marketcapResult = marketcapResult;
-        }
-    }
+	public String getMoneyValue() {
+		return moneyValue;
+	}
 }

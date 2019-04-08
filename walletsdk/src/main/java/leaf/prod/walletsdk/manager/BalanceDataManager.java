@@ -6,151 +6,150 @@
  */
 package leaf.prod.walletsdk.manager;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 
 import leaf.prod.walletsdk.listener.BalanceListener;
+import leaf.prod.walletsdk.model.response.relay.AccountBalance;
+import leaf.prod.walletsdk.model.response.relay.AccountBalanceWrapper;
 import leaf.prod.walletsdk.model.response.relay.BalanceResult;
-import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
 import leaf.prod.walletsdk.model.token.Token;
-import leaf.prod.walletsdk.util.CurrencyUtil;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class BalanceDataManager {
 
-    private static TokenDataManager tokenManager;
+	private static BalanceDataManager balanceDataManager = null;
 
-    private static MarketcapDataManager priceManager;
+	private Context context;
 
-    private static BalanceDataManager balanceDataManager = null;
+	private BalanceListener balanceListener;
 
-    private Context context;
+	private List<AccountBalance> accountBalances;
 
-    private BalanceResult balance;
+	private static RelayService relayService;
 
-    private Observable<BalanceResult> balanceObservable;
+	private static Map<String, Observable<AccountBalanceWrapper>> observableMap = new HashMap<>();
 
-    private BalanceListener balanceListener;
+	private BalanceDataManager(Context context) {
+		this.context = context;
+		this.balanceListener = new BalanceListener();
+	}
 
-    private String address;
+	public static BalanceDataManager getInstance(Context context) {
+		if (balanceDataManager == null) {
+			balanceDataManager = new BalanceDataManager(context);
+			relayService = new RelayService();
+		}
+		return balanceDataManager;
+	}
 
-    private BalanceDataManager(Context context) {
-        this.context = context;
-        this.balanceListener = new BalanceListener();
-        tokenManager = TokenDataManager.getInstance(context);
-        priceManager = MarketcapDataManager.getInstance(context);
-        loadBalanceFromRelay();
-    }
+	public Observable<AccountBalanceWrapper> getObservable() {
+		String address = WalletUtil.getCurrentAddress(context);
+		if (observableMap.get(address) == null) {
+			observableMap.put(address, relayService.getAccounts(Arrays.asList(WalletUtil.getCurrentAddress(context)), null, true));
+		}
+		return observableMap.get(address);
+	}
 
-    public static BalanceDataManager getInstance(Context context) {
-        if (balanceDataManager == null) {
-            balanceDataManager = new BalanceDataManager(context);
-        }
-        return balanceDataManager;
-    }
+	/**
+	 * 由mainfragment初始化当前解锁钱包的账户数据
+	 *
+	 * @param accountBalanceWrapper
+	 */
+	public void setAccountBalance(AccountBalanceWrapper accountBalanceWrapper) {
+		List<AccountBalance> accountBalances = new ArrayList<>();
+		Map<String, AccountBalanceWrapper.TokenBalanceMap.TokenBalance> tokenBalanceMap = accountBalanceWrapper.getAccountBalances()
+				.get(WalletUtil.getCurrentAddress(context))
+				.getTokenBalanceMap();
+		for (String tokenAddr : tokenBalanceMap.keySet()) {
+			accountBalances.add(new AccountBalance(context, tokenBalanceMap.get(tokenAddr)));
+		}
+		this.accountBalances = accountBalances;
+	}
 
-    private void loadBalanceFromRelay() {
-        if (balanceObservable == null) {
-            balanceObservable = balanceListener.start()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-        }
-        balanceListener.queryByOwner(getAddress());
-    }
+	/**
+	 * 触发更新账户
+	 */
+	public void startSocket(String address) {
+		balanceListener.start().subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<BalanceResult>() {
+					@Override
+					public void onCompleted() {
+					}
 
-    public BalanceResult getBalance() {
-        return balance;
-    }
+					@Override
+					public void onError(Throwable e) {
+					}
 
-    public List<BalanceResult.Asset> getAssets() {
-        return balance != null ? balance.getTokens() : null;
-    }
+					@Override
+					public void onNext(BalanceResult balanceResult) {
+						if (accountBalances == null)
+							return;
+						for (AccountBalance accountBalance : accountBalances) {
+							if (accountBalance.getToken().equalsIgnoreCase(balanceResult.getAccount().getAddress())) {
+								accountBalance.update(context, balanceResult.getAccount().getTokenBalance());
+							}
+						}
+					}
+				});
+		balanceListener.queryByOwner(address);
+	}
 
-    public Observable<BalanceResult> getBalanceObservable() {
-        return balanceObservable;
-    }
+	public List<AccountBalance> getAccountBalances() {
+		return accountBalances;
+	}
 
-    public BalanceResult.Asset getAssetBySymbol(String symbol) {
-        BalanceResult.Asset result = null;
-        for (BalanceResult.Asset asset : balance.getTokens()) {
-            if (asset.getSymbol().equalsIgnoreCase(symbol)) {
-                result = asset;
-                break;
-            }
-        }
-        return result;
-    }
+	public AccountBalance getAssetBySymbol(String symbol) {
+		for (AccountBalance asset : accountBalances) {
+			if (asset.getTokenSymbol().equalsIgnoreCase(symbol)) {
+				return asset;
+			}
+		}
+		return null;
+	}
 
-    public String getFormattedBySymbol(String symbol, Double value) {
-        int precision = getPrecision(symbol);
-        return NumberUtils.format1(value, precision);
-    }
+	public String getFormattedBySymbol(String symbol, Double value) {
+		int precision = getPrecision(symbol);
+		return NumberUtils.format1(value, precision);
+	}
 
-    public int getPrecisionBySymbol(String symbol) {
-        int result = 4;
-        for (BalanceResult.Asset asset : balance.getTokens()) {
-            if (asset.getSymbol().equalsIgnoreCase(symbol)) {
-                result = asset.getPrecision();
-                break;
-            }
-        }
-        return result;
-    }
+	public int getPrecisionBySymbol(String symbol) {
+		int result = 4;
+		for (AccountBalance asset : accountBalances) {
+			if (asset.getTokenSymbol().equalsIgnoreCase(symbol)) {
+				result = asset.getPrecision();
+				break;
+			}
+		}
+		return result;
+	}
 
-    public List<Token> getBalanceTokens() {
-        List<Token> result = new LinkedList<>();
-        for (BalanceResult.Asset asset : balance.getTokens()) {
-            if (asset.getBalance() != null && asset.getBalance().doubleValue() != 0) {
-                Token token = tokenManager.getTokenBySymbol(asset.getSymbol());
-                result.add(token);
-            }
-        }
-        return result;
-    }
+	public List<Token> getBalanceTokens() {
+		List<Token> result = new LinkedList<>();
+		for (AccountBalance asset : accountBalances) {
+			if (asset.getBalance() != null && asset.getBalanceDouble() != 0) {
+				Token token = TokenDataManager.getTokenWithSymbol(asset.getTokenSymbol());
+				result.add(token);
+			}
+		}
+		return result;
+	}
 
-    // support for main fragment presenter
-    public void mergeAssets(BalanceResult balance) {
-        List<MarketcapResult.Token> tokens = priceManager.getMarketcapResult().getTokens();
-        for (BalanceResult.Asset asset : balance.getTokens()) {
-            for (MarketcapResult.Token token : tokens) {
-                if (token.getSymbol().equalsIgnoreCase(asset.getSymbol())) {
-                    int precision = NumberUtils.precision(token.getPrice());
-                    if (tokenManager.getTokenBySymbol(asset.getSymbol()) != null) {
-                        BigDecimal decimals = tokenManager.getTokenBySymbol(asset.getSymbol()).getDecimals();
-                        double value = asset.getBalance().divide(decimals).doubleValue();
-                        asset.setPrecision(precision);
-                        asset.setValue(value);
-                        asset.setValueShown(NumberUtils.format1(value, precision));
-                        asset.setLegalValue(token.getPrice() * value);
-                        asset.setLegalShown(CurrencyUtil.format(context, asset.getLegalValue()));
-                    }
-                    break;
-                }
-            }
-        }
-        this.balance = balance;
-    }
-
-    public Observable<BalanceResult> getObservable() {
-        return balanceObservable;
-    }
-
-    public String getAddress() {
-        if (address == null)
-            //            address = (String) SPUtils.get(Objects.requireNonNull(context), "address", "");
-            address = WalletUtil.getCurrentAddress(context);
-        return address;
-    }
-
-    public static int getPrecision(String symbol) {
-        BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(symbol);
-        return asset != null ? asset.getPrecision() : 6;
-    }
+	public static int getPrecision(String symbol) {
+		AccountBalance asset = balanceDataManager.getAssetBySymbol(symbol);
+		return asset != null ? asset.getPrecision() : 6;
+	}
 }

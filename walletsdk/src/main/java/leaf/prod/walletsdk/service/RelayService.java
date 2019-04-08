@@ -25,7 +25,7 @@ import leaf.prod.walletsdk.model.request.relayParam.RingParam;
 import leaf.prod.walletsdk.model.request.relayParam.SubmitOrderParam;
 import leaf.prod.walletsdk.model.request.relayParam.UserFillsParam;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
-import leaf.prod.walletsdk.model.response.relay.AccountBalance;
+import leaf.prod.walletsdk.model.response.relay.AccountBalanceWrapper;
 import leaf.prod.walletsdk.model.response.relay.ActivityResult;
 import leaf.prod.walletsdk.model.response.relay.CancelOrdersResult;
 import leaf.prod.walletsdk.model.response.relay.FillsResult;
@@ -48,178 +48,179 @@ import rx.Observable;
  */
 public class RelayService {
 
-    private RpcDelegate rpcDelegate;
+	private RpcDelegate rpcDelegate;
 
-    public RelayService() {
-        String url = SDK.relay2Base();
-        rpcDelegate = RpcDelegate.getService(url);
-    }
+	public RelayService() {
+		String url = SDK.relay2Base();
+		rpcDelegate = RpcDelegate.getService(url);
+	}
 
-    public Observable<MarketsResult> getMarkets(Boolean requireMetadata, Boolean requireTicker, Currency currency, MarketPair[] pairs) {
-        GetMarketsParam param = GetMarketsParam.builder()
-                .requireMetadata(requireMetadata)
-                .requireTicker(requireTicker)
-                .quoteCurrencyForTicker(currency.getText())
-                .marketPairs(pairs)
-                .build();
-        RequestWrapper request = new RequestWrapper("get_markets", param);
-        Observable<RelayResponseWrapper<MarketsResult>> observable = rpcDelegate.getMarkets(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<MarketsResult> getMarkets(Boolean requireMetadata, Boolean requireTicker, Currency currency, MarketPair[] pairs) {
+		GetMarketsParam param = GetMarketsParam.builder()
+				.requireMetadata(requireMetadata)
+				.requireTicker(requireTicker)
+				.quoteCurrencyForTicker(currency.getText())
+				.marketPairs(pairs)
+				.build();
+		RequestWrapper request = new RequestWrapper("get_markets", param);
+		Observable<RelayResponseWrapper<MarketsResult>> observable = rpcDelegate.getMarkets(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<TokensResult> getTokens(Boolean requireMetadata, Boolean requireInfo, Boolean requirePrice, Token[] tokens) {
-        GetTokenParam param = GetTokenParam.builder()
-                .requireMetadata(requireMetadata)
-                .requireInfo(requireInfo)
-                .requirePrice(requirePrice)
-                .tokens(tokens)
-                .build();
-        RequestWrapper request = new RequestWrapper("get_tokens", param);
-        Observable<RelayResponseWrapper<TokensResult>> observable = rpcDelegate.getTokens(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<TokensResult> getTokens(Boolean requireMetadata, Boolean requireInfo, Boolean requirePrice, Currency currency, Token[] tokens) {
+		GetTokenParam param = GetTokenParam.builder()
+				.requireMetadata(requireMetadata)
+				.requireInfo(requireInfo)
+				.requirePrice(requirePrice)
+				.quoteCurrencyForPrice(currency.getText())
+				.tokens(tokens)
+				.build();
+		RequestWrapper request = new RequestWrapper("get_tokens", param);
+		Observable<RelayResponseWrapper<TokensResult>> observable = rpcDelegate.getTokens(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<OrdersResult> getOrders(String owner, OrderStatus[] statuses, MarketPair marketPair, TradeType side, Sort sort, Paging paging) {
-        GetOrdersParam param = GetOrdersParam.builder()
-                .owner(owner)
-                .statuses(statuses) // TODO
-                .marketPair(marketPair)
-                .side(side.name())
-                .sort(sort.getDescription())
-                .paging(paging)
-                .build();
-        RequestWrapper request = new RequestWrapper("get_orders", param);
-        Observable<RelayResponseWrapper<OrdersResult>> observable = rpcDelegate.getOrders(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<OrdersResult> getOrders(String owner, OrderStatus[] statuses, MarketPair marketPair, TradeType side, Sort sort, Paging paging) {
+		GetOrdersParam param = GetOrdersParam.builder()
+				.owner(owner)
+				.statuses(statuses) // TODO
+				.marketPair(marketPair)
+				.side(side.name())
+				.sort(sort.getDescription())
+				.paging(paging)
+				.build();
+		RequestWrapper request = new RequestWrapper("get_orders", param);
+		Observable<RelayResponseWrapper<OrdersResult>> observable = rpcDelegate.getOrders(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<OrdersResult> getOrders(String owner, Paging paging) {
-        GetOrdersParam param = GetOrdersParam.builder()
-                .owner(owner)
-                .paging(paging)
-                .build();
-        RequestWrapper request = new RequestWrapper("get_orders", param);
-        Observable<RelayResponseWrapper<OrdersResult>> observable = rpcDelegate.getOrders(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<OrdersResult> getOrders(String owner, Paging paging) {
+		GetOrdersParam param = GetOrdersParam.builder()
+				.owner(owner)
+				.paging(paging)
+				.build();
+		RequestWrapper request = new RequestWrapper("get_orders", param);
+		Observable<RelayResponseWrapper<OrdersResult>> observable = rpcDelegate.getOrders(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<SubmitOrderResult> submitOrder(RawOrder rawOrder) {
-        SubmitOrderParam param = SubmitOrderParam.builder()
-                .rawOrder(rawOrder)
-                .build();
-        RequestWrapper request = new RequestWrapper("submit_order", param);
-        Observable<RelayResponseWrapper<SubmitOrderResult>> observable = rpcDelegate.submitOrder(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<SubmitOrderResult> submitOrder(RawOrder rawOrder) {
+		SubmitOrderParam param = SubmitOrderParam.builder()
+				.rawOrder(rawOrder)
+				.build();
+		RequestWrapper request = new RequestWrapper("submit_order", param);
+		Observable<RelayResponseWrapper<SubmitOrderResult>> observable = rpcDelegate.submitOrder(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<CancelOrdersResult> cancelOrders(String id, MarketPair marketPair, String owner, Integer time, String sig) {
-        CancelOrdersParam param = CancelOrdersParam.builder()
-                .id(id)
-                .marketPair(marketPair)
-                .owner(owner)
-                .time(time)
-                .sig(sig)
-                .build();
-        RequestWrapper request = new RequestWrapper("cancel_orders", param);
-        Observable<RelayResponseWrapper<CancelOrdersResult>> observable = rpcDelegate.cancelOrders(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<CancelOrdersResult> cancelOrders(String id, MarketPair marketPair, String owner, Integer time, String sig) {
+		CancelOrdersParam param = CancelOrdersParam.builder()
+				.id(id)
+				.marketPair(marketPair)
+				.owner(owner)
+				.time(time)
+				.sig(sig)
+				.build();
+		RequestWrapper request = new RequestWrapper("cancel_orders", param);
+		Observable<RelayResponseWrapper<CancelOrdersResult>> observable = rpcDelegate.cancelOrders(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<CancelOrdersResult> cancelOrders(String id, String owner, Integer time, String sig) {
-        CancelOrdersParam param = CancelOrdersParam.builder()
-                .id(id)
-                .owner(owner)
-                .time(time)
-                .sig(sig)
-                .build();
-        RequestWrapper request = new RequestWrapper("cancel_orders", param);
-        Observable<RelayResponseWrapper<CancelOrdersResult>> observable = rpcDelegate.cancelOrders(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<CancelOrdersResult> cancelOrders(String id, String owner, Integer time, String sig) {
+		CancelOrdersParam param = CancelOrdersParam.builder()
+				.id(id)
+				.owner(owner)
+				.time(time)
+				.sig(sig)
+				.build();
+		RequestWrapper request = new RequestWrapper("cancel_orders", param);
+		Observable<RelayResponseWrapper<CancelOrdersResult>> observable = rpcDelegate.cancelOrders(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<AccountBalance> getAccounts(List<String> addresses, List<String> tokens, boolean allTokens) {
-        AccountBalanceParam param = AccountBalanceParam.builder()
-                .addresses(addresses)
-                .tokens(tokens)
-                .allTokens(allTokens)
-                .build();
-        RequestWrapper request = new RequestWrapper("get_accounts", param);
-        Observable<RelayResponseWrapper<AccountBalance>> observable = rpcDelegate.getAccount(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<AccountBalanceWrapper> getAccounts(List<String> addresses, List<String> tokens, boolean allTokens) {
+		AccountBalanceParam param = AccountBalanceParam.builder()
+				.addresses(addresses)
+				.tokens(tokens)
+				.allTokens(allTokens)
+				.build();
+		RequestWrapper request = new RequestWrapper("get_accounts", param);
+		Observable<RelayResponseWrapper<AccountBalanceWrapper>> observable = rpcDelegate.getAccount(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<Integer> getAccountNonce(String address) {
-        RequestWrapper request = new RequestWrapper("get_user_fills", address);
-        Observable<RelayResponseWrapper<Integer>> observable = rpcDelegate.getAccountNonce(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<Integer> getAccountNonce(String address) {
+		RequestWrapper request = new RequestWrapper("get_user_fills", address);
+		Observable<RelayResponseWrapper<Integer>> observable = rpcDelegate.getAccountNonce(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<FillsResult> getUserFills(String owner, String baseToken, String quoteToken, String sort, Paging paging) {
-        UserFillsParam param = UserFillsParam.builder()
-                .owner(owner)
-                .marketPair(MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build())
-                .sort(sort)
-                .paging(paging)
-                .build();
-        RequestWrapper request = new RequestWrapper("get_user_fills", param);
-        Observable<RelayResponseWrapper<FillsResult>> observable = rpcDelegate.getUserFills(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<FillsResult> getUserFills(String owner, String baseToken, String quoteToken, String sort, Paging paging) {
+		UserFillsParam param = UserFillsParam.builder()
+				.owner(owner)
+				.marketPair(MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build())
+				.sort(sort)
+				.paging(paging)
+				.build();
+		RequestWrapper request = new RequestWrapper("get_user_fills", param);
+		Observable<RelayResponseWrapper<FillsResult>> observable = rpcDelegate.getUserFills(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    // Fill No use, because we need socket io interface here for k-line
-    public Observable<FillsResult> getMarketFills(String baseToken, String quoteToken) {
-        MarketPair pair = MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build();
-        RequestWrapper request = new RequestWrapper("get_market_fills", pair);
-        Observable<RelayResponseWrapper<FillsResult>> observable = rpcDelegate.getMarketFills(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	// Fill No use, because we need socket io interface here for k-line
+	public Observable<FillsResult> getMarketFills(String baseToken, String quoteToken) {
+		MarketPair pair = MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build();
+		RequestWrapper request = new RequestWrapper("get_market_fills", pair);
+		Observable<RelayResponseWrapper<FillsResult>> observable = rpcDelegate.getMarketFills(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    // OrderDepth No use, because we need socket io interface here for k-line
-    public Observable<OrderBookResult> getOrderBook(int level, int size, String baseToken, String quoteToken) {
-        OrderBookParam param = OrderBookParam.builder()
-                .level(level)
-                .size(size)
-                .marketPair(MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build())
-                .build();
-        RequestWrapper request = new RequestWrapper("get_order_book", param);
-        Observable<RelayResponseWrapper<OrderBookResult>> observable = rpcDelegate.getOrderBook(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	// OrderDepth No use, because we need socket io interface here for k-line
+	public Observable<OrderBookResult> getOrderBook(int level, int size, String baseToken, String quoteToken) {
+		OrderBookParam param = OrderBookParam.builder()
+				.level(level)
+				.size(size)
+				.marketPair(MarketPair.builder().baseToken(baseToken).quoteToken(quoteToken).build())
+				.build();
+		RequestWrapper request = new RequestWrapper("get_order_book", param);
+		Observable<RelayResponseWrapper<OrderBookResult>> observable = rpcDelegate.getOrderBook(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<RingsResult> getRings(String sort, Paging paging, int ringIndex) {
-        RingParam param = RingParam.builder()
-                .sort(sort)
-                .paging(paging)
-                .filter(RingParam.Filter.builder().ringIndex(ringIndex).build())
-                .build();
-        RequestWrapper request = new RequestWrapper("get_rings", param);
-        Observable<RelayResponseWrapper<RingsResult>> observable = rpcDelegate.getRings(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<RingsResult> getRings(String sort, Paging paging, int ringIndex) {
+		RingParam param = RingParam.builder()
+				.sort(sort)
+				.paging(paging)
+				.filter(RingParam.Filter.builder().ringIndex(ringIndex).build())
+				.build();
+		RequestWrapper request = new RequestWrapper("get_rings", param);
+		Observable<RelayResponseWrapper<RingsResult>> observable = rpcDelegate.getRings(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<ActivityResult> getActivities(String owner, String token, Paging paging) {
-        ActivityParam param = ActivityParam.builder().owner(owner).token(token).paging(paging).build();
-        RequestWrapper request = new RequestWrapper("get_activities", param);
-        Observable<RelayResponseWrapper<ActivityResult>> observable = rpcDelegate.getActivities(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<ActivityResult> getActivities(String owner, String token, Paging paging) {
+		ActivityParam param = ActivityParam.builder().owner(owner).token(token).paging(paging).build();
+		RequestWrapper request = new RequestWrapper("get_activities", param);
+		Observable<RelayResponseWrapper<ActivityResult>> observable = rpcDelegate.getActivities(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    // No use, because we need socket io interface here for k-line
-    public Observable<MarketHistoryResult> getMarketHistory(MarketPair marketPair, MarketInterval interval, Long beginTime, Long endTime) {
-        MarketHistoryParam param = MarketHistoryParam.builder()
-                .marketPair(marketPair)
-                .interval(interval)
-                .beginTime(beginTime)
-                .endTime(endTime)
-                .build();
-        RequestWrapper request = new RequestWrapper("get_market_history", param);
-        Observable<RelayResponseWrapper<MarketHistoryResult>> observable = rpcDelegate.getMarketHistory(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	// No use, because we need socket io interface here for k-line
+	public Observable<MarketHistoryResult> getMarketHistory(MarketPair marketPair, MarketInterval interval, Long beginTime, Long endTime) {
+		MarketHistoryParam param = MarketHistoryParam.builder()
+				.marketPair(marketPair)
+				.interval(interval)
+				.beginTime(beginTime)
+				.endTime(endTime)
+				.build();
+		RequestWrapper request = new RequestWrapper("get_market_history", param);
+		Observable<RelayResponseWrapper<MarketHistoryResult>> observable = rpcDelegate.getMarketHistory(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 
-    public Observable<GetGasResult> getGasPrice() {
-        RequestWrapper request = new RequestWrapper("get_gas_price");
-        Observable<RelayResponseWrapper<GetGasResult>> observable = rpcDelegate.getGasPrice(request);
-        return observable.map(RelayResponseWrapper::getResult);
-    }
+	public Observable<GetGasResult> getGasPrice() {
+		RequestWrapper request = new RequestWrapper("get_gas_price");
+		Observable<RelayResponseWrapper<GetGasResult>> observable = rpcDelegate.getGasPrice(request);
+		return observable.map(RelayResponseWrapper::getResult);
+	}
 }

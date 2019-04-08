@@ -1,36 +1,29 @@
 package leaf.prod.walletsdk.model.response.relay;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import lombok.Data;
 
 @Data
 public class BalanceResult {
 
-    private String delegateAddress;
+	private Account account;
 
-    private String owner;
+	@Data
+	public static class Account {
 
-    private List<Asset> tokens;
+		private String address;
 
-    @Data
-    public static class Asset {
+		private TokenBalance tokenBalance;
 
-        private String symbol;
+		@Data
+		public static class TokenBalance {
 
-        private BigDecimal balance;
+			private String token;
 
-        private BigDecimal allowance;
+			private String balance;
 
-        private double value;
+			private String allowance;
 
-        private String valueShown = "--";
-
-        private double legalValue;
-
-        private String legalShown = "--";
-
-        private int precision = 4;
-    }
+			private long block;
+		}
+	}
 }

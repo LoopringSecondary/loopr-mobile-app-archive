@@ -9,7 +9,7 @@ import leaf.prod.walletsdk.model.response.app.VersionResp;
 import leaf.prod.walletsdk.model.response.crawler.BlogWrapper;
 import leaf.prod.walletsdk.model.response.crawler.IndexResult;
 import leaf.prod.walletsdk.model.response.crawler.NewsPageWrapper;
-import leaf.prod.walletsdk.model.response.relay.AccountBalance;
+import leaf.prod.walletsdk.model.response.relay.AccountBalanceWrapper;
 import leaf.prod.walletsdk.model.response.relay.ActivityResult;
 import leaf.prod.walletsdk.model.response.relay.CancelOrdersResult;
 import leaf.prod.walletsdk.model.response.relay.ClaimBindAmount;
@@ -93,7 +93,7 @@ public interface RpcDelegate {
     Observable<RelayResponseWrapper<CancelOrdersResult>> cancelOrders(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
-    Observable<RelayResponseWrapper<AccountBalance>> getAccount(@Body RequestWrapper request);
+    Observable<RelayResponseWrapper<AccountBalanceWrapper>> getAccount(@Body RequestWrapper request);
 
     @POST(Default.RELAY_RPC_URL)
     Observable<RelayResponseWrapper<Integer>> getAccountNonce(@Body RequestWrapper request);

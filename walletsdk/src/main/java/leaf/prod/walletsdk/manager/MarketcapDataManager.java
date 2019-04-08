@@ -1,92 +1,148 @@
 package leaf.prod.walletsdk.manager;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.content.Context;
 
-import leaf.prod.walletsdk.listener.MarketcapListener;
+import leaf.prod.walletsdk.listener.MetadataListener;
 import leaf.prod.walletsdk.model.common.Currency;
-import leaf.prod.walletsdk.model.request.relayParam.MarketcapParam;
-import leaf.prod.walletsdk.model.response.relay.MarketcapResult;
+import leaf.prod.walletsdk.model.market.Market;
+import leaf.prod.walletsdk.model.response.relay.MarketsResult;
+import leaf.prod.walletsdk.model.response.relay.MetadataResult;
+import leaf.prod.walletsdk.model.response.relay.TokensResult;
+import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MarketcapDataManager {
 
-    private static MarketcapDataManager marketDataManager;
+	private static MarketcapDataManager marketDataManager;
 
-    private MarketcapResult marketcapResult;
+	private static TokenDataManager tokenDataManager;
 
-    private Context context;
+	private MetadataResult metadataResult;
 
-    private MarketcapListener marketcapListener = new MarketcapListener();
+	private List<Market> markets;
 
-    private Observable<MarketcapResult> observable;
+	private Context context;
 
-    private MarketcapDataManager(Context context) {
-        this.context = context;
-    }
+	private MetadataListener metadataListener = new MetadataListener();
 
-    public static MarketcapDataManager getInstance(Context context) {
-        if (marketDataManager == null) {
-            marketDataManager = new MarketcapDataManager(context);
-            marketDataManager.initMarketcap();
-        }
-        return marketDataManager;
-    }
+	private RelayService relayService = new RelayService();
 
-    public MarketcapResult getMarketcapResult() {
-        return marketcapResult;
-    }
+	private static Map<String, Observable<MarketsResult>> observableMap = new HashMap<>();
 
-    public void setMarketcapResult(MarketcapResult marketcapResult) {
-        this.marketcapResult = marketcapResult;
-    }
+	private MarketcapDataManager(Context context) {
+		this.context = context;
+	}
 
-    private void initMarketcap() {
-        if (this.observable == null) {
-            this.observable = marketcapListener.start()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-            this.observable.subscribe(marketcapResult -> {
-                this.marketcapResult = marketcapResult;
-            }, error -> {
-            });
-        }
-        Currency currency = CurrencyUtil.getCurrency(context);
-        marketcapListener.send(MarketcapParam.builder().currency(currency.name()).build());
-    }
+	public static MarketcapDataManager getInstance(Context context) {
+		if (marketDataManager == null) {
+			marketDataManager = new MarketcapDataManager(context);
+			tokenDataManager = TokenDataManager.getInstance(context);
+		}
+		return marketDataManager;
+	}
 
-    public Observable<MarketcapResult> getObservable() {
-        return observable;
-    }
+	public Observable<MarketsResult> getObservable() {
+		Currency currency = CurrencyUtil.getCurrency(context);
+		if (observableMap.get(currency.getText()) == null) {
+			observableMap.put(currency.getText(), relayService.getMarkets(true, true, CurrencyUtil.getCurrency(context), null));
+		}
+		return observableMap.get(currency.getText());
+	}
 
-    public Double getPriceBySymbol(String symbol) {
-        Double result = 0d;
-        for (MarketcapResult.Token token : marketcapResult.getTokens()) {
-            if (token.getSymbol().equalsIgnoreCase(symbol)) {
-                result = token.getPrice();
-                break;
-            }
-        }
-        return result;
-    }
+	public void setMarkets(List<Market> markets) {
+		this.markets = markets;
+	}
 
-    public Double getAmountBySymbol(String symbol, Double value) {
-        Double result = null;
-        Double price = getPriceBySymbol(symbol);
-        if (price != null) {
-            result = price * value;
-        }
-        return result;
-    }
+	public MetadataResult getMetadataResult() {
+		return metadataResult;
+	}
 
-    public String getCurrencyBySymbol(String symbol, Double value) {
-        String result = null;
-        Double amount = getAmountBySymbol(symbol, value);
-        if (amount != null) {
-            result = CurrencyUtil.format(context, amount);
-        }
-        return result;
-    }
+	public List<Market> getMarkets() {
+		return markets;
+	}
+
+	public void startSocket() {
+		metadataListener.start().subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<MetadataResult>() {
+					@Override
+					public void onCompleted() {
+					}
+
+					@Override
+					public void onError(Throwable e) {
+					}
+
+					@Override
+					public void onNext(MetadataResult metadataResult) {
+						if (metadataResult.getMetadataChanged() == null)
+							return;
+						if (metadataResult.getMetadataChanged().isMarketMetadataChanged() ||
+								metadataResult.getMetadataChanged().isTickerChanged()) {
+							// 更新market信息
+							relayService.getMarkets(metadataResult.getMetadataChanged().isMarketMetadataChanged(),
+									metadataResult.getMetadataChanged()
+											.isTickerChanged(), CurrencyUtil.getCurrency(context), null) // todo pairs
+									.observeOn(AndroidSchedulers.mainThread())
+									.subscribeOn(Schedulers.io())
+									.subscribe(new Subscriber<MarketsResult>() {
+										@Override
+										public void onCompleted() {
+											unsubscribe();
+										}
+
+										@Override
+										public void onError(Throwable e) {
+											unsubscribe();
+										}
+
+										@Override
+										public void onNext(MarketsResult result) {
+											if (result != null) {
+												markets = result.getMarkets();
+											}
+											unsubscribe();
+										}
+									});
+						}
+						if (metadataResult.getMetadataChanged().isTokenMetadataChanged() ||
+								metadataResult.getMetadataChanged().isTokenInfoChanged()) {
+							// 更新token相关信息，不常变
+							relayService.getTokens(metadataResult.getMetadataChanged()
+									.isTokenMetadataChanged(), metadataResult.getMetadataChanged()
+									.isTokenInfoChanged(), true, CurrencyUtil.getCurrency(context), null)
+									.observeOn(AndroidSchedulers.mainThread())
+									.subscribeOn(Schedulers.io())
+									.subscribe(new Subscriber<TokensResult>() {
+										@Override
+										public void onCompleted() {
+											unsubscribe();
+										}
+
+										@Override
+										public void onError(Throwable e) {
+											unsubscribe();
+										}
+
+										@Override
+										public void onNext(TokensResult tokensResult) {
+											if (tokensResult != null) {
+												tokenDataManager.setTokens(tokensResult.getTokens());
+											}
+											unsubscribe();
+										}
+									});
+						}
+					}
+				});
+		metadataListener.send();
+	}
 }
