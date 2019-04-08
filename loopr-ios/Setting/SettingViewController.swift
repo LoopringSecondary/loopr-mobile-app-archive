@@ -11,11 +11,10 @@ import UIKit
 class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     private enum Sections: Int {
-        case partner = 0
-        case wallet = 1
-        case userPreferences = 2
-        case trade = 3
-        case about = 4
+        case wallet = 0
+        case userPreferences = 1
+        case trade = 2
+        case about = 3
     }
     private var sections: [Sections] = []
     
@@ -50,9 +49,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         } else {
             if FeatureConfigDataManager.shared.getShowTradingFeature() {
-                sections = [.partner, .wallet, .userPreferences, .about]
+                sections = [.wallet, .userPreferences, .about]
             } else {
-                sections = [.partner, .wallet, .userPreferences, .trade, .about]
+                sections = [.wallet, .userPreferences, .trade, .about]
             }
         }
         
@@ -75,8 +74,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         switch section {
-        case .partner:
-            return partnerSectionForCell(indexPath: indexPath)
         case .wallet:
             return walletSectionForCell(indexPath: indexPath)
         case .userPreferences:
@@ -100,13 +97,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.updateUIStyle(indexPath: indexPath, isLastCell: isLastCell)
 
             // Customized UI setting in each section.
-            switch section {
-            case .partner:
-                partnerSectionForCell(willDisplay: cell)
-                
-            default:
-                return
-            }
+            return
         }
         
         if let cell = cell as? SettingTouchIDAndFaceIDTableViewCell {
@@ -132,8 +123,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
         let section = sections[indexPath.section]
         switch section {
-        case .partner:
-            partnerSectionForCellDidSelected(didSelectRowAt: indexPath)
         case .wallet:
             walletSectionForCellDidSelected(didSelectRowAt: indexPath)
         case .userPreferences:
@@ -148,8 +137,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let section = sections[section]
         switch section {
-        case .partner:
-            return partnerSectionNumberOfRows()
         case .wallet:
             return walletSectionNumberOfRows()
         case .userPreferences:
@@ -184,7 +171,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let section = sections[section]
         switch section {
-        case .partner:
+        case .wallet:
             return 0
         default:
             return 10

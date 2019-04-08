@@ -71,9 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             }
         }
 
-        PartnerDataManager.shared.createPartner()
-        PartnerDataManager.shared.activatePartner()
-
         _ = SettingDataManager.shared.getCurrentLanguage()
 
         SettingsBundleHelper.setVersionAndBuildNumber()

@@ -56,8 +56,6 @@ class CurrentAppWalletDataManager {
         self.assets = []
         self.totalCurrencyValue = appWallet.totalCurrency
 
-        PartnerDataManager.shared.createPartner()
-
         // Get nonce. It's a slow API request.
         currentAppWallet!.getNonceFromEthereum(completionHandler: {})
 

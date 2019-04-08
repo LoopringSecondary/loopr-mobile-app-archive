@@ -64,7 +64,6 @@
 		947B1FD921CB7D5A009AE556 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947B1FD821CB7D5A009AE556 /* Data+Extension.swift */; };
 		947B1FDB21CB7FA7009AE556 /* Base58Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947B1FDA21CB7FA7009AE556 /* Base58Util.swift */; };
 		947B1FDD21CBA0CC009AE556 /* AirdropAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947B1FDC21CBA0CC009AE556 /* AirdropAmount.swift */; };
-		948125672119B38E00453225 /* PartnerDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948125662119B38E00453225 /* PartnerDataManager.swift */; };
 		948952D3205A74BE009B03FE /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948952D2205A74BE009B03FE /* Transaction.swift */; };
 		948B418D21C34B0700594E1A /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948B418B21C34B0700594E1A /* AddContactViewController.swift */; };
 		948B418E21C34B0700594E1A /* AddContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 948B418C21C34B0700594E1A /* AddContactViewController.xib */; };
@@ -178,7 +177,6 @@
 		9BA3020021CDFF0F00E55E49 /* ContactInSendAssetViewControllerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BA301FE21CDFF0F00E55E49 /* ContactInSendAssetViewControllerTableViewCell.xib */; };
 		9BA3020221CF4C3700E55E49 /* AboutSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020121CF4C3700E55E49 /* AboutSectionInViewController.swift */; };
 		9BA3020421CF53F400E55E49 /* TradeSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020321CF53F400E55E49 /* TradeSectionInViewController.swift */; };
-		9BA3020621CF543700E55E49 /* PartnerSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020521CF543700E55E49 /* PartnerSectionInViewController.swift */; };
 		9BA3020921CF64A900E55E49 /* WalletSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020821CF64A900E55E49 /* WalletSectionInViewController.swift */; };
 		9BA3020B21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020A21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift */; };
 		9BA3020E21CF77AE00E55E49 /* SettingAppVersionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3020C21CF77AE00E55E49 /* SettingAppVersionTableViewCell.swift */; };
@@ -247,8 +245,6 @@
 		AC23B368210D6214004DC5A9 /* MarketDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC23B366210D6214004DC5A9 /* MarketDetailViewController.xib */; };
 		AC299495212BE32E005C4D72 /* SearchTokenNoDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC299493212BE32E005C4D72 /* SearchTokenNoDataTableViewCell.swift */; };
 		AC299496212BE32E005C4D72 /* SearchTokenNoDataTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC299494212BE32E005C4D72 /* SearchTokenNoDataTableViewCell.xib */; };
-		AC29949B212BF611005C4D72 /* SettingPartnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC299499212BF611005C4D72 /* SettingPartnerViewController.swift */; };
-		AC29949C212BF611005C4D72 /* SettingPartnerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC29949A212BF611005C4D72 /* SettingPartnerViewController.xib */; };
 		AC2ACA4C20FA0EC3009C77E7 /* Rubik-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC2ACA4120FA0EC3009C77E7 /* Rubik-MediumItalic.ttf */; };
 		AC2ACA4D20FA0EC3009C77E7 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC2ACA4220FA0EC3009C77E7 /* Rubik-Bold.ttf */; };
 		AC2ACA4E20FA0EC3009C77E7 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = AC2ACA4320FA0EC3009C77E7 /* SIL Open Font License.txt */; };
@@ -671,7 +667,6 @@
 		947B1FD821CB7D5A009AE556 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		947B1FDA21CB7FA7009AE556 /* Base58Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58Util.swift; sourceTree = "<group>"; };
 		947B1FDC21CBA0CC009AE556 /* AirdropAmount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirdropAmount.swift; sourceTree = "<group>"; };
-		948125662119B38E00453225 /* PartnerDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerDataManager.swift; sourceTree = "<group>"; };
 		948952D2205A74BE009B03FE /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		948B418B21C34B0700594E1A /* AddContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactViewController.swift; sourceTree = "<group>"; };
 		948B418C21C34B0700594E1A /* AddContactViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddContactViewController.xib; sourceTree = "<group>"; };
@@ -784,7 +779,6 @@
 		9BA301FE21CDFF0F00E55E49 /* ContactInSendAssetViewControllerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactInSendAssetViewControllerTableViewCell.xib; sourceTree = "<group>"; };
 		9BA3020121CF4C3700E55E49 /* AboutSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSectionInViewController.swift; sourceTree = "<group>"; };
 		9BA3020321CF53F400E55E49 /* TradeSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeSectionInViewController.swift; sourceTree = "<group>"; };
-		9BA3020521CF543700E55E49 /* PartnerSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSectionInViewController.swift; sourceTree = "<group>"; };
 		9BA3020821CF64A900E55E49 /* WalletSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSectionInViewController.swift; sourceTree = "<group>"; };
 		9BA3020A21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferencesSectionInViewController.swift; sourceTree = "<group>"; };
 		9BA3020C21CF77AE00E55E49 /* SettingAppVersionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAppVersionTableViewCell.swift; sourceTree = "<group>"; };
@@ -855,8 +849,6 @@
 		AC23B366210D6214004DC5A9 /* MarketDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailViewController.xib; sourceTree = "<group>"; };
 		AC299493212BE32E005C4D72 /* SearchTokenNoDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTokenNoDataTableViewCell.swift; sourceTree = "<group>"; };
 		AC299494212BE32E005C4D72 /* SearchTokenNoDataTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchTokenNoDataTableViewCell.xib; sourceTree = "<group>"; };
-		AC299499212BF611005C4D72 /* SettingPartnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingPartnerViewController.swift; sourceTree = "<group>"; };
-		AC29949A212BF611005C4D72 /* SettingPartnerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingPartnerViewController.xib; sourceTree = "<group>"; };
 		AC2ACA4120FA0EC3009C77E7 /* Rubik-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-MediumItalic.ttf"; sourceTree = "<group>"; };
 		AC2ACA4220FA0EC3009C77E7 /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
 		AC2ACA4320FA0EC3009C77E7 /* SIL Open Font License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SIL Open Font License.txt"; sourceTree = "<group>"; };
@@ -1295,15 +1287,6 @@
 				9BA3015F21C7346500E55E49 /* ContactTableViewCell.xib */,
 			);
 			path = Contacts;
-			sourceTree = "<group>";
-		};
-		94A1C0D92128122700FD3A1F /* SettingPartner */ = {
-			isa = PBXGroup;
-			children = (
-				AC299499212BF611005C4D72 /* SettingPartnerViewController.swift */,
-				AC29949A212BF611005C4D72 /* SettingPartnerViewController.xib */,
-			);
-			path = SettingPartner;
 			sourceTree = "<group>";
 		};
 		94AD1FDF208B8F5600C443E6 /* SettingCurrency */ = {
@@ -2448,7 +2431,6 @@
 				941B1EFB209C41BB00710DFF /* GasDataManager.swift */,
 				AC971EC720BB412200EDEDD0 /* AuthenticationDataManager.swift */,
 				943C1CAD20CE1E0B008A8CED /* AuthorizeDataManager.swift */,
-				948125662119B38E00453225 /* PartnerDataManager.swift */,
 				9BA3016221C73D0400E55E49 /* ContactDataManager.swift */,
 				9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */,
 				9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */,
@@ -2476,12 +2458,10 @@
 		ACB9117D2026381A00F14644 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				94A1C0D92128122700FD3A1F /* SettingPartner */,
 				AC4F863A209D4842002E62AB /* SettingLRCFeeRatio */,
 				ACB9117E2026385100F14644 /* SettingNavigationViewController.swift */,
 				ACB911822026388700F14644 /* SettingViewController.swift */,
 				ACB911832026388700F14644 /* SettingViewController.xib */,
-				9BA3020521CF543700E55E49 /* PartnerSectionInViewController.swift */,
 				9BA3020821CF64A900E55E49 /* WalletSectionInViewController.swift */,
 				9BA3020A21CF67ED00E55E49 /* UserPreferencesSectionInViewController.swift */,
 				9BA3020321CF53F400E55E49 /* TradeSectionInViewController.swift */,
@@ -3022,7 +3002,6 @@
 				AC2ACA88210305F8009C77E7 /* TradeFAQDetailViewController.xib in Resources */,
 				ACE65E4620720500001EE499 /* MnemonicCollectionViewCell.xib in Resources */,
 				AC5E3E6C205DEAC00051ACFC /* TradeCompleteViewController.xib in Resources */,
-				AC29949C212BF611005C4D72 /* SettingPartnerViewController.xib in Resources */,
 				AC76E47420493CAE008BA229 /* SettingLanguageViewController.xib in Resources */,
 				AC9FFF322127F8CF00957175 /* AddCustomizedTokenViewController.xib in Resources */,
 				94AA0AA0211578460092D2CE /* ConfirmationResultViewController.xib in Resources */,
@@ -3281,7 +3260,6 @@
 				9B82E7842214034F009441BD /* MarketPlaceOrderTableViewCell.swift in Sources */,
 				ACB9119520278A4000F14644 /* Request.swift in Sources */,
 				AC76E47320493CAE008BA229 /* SettingLanguageViewController.swift in Sources */,
-				9BA3020621CF543700E55E49 /* PartnerSectionInViewController.swift in Sources */,
 				AC3756782038D7E200AADC60 /* UnlockKeystoreViewController.swift in Sources */,
 				ACB5DD95202C434B00140A09 /* EthereumAPIRequest.swift in Sources */,
 				ACE6F722204221260039273D /* Themes.swift in Sources */,
@@ -3414,7 +3392,6 @@
 				AC37567C2038D80300AADC60 /* PrivateKeyViewController.swift in Sources */,
 				9475A2EE207EF81300200155 /* OrderDetailViewController.swift in Sources */,
 				AC2ACA85210305F8009C77E7 /* TradeFAQDetailViewController.swift in Sources */,
-				948125672119B38E00453225 /* PartnerDataManager.swift in Sources */,
 				94E49ED4213CE99700CDDA02 /* PreventScreenShotViewController.swift in Sources */,
 				9B05EB49225B388E003507B4 /* Trend.swift in Sources */,
 				9B2ED7FC21D460EA00ACEE84 /* NewsCollectionCell.swift in Sources */,
@@ -3446,7 +3423,6 @@
 				AC31B94C204A8DF400B16155 /* KeyStore.Error.swift in Sources */,
 				AC31B94E204A8DF400B16155 /* KeystoreKey.swift in Sources */,
 				AC3756732038D64B00AADC60 /* MnemonicViewController.swift in Sources */,
-				AC29949B212BF611005C4D72 /* SettingPartnerViewController.swift in Sources */,
 				9B05EB47225B26E8003507B4 /* OrderbookItem.swift in Sources */,
 				ACA677C0207997F400D34A2F /* DisplayKeystoreViewController.swift in Sources */,
 				ACFEFE9820C338BC00013921 /* TxType.swift in Sources */,
