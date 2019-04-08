@@ -4,6 +4,7 @@ import 'qr_code_widget.dart';
 class QRCodeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print("QRCodeApp");
     return MaterialApp(
       title: '',
       debugShowCheckedModeBanner: false,

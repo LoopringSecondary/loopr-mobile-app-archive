@@ -21,10 +21,12 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
 
   // Receive data from native
   Future<void> _getQRCodeDataFromNative() async {
+    print("Ask native for QR code data");
     String qrCodeData;
     try {
       MethodChannel channel = const MethodChannel(methodChannel);
       final response = await channel.invokeMethod("qrCodeDisplay.get", []);
+      print("Get response from native for QR code data");
       String body = response;
       qrCodeData = '$body';
     } on Exception catch (e) {
@@ -41,7 +43,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
   Future<void> _copyAddress() async {
     try {
       MethodChannel channel = const MethodChannel(methodChannel);
-      await channel.invokeMethod("qrCodeDisplay.copyAdress", []);
+      await channel.invokeMethod("qrCodeDisplay.copyAddress", []);
     } on Exception catch (e) {
       print("MethodChannel... $e");
     }
@@ -61,6 +63,8 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
     if (_qrCodeData == "") {
       _getQRCodeDataFromNative();
     }
+
+    print("render QRCodeWidget");
   
     return Scaffold(
       appBar: null,
