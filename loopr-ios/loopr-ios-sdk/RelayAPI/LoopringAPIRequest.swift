@@ -31,6 +31,32 @@ class LoopringAPIRequest {
             }
         }
     }
+    
+    // The Lightcone relayer also implements all Ethereum JSON RPC API as well.
+    public static func getBalance(owner: String, completionHandler: @escaping (_ assets: [Asset], _ error: Error?) -> Void) {
+        var body: JSON = JSON()
+        body["method"] = "loopring_getBalance"
+        body["params"] = [["delegateAddress": RelayAPIConfiguration.delegateAddress, "owner": owner]]
+        body["id"] = JSON(UUID().uuidString)
+        
+        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler([], error)
+                return
+            }
+            let json = JSON(data)
+            var assets: [Asset] = []
+            let offerData = json["result"]["tokens"]
+            // print(offerData)
+            for subJson in offerData.arrayValue {
+                let asset = Asset(json: subJson)
+                assets.append(asset)
+            }
+            
+            completionHandler(assets, error)
+        }
+    }
 
     static func getTime(completionHandler: @escaping (_ error: Error?) -> Void) {
         var body: JSON = JSON()
