@@ -9,6 +9,8 @@
 import Foundation
 
 class MarketPair: Equatable, CustomStringConvertible {
+    
+    var description: String
 
     let baseToken: String
 
@@ -18,8 +20,6 @@ class MarketPair: Equatable, CustomStringConvertible {
 
     var quoteSymbol: String?
 
-    var description: String?
-
     init(baseToken: String, quoteToken: String) {
         self.baseToken = baseToken
         self.quoteToken = quoteToken
@@ -27,6 +27,8 @@ class MarketPair: Equatable, CustomStringConvertible {
         self.quoteSymbol = TokenDataManager.shared.getTokenByAddress(baseToken)?.symbol
         if let baseSymbol = self.baseSymbol, let quoteSymbol = self.quoteSymbol {
             self.description = baseSymbol + "/" + quoteSymbol
+        } else {
+            self.description = ""
         }
     }
 
@@ -37,6 +39,8 @@ class MarketPair: Equatable, CustomStringConvertible {
         self.quoteSymbol = TokenDataManager.shared.getTokenByAddress(baseToken)?.symbol
         if let baseSymbol = self.baseSymbol, let quoteSymbol = self.quoteSymbol {
             self.description = baseSymbol + "/" + quoteSymbol
+        } else {
+            self.description = ""
         }
     }
 

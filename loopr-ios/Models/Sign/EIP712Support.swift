@@ -32,7 +32,7 @@ struct Types {
 }
 
 struct EIP712TypedData {
-    var types: [Types]
+    var types: Types
     var primaryType: String
     var domain: [String: Any]
     var message: [String: Any]

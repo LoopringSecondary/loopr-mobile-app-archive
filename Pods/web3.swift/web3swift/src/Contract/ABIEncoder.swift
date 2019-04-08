@@ -11,7 +11,7 @@ import BigInt
 
 public class ABIEncoder {
     
-    static func encode(_ value: String, forType type: ABIRawType) throws -> [UInt8] {
+    public static func encode(_ value: String, forType type: ABIRawType) throws -> [UInt8] {
         var encoded: [UInt8] = [UInt8]()
         
         switch type {

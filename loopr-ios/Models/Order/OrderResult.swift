@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Order {
+class OrderResult {
 
     let total: UInt
 

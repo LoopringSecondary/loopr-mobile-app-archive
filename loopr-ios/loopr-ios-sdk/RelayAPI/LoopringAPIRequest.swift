@@ -136,8 +136,8 @@ class LoopringAPIRequest {
                 return
             }
             let json = JSON(data)["result"]
-            let order = Order(json: json)
-            completionHandler(order, nil)
+            let result = OrderResult(json: json)
+            completionHandler(result, nil)
         }
     }
 
