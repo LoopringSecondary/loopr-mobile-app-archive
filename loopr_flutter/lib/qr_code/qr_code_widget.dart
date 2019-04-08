@@ -60,11 +60,11 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print("render QRCodeWidget");
+
     if (_qrCodeData == "") {
       _getQRCodeDataFromNative();
     }
-
-    print("render QRCodeWidget");
   
     return Scaffold(
       appBar: null,
