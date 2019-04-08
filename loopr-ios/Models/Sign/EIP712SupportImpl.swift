@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 func findTypeDependencies(targetType: String, allTypes: Types, results: inout [Type712]) -> [Type712] {
     if let typeDef = allTypes.types[targetType] {
         return typeDef.typeItems.flatMap { (item) -> [Type712] in

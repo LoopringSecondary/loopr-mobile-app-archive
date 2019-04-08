@@ -13,9 +13,18 @@ struct TypeItem {
     var itemType: String
 }
 
-struct Type712 {
+struct Type712: Hashable {
+
     var name: String
     var typeItems: [TypeItem]
+    
+    static func == (lhs: Type712, rhs: Type712) -> Bool {
+        return lhs.name == rhs.name
+    }
+    
+    var hashValue: Int {
+        return name.description.hashValue
+    }
 }
 
 struct Types {
