@@ -208,7 +208,7 @@ class AppWallet: NSObject, NSCoding {
             if keystoreString == "" || !AppWallet.isKeystore(content: keystoreString) {
                 return nil
             }
-            self.init(setupWalletMethod: setupWalletMethod, address: address, password: password, devicePassword: devicePassword, mnemonics: mnemonics, keystoreString: keystoreString, name: name, isVerified: isVerified, tokenList: unique(filteredTokenList), manuallyDisabledTokenList: unique(filteredManuallyDisabledTokenList))
+            self.init(setupWalletMethod: setupWalletMethod, address: address, password: password, devicePassword: devicePassword, mnemonics: mnemonics, keystoreString: keystoreString, name: name, isVerified: isVerified, tokenList: filteredTokenList.unique, manuallyDisabledTokenList: filteredManuallyDisabledTokenList.unique)
         } else {
             return nil
         }

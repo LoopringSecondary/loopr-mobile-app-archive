@@ -8,22 +8,19 @@
 
 import Foundation
 
-enum TrendInterval: String, CustomStringConvertible {
-    
+enum TrendInterval: String {
+
     case oneMinutes = "OHLC_INTERVAL_ONE_MINUTES"
     case fiveMinutes = "OHLC_INTERVAL_FIVE_MINUTES"
-    case fourHours = "4Hr"
-    case oneDay = "1Day"
-    case oneWeek = "1Week"
-    
-    var description: String {
-        switch self {
-        case .oneHour: return LocalizedString("1Hr", comment: "")
-        case .twoHours: return LocalizedString("2Hr", comment: "")
-        case .fourHours: return LocalizedString("4Hr", comment: "")
-        case .oneDay: return LocalizedString("1Day", comment: "")
-        case .oneWeek: return LocalizedString("1Week", comment: "")
-        }
-    }
-    
+    case fifteenMinutes = "OHLC_INTERVAL_FIFTEEN_MINUTES"
+    case thirtyMinutes = "OHLC_INTERVAL_THIRTY_MINUTES"
+    case oneHour = "OHLC_INTERVAL_ONE_HOUR"
+    case twoHours = "OHLC_INTERVAL_TWO_HOURS"
+    case fourHours = "OHLC_INTERVAL_FOUR_HOURS"
+    case twelveHours = "OHLC_INTERVAL_TWELVE_HOURS"
+    case oneDay = "OHLC_INTERVAL_ONE_DAY"
+    case threeDays = "OHLC_INTERVAL_THREE_DAYS"
+    case fiveDays = "OHLC_INTERVAL_FIVE_DAYS"
+    case oneWeek = "OHLC_INTERVAL_ONE_WEEK"
+
 }
