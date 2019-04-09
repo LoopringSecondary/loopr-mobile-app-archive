@@ -10,27 +10,31 @@ import UIKit
 
 class OrderState {
 
-    let status: OrderStatus
+    var status: OrderStatus = .pending
 
     // tokens可用于订单数量，暂时无用
-    let actualAmountS: String
+    var actualAmountS: String = ""
 
-    let actualAmountB: String
+    var actualAmountB: String = ""
 
-    let actualAmountFee: String
+    var actualAmountFee: String = ""
 
     // 订单未成交数量，计算fill
-    let outstandingAmountS: String
+    var outstandingAmountS: String = ""
 
     var outstandingAmountSell: Double?
 
-    let outstandingAmountB: String
+    var outstandingAmountB: String = ""
 
     var outstandingAmountBuy: Double?
 
-    let outstandingAmountFee: String
+    var outstandingAmountFee: String = ""
 
     var outstandingAmountF: Double?
+
+    init() {
+
+    }
 
     init(json: JSON) {
         self.status = OrderStatus(rawValue: json["status"].stringValue) ?? .unknown

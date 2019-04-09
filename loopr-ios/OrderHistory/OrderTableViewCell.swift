@@ -21,13 +21,13 @@ class OrderTableViewCell: UITableViewCell {
 
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var dateLabel: UILabel!
-    
+
     @IBOutlet weak var secondLabelXLayoutContraint: NSLayoutConstraint!
 
-    var order: Order?
+    var order: RawOrder?
     var buttonColor: UIColor?
     var pressedCancelButtonClosure: (() -> Void)?
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -36,23 +36,23 @@ class OrderTableViewCell: UITableViewCell {
         self.baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         cancelButton.titleLabel?.font = FontConfigManager.shared.getCharactorFont(size: 13)
         buttonColor = UIColor.theme
-        
+
         priceLabel.font = FontConfigManager.shared.getRegularFont(size: 13)
         priceLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         displayLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         displayLabel.theme_textColor = GlobalPicker.textColor
-        
+
         volumeLabel.font = FontConfigManager.shared.getRegularFont(size: 13)
         volumeLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         dateLabel.font = FontConfigManager.shared.getRegularFont(size: 13)
         dateLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         let label2Width = LocalizedString("Amount/Filled", comment: "").textWidth(font: FontConfigManager.shared.getCharactorFont(size: 13))
         secondLabelXLayoutContraint.constant = (UIScreen.main.bounds.width-15*2)*0.5-label2Width*0.5
     }
-    
+
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         if highlighted {
             baseView.theme_backgroundColor = ColorPicker.cardHighLightColor
@@ -60,27 +60,27 @@ class OrderTableViewCell: UITableViewCell {
             baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         }
     }
-    
+
     func update() {
         guard let order = self.order else { return }
 
         setupTradingPairlabel(order: order)
         setupPriceLabel(order: order)
         setupOrderTypeLabel(order: order)
-        
+
         setupVolumeLabel(order: order)
-        
+
         setupCancelButton(order: order)
         setupOrderDate(order: order)
     }
-    
-    func setupCancelButton(order: Order) {
+
+    func setupCancelButton(order: RawOrder) {
         let (flag, text) = getOrderStatus(order: order)
         cancelButton.isEnabled = flag
         cancelButton.title = text
     }
-    
-    func getOrderStatus(order: Order) -> (Bool, String) {
+
+    func getOrderStatus(order: RawOrder) -> (Bool, String) {
         if order.orderStatus == .pending_active || order.orderStatus == .pending {
             let cancelledAll = UserDefaults.standard.bool(forKey: UserDefaultsKeys.cancelledAll.rawValue)
             if cancelledAll || isOrderCancelling(order: order) {
@@ -97,20 +97,20 @@ class OrderTableViewCell: UITableViewCell {
         }
         return (false, order.orderStatus.description)
     }
-    
-    func isOrderCancelling(order: Order) -> Bool {
+
+    func isOrderCancelling(order: RawOrder) -> Bool {
         let cancellingOrders = UserDefaults.standard.stringArray(forKey: UserDefaultsKeys.cancellingOrders.rawValue) ?? []
         return cancellingOrders.contains(order.originalOrder.hash)
     }
-    
-    func setupTradingPairlabel(order: Order) {
+
+    func setupTradingPairlabel(order: RawOrder) {
         tradingPairLabel.text = order.tradingPairDescription
         tradingPairLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         tradingPairLabel.theme_textColor = GlobalPicker.textColor
         tradingPairLabel.setMarket()
     }
-    
-    func setupVolumeLabel(order: Order) {
+
+    func setupVolumeLabel(order: RawOrder) {
         if order.originalOrder.side.lowercased() == "sell" {
             displayLabel.text = order.originalOrder.amountSell.withCommas().trailingZero()
             volumeLabel.text = ((order.dealtAmountS/order.originalOrder.amountSell)*100).withCommas(0) + NumberFormatter().percentSymbol
@@ -125,8 +125,8 @@ class OrderTableViewCell: UITableViewCell {
             volumeLabel.text = "0.00%"
         }
     }
-    
-    func setupPriceLabel(order: Order) {
+
+    func setupPriceLabel(order: RawOrder) {
         let price = order.originalOrder.amountBuy / order.originalOrder.amountSell
         let decimals = MarketDataManager.shared.getDecimals(tradingPair: order.tradingPairDescription)
         // TODO: Simplify the followering code.
@@ -144,8 +144,8 @@ class OrderTableViewCell: UITableViewCell {
             priceLabel.text = "\(value)"
         }
     }
-    
-    func setupOrderTypeLabel(order: Order) {
+
+    func setupOrderTypeLabel(order: RawOrder) {
         orderTypeLabel.font = FontConfigManager.shared.getBoldFont(size: 10)
         orderTypeLabel.borderWidth = 0.5
         if order.originalOrder.side == "buy" {
@@ -160,22 +160,22 @@ class OrderTableViewCell: UITableViewCell {
         orderTypeLabel.layer.cornerRadius = 2.0
         orderTypeLabel.layer.masksToBounds = true
     }
-    
-    func setupOrderDate(order: Order) {
+
+    func setupOrderDate(order: RawOrder) {
         let since = DateUtil.convertToDate(UInt(order.originalOrder.validSince), format: "YYYY-MM-dd HH:mm")
         dateLabel.text = since
     }
-    
+
     @IBAction func pressedCancelButton(_ sender: Any) {
         if let btnAction = self.pressedCancelButtonClosure {
             btnAction()
         }
     }
-    
+
     class func getCellIdentifier() -> String {
         return "OrderTableViewCell"
     }
-    
+
     class func getHeight() -> CGFloat {
         return 68+1
     }

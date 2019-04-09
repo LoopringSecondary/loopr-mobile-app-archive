@@ -11,24 +11,24 @@ import Foundation
 // TODO: consider share code with OrderDataManager.
 // It's to all P2P orders of an address.
 class P2POrderHistoryDataManager {
-    
+
     static let shared = P2POrderHistoryDataManager()
-    
-    private var orders: [Order]
-    
+
+    private var orders: [RawOrder]
+
     // changed to true when a P2P order is submitted.
     var shouldReloadData: Bool = false
-    
+
     private init() {
         orders = []
     }
-    
+
     func getOrderDataFromLocal(originalOrder: RawOrder) -> String? {
         let defaults = UserDefaults.standard
         return defaults.string(forKey: originalOrder.hash) ?? nil
     }
-    
-    func getOrders(orderStatuses: [OrderStatus]? = nil) -> [Order] {
+
+    func getOrders(orderStatuses: [OrderStatus]? = nil) -> [RawOrder] {
         guard let orderStatuses = orderStatuses else {
             return orders
         }
@@ -38,7 +38,7 @@ class P2POrderHistoryDataManager {
         return filteredOrder
     }
 
-    func getOrders(token: String? = nil) -> [Order] {
+    func getOrders(token: String? = nil) -> [RawOrder] {
         guard let token = token else {
             return orders
         }

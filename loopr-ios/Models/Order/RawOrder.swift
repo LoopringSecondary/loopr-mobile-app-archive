@@ -10,46 +10,46 @@ import Foundation
 
 class RawOrder: Equatable {
 
-    let hash: String
+    var hash: String = ""
 
-    let version: Int
+    var version: Int = 0
 
-    let owner: String
+    var owner: String = ""
 
     // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
-    let tokenB: String
+    var tokenB: String = ""
 
     // token name e.g. lrc
     var tokenBuy: String?
 
     // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
-    let tokenS: String
+    var tokenS: String = ""
 
     // token name e.g. lrc
     var tokenSell: String?
 
     // big integer hex string e.g. "0x34f07768a92a83d00000"
-    let amountB: String
+    var amountB: String = ""
 
     // double value e.g. 0.02
     var amountBuy: Double?
 
     // big integer hex string e.g. 0x34f07768a92a83d00000
-    let amountS: String
+    var amountS: String = ""
 
     // double value e.g. 0.02
     var amountSell: Double?
 
     // int value e.g. 1548422323
-    var validSince: Int
+    var validSince: Int = 0
 
-    let params: OrderParams
+    var params: OrderParams
 
-    let feeParams: FeeParams
+    var feeParams: FeeParams
 
-    let erc1400Params: ERC1400Params
+    var erc1400Params: ERC1400Params
 
-    let state: OrderState
+    var state: OrderState
 
     var priceB: String?
 
@@ -62,7 +62,16 @@ class RawOrder: Equatable {
     // e.g. 10.50%
     var filled: String = ""
 
-    var trade:
+    var orderSide: OrderSide = .buy
+
+    var p2pType: P2PType = .maker
+
+    init() {
+        self.params = OrderParams()
+        self.feeParams = FeeParams()
+        self.erc1400Params = ERC1400Params()
+        self.state = OrderState()
+    }
 
     init(json: JSON) {
         self.hash = json["hash"].stringValue

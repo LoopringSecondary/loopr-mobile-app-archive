@@ -10,28 +10,9 @@ import Foundation
 import Geth
 import BigInt
 
-class MarketOrderDataManager {
+class MarketOrderDataManager: OrderDataManager {
 
-    static let shared = MarketOrderDataManager()
 
-    private var errorInfo: [String: Any] = [:]
-    private var balanceInfo: [String: Double] = [:]
-
-    private let gasManager = GasDataManager.shared
-    private let tokenManager = TokenDataManager.shared
-    private let walletManager = CurrentAppWalletDataManager.shared
-    private let sendManager = SendCurrentAppWalletDataManager.shared
-
-    // Similar naming in Trade.swift
-    var tokenA: String = "LRC"
-    var tokenB: String = "WETH"
-    var market: Market?
-
-    func new(tokenA: String, tokenB: String, market: Market) {
-        self.tokenA = tokenA
-        self.tokenB = tokenB
-        self.market = market
-    }
 
     func getAllowance(of token: String) -> Double {
         var result: Double = 0
@@ -154,27 +135,6 @@ class MarketOrderDataManager {
             }
         }
         return balanceInfo
-    }
-
-    func getOrderHash(order: RawOrder) -> Data {
-        var result: Data = Data()
-        result.append(contentsOf: order.delegate.hexBytes)
-        result.append(contentsOf: order.address.hexBytes)
-        let tokens = TokenDataManager.shared.getAddress(by: order.tokenSell)!
-        result.append(contentsOf: tokens.hexBytes)
-        let tokenb = TokenDataManager.shared.getAddress(by: order.tokenBuy)!
-        result.append(contentsOf: tokenb.hexBytes)
-        result.append(contentsOf: order.walletAddress.hexBytes)
-        result.append(contentsOf: order.authAddr.hexBytes)
-        result.append(contentsOf: _encode(order.amountS))
-        result.append(contentsOf: _encode(order.amountB))
-        result.append(contentsOf: _encode(order.validSince))
-        result.append(contentsOf: _encode(order.validUntil))
-        result.append(contentsOf: _encode(order.lrcFee, "LRC"))
-        let flag: [UInt8] = order.buyNoMoreThanAmountB ? [1] : [0]
-        result.append(contentsOf: flag)
-        result.append(contentsOf: [order.marginSplitPercentage])
-        return result
     }
 
     func _encode(_ amount: BigInt) -> [UInt8] {

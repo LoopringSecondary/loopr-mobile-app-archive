@@ -22,6 +22,10 @@ class ERC1400Params {
 
     var transferDataS: String = ""
 
+    init() {
+
+    }
+
     init(json: JSON) {
         self.tokenStandardS = json["tokenStandardS"].intValue
         self.tokenStandardB = json["tokenStandardB"].intValue
@@ -30,10 +34,8 @@ class ERC1400Params {
         self.trancheB = json["trancheB"].stringValue
         self.transferDataS = json["transferDataS"].stringValue
     }
-    
+
     func toJson() -> JSON {
-        var json = JSON()
-        // TODO
-        return json
+        return JSON()
     }
 }

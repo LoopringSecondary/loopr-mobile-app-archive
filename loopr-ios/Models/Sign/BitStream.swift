@@ -12,7 +12,11 @@ class BitStream {
     let ADDRESS_LENGTH = 20
     let Uint256Max = BigInt(String(repeating: "f", count: 64), radix: 16)!
 
-    var data: String
+    var data: String = ""
+
+    init() {
+
+    }
 
     init(data: String) {
         self.data = data
@@ -30,17 +34,20 @@ class BitStream {
         return data.count / 2
     }
 
-    func addAddress(x: String, numBytes: Int, forceAppend: Bool = true) -> Int {
+    func addAddress(_ x: String, forceAppend: Bool = true) -> Int {
+        return addAddress(x, ADDRESS_LENGTH, forceAppend: forceAppend);
+    }
+    
+    func addAddress(_ x: String, _ numBytes: Int, forceAppend: Bool = true) -> Int {
         let _x = x.count == 0 ? "0" : x
-        // Force wrap toBigInt here. If it crashes, we can debug it.
         return insert(_x.toBigInt!.toHexWithoutPrefixZero(size: numBytes * 2)!, forceAppend)
     }
 
-    func addUint16(num: BigInt, forceAppend: Bool = true) -> Int {
+    func addUint16(_ num: BigInt, forceAppend: Bool = true) -> Int {
         return addBigInt(num, 2, forceAppend)
     }
 
-    func addInt16(num: BigInt, forceAppend: Bool = true) -> Int {
+    func addInt16(_ num: BigInt, forceAppend: Bool = true) -> Int {
         if num.signum() == -1 {
             let negUint256 = Uint256Max + num + 1
             let int16Str = negUint256.toHexWithoutPrefix()[60..<64]
@@ -50,24 +57,24 @@ class BitStream {
         }
     }
 
-    func addUint32(num: BigInt, forceAppend: Bool = true) -> Int {
+    func addUint32(_ num: BigInt, forceAppend: Bool = true) -> Int {
         return addBigInt(num, 4, forceAppend)
     }
 
-    func addUint(num: BigInt, forceAppend: Bool = true) -> Int {
+    func addUint(_ num: BigInt, forceAppend: Bool = true) -> Int {
         return addBigInt(num, 32, forceAppend)
     }
 
-    func addNumber(num: BigInt, numBytes: Int, forceAppend: Bool = true) -> Int {
+    func addNumber(_ num: BigInt, _ numBytes: Int, forceAppend: Bool = true) -> Int {
         return addBigInt(num, numBytes, forceAppend)
     }
 
-    func addBool(b: Bool, forceAppend: Bool = true) -> Int {
+    func addBool(_ b: Bool, forceAppend: Bool = true) -> Int {
         let _b = b ? BigInt(1) : BigInt(0)
         return addBigInt(_b, 1, forceAppend)
     }
 
-    func addBytes32(x: String, forceAppend: Bool) throws -> Int {
+    func addBytes32(_ x: String, forceAppend: Bool) throws -> Int {
         let strWithoutPrefix = x.drop0x()
         if strWithoutPrefix.count > 64 {
             throw NSException(name: NSExceptionName.invalidArgumentException ,reason: "invalid bytes32 str: too long, str: \(strWithoutPrefix)", userInfo: nil) as! Error
@@ -76,7 +83,7 @@ class BitStream {
         return insert(strPadded, forceAppend)
     }
 
-    func addHex(_ x: String, _ forceAppend: Bool = true) -> Int {
+    func addHex(_ x: String, forceAppend: Bool = true) -> Int {
         return insert(x.drop0x(), forceAppend)
     }
 

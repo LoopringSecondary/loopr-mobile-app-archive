@@ -48,7 +48,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
     var blurVisualEffectView = UIView(frame: .zero)
 
     // Data source
-    var orders: [Order] = []
+    var orders: [RawOrder] = []
 
     var isLaunching: Bool = true
 
@@ -235,7 +235,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
                     let nib = Bundle.main.loadNibNamed("OrderTableViewCell", owner: self, options: nil)
                     cell = nib![0] as? OrderTableViewCell
                 }
-                let order: Order
+                let order: RawOrder
                 order = orders[indexPath.row]
 
                 cell?.order = order
@@ -399,7 +399,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         if let value = Double(marketPlaceOrderTableViewCell.priceTextField.text!.removeComma()) {
             let validate = value > 0.0
             if validate {
-                let tokenBPrice = PriceDataManager.shared.getPrice(of: MarketOrderDataManager.shared.tokenB.symbol)!
+                let tokenBPrice = PriceDataManager.shared.getPrice(of: OrderDataManager.shared.quoteToken.symbol)!
                 let estimateValue: Double = value * tokenBPrice
                 marketPlaceOrderTableViewCell.priceTipLabel.text = "≈ \(estimateValue.currency)"
                 marketPlaceOrderTableViewCell.priceTipLabel.isHidden = false
@@ -507,22 +507,22 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         var amountB, amountS: BigInt
         if self.type == .buy {
             side = "buy"
-            tokenBuy = MarketOrderDataManager.shared.tokenA.symbol
-            tokenSell = MarketOrderDataManager.shared.tokenB.symbol
+            tokenBuy = OrderDataManager.shared.baseToken.symbol
+            tokenSell = OrderDataManager.shared.quoteToken.symbol
             buyNoMoreThanAmountB = true
             amountBuy = Double(marketPlaceOrderTableViewCell.amountTextField.text!.removeComma())!
             amountSell = self.orderAmount
-            amountB = BigInt.generate(from: amountBuy, by: MarketOrderDataManager.shared.tokenA.decimals)
-            amountS = BigInt.generate(from: amountSell, by: MarketOrderDataManager.shared.tokenB.decimals)
+            amountB = BigInt.generate(from: amountBuy, by: OrderDataManager.shared.baseToken.decimals)
+            amountS = BigInt.generate(from: amountSell, by: OrderDataManager.shared.quoteToken.decimals)
         } else {
             side = "sell"
-            tokenBuy = MarketOrderDataManager.shared.tokenB.symbol
-            tokenSell = MarketOrderDataManager.shared.tokenA.symbol
+            tokenBuy = OrderDataManager.shared.quoteToken.symbol
+            tokenSell = OrderDataManager.shared.baseToken.symbol
             buyNoMoreThanAmountB = false
             amountBuy = self.orderAmount
             amountSell = Double(marketPlaceOrderTableViewCell.amountTextField.text!.removeComma())!
-            amountB = BigInt.generate(from: amountBuy, by: MarketOrderDataManager.shared.tokenB.decimals)
-            amountS = BigInt.generate(from: amountSell, by: MarketOrderDataManager.shared.tokenA.decimals)
+            amountB = BigInt.generate(from: amountBuy, by: OrderDataManager.shared.quoteToken.decimals)
+            amountS = BigInt.generate(from: amountSell, by: OrderDataManager.shared.baseToken.decimals)
         }
 
         lrcFee = getLrcFee(amountSell, tokenSell)
