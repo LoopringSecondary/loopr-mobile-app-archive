@@ -10,7 +10,7 @@ import web3
 class BitStream {
 
     let ADDRESS_LENGTH = 20
-    let Uint256Max = BigInt(String(repeating: "f", count: 64), radix: 16)
+    let Uint256Max = BigInt(String(repeating: "f", count: 64), radix: 16)!
 
     var data: String
 
@@ -30,14 +30,66 @@ class BitStream {
         return data.count / 2
     }
 
-    func addAddress(x: String, numBytes: Int, forceAppend: Bool) -> Int {
+    func addAddress(x: String, numBytes: Int, forceAppend: Bool = true) -> Int {
         let _x = x.count == 0 ? "0" : x
         // Force wrap toBigInt here. If it crashes, we can debug it.
         return insert(_x.toBigInt!.toHexWithoutPrefixZero(size: numBytes * 2)!, forceAppend)
     }
 
+    func addUint16(num: BigInt, forceAppend: Bool = true) -> Int {
+        return addBigInt(num, 2, forceAppend)
+    }
+
+    func addInt16(num: BigInt, forceAppend: Bool = true) -> Int {
+        if num.signum() == -1 {
+            let negUint256 = Uint256Max + num + 1
+            let int16Str = negUint256.toHexWithoutPrefix()[60..<64]
+            return addHex(int16Str, forceAppend)
+        } else {
+            return addBigInt(num, 2, forceAppend)
+        }
+    }
+
+    func addUint32(num: BigInt, forceAppend: Bool = true) -> Int {
+        return addBigInt(num, 4, forceAppend)
+    }
+
+    func addUint(num: BigInt, forceAppend: Bool = true) -> Int {
+        return addBigInt(num, 32, forceAppend)
+    }
+
+    func addNumber(num: BigInt, numBytes: Int, forceAppend: Bool = true) -> Int {
+        return addBigInt(num, numBytes, forceAppend)
+    }
+
+    func addBool(b: Bool, forceAppend: Bool = true) -> Int {
+        let _b = b ? BigInt(1) : BigInt(0)
+        return addBigInt(_b, 1, forceAppend)
+    }
+
+    func addBytes32(x: String, forceAppend: Bool) throws -> Int {
+        let strWithoutPrefix = x.drop0x()
+        if strWithoutPrefix.count > 64 {
+            throw NSException(name: NSExceptionName.invalidArgumentException ,reason: "invalid bytes32 str: too long, str: \(strWithoutPrefix)", userInfo: nil) as! Error
+        }
+        let strPadded = strWithoutPrefix + String(repeating: "0", count: 64 - strWithoutPrefix.count)
+        return insert(strPadded, forceAppend)
+    }
+
+    func addHex(_ x: String, _ forceAppend: Bool = true) -> Int {
+        return insert(x.drop0x(), forceAppend)
+    }
+
+    func addRawBytes(data: Data, forceAppend: Bool = true) -> Int {
+        return insert(data.hexStringWithNoPrefix, forceAppend)
+    }
+
+    func addBigInt(_ num: BigInt, _ numBytes: Int, _ forceAppend: Bool = true) -> Int {
+        let x = num.toHexWithoutPrefixZero(size: numBytes * 2) ?? ""
+        return insert(x, forceAppend)
+    }
+
     private func insert(_ x: String, _ forceAppend: Bool) -> Int {
-        // let offset = getLength()
         if !forceAppend {
             var start = 0
             while true {
@@ -58,5 +110,4 @@ class BitStream {
         data.append(x)
         return getLength()
     }
-
 }

@@ -342,7 +342,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             updateTotalLabels()
         } else {
             priceTextField.text = priceValue.withCommas(14).trailingZero()
-            let tokenBPrice = PriceDataManager.shared.getPrice(of: PlaceOrderDataManager.shared.tokenB.symbol)!
+            let tokenBPrice = PriceDataManager.shared.getPrice(of: MarketOrderDataManager.shared.tokenB.symbol)!
             let estimateValue: Double = priceValue * tokenBPrice
             priceTipLabel.text = "≈ \(estimateValue.currency)"
             updateTotalLabels()
@@ -448,11 +448,11 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         var tokenS: String = ""
 
         if self.type == .buy {
-            tokenB = PlaceOrderDataManager.shared.tokenA.symbol
-            tokenS = PlaceOrderDataManager.shared.tokenB.symbol
+            tokenB = MarketOrderDataManager.shared.tokenA.symbol
+            tokenS = MarketOrderDataManager.shared.tokenB.symbol
         } else {
-            tokenB = PlaceOrderDataManager.shared.tokenB.symbol
-            tokenS = PlaceOrderDataManager.shared.tokenA.symbol
+            tokenB = MarketOrderDataManager.shared.tokenB.symbol
+            tokenS = MarketOrderDataManager.shared.tokenA.symbol
         }
         if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenS) {
             amountValue = asset.balance
@@ -481,12 +481,12 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         var tokenS: String = ""
 
         if self.type == .buy {
-            tokenB = PlaceOrderDataManager.shared.tokenA.symbol
-            tokenS = PlaceOrderDataManager.shared.tokenB.symbol
+            tokenB = MarketOrderDataManager.shared.tokenA.symbol
+            tokenS = MarketOrderDataManager.shared.tokenB.symbol
             totalAmountInforLabel.text = LocalizedString("Can Buy", comment: "")
         } else {
-            tokenB = PlaceOrderDataManager.shared.tokenB.symbol
-            tokenS = PlaceOrderDataManager.shared.tokenA.symbol
+            tokenB = MarketOrderDataManager.shared.tokenB.symbol
+            tokenS = MarketOrderDataManager.shared.tokenA.symbol
             totalAmountInforLabel.text = LocalizedString("Can Sell", comment: "")
         }
 

@@ -135,7 +135,7 @@ class SendCurrentAppWalletDataManager {
         _transfer(data: data, address: tokenAddress, amount: GethBigInt.init(0), gasLimit: GethBigInt(gasLimit), completion: completion)
     }
 
-    func _cancelOrder(order: OriginalOrder, completion: @escaping (String?, Error?) -> Void) {
+    func _cancelOrder(order: RawOrder, completion: @escaping (String?, Error?) -> Void) {
         if let owner = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address {
             let timestamp = Int(Date().timeIntervalSince1970).description
             if let signature = AuthorizeDataManager.shared._signTimestamp(timestamp: timestamp) {

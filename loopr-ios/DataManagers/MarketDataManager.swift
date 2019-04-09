@@ -147,7 +147,7 @@ class MarketDataManager {
         */
     }
     
-    func getTrends(trendRange: TrendRange) -> [Trend] {
+    func getTrends(trendRange: MarketRange) -> [Trend] {
         /*
         var trends: [Trend] = []
         switch trendRange.getTrendInterval() {

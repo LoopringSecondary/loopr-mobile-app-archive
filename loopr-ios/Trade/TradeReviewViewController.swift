@@ -52,7 +52,7 @@ class TradeReviewViewController: UIViewController {
     var qrcodeImageCIImage: CIImage!
     var qrcodeImage: UIImage!
 
-    var order: OriginalOrder?
+    var order: RawOrder?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,7 +98,7 @@ class TradeReviewViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(orderResponseReceivedNotification), name: .orderResponseReceived, object: nil)
     }
     
-    func setupShareView(order: OriginalOrder) {
+    func setupShareView(order: RawOrder) {
         shareImageView.image = UIImage(named: "Share-order")
         logoImageView.image = UIImage(named: "\(Production.getProduct())_share_logo")
         
@@ -217,7 +217,7 @@ class TradeReviewViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
-    func generateQRCode(order: OriginalOrder) {
+    func generateQRCode(order: RawOrder) {
         var body = JSON()
         body["type"] = JSON(TradeDataManager.qrcodeType)
         body["value"] = [TradeDataManager.qrcodeHash: order.hash,

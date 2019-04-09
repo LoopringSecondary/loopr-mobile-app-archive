@@ -47,6 +47,8 @@ class RawOrder: Equatable {
 
     let feeParams: FeeParams
 
+    let erc1400Params: ERC1400Params
+
     let state: OrderState
 
     var priceB: String?
@@ -60,6 +62,8 @@ class RawOrder: Equatable {
     // e.g. 10.50%
     var filled: String = ""
 
+    var trade:
+
     init(json: JSON) {
         self.hash = json["hash"].stringValue
         self.version = json["version"].intValue
@@ -71,6 +75,7 @@ class RawOrder: Equatable {
         self.validSince = json["validSince"].intValue
         self.params = OrderParams(json: json["params"])
         self.feeParams = FeeParams(json: json["feeParams"])
+        self.erc1400Params = ERC1400Params(json: json["erc1400Params"])
         self.state = OrderState(json: json["state"])
         self.initPrice();
     }
@@ -114,11 +119,13 @@ class RawOrder: Equatable {
         json["validSince"] = JSON(validSince)
         json["params"] = params.toJson()
         json["feeParams"] = feeParams.toJson()
+        json["erc1400Params"] = erc1400Params.toJson()
         return json
     }
 
     static func ==(lhs: RawOrder, rhs: RawOrder) -> Bool {
         return lhs.hash == rhs.hash
     }
+
 
 }

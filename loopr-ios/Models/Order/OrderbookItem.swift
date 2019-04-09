@@ -20,5 +20,4 @@ class OrderbookItem {
         self.price = price
         self.total = total
     }
-    
 }

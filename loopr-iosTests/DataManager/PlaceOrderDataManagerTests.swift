@@ -1,5 +1,5 @@
 //
-//  PlaceOrderDataManagerTests.swift
+//  MarketOrderDataManagerTests.swift
 //  loopr-iosTests
 //
 //  Created by kenshin on 2018/5/6.
@@ -10,70 +10,70 @@ import XCTest
 import Geth
 @testable import loopr_ios
 
-class PlaceOrderDataManagerTests: XCTestCase {
-    
+class MarketOrderDataManagerTests: XCTestCase {
+
     func _keystore() {
         let start = Date()
         let wallet = CurrentAppWalletDataManager.shared.getCurrentAppWallet()
         var gethAccount: GethAccount?
-        
+
         // Get Keystore string value
         let keystoreStringValue: String = wallet!.getKeystore()
         print(keystoreStringValue)
-        
+
         // Create key directory
         let fileManager = FileManager.default
-        
+
         let keyDirectory = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("KeyStoreSendAssetViewController")
         try? fileManager.removeItem(at: keyDirectory)
         try? fileManager.createDirectory(at: keyDirectory, withIntermediateDirectories: true, attributes: nil)
         print(keyDirectory)
-        
+
         let walletDirectory = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("WalletSendAssetViewController")
         try? fileManager.removeItem(at: walletDirectory)
         try? fileManager.createDirectory(at: walletDirectory, withIntermediateDirectories: true, attributes: nil)
         print(walletDirectory)
-        
+
         // Save the keystore string value to keyDirectory
         let fileURL = keyDirectory.appendingPathComponent("key.json")
         try! keystoreStringValue.write(to: fileURL, atomically: false, encoding: .utf8)
-        
+
         print(keyDirectory.absoluteString)
         let keydir = keyDirectory.absoluteString.replacingOccurrences(of: "file://", with: "", options: .regularExpression)
-        
+
         let gethKeystore = GethKeyStore.init(keydir, scryptN: GethLightScryptN, scryptP: GethLightScryptP)!
-        
+
         gethAccount = EthAccountCoordinator.default.launch(keystore: gethKeystore, password: wallet!.getKeystorePassword())
-        
+
         // print("current address: \(gethAccount!.getAddress().getHex())")
         let end = Date()
         let timeInterval: Double = end.timeIntervalSince(start)
         print("Time to _keystore: \(timeInterval) seconds")
     }
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         _keystore()
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
-    
+
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
         }
     }
-    
+
     func testHashData() {
         var datass: Data = Data()
         // "0x17233e07c67d086464fD408148c3ABB56245FA64" delegate address
@@ -102,13 +102,13 @@ class PlaceOrderDataManagerTests: XCTestCase {
         datass.append(contentsOf: [1])
         // marginSplit 50%
         datass.append(contentsOf: [50])
-        
+
         let (signatureData, _) = web3swift.sign(message: datass)
         print(signatureData!.r)
         print(signatureData!.s)
         print(signatureData!.v)
     }
-    
+
     func testBigValue() {
         if let a = GethBigInt.generate(valueInEther: "0x306dc4200", symbol: "ETH") {
             print(a.decimalString)

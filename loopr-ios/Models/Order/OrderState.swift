@@ -13,33 +13,32 @@ class OrderState {
     let status: OrderStatus
 
     // tokens可用于订单数量，暂时无用
-    let actualStringS: String
+    let actualAmountS: String
 
-    let actualStringB: String
+    let actualAmountB: String
 
-    let actualStringFee: String
+    let actualAmountFee: String
 
     // 订单未成交数量，计算fill
-    let outstandingStringS: String
+    let outstandingAmountS: String
 
-    var outstandingStringSell: Double?
+    var outstandingAmountSell: Double?
 
-    let outstandingStringB: String
+    let outstandingAmountB: String
 
-    var outstandingStringBuy: Double?
+    var outstandingAmountBuy: Double?
 
-    let outstandingStringFee: String
+    let outstandingAmountFee: String
 
-    var outstandingStringF: Double?
+    var outstandingAmountF: Double?
 
     init(json: JSON) {
         self.status = OrderStatus(rawValue: json["status"].stringValue) ?? .unknown
-        self.actualStringS = json["actualStringS"].stringValue
-        self.actualStringB = json["actualStringB"].stringValue
-        self.actualStringFee = json["actualStringFee"].stringValue
-
-        self.outstandingStringS = json["outstandingStringS"].stringValue
-        self.outstandingStringB = json["outstandingStringB"].stringValue
-        self.outstandingStringFee = json["outstandingStringFee"].stringValue
+        self.actualAmountS = json["actualAmountS"].stringValue
+        self.actualAmountB = json["actualAmountB"].stringValue
+        self.actualAmountFee = json["actualAmountFee"].stringValue
+        self.outstandingAmountS = json["outstandingAmountS"].stringValue
+        self.outstandingAmountB = json["outstandingAmountB"].stringValue
+        self.outstandingAmountFee = json["outstandingAmountFee"].stringValue
     }
 }

@@ -17,12 +17,12 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
 
     var market: Market!
     var marketDetailSwipeViewController = MarketDetailSwipeViewController()
-    
+
     var swipeViewIndex: Int = 0
-    
+
     // Chart
     var trends: [Trend] = []
-    
+
     // Depth
     var preivousMarketName: String = ""
     var minSellPrice: Double = 0
@@ -30,16 +30,16 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
     var sells: [OrderbookItem] = []
     var maxAmountInDepthView: Double = 0
     var isDepthLaunching: Bool = true
-    
+
     // Trade History
     var orderFills: [OrderFill] = []
     var isTradeHistoryLaunching: Bool = true
-    
+
     @IBOutlet weak var tableView: UITableView!
-    
+
     @IBOutlet weak var buyButton: GradientButton!
     @IBOutlet weak var sellButton: GradientButton!
-    
+
     let buttonInNavigationBar =  UIButton(frame: .zero)
 
     override func viewDidLoad() {
@@ -52,23 +52,23 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
 
         buyButton.setGreen()
         sellButton.setRed()
-        
+
         tableView.delegate = self
         tableView.dataSource = self
         tableView.theme_backgroundColor = ColorPicker.backgroundColor
         tableView.separatorStyle = .none
- 
+
         buttonInNavigationBar.frame = CGRect(x: 0, y: 0, width: 400, height: 40)
         buttonInNavigationBar.titleLabel?.font = FontConfigManager.shared.getDigitalFont(size: 18)
         buttonInNavigationBar.theme_setTitleColor(GlobalPicker.barTextColor, forState: .normal)
         buttonInNavigationBar.setTitleColor(UIColor.init(white: 0.8, alpha: 1), for: .highlighted)
         buttonInNavigationBar.addTarget(self, action: #selector(self.clickNavigationTitleButton(_:)), for: .touchUpInside)
         self.navigationItem.titleView = buttonInNavigationBar
-        
+
         getOrderbookFromRelay()
         self.buys = MarketDepthDataManager.shared.getBuys()
         self.sells = MarketDepthDataManager.shared.getSells()
-        
+
         /*
         if buys.count > 0 && sells.count > 0 {
             self.maxAmountInDepthView = max(buys[buys.count / 2].amountAInDouble, sells[sells.count / 2].amountAInDouble) * 1.5
@@ -80,22 +80,22 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
             self.maxAmountInDepthView = 0
         }
         */
-        
+
         getTradeHistoryFromRelay()
 
         // 1 day range, use 1 hour interval, 24 counts
         // 1 month range, use 1 day interval, 30 counts
         // 1 year range, use 1 week interval, 52 counts
         // 2 year range, use 1 week interval, 104 counts
-        
+
         MarketDataManager.shared.getAllTrends(market: market.ticker.baseSymbol) { (_) in
-            self.trends = MarketDataManager.shared.getTrends(trendRange: TrendRange.oneMonth)
+            self.trends = MarketDataManager.shared.getTrends(trendRange: MarketRange.oneMonth)
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         buttonInNavigationBar.setRightImage(imageName: "Caret-down-dark", imagePaddingTop: 0, imagePaddingLeft: -24, titlePaddingRight: 0)
         // TODO: needs to update the icon. It's too big here.
         var padding = "  "
@@ -103,16 +103,16 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
             padding += " "
         }
         buttonInNavigationBar.title = padding + market!.description
-        
+
         getOrderbookFromRelay()
     }
-    
+
     func setupMarket() {
-        PlaceOrderDataManager.shared.new(tokenA: market.ticker.quoteSymbol, tokenB: market.ticker.baseSymbol, market: market)
-        
+        MarketOrderDataManager.shared.new(tokenA: market.ticker.quoteSymbol, tokenB: market.ticker.baseSymbol, market: market)
+
         buyButton.setTitle(LocalizedString("Buy", comment: "") + " " + market.ticker.quoteSymbol, for: .normal)
         sellButton.setTitle(LocalizedString("Sell", comment: "") + " " + market.ticker.quoteSymbol, for: .normal)
-        
+
         marketDetailSwipeViewController.market = market
         addChildViewController(marketDetailSwipeViewController)
     }
@@ -127,14 +127,14 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         let starButton = UIBarButtonItem(image: icon, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.pressHistoryButton(_:)))
         self.navigationItem.rightBarButtonItem = starButton
     }
-    
+
     @objc func pressHistoryButton(_ button: UIBarButtonItem) {
         print("pressStarButton")
         let viewController = OrderHistoryViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
     @objc func clickNavigationTitleButton(_ button: UIButton) {
         print("select another wallet.")
         let viewController = MarketChangeTokenSwipeViewController()
@@ -146,7 +146,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
 
         let navController = UINavigationController(rootViewController: viewController)
         self.present(navController, animated: true) {
-            
+
         }
     }
 
@@ -166,7 +166,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         viewController.initialType = .sell
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
     @IBAction func pressedBuyButton(_ sender: Any) {
         print("pressedBuyButton")
         /*
@@ -183,11 +183,11 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         viewController.initialType = .buy
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 4
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case MarketDetailSection.swipe.rawValue:
@@ -198,7 +198,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
             return 0
         }
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         switch section {
         case MarketDetailSection.swipe.rawValue:
@@ -209,7 +209,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
             return nil
         }
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -224,7 +224,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
             return 0
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
@@ -237,7 +237,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
             return 0
         }
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
@@ -265,7 +265,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
 
 extension MarketDetailViewController: MarketDetailPriceChartTableViewCellDelegate {
 
-    func trendRangeUpdated(newTrendRange: TrendRange) {
+    func trendRangeUpdated(newTrendRange: MarketRange) {
         self.trends = MarketDataManager.shared.getTrends(trendRange: newTrendRange)
         self.tableView.reloadData()
     }

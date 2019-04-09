@@ -69,7 +69,7 @@ class MarketOrderDataManager {
     func checkLRCGasEnough(of order: RawOrder) {
         var result: Double = 0
         if let ethBalance = walletManager.getBalance(of: "ETH"),
-            let lrcGas = calculateGasForLRC(of: order) {
+           let lrcGas = calculateGasForLRC(of: order) {
             result = ethBalance - lrcGas
         }
         if result < 0 {

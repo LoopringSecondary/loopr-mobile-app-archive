@@ -43,7 +43,7 @@ class OrderQRCodeViewController: UIViewController {
     @IBOutlet weak var urlLabel: UILabel!
     @IBOutlet weak var logoImageView: UIImageView!
     
-    var originalOrder: OriginalOrder?
+    var originalOrder: RawOrder?
     var qrcodeImage: UIImage!
     var qrcodeImageCIImage: CIImage!
     var dismissClosure: (() -> Void)?
@@ -80,7 +80,7 @@ class OrderQRCodeViewController: UIViewController {
         }
     }
     
-    func setupShareView(order: OriginalOrder) {
+    func setupShareView(order: RawOrder) {
         shareImageView.image = UIImage(named: "Share-order")
         logoImageView.image = UIImage(named: "\(Production.getProduct())_share_logo")
         
@@ -171,7 +171,7 @@ class OrderQRCodeViewController: UIViewController {
         urlLabel.text = Production.getUrlText()
     }
     
-    func generateQRCode(originalOrder: OriginalOrder) {
+    func generateQRCode(originalOrder: RawOrder) {
         guard let data = P2POrderHistoryDataManager.shared.getOrderDataFromLocal(originalOrder: originalOrder) else { return }
         var body = JSON()
         let array = data.components(separatedBy: "-")

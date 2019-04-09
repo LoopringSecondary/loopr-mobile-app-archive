@@ -8,8 +8,8 @@
 
 import Foundation
 
-enum TrendRange: CustomStringConvertible {
-    
+enum MarketRange: CustomStringConvertible {
+
     case oneDay
     case oneWeek
     case oneMonth
@@ -17,7 +17,7 @@ enum TrendRange: CustomStringConvertible {
     case oneYear
     case twoYears
     case all
-    
+
     var description: String {
         switch self {
         case .oneDay: return LocalizedString("1H", comment: "")
@@ -29,26 +29,26 @@ enum TrendRange: CustomStringConvertible {
         case .all: return LocalizedString("All", comment: "")
         }
     }
-    
-    func getTrendInterval() -> TrendInterval {
+
+    func getTrendInterval() -> MarketInterval {
         switch self {
         case .oneDay:
-            return TrendInterval.oneHour
+            return MarketInterval.one_hour
         case .oneWeek:
-            return TrendInterval.fourHours
+            return MarketInterval.four_hours
         case .oneMonth:
-            return TrendInterval.oneDay
+            return MarketInterval.one_day
         case .threeMonths:
-            return TrendInterval.oneDay
+            return MarketInterval.one_day
         case .oneYear:
-            return TrendInterval.oneWeek
+            return MarketInterval.one_week
         case .twoYears:
-            return TrendInterval.oneWeek
+            return MarketInterval.one_week
         case .all:
-            return TrendInterval.oneWeek
+            return MarketInterval.one_week
         }
     }
-    
+
     func getCount() -> Int {
         switch self {
         case .oneDay:
@@ -67,5 +67,5 @@ enum TrendRange: CustomStringConvertible {
             return 100
         }
     }
-    
+
 }
