@@ -32,14 +32,31 @@ class BitStream {
 
     func addAddress(x: String, numBytes: Int, forceAppend: Bool) -> Int {
         let _x = x.count == 0 ? "0" : x
-        return insert(_x.toBigInt?.toHexWithoutPrefixZero(size: numBytes * 2), forceAppend)
+        // Force wrap toBigInt here. If it crashes, we can debug it.
+        return insert(_x.toBigInt!.toHexWithoutPrefixZero(size: numBytes * 2)!, forceAppend)
     }
 
-    private func insert(_ x: String?, _ forceAppend: Bool) -> Int {
-        let offset = getLength()
+    private func insert(_ x: String, _ forceAppend: Bool) -> Int {
+        // let offset = getLength()
         if !forceAppend {
-            var start = data.index
-            start.encodedOffset
+            var start = 0
+            while true {
+                let subData = data.substring(fromIndex: start)
+                if let index = subData.index(of: x) {
+                    let distance = data.distance(from: data.startIndex, to: index)
+                    if (distance % 2 == 0) {
+                        let offset = distance / 2
+                        return offset
+                    } else {
+                        start += 1
+                    }
+                } else {
+                    break
+                }
+            }
         }
+        data.append(x)
+        return getLength()
     }
+
 }
