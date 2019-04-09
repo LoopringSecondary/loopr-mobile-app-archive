@@ -786,30 +786,9 @@ extension BuyViewController {
         var maxPossibleAmount: Double = 0
 
         if side == .buy {
-            /*
-            if tokenBuy.uppercased() == "LRC" {
-
-            } else {
-
-            }
-            */
             maxPossibleAmount = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenSell)?.balance ?? 0
 
         } else {
-            /*
-            if tokenSell.uppercased() == "LRC" {
-                // This line of code will trigger a Relay API call
-                let lrcFrozen = PlaceOrderDataManager.shared.getFrozenLRCFeeFromServer()
-                let lrcBlance = CurrentAppWalletDataManager.shared.getBalance(of: "LRC")!
-
-                let lrcFee = getLrcFee(lrcBlance-lrcFrozen, tokenSell)
-
-                maxPossibleAmount = lrcBlance - lrcFrozen - lrcFee
-
-            } else {
-                maxPossibleAmount = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenSell)?.balance ?? 0
-            }
-            */
             maxPossibleAmount = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenSell)?.balance ?? 0
         }
 

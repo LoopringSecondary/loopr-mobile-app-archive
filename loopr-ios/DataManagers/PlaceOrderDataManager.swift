@@ -33,22 +33,6 @@ class PlaceOrderDataManager {
         self.market = market
     }
 
-    func getFrozenLRCFeeFromServer() -> Double {
-        var result: Double = 0
-        let semaphore = DispatchSemaphore(value: 0)
-        if let address = walletManager.getCurrentAppWallet()?.address {
-            LoopringAPIRequest.getFrozenLRCFee(owner: address, completionHandler: { (data, error) in
-                guard error == nil, let lrc = data else {
-                    return
-                }
-                result = lrc
-                semaphore.signal()
-            })
-        }
-        _ = semaphore.wait(timeout: .distantFuture)
-        return result
-    }
-
     func getAllowance(of token: String) -> Double {
         var result: Double = 0
         let semaphore = DispatchSemaphore(value: 0)
@@ -67,7 +51,7 @@ class PlaceOrderDataManager {
 
     func checkLRCEnough(of order: OriginalOrder) {
         var result: Double = 0
-        let lrcFrozen = getFrozenLRCFeeFromServer()
+        let lrcFrozen = 0
         let lrcBlance = walletManager.getBalance(of: "LRC")!
         result = lrcBlance - order.lrcFee - lrcFrozen
         if result < 0 {
@@ -107,7 +91,7 @@ class PlaceOrderDataManager {
         var result: Double?
         if let asset = walletManager.getAsset(symbol: token) {
             if token.uppercased() == "LRC" {
-                let lrcFrozen = getFrozenLRCFeeFromServer()
+                let lrcFrozen = 0
                 let sellingFrozen = getAllowance(of: "LRC")
                 if asset.allowance >= lrcFee + lrcFrozen + sellingFrozen {
                     return 0
@@ -136,7 +120,7 @@ class PlaceOrderDataManager {
             let lrcAllowance = asset.allowance
             let lrcFee = order.lrcFee
             let amountSell = order.amountSell
-            let lrcFrozen = getFrozenLRCFeeFromServer()
+            let lrcFrozen = 0  // getFrozenLRCFeeFromServer()
             let sellingFrozen = getAllowance(of: "LRC")
             if lrcFee + lrcFrozen + sellingFrozen + amountSell > lrcAllowance {
                 let gasAmount = gasManager.getGasAmountInETH(by: "approve")
