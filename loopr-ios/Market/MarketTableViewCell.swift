@@ -58,11 +58,13 @@ class MarketTableViewCell: UITableViewCell {
     }
     
     func updateStarButton(market: Market) {
+        /*
         if market.isFavorite() {
             favButton.image = UIImage(named: "Star" + ColorTheme.getTheme())?.withRenderingMode(.alwaysOriginal)
         } else {
             favButton.image = UIImage(named: "StarOutline")?.withRenderingMode(.alwaysOriginal)
         }
+        */
     }
 
     func update() {
@@ -70,17 +72,12 @@ class MarketTableViewCell: UITableViewCell {
             updateStarButton(market: market)
             nameLabel.text = market.description
             nameLabel.setMarket()
-            if market.volumeInPast24 > 1 {
-                let vol = Darwin.round(market.volumeInPast24)
-                balanceLabel.text = "Vol \(vol.withCommas(0))"
-            } else {
-                balanceLabel.text = "Vol \(market.volumeInPast24.withCommas())"
-            }
+            balanceLabel.text = "Vol \(market.ticker.percentChange24H)"
             
-            marketPriceInBitcoinLabel.text = market.balanceWithDecimals
-            marketPriceInFiatCurrencyLabel.text = market.display.description
-            percentageChangeLabel.text = market.changeInPat24
-            percentageChangeLabel.backgroundColor = UIStyleConfig.getChangeColor(change: market.changeInPat24)
+            marketPriceInBitcoinLabel.text = market.ticker.price.withCommas()
+            marketPriceInFiatCurrencyLabel.text = market.ticker.price.withCommas()
+            percentageChangeLabel.text = market.ticker.percentChange24H
+            percentageChangeLabel.backgroundColor = UIStyleConfig.getChangeColor(change: market.ticker.percentChange24H)
         }
     }
     
@@ -88,11 +85,13 @@ class MarketTableViewCell: UITableViewCell {
         guard let market = market else {
             return
         }
+        /*
         if market.isFavorite() {
             MarketDataManager.shared.removeFavoriteMarket(market: market)
         } else {
             MarketDataManager.shared.setFavoriteMarket(market: market)
         }
+        */
         updateStarButton(market: market)
     }
     

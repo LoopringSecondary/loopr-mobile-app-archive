@@ -35,7 +35,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.type = type
         // TO reduce the number of TableViewCells that are created during init()
         if self.type == .favorite || self.type == .ETH {
-            markets = MarketDataManager.shared.getMarketsWithoutReordered(type: type, tag: .whiteList)
+            markets = MarketDataManager.shared.getMarketsWithoutReordered(type: type)
         }
     }
     
@@ -91,6 +91,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func getTickersFromRelay() {
         // TODO: config in setting
+        /*
         LoopringAPIRequest.getTicker(by: .coinmarketcap) { (markets, error) in
             print("receive LoopringAPIRequest.getMarkets")
             guard error == nil else {
@@ -111,12 +112,13 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 self.refreshControl.endRefreshing(refreshControlType: .marketViewController)
             }
         }
+        */
     }
     
     @objc func tickerResponseReceivedNotification() {
         if viewAppear && !isSearching && isListeningSocketIO {
             print("MarketViewController reload table \(type.description)")
-            markets = MarketDataManager.shared.getMarketsWithoutReordered(type: type, tag: .whiteList)
+            markets = MarketDataManager.shared.getMarketsWithoutReordered(type: type)
             marketTableView.reloadData()
         }
     }
@@ -148,7 +150,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func reloadAfterSwipeViewUpdated(isSearching: Bool, searchText: String) {
-        markets = MarketDataManager.shared.getMarketsWithoutReordered(type: type, tag: .whiteList)
+        markets = MarketDataManager.shared.getMarketsWithoutReordered(type: type)
         self.isSearching = isSearching
         self.searchText = searchText.trim()
         if isSearching {
@@ -175,7 +177,7 @@ class MarketViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func filterContentForSearchText(_ searchText: String) {
         let newFilteredMarkets = MarketDataManager.shared.getMarketsWithoutReordered(type: type).filter({(market: Market) -> Bool in
-            return market.tradingPair.tradingA.lowercased().contains(searchText.lowercased()) || market.tradingPair.tradingB.lowercased().contains(searchText.lowercased())
+            return market.metadata.marketPair.baseToken.lowercased().contains(searchText.lowercased()) || market.metadata.marketPair.quoteToken.lowercased().contains(searchText.lowercased())
         })
 
         filteredMarkets = newFilteredMarkets

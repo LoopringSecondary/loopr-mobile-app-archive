@@ -150,59 +150,61 @@ class MarketDetailSummaryTableViewCell: UITableViewCell {
         
         self.market = market
 
-        priceInFiatCurrencyLabel.text = market.display.description
-        priceChangeIn24HoursLabel.text = market.changeInPat24
+        priceInFiatCurrencyLabel.text = market.ticker.price.withCommas()
+        priceChangeIn24HoursLabel.text = market.ticker.percentChange24H
         
         let hoursChangeWidth = hoursChangeInfoLabel.text!.widthOfString(usingFont: hoursChangeInfoLabel.font)
         let volumeChangeWidth = hoursChangeInfoLabel.text!.widthOfString(usingFont: hoursVolumeLabel.font)
         hoursChangeInfoLabelWidthLayoutConstraint.constant = max(hoursChangeWidth, volumeChangeWidth) + 10
         
-        priceInCryptoLabel.text = "\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)"
-        priceInCryptoLabel.textColor = UIStyleConfig.getChangeColor(change: market.changeInPat24)
+        priceInCryptoLabel.text = "\(market.ticker.price.withCommas()) \(market.metadata.marketPair.quoteToken) ≈ \(market.ticker.price.withCommas())"
+        // priceInCryptoLabel.textColor = UIStyleConfig.getChangeColor(change: market.changeInPat24)
         
-        hoursChangeLabel.text = market.changeInPat24
+        hoursChangeLabel.text = market.ticker.percentChange24H
         
-        var tradeSymbol = market.tradingPair.tradingB
+        var tradeSymbol = market.metadata.marketPair.quoteToken
         if tradeSymbol == "WETH" {
             tradeSymbol = "ETH"
         }
 
-        if market.volumeInPast24 > 1 {
-            let vol = Darwin.round(market.volumeInPast24)
+        /*
+        if market.ticker.percentChange24H > 1 {
+            let vol = Darwin.round(market.ticker.percentChange24H)
             hoursVolumeLabel.text = "\(vol.withCommas(0)) \(tradeSymbol)"
         } else {
             hoursVolumeLabel.text = "\(market.volumeInPast24.withCommas()) \(tradeSymbol)"
         }
+        */
     }
     
     func setHighlighted(trend: Trend) {
         self.baseView.isHidden = true
         self.highlightView.isHidden = false
 
-        openLabel.text = trend.open.withCommas(8)
-        closeLabel.text = trend.close.withCommas(8)
+        openLabel.text = trend.openingPrice.withCommas(8)
+        closeLabel.text = trend.closingPrice.withCommas(8)
         
-        highLabel.text = trend.high.withCommas(8)
-        lowLabel.text = trend.low.withCommas(8)
+        highLabel.text = trend.highestPrice.withCommas(8)
+        lowLabel.text = trend.lowestPrice.withCommas(8)
         
-        if trend.vol > 1 {
-            let vol = Darwin.round(trend.vol)
+        if trend.quality > 1 {
+            let vol = Darwin.round(trend.quality)
             volLabel.text = "\(vol.withCommas(2))"
         } else {
             // TODO: the commas here looks like wired. Always get three digitals.
-            volLabel.text = "\(trend.vol.withCommas(4))"
+            volLabel.text = "\(trend.quality.withCommas(4))"
         }
         
         if market != nil {
-            var tradeSymbol = market!.tradingPair.tradingB
+            var tradeSymbol = market!.metadata.marketPair.quoteToken
             if tradeSymbol == "WETH" {
                 tradeSymbol = "ETH"
             }
             volLabel.text = "\(volLabel.text!) \(tradeSymbol)"
         }
         
-        changeLabel.text = trend.changeInString
-        changeLabel.textColor = UIStyleConfig.getChangeColor(change: trend.changeInString)
+        // changeLabel.text = trend.changeInString
+        // changeLabel.textColor = UIStyleConfig.getChangeColor(change: trend.changeInString)
     }
     
     class func getCellIdentifier() -> String {

@@ -11,11 +11,12 @@ import Foundation
 extension MarketDetailViewController {
 
     func getOrderbookFromRelay() {
-        MarketDepthDataManager.shared.getOrderbookFromServer(market: market.name, completionHandler: { buys, sells, _ in
-            self.preivousMarketName = self.market.name
+        MarketDepthDataManager.shared.getOrderbookFromServer(market: "nil", completionHandler: { buys, sells, _ in
+            // self.preivousMarketName = self.market.name
             self.buys = buys
             self.sells = sells
 
+            /*
             if buys.count > 0 && sells.count > 0 {
                 self.maxAmountInDepthView = max(buys[buys.count / 2].amountAInDouble, sells[sells.count / 2].amountAInDouble) * 4
             } else if buys.count > 0 {
@@ -25,6 +26,7 @@ extension MarketDetailViewController {
             } else {
                 self.maxAmountInDepthView = 0
             }
+            */
 
             if sells.count > 0 {
                 self.minSellPrice = Double(sells[0].price) ?? 0
@@ -88,7 +90,7 @@ extension MarketDetailViewController {
         label1.theme_textColor = GlobalPicker.textLightColor
         label1.font = FontConfigManager.shared.getMediumFont(size: 12)
         if SettingDataManager.shared.getCurrentLanguage().name == "zh-Hans" || SettingDataManager.shared.getCurrentLanguage().name  == "zh-Hant" {
-            label1.text = "\(LocalizedString("Buy Price", comment: ""))(\(market.tradingPair.tradingB))"
+            label1.text = "\(LocalizedString("Buy Price", comment: ""))(\(market.metadata.marketPair.quoteToken))"
         } else {
             label1.text = "\(LocalizedString("Buy Price", comment: ""))"
         }
@@ -98,7 +100,7 @@ extension MarketDetailViewController {
         let label2 = UILabel(frame: CGRect(x: 10, y: 0, width: labelWidth-20, height: 30))
         label2.theme_textColor = GlobalPicker.textLightColor
         label2.font = FontConfigManager.shared.getMediumFont(size: 12)
-        label2.text = "\(LocalizedString("Amount", comment: ""))(\(market.tradingPair.tradingA))"
+        label2.text = "\(LocalizedString("Amount", comment: ""))(\(market.metadata.marketPair.baseToken))"
         label2.textAlignment = .right
         baseViewBuy.addSubview(label2)
 
@@ -111,7 +113,7 @@ extension MarketDetailViewController {
         label3.theme_textColor = GlobalPicker.textLightColor
         label3.font = FontConfigManager.shared.getMediumFont(size: 12)
         if SettingDataManager.shared.getCurrentLanguage().name == "zh-Hans" || SettingDataManager.shared.getCurrentLanguage().name  == "zh-Hant" {
-            label3.text = "\(LocalizedString("Sell Price", comment: ""))(\(market.tradingPair.tradingB))"
+            label3.text = "\(LocalizedString("Sell Price", comment: ""))(\(market.metadata.marketPair.quoteToken))"
         } else {
             label3.text = "\(LocalizedString("Sell Price", comment: ""))"
         }
@@ -121,7 +123,7 @@ extension MarketDetailViewController {
         let label4 = UILabel(frame: CGRect(x: 10, y: 0, width: labelWidth-20, height: 30))
         label4.theme_textColor = GlobalPicker.textLightColor
         label4.font = FontConfigManager.shared.getMediumFont(size: 12)
-        label4.text = "\(LocalizedString("Amount", comment: ""))(\(market.tradingPair.tradingA))"
+        label4.text = "\(LocalizedString("Amount", comment: ""))(\(market.metadata.marketPair.baseToken))"
         label4.textAlignment = .right
         baseViewSell.addSubview(label4)
 

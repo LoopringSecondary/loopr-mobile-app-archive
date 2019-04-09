@@ -170,9 +170,9 @@ class MarketDetailDepthTableViewCell: UITableViewCell {
             }, completion: { (_) in
 
             })
-            delegate?.clickedMarketDetailDepthTableViewCell(amount: buyDepth!.amountA, price: buyDepth!.price)
+            delegate?.clickedMarketDetailDepthTableViewCell(amount: buyDepth!.amount.withCommas(), price: buyDepth!.price.withCommas())
             // Jump to sell page
-            delegate?.clickedMarketDetailDepthTableViewCell(amount: buyDepth!.amountA, price: buyDepth!.price, tradeType: .sell)
+            delegate?.clickedMarketDetailDepthTableViewCell(amount: buyDepth!.amount.withCommas(), price: buyDepth!.price.withCommas(), tradeType: .sell)
         }
     }
 
@@ -185,9 +185,9 @@ class MarketDetailDepthTableViewCell: UITableViewCell {
             }, completion: { (_) in
 
             })
-            delegate?.clickedMarketDetailDepthTableViewCell(amount: sellDepth!.amountA, price: sellDepth!.price)
+            delegate?.clickedMarketDetailDepthTableViewCell(amount: sellDepth!.amount.withCommas(), price: sellDepth!.price.withCommas())
             // Jump to buy page
-            delegate?.clickedMarketDetailDepthTableViewCell(amount: sellDepth!.amountA, price: sellDepth!.price, tradeType: .buy)
+            delegate?.clickedMarketDetailDepthTableViewCell(amount: sellDepth!.amount.withCommas(), price: sellDepth!.price.withCommas(), tradeType: .buy)
         }
     }
 
