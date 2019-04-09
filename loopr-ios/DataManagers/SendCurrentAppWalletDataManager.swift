@@ -135,6 +135,7 @@ class SendCurrentAppWalletDataManager {
         _transfer(data: data, address: tokenAddress, amount: GethBigInt.init(0), gasLimit: GethBigInt(gasLimit), completion: completion)
     }
 
+    /*
     func _cancelOrder(order: OriginalOrder, completion: @escaping (String?, Error?) -> Void) {
         if let owner = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address {
             let timestamp = Int(Date().timeIntervalSince1970).description
@@ -153,6 +154,7 @@ class SendCurrentAppWalletDataManager {
             }
         }
     }
+    */
 
     func _cancelOrdersByTokenPair(timestamp: GethBigInt, tokenA: GethAddress, tokenB: GethAddress, completion: @escaping (String?, Error?) -> Void) {
         guard CurrentAppWalletDataManager.shared.getCurrentAppWallet() != nil else {
@@ -220,7 +222,7 @@ class SendCurrentAppWalletDataManager {
         if let signedTransaction = _sign(data: data, address: address, amount: amount, gasLimit: gasLimit, completion: completion) {
             self.sendTransactionToServer(signedTransaction: signedTransaction, completion: { (txHash, error) in
                 if txHash != nil && error == nil {
-                    LoopringAPIRequest.notifyTransactionSubmitted(txHash: txHash!, rawTx: tx, from: from, completionHandler: completion)
+                    
                 } else {
                     completion(nil, error)
                 }
@@ -257,7 +259,7 @@ class SendCurrentAppWalletDataManager {
         if let signedTransaction = _sign(rawTx: rawTransaction, completion: completion) {
             self.sendTransactionToServer(signedTransaction: signedTransaction, completion: { (txHash, error) in
                 if txHash != nil && error == nil {
-                    LoopringAPIRequest.notifyTransactionSubmitted(txHash: txHash!, rawTx: rawTransaction, from: from, completionHandler: completion)
+                    
                 } else {
                     completion(nil, error)
                 }

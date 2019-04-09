@@ -38,7 +38,6 @@
 		943A9A4120909597008BCBFD /* DefaultWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943A9A3F20909597008BCBFD /* DefaultWebViewController.swift */; };
 		943A9A4220909597008BCBFD /* DefaultWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943A9A4020909597008BCBFD /* DefaultWebViewController.xib */; };
 		943BDED32056350000D5BF81 /* PriceQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943BDED22056350000D5BF81 /* PriceQuote.swift */; };
-		943C1CAE20CE1E0B008A8CED /* AuthorizeDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C1CAD20CE1E0B008A8CED /* AuthorizeDataManager.swift */; };
 		943C1CB220CE26CE008A8CED /* LoginResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C1CB020CE26CE008A8CED /* LoginResultViewController.swift */; };
 		943C1CB320CE26CE008A8CED /* LoginResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943C1CB120CE26CE008A8CED /* LoginResultViewController.xib */; };
 		943C657A209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C6579209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift */; };
@@ -642,7 +641,6 @@
 		943A9A3F20909597008BCBFD /* DefaultWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWebViewController.swift; sourceTree = "<group>"; };
 		943A9A4020909597008BCBFD /* DefaultWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DefaultWebViewController.xib; sourceTree = "<group>"; };
 		943BDED22056350000D5BF81 /* PriceQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceQuote.swift; sourceTree = "<group>"; };
-		943C1CAD20CE1E0B008A8CED /* AuthorizeDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizeDataManager.swift; sourceTree = "<group>"; };
 		943C1CB020CE26CE008A8CED /* LoginResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResultViewController.swift; sourceTree = "<group>"; };
 		943C1CB120CE26CE008A8CED /* LoginResultViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginResultViewController.xib; sourceTree = "<group>"; };
 		943C6579209EEAB6005D6948 /* PlaceOrderDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOrderDataManagerTests.swift; sourceTree = "<group>"; };
@@ -2432,7 +2430,6 @@
 				ACEC978120AD6165003F9DEB /* P2POrderHistoryDataManager.swift */,
 				941B1EFB209C41BB00710DFF /* GasDataManager.swift */,
 				AC971EC720BB412200EDEDD0 /* AuthenticationDataManager.swift */,
-				943C1CAD20CE1E0B008A8CED /* AuthorizeDataManager.swift */,
 				9BA3016221C73D0400E55E49 /* ContactDataManager.swift */,
 				9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */,
 				9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */,
@@ -3385,7 +3382,6 @@
 				940B45222060F67E00ADE2B9 /* PriceDataManager.swift in Sources */,
 				AC9A273D20A577E900DB04AC /* Double+Extension.swift in Sources */,
 				ACB5DDA2202D6F9400140A09 /* UIViewExtension.swift in Sources */,
-				943C1CAE20CE1E0B008A8CED /* AuthorizeDataManager.swift in Sources */,
 				94B5CA8C204FE8E40081BA93 /* ETH_Transaction.swift in Sources */,
 				6630916521002CD1006DA630 /* TxSwipeViewType.swift in Sources */,
 				AC9FFF3A212AA7F300957175 /* ColorTheme.swift in Sources */,

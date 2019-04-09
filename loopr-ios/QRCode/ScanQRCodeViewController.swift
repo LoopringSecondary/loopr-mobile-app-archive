@@ -19,10 +19,6 @@ enum QRCodeType: String {
     case mnemonic = "Mnemonic"
     case keystore = "Keystore"
     case privateKey = "Private Key"
-    case login = "UUID"
-    case convert = "Convert"
-    case submitOrder = "Submit Order"
-    case cancelOrder = "Cancel Order"
     case p2pOrder = "P2P Order"
     case approve = "Approve"
     case undefined = "Undefined type of QRCode"
@@ -33,10 +29,6 @@ enum QRCodeType: String {
         case .mnemonic: return LocalizedString("Mnemonic detected", comment: "")
         case .keystore: return LocalizedString("Keystore detected", comment: "")
         case .privateKey: return LocalizedString("Private key detected", comment: "")
-        case .submitOrder: return LocalizedString("Authorization message detected", comment: "")
-        case .login: return LocalizedString("Login message detected", comment: "")
-        case .cancelOrder: return LocalizedString("Cancel message detected", comment: "")
-        case .convert: return LocalizedString("Convert message detected", comment: "")
         case .p2pOrder: return LocalizedString("P2P message detected", comment: "")
         case .approve: return LocalizedString("Approve", comment: "")
         case .undefined: return LocalizedString("Undefined type of QRCode", comment: "")
@@ -63,7 +55,7 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
     var shouldPop = true
     var scanViewWidth: CGFloat = UIScreen.main.bounds.width
     
-    var expectedQRCodeTypes: [QRCodeType] = [.address, .mnemonic, .keystore, .privateKey, .submitOrder, .login, .cancelOrder, .convert, .approve, .p2pOrder]
+    var expectedQRCodeTypes: [QRCodeType] = [.address, .mnemonic, .keystore, .privateKey, .p2pOrder]
 
     let imagePicker = UIImagePickerController()
 
@@ -280,26 +272,6 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
             return QRCodeType.address
         }
 
-        if expectedQRCodeTypes.contains(.submitOrder) && QRCodeMethod.isSubmitOrder(content: qrContent) {
-            return QRCodeType.submitOrder
-        }
-        
-        if expectedQRCodeTypes.contains(.login) &&  QRCodeMethod.isLogin(content: qrContent) {
-            return QRCodeType.login
-        }
-        
-        if expectedQRCodeTypes.contains(.cancelOrder) && QRCodeMethod.isCancelOrder(content: qrContent) {
-            return QRCodeType.cancelOrder
-        }
-        
-        if expectedQRCodeTypes.contains(.approve) && QRCodeMethod.isApprove(content: qrContent) {
-            return QRCodeType.approve
-        }
-        
-        if expectedQRCodeTypes.contains(.convert) && QRCodeMethod.isConvert(content: qrContent) {
-            return QRCodeType.convert
-        }
-        
         if expectedQRCodeTypes.contains(.mnemonic) && QRCodeMethod.isMnemonicValid(content: qrContent) {
             return QRCodeType.mnemonic
         }

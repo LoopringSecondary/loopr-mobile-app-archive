@@ -64,7 +64,7 @@ extension WalletViewController: MKDropdownMenuDelegate {
         switch row {
         case 0:
             let viewController = ScanQRCodeViewController()
-            viewController.expectedQRCodeTypes = [.submitOrder, .login, .cancelOrder, .convert, .approve, .p2pOrder, .address]
+            viewController.expectedQRCodeTypes = [.p2pOrder, .address]
             viewController.delegate = self
             viewController.shouldPop = false
             viewController.hidesBottomBarWhenPushed = true

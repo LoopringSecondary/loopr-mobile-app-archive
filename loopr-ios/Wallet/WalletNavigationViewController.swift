@@ -23,7 +23,4 @@ class WalletNavigationViewController: UINavigationController {
         super.viewDidLayoutSubviews()
     }
 
-    func processExternalUrl() {
-        viewController.processExternalUrl()
-    }
 }

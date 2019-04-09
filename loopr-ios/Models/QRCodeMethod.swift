@@ -74,54 +74,5 @@ enum QRCodeMethod: String {
             return false
         }
     }
-    
-    static func isSubmitOrder(content: String) -> Bool {
-        if let data = content.data(using: .utf8) {
-            let json = JSON(data)
-            if json["type"] == "sign" {
-                return true
-            }
-        }
-        return false
-    }
-    
-    static func isLogin(content: String) -> Bool {
-        if let data = content.data(using: .utf8) {
-            let json = JSON(data)
-            if json["type"] == "UUID" {
-                return true
-            }
-        }
-        return false
-    }
-    
-    static func isCancelOrder(content: String) -> Bool {
-        if let data = content.data(using: .utf8) {
-            let json = JSON(data)
-            if json["type"] == "cancelOrder" {
-                return true
-            }
-        }
-        return false
-    }
-    
-    static func isApprove(content: String) -> Bool {
-        if let data = content.data(using: .utf8) {
-            let json = JSON(data)
-            if json["type"] == "approve" {
-                return true
-            }
-        }
-        return false
-    }
-    
-    static func isConvert(content: String) -> Bool {
-        if let data = content.data(using: .utf8) {
-            let json = JSON(data)
-            if json["type"] == "convert" {
-                return true
-            }
-        }
-        return false
-    }
+
 }

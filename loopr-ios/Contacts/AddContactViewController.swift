@@ -173,8 +173,7 @@ class AddContactViewController: UIViewController, UITextFieldDelegate, QRCodeSca
         case .address:
             self.addressTextField.text = valueSent
             self.navigationController?.popViewController(animated: true)
-        case .mnemonic, .keystore, .privateKey, .login, .convert,
-             .submitOrder, .cancelOrder, .p2pOrder, .approve, .undefined:
+        case .mnemonic, .keystore, .privateKey, .p2pOrder, .undefined:
             let notificationTitle = LocalizedString("Please enter the token address", comment: "")
             let banner = NotificationBanner.generate(title: notificationTitle, style: .danger)
             banner.duration = 1.5

@@ -144,7 +144,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
     
     func filterContentForSearchText(_ searchText: String) {
         let newFilteredMarkets = MarketDataManager.shared.getMarketsWithoutReordered(type: type).filter({(market: Market) -> Bool in
-            return market.tradingPair.tradingA.lowercased().contains(searchText.lowercased()) || market.tradingPair.tradingB.lowercased().contains(searchText.lowercased())
+            return market.metadata.marketPair.baseToken.lowercased().contains(searchText.lowercased()) || market.metadata.marketPair.quoteToken.lowercased().contains(searchText.lowercased())
         })
         
         filteredMarkets = newFilteredMarkets

@@ -190,10 +190,10 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
 
         // Place button
         if type == .buy {
-            nextButton.title = LocalizedString("Buy", comment: "") + " " + market.tradingPair.tradingA
+            nextButton.title = LocalizedString("Buy", comment: "") + " " + market.metadata.marketPair.baseToken
             nextButton.setGreen()
         } else {
-            nextButton.title = LocalizedString("Sell", comment: "") + " " + market.tradingPair.tradingA
+            nextButton.title = LocalizedString("Sell", comment: "") + " " + market.metadata.marketPair.baseToken
             nextButton.setRed()
         }
 

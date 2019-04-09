@@ -267,10 +267,6 @@ class MainTabController: UITabBarController, UNUserNotificationCenterDelegate {
         }
     }
 
-    func processExternalUrl() {
-        viewController1.processExternalUrl()
-    }
-    
 }
 
 // Local Notification

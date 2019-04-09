@@ -145,12 +145,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         if hasKeysPlist() && url.scheme == getWechatAppId()! {
             return WXApi.handleOpen(url, delegate: self)
         } else {
-            let queryArray = url.absoluteString.components(separatedBy: "/")
-            let unescaped = queryArray[2].removingPercentEncoding!
-            AuthorizeDataManager.shared.process(qrContent: unescaped)
-            if let main = self.window?.rootViewController as? MainTabController {
-                main.processExternalUrl()
-            }
+
         }
         return true
     }
