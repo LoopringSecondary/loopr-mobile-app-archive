@@ -112,6 +112,7 @@
 		9B018DC821FC3096009D079D /* TimeAgoSince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B018DC721FC3096009D079D /* TimeAgoSince.swift */; };
 		9B05EB47225B26E8003507B4 /* OrderbookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B05EB46225B26E8003507B4 /* OrderbookItem.swift */; };
 		9B05EB4B225C589D003507B4 /* FoundationStringProtocol+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B05EB4A225C589D003507B4 /* FoundationStringProtocol+Extension.swift */; };
+		9B05EB4D225C842A003507B4 /* AuthorizeDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B05EB4C225C842A003507B4 /* AuthorizeDataManager.swift */; };
 		9B0752CB2240BDDD004E3A51 /* KeyStrengtheningTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752C92240BDDD004E3A51 /* KeyStrengtheningTestCase.swift */; };
 		9B0752CC2240BDDD004E3A51 /* EncryptionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752CA2240BDDD004E3A51 /* EncryptionTestCase.swift */; };
 		9B0752CE2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0752CD2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift */; };
@@ -714,6 +715,7 @@
 		9B018DC721FC3096009D079D /* TimeAgoSince.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAgoSince.swift; sourceTree = "<group>"; };
 		9B05EB46225B26E8003507B4 /* OrderbookItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderbookItem.swift; sourceTree = "<group>"; };
 		9B05EB4A225C589D003507B4 /* FoundationStringProtocol+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FoundationStringProtocol+Extension.swift"; sourceTree = "<group>"; };
+		9B05EB4C225C842A003507B4 /* AuthorizeDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizeDataManager.swift; sourceTree = "<group>"; };
 		9B0752C92240BDDD004E3A51 /* KeyStrengtheningTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyStrengtheningTestCase.swift; sourceTree = "<group>"; };
 		9B0752CA2240BDDD004E3A51 /* EncryptionTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptionTestCase.swift; sourceTree = "<group>"; };
 		9B0752CD2240BE10004E3A51 /* LoopringLightcoreAPIRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopringLightcoreAPIRequestTests.swift; sourceTree = "<group>"; };
@@ -2435,6 +2437,7 @@
 				ACEC978120AD6165003F9DEB /* P2POrderHistoryDataManager.swift */,
 				941B1EFB209C41BB00710DFF /* GasDataManager.swift */,
 				AC971EC720BB412200EDEDD0 /* AuthenticationDataManager.swift */,
+				9B05EB4C225C842A003507B4 /* AuthorizeDataManager.swift */,
 				9BA3016221C73D0400E55E49 /* ContactDataManager.swift */,
 				9B2ED81421D73FFB00ACEE84 /* NewsDataManager.swift */,
 				9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */,
@@ -3449,6 +3452,7 @@
 				AC2C93D32105AE7A004B8456 /* SetupWalletEnterPasswordViewController.swift in Sources */,
 				9B15B86C2234893700B58C40 /* EncryptionConfigV1.swift in Sources */,
 				940B45232060F67E00ADE2B9 /* CurrentAppWalletDataManager.swift in Sources */,
+				9B05EB4D225C842A003507B4 /* AuthorizeDataManager.swift in Sources */,
 				AC9089F3214D7ABB00F421F1 /* SplashImageView.swift in Sources */,
 				ACB5DD9A202D5B7100140A09 /* DefaultNumericKeyboard.swift in Sources */,
 				940B45262060F67E00ADE2B9 /* ConvertDataManager.swift in Sources */,
