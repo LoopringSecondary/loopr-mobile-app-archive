@@ -66,6 +66,7 @@ public class TokenDataManager {
 		List<Token> tTokens = new ArrayList<>();
 		Map<String, Token> map = new HashMap<>();
 		for (Token token : tokens) {
+			token.convert();
 			String image = String.format("icon_token_%s", token.getSymbol().toLowerCase());
 			int identifier = context.getResources().getIdentifier(image, "mipmap", context.getPackageName());
 			token.setImageResId(identifier);

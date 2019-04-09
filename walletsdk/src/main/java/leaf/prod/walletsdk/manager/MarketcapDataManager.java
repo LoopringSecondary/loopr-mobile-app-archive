@@ -12,6 +12,7 @@ import leaf.prod.walletsdk.model.market.Market;
 import leaf.prod.walletsdk.model.response.relay.MarketsResult;
 import leaf.prod.walletsdk.model.response.relay.MetadataResult;
 import leaf.prod.walletsdk.model.response.relay.TokensResult;
+import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import rx.Observable;
@@ -58,6 +59,9 @@ public class MarketcapDataManager {
 	}
 
 	public void setMarkets(List<Market> markets) {
+		for (Market market : markets) {
+			market.convert();
+		}
 		this.markets = markets;
 	}
 
@@ -144,5 +148,13 @@ public class MarketcapDataManager {
 					}
 				});
 		metadataListener.send();
+	}
+
+	public Double getPriceBySymbol(String symbol) {
+		Token token = tokenDataManager.getTokenBySymbol(symbol);
+		if (token != null) {
+			return token.getTicker().getPrice();
+		}
+		return 0d;
 	}
 }

@@ -152,4 +152,14 @@ public class BalanceDataManager {
 		AccountBalance asset = balanceDataManager.getAssetBySymbol(symbol);
 		return asset != null ? asset.getPrecision() : 6;
 	}
+
+	public Double getFrozenFee(String symbol) {
+		AccountBalance accountBalance = getAssetBySymbol(symbol);
+		return accountBalance != null ? accountBalance.getBalanceDouble() - accountBalance.getAvailableBalanceDouble() : 0;
+	}
+
+	public Double getAllowanceFee(String symbol) {
+		AccountBalance accountBalance = getAssetBySymbol(symbol);
+		return accountBalance != null ? accountBalance.getAvailableBalanceDouble() : 0;
+	}
 }
