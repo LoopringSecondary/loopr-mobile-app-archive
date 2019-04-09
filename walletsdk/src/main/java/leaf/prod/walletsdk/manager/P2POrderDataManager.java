@@ -33,7 +33,6 @@ import leaf.prod.walletsdk.R;
 import leaf.prod.walletsdk.Transfer;
 import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.order.OrderType;
-import leaf.prod.walletsdk.model.RawOrder;
 import leaf.prod.walletsdk.model.order.P2PSide;
 import leaf.prod.walletsdk.model.RandomWallet;
 import leaf.prod.walletsdk.model.common.TradeType;
@@ -188,8 +187,8 @@ public class P2POrderDataManager extends OrderDataManager {
         Double amountSell = token.getDoubleFromWei(this.tokenSell, new BigDecimal(amountS));
 
         // validSince, validUntil
-        Integer validS = Numeric.toBigInt(maker.getValidSince()).intValue();
-        Integer validU = Numeric.toBigInt(maker.getValidUntil()).intValue();
+        Integer validS = maker.getValidSince();
+        Integer validU = maker.getParams().getValidUntil();
         String validSince = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validS));
         String validUntil = Numeric.toHexStringWithPrefix(BigInteger.valueOf(validU));
 
@@ -227,8 +226,8 @@ public class P2POrderDataManager extends OrderDataManager {
     private void preserveMaker(RawOrder order, Integer sellCount) {
         this.isTaker = false;
         this.orders = new RawOrder[]{order};
-        String value = String.format("%s-%s", order.getAuthPrivateKey(), sellCount);
-        SPUtils.put(context.getApplicationContext(), order.getAuthAddr().toLowerCase(), value);
+        String value = String.format("%s-%s", order.getParams().getDualAuthPrivateKey(), sellCount);
+        SPUtils.put(context.getApplicationContext(), order.getParams().getDualAuthAddr().toLowerCase(), value);
     }
 
     private Boolean validate() {
@@ -237,7 +236,7 @@ public class P2POrderDataManager extends OrderDataManager {
             RawOrder maker = orders[0];
             RawOrder taker = orders[1];
             if (makerPrivateKey != null && !makerPrivateKey.isEmpty() &&
-                    taker.getAuthPrivateKey() != null && maker.getHash() != null && taker.getHash() != null) {
+                    taker.getParams().getDualAuthPrivateKey() != null && maker.getHash() != null && taker.getHash() != null) {
                 result = true;
             }
         }
@@ -259,7 +258,7 @@ public class P2POrderDataManager extends OrderDataManager {
     private void signRingHash() {
         byte[] hash = generateHash();
         Credentials makerCredentials = Credentials.create(makerPrivateKey);
-        Credentials takerCredentials = Credentials.create(orders[1].getAuthPrivateKey());
+        Credentials takerCredentials = Credentials.create(orders[1].getParams().getDualAuthPrivateKey());
         this.makerSignature = SignUtils.genSignMessage(makerCredentials, hash).getSig();
         this.takerSignature = SignUtils.genSignMessage(takerCredentials, hash).getSig();
     }
@@ -272,7 +271,7 @@ public class P2POrderDataManager extends OrderDataManager {
             result[i] = (byte) (makerHash[i] ^ takerHash[i]);
         }
         String hexString = Numeric.toHexString(result);
-        hexString += Numeric.cleanHexPrefix(orders[0].getWalletAddress());
+        hexString += Numeric.cleanHexPrefix(orders[0].getParams().getWallet());
         hexString += "0000";
         return Hash.sha3(Numeric.hexStringToByteArray(hexString));
     }
@@ -314,7 +313,7 @@ public class P2POrderDataManager extends OrderDataManager {
     }
 
     private void generateFee() {
-        ringParameters.add(new Address(orders[0].getWalletAddress()));
+        ringParameters.add(new Address(orders[0].getParams().getWallet()));
         ringParameters.add(new Uint256(BigInteger.ZERO)); // fee selection
     }
 
@@ -330,8 +329,8 @@ public class P2POrderDataManager extends OrderDataManager {
         for (RawOrder order : orders) {
             ringParameters.add(new Address(order.getOwner()));
             ringParameters.add(new Address(order.getTokenSell()));
-            ringParameters.add(new Address(order.getWalletAddress()));
-            ringParameters.add(new Address(order.getAuthAddr()));
+            ringParameters.add(new Address(order.getParams().getWallet()));
+            ringParameters.add(new Address(order.getParams().getDualAuthAddr()));
         }
     }
 
@@ -341,14 +340,14 @@ public class P2POrderDataManager extends OrderDataManager {
             ringParameters.add(new Address(order.getAmountB()));
             ringParameters.add(new Address(order.getValidSince()));
             ringParameters.add(new Address(order.getValidUntil()));
-            ringParameters.add(new Address(order.getLrcFee()));
+            ringParameters.add(new Address(order.getFeeParams().getAmountFee()));
             ringParameters.add(new Address(order.getAmountS()));
         }
     }
 
     private void generateMargin() {
         for (RawOrder order : orders) {
-            ringParameters.add(new Address(order.getMarginSplitPercentage()));
+            ringParameters.add(new Address(order.getFeeParams().getWalletSplitPercentage()));
         }
     }
 
@@ -497,7 +496,7 @@ public class P2POrderDataManager extends OrderDataManager {
     public String generateQRCode(RawOrder order) {
         String result = null;
         if (order != null) {
-            String address = order.getAuthAddr().toLowerCase();
+            String address = order.getParams().getDualAuthAddr().toLowerCase();
             String params = (String) SPUtils.get(context.getApplicationContext(), address, "");
             if (!params.isEmpty() && params.contains("-")) {
                 String auth = params.split("-")[0];
