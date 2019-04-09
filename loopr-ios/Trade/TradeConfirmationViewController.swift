@@ -13,7 +13,7 @@ import NotificationBannerSwift
 import Crashlytics
 
 class TradeConfirmationViewController: UIViewController {
-    
+
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var tokenSell: UIView!
     @IBOutlet weak var tokenBuy: UIView!
@@ -29,23 +29,23 @@ class TradeConfirmationViewController: UIViewController {
     @IBOutlet weak var gasTipLabel: UILabel!
     @IBOutlet weak var placeOrderButton: GradientButton!
     @IBOutlet weak var cancelButton: UIButton!
-    
+
     @IBOutlet weak var cellBackgroundView: UIView!
     @IBOutlet weak var cellA: UIView!
     @IBOutlet weak var cellB: UIView!
     @IBOutlet weak var cellD: UIView!
-    
+
     @IBOutlet weak var priceTailing: NSLayoutConstraint!
-    
+
     var tokenSView: TokenViewController = TokenViewController()
     var tokenBView: TokenViewController = TokenViewController()
-    
+
     var message: String?
-    var order: OriginalOrder?
+    var order: RawOrder?
     var verifyInfo: [String: Double]?
     var dismissClosure: (() -> Void)?
     var parentNavController: UINavigationController?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -55,20 +55,20 @@ class TradeConfirmationViewController: UIViewController {
         view.backgroundColor = UIColor.clear
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         containerView.applyShadow()
-        
+
         let cells = [cellA, cellB, cellD]
         cells.forEach { $0?.theme_backgroundColor = ColorPicker.cardBackgroundColor }
         cellBackgroundView.theme_backgroundColor = ColorPicker.cardHighLightColor
-        
+
         // TokenView
         tokenSView.view.frame = CGRect(x: 0, y: 0, width: tokenSell.frame.width, height: tokenSell.frame.height)
         tokenSell.addSubview(tokenSView.view)
         tokenSView.view.bindFrameToAnotherView(anotherView: tokenSell)
-        
+
         tokenBView.view.frame = CGRect(x: 0, y: 0, width: tokenBuy.frame.width, height: tokenBuy.frame.height)
         tokenBuy.addSubview(tokenBView.view)
         tokenBView.view.bindFrameToAnotherView(anotherView: tokenBuy)
-        
+
         // Price label
         priceLabel.text = LocalizedString("Price", comment: "")
         priceLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
@@ -76,12 +76,12 @@ class TradeConfirmationViewController: UIViewController {
 
         priceValueLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         priceValueLabel.theme_textColor = GlobalPicker.textColor
-        
+
         priceTipLabel.textColor = UIColor.fail
         priceTipLabel.text = LocalizedString("Irrational", comment: "")
         priceTipLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         priceTipLabel.theme_textColor = GlobalPicker.textColor
-        
+
         if !validateRational() {
             priceTipLabel.isHidden = false
             priceTailing.constant = 104
@@ -89,12 +89,12 @@ class TradeConfirmationViewController: UIViewController {
             priceTipLabel.isHidden = true
             priceTailing.constant = 20
         }
-        
+
         // Trading Fee
         LRCFeeLabel.text = LocalizedString("Trading Fee", comment: "")
         LRCFeeLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         LRCFeeLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         LRCFeeValueLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         LRCFeeValueLabel.theme_textColor = GlobalPicker.textColor
 
@@ -102,7 +102,7 @@ class TradeConfirmationViewController: UIViewController {
         validLabel.text = LocalizedString("Expiration Time", comment: "")
         validLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         validLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         validValueLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         validValueLabel.theme_textColor = GlobalPicker.textColor
 
@@ -110,11 +110,11 @@ class TradeConfirmationViewController: UIViewController {
         gasTipLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
         gasTipLabel.theme_textColor = GlobalPicker.textLightColor
         gasTipLabel.text = LocalizedString("GAS_TIP", comment: "")
-        
+
         // Button
         placeOrderButton.setTitle(LocalizedString("Place Order", comment: ""), for: .normal)
         placeOrderButton.setPrimaryColor()
-        
+
         // Cancel button
         cancelButton.setTitle(LocalizedString("Cancel", comment: ""), for: .normal)
         cancelButton.setTitleColor(UIColor.white, for: .normal)
@@ -126,14 +126,14 @@ class TradeConfirmationViewController: UIViewController {
         tap.delegate = self
         view.addGestureRecognizer(tap)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let order = self.order {
             updateLabels(order: order)
         }
     }
-    
+
     func validateRational() -> Bool {
         guard let order = self.order else { return true }
         let pair = TradeDataManager.shared.tradePair.replacingOccurrences(of: "/", with: "-")  // "LRC-WETH"
@@ -165,7 +165,7 @@ class TradeConfirmationViewController: UIViewController {
         }
         return true
     }
-    
+
     func close(_ animated: Bool = true) {
         if let navigation = self.navigationController {
             for controller in navigation.viewControllers as Array {
@@ -182,11 +182,11 @@ class TradeConfirmationViewController: UIViewController {
             })
         }
     }
-    
+
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         close()
     }
-    
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let location = touch.location(in: nil)
         if containerView.frame.contains(location) {
@@ -194,12 +194,12 @@ class TradeConfirmationViewController: UIViewController {
         }
         return true
     }
-    
+
     @IBAction func pressedCancelButton(_ sender: UIButton) {
         self.close()
     }
-    
-    func updateLabels(order: OriginalOrder) {
+
+    func updateLabels(order: RawOrder) {
         tokenBView.update(type: .buy, symbol: order.tokenBuy, amount: order.amountBuy)
         tokenSView.update(type: .sell, symbol: order.tokenSell, amount: order.amountSell)
         let price = order.amountBuy / order.amountSell
@@ -213,7 +213,7 @@ class TradeConfirmationViewController: UIViewController {
         let until = DateUtil.convertToDate(UInt(order.validUntil), format: "MM-dd HH:mm")
         validValueLabel.text = "\(until)"
     }
-    
+
     @IBAction func pressedPlaceOrderButton(_ sender: UIButton) {
         if AuthenticationDataManager.shared.getPasscodeSetting() {
             AuthenticationDataManager.shared.authenticate(reason: LocalizedString("Authenticate to place the order", comment: "")) { (error) in
@@ -229,7 +229,7 @@ class TradeConfirmationViewController: UIViewController {
 }
 
 extension TradeConfirmationViewController {
-    
+
     func authorizeToPlaceOrder() {
         if !priceTipLabel.isHidden {
             let alert = UIAlertController(title: LocalizedString("Please Pay Attention", comment: ""), message: self.message, preferredStyle: .alert)
@@ -249,11 +249,11 @@ extension TradeConfirmationViewController {
             P2POrderHistoryDataManager.shared.shouldReloadData = true
         }
     }
-    
+
     func isTaker() -> Bool {
         return TradeDataManager.shared.isTaker
     }
-    
+
     func isBalanceEnough() -> Bool {
         var result: Bool = true
         if let info = self.verifyInfo {
@@ -263,7 +263,7 @@ extension TradeConfirmationViewController {
         }
         return result
     }
-    
+
     func needApprove() -> Bool {
         var result: Bool = false
         if let info = self.verifyInfo {
@@ -273,7 +273,7 @@ extension TradeConfirmationViewController {
         }
         return result
     }
-    
+
     func handleVerifyInfo() {
         if isBalanceEnough() {
             SVProgressHUD.show(withStatus: LocalizedString("Processing the P2P order...", comment: ""))
@@ -286,7 +286,7 @@ extension TradeConfirmationViewController {
             pushCompleteController()
         }
     }
-    
+
     func pushCompleteController() {
         let controller = TradeCompleteViewController()
         controller.order = self.order
@@ -294,14 +294,14 @@ extension TradeConfirmationViewController {
         controller.hidesBottomBarWhenPushed = true
         self.parentNavController?.pushViewController(controller, animated: true)
     }
-    
+
     func pushReviewController() {
         self.close(true)
         let controller = TradeReviewViewController()
         controller.order = self.order
         self.parentNavController?.pushViewController(controller, animated: true)
     }
-    
+
     func approve() {
         if let info = self.verifyInfo {
             for item in info {
@@ -317,7 +317,7 @@ extension TradeConfirmationViewController {
             }
         }
     }
-    
+
     func approveOnce(token: String) {
         if let toAddress = TokenDataManager.shared.getAddress(by: token) {
             var error: NSError?
@@ -327,7 +327,7 @@ extension TradeConfirmationViewController {
             SendCurrentAppWalletDataManager.shared._approve(tokenAddress: tokenAddress, delegateAddress: delegateAddress, tokenAmount: approve, completion: complete)
         }
     }
-    
+
     func approveTwice(token: String) {
         if let toAddress = TokenDataManager.shared.getAddress(by: token) {
             var error: NSError?
@@ -344,10 +344,10 @@ extension TradeConfirmationViewController {
             }
         }
     }
-    
+
     func submit() {
         if !isTaker() {
-            PlaceOrderDataManager.shared._submitOrder(self.order!) { (orderHash, error) in
+            MarketOrderDataManager.shared._submitOrder(self.order!) { (orderHash, error) in
                 guard error == nil && orderHash != nil else {
                     self.completion(nil, error!)
                     return
@@ -356,7 +356,7 @@ extension TradeConfirmationViewController {
                 self.completion(orderHash!, nil)
             }
         } else {
-            PlaceOrderDataManager.shared._submitOrderForP2P(self.order!) { (orderHash, error) in
+            MarketOrderDataManager.shared._submitOrderForP2P(self.order!) { (orderHash, error) in
                 guard error == nil && orderHash != nil else {
                     let errorCode = (error! as NSError).userInfo["message"] as! String
                     if let error = TradeDataManager.shared.generateErrorMessage(errorCode: errorCode) {
@@ -385,7 +385,7 @@ extension TradeConfirmationViewController {
         }
         submit()
     }
-    
+
     func completion(_ orderHash: String?, _ error: Error?) {
         SVProgressHUD.dismiss()
         guard error == nil && orderHash != nil else {
@@ -396,7 +396,7 @@ extension TradeConfirmationViewController {
             DispatchQueue.main.async {
                 print("TradeViewController \(error.debugDescription)")
                 let message = (error! as NSError).userInfo["message"] as! String
-                
+
                 let notificationTitle: String
                 if message.contains("balance is not enough to submit order") {
                     notificationTitle = LocalizedString("32000", comment: "")

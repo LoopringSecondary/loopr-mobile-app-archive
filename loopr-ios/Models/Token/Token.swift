@@ -45,8 +45,7 @@ class Token: Equatable {
     }
 
     static func == (lhs: Token, rhs: Token) -> Bool {
-        if lhs.metadata.symbol.lowercased() == rhs.metadata.symbol.lowercased() &&
-                   lhs.metadata.address.lowercased() == rhs.metadata.address.lowercased() {
+        if lhs.metadata.address.lowercased() == rhs.metadata.address.lowercased() {
             return true
         } else {
             return false

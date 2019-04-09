@@ -62,7 +62,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
 
         setBackButton()
-        navigationItem.title = PlaceOrderDataManager.shared.market?.description ?? LocalizedString("Trade", comment: "")
+        navigationItem.title = MarketOrderDataManager.shared.market?.description ?? LocalizedString("Trade", comment: "")
         view.theme_backgroundColor = ColorPicker.backgroundColor
         tableView1.theme_backgroundColor = ColorPicker.backgroundColor
 
@@ -399,7 +399,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         if let value = Double(marketPlaceOrderTableViewCell.priceTextField.text!.removeComma()) {
             let validate = value > 0.0
             if validate {
-                let tokenBPrice = PriceDataManager.shared.getPrice(of: PlaceOrderDataManager.shared.tokenB.symbol)!
+                let tokenBPrice = PriceDataManager.shared.getPrice(of: MarketOrderDataManager.shared.tokenB.symbol)!
                 let estimateValue: Double = value * tokenBPrice
                 marketPlaceOrderTableViewCell.priceTipLabel.text = "≈ \(estimateValue.currency)"
                 marketPlaceOrderTableViewCell.priceTipLabel.isHidden = false
@@ -500,29 +500,29 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
 
-    func constructOrder() -> OriginalOrder? {
+    func constructOrder() -> RawOrder? {
         var buyNoMoreThanAmountB: Bool
         var side, tokenSell, tokenBuy: String
         var amountBuy, amountSell, lrcFee: Double
         var amountB, amountS: BigInt
         if self.type == .buy {
             side = "buy"
-            tokenBuy = PlaceOrderDataManager.shared.tokenA.symbol
-            tokenSell = PlaceOrderDataManager.shared.tokenB.symbol
+            tokenBuy = MarketOrderDataManager.shared.tokenA.symbol
+            tokenSell = MarketOrderDataManager.shared.tokenB.symbol
             buyNoMoreThanAmountB = true
             amountBuy = Double(marketPlaceOrderTableViewCell.amountTextField.text!.removeComma())!
             amountSell = self.orderAmount
-            amountB = BigInt.generate(from: amountBuy, by: PlaceOrderDataManager.shared.tokenA.decimals)
-            amountS = BigInt.generate(from: amountSell, by: PlaceOrderDataManager.shared.tokenB.decimals)
+            amountB = BigInt.generate(from: amountBuy, by: MarketOrderDataManager.shared.tokenA.decimals)
+            amountS = BigInt.generate(from: amountSell, by: MarketOrderDataManager.shared.tokenB.decimals)
         } else {
             side = "sell"
-            tokenBuy = PlaceOrderDataManager.shared.tokenB.symbol
-            tokenSell = PlaceOrderDataManager.shared.tokenA.symbol
+            tokenBuy = MarketOrderDataManager.shared.tokenB.symbol
+            tokenSell = MarketOrderDataManager.shared.tokenA.symbol
             buyNoMoreThanAmountB = false
             amountBuy = self.orderAmount
             amountSell = Double(marketPlaceOrderTableViewCell.amountTextField.text!.removeComma())!
-            amountB = BigInt.generate(from: amountBuy, by: PlaceOrderDataManager.shared.tokenB.decimals)
-            amountS = BigInt.generate(from: amountSell, by: PlaceOrderDataManager.shared.tokenA.decimals)
+            amountB = BigInt.generate(from: amountBuy, by: MarketOrderDataManager.shared.tokenB.decimals)
+            amountS = BigInt.generate(from: amountSell, by: MarketOrderDataManager.shared.tokenA.decimals)
         }
 
         lrcFee = getLrcFee(amountSell, tokenSell)
@@ -530,8 +530,8 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
         let since = Int64(Date().timeIntervalSince1970)
         let until = Int64(Calendar.current.date(byAdding: orderIntervalTime.intervalUnit, value: orderIntervalTime.intervalValue, to: Date())!.timeIntervalSince1970)
-        var order = OriginalOrder(delegate: delegate, address: address, side: side, tokenS: tokenSell, tokenB: tokenBuy, validSince: since, validUntil: until, amountBuy: amountBuy, amountSell: amountSell, lrcFee: lrcFee, buyNoMoreThanAmountB: buyNoMoreThanAmountB, amountS: amountS, amountB: amountB)
-        PlaceOrderDataManager.shared.completeOrder(&order)
+        var order = RawOrder(delegate: delegate, address: address, side: side, tokenS: tokenSell, tokenB: tokenBuy, validSince: since, validUntil: until, amountBuy: amountBuy, amountSell: amountSell, lrcFee: lrcFee, buyNoMoreThanAmountB: buyNoMoreThanAmountB, amountS: amountS, amountB: amountB)
+        MarketOrderDataManager.shared.completeOrder(&order)
         return order
     }
 

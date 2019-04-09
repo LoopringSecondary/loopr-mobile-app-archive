@@ -10,7 +10,7 @@ import UIKit
 import Charts
 
 protocol MarketDetailPriceChartTableViewCellDelegate: class {
-    func trendRangeUpdated(newTrendRange: TrendRange)
+    func trendRangeUpdated(newTrendRange: MarketRange)
     func trendDidHighlight(trend: Trend?)
 }
 
@@ -199,7 +199,7 @@ class MarketDetailPriceChartTableViewCell: UITableViewCell {
     }
     
     @objc func pressedRangeButton(_ sender: UIButton) {
-        let dict: [Int: TrendRange] = [
+        let dict: [Int: MarketRange] = [
             0: .oneDay,
             1: .oneWeek,
             2: .oneMonth,

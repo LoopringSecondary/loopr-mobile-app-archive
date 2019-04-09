@@ -19,13 +19,13 @@ class Paging {
     }
 
     init(json: JSON) {
-        self.cursor = json["skip"].uIntValue
+        self.cursor = json["cursor"].uIntValue
         self.size = json["size"].uIntValue
     }
 
     func toJSON() -> JSON {
         var json: JSON = JSON()
-        json["skip"] = JSON(cursor)
+        json["cursor"] = JSON(cursor)
         json["size"] = JSON(size)
         return json
     }

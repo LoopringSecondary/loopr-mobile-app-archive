@@ -99,7 +99,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         buyTipLabel.setTitleDigitFont()
         buyTipLabel.text = LocalizedString("Amount", comment: "")
         amountTokenLabel.setTitleDigitFont()
-        amountTokenLabel.text = PlaceOrderDataManager.shared.tokenA.symbol
+        amountTokenLabel.text = MarketOrderDataManager.shared.tokenA.symbol
         tipLabel.setSubTitleCharFont()
 
         let textFieldLeftPadding = buyTipLabel.text!.textWidth(font: FontConfigManager.shared.getDigitalFont()) + 16
@@ -118,7 +118,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         sellTipLabel.setTitleDigitFont()
         sellTipLabel.text = LocalizedString("Price", comment: "")
         priceTokenLabel.setTitleDigitFont()
-        priceTokenLabel.text = PlaceOrderDataManager.shared.tokenB.symbol
+        priceTokenLabel.text = MarketOrderDataManager.shared.tokenB.symbol
         estimateValueInCurrencyLabel.text = ""
         estimateValueInCurrencyLabel.setSubTitleCharFont()
 
@@ -233,11 +233,11 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         var message: String = ""
         let title = LocalizedString("Available Balance", comment: "")
         if self.type == .buy {
-            self.tokenB = PlaceOrderDataManager.shared.tokenA.symbol
-            self.tokenS = PlaceOrderDataManager.shared.tokenB.symbol
+            self.tokenB = MarketOrderDataManager.shared.tokenA.symbol
+            self.tokenS = MarketOrderDataManager.shared.tokenB.symbol
         } else {
-            self.tokenB = PlaceOrderDataManager.shared.tokenB.symbol
-            self.tokenS = PlaceOrderDataManager.shared.tokenA.symbol
+            self.tokenB = MarketOrderDataManager.shared.tokenB.symbol
+            self.tokenS = MarketOrderDataManager.shared.tokenA.symbol
         }
         if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenS) {
             message = "\(title) \(asset.display) \(self.tokenS)"
@@ -377,29 +377,29 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         return nil
     }
 
-    func constructOrder() -> OriginalOrder? {
+    func constructOrder() -> RawOrder? {
         var buyNoMoreThanAmountB: Bool
         var side, tokenSell, tokenBuy: String
         var amountBuy, amountSell, lrcFee: Double
         var amountB, amountS: BigInt
         if self.type == .buy {
             side = "buy"
-            tokenBuy = PlaceOrderDataManager.shared.tokenA.symbol
-            tokenSell = PlaceOrderDataManager.shared.tokenB.symbol
+            tokenBuy = MarketOrderDataManager.shared.tokenA.symbol
+            tokenSell = MarketOrderDataManager.shared.tokenB.symbol
             buyNoMoreThanAmountB = true
             amountBuy = Double(amountTextField.text!.removeComma())!
             amountSell = self.orderAmount
-            amountB = BigInt.generate(from: amountBuy, by: PlaceOrderDataManager.shared.tokenA.decimals)
-            amountS = BigInt.generate(from: amountSell, by: PlaceOrderDataManager.shared.tokenB.decimals)
+            amountB = BigInt.generate(from: amountBuy, by: MarketOrderDataManager.shared.tokenA.decimals)
+            amountS = BigInt.generate(from: amountSell, by: MarketOrderDataManager.shared.tokenB.decimals)
         } else {
             side = "sell"
-            tokenBuy = PlaceOrderDataManager.shared.tokenB.symbol
-            tokenSell = PlaceOrderDataManager.shared.tokenA.symbol
+            tokenBuy = MarketOrderDataManager.shared.tokenB.symbol
+            tokenSell = MarketOrderDataManager.shared.tokenA.symbol
             buyNoMoreThanAmountB = false
             amountBuy = self.orderAmount
             amountSell = Double(amountTextField.text!.removeComma())!
-            amountB = BigInt.generate(from: amountBuy, by: PlaceOrderDataManager.shared.tokenB.decimals)
-            amountS = BigInt.generate(from: amountSell, by: PlaceOrderDataManager.shared.tokenA.decimals)
+            amountB = BigInt.generate(from: amountBuy, by: MarketOrderDataManager.shared.tokenB.decimals)
+            amountS = BigInt.generate(from: amountSell, by: MarketOrderDataManager.shared.tokenA.decimals)
         }
 
         lrcFee = getLrcFee(amountSell, tokenSell)
@@ -407,8 +407,8 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
         let since = Int64(Date().timeIntervalSince1970)
         let until = Int64(Calendar.current.date(byAdding: orderIntervalTime.intervalUnit, value: orderIntervalTime.intervalValue, to: Date())!.timeIntervalSince1970)
-        var order = OriginalOrder(delegate: delegate, address: address, side: side, tokenS: tokenSell, tokenB: tokenBuy, validSince: since, validUntil: until, amountBuy: amountBuy, amountSell: amountSell, lrcFee: lrcFee, buyNoMoreThanAmountB: buyNoMoreThanAmountB, amountS: amountS, amountB: amountB)
-        PlaceOrderDataManager.shared.completeOrder(&order)
+        var order = RawOrder(delegate: delegate, address: address, side: side, tokenS: tokenSell, tokenB: tokenBuy, validSince: since, validUntil: until, amountBuy: amountBuy, amountSell: amountSell, lrcFee: lrcFee, buyNoMoreThanAmountB: buyNoMoreThanAmountB, amountS: amountS, amountB: amountB)
+        MarketOrderDataManager.shared.completeOrder(&order)
         return order
     }
 
@@ -480,7 +480,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         if let value = Double(priceTextField.text!.removeComma()) {
             let validate = value > 0.0
             if validate {
-                let tokenBPrice = PriceDataManager.shared.getPrice(of: PlaceOrderDataManager.shared.tokenB.symbol)!
+                let tokenBPrice = PriceDataManager.shared.getPrice(of: MarketOrderDataManager.shared.tokenB.symbol)!
                 let estimateValue: Double = value * tokenBPrice
                 estimateValueInCurrencyLabel.text = "≈ \(estimateValue.currency)"
                 estimateValueInCurrencyLabel.isHidden = false
@@ -752,7 +752,7 @@ extension BuyViewController: MarketDetailDepthModalViewControllerDelegate {
 
     func dismissWithSelectedDepth(amount: String, price: String) {
         priceTextField.text = price.trailingZero()
-        let token = PlaceOrderDataManager.shared.tokenB.symbol
+        let token = MarketOrderDataManager.shared.tokenB.symbol
         let tokenBPrice = PriceDataManager.shared.getPrice(of: token)!
         let estimateValue: Double = (Double(priceTextField.text!) ?? 0) * tokenBPrice
         estimateValueInCurrencyLabel.isHidden = false

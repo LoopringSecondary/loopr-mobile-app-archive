@@ -19,7 +19,7 @@ class TradeDataManager {
     static let sellCount: String = "count"
 
     var state: OrderTradeState
-    var orders: [OriginalOrder] = []
+    var orders: [RawOrder] = []
     var balanceInfo: [String: Double] = [:]
     var errorMessage: [String: String] = [:]
     var makerSignature: SignatureData?
@@ -128,8 +128,8 @@ class TradeDataManager {
         }
     }
 
-    func getOrder(by hash: String) -> OriginalOrder? {
-        var result: OriginalOrder?
+    func getOrder(by hash: String) -> RawOrder? {
+        var result: RawOrder?
         let semaphore = DispatchSemaphore(value: 0)
         LoopringAPIRequest.getOrderByHash(orderHash: hash) { order, error in
             guard error == nil && order != nil else {
@@ -142,7 +142,7 @@ class TradeDataManager {
         return result
     }
 
-    func constructTaker(from maker: OriginalOrder) -> OriginalOrder {
+    func constructTaker(from maker: RawOrder) -> RawOrder {
         var buyNoMoreThanAmountB: Bool
         var amountB, amountS: BigInt
         var amountBuy, amountSell: Double
@@ -168,8 +168,8 @@ class TradeDataManager {
         let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
         let since = maker.validSince
         let until = maker.validUntil
-        var order = OriginalOrder(delegate: delegate, address: address, side: "buy", tokenS: tokenSell, tokenB: tokenBuy, validSince: since, validUntil: until, amountBuy: amountBuy, amountSell: amountSell, lrcFee: 0, buyNoMoreThanAmountB: buyNoMoreThanAmountB, amountS: amountS, amountB: amountB, orderType: .p2pOrder, p2pType: .taker, market: market)
-        PlaceOrderDataManager.shared.completeOrder(&order)
+        var order = RawOrder(delegate: delegate, address: address, side: "buy", tokenS: tokenSell, tokenB: tokenBuy, validSince: since, validUntil: until, amountBuy: amountBuy, amountSell: amountSell, lrcFee: 0, buyNoMoreThanAmountB: buyNoMoreThanAmountB, amountS: amountS, amountB: amountB, orderType: .p2pOrder, p2pType: .taker, market: market)
+        MarketOrderDataManager.shared.completeOrder(&order)
         return order
     }
 
@@ -431,14 +431,14 @@ class TradeDataManager {
         takerSignature = signHash(privateKey: orders[1].authPrivateKey, hash: hash)
     }
 
-    func verify(order: OriginalOrder) -> [String: Double] {
+    func verify(order: RawOrder) -> [String: Double] {
         balanceInfo = [:]
         checkGasEnough(of: order)
         checkBalanceEnough(of: order)
         return balanceInfo
     }
 
-    func checkBalanceEnough(of order: OriginalOrder) {
+    func checkBalanceEnough(of order: RawOrder) {
         guard isTaker else { return }
         var result: Double = 0
         let tokens = order.tokenSell
@@ -450,7 +450,7 @@ class TradeDataManager {
         }
     }
 
-    func checkGasEnough(of order: OriginalOrder) {
+    func checkGasEnough(of order: RawOrder) {
         var result: Double = 0
         if let ethBalance = CurrentAppWalletDataManager.shared.getBalance(of: "ETH"), let tokenGas = calculateGas(for: order.tokenSell, to: order.amountSell) {
             if isTaker {
@@ -468,7 +468,7 @@ class TradeDataManager {
     func calculateGas(for token: String, to amount: Double) -> Double? {
         var result: Double?
         if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: token) {
-            let tokenFrozen = PlaceOrderDataManager.shared.getAllowance(of: token)
+            let tokenFrozen = MarketOrderDataManager.shared.getAllowance(of: token)
             if asset.allowance >= amount + tokenFrozen {
                 return 0
             }

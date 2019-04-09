@@ -136,7 +136,7 @@ class SendCurrentAppWalletDataManager {
     }
 
     /*
-    func _cancelOrder(order: OriginalOrder, completion: @escaping (String?, Error?) -> Void) {
+    func _cancelOrder(order: RawOrder, completion: @escaping (String?, Error?) -> Void) {
         if let owner = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address {
             let timestamp = Int(Date().timeIntervalSince1970).description
             if let signature = AuthorizeDataManager.shared._signTimestamp(timestamp: timestamp) {

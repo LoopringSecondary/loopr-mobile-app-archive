@@ -18,7 +18,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
     @IBOutlet weak var tokenSell: UIView!
     @IBOutlet weak var tokenBuy: UIView!
     @IBOutlet weak var arrowRightImageView: UIImageView!
-    
+
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var priceValueLabel: UILabel!
     @IBOutlet weak var priceTipLabel: UILabel!
@@ -28,33 +28,33 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
     @IBOutlet weak var validValueLabel: UILabel!
     @IBOutlet weak var gasInfoImage: UIImageView!
     @IBOutlet weak var gasTipLabel: UILabel!
-    
+
     @IBOutlet weak var cellBackgroundView: UIView!
     @IBOutlet weak var cellA: UIView!
     @IBOutlet weak var cellB: UIView!
     @IBOutlet weak var cellD: UIView!
-    
+
     @IBOutlet weak var confirmationButton: GradientButton!
     @IBOutlet weak var declineButton: GradientButton!
 
     @IBOutlet weak var cancelButton: UIButton!
-    
+
     @IBOutlet weak var priceTailing: NSLayoutConstraint!
-    
+
     var tokenSView: TokenViewController = TokenViewController()
     var tokenBView: TokenViewController = TokenViewController()
 
-    var order: OriginalOrder?
+    var order: RawOrder?
     var price: String? = "0.0"
     var message: String = ""
     var verifyInfo: [String: Double]?
     var dismissClosure: (() -> Void)?
     var parentNavController: UINavigationController?
     var isSigning: Bool = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setBackButton()
         view.backgroundColor = UIColor.clear
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
@@ -64,24 +64,24 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         tokenSView.view.frame = CGRect(x: 0, y: 0, width: tokenSell.frame.width, height: tokenSell.frame.height)
         tokenSell.addSubview(tokenSView.view)
         tokenSView.view.bindFrameToAnotherView(anotherView: tokenSell)
-        
+
         tokenBView.view.frame = CGRect(x: 0, y: 0, width: tokenBuy.frame.width, height: tokenBuy.frame.height)
         tokenBuy.addSubview(tokenBView.view)
         tokenBView.view.bindFrameToAnotherView(anotherView: tokenBuy)
-        
+
         // Price label
         priceLabel.text = LocalizedString("Price", comment: "")
         priceLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         priceLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         priceValueLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         priceValueLabel.theme_textColor = GlobalPicker.textColor
-        
+
         priceTipLabel.textColor = UIColor.fail
         priceTipLabel.text = LocalizedString("Irrational", comment: "")
         priceTipLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         priceTipLabel.theme_textColor = GlobalPicker.textColor
-        
+
         if !validateRational() {
             priceTipLabel.isHidden = false
             if SettingDataManager.shared.getCurrentLanguage().name == "zh-Hans" || SettingDataManager.shared.getCurrentLanguage().name  == "zh-Hant" {
@@ -93,12 +93,12 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
             priceTipLabel.isHidden = true
             priceTailing.constant = 20
         }
-        
+
         // Trading Fee
         LRCFeeLabel.text = LocalizedString("Trading Fee", comment: "")
         LRCFeeLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         LRCFeeLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         LRCFeeValueLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         LRCFeeValueLabel.theme_textColor = GlobalPicker.textColor
 
@@ -106,10 +106,10 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         validLabel.text = LocalizedString("Expiration Time", comment: "")
         validLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         validLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         validValueLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         validValueLabel.theme_textColor = GlobalPicker.textColor
-        
+
         // Gas label
         gasTipLabel.text = LocalizedString("GAS_TIP", comment: "")
         gasTipLabel.font = FontConfigManager.shared.getRegularFont(size: 12)
@@ -118,13 +118,13 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         let cells = [cellA, cellB, cellD]
         cells.forEach { $0?.theme_backgroundColor = ColorPicker.cardBackgroundColor }
         cellBackgroundView.theme_backgroundColor = ColorPicker.cardHighLightColor
-        
+
         // Tap gesture
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         tap.delegate = self
         view.addGestureRecognizer(tap)
     }
-       
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let order = self.order {
@@ -132,7 +132,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         }
         setupButtons()
     }
-    
+
     func isBuyingOrder() -> Bool {
         var result: Bool = false
         if self.order?.side == "buy" {
@@ -142,14 +142,14 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         }
         return result
     }
-    
+
     func validateRational() -> Bool {
         // If we use the app to scan a QR code to authorize a market order on cirular,
-        // PlaceOrderDataManager market is nil
-        guard PlaceOrderDataManager.shared.market != nil else {
+        // MarketOrderDataManager market is nil
+        guard MarketOrderDataManager.shared.market != nil else {
             return true
         }
-        let pair = PlaceOrderDataManager.shared.market!.name
+        let pair = MarketOrderDataManager.shared.market!.name
         if let price = self.price, let value = Double(price),
             let market = MarketDataManager.shared.getMarket(byTradingPair: pair) {
             let header = LocalizedString("Your price is irrational, ", comment: "")
@@ -193,8 +193,8 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         cancelButton.setTitleColor(UIColor.init(white: 0.5, alpha: 1), for: .highlighted)
         cancelButton.titleLabel?.font = FontConfigManager.shared.getCharactorFont(size: 16)
     }
-    
-    func updateLabels(order: OriginalOrder) {
+
+    func updateLabels(order: RawOrder) {
         tokenSView.update(type: .sell, symbol: order.tokenSell, amount: order.amountSell)
         tokenBView.update(type: .buy, symbol: order.tokenBuy, amount: order.amountBuy)
 
@@ -215,16 +215,16 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         let until = DateUtil.convertToDate(UInt(order.validUntil), format: "MM-dd HH:mm")
         validValueLabel.text = "\(until)"
     }
-    
+
     func close(_ animated: Bool = true) {
         if let closure = self.dismissClosure {
             closure()
         }
-        
+
         if self.navigationController == nil {
             print("isBeingPresented")
             self.dismiss(animated: animated, completion: {
-                
+
             })
         } else {
             for controller in self.navigationController!.viewControllers as Array {
@@ -235,15 +235,15 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
             }
         }
     }
-    
+
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         close()
     }
-    
+
     @IBAction func pressedCancelButton(_ sender: UIButton) {
         self.close()
     }
-    
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let location = touch.location(in: nil)
         if containerView.frame.contains(location) {
@@ -251,14 +251,14 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         }
         return true
     }
-    
+
     func handleOrder() {
         if !priceTipLabel.isHidden {
             let alert = UIAlertController(title: LocalizedString("Please Pay Attention", comment: ""), message: self.message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
                 DispatchQueue.main.async {
                     SVProgressHUD.show(withStatus: LocalizedString("Submitting order", comment: "") + "...")
-                    self.verifyInfo = PlaceOrderDataManager.shared.verify(order: self.order!)
+                    self.verifyInfo = MarketOrderDataManager.shared.verify(order: self.order!)
                     self.handleVerifyInfo()
                 }
             }))
@@ -267,11 +267,11 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
             self.present(alert, animated: true, completion: nil)
         } else {
             SVProgressHUD.show(withStatus: LocalizedString("Submitting order", comment: "") + "...")
-            self.verifyInfo = PlaceOrderDataManager.shared.verify(order: order!)
+            self.verifyInfo = MarketOrderDataManager.shared.verify(order: order!)
             self.handleVerifyInfo()
         }
     }
-    
+
     func doSigning() {
         let manager = AuthorizeDataManager.shared
         guard let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address, let hash = manager.submitHash, let order = manager.submitOrder else { return }
@@ -288,7 +288,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
                 self.complete(nil, error!)
                 return
             }
-            PlaceOrderDataManager.shared._submitOrder(order, completion: { (orderHash, error) in
+            MarketOrderDataManager.shared._submitOrder(order, completion: { (orderHash, error) in
                 guard let orderHash = orderHash, error == nil else {
                     self.complete(nil, error!)
                     return
@@ -300,7 +300,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
             })
         }
     }
-    
+
     func handleSigning() {
         self.doSigning()
     }
@@ -325,7 +325,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
             }
         }
     }
-    
+
     @IBAction func pressedDeclineButton(_ sender: UIButton) {
         guard isSigning, let hash = AuthorizeDataManager.shared.submitHash else { return }
         if AuthenticationDataManager.shared.getPasscodeSetting() {
@@ -361,7 +361,7 @@ extension PlaceOrderConfirmationViewController {
         }
         return result
     }
-    
+
     func needApprove() -> Bool {
         var result: Bool = false
         if let info = self.verifyInfo {
@@ -371,7 +371,7 @@ extension PlaceOrderConfirmationViewController {
         }
         return result
     }
-    
+
     func handleVerifyInfo() {
         if isBalanceEnough() {
             if needApprove() {
@@ -384,7 +384,7 @@ extension PlaceOrderConfirmationViewController {
             pushController(orderHash: nil)
         }
     }
-    
+
     func pushController(orderHash: String?) {
         self.close(false)
         let viewController = ConfirmationResultViewController()
@@ -392,7 +392,7 @@ extension PlaceOrderConfirmationViewController {
         viewController.order = isSigning ? AuthorizeDataManager.shared.submitOrder : order
         self.parentNavController?.pushViewController(viewController, animated: true)
     }
-    
+
     func approve() {
         if let info = self.verifyInfo {
             for item in info {
@@ -408,7 +408,7 @@ extension PlaceOrderConfirmationViewController {
             }
         }
     }
-    
+
     func approveOnce(token: String) {
         if let toAddress = TokenDataManager.shared.getAddress(by: token) {
             var error: NSError?
@@ -418,7 +418,7 @@ extension PlaceOrderConfirmationViewController {
             SendCurrentAppWalletDataManager.shared._approve(tokenAddress: tokenAddress, delegateAddress: delegateAddress, tokenAmount: approve, completion: complete)
         }
     }
-    
+
     func approveTwice(token: String) {
         if let toAddress = TokenDataManager.shared.getAddress(by: token) {
             var error: NSError?
@@ -435,16 +435,16 @@ extension PlaceOrderConfirmationViewController {
             }
         }
     }
-    
+
     func submit() {
-        PlaceOrderDataManager.shared._submitOrder(self.order!) { (orderHash, error) in
+        MarketOrderDataManager.shared._submitOrder(self.order!) { (orderHash, error) in
             if orderHash != nil && error == nil {
                 UserDefaults.standard.set(false, forKey: UserDefaultsKeys.cancelledAll.rawValue)
             }
             self.completion(orderHash, error)
         }
     }
-    
+
     // complete used in getting authorization. After this complete succeeds, it should calls submit()
     func complete(_ txHash: String?, _ error: Error?) {
         SVProgressHUD.dismiss()
@@ -459,7 +459,7 @@ extension PlaceOrderConfirmationViewController {
         }
         submit()
     }
-    
+
     // completion for submitting a market order
     func completion(_ orderHash: String?, _ error: Error?) {
         SVProgressHUD.dismiss()

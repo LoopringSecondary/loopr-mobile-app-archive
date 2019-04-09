@@ -26,7 +26,7 @@ class ConfirmationResultViewController: UIViewController, UIScrollViewDelegate {
     var needBInfoLabel: UILabel = UILabel(frame: .zero)
     var needBUnderline: UIView = UIView(frame: .zero)
     
-    var order: OriginalOrder?
+    var order: RawOrder?
     var errorTipInfo: [String] = []
     var verifyInfo: [String: Double]?
     
