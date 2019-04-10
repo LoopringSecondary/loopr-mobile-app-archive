@@ -77,6 +77,24 @@ public class MainFragmentPresenter extends BasePresenter<MainWalletFragment> {
 		if (relayService == null)
 			relayService = new RelayService();
 		tokenDataManager.getObservable()
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<TokensResult>() {
+					@Override
+					public void onCompleted() {
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						LyqbLogger.log(e.getMessage());
+					}
+
+					@Override
+					public void onNext(TokensResult tokensResult) {
+						LyqbLogger.log("");
+					}
+				});
+		tokenDataManager.getObservable()
 				.flatMap((Func1<TokensResult, Observable<AccountBalanceWrapper>>) tokensResult -> {
 					tokenDataManager.setTokens(tokensResult.getTokens());
 					return balanceDataManager.getObservable();

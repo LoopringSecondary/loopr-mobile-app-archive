@@ -17,83 +17,80 @@ import okhttp3.OkHttpClient;
 
 public class SDK {
 
-    public static byte CHAIN_ID = ChainId.NONE;
+	public static byte CHAIN_ID = ChainId.NONE;
 
-    private static OkHttpClient okHttpClient = null;
+	private static OkHttpClient okHttpClient = null;
 
-    private static Socket socketClient = null;
+	private static Socket socketClient = null;
 
-    private static String LOOPRING_BASE = "https://relay1.loopring.io";
+	private static String LOOPRING_BASE = "https://relay1.loopring.io";
 
-    private static String ETH_BASE = "https://relay1.loopring.io/eth";
+	private static String ETH_BASE = "https://relay1.loopring.io/eth";
 
-    private static String APP_SERVICE_BASE = "https://www.loopring.mobi";
+	private static String APP_SERVICE_BASE = "https://www.loopring.mobi";
 
-    // RELAY2.0
-    private static String RELAY2_BASE = "https://5fcea934-9745-47ef-aeec-5f6ffac06990.mock.pstmn.io";
+	private static Web3j web3j = null;
 
-    private static Web3j web3j = null;
+	public static String relayBase() {
+		return LOOPRING_BASE;
+	}
 
-    public static String relayBase() {
-        return LOOPRING_BASE;
-    }
+	public static String relay2Base() {
+		return "http://13.231.176.170:8080";
+	}
 
-    public static String relay2Base() {
-        return RELAY2_BASE;
-    }
+	public static String ethBase() {
+		return ETH_BASE;
+	}
 
-    public static String ethBase() {
-        return ETH_BASE;
-    }
+	public static String appServiceBase() {
+		return APP_SERVICE_BASE;
+	}
 
-    public static String appServiceBase() {
-        return APP_SERVICE_BASE;
-    }
+	public static OkHttpClient getOkHttpClient() {
+		if (okHttpClient == null) {
+			throw new SdkInitializeException();
+		}
+		return okHttpClient;
+	}
 
-    public static OkHttpClient getOkHttpClient() {
-        if (okHttpClient == null) {
-            throw new SdkInitializeException();
-        }
-        return okHttpClient;
-    }
+	public static Socket getSocketClient() {
+		if (okHttpClient == null) {
+			throw new SdkInitializeException();
+		}
+		return socketClient;
+	}
 
-    public static Socket getSocketClient() {
-        if (okHttpClient == null) {
-            throw new SdkInitializeException();
-        }
-        return socketClient;
-    }
+	public static void initSDK() {
+		okHttpClient = new OkHttpClient.Builder()
+				.connectTimeout(10, TimeUnit.SECONDS)
+				.readTimeout(10, TimeUnit.SECONDS)
+				.writeTimeout(10, TimeUnit.SECONDS)
+				.build();
+		HttpService httpService = new HttpService(ETH_BASE);
+		web3j = Web3jFactory.build(httpService);
+		IO.Options opt = new IO.Options();
+		opt.reconnection = true;
+		opt.reconnectionAttempts = 5;
+		opt.transports = new String[]{"websocket"};
+		opt.callFactory = okHttpClient;
+		opt.webSocketFactory = okHttpClient;
+		try {
+			socketClient = IO.socket(StringUtils.formatUrlEnding(LOOPRING_BASE), opt);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			throw new UninitializedException();
+		}
+		socketClient.on(Socket.EVENT_CONNECT, args -> System.out.println("socket connection established!"));
+		socketClient.on(Socket.EVENT_CONNECT_ERROR, args -> System.out.println("network error"));
+		socketClient.on(Socket.EVENT_CONNECTING, args -> System.out.println("connecting"));
+		socketClient.connect();
+	}
 
-    public static void initSDK() {
-        okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
-                .build();
-        HttpService httpService = new HttpService(ETH_BASE);
-        web3j = Web3jFactory.build(httpService);
-        IO.Options opt = new IO.Options();
-        opt.reconnection = true;
-        opt.reconnectionAttempts = 5;
-        opt.transports = new String[]{"websocket"};
-        opt.callFactory = okHttpClient;
-        opt.webSocketFactory = okHttpClient;
-        try {
-            socketClient = IO.socket(StringUtils.formatUrlEnding(LOOPRING_BASE), opt);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            throw new UninitializedException();
-        }
-        socketClient.on(Socket.EVENT_CONNECT, args -> System.out.println("socket connection established!"));
-        socketClient.on(Socket.EVENT_CONNECT_ERROR, args -> System.out.println("network error"));
-        socketClient.on(Socket.EVENT_CONNECTING, args -> System.out.println("connecting"));
-        socketClient.connect();
-    }
-
-    public static Web3j getWeb3j() {
-        if (web3j == null) {
-            throw new UninitializedException();
-        }
-        return web3j;
-    }
+	public static Web3j getWeb3j() {
+		if (web3j == null) {
+			throw new UninitializedException();
+		}
+		return web3j;
+	}
 }

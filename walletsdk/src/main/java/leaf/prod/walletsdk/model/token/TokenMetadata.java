@@ -13,21 +13,21 @@ import lombok.Data;
 @Builder
 public class TokenMetadata {
 
-    private TokenStatus type;
+	private TokenType type;
 
-    private TokenType status;
+	private TokenStatus status;
 
-    private String symbol;
+	private String symbol;
 
-    private String name;
+	private String name;
 
-    private String address;
+	private String address;
 
-    private String unit;
+	private String unit;
 
-    private Integer decimals;
+	private Integer decimals;
 
-    private Integer precision;
+	private Integer precision;
 
-    private BurnRate burnRate;
+	private BurnRate burnRate;
 }

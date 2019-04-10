@@ -62,6 +62,7 @@ public class RelayService {
 				.quoteCurrencyForTicker(currency.getText())
 				.marketPairs(pairs)
 				.build();
+
 		RequestWrapper request = new RequestWrapper("get_markets", param);
 		Observable<RelayResponseWrapper<MarketsResult>> observable = rpcDelegate.getMarkets(request);
 		return observable.map(RelayResponseWrapper::getResult);

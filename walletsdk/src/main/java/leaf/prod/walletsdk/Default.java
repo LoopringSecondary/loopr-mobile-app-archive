@@ -2,7 +2,7 @@ package leaf.prod.walletsdk;
 
 public final class Default {
 
-    public static final String RELAY_RPC_URL = "rpc/v2";
+    public static final String RELAY_RPC_URL = "api/loopring";
 
     public static final String APP_RPC_URL = "rpc/v1";
 

@@ -52,7 +52,7 @@ public class TokenDataManager {
 	public Observable<TokensResult> getObservable() {
 		Currency currency = CurrencyUtil.getCurrency(context);
 		if (observableMap.get(currency.getText()) == null) {
-			observableMap.put(currency.getText(), relayService.getTokens(true, true, true, CurrencyUtil.getCurrency(context), null));
+			observableMap.put(currency.getText(), relayService.getTokens(true, true, true, Currency.USD, null));
 		}
 		return observableMap.get(currency.getText());
 	}
