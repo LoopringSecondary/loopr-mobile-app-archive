@@ -22,16 +22,9 @@ import leaf.prod.app.activity.trade.P2PRecordDetailActivity;
 import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.trade.P2PRecordAdapter;
 import leaf.prod.app.fragment.BaseFragment;
-import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.model.common.NoDataType;
 import leaf.prod.walletsdk.model.order.RawOrder;
-import leaf.prod.walletsdk.model.order.OrderType;
-import leaf.prod.walletsdk.model.response.relay.PageWrapper;
-import leaf.prod.walletsdk.util.WalletUtil;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class P2PRecordsFragment extends BaseFragment {
 
@@ -125,51 +118,52 @@ public class P2PRecordsFragment extends BaseFragment {
 
     public void refreshOrders(int page) {
         currentPageIndex = page == 0 ? currentPageIndex : page;
-        p2pManager.getRelayService()
-                .getOrders(WalletUtil.getCurrentAddress(getContext()), OrderType.P2P.getDescription(), currentPageIndex, pageSize)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<PageWrapper<RawOrder>>() {
-                    @Override
-                    public void onCompleted() {
-                        refreshLayout.finishRefresh(true);
-                        clLoading.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        LyqbLogger.log(e.getMessage());
-                        recyclerView.setAdapter(emptyAdapter);
-                        emptyAdapter.refresh();
-                        refreshLayout.finishRefresh(true);
-                        recordAdapter.loadMoreFail();
-                        clLoading.setVisibility(View.GONE);
-                        unsubscribe();
-                    }
-
-                    @Override
-                    public void onNext(PageWrapper<RawOrder> orderPageWrapper) {
-                        totalCount = orderPageWrapper.getTotal();
-                        if (totalCount == 0) {
-                            recyclerView.setAdapter(emptyAdapter);
-                            emptyAdapter.refresh();
-                        } else {
-                            List<RawOrder> list = new ArrayList<>();
-                            for (RawOrder rawOrder : orderPageWrapper.getData()) {
-                                list.add(rawOrder.convert());
-                            }
-                            if (currentPageIndex == 1) {
-                                recordAdapter.setNewData(list);
-                            } else {
-                                recordAdapter.addData(list);
-                            }
-                            rawOrderList = recordAdapter.getData();
-                            refreshLayout.finishRefresh(true);
-                        }
-                        clLoading.setVisibility(View.GONE);
-                        recordAdapter.loadMoreComplete();
-                        unsubscribe();
-                    }
-                });
+        //todo order
+//        p2pManager.getRelayService()
+//                .getOrders(WalletUtil.getCurrentAddress(getContext()), OrderType.P2P.getDescription(), currentPageIndex, pageSize)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<PageWrapper<RawOrder>>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        refreshLayout.finishRefresh(true);
+//                        clLoading.setVisibility(View.GONE);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        LyqbLogger.log(e.getMessage());
+//                        recyclerView.setAdapter(emptyAdapter);
+//                        emptyAdapter.refresh();
+//                        refreshLayout.finishRefresh(true);
+//                        recordAdapter.loadMoreFail();
+//                        clLoading.setVisibility(View.GONE);
+//                        unsubscribe();
+//                    }
+//
+//                    @Override
+//                    public void onNext(PageWrapper<RawOrder> orderPageWrapper) {
+//                        totalCount = orderPageWrapper.getTotal();
+//                        if (totalCount == 0) {
+//                            recyclerView.setAdapter(emptyAdapter);
+//                            emptyAdapter.refresh();
+//                        } else {
+//                            List<RawOrder> list = new ArrayList<>();
+//                            for (RawOrder rawOrder : orderPageWrapper.getData()) {
+//                                list.add(rawOrder.convert());
+//                            }
+//                            if (currentPageIndex == 1) {
+//                                recordAdapter.setNewData(list);
+//                            } else {
+//                                recordAdapter.addData(list);
+//                            }
+//                            rawOrderList = recordAdapter.getData();
+//                            refreshLayout.finishRefresh(true);
+//                        }
+//                        clLoading.setVisibility(View.GONE);
+//                        recordAdapter.loadMoreComplete();
+//                        unsubscribe();
+//                    }
+//                });
     }
 }

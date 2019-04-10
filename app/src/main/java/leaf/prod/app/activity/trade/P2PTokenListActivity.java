@@ -1,12 +1,10 @@
 package leaf.prod.app.activity.trade;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,10 +24,7 @@ import leaf.prod.app.adapter.wallet.TokenChooseAdapter;
 import leaf.prod.app.views.TitleView;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
-import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.common.NoDataType;
 import leaf.prod.walletsdk.model.common.TradeType;
-import leaf.prod.walletsdk.model.response.relay.BalanceResult;
 import leaf.prod.walletsdk.model.token.Token;
 
 public class P2PTokenListActivity extends BaseActivity {
@@ -119,46 +114,47 @@ public class P2PTokenListActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        list.addAll(TokenDataManager.getInstance(this).getERC20Tokens());
-        String ignoreSymbol = getIntent().getStringExtra("ignoreSymbol");
-        type = TradeType.valueOf(getIntent().getStringExtra("tokenType"));
-        for (Token token : list) {
-            if (token.getSymbol().equals(ignoreSymbol)) {
-                list.remove(token);
-                break;
-            }
-        }
-        // sell列表只保留有余额的token
-        if (type == TradeType.sell) {
-            Iterator<Token> iterator = list.iterator();
-            while (iterator.hasNext()) {
-                Token token = iterator.next();
-                BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(token.getSymbol());
-                if (asset == null || asset.getValue() == 0) {
-                    iterator.remove();
-                }
-            }
-        }
-        if (list.isEmpty()) {
-            emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.asset);
-            recyclerView.setAdapter(emptyAdapter);
-            emptyAdapter.refresh();
-            title.hideRightImageButton();
-        } else {
-            mAdapter = new TokenChooseAdapter(R.layout.adapter_item_token_choose, list);
-            recyclerView.setAdapter(mAdapter);
-            mAdapter.setOnItemClickListener((adapter, view, position) -> {
-                String symbol = list.get(position).getSymbol();
-                if (type == TradeType.buy) {
-                    p2pOrderManager.changeToTokenB(symbol);
-                } else if (type == TradeType.sell) {
-                    p2pOrderManager.changeToTokenS(symbol);
-                }
-                finish();
-            });
-        }
+        //todo order
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+//        recyclerView.setLayoutManager(layoutManager);
+//        list.addAll(TokenDataManager.getInstance(this).getERC20Tokens());
+//        String ignoreSymbol = getIntent().getStringExtra("ignoreSymbol");
+//        type = TradeType.valueOf(getIntent().getStringExtra("tokenType"));
+//        for (Token token : list) {
+//            if (token.getSymbol().equals(ignoreSymbol)) {
+//                list.remove(token);
+//                break;
+//            }
+//        }
+//        // sell列表只保留有余额的token
+//        if (type == TradeType.sell) {
+//            Iterator<Token> iterator = list.iterator();
+//            while (iterator.hasNext()) {
+//                Token token = iterator.next();
+//                BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(token.getSymbol());
+//                if (asset == null || asset.getValue() == 0) {
+//                    iterator.remove();
+//                }
+//            }
+//        }
+//        if (list.isEmpty()) {
+//            emptyAdapter = new NoDataAdapter(R.layout.adapter_item_no_data, null, NoDataType.asset);
+//            recyclerView.setAdapter(emptyAdapter);
+//            emptyAdapter.refresh();
+//            title.hideRightImageButton();
+//        } else {
+//            mAdapter = new TokenChooseAdapter(R.layout.adapter_item_token_choose, list);
+//            recyclerView.setAdapter(mAdapter);
+//            mAdapter.setOnItemClickListener((adapter, view, position) -> {
+//                String symbol = list.get(position).getSymbol();
+//                if (type == TradeType.buy) {
+//                    p2pOrderManager.changeToTokenB(symbol);
+//                } else if (type == TradeType.sell) {
+//                    p2pOrderManager.changeToTokenS(symbol);
+//                }
+//                finish();
+//            });
+//        }
     }
 
     @OnClick({R.id.cancel_text})

@@ -1,7 +1,6 @@
 package leaf.prod.app.fragment.market;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
@@ -17,17 +16,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import leaf.prod.app.R;
-import leaf.prod.app.activity.market.MarketTradeActivity;
 import leaf.prod.app.adapter.NoDataAdapter;
 import leaf.prod.app.adapter.market.MarketDepthAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
-import leaf.prod.walletsdk.model.setting.Language;
 import leaf.prod.walletsdk.model.common.NoDataType;
-import leaf.prod.walletsdk.model.common.TradeType;
+import leaf.prod.walletsdk.model.setting.Language;
 import leaf.prod.walletsdk.util.LanguageUtil;
-import leaf.prod.walletsdk.util.StringUtils;
 
 public class MarketDepthFragment extends BaseFragment {
 
@@ -108,16 +104,17 @@ public class MarketDepthFragment extends BaseFragment {
     }
 
     private void handleClick(Map.Entry<String, RecyclerView> item, int position) {
-        String[] values = manager.getDepths(item.getKey()).get(position);
-        if (values != null && !StringUtils.isEmpty(values[0])) {
-            if (item.getKey().equals("buy")) {
-                orderDataManager.setType(TradeType.buy);
-            } else if (item.getKey().equals("sell")) {
-                orderDataManager.setType(TradeType.sell);
-            }
-            getOperation().addParameter("priceFromDepth", values[0]);
-            getOperation().forward(MarketTradeActivity.class);
-        }
+        //todo order
+//        String[] values = manager.getDepths(item.getKey()).get(position);
+//        if (values != null && !StringUtils.isEmpty(values[0])) {
+//            if (item.getKey().equals("buy")) {
+//                orderDataManager.setType(TradeType.buy);
+//            } else if (item.getKey().equals("sell")) {
+//                orderDataManager.setType(TradeType.sell);
+//            }
+//            getOperation().addParameter("priceFromDepth", values[0]);
+//            getOperation().forward(MarketTradeActivity.class);
+//        }
     }
 
     private void setHeader(Map.Entry<String, RecyclerView> item) {
@@ -153,21 +150,22 @@ public class MarketDepthFragment extends BaseFragment {
 
     public void updateAdapter() {
         if (adapters != null) {
-            for (Map.Entry<String, MarketDepthAdapter> item : adapters.entrySet()) {
-                if (item != null && item.getKey() != null && item.getValue() != null) {
-                    List<String[]> depths = manager.getDepths(item.getKey());
-                    if (depths == null || depths.size() == 0) {
-                        NoDataAdapter adapter = emptyAdapters.get(item.getKey());
-                        recyclerViews.get(item.getKey()).setAdapter(adapter);
-                        adapter.refresh();
-                    } else {
-                        MarketDepthAdapter adapter = item.getValue();
-                        recyclerViews.get(item.getKey()).setAdapter(adapter);
-                        adapter.setNewData(depths);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }
+            //todo order
+//            for (Map.Entry<String, MarketDepthAdapter> item : adapters.entrySet()) {
+//                if (item != null && item.getKey() != null && item.getValue() != null) {
+//                    List<String[]> depths = manager.getDepths(item.getKey());
+//                    if (depths == null || depths.size() == 0) {
+//                        NoDataAdapter adapter = emptyAdapters.get(item.getKey());
+//                        recyclerViews.get(item.getKey()).setAdapter(adapter);
+//                        adapter.refresh();
+//                    } else {
+//                        MarketDepthAdapter adapter = item.getValue();
+//                        recyclerViews.get(item.getKey()).setAdapter(adapter);
+//                        adapter.setNewData(depths);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                }
+//            }
         }
     }
 }

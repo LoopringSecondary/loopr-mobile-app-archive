@@ -9,7 +9,6 @@ import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.StringUtils;
-import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -19,7 +18,6 @@ import lombok.Data;
  * Cooperation: loopring.org 路印协议基金会
  */
 @Data
-@Builder
 public class AccountBalance {
 
 	private String token;

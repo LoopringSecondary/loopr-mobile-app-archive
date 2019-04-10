@@ -43,7 +43,7 @@ import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.model.response.relay.AccountBalance;
 import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
@@ -154,8 +154,8 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                     moneyAmountChange = false;
                     return;
                 }
-                BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell());
-                view.sellAmount.setText(NumberUtils.format1(asset.getValue() * progressFloat / 100, asset.getPrecision()));
+                AccountBalance asset = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell());
+                view.sellAmount.setText(NumberUtils.format1(asset.getBalanceDouble() * progressFloat / 100, asset.getPrecision()));
             }
 
             @Override
@@ -191,7 +191,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
                     view.seekBar.setProgress(100);
                 } else {
                     setHint(3);
-                    double amountTotal = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell()).getValue();
+                    double amountTotal = balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell()).getBalanceDouble();
                     view.seekBar.setProgress((float) (amountTotal != 0 ? sellAmountDouble / amountTotal * 100 : 0));
                 }
             }
@@ -375,13 +375,13 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
             case 0:
                 view.tvSellHint.setText(view.getResources().getString(R.string.available_balance,
                         balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell())
-                                .getValueShown()) + " " + p2pOrderManager.getTokenSell());
+                                .getValueShow()) + " " + p2pOrderManager.getTokenSell());
                 view.tvSellHint.setTextColor(view.getResources().getColor(R.color.colorNineText));
                 break;
             case 1:
                 view.tvSellHint.setText(view.getResources().getString(R.string.available_balance,
                         balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell())
-                                .getValueShown()) + " " + p2pOrderManager.getTokenSell());
+                                .getValueShow()) + " " + p2pOrderManager.getTokenSell());
                 view.tvSellHint.setTextColor(view.getResources().getColor(R.color.colorRed));
                 view.tvSellHint.startAnimation(shakeAnimation);
                 break;
@@ -414,7 +414,7 @@ public class P2PTradePresenter extends BasePresenter<P2PTradeFragment> {
     }
 
     public double getMaxAmount() {
-        return balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell()).getValue();
+        return balanceDataManager.getAssetBySymbol(p2pOrderManager.getTokenSell()).getBalanceDouble();
     }
 
     public void destroyDialog() {

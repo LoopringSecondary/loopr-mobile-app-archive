@@ -1,7 +1,6 @@
 package leaf.prod.app.adapter.trade;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -13,21 +12,16 @@ import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
 import leaf.prod.app.fragment.trade.P2PRecordsFragment;
-import leaf.prod.app.utils.LyqbLogger;
 import leaf.prod.app.utils.PasswordDialogUtil;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
-import leaf.prod.walletsdk.model.CancelOrder;
-import leaf.prod.walletsdk.model.CancelType;
 import leaf.prod.walletsdk.model.order.RawOrder;
-import leaf.prod.walletsdk.model.request.relayParam.CancelOrdersParam;
 import leaf.prod.walletsdk.model.request.relayParam.NotifyScanParam;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+//import leaf.prod.walletsdk.model.CancelOrder;
+//import leaf.prod.walletsdk.model.CancelType;
 
 public class P2PRecordAdapter extends BaseQuickAdapter<RawOrder, BaseViewHolder> {
 
@@ -52,16 +46,17 @@ public class P2PRecordAdapter extends BaseQuickAdapter<RawOrder, BaseViewHolder>
         helper.setText(R.id.tv_token_b, rawOrder.getTokenB());
         helper.setGone(R.id.tv_sell_icon, false);
         helper.setGone(R.id.tv_buy_icon, false);
-        if (rawOrder.getP2pSide() != null) {
-            switch (rawOrder.getP2pSide()) {
-                case MAKER:
-                    helper.setVisible(R.id.tv_sell_icon, true);
-                    break;
-                case TAKER:
-                    helper.setVisible(R.id.tv_buy_icon, true);
-                    break;
-            }
-        }
+        //todo order
+//        if (rawOrder.getP2pSide() != null) {
+//            switch (rawOrder.getP2pSide()) {
+//                case MAKER:
+//                    helper.setVisible(R.id.tv_sell_icon, true);
+//                    break;
+//                case TAKER:
+//                    helper.setVisible(R.id.tv_buy_icon, true);
+//                    break;
+//            }
+//        }
         helper.setText(R.id.tv_price, rawOrder.getSellPrice());
         helper.setText(R.id.tv_amount, NumberUtils.format1(rawOrder
                 .getAmountSell(), BalanceDataManager.getPrecision(rawOrder.getTokenS())));
@@ -87,34 +82,35 @@ public class P2PRecordAdapter extends BaseQuickAdapter<RawOrder, BaseViewHolder>
                             e.printStackTrace();
                         }
                         if (signParam != null) {
-                            CancelOrdersParam cancelOrder = CancelOrdersParam.builder()
-                                    .id(hash)
-                                    .owner()
-                                    .build();
-                            p2pOrderDataManager.getRelayService().cancelOrders(cancelOrder, signParam)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber<String>() {
-                                        @Override
-                                        public void onCompleted() {
-                                            unsubscribe();
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            LyqbLogger.log(e.getMessage());
-                                            RxToast.error(fragment.getResources().getString(R.string.cancel_failed));
-                                            unsubscribe();
-                                        }
-
-                                        @Override
-                                        public void onNext(String s) {
-                                            RxToast.success(fragment.getResources().getString(R.string.cancel_success));
-                                            fragment.refreshOrders(0);
-                                            PasswordDialogUtil.dismiss(P2PRecordsFragment.PASSWORD_TYPE + "_" + hash);
-                                            unsubscribe();
-                                        }
-                                    });
+                            //todo order
+//                            CancelOrdersParam cancelOrder = CancelOrdersParam.builder()
+//                                    .id(hash)
+//                                    .owner()
+//                                    .build();
+//                            p2pOrderDataManager.getRelayService().cancelOrders(cancelOrder, signParam)
+//                                    .subscribeOn(Schedulers.io())
+//                                    .observeOn(AndroidSchedulers.mainThread())
+//                                    .subscribe(new Subscriber<String>() {
+//                                        @Override
+//                                        public void onCompleted() {
+//                                            unsubscribe();
+//                                        }
+//
+//                                        @Override
+//                                        public void onError(Throwable e) {
+//                                            LyqbLogger.log(e.getMessage());
+//                                            RxToast.error(fragment.getResources().getString(R.string.cancel_failed));
+//                                            unsubscribe();
+//                                        }
+//
+//                                        @Override
+//                                        public void onNext(String s) {
+//                                            RxToast.success(fragment.getResources().getString(R.string.cancel_success));
+//                                            fragment.refreshOrders(0);
+//                                            PasswordDialogUtil.dismiss(P2PRecordsFragment.PASSWORD_TYPE + "_" + hash);
+//                                            unsubscribe();
+//                                        }
+//                                    });
                         }
                     });
                 });
@@ -135,6 +131,7 @@ public class P2PRecordAdapter extends BaseQuickAdapter<RawOrder, BaseViewHolder>
             default:
                 break;
         }
-        helper.setText(R.id.tv_date, sdf.format(new Date(Long.valueOf(rawOrder.getValidS()) * 1000)));
+        //todo order
+//        helper.setText(R.id.tv_date, sdf.format(new Date(Long.valueOf(rawOrder.getValidS()) * 1000)));
     }
 }

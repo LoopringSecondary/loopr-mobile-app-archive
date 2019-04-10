@@ -113,25 +113,27 @@ public class MarketOrderDataManager extends OrderDataManager {
 	private void checkLRCEnough(RawOrder order) {
 		Double lrcFrozen = balance.getFrozenFee(order.getTokenS());
 		Double lrcBalance = token.getDoubleFromWei("LRC", balance.getAssetBySymbol("LRC").getBalance());
-		Double result = lrcBalance - order.getLrc() - lrcFrozen;
-		if (result < 0) {
-			balanceInfo.put("MINUS_LRC", -result);
-		}
+		//todo order
+//		Double result = lrcBalance - order.getLrc() - lrcFrozen;
+//		if (result < 0) {
+//			balanceInfo.put("MINUS_LRC", -result);
+//		}
 	}
 
 	private void checkGasEnough(RawOrder order, Boolean includingLRC) {
 		Double result;
 		Double ethBalance = balance.getAssetBySymbol("ETH").getBalanceDouble();
-		Double tokenGas = calculateGas(order.getTokenS(), order.getAmountSell(), order.getLrc());
-		if (includingLRC) {
-			Double lrcGas = calculateGas("LRC", order.getAmountSell(), order.getLrc());
-			result = ethBalance - lrcGas - tokenGas;
-		} else {
-			result = ethBalance - tokenGas;
-		}
-		if (result < 0) {
-			balanceInfo.put("MINUS_ETH", -result);
-		}
+		//todo order
+//		Double tokenGas = calculateGas(order.getTokenS(), order.getAmountSell(), order.getLrc());
+//		if (includingLRC) {
+//			Double lrcGas = calculateGas("LRC", order.getAmountSell(), order.getLrc());
+//			result = ethBalance - lrcGas - tokenGas;
+//		} else {
+//			result = ethBalance - tokenGas;
+//		}
+//		if (result < 0) {
+//			balanceInfo.put("MINUS_ETH", -result);
+//		}
 	}
 
 	private void checkLRCGasEnough(RawOrder order) {
@@ -177,19 +179,21 @@ public class MarketOrderDataManager extends OrderDataManager {
 		Double allowance = token.getDoubleFromWei("LRC", asset.getAllowance());
 		Double lrcFrozen = balance.getFrozenFee("LRC");
 		Double sellingFrozen = balance.getAllowanceFee("LRC");
-		if (order.getLrc() + lrcFrozen + sellingFrozen + order.getAmountSell() > allowance) {
-			Double gasAmount = gas.getGasAmountInETH("approve");
-			if (allowance == 0) {
-				result = gasAmount;
-				balanceInfo.put("GAS_LRC", 1d);
-			} else {
-				result = gasAmount * 2;
-				balanceInfo.put("GAS_LRC", 2d);
-			}
-		} else {
-			result = 0d;
-		}
-		return result;
+		//todo order
+//		if (order.getLrc() + lrcFrozen + sellingFrozen + order.getAmountSell() > allowance) {
+//			Double gasAmount = gas.getGasAmountInETH("approve");
+//			if (allowance == 0) {
+//				result = gasAmount;
+//				balanceInfo.put("GAS_LRC", 1d);
+//			} else {
+//				result = gasAmount * 2;
+//				balanceInfo.put("GAS_LRC", 2d);
+//			}
+//		} else {
+//			result = 0d;
+//		}
+//		return result;
+		return 0d;
 	}
 
 	private void completeOrder(String password) throws Exception {
@@ -209,31 +213,33 @@ public class MarketOrderDataManager extends OrderDataManager {
 	public Map verify(String password) throws Exception {
 		balanceInfo.clear();
 		completeOrder(password);
-		if (order.getSide().equalsIgnoreCase("buy")) {
-			if (order.getTokenB().equalsIgnoreCase("LRC")) {
-				checkGasEnough(order, false);
-			} else {
-				checkLRCEnough(order);
-				checkGasEnough(order, true);
-			}
-		} else {
-			if (order.getTokenS().equalsIgnoreCase("LRC")) {
-				checkLRCEnough(order);
-				checkLRCGasEnough(order);
-			} else {
-				checkLRCEnough(order);
-				checkGasEnough(order, true);
-			}
-		}
+		//todo order
+//		if (order.getSide().equalsIgnoreCase("buy")) {
+//			if (order.getTokenB().equalsIgnoreCase("LRC")) {
+//				checkGasEnough(order, false);
+//			} else {
+//				checkLRCEnough(order);
+//				checkGasEnough(order, true);
+//			}
+//		} else {
+//			if (order.getTokenS().equalsIgnoreCase("LRC")) {
+//				checkLRCEnough(order);
+//				checkLRCGasEnough(order);
+//			} else {
+//				checkLRCEnough(order);
+//				checkGasEnough(order, true);
+//			}
+//		}
 		return balanceInfo;
 	}
 
 	@Override
 	protected Observable<RelayResponseWrapper> submit() {
 		Observable<RelayResponseWrapper> result = null;
-		if (order != null) {
-			result = relayService.submitOrder(order);
-		}
+		//todo order
+//		if (order != null) {
+//			result = relayService.submitOrder(order);
+//		}
 		return result;
 	}
 

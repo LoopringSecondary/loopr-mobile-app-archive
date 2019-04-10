@@ -51,12 +51,10 @@ import leaf.prod.walletsdk.manager.MarketOrderDataManager;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.Market;
-import leaf.prod.walletsdk.model.RawOrder;
 import leaf.prod.walletsdk.model.common.NoDataType;
 import leaf.prod.walletsdk.model.common.TradeType;
-import leaf.prod.walletsdk.model.market.MarketPair;
-import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.model.order.RawOrder;
+import leaf.prod.walletsdk.model.response.relay.AccountBalance;
 import leaf.prod.walletsdk.model.setting.Language;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
@@ -67,6 +65,8 @@ import leaf.prod.walletsdk.util.StringUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+//import leaf.prod.walletsdk.model.Market;
+//import leaf.prod.walletsdk.model.RawOrder;
 
 public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragment> {
 
@@ -160,13 +160,13 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                     moneyAmountChange = false;
                     return;
                 }
-                BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(orderDataManager.getTokenSell());
+                AccountBalance asset = balanceDataManager.getAssetBySymbol(orderDataManager.getTokenSell());
                 if (tradeType == TradeType.buy) {
                     double tradePrice = Double.parseDouble(view.tradePrice.getText().toString());
-                    maxTradeAmount = asset.getValue() / tradePrice;
+                    maxTradeAmount = asset.getBalanceDouble() / tradePrice;
                     view.tradeAmount.setText(NumberUtils.format6(progressFloat / 100 * maxTradeAmount, 0, 8));
                 } else {
-                    view.tradeAmount.setText(NumberUtils.format6(progressFloat / 100 * asset.getValue(), 0, 8));
+                    view.tradeAmount.setText(NumberUtils.format6(progressFloat / 100 * asset.getBalanceDouble(), 0, 8));
                 }
             }
 
@@ -228,19 +228,19 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                     view.seekBar.setProgress(0);
                 } else {
                     setHint(5);
-                    BalanceResult.Asset asset = balanceDataManager.getAssetBySymbol(orderDataManager.getTokenSell());
+                    AccountBalance asset = balanceDataManager.getAssetBySymbol(orderDataManager.getTokenSell());
                     double tradeAmount = Double.parseDouble(value);
                     if (tradeType == TradeType.buy) {
                         double tradePrice = Double.parseDouble(view.tradePrice.getText().toString());
-                        maxTradeAmount = asset.getValue() / tradePrice;
+                        maxTradeAmount = asset.getBalanceDouble() / tradePrice;
                         if (tradeAmount > maxTradeAmount) {
                             view.seekBar.setProgress(100);
                         } else {
                             view.seekBar.setProgress((float) (maxTradeAmount != 0 ? tradeAmount / maxTradeAmount * 100 : 0));
                         }
                     } else {
-                        if (asset.getValue() >= tradeAmount) {
-                            view.seekBar.setProgress((float) (asset.getValue() != 0 ? tradeAmount / asset.getValue() * 100 : 0));
+                        if (asset.getBalanceDouble() >= tradeAmount) {
+                            view.seekBar.setProgress((float) (asset.getBalanceDouble() != 0 ? tradeAmount / asset.getBalanceDouble() * 100 : 0));
                         } else {
                             view.seekBar.setProgress(100);
                         }
@@ -387,20 +387,22 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
         String amountSPrice = CurrencyUtil.format(context, marketcapDataManager
                 .getPriceBySymbol(order.getTokenS()) * order.getAmountSell());
         String priceQuote = view.tradePrice.getText() + " " + orderDataManager.getTradePair().replace("-", "/");
-        String lrcFee = NumberUtils.format1(order.getLrc(), 3) +
-                " LRC ≈ " + CurrencyUtil.format(context, marketcapDataManager.getAmountBySymbol("LRC", order.getLrc()));
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_amount)).setText(amountB);
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_amount)).setText(amountS);
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_price)).setText(amountBPrice);
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_price)).setText(amountSPrice);
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_price)).setText(priceQuote);
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_trading_fee)).setText(lrcFee);
+        //todo market
+//        String lrcFee = NumberUtils.format1(order.getLrc(), 3) +
+//                " LRC ≈ " + CurrencyUtil.format(context, marketcapDataManager.getAmountBySymbol("LRC", order.getLrc()));
+//        ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_amount)).setText(amountB);
+//        ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_amount)).setText(amountS);
+//        ((TextView) marketTradeDialogView.findViewById(R.id.tv_buy_price)).setText(amountBPrice);
+//        ((TextView) marketTradeDialogView.findViewById(R.id.tv_sell_price)).setText(amountSPrice);
+//        ((TextView) marketTradeDialogView.findViewById(R.id.tv_price)).setText(priceQuote);
+//        ((TextView) marketTradeDialogView.findViewById(R.id.tv_trading_fee)).setText(lrcFee);
     }
 
     private void setValidTime(RawOrder order) {
-        String validSince = sdf.format(order.getValidS() * 1000L);
-        String validUntil = sdf.format(order.getValidU() * 1000L);
-        ((TextView) marketTradeDialogView.findViewById(R.id.tv_live_time)).setText(validSince + " ~ " + validUntil);
+        //todo order
+//        String validSince = sdf.format(order.getValidS() * 1000L);
+//        String validUntil = sdf.format(order.getValidU() * 1000L);
+//        ((TextView) marketTradeDialogView.findViewById(R.id.tv_live_time)).setText(validSince + " ~ " + validUntil);
     }
 
     private RawOrder constructOrder() {
@@ -481,28 +483,30 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
 
     private void setupTitle() {
         TextView tvLatest = marketPriceDialogView.findViewById(R.id.tv_latest_price);
-        MarketPair pair = MarketPair.builder()
-                .tokenA(orderDataManager.getTokenA())
-                .tokenB(orderDataManager.getTokenB())
-                .description(orderDataManager.getTradePair())
-                .build();
-        Market ticker = priceDataManager.getTickerBy(pair);
-        tvLatest.setText(ticker.getBalanceShown() + " " + orderDataManager.getTokenB() + " ≈ " + ticker.getCurrencyShown());
+        //todo order
+//        MarketPair pair = MarketPair.builder()
+//                .tokenA(orderDataManager.getTokenA())
+//                .tokenB(orderDataManager.getTokenB())
+//                .description(orderDataManager.getTradePair())
+//                .build();
+//        Market ticker = priceDataManager.getTickerBy(pair);
+//        tvLatest.setText(ticker.getBalanceShown() + " " + orderDataManager.getTokenB() + " ≈ " + ticker.getCurrencyShown());
     }
 
     private void updateAdapter() {
         for (Map.Entry<String, MarketDepthAdapter> item : adapters.entrySet()) {
             if (item != null && item.getKey() != null && item.getValue() != null) {
-                List<String[]> depths = priceDataManager.getDepths(item.getKey());
-                if (depths == null || depths.size() == 0) {
-                    NoDataAdapter adapter = emptyAdapters.get(item.getKey());
-                    recyclerViews.get(item.getKey()).setAdapter(adapter);
-                    adapter.refresh();
-                } else {
-                    recyclerViews.get(item.getKey()).setAdapter(item.getValue());
-                    item.getValue().setNewData(depths);
-                    item.getValue().notifyDataSetChanged();
-                }
+                //todo order
+//                List<String[]> depths = priceDataManager.getDepths(item.getKey());
+//                if (depths == null || depths.size() == 0) {
+//                    NoDataAdapter adapter = emptyAdapters.get(item.getKey());
+//                    recyclerViews.get(item.getKey()).setAdapter(adapter);
+//                    adapter.refresh();
+//                } else {
+//                    recyclerViews.get(item.getKey()).setAdapter(item.getValue());
+//                    item.getValue().setNewData(depths);
+//                    item.getValue().notifyDataSetChanged();
+//                }
             }
         }
     }
@@ -523,11 +527,12 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
     }
 
     private void handleClick(Map.Entry<String, RecyclerView> item, int position) {
-        String[] values = priceDataManager.getDepths(item.getKey()).get(position);
-        if (values.length == 3 && !StringUtils.isEmpty(values[0])) {
-            marketPriceDialog.hide();
-            view.tradePrice.setText(values[0]);
-        }
+        //todo order
+//        String[] values = priceDataManager.getDepths(item.getKey()).get(position);
+//        if (values.length == 3 && !StringUtils.isEmpty(values[0])) {
+//            marketPriceDialog.hide();
+//            view.tradePrice.setText(values[0]);
+//        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -563,7 +568,7 @@ public class MarketTradeFragmentPresenter extends BasePresenter<MarketTradeFragm
                 if (tradeType == TradeType.sell) {
                     view.tvAmountHint.setText(view.getResources().getString(R.string.available_balance,
                             balanceDataManager.getAssetBySymbol(orderDataManager.getTokenA())
-                                    .getValueShown()) + " " + orderDataManager.getTokenA());
+                                    .getValueShow()) + " " + orderDataManager.getTokenA());
                 } else {
                     view.tvAmountHint.setText(view.getResources()
                             .getString(R.string.market_max_buy, NumberUtils.format6(maxTradeAmount, 0, 8) + " " + orderDataManager

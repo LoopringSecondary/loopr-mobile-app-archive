@@ -5,8 +5,6 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 
-import android.util.Log;
-
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.generated.Uint256;
@@ -20,9 +18,6 @@ import org.web3j.tx.RawTransactionManager;
 
 import leaf.prod.walletsdk.exception.TransactionException;
 import leaf.prod.walletsdk.service.RelayService;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class EthTransactionManager {
 
@@ -54,26 +49,27 @@ public class EthTransactionManager {
         // notify relay
         String transactionHash = ethSendTransaction.getTransactionHash();
         RawTransaction rawTransaction = getRawTransaction(credentials, to, data, weiValue);
-        relayService.notifyTransactionSubmitted(rawTransaction, address, transactionHash)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("notifyTx_error", e.getMessage());
-                        unsubscribe();
-                    }
-
-                    @Override
-                    public void onNext(String s) {
-                        Log.d("notifyTx_success", s);
-                        unsubscribe();
-                    }
-                });
+        //todo order
+//        relayService.notifyTransactionSubmitted(rawTransaction, address, transactionHash)
+//                .subscribeOn(Schedulers.io())
+        //                .observeOn(AndroidSchedulers.mainThread())
+        //                .subscribe(new Subscriber<String>() {
+        //                    @Override
+        //                    public void onCompleted() {
+        //                    }
+        //
+        //                    @Override
+        //                    public void onError(Throwable e) {
+        //                        Log.e("notifyTx_error", e.getMessage());
+        //                        unsubscribe();
+        //                    }
+        //
+        //                    @Override
+        //                    public void onNext(String s) {
+        //                        Log.d("notifyTx_success", s);
+        //                        unsubscribe();
+        //                    }
+        //                });
         return transactionHash;
     }
 

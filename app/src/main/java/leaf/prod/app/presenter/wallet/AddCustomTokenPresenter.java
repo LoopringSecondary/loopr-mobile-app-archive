@@ -6,27 +6,21 @@
  */
 package leaf.prod.app.presenter.wallet;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import android.content.Context;
 
 import org.web3j.crypto.WalletUtils;
-import org.web3j.utils.Numeric;
 import com.vondear.rxtool.view.RxToast;
 
 import leaf.prod.app.R;
 import leaf.prod.app.activity.wallet.AddCustomTokenActivity;
 import leaf.prod.app.presenter.BasePresenter;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.model.wallet.WalletEntity;
 import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivity> {
 
@@ -87,36 +81,38 @@ public class AddCustomTokenPresenter extends BasePresenter<AddCustomTokenActivit
             }
             this.symbol = symbol.toUpperCase();
             this.decimals = NumberUtils.toBigDecimal(Integer.parseInt(decimals));
-            relayService.addCustomToken(owner, this.address, this.symbol, this.decimals)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<String>() {
-                        @Override
-                        public void onCompleted() {
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            RxToast.error(context.getResources().getString(R.string.token_add));
-                        }
-
-                        @Override
-                        public void onNext(String s) {
-                            RxToast.error(context.getResources().getString(R.string.token_add_error));
-                            addTokenToChosen();
-                        }
-                    });
+            //todo order
+//            relayService.addCustomToken(owner, this.address, this.symbol, this.decimals)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Subscriber<String>() {
+//                        @Override
+//                        public void onCompleted() {
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//                            RxToast.error(context.getResources().getString(R.string.token_add));
+//                        }
+//
+//                        @Override
+//                        public void onNext(String s) {
+//                            RxToast.error(context.getResources().getString(R.string.token_add_error));
+//                            addTokenToChosen();
+//                        }
+//                    });
         }
     }
 
     private void addTokenToChosen() {
-        Token token = Token.builder()
-                .symbol(this.symbol)
-                .protocol(this.address)
-                .decimals(new BigDecimal(this.decimals))
-                .source(this.symbol.toLowerCase())
-                .build();
-        tokenManager.addToken(token);
+        //todo order
+//        Token token = Token.builder()
+//                .symbol(this.symbol)
+//                .protocol(this.address)
+//                .decimals(new BigDecimal(this.decimals))
+//                .source(this.symbol.toLowerCase())
+//                .build();
+//        tokenManager.addToken(token);
         WalletEntity wallet = WalletUtil.getCurrentWallet(context);
         List<String> tokenChosen = wallet.getChooseTokenList();
         if (tokenChosen != null && !tokenChosen.contains(this.symbol)) {

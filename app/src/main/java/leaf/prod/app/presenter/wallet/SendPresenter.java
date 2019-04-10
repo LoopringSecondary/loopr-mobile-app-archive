@@ -47,9 +47,9 @@ import leaf.prod.walletsdk.manager.LoginDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.manager.TransactionDataManager;
-import leaf.prod.walletsdk.model.wallet.Contact;
-import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.model.response.relay.AccountBalance;
 import leaf.prod.walletsdk.model.token.Token;
+import leaf.prod.walletsdk.model.wallet.Contact;
 import leaf.prod.walletsdk.util.CredentialsUtils;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DpUtil;
@@ -269,7 +269,7 @@ public class SendPresenter extends BasePresenter<SendActivity> {
         new Thread(() -> {
             try {
                 gasFee = gasDataManager.getGasAmountInETH(GAS_LIMIT_TYPE);
-                if (gasFee > balanceManager.getAssetBySymbol("ETH").getValue()) {
+                if (gasFee > balanceManager.getAssetBySymbol("ETH").getBalanceDouble()) {
                     // 油费不足
                     view.getOperation().addParameter("tokenAmount", gasFee + " ETH");
                     view.getOperation().forwardClearTop(SendErrorActivity.class);
@@ -342,12 +342,12 @@ public class SendPresenter extends BasePresenter<SendActivity> {
             sendChoose = (String) SPUtils.get(context, "send_choose", "ETH");
         }
         updateTransactionFeeUI();
-        BalanceResult.Asset asset = balanceManager.getAssetBySymbol(sendChoose);
+        AccountBalance asset = balanceManager.getAssetBySymbol(sendChoose);
         setWalletImage(sendChoose);
         view.sendWalletName.setText(sendChoose);
         view.walletName2.setText(sendChoose);
-        amountTotal = asset.getValue();
-        view.sendWalletCount.setText(asset.getValueShown() + " " + sendChoose);
+        amountTotal = asset.getBalanceDouble();
+        view.sendWalletCount.setText(asset.getValueShow() + " " + sendChoose);
     }
 
     public String getSendChoose() {
@@ -391,7 +391,7 @@ public class SendPresenter extends BasePresenter<SendActivity> {
                 }
                 int precision = balanceManager.getPrecisionBySymbol(sendChoose);
                 view.moneyAmount.setText(NumberUtils.format1(balanceManager.getAssetBySymbol(sendChoose)
-                        .getValue() * progressFloat / 100, precision));
+                        .getBalanceDouble() * progressFloat / 100, precision));
                 view.amountToast.setText("≈" + CurrencyUtil.format(context, balanceManager.getAssetBySymbol(sendChoose)
                         .getLegalValue() * progressFloat / 100));
                 Selection.setSelection(view.moneyAmount.getText(), view.moneyAmount.getText().length());

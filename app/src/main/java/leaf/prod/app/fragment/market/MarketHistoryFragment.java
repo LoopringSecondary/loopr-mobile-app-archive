@@ -19,7 +19,7 @@ import leaf.prod.app.adapter.market.MarketHistoryAdapter;
 import leaf.prod.app.fragment.BaseFragment;
 import leaf.prod.walletsdk.manager.MarketPriceDataManager;
 import leaf.prod.walletsdk.model.common.NoDataType;
-import leaf.prod.walletsdk.model.Fill;
+import leaf.prod.walletsdk.model.order.Fill;
 
 public class MarketHistoryFragment extends BaseFragment {
 

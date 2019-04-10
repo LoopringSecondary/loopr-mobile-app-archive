@@ -3,11 +3,8 @@ package leaf.prod.app.activity.trade;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.vondear.rxfeature.tool.RxQRCode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,10 +18,6 @@ import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.P2POrderDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
-import leaf.prod.walletsdk.model.order.OrderStatus;
-import leaf.prod.walletsdk.model.RawOrder;
-import leaf.prod.walletsdk.util.DateUtil;
-import leaf.prod.walletsdk.util.NumberUtils;
 
 public class P2PTradeQrActivity extends BaseActivity {
 
@@ -136,52 +129,53 @@ public class P2PTradeQrActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     @Override
     public void initView() {
-        RawOrder order = p2pOrderManager.getOrder();
-        if (order != null) {
-            int resourceB = tokenManager.getTokenBySymbol(order.getTokenB()).getImageResId();
-            int resourceS = tokenManager.getTokenBySymbol(order.getTokenS()).getImageResId();
-            String amountB = balanceManager.getFormattedBySymbol(order.getTokenB(), order.getAmountBuy());
-            String amountS = balanceManager.getFormattedBySymbol(order.getTokenS(), order.getAmountSell());
-            String currencyB = marketManager.getCurrencyBySymbol(order.getTokenB(), order.getAmountBuy());
-            String currencyS = marketManager.getCurrencyBySymbol(order.getTokenS(), order.getAmountSell());
-            String validSince = DateUtil.formatDateTime(order.getValidS() * 1000L, "MM-dd HH:mm");
-            String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000L, "MM-dd HH:mm");
-            if (resourceB == 0) {
-                ivTokenB.setVisibility(View.INVISIBLE);
-                tvTokenB.setVisibility(View.VISIBLE);
-                tvTokenB.setText(order.getTokenB());
-            } else {
-                ivTokenB.setVisibility(View.VISIBLE);
-                tvTokenB.setVisibility(View.INVISIBLE);
-                ivTokenB.setImageResource(resourceB);
-            }
-            if (resourceS == 0) {
-                ivTokenS.setVisibility(View.INVISIBLE);
-                tvTokenS.setVisibility(View.VISIBLE);
-                tvTokenS.setText(order.getTokenS());
-            } else {
-                ivTokenS.setVisibility(View.VISIBLE);
-                tvTokenS.setVisibility(View.INVISIBLE);
-                ivTokenS.setImageResource(resourceS);
-            }
-            tvBuyToken.setText(getString(R.string.buy) + " " + order.getTokenB());
-            tvSellToken.setText(getString(R.string.sell) + " " + order.getTokenS());
-            tvBuyAmount.setText(amountB);
-            tvSellAmount.setText(amountS);
-            tvBuyPrice.setText(currencyB);
-            tvSellPrice.setText(currencyS);
-            tvStatus.setText(OrderStatus.OPENED.getDescription(this));
-            tvLiveTime.setText(validSince + " ~ " + validUntil);
-            generateQRCode();
-            // 分享界面
-            sellInfo.setText(amountS + " " + order.getTokenS());
-            buyInfo.setText(amountB + " " + order.getTokenB());
-            tvValidUntil.setText(validUntil);
-            priceABuy.setText("1 " + order.getTokenB());
-            priceASell.setText(NumberUtils.format1(order.getAmountSell() / order.getAmountBuy(), 4) + " " + order.getTokenS());
-            priceBSell.setText("1 " + order.getTokenS());
-            priceBBuy.setText(NumberUtils.format1(order.getAmountBuy() / order.getAmountSell(), 4) + " " + order.getTokenB());
-        }
+        //todo order
+//        RawOrder order = p2pOrderManager.getOrder();
+//        if (order != null) {
+//            int resourceB = tokenManager.getTokenBySymbol(order.getTokenB()).getImageResId();
+//            int resourceS = tokenManager.getTokenBySymbol(order.getTokenS()).getImageResId();
+//            String amountB = balanceManager.getFormattedBySymbol(order.getTokenB(), order.getAmountBuy());
+//            String amountS = balanceManager.getFormattedBySymbol(order.getTokenS(), order.getAmountSell());
+//            String currencyB = marketManager.getCurrencyBySymbol(order.getTokenB(), order.getAmountBuy());
+//            String currencyS = marketManager.getCurrencyBySymbol(order.getTokenS(), order.getAmountSell());
+//            String validSince = DateUtil.formatDateTime(order.getValidS() * 1000L, "MM-dd HH:mm");
+//            String validUntil = DateUtil.formatDateTime(order.getValidU() * 1000L, "MM-dd HH:mm");
+//            if (resourceB == 0) {
+//                ivTokenB.setVisibility(View.INVISIBLE);
+//                tvTokenB.setVisibility(View.VISIBLE);
+//                tvTokenB.setText(order.getTokenB());
+//            } else {
+//                ivTokenB.setVisibility(View.VISIBLE);
+//                tvTokenB.setVisibility(View.INVISIBLE);
+//                ivTokenB.setImageResource(resourceB);
+//            }
+//            if (resourceS == 0) {
+//                ivTokenS.setVisibility(View.INVISIBLE);
+//                tvTokenS.setVisibility(View.VISIBLE);
+//                tvTokenS.setText(order.getTokenS());
+//            } else {
+//                ivTokenS.setVisibility(View.VISIBLE);
+//                tvTokenS.setVisibility(View.INVISIBLE);
+//                ivTokenS.setImageResource(resourceS);
+//            }
+//            tvBuyToken.setText(getString(R.string.buy) + " " + order.getTokenB());
+//            tvSellToken.setText(getString(R.string.sell) + " " + order.getTokenS());
+//            tvBuyAmount.setText(amountB);
+//            tvSellAmount.setText(amountS);
+//            tvBuyPrice.setText(currencyB);
+//            tvSellPrice.setText(currencyS);
+//            tvStatus.setText(OrderStatus.OPENED.getDescription(this));
+//            tvLiveTime.setText(validSince + " ~ " + validUntil);
+//            generateQRCode();
+//            // 分享界面
+//            sellInfo.setText(amountS + " " + order.getTokenS());
+//            buyInfo.setText(amountB + " " + order.getTokenB());
+//            tvValidUntil.setText(validUntil);
+//            priceABuy.setText("1 " + order.getTokenB());
+//            priceASell.setText(NumberUtils.format1(order.getAmountSell() / order.getAmountBuy(), 4) + " " + order.getTokenS());
+//            priceBSell.setText("1 " + order.getTokenS());
+//            priceBBuy.setText(NumberUtils.format1(order.getAmountBuy() / order.getAmountSell(), 4) + " " + order.getTokenB());
+//        }
     }
 
     @Override
@@ -189,10 +183,11 @@ public class P2PTradeQrActivity extends BaseActivity {
     }
 
     private void generateQRCode() {
-        RawOrder order = p2pOrderManager.getOrder();
-        String content = p2pOrderManager.generateQRCode(order);
-        RxQRCode.Builder builder = RxQRCode.builder(content);
-        builder.into(ivQrCode);
-        builder.into(qrCodeImage);
+        //todo order
+//        RawOrder order = p2pOrderManager.getOrder();
+//        String content = p2pOrderManager.generateQRCode(order);
+//        RxQRCode.Builder builder = RxQRCode.builder(content);
+//        builder.into(ivQrCode);
+//        builder.into(qrCodeImage);
     }
 }

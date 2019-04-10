@@ -40,17 +40,13 @@ import leaf.prod.walletsdk.manager.GasDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
 import leaf.prod.walletsdk.manager.TokenDataManager;
 import leaf.prod.walletsdk.model.common.NoDataType;
-import leaf.prod.walletsdk.model.transaction.TxType;
 import leaf.prod.walletsdk.model.response.relay.Transaction;
-import leaf.prod.walletsdk.model.response.relay.TransactionPageWrapper;
+import leaf.prod.walletsdk.model.transaction.TxType;
 import leaf.prod.walletsdk.service.RelayService;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.DateUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class WalletDetailFragment extends BaseFragment {
 
@@ -165,7 +161,7 @@ public class WalletDetailFragment extends BaseFragment {
         if (symbol.equalsIgnoreCase("ETH") || symbol.equalsIgnoreCase("WETH")) {
             title.setRightText(getString(R.string.convert), button -> getOperation().forward(ConvertActivity.class));
         }
-        walletMoney.setText(balanceManager.getAssetBySymbol(symbol).getValueShown());
+//        walletMoney.setText(balanceManager.getAssetBySymbol(symbol).getValueShown());
         walletDollar.setText(balanceManager.getAssetBySymbol(symbol).getLegalShown());
         title.clickLeftGoBack(((WalletDetailActivity) getActivity()).getWContext());
     }
@@ -195,45 +191,46 @@ public class WalletDetailFragment extends BaseFragment {
     }
 
     private void getTxsFromRelay(int page) {
-        relayService.getTransactions(address, symbol, page, PAGE_SIZE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<TransactionPageWrapper>() {
-                    @Override
-                    public void onCompleted() {
-                        refreshLayout.finishRefresh(true);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        recyclerView.setAdapter(emptyAdapter);
-                        emptyAdapter.refresh();
-                        refreshLayout.finishRefresh(false);
-                        refreshLayout.finishLoadMore(false);
-                        unsubscribe();
-                        clLoading.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onNext(TransactionPageWrapper transactionPageWrapper) {
-                        if (page == 1) {
-                            mAdapter.setNewData(transactionPageWrapper.getData());
-                        } else {
-                            mAdapter.addData(transactionPageWrapper.getData());
-                        }
-                        walletMoney.setText(balanceManager.getAssetBySymbol(symbol).getValueShown());
-                        walletDollar.setText(balanceManager.getAssetBySymbol(symbol).getLegalShown());
-                        if (page == 1) {
-                            refreshLayout.finishRefresh(true);
-                        } else if (mAdapter.getData().size() < transactionPageWrapper.getTotal()) {
-                            refreshLayout.finishLoadMore(true);
-                        } else {
-                            refreshLayout.finishLoadMoreWithNoMoreData();
-                        }
-                        unsubscribe();
-                        clLoading.setVisibility(View.GONE);
-                    }
-                });
+        //todo order
+//        relayService.getTransactions(address, symbol, page, PAGE_SIZE)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<TransactionPageWrapper>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        refreshLayout.finishRefresh(true);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        recyclerView.setAdapter(emptyAdapter);
+//                        emptyAdapter.refresh();
+//                        refreshLayout.finishRefresh(false);
+//                        refreshLayout.finishLoadMore(false);
+//                        unsubscribe();
+//                        clLoading.setVisibility(View.GONE);
+//                    }
+//
+//                    @Override
+//                    public void onNext(TransactionPageWrapper transactionPageWrapper) {
+//                        if (page == 1) {
+//                            mAdapter.setNewData(transactionPageWrapper.getData());
+//                        } else {
+//                            mAdapter.addData(transactionPageWrapper.getData());
+//                        }
+//                        walletMoney.setText(balanceManager.getAssetBySymbol(symbol).getValueShown());
+//                        walletDollar.setText(balanceManager.getAssetBySymbol(symbol).getLegalShown());
+//                        if (page == 1) {
+//                            refreshLayout.finishRefresh(true);
+//                        } else if (mAdapter.getData().size() < transactionPageWrapper.getTotal()) {
+//                            refreshLayout.finishLoadMore(true);
+//                        } else {
+//                            refreshLayout.finishLoadMoreWithNoMoreData();
+//                        }
+//                        unsubscribe();
+//                        clLoading.setVisibility(View.GONE);
+//                    }
+//                });
     }
 
     public void showDetailDialog(Transaction tx) {

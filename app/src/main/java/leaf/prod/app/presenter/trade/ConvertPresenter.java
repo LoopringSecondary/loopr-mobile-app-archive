@@ -44,7 +44,7 @@ import leaf.prod.walletsdk.exception.InvalidKeystoreException;
 import leaf.prod.walletsdk.manager.BalanceDataManager;
 import leaf.prod.walletsdk.manager.GasDataManager;
 import leaf.prod.walletsdk.manager.MarketcapDataManager;
-import leaf.prod.walletsdk.model.response.relay.BalanceResult;
+import leaf.prod.walletsdk.model.response.relay.AccountBalance;
 import leaf.prod.walletsdk.util.CurrencyUtil;
 import leaf.prod.walletsdk.util.NumberUtils;
 import leaf.prod.walletsdk.util.UnitConverter;
@@ -282,9 +282,9 @@ public class ConvertPresenter extends BasePresenter<ConvertActivity> {
      * @return
      */
     public double getMaxValue() {
-        BalanceResult.Asset firstAsset = balanceDataManager.getAssetBySymbol(firstToken);
-        return firstToken.equals("ETH") ? ((firstAsset.getValue() - 0.01) > 0 ? firstAsset.getValue() - 0.01 : 0) : firstAsset
-                .getValue();
+        AccountBalance firstAsset = balanceDataManager.getAssetBySymbol(firstToken);
+        return firstToken.equals("ETH") ? ((firstAsset.getBalanceDouble() - 0.01) > 0 ? firstAsset.getBalanceDouble() - 0.01 : 0) : firstAsset
+                .getBalanceDouble();
     }
 
     public String getMaxShow() {
@@ -292,7 +292,7 @@ public class ConvertPresenter extends BasePresenter<ConvertActivity> {
             int precision = balanceDataManager.getPrecisionBySymbol("ETH");
             return NumberUtils.format1(getMaxValue(), precision);
         } else {
-            return balanceDataManager.getAssetBySymbol(firstToken).getValueShown();
+            return balanceDataManager.getAssetBySymbol(firstToken).getValueShow();
         }
     }
 

@@ -7,10 +7,8 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
-import leaf.prod.app.R;
-import leaf.prod.walletsdk.model.Fill;
-import leaf.prod.walletsdk.util.DateUtil;
-import leaf.prod.walletsdk.util.NumberUtils;
+import leaf.prod.walletsdk.model.order.Fill;
+//import leaf.prod.walletsdk.model.Fill;
 
 public class MarketHistoryAdapter extends BaseQuickAdapter<Fill, BaseViewHolder> {
 
@@ -21,8 +19,9 @@ public class MarketHistoryAdapter extends BaseQuickAdapter<Fill, BaseViewHolder>
     @Override
     protected void convert(BaseViewHolder helper, Fill orderFill) {
         if (orderFill == null)  { return; }
-        helper.setText(R.id.tv_price, NumberUtils.format1(orderFill.getPrice(), 8));
-        helper.setText(R.id.tv_amount, NumberUtils.format7(orderFill.getAmount(), 0, 2));
-        helper.setText(R.id.tv_time, DateUtil.formatDateTime(orderFill.getCreateTime() * 1000, "MM-dd HH:mm"));
+        //todo order
+//        helper.setText(R.id.tv_price, NumberUtils.format1(orderFill.getPrice(), 8));
+//        helper.setText(R.id.tv_amount, NumberUtils.format7(orderFill.getAmount(), 0, 2));
+//        helper.setText(R.id.tv_time, DateUtil.formatDateTime(orderFill.getCreateTime() * 1000, "MM-dd HH:mm"));
     }
 }

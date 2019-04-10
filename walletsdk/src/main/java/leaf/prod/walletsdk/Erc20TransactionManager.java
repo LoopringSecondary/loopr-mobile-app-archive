@@ -5,8 +5,6 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 
-import android.util.Log;
-
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
@@ -16,16 +14,11 @@ import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.TransactionManager;
 
 import leaf.prod.walletsdk.api.Erc20Contract;
 import leaf.prod.walletsdk.service.RelayService;
 import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 public class Erc20TransactionManager {
 
@@ -47,24 +40,27 @@ public class Erc20TransactionManager {
 
     public String transfer(Credentials credentials, String contractAddress, String to, BigInteger value) throws Exception {
         String hash = erc20Contract.transfer(to, value).send().getTransactionHash();
-        notifyRelay(hash, credentials, contractAddress, to, value);
+        //todo order
+//        notifyRelay(hash, credentials, contractAddress, to, value);
         return hash;
     }
 
     public Observable<String> approve(Credentials credentials, String contractAddress, String to, BigInteger value) {
-        return erc20Contract.approve(to, value).observable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .flatMap((Func1<TransactionReceipt, Observable<String>>) transactionReceipt -> {
-                    try {
-                        RawTransaction rawTransaction = getRawTransaction(credentials, to, contractAddress, value);
-                        String hash = transactionReceipt.getTransactionHash();
-                        return relayService.notifyTransactionSubmitted(rawTransaction, to, hash);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return Observable.just("failed");
-                });
+        //todo order
+//        return erc20Contract.approve(to, value).observable()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(Schedulers.io())
+//                .flatMap((Func1<TransactionReceipt, Observable<String>>) transactionReceipt -> {
+//                    try {
+//                        RawTransaction rawTransaction = getRawTransaction(credentials, to, contractAddress, value);
+//                        String hash = transactionReceipt.getTransactionHash();
+//                        return relayService.notifyTransactionSubmitted(rawTransaction, to, hash);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    return Observable.just("failed");
+//                });
+        return null;
     }
 
     private RawTransaction getRawTransaction(Credentials credentials, String to, String contractAddress, BigInteger value) throws IOException {

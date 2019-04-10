@@ -66,61 +66,62 @@ public class WalletAllAdapter extends BaseQuickAdapter<Transaction, BaseViewHold
 
     private void setTxType(BaseViewHolder helper, Transaction item, String value) {
         switch (item.getType()) {
-            case SEND:
-                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.send) + " " + symbol);
-                helper.setText(R.id.wallet_money, "-" + value + " " + symbol);
-                helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorRed));
-                helper.setVisible(R.id.wallet_money, true);
-                helper.setVisible(R.id.wallet_count, true);
-                break;
-            case RECEIVE:
-                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.receive) + " " + symbol);
-                helper.setText(R.id.wallet_money, "+" + value + " " + symbol);
-                helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorGreen));
-                helper.setVisible(R.id.wallet_money, true);
-                helper.setVisible(R.id.wallet_count, true);
-                break;
-            case SELL:
-                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.sell) + " " + symbol);
-                helper.setText(R.id.wallet_money, "-" + value + " " + symbol);
-                helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorRed));
-                helper.setVisible(R.id.wallet_money, true);
-                helper.setVisible(R.id.wallet_count, true);
-                break;
-            case BUY:
-                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.buy) + " " + symbol);
-                helper.setText(R.id.wallet_money, "+" + value + " " + symbol);
-                helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorGreen));
-                helper.setVisible(R.id.wallet_money, true);
-                helper.setVisible(R.id.wallet_count, true);
-                break;
-            case AUTH:
-                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.approve));
-                helper.setVisible(R.id.wallet_money, false);
-                helper.setVisible(R.id.wallet_count, false);
-                break;
-            case CANCEL:
-            case CUTOFF:
-                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.cancel_order));
-                helper.setVisible(R.id.wallet_money, false);
-                helper.setVisible(R.id.wallet_count, false);
-                break;
-            case WRAP:
-                this.updateIncome(helper, item, value);
-                break;
-            case ETHER_UNWRAP:
-                this.updateOutcome(helper, item, value);
-                break;
-            case UNSUPPORTED:
-                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.not_supported));
-                helper.setVisible(R.id.wallet_money, false);
-                helper.setVisible(R.id.wallet_count, false);
-                break;
-            default:
-                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.other));
-                helper.setVisible(R.id.wallet_money, false);
-                helper.setVisible(R.id.wallet_count, false);
-                break;
+            //todo order
+//            case SEND:
+//                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.send) + " " + symbol);
+//                helper.setText(R.id.wallet_money, "-" + value + " " + symbol);
+//                helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorRed));
+//                helper.setVisible(R.id.wallet_money, true);
+//                helper.setVisible(R.id.wallet_count, true);
+//                break;
+//            case RECEIVE:
+//                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.receive) + " " + symbol);
+//                helper.setText(R.id.wallet_money, "+" + value + " " + symbol);
+//                helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorGreen));
+//                helper.setVisible(R.id.wallet_money, true);
+//                helper.setVisible(R.id.wallet_count, true);
+//                break;
+//            case SELL:
+//                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.sell) + " " + symbol);
+//                helper.setText(R.id.wallet_money, "-" + value + " " + symbol);
+//                helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorRed));
+//                helper.setVisible(R.id.wallet_money, true);
+//                helper.setVisible(R.id.wallet_count, true);
+//                break;
+//            case BUY:
+//                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.buy) + " " + symbol);
+//                helper.setText(R.id.wallet_money, "+" + value + " " + symbol);
+//                helper.setTextColor(R.id.wallet_money, mContext.getResources().getColor(R.color.colorGreen));
+//                helper.setVisible(R.id.wallet_money, true);
+//                helper.setVisible(R.id.wallet_count, true);
+//                break;
+//            case AUTH:
+//                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.approve));
+//                helper.setVisible(R.id.wallet_money, false);
+//                helper.setVisible(R.id.wallet_count, false);
+//                break;
+//            case CANCEL:
+//            case CUTOFF:
+//                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.cancel_order));
+//                helper.setVisible(R.id.wallet_money, false);
+//                helper.setVisible(R.id.wallet_count, false);
+//                break;
+//            case WRAP:
+//                this.updateIncome(helper, item, value);
+//                break;
+//            case ETHER_UNWRAP:
+//                this.updateOutcome(helper, item, value);
+//                break;
+//            case UNSUPPORTED:
+//                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.not_supported));
+//                helper.setVisible(R.id.wallet_money, false);
+//                helper.setVisible(R.id.wallet_count, false);
+//                break;
+//            default:
+//                helper.setText(R.id.wallet_title, mContext.getResources().getString(R.string.other));
+//                helper.setVisible(R.id.wallet_money, false);
+//                helper.setVisible(R.id.wallet_count, false);
+//                break;
         }
     }
 

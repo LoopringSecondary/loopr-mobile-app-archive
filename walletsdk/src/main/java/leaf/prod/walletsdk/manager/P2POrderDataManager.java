@@ -31,22 +31,14 @@ import com.google.gson.JsonObject;
 import leaf.prod.walletsdk.Default;
 import leaf.prod.walletsdk.R;
 import leaf.prod.walletsdk.Transfer;
-import leaf.prod.walletsdk.model.order.RawOrder;
-import leaf.prod.walletsdk.model.order.OrderType;
-import leaf.prod.walletsdk.model.order.P2PSide;
 import leaf.prod.walletsdk.model.RandomWallet;
-import leaf.prod.walletsdk.model.common.TradeType;
+import leaf.prod.walletsdk.model.order.RawOrder;
 import leaf.prod.walletsdk.model.response.RelayResponseWrapper;
 import leaf.prod.walletsdk.model.response.relay.AccountBalance;
-import leaf.prod.walletsdk.model.response.relay.BalanceResult;
-import leaf.prod.walletsdk.model.token.Token;
 import leaf.prod.walletsdk.util.SPUtils;
-import leaf.prod.walletsdk.util.SignUtils;
 import leaf.prod.walletsdk.util.WalletUtil;
 import lombok.Getter;
 import rx.Observable;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 @Getter
 public class P2POrderDataManager extends OrderDataManager {
@@ -195,18 +187,19 @@ public class P2POrderDataManager extends OrderDataManager {
 		RawOrder order = null;
 		try {
 			RandomWallet randomWallet = WalletUtil.getRandomWallet();
-			order = RawOrder.builder().delegate(Default.DELEGATE_ADDRESS)
-					.owner(WalletUtil.getCurrentAddress(context)).market(tradePair)
-					.tokenS(this.tokenSell).tokenSell(tokenSell).tokenB(this.tokenBuy).tokenBuy(tokenBuy)
-					.amountB(Numeric.toHexStringWithPrefix(amountB)).amountBuy(amountBuy)
-					.amountS(Numeric.toHexStringWithPrefix(amountS)).amountSell(amountSell)
-					.validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
-					.lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
-					.walletAddress(PartnerDataManager.getInstance(context).getWalletAddress())
-					.authAddr(randomWallet.getAddress()).authPrivateKey(randomWallet.getPrivateKey())
-					.buyNoMoreThanAmountB(false).marginSplitPercentage("0x32").margin(50).powNonce(1)
-					.side(TradeType.sell.name()).orderType(OrderType.P2P).p2pSide(P2PSide.TAKER)
-					.build();
+			//todo order
+//			order = RawOrder.builder().delegate(Default.DELEGATE_ADDRESS)
+//					.owner(WalletUtil.getCurrentAddress(context)).market(tradePair)
+//					.tokenS(this.tokenSell).tokenSell(tokenSell).tokenB(this.tokenBuy).tokenBuy(tokenBuy)
+//					.amountB(Numeric.toHexStringWithPrefix(amountB)).amountBuy(amountBuy)
+//					.amountS(Numeric.toHexStringWithPrefix(amountS)).amountSell(amountSell)
+//					.validS(validS).validSince(validSince).validU(validU).validUntil(validUntil)
+//					.lrc(0d).lrcFee(Numeric.toHexStringWithPrefix(BigInteger.ZERO))
+//					.walletAddress(PartnerDataManager.getInstance(context).getWalletAddress())
+//					.authAddr(randomWallet.getAddress()).authPrivateKey(randomWallet.getPrivateKey())
+//					.buyNoMoreThanAmountB(false).marginSplitPercentage("0x32").margin(50).powNonce(1)
+//					.side(TradeType.sell.name()).orderType(OrderType.P2P).p2pSide(P2PSide.TAKER)
+//					.build();
 		} catch (Exception e) {
 			Log.e("", e.getLocalizedMessage());
 		}
@@ -216,10 +209,11 @@ public class P2POrderDataManager extends OrderDataManager {
 	public void constructMaker(Double amountBuy, Double amountSell, Integer validS, Integer validU, Integer sellCount) {
 		RawOrder order = constructOrder(amountBuy, amountSell, validS, validU);
 		preserveMaker(order, sellCount);
-		order.setSide(TradeType.buy.name());
-		order.setOrderType(OrderType.P2P);
-		order.setP2pSide(P2PSide.MAKER);
-		order.setAuthPrivateKey("");
+		//todo order
+//		order.setSide(TradeType.buy.name());
+//		order.setOrderType(OrderType.P2P);
+//		order.setP2pSide(P2PSide.MAKER);
+//		order.setAuthPrivateKey("");
 	}
 
 	private void preserveMaker(RawOrder order, Integer sellCount) {
@@ -259,8 +253,9 @@ public class P2POrderDataManager extends OrderDataManager {
 		byte[] hash = generateHash();
 		Credentials makerCredentials = Credentials.create(makerPrivateKey);
 		Credentials takerCredentials = Credentials.create(orders[1].getParams().getDualAuthPrivateKey());
-		this.makerSignature = SignUtils.genSignMessage(makerCredentials, hash).getSig();
-		this.takerSignature = SignUtils.genSignMessage(takerCredentials, hash).getSig();
+		//todo order
+//		this.makerSignature = SignUtils.genSignMessage(makerCredentials, hash).getSig();
+//		this.takerSignature = SignUtils.genSignMessage(takerCredentials, hash).getSig();
 	}
 
 	private byte[] generateHash() {
@@ -336,98 +331,108 @@ public class P2POrderDataManager extends OrderDataManager {
 
 	private void generateValues() {
 		for (RawOrder order : orders) {
-			ringParameters.add(new Address(order.getAmountS()));
-			ringParameters.add(new Address(order.getAmountB()));
-			ringParameters.add(new Address(order.getValidSince()));
-			ringParameters.add(new Address(order.getValidUntil()));
-			ringParameters.add(new Address(order.getFeeParams().getAmountFee()));
-			ringParameters.add(new Address(order.getAmountS()));
+			//todo order
+//			ringParameters.add(new Address(order.getAmountS()));
+//			ringParameters.add(new Address(order.getAmountB()));
+//			ringParameters.add(new Address(order.getValidSince()));
+//			ringParameters.add(new Address(order.getValidUntil()));
+//			ringParameters.add(new Address(order.getFeeParams().getAmountFee()));
+//			ringParameters.add(new Address(order.getAmountS()));
 		}
 	}
 
 	private void generateMargin() {
 		for (RawOrder order : orders) {
-			ringParameters.add(new Address(order.getFeeParams().getWalletSplitPercentage()));
+			//todo order
+//			ringParameters.add(new Address(order.getFeeParams().getWalletSplitPercentage()));
 		}
 	}
 
 	private void generateFlag() {
 		for (RawOrder order : orders) {
-			int flag = order.getBuyNoMoreThanAmountB() ? 1 : 0;
-			ringParameters.add(new Uint256(flag));
+			//todo order
+//			int flag = order.getBuyNoMoreThanAmountB() ? 1 : 0;
+//			ringParameters.add(new Uint256(flag));
 		}
 	}
 
 	private void generateVList() {
-		if (makerSignature != null && takerSignature != null) {
-			for (RawOrder order : orders) {
-				ringParameters.add(new Uint256(Numeric.toBigInt(order.getV())));
-			}
-			ringParameters.add(new Uint256(makerSignature.getV()));
-			ringParameters.add(new Uint256(takerSignature.getV()));
-		}
+		//todo order
+//		if (makerSignature != null && takerSignature != null) {
+//			for (RawOrder order : orders) {
+//				ringParameters.add(new Uint256(Numeric.toBigInt(order.getV())));
+//			}
+//			ringParameters.add(new Uint256(makerSignature.getV()));
+//			ringParameters.add(new Uint256(takerSignature.getV()));
+//		}
 	}
 
 	private void generateRList() {
-		if (makerSignature != null && takerSignature != null) {
-			for (RawOrder order : orders) {
-				ringParameters.add(new Uint256(Numeric.toBigInt(order.getR())));
-			}
-			ringParameters.add(new Uint256(Numeric.toBigInt(makerSignature.getR())));
-			ringParameters.add(new Uint256(Numeric.toBigInt(takerSignature.getR())));
-		}
+		//todo order
+//		if (makerSignature != null && takerSignature != null) {
+//			for (RawOrder order : orders) {
+//				ringParameters.add(new Uint256(Numeric.toBigInt(order.getR())));
+//			}
+//			ringParameters.add(new Uint256(Numeric.toBigInt(makerSignature.getR())));
+//			ringParameters.add(new Uint256(Numeric.toBigInt(takerSignature.getR())));
+//		}
 	}
 
 	private void generateSList() {
-		if (makerSignature != null && takerSignature != null) {
-			for (RawOrder order : orders) {
-				ringParameters.add(new Uint256(Numeric.toBigInt(order.getS())));
-			}
-			ringParameters.add(new Uint256(Numeric.toBigInt(makerSignature.getS())));
-			ringParameters.add(new Uint256(Numeric.toBigInt(takerSignature.getS())));
-		}
+		//todo order
+//		if (makerSignature != null && takerSignature != null) {
+//			for (RawOrder order : orders) {
+//				ringParameters.add(new Uint256(Numeric.toBigInt(order.getS())));
+//			}
+//			ringParameters.add(new Uint256(Numeric.toBigInt(makerSignature.getS())));
+//			ringParameters.add(new Uint256(Numeric.toBigInt(takerSignature.getS())));
+//		}
 	}
 
 	private Observable<RelayResponseWrapper> submitRing() {
-		if (!validate()) {
-			return null;
-		}
-		try {
-			String rawTx = generate();
-			String makerHash = orders[0].getHash();
-			String takerHash = orders[1].getHash();
-			return relayService.submitRing(makerHash, takerHash, rawTx);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//todo order
+//		if (!validate()) {
+//			return null;
+//		}
+//		try {
+//			String rawTx = generate();
+//			String makerHash = orders[0].getHash();
+//			String takerHash = orders[1].getHash();
+//			return relayService.submitRing(makerHash, takerHash, rawTx);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		return null;
 	}
 
 	@Override
 	public Observable<RelayResponseWrapper> submit() {
 		Observable<RelayResponseWrapper> result = null;
-		if (!isTaker) {
-			if (orders.length == 1 && orders[0] != null) {
-				result = relayService.submitOrder(orders[0]);
-			}
-		} else if (orders.length == 2 && makerHash != null) {
-			result = relayService.submitOrderForP2P(orders[1], makerHash)
-					.observeOn(Schedulers.io())
-					.flatMap((Func1<RelayResponseWrapper, Observable<RelayResponseWrapper>>) response -> {
-						if (response.getError() == null) {
-							return submitRing();
-						} else {
-							return Observable.just(response);
-						}
-					});
-		}
+		//todo order
+//		if (!isTaker) {
+//			if (orders.length == 1 && orders[0] != null) {
+//				result = relayService.submitOrder(orders[0]);
+//			}
+//		} else if (orders.length == 2 && makerHash != null) {
+//			result = relayService.submitOrderForP2P(orders[1], makerHash)
+//					.observeOn(Schedulers.io())
+//					.flatMap((Func1<RelayResponseWrapper, Observable<RelayResponseWrapper>>) response -> {
+//						if (response.getError() == null) {
+//							return submitRing();
+//						} else {
+//							return Observable.just(response);
+//						}
+//					});
+//		}
 		return result;
 	}
 
 	private RawOrder getOrderBy(String hash) {
-		RawOrder rawOrder = relayService.getOrderByHash(hash)
-				.subscribeOn(Schedulers.io()).toBlocking().single();
-		return rawOrder;
+		//todo order
+//		RawOrder rawOrder = relayService.getOrderByHash(hash)
+//				.subscribeOn(Schedulers.io()).toBlocking().single();
+//		return rawOrder;
+		return null;
 	}
 
 	public void verify(String password) throws Exception {
@@ -465,10 +470,11 @@ public class P2POrderDataManager extends OrderDataManager {
 		Double result;
 		AccountBalance asset = this.balance.getAssetBySymbol(tokenSell);
 		Double allowance = token.getDoubleFromWei(asset.getTokenSymbol(), asset.getAllowance());
-		Double tokenFrozen = getAllowanceFromServer(tokenSell);
-		if (allowance >= amountSell + tokenFrozen) {
-			return 0d;
-		}
+		//todo order
+//		Double tokenFrozen = getAllowanceFromServer(tokenSell);
+//		if (allowance >= amountSell + tokenFrozen) {
+//			return 0d;
+//		}
 		Double gasAmount = gas.getGasAmountInETH("approve");
 		String key = String.format("GAS_%s", asset.getTokenSymbol());
 		if (allowance == 0) {

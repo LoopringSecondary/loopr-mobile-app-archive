@@ -8,12 +8,9 @@ package leaf.prod.walletsdk.manager;
 
 import android.content.Context;
 
-import leaf.prod.walletsdk.util.WalletUtil;
 import leaf.prod.walletsdk.model.setting.Partner;
 import leaf.prod.walletsdk.service.RelayService;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import leaf.prod.walletsdk.util.WalletUtil;
 
 public class PartnerDataManager {
 
@@ -44,46 +41,48 @@ public class PartnerDataManager {
     }
 
     public void activatePartner() {
-        relayService.activateInvitation().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Partner>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        unsubscribe();
-                    }
-
-                    @Override
-                    public void onNext(Partner partner) {
-                        partnerFrom = partner;
-                        unsubscribe();
-                    }
-                });
+        //todo order
+//        relayService.activateInvitation().subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<Partner>() {
+//                    @Override
+//                    public void onCompleted() {
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        unsubscribe();
+//                    }
+//
+//                    @Override
+//                    public void onNext(Partner partner) {
+//                        partnerFrom = partner;
+//                        unsubscribe();
+//                    }
+//                });
     }
 
     public void createPartner() {
         String owner = WalletUtil.getCurrentAddress(context);
-        relayService.createPartner(owner).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Partner>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        unsubscribe();
-                    }
-
-                    @Override
-                    public void onNext(Partner partner) {
-                        partnerTo = partner;
-                        unsubscribe();
-                    }
-                });
+        //todo order
+//        relayService.createPartner(owner).subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<Partner>() {
+//                    @Override
+//                    public void onCompleted() {
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        unsubscribe();
+//                    }
+//
+//                    @Override
+//                    public void onNext(Partner partner) {
+//                        partnerTo = partner;
+//                        unsubscribe();
+//                    }
+//                });
     }
 
     public String getWalletAddress() {
