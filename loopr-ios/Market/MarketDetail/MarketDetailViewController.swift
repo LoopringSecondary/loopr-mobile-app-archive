@@ -270,7 +270,8 @@ extension MarketDetailViewController: MarketDetailPriceChartTableViewCellDelegat
         self.tableView.reloadData()
     }
 
-    func trendDidHighlight(trend: Trend?) {
+    func trendDidHighlight(trend: MarketHistoryItem?) {
+        /*
         let indexPath = IndexPath(row: 0, section: 0)
         if let cell = tableView.cellForRow(at: indexPath) as? MarketDetailSummaryTableViewCell {
             if trend != nil {
@@ -284,5 +285,6 @@ extension MarketDetailViewController: MarketDetailPriceChartTableViewCellDelegat
                 tableView.isScrollEnabled = true
             }
         }
+        */
     }
 }

@@ -43,30 +43,5 @@ class PriceDataManager {
         }
         return result
     }
-    
-    func startGetPriceQuote() {
-        let currency = SettingDataManager.shared.getCurrentCurrency()
-        LoopringAPIRequest.getPriceQuote(currency: currency.name, completionHandler: { (priceQuote, error) in
-            print("receive LoopringAPIRequest.getPriceQuote ....")
-            guard error == nil else {
-                print("error=\(String(describing: error))")
-                return
-            }
-            PriceDataManager.shared.setPriceQuote(newPriceQuote: priceQuote!)
-        })
-        
-        // start socket io
-        LoopringSocketIORequest.getPriceQuote(currency: currency.name)
-    }
-    
-    func stopGetPriceQuote() {
-        LoopringSocketIORequest.endPriceQuote()
-    }
-    
-    // Socket IO: this func should be called every 10 secs when emitted
-    func onPriceQuoteResponse(json: JSON) {
-        print("Receive onPriceQuoteResponse")
-        priceQuote = PriceQuote(json: json)
-        NotificationCenter.default.post(name: .priceQuoteResponseReceived, object: nil)
-    }
+
 }

@@ -85,6 +85,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
     
     func getTickersFromRelay() {
         // TODO: config in setting
+        /*
         LoopringAPIRequest.getTicker(by: .coinmarketcap) { (markets, error) in
             print("receive LoopringAPIRequest.getMarkets")
             guard error == nil else {
@@ -102,6 +103,7 @@ class MarketChangeTokenViewController: UIViewController, UITableViewDelegate, UI
                 self.refreshControl.endRefreshing(refreshControlType: .marketViewController)
             }
         }
+        */
     }
 
     override func viewDidAppear(_ animated: Bool) {

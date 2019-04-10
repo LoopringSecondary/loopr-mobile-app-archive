@@ -187,19 +187,7 @@ class CurrentAppWalletDataManager {
             AppWalletDataManager.shared.updateAppWalletsInLocalStorage(newAppWallet: currentAppWallet!)
         }
     }
-    
-    // TODO: disabled due to the networking perform issue.
-    func startGetBalance() {
-        guard let wallet = currentAppWallet else {
-            return
-        }
-        LoopringSocketIORequest.getBalance(owner: wallet.address)
-    }
-    
-    func stopGetBalance() {
-        LoopringSocketIORequest.endBalance()
-    }
-    
+
     func getTransactionsFromServer(asset: Asset, pageIndex: UInt, pageSize: UInt = 50, completionHandler: @escaping (_ transactions: [Transaction], _ error: Error?) -> Void) {
         guard let wallet = currentAppWallet else {
             return
@@ -211,20 +199,7 @@ class CurrentAppWalletDataManager {
             completionHandler(transactions, nil)
         })
     }
-    
-    // Socket IO: this func should be called every 10 secs when emitted
-    func onBalanceResponse(json: JSON) {
-        let tokensJsons = json["tokens"].arrayValue
-        let mappedAssets = tokensJsons.map { (subJson) -> Asset in
-            let asset = Asset(json: subJson)
-            print(asset.symbol)
-            return asset
-        }
-        setAssets(newAssets: mappedAssets)
-        print("received Assets count: \(mappedAssets.count)")
-        NotificationCenter.default.post(name: .balanceResponseReceived, object: nil)
-    }
-    
+
     // JSON RPC
     // Ask for three data
     // 1. get price

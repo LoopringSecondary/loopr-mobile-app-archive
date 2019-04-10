@@ -119,10 +119,10 @@ class MarketDetailDepthTableViewCell: UITableViewCell {
 
     func update() {
         if let buyDepth = buyDepth {
-            label1.text = buyDepth.price.toDecimalPlaces(8)
-            label2.text = buyDepth.amountA.toDecimalPlaces(2).trailingZero()
+            label1.text = buyDepth.price.withCommas(8)
+            label2.text = buyDepth.amount.withCommas(2).trailingZero()
 
-            var percentage = (buyDepth.amountAInDouble)/(maxAmountInDepthView)
+            var percentage = (buyDepth.amount)/(maxAmountInDepthView)
             if percentage > 1.0 {
                 percentage = 1.0
             }

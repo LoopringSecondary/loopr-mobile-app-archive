@@ -484,14 +484,6 @@ class TradeDataManager {
         return result
     }
 
-    func startGetOrderStatus(of maker: String) {
-        LoopringSocketIORequest.getOrderStatus(orderHash: maker)
-    }
-
-    func stopGetOrderStatus() {
-        LoopringSocketIORequest.endOrderStatus()
-    }
-
     /*
      1. 需要备份maker订单，response中加以判断
      2. 若json中含有maker，需要在接收orderResponseReceived地方判断

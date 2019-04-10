@@ -233,46 +233,5 @@ class MarketDataManager {
         favoriteSequence = favoriteSequence.filter { $0 != market.description }
         UserDefaults.standard.set(favoriteSequence, forKey: UserDefaultsKeys.favoriteSequence.rawValue)
     }
-    
-    func startGetTicker() {
-        LoopringSocketIORequest.getTiker()
-    }
-    
-    func stopGetTicker() {
-        LoopringSocketIORequest.endTicker()
-    }
 
-    // onTickerResponse is for the first version of web socket.
-    func onTickerResponse(json: JSON) {
-        /*
-        var newMarkets: [Market] = []
-        for subJson in json.arrayValue {
-            if let market = Market(json: subJson) {
-                newMarkets.append(market)
-            }
-        }
-        setMarkets(newMarkets: newMarkets)
-        NotificationCenter.default.post(name: .tickerResponseReceived, object: nil)
-        */
-    }
-    
-    // TODO: deprecate socker io to get trends
-    func startGetTrend(market: String, interval: String) {
-        LoopringSocketIORequest.getTrend(market: market, interval: interval)
-    }
-    
-    func stopGetTrend() {
-        LoopringSocketIORequest.endTrend()
-    }
-    
-    func onTrendResponse(json: JSON) {
-        /*
-        trends = []
-        for subJson in json.arrayValue {
-            let trend = Trend(json: subJson)
-            trends.append(trend)
-        }
-        NotificationCenter.default.post(name: .trendResponseReceived, object: nil)
-        */
-    }
 }
