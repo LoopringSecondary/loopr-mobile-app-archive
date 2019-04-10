@@ -125,7 +125,7 @@ class ConvertETHViewController: UIViewController, UITextFieldDelegate, NumericKe
         scrollView.addGestureRecognizer(scrollViewTap)
         scrollViewBottomConstraint.constant = 0
         
-        GasDataManager.shared.getEstimateGasPrice { (gasPrice, _) in
+        GasDataManager.shared.getGasPrice { (gasPrice, _) in
             self.gasPriceInGwei = Double(gasPrice)
             DispatchQueue.main.async {
                 self.updateTransactionFeeAmountLabel()

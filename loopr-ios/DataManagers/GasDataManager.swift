@@ -79,14 +79,13 @@ class GasDataManager {
         return gasInETH / price
     }
     
-    // TODO: This part should be an async API call.
-    func getEstimateGasPrice(completionHandler: @escaping (_ gasPrice: Double, _ error: Error?) -> Void) {
-        LoopringAPIRequest.getEstimateGasPrice { (gasPrice, error) in
-            guard error == nil && gasPrice != nil else {
+    func getGasPrice(completionHandler: @escaping (_ gasPrice: Double, _ error: Error?) -> Void) {
+        LoopringAPIRequest.getGasPrice { (gasPrice, error) in
+            guard error == nil else {
                 completionHandler(self.gasPrice, nil)
                 return
             }
-            self.gasPrice = gasPrice! * 1000000000
+            self.gasPrice = gasPrice * 1000000000
             self.gasPrice.round()
             print("Estimate gas price: \(self.gasPrice)")
             

@@ -147,6 +147,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
             }
         })
 
+        /*
         MarketDepthDataManager.shared.getDepthFromServer(market: market.name, completionHandler: { buys, sells, _ in
             self.buys = buys
             self.sells = sells
@@ -158,6 +159,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
                 self.marketPlaceOrderTableViewCell.orderbookTableView.reloadData()
             }
         })
+        */
     }
 
     private func isTableEmpty() -> Bool {

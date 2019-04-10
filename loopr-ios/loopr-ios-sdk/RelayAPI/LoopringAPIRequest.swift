@@ -318,5 +318,17 @@ class LoopringAPIRequest {
         }
     }
 
+    public static func getGasPrice(completionHandler: @escaping (_ gasPrice: Double, _ error: Error?) -> Void) {
+        var body = newJSON()
+        
+        body["method"] = "get_gas_price"
+        body["params"] = [[
+            ]]
+        
+        // TOOD
+        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
+            completionHandler(0, error)
+        }
+    }
 
 }
