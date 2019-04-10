@@ -334,17 +334,6 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
                 guard error == nil else {
                     return
                 }
-                LoopringAPIRequest.notifyStatus(hash: hash, status: .reject) { (_, _) in
-                    DispatchQueue.main.async {
-                        self.navigationController?.popToRootViewController(animated: true)
-                    }
-                }
-            }
-        } else {
-            LoopringAPIRequest.notifyStatus(hash: hash, status: .reject) { (_, _) in
-                DispatchQueue.main.async {
-                    self.navigationController?.popToRootViewController(animated: true)
-                }
             }
         }
     }

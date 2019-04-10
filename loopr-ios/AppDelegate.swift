@@ -62,15 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         // Get the estimate gas price when launching the app.
         GasDataManager.shared.getEstimateGasPrice { (_, _) in }
 
-        PriceDataManager.shared.startGetPriceQuote()
-        MarketDataManager.shared.startGetTicker()
-        LoopringAPIRequest.getTicker(by: .coinmarketcap) { (markets, error) in
-            print("AppDelegate receive LoopringAPIRequest.getMarkets")
-            if error == nil {
-                MarketDataManager.shared.setMarkets(newMarkets: markets)
-            }
-        }
-
         _ = SettingDataManager.shared.getCurrentLanguage()
 
         SettingsBundleHelper.setVersionAndBuildNumber()
