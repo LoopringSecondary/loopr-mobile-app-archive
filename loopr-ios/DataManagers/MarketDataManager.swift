@@ -13,11 +13,11 @@ class MarketDataManager {
     static let shared = MarketDataManager()
     
     // For a specified market
-    private var oneHourTrends: [Trend]
-    private var twoHoursTrends: [Trend]
-    private var fourHoursTrends: [Trend]
-    private var oneDayTrends: [Trend]
-    private var oneWeekTrends: [Trend]
+    private var oneHourTrends: [MarketHistoryItem]
+    private var twoHoursTrends: [MarketHistoryItem]
+    private var fourHoursTrends: [MarketHistoryItem]
+    private var oneDayTrends: [MarketHistoryItem]
+    private var oneWeekTrends: [MarketHistoryItem]
     
     private var markets: [Market]
     
@@ -147,7 +147,7 @@ class MarketDataManager {
         */
     }
     
-    func getTrends(trendRange: MarketRange) -> [Trend] {
+    func getTrends(trendRange: MarketRange) -> [MarketHistoryItem] {
         /*
         var trends: [Trend] = []
         switch trendRange.getTrendInterval() {

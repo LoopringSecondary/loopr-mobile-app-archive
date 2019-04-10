@@ -303,7 +303,7 @@ class LoopringAPIRequest {
     }
     
     // Not ready
-    public static func getMarketHistory(marketPair: MarketPair, interval: TrendInterval) {
+    public static func getMarketHistory(marketPair: MarketPair, interval: MarketInterval) {
         var body = newJSON()
         
         body["method"] = "get_market_history"

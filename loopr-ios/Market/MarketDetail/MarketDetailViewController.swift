@@ -21,7 +21,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
     var swipeViewIndex: Int = 0
 
     // Chart
-    var trends: [Trend] = []
+    var trends: [MarketHistoryItem] = []
 
     // Depth
     var preivousMarketName: String = ""

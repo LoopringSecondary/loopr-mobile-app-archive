@@ -11,7 +11,7 @@ import Charts
 
 protocol MarketDetailPriceChartTableViewCellDelegate: class {
     func trendRangeUpdated(newTrendRange: MarketRange)
-    func trendDidHighlight(trend: Trend?)
+    func trendDidHighlight(trend: MarketHistoryItem?)
 }
 
 class MarketDetailPriceChartTableViewCell: UITableViewCell {
@@ -45,7 +45,7 @@ class MarketDetailPriceChartTableViewCell: UITableViewCell {
     // TODO: need to find params for the width in CandleStickChartView
     let barWidth: CGFloat = 0.8
     
-    var trends: [Trend] = []
+    var trends: [MarketHistoryItem] = []
     
     var hightlightLabel = UILabel()
     
@@ -122,7 +122,7 @@ class MarketDetailPriceChartTableViewCell: UITableViewCell {
         hightlightLabel.isHidden = true
     }
 
-    func setup(trends: [Trend]) {
+    func setup(trends: [MarketHistoryItem]) {
         print("MarketDetailPriceChartTableViewCell")
         print(trends.count)
         self.trends = trends
@@ -226,7 +226,7 @@ class MarketDetailPriceChartTableViewCell: UITableViewCell {
         sender.isSelected = true
     }
     
-    func updateHighlightLabel(trend: Trend, highlight: Highlight) {
+    func updateHighlightLabel(trend: MarketHistoryItem, highlight: Highlight) {
         let chartWidth = priceCandleStickChartView.width
         let barWidth = chartWidth/CGFloat(trends.count)
 
