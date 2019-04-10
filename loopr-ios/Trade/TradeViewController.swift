@@ -227,7 +227,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
         self.distance = 0
         self.scrollViewButtonLayoutConstraint.constant = self.distance
 
-        TradeDataManager.shared.sellCount = 1
+        P2POrderDataManager.shared.sellCount = 1
 
         blurVisualEffectView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         blurVisualEffectView.alpha = 1
@@ -255,9 +255,9 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
     }
 
     @objc func pressedHeaderButton() {
-        print("switch tokens in TradeDataManager")
+        print("switch tokens in P2POrderDataManager")
 
-        TradeDataManager.shared.swapTokenSAndTokenB()
+        P2POrderDataManager.shared.swapTokenSAndTokenB()
         // Swap text field values
         let tmp = amountSellTextField.text
         amountSellTextField.text = amountBuyTextField.text
@@ -272,8 +272,8 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
 
     func update(text: String? = nil, color: UIColor? = nil) {
         var message: String = ""
-        let tokens = TradeDataManager.shared.tokenS.symbol
-        let tokenb = TradeDataManager.shared.tokenB.symbol
+        let tokens = P2POrderDataManager.shared.baseToken.symbol
+        let tokenb = P2POrderDataManager.shared.quoteToken.symbol
 
         tradingPairTokenSLabel.text = tokens
         tradingPairTokenBLabel.text = tokenb
@@ -333,7 +333,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
 
     func updateStepSlider() {
         var stepSliderPercentage: Double = 0
-        let tokens = TradeDataManager.shared.tokenS.symbol
+        let tokens = P2POrderDataManager.shared.baseToken.symbol
         if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokens), let amountSell = Double(amountSellTextField.text!), asset.balance > 0 {
             stepSliderPercentage = amountSell/asset.balance
         } else {
@@ -438,10 +438,10 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
         let parentView = self.parent!.view!
         parentView.alpha = 0.25
         let vc = TradeRatioViewController()
-        // vc.sellRatio = TradeDataManager.shared.sellRatio
+        // vc.sellRatio = P2POrderDataManager.shared.sellRatio
         vc.dismissClosure = {
             parentView.alpha = 1
-            TradeDataManager.shared.sellCount = vc.sellCount
+            P2POrderDataManager.shared.sellCount = vc.sellCount
             self.sellRatioValueLabel.text = "\(vc.sellCount) " + LocalizedString("Part", comment: "")
         }
         vc.parentNavController = self.navigationController
@@ -470,13 +470,13 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
         var amountBuy, amountSell: Double
         var tokenSell, tokenBuy, market: String
 
-        tokenBuy = TradeDataManager.shared.tokenB.symbol
-        tokenSell = TradeDataManager.shared.tokenS.symbol
+        tokenBuy = P2POrderDataManager.shared.quoteToken.symbol
+        tokenSell = P2POrderDataManager.shared.baseToken.symbol
         market = "\(tokenSell)/\(tokenBuy)"
         amountBuy = Double(amountBuyTextField.text!)!
         amountSell = Double(amountSellTextField.text!)!
-        amountB = BigInt.generate(from: amountBuy, by: TradeDataManager.shared.tokenB.decimals)
-        amountS = BigInt.generate(from: amountSell, by: TradeDataManager.shared.tokenS.decimals)
+        amountB = BigInt.generate(from: amountBuy, by: P2POrderDataManager.shared.quoteToken.decimals)
+        amountS = BigInt.generate(from: amountSell, by: P2POrderDataManager.shared.baseToken.decimals)
 
         buyNoMoreThanAmountB = false
         let delegate = RelayAPIConfiguration.delegateAddress
@@ -491,14 +491,14 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
 
     func preserveMaker(order: RawOrder) {
         let defaults = UserDefaults.standard
-        let count = TradeDataManager.shared.sellCount
+        let count = P2POrderDataManager.shared.sellCount
         defaults.set("\(order.authPrivateKey)-\(count)", forKey: order.hash)
     }
 
     func pushController() {
         if let order = constructMaker() {
             preserveMaker(order: order)
-            TradeDataManager.shared.isTaker = false
+            P2POrderDataManager.shared.isTaker = false
             let viewController = TradeConfirmationViewController()
             viewController.order = order
 
@@ -535,7 +535,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
 
     func validateAmountSell() -> Bool {
         var text: String
-        let tokens = TradeDataManager.shared.tokenS.symbol
+        let tokens = P2POrderDataManager.shared.baseToken.symbol
         let title = LocalizedString("Available Balance", comment: "")
         if let amounts = amountSellTextField.text, let amountSell = Double(amounts) {
             if let balance = CurrentAppWalletDataManager.shared.getBalance(of: tokens) {
@@ -570,7 +570,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
     func validateAmountBuy() -> Bool {
         availableLabel.isHidden = true
         if let amountb = amountBuyTextField.text, let amountBuy = Double(amountb) {
-            let tokenb = TradeDataManager.shared.tokenB.symbol
+            let tokenb = P2POrderDataManager.shared.quoteToken.symbol
             if let price = PriceDataManager.shared.getPrice(of: tokenb) {
                 let estimateValue: Double = amountBuy * price
                 availableLabel.isHidden = false
@@ -722,7 +722,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
 
     func stepSliderValueChanged(_ value: Double) {
         var message: String = ""
-        let tokens = TradeDataManager.shared.tokenS.symbol
+        let tokens = P2POrderDataManager.shared.baseToken.symbol
 
         let length = MarketDataManager.shared.getDecimals(tokenSymbol: tokens)
         let title = LocalizedString("Available Balance", comment: "")

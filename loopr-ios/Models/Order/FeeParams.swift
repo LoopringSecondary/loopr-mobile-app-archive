@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import BigInt
 
 class FeeParams {
 
@@ -19,8 +20,8 @@ class FeeParams {
     // big integer hex string e.g. "0x34f07768a92a83d00000"
     var amountFee: String = ""
 
-    // double value e.g. 0.02
-    var amountF: Double? = 0.0
+    // big int value e.g. 0.02
+    var amountF: Double?
 
     var tokenRecipient: String = ""
 
@@ -44,7 +45,7 @@ class FeeParams {
 
         if let tokenF = TokenDataManager.shared.getTokenByAddress(tokenFee) {
             self.tokenF = tokenF.symbol
-            self.amountF = TokenDataManager.shared.getAmount(fromWeiAmount: tokenF.symbol, of: tokenF.decimals)
+            self.amountF = TokenDataManager.shared.getAmount(fromWeiAmount: amountFee, of: tokenF.decimals)
         }
     }
 
@@ -52,7 +53,7 @@ class FeeParams {
         var json = JSON()
         json["tokenFee"] = JSON(tokenFee)
         json["amountFee"] = JSON(amountFee)
-        json["tokenRecipient"] = json(tokenRecipient)
+        json["tokenRecipient"] = JSON(tokenRecipient)
         return json
     }
 }

@@ -33,8 +33,8 @@
                 <outlet property="seperatorG" destination="Qch-cZ-zZk" id="nb7-BU-B7K"/>
                 <outlet property="statusInfoLabel" destination="LF9-Is-NZm" id="Lhm-H4-4fv"/>
                 <outlet property="statusTipLabel" destination="N2W-h9-pmg" id="BHx-0L-gEg"/>
-                <outlet property="tokenB" destination="aga-rZ-zkA" id="VBh-4S-jY2"/>
-                <outlet property="tokenS" destination="0qr-Ib-soK" id="9k3-Qf-11U"/>
+                <outlet property="quoteToken" destination="aga-rZ-zkA" id="VBh-4S-jY2"/>
+                <outlet property="baseToken" destination="0qr-Ib-soK" id="9k3-Qf-11U"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

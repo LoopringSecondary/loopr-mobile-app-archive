@@ -25,18 +25,18 @@ enum MarketInterval: String, CustomStringConvertible {
 
     var description: String {
         switch self {
-        case .one_minute: return LocalizedString("1M", comment: "")
-        case .five_minutes: return LocalizedString("5M", comment: "")
-        case .fifteen_minutes: return LocalizedString("15M", comment: "")
-        case .thirty_minutes: return LocalizedString("30M", comment: "")
-        case .one_hour: return LocalizedString("1H", comment: "")
-        case .two_hours: return LocalizedString("2H", comment: "")
-        case .four_hours: return LocalizedString("4H", comment: "")
-        case .twelve_hours: return LocalizedString("12H", comment: "")
-        case .one_day: return LocalizedString("1D", comment: "")
-        case .three_days: return LocalizedString("3D", comment: "")
-        case .five_days: return LocalizedString("5D", comment: "")
-        case .one_week: return LocalizedString("1W", comment: "")
+        case .one_minute: return "1M"
+        case .five_minutes: return "5M"
+        case .fifteen_minutes: return "15M"
+        case .thirty_minutes: return "30M"
+        case .one_hour: return "1H"
+        case .two_hours: return "2H"
+        case .four_hours: return "4H"
+        case .twelve_hours: return "12H"
+        case .one_day: return "1D"
+        case .three_days: return "3D"
+        case .five_days: return "5D"
+        case .one_week: return "1W"
         }
     }
 }

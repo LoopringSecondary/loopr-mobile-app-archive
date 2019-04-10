@@ -26,7 +26,7 @@ class SignHashTests: XCTestCase {
         let address = "0x8cA5fD265499F430a86B34dF241476638C6e08a6"
         let privateKey = "78ba6d34d50fe01acabd5f1480d4c0b5613da044a9f53a027f67f780756c74d5"
         let hashData = "hello world".data(using: .utf8)!
-        let mgr = TradeDataManager.shared
+        let mgr = P2POrderDataManager.shared
         let signatureData = mgr.signHash(privateKey: privateKey, hash: hashData)
         XCTAssertNotNil(signatureData)
         print("signature v: \(signatureData!.v), r: \(signatureData!.r), s: \(signatureData!.s)")

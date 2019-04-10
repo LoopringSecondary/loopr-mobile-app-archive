@@ -17,8 +17,8 @@ enum UserDefaultsKeys: String {
 
     case showSmallAssets = "UserDefaultsKeys.showSmallAssets"
     case showOtherPairs = "UserDefaultsKeys.showOtherPairs"
-    
-    // Trade. Used in TradeDataManager
+
+    // Trade. Used in P2POrderDataManager
     case tradeTokenS = "UserDefaultsKeys.tradeTokenS"
     case tradeTokenB = "UserDefaultsKeys.tradeTokenB"
 
@@ -27,47 +27,47 @@ enum UserDefaultsKeys: String {
     case appWallets = "UserDefaultsKeys.appWallets"
     case showTradingFeature = "UserDefaultsKeys.showTradingFeature"
     case userContacts = "UserDefaultsKeys.userContacts"
-    
+
     // Airdrop
     case airdropTxID = "UserDefaultsKeys.airdrop.txid."
     case airdropDate = "UserDefaultsKeys.airdrop.date."
-    
+
     // ThirdParty
     // thirdParty is used to check whether users has skip or quit the third party
     case thirdParty = "UserDefaultsKeys.thirdParty"
-    
+
     // openID is used to track the uuid of a user. should not be limited to WeChat account
     case openID = "UserDefaultsKeys.openid"
-    
+
     // Market
     case cancelledAll = "UserDefaultsKeys.cancelledAll"
     case cancellingOrders = "UserDefaultsKeys.cancellingOrders"
-    
+
     // Setting
     case useLrcFeeRatioUserDefineValue = "UserDefaultsKeys.useLrcFeeRatioUserDefineValue"
     case lrcFeeRatio = "UserDefaultsKeys.lrcFeeRatio"
-    
+
     case orderIntervalTime = "UserDefaultsKeys.orderIntervalTime"
 
     case passcodeOn = "UserDefaultsKeys.passcodeOn"
-    
+
     // Device token used in push notifications
     case deviceToken = "UserDefaultsKeys.deviceToken"
-    
+
     case largestSkipBuildVersion = "UserDefaultsKeys.largestSkipBuildVersion"
-    
+
     // Refresh Controller
     case refreshControl = "UserDefaultsKeys.refreshController."
-    
+
     // News
     case newsUpvoteAndDownvote = "UserDefaultsKeys.newsUpvoteAndDownvote"
-    
+
     // MARK: - Deprecated
     // Keep these in the code to avoid using them again in the future.
     // case currentFont = "UserDefaultsKeys.currentcurrentFont"
     // case useMarginSplitUserDefineValue = "UserDefaultsKeys.useMarginSplitUserDefineValue"
     // case marginSplit = "UserDefaultsKeys.marginSplit"
-    
+
     case newsDetailFontType = "UserDefaultsKeys.newsDetailFontType"
     case newsIndicatorHasShownBefore = "UserDefaultsKeys.newsIndicatorHasShownBefore"
 }

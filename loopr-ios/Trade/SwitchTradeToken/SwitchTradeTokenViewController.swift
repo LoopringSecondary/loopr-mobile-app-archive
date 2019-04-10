@@ -72,9 +72,9 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
     func getTokens() {
         var tokens: [Token] = []
         if self.type == .tokenB {
-            tokens = TokenDataManager.shared.getErcTokensExcept(for: [TradeDataManager.shared.tokenS.symbol])
+            tokens = TokenDataManager.shared.getErcTokensExcept(for: [P2POrderDataManager.shared.baseToken.symbol])
         } else {
-            tokens = TokenDataManager.shared.getErcTokensExcept(for: [TradeDataManager.shared.tokenB.symbol])
+            tokens = TokenDataManager.shared.getErcTokensExcept(for: [P2POrderDataManager.shared.quoteToken.symbol])
         }
 
         var dict: [String: Double] = [:]
@@ -157,7 +157,7 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
         cell?.token = token
         cell?.update()
 
-        if (type == .tokenS && token.symbol == TradeDataManager.shared.tokenS.symbol) || (type == .tokenB && token.symbol == TradeDataManager.shared.tokenB.symbol) {
+        if (type == .tokenS && token.symbol == P2POrderDataManager.shared.baseToken.symbol) || (type == .tokenB && token.symbol == P2POrderDataManager.shared.quoteToken.symbol) {
             cell?.enabledIcon.isHidden = false
         } else {
             cell?.enabledIcon.isHidden = true
@@ -176,9 +176,9 @@ class SwitchTradeTokenViewController: UIViewController, UITableViewDelegate, UIT
             }
             switch self.type {
             case .tokenS:
-                TradeDataManager.shared.changeTokenS(token)
+                P2POrderDataManager.shared.changeTokenS(token)
             case .tokenB:
-                TradeDataManager.shared.changeTokenB(token)
+                P2POrderDataManager.shared.changeTokenB(token)
             }
             self.needUpdateClosure?()
             self.navigationController?.popViewController(animated: true)

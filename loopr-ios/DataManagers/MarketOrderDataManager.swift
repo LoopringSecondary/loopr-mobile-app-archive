@@ -12,12 +12,18 @@ import BigInt
 
 class MarketOrderDataManager: OrderDataManager {
 
-
+    static let shared1 = MarketOrderDataManager()
 
     func getAllowance(of token: String) -> Double {
         var result: Double = 0
         // TODO
         return result
+    }
+
+    override func constructOrder(side: OrderSide, amountBuy: Double, amountSell: Double, validSince: Int, validUntil: Int) -> RawOrder? {
+        let order = super.constructOrder(side: side, amountBuy: amountBuy, amountSell: amountSell, validSince: validSince, validUntil: validUntil)
+        order?.orderType = .marketOrder
+        return order
     }
 
     func checkLRCEnough(of order: RawOrder) {
@@ -118,7 +124,7 @@ class MarketOrderDataManager: OrderDataManager {
      */
     func verify(order: RawOrder) -> [String: Double] {
         balanceInfo = [:]
-        if order.side == "buy" {
+        if order.orderSide == .buy {
             if order.tokenBuy?.uppercased() == "LRC" {
                 checkGasEnough(of: order, includingLRC: false)
             } else {
@@ -137,64 +143,7 @@ class MarketOrderDataManager: OrderDataManager {
         return balanceInfo
     }
 
-    func _encode(_ amount: BigInt) -> [UInt8] {
-        let bigInt = amount.toEth()
-        return try! EthTypeEncoder.default.encode(bigInt).bytes
-    }
-
-    func _encode(_ amount: Double, _ token: String) -> [UInt8] {
-        let bigInt = GethBigInt.generate(valueInEther: amount, symbol: token)!
-        return try! EthTypeEncoder.default.encode(bigInt).bytes
-    }
-
-    func _encode(_ value: Int64) -> [UInt8] {
-        let bigInt = GethBigInt.init(value)!
-        return try! EthTypeEncoder.default.encode(bigInt).bytes
-    }
-
-    func _encodeString(_ amount: Double, _ token: String) -> String {
-        let bigInt = GethBigInt.generate(valueInEther: amount, symbol: token)!
-        return bigInt.hexString
-    }
-
-    func completeOrder(_ order: inout RawOrder) {
-        let orderData = getOrderHash(order: order)
-        SendCurrentAppWalletDataManager.shared._keystore()
-        if case (let signature?, let hash?) = web3swift.sign(message: orderData) {
-            order.hash = hash
-            order.r = signature.r
-            order.s = signature.s
-            order.v = UInt(signature.v)!
-        }
-    }
-
     func _submitOrder(_ order: RawOrder, completion: @escaping (String?, Error?) -> Void) {
-        let tokenS = order.tokenS
-        let tokenB = order.tokenB
-        let amountB = order.amountB
-        let amountS = order.amountS?.toHex()
-        let lrcFee = _encodeString(order.lrcFee, "LRC")
-        let validSince = order.validSince.hex
-        let validUntil = order.validUntil.hex
-        let authPrivateKey = order.orderType == .marketOrder ? order.authPrivateKey : nil
-        let powNonce = 1
-
-        LoopringAPIRequest.submitOrder(owner: order.address, walletAddress: order.walletAddress, tokenS: tokens, tokenB: tokenB, amountS: amountS, amountB: amountB, lrcFee: lrcFee, validSince: validSince, validUntil: validUntil, marginSplitPercentage: order.marginSplitPercentage, buyNoMoreThanAmountB: order.buyNoMoreThanAmountB, authAddr: order.authAddr, authPrivateKey: authPrivateKey, powNonce: powNonce, orderType: order.orderType.rawValue, v: order.v, r: order.r, s: order.s, completionHandler: completion)
-    }
-
-    func _submitOrderForP2P(_ order: RawOrder, completion: @escaping (String?, Error?) -> Void) {
-
-        guard let hash = TradeDataManager.shared.makerHash else { return }
-        let tokens = tokenManager.getAddress(by: order.tokenSell)!
-        let tokenb = tokenManager.getAddress(by: order.tokenBuy)!
-        let amountB = order.amountB?.toHex()
-        let amountS = order.amountS.toHex()
-        let lrcFee = _encodeString(order.lrcFee, "LRC")
-        let validSince = order.validSince.hex
-        let validUntil = order.validUntil.hex
-        let authPrivateKey = order.orderType == .marketOrder ? order.authPrivateKey : nil
-        let powNonce = 1
-
-        LoopringAPIRequest.submitOrderForP2P(owner: order.address, walletAddress: order.walletAddress, tokenS: tokens, tokenB: tokenb, amountS: amountS, amountB: amountB, lrcFee: lrcFee, validSince: validSince, validUntil: validUntil, marginSplitPercentage: order.marginSplitPercentage, buyNoMoreThanAmountB: order.buyNoMoreThanAmountB, authAddr: order.authAddr, authPrivateKey: authPrivateKey, powNonce: powNonce, orderType: order.orderType.rawValue, v: order.v, r: order.r, s: order.s, makerOrderHash: hash, completionHandler: completion)
+        LoopringAPIRequest.submitOrder(order: order, completionHandler: completion)
     }
 }

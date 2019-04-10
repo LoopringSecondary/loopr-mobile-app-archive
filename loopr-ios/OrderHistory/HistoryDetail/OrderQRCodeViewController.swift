@@ -16,7 +16,7 @@ class OrderQRCodeViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var qrcodeImageView: UIImageView!
-    
+
     @IBOutlet weak var seperateLine: UIView!
     @IBOutlet weak var shareOrderButton: GradientButton!
     @IBOutlet weak var saveToAlbumButton: UIButton!
@@ -42,24 +42,24 @@ class OrderQRCodeViewController: UIViewController {
     @IBOutlet weak var productLabel: UILabel!
     @IBOutlet weak var urlLabel: UILabel!
     @IBOutlet weak var logoImageView: UIImageView!
-    
+
     var originalOrder: RawOrder?
     var qrcodeImage: UIImage!
     var qrcodeImageCIImage: CIImage!
     var dismissClosure: (() -> Void)?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.clear
-        
+
         titleLabel.setTitleCharFont()
         titleLabel.text = LocalizedString("Loopring P2P Order", comment: "")
-        
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         tap.delegate = self
         view.addGestureRecognizer(tap)
-        
+
         contentView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         contentView.layer.cornerRadius = 8
         seperateLine.theme_backgroundColor = ColorPicker.cardHighLightColor
@@ -74,19 +74,19 @@ class OrderQRCodeViewController: UIViewController {
         saveToAlbumButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)
 
         generateQRCode(originalOrder: self.originalOrder!)
-        
+
         if let order = self.originalOrder {
             setupShareView(order: order)
         }
     }
-    
+
     func setupShareView(order: RawOrder) {
         shareImageView.image = UIImage(named: "Share-order")
         logoImageView.image = UIImage(named: "\(Production.getProduct())_share_logo")
-        
+
         titleInShare.theme_textColor = GlobalPicker.contrastTextColor
         titleInShare.text = "Loopring"
-        
+
         if SettingDataManager.shared.getCurrentLanguage().name == "zh-Hans" || SettingDataManager.shared.getCurrentLanguage().name  == "zh-Hant" {
             titleInShare.isHidden = true
             titleImageInShare.isHidden = false
@@ -94,31 +94,31 @@ class OrderQRCodeViewController: UIViewController {
             titleInShare.isHidden = false
             titleImageInShare.isHidden = true
         }
-        
+
         sellTipLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         sellTipLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         sellTipLabel.text = LocalizedString("Sell", comment: "")
-        
+
         var length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenSell)
         sellInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         sellInfoLabel.theme_textColor = GlobalPicker.contrastTextColor
         sellInfoLabel.text = order.amountSell.withCommas(length).trailingZero()  + " " + order.tokenSell
-        
+
         buyTipLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         buyTipLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         buyTipLabel.text = LocalizedString("Buy", comment: "")
-        
+
         length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenBuy)
         buyInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         buyInfoLabel.theme_textColor = GlobalPicker.contrastTextColor
         buyInfoLabel.text = order.amountBuy.withCommas(length).trailingZero() + " " + order.tokenBuy
-        
+
         let price = order.amountBuy / order.amountSell
-        
+
         unitBuyLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         unitBuyLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         unitBuyLabel.text = "1 \(order.tokenSell)"
-        
+
         priceBuyLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         priceBuyLabel.theme_textColor = GlobalPicker.contrastTextColor
         var lengthPriceBuy = 6
@@ -129,11 +129,11 @@ class OrderQRCodeViewController: UIViewController {
             lengthPriceBuy = 6
         }
         priceBuyLabel.text = "\(price.withCommas(lengthPriceBuy)) \(order.tokenBuy)"
-        
+
         unitSellLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         unitSellLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         unitSellLabel.text = "1 \(order.tokenBuy)"
-        
+
         priceSellLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         priceSellLabel.theme_textColor = GlobalPicker.contrastTextColor
         var lengthPriceSell = 6
@@ -144,12 +144,12 @@ class OrderQRCodeViewController: UIViewController {
             lengthPriceSell = 6
         }
         priceSellLabel.text = "\((1/price).withCommas(lengthPriceSell)) \(order.tokenSell)"
-        
+
         buyEqualLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         buyEqualLabel.theme_textColor = GlobalPicker.contrastTextDarkColor
         sellEqualLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         sellEqualLabel.theme_textColor = GlobalPicker.contrastTextDarkColor
-        
+
         validTipInShare.font = FontConfigManager.shared.getCharactorFont(size: 11)
         validTipInShare.theme_textColor = GlobalPicker.contrastTextLightColor
         validTipInShare.text = LocalizedString("Time to Live", comment: "")
@@ -157,28 +157,28 @@ class OrderQRCodeViewController: UIViewController {
         validInShare.font = FontConfigManager.shared.getCharactorFont(size: 11)
         validInShare.theme_textColor = GlobalPicker.contrastTextColor
         validInShare.text = until
-        
+
         loopringTipLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         loopringTipLabel.theme_textColor = GlobalPicker.contrastTextExtremeLightColor
         loopringTipLabel.text = LocalizedString("Loopring_TIP", comment: "")
-        
+
         productLabel.font = FontConfigManager.shared.getCharactorFont(size: 14)
         productLabel.theme_textColor = GlobalPicker.contrastTextDarkColor
         productLabel.text = Production.getProduct()
-        
+
         urlLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         urlLabel.theme_textColor = GlobalPicker.contrastTextColor
         urlLabel.text = Production.getUrlText()
     }
-    
+
     func generateQRCode(originalOrder: RawOrder) {
         guard let data = P2POrderHistoryDataManager.shared.getOrderDataFromLocal(originalOrder: originalOrder) else { return }
         var body = JSON()
         let array = data.components(separatedBy: "-")
-        body["type"] = JSON(TradeDataManager.qrcodeType)
-        body["value"] = [TradeDataManager.qrcodeHash: originalOrder.hash,
-                         TradeDataManager.qrcodeAuth: array[0],
-                         TradeDataManager.sellCount: array[1]]
+        body["type"] = JSON(P2POrderDataManager.qrcodeType)
+        body["value"] = [P2POrderDataManager.qrcodeHash: originalOrder.hash,
+                         P2POrderDataManager.qrcodeAuth: array[0],
+                         P2POrderDataManager.sellCount: array[1]]
         do {
             let data = try body.rawData(options: .prettyPrinted)
             let ciContext = CIContext()
@@ -194,11 +194,11 @@ class OrderQRCodeViewController: UIViewController {
             print ("Error: \(error.domain)")
         }
     }
-        
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let originalOrder = self.originalOrder, let image = self.qrcodeImageCIImage else { return }
-        
+
         generateQRCode(originalOrder: originalOrder)
         qrcodeImageView.image = qrcodeImage
         let scaleX = qrcodeImageView.frame.size.width / image.extent.size.width
@@ -207,11 +207,11 @@ class OrderQRCodeViewController: UIViewController {
         qrcodeImageView.image = UIImage.init(ciImage: transformedImage)
         qrcodeInShare.image = UIImage.init(ciImage: transformedImage)
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
-    
+
     func close() {
         if let closure = self.dismissClosure {
             closure()
@@ -219,11 +219,11 @@ class OrderQRCodeViewController: UIViewController {
         self.dismiss(animated: true, completion: {
         })
     }
-    
+
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         close()
     }
-    
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let location = touch.location(in: nil)
         if contentView.frame.contains(location) {
@@ -231,7 +231,7 @@ class OrderQRCodeViewController: UIViewController {
         }
         return true
     }
-    
+
     @IBAction func pressedShareButton(_ sender: UIButton) {
         let text = LocalizedString("My Order QR code in Loopr-iOS", comment: "")
         let image = UIImage.imageWithView(shareContentView)

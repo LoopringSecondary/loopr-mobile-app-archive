@@ -31,14 +31,14 @@ class LoopringAPIRequest {
             }
         }
     }
-    
+
     // The Lightcone relayer also implements all Ethereum JSON RPC API as well.
     public static func getBalance(owner: String, completionHandler: @escaping (_ assets: [Asset], _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["method"] = "loopring_getBalance"
         body["params"] = [["delegateAddress": RelayAPIConfiguration.delegateAddress, "owner": owner]]
         body["id"] = JSON(UUID().uuidString)
-        
+
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
@@ -53,7 +53,7 @@ class LoopringAPIRequest {
                 let asset = Asset(json: subJson)
                 assets.append(asset)
             }
-            
+
             completionHandler(assets, error)
         }
     }
@@ -62,7 +62,7 @@ class LoopringAPIRequest {
         var body: JSON = JSON()
         body["method"] = "get_time"
         body["id"] = JSON(UUID().uuidString)
-        
+
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
@@ -74,11 +74,11 @@ class LoopringAPIRequest {
             completionHandler(error)
         }
     }
-    
+
     static func getMarkets(requireMetadata: Bool, requireTicker: Bool, quoteCurrencyForTicker: Currency, marketPairs: [MarketPair], completionHandler: @escaping (_ result: [Market]?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["method"] = "get_markets"
-        
+
         // TODO: add marketPairs
         body["params"] = ["requireMetadata": requireMetadata, "requireTicker": requireTicker, "quoteCurrencyForTicker": quoteCurrencyForTicker.name]
         body["id"] = JSON(UUID().uuidString)
@@ -141,6 +141,27 @@ class LoopringAPIRequest {
         }
     }
 
+    static func getOrdersByHash(hashes: [String], completionHandler: @escaping (_ orders: [RawOrder]?, _ error: Error?) -> Void) {
+        var body = newJSON()
+        body["method"] = "get_orders_by_hash"
+        body["params"] = ["hashes": JSON(arrayLiteral: hashes)]
+
+        Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler(nil, error)
+                return
+            }
+            var orders: [RawOrder] = []
+            let ordersJson = JSON(data)["result"]["orders"]
+            for json in ordersJson.arrayValue {
+                let order = RawOrder(json: json)
+                orders.append(order)
+            }
+            completionHandler(orders, nil)
+        }
+    }
+
     static func submitOrder(order: RawOrder, completionHandler: @escaping (_ result: String?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["params"] = ["rawOrder": order.toJson()]
@@ -164,26 +185,25 @@ class LoopringAPIRequest {
             completionHandler(data!.respond, nil)
         }
     }
-    
-    
+
     static func newJSON() -> JSON {
         var body: JSON = JSON()
         body["jsonrpc"] = "2.0"
         body["id"] = JSON(UUID().uuidString)
         return body
     }
-    
+
     // Not ready
     public static func getAccounts(addresses: [String], tokens: [String], allTokens: Bool, completionHandler: @escaping (_ assets: [Asset], _ error: Error?) -> Void) {
         var body = newJSON()
-        
+
         body["method"] = "get_accounts"
         body["params"] = [[
             "addresses": addresses,
             "tokens": tokens,
             "allTokens": allTokens
             ]]
-        
+
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
             guard let data = data, error == nil else {
@@ -199,30 +219,30 @@ class LoopringAPIRequest {
                 let asset = Asset(json: subJson)
                 assets.append(asset)
             }
-            
+
             completionHandler(assets, error)
         }
     }
-    
+
     // Not ready
     public static func getAccountNonce(address: String) {
         var body = newJSON()
-        
+
         body["method"] = "get_account_nonce"
         body["params"] = [[
             "address": address
             ]]
-        
+
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            
+
         }
     }
-    
+
     // Not ready
     public static func getUserFills(owner: String, marketPair: MarketPair, sort: Sort, paging: Paging) {
         var body = newJSON()
-        
+
         body["method"] = "get_user_fills"
         body["params"] = [[
             "owner": owner,
@@ -230,91 +250,91 @@ class LoopringAPIRequest {
             "sort": sort.rawValue,
             "paging": paging.toJSON()
             ]]
-        
+
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            
+
         }
     }
-    
+
     // Not ready
     public static func getMarketFills(marketPair: MarketPair) {
         var body = newJSON()
-        
+
         body["method"] = "get_market_fills"
         body["params"] = [[
             "marketPair": marketPair.toJSON()
             ]]
-        
+
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            
+
         }
     }
-    
+
     // Not ready
     public static func getOrderBook(level: Int, size: Int, marketPair: MarketPair, completionHandler: @escaping (_ sells: [OrderbookItem], _ buys: [OrderbookItem], _ error: Error?) -> Void) {
         var body = newJSON()
-        
+
         body["method"] = "get_order_book"
         body["params"] = [[
             "level": level,
             "size": size,
             "marketPair": marketPair.toJSON()
             ]]
-        
+
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            
+
         }
     }
-    
+
     // Not ready
     public static func getRings(sort: Sort, paging: Paging) {
         var body = newJSON()
-        
+
         body["method"] = "get_rings"
         body["params"] = [[
             "sort": sort.rawValue,
             "paging": paging.toJSON()
             ]]
-        
+
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            
+
         }
     }
-    
+
     // Not ready
     public static func getActivities(owner: String, token: String, paging: Paging) {
         var body = newJSON()
-        
+
         body["method"] = "get_activities"
         body["params"] = [[
             "owner": owner,
             "token": token,
             "paging": paging.toJSON()
             ]]
-        
+
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            
+
         }
     }
-    
+
     // Not ready
     public static func getMarketHistory(marketPair: MarketPair, interval: MarketInterval) {
         var body = newJSON()
-        
+
         body["method"] = "get_market_history"
         body["params"] = [[
             "marketPair": marketPair.toJSON(),
             "interval": interval.rawValue
             ]]
-        
+
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            
+
         }
     }
 

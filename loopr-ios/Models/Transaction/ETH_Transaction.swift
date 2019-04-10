@@ -26,27 +26,6 @@ class ETH_Transaction: Initable {
     let s: String
     let gas: String
 
-    /*
-     
-     {
-     "Content" : "",
-     "LogIndex" : 0,
-     "UpdateTime" : 1520229046,
-     "Owner" : "0x750aD4351bB728ceC7d639A9511F9D6488f1E259",
-     "Value" : "500000000000000000000",
-     "BlockNumber" : 302635,
-     "ID" : 79,
-     "Status" : 2,
-     "From" : "0x750aD4351bB728ceC7d639A9511F9D6488f1E259",
-     "Protocol" : "0xC01172a87f6cC20E1E3b9aD13a9E715Fbc2D5AA9",
-     "Symbol" : "",
-     "CreateTime" : 1520229046,
-     "Type" : 4,
-     "TxHash" : "0x65833a56937dfbc52ad558cbc7032b9573c02840e3a4f75be798afc7a2f687b9",
-     "To" : "0xb7e0DAE0A3e4e146BCaf0Fe782bE5AFB14041A10"
-     },
-     */
-
     required init(_ json: JSON) {
         self.blockNumber = json["blockNumber"].stringValue
         self.value = json["value"].stringValue

@@ -20,34 +20,34 @@ protocol WalletViewControllerDelegate: class {
 class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, QRCodeScanProtocol {
 
     weak var delegate: WalletViewControllerDelegate?
-    
+
     @IBOutlet weak var assetTableView: UITableView!
     let refreshView = UIView()
     let refreshControl = UIRefreshControl()
 
     var isLaunching: Bool = true
     var numberOfRowsInSection1: Int = 0
-    
+
     var isDropdownMenuExpanded: Bool = false
     let dropdownMenu = MKDropdownMenu(frame: .zero)
-    
+
     var pasteboardValue: String = ""
-    
+
     var showTradingFeature: Bool = FeatureConfigDataManager.shared.getShowTradingFeature()
-    
+
     var blurVisualEffectView = UIView(frame: .zero)
-    
+
     var isNewsViewControllerScrollEnabled: Bool = false
     var walletBalanceView: WalletBalanceView!
-    
+
     var timer = Timer()
     var showingNewsIndicator: Bool = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.theme_backgroundColor = ColorPicker.backgroundColor
-        
+
         assetTableView.dataSource = self
         assetTableView.delegate = self
 
@@ -62,7 +62,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         assetTableView.tableFooterView = footerView
         assetTableView.separatorStyle = .none
         assetTableView.delaysContentTouches = false
-        
+
         // Avoid dragging a cell to the top makes the tableview shake
         assetTableView.estimatedRowHeight = 0
         assetTableView.estimatedSectionHeaderHeight = 0
@@ -73,11 +73,11 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(self.pressAddButton(_:)))
         // self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .organize, target: self, action: #selector(self.pressSwitchWallet(_:)))
-        
+
         dropdownMenu.dataSource = self
         dropdownMenu.delegate = self
         dropdownMenu.disclosureIndicatorImage = nil
-        
+
         dropdownMenu.dropdownShowsTopRowSeparator = false
         dropdownMenu.dropdownBouncesScroll = false
         dropdownMenu.backgroundDimmingOpacity = 0
@@ -89,9 +89,9 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         dropdownMenu.dropdownShowsTopRowSeparator = false
         dropdownMenu.dropdownShowsBottomRowSeparator = false
         dropdownMenu.dropdownShowsBorder = false
-        
+
         self.view.addSubview(dropdownMenu)
-        
+
         // Add Refresh Control to Table View
         refreshControl.updateUIStyle(withTitle: RefreshControlDataManager.shared.get(type: .walletViewController))
         refreshView.frame = CGRect(x: 0, y: WalletButtonTableViewCell.getHeight()+20, width: 0, height: 0)
@@ -105,16 +105,16 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         NotificationCenter.default.addObserver(self, selector: #selector(needRelaunchCurrentAppWalletReceivedNotification), name: .needRelaunchCurrentAppWallet, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(processPasteboard), name: .needCheckStringInPasteboard, object: nil)
-        
+
         if !SettingDataManager.shared.getNewsIndicatorHasShownBefore() {
             timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.updateCounting), userInfo: nil, repeats: true)
         }
     }
-    
+
     @objc func needRelaunchCurrentAppWalletReceivedNotification() {
         self.isLaunching = true
     }
-    
+
     @objc private func refreshData(_ sender: Any) {
         getDataFromRelay()
     }
@@ -127,10 +127,10 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.navigationItem.title = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.name ?? LocalizedString("Wallet", comment: "")
 
         walletBalanceView.setup(animated: false)
- 
+
         assetTableView.reloadData()
         getDataFromRelay()
-        
+
         let screensize: CGRect = UIScreen.main.bounds
         let screenWidth = screensize.width
         dropdownMenu.frame = CGRect(x: screenWidth-160-9, y: 0, width: 160, height: 0)
@@ -139,7 +139,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
         spaceView.contentMode = .center
         dropdownMenu.spacerView = spaceView
         dropdownMenu.spacerViewOffset = UIOffset.init(horizontal: self.dropdownMenu.bounds.size.width - 95, vertical: 1)
-        
+
         if NewsDataManager.shared.currentNewsListKey != "ALL_CURRENCY" {
             NewsDataManager.shared.currentNewsListKey = "ALL_CURRENCY"
             delegate?.reloadCollectionViewInNewsViewController()
@@ -155,15 +155,15 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
     }
-    
+
     @objc func processPasteboard() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             // Check if the view is visible
@@ -177,7 +177,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     if self.pasteboardValue != string && QRCodeMethod.isAddress(content: string) && !AppWalletDataManager.shared.isDuplicatedAddress(address: string) {
                         // Update
                         self.pasteboardValue = string
-                        
+
                         let banner = NotificationBanner.generate(title: "Send tokens to the address in pasteboard?", style: .success, hasLeftImage: false)
                         banner.duration = 4
                         banner.show()
@@ -196,17 +196,17 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
-    
+
     func setResultOfScanningQRCode(valueSent: String, type: QRCodeType) {
         if let data = valueSent.data(using: .utf8) {
             let json = JSON(data)
             switch type {
             case .p2pOrder:
-                TradeDataManager.shared.handleResult(of: json["value"])
+                P2POrderDataManager.shared.handleResult(of: json["value"])
                 let vc = TradeConfirmationViewController()
                 vc.view.theme_backgroundColor = ColorPicker.backgroundColor
                 vc.parentNavController = self.navigationController
-                vc.order = TradeDataManager.shared.orders[1]
+                vc.order = P2POrderDataManager.shared.p2pOrders[1]
                 self.navigationController?.pushViewController(vc, animated: true)
 
             case .address:
@@ -235,43 +235,43 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
-    
+
     @objc func pressSwitchWallet(_ button: UIBarButtonItem) {
         let viewController = SettingManageWalletViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
     @objc func pressAddButton(_ button: UIBarButtonItem) {
         if !isDropdownMenuExpanded {
             dropdownMenu.openComponent(0, animated: true)
             isDropdownMenuExpanded = true
         }
     }
-    
+
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         print("scrollViewWillBeginDragging")
     }
-    
+
     @objc func updateCounting() {
         NSLog("counting..")
-        
+
         if !showingNewsIndicator && !SettingDataManager.shared.getNewsIndicatorHasShownBefore() {
             showingNewsIndicator = true
-            
+
             let labelWidth = LocalizedString("Pull Down for the Latest News", comment: "").widthOfString(usingFont: FontConfigManager.shared.getMediumFont(size: 17))
-            
+
             let baseView = UIView(frame: CGRect(x: 0, y: 0, width: labelWidth + 28*2, height: 44))
             let label = UILabel(frame: CGRect(x: 28, y: 0, width: labelWidth, height: 44))
             label.text = LocalizedString("Pull Down for the Latest News", comment: "")
             label.font = FontConfigManager.shared.getMediumFont(size: 17)
             label.theme_textColor = GlobalPicker.textColor
             baseView.addSubview(label)
-            
+
             let animationView = LOTAnimationView(name: "arrow_down")
             animationView.frame = CGRect(x: labelWidth + 28 + 4, y: 13, width: 18, height: 18)
             baseView.addSubview(animationView)
-            
+
             self.navigationItem.title = ""
             self.navigationItem.titleView = baseView
             animationView.play()
@@ -280,15 +280,15 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.navigationItem.titleView = nil
             self.navigationItem.title = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.name ?? LocalizedString("Wallet", comment: "")
         }
-        
+
     }
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print("scrollView y: \(scrollView.contentOffset.y) with \(isNewsViewControllerScrollEnabled)")
         if isNewsViewControllerScrollEnabled {
             delegate?.scrollViewDidScroll(y: scrollView.contentOffset.y)
         }
-        
+
         if isNewsViewControllerScrollEnabled && scrollView.contentOffset.y < -10 {
             self.navigationItem.title = ""
             self.navigationItem.rightBarButtonItem = nil
@@ -296,7 +296,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.navigationItem.title = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.name ?? LocalizedString("Wallet", comment: "")
             self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(self.pressAddButton(_:)))
         }
-        
+
         if scrollView.contentOffset.y >= 0 {
             walletBalanceView.frame = CGRect(x: 0, y: -scrollView.contentOffset.y, width: walletBalanceView.frame.width, height: walletBalanceView.frame.height)
         } else {
@@ -341,7 +341,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return  0
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return WalletBalanceTableViewCell.getHeight()
@@ -351,7 +351,7 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return AssetTableViewCell.getHeight()
         }
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             var cell = tableView.dequeueReusableCell(withIdentifier: WalletBalanceTableViewCell.getCellIdentifier()) as? WalletBalanceTableViewCell
@@ -385,12 +385,12 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return cell!
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-        
+
         } else if indexPath.section == 1 {
-        
+
         } else {
             // Avoid pushing AssetSwipeViewController mutiple times
             assetTableView.isUserInteractionEnabled = false
@@ -404,21 +404,21 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
-    
+
 }
 
 extension WalletViewController: WalletBalanceTableViewCellDelegate {
-    
+
     func touchesBegan() {
         isNewsViewControllerScrollEnabled = true
         self.refreshView.isHidden = true
     }
-    
+
     func touchesEnd() {
         isNewsViewControllerScrollEnabled = false
         self.refreshView.isHidden = false
     }
-    
+
     func pressedQRCodeButtonInWalletBalanceTableViewCell() {
         if CurrentAppWalletDataManager.shared.getCurrentAppWallet() != nil {
             let viewController = QRCodeViewController()
@@ -441,7 +441,7 @@ extension WalletViewController: WalletButtonTableViewCellDelegate {
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
     func navigationToReceiveViewController() {
         if CurrentAppWalletDataManager.shared.getCurrentAppWallet() != nil {
             let viewController = QRCodeViewController()
@@ -450,13 +450,13 @@ extension WalletViewController: WalletButtonTableViewCellDelegate {
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
-    
+
     func navigationToSendViewController() {
         let viewController = SendAssetViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
     func navigationToTradeViewController() {
         let viewController = AirdropViewController()
         viewController.hidesBottomBarWhenPushed = true
@@ -475,7 +475,7 @@ extension WalletViewController: AssetViewControllerDelegate {
     func scrollViewDidScroll(y: CGFloat) {
         delegate?.scrollViewDidScroll(y: y)
     }
-    
+
     func reloadCollectionViewInNewsViewController() {
         delegate?.reloadCollectionViewInNewsViewController()
     }

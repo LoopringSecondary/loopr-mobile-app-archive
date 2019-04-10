@@ -67,6 +67,8 @@ class RawOrder: Equatable {
 
     var p2pType: P2PType = .maker
 
+    var orderType: OrderType = .marketOrder
+
     init() {
         self.params = OrderParams()
         self.feeParams = FeeParams()
@@ -98,10 +100,10 @@ class RawOrder: Equatable {
             self.amountBuy = TokenDataManager.shared.getAmount(fromWeiAmount: amountB, of: tokenB.decimals)
             self.amountSell = TokenDataManager.shared.getAmount(fromWeiAmount: amountS, of: tokenS.decimals)
             if let amountBuy = self.amountBuy, let amountSell = self.amountSell {
-                self.priceBuy = amountBuy / amountSell
-                self.priceSell = amountSell / amountBuy
-                self.priceB = "≈\(priceBuy) \(tokenB.symbol)/\(tokenS.symbol)"  //TODO: market precision
-                self.priceS = "≈\(priceSell) \(tokenS.symbol)/\(tokenB.symbol)"  //TODO: market precision
+                self.priceBuy = Double(amountBuy / amountSell)
+                self.priceSell = Double(amountSell / amountBuy)
+                self.priceB = "≈\(priceBuy ?? 0.0) \(tokenB.symbol)/\(tokenS.symbol)"  //TODO: market precision
+                self.priceS = "≈\(priceSell ?? 0.0) \(tokenS.symbol)/\(tokenB.symbol)"  //TODO: market precision
             }
             if let symbol = feeParams.tokenF, let tokenF = TokenDataManager.shared.getTokenBySymbol(symbol),
                let outstandingAmountBuy = TokenDataManager.shared.getAmount(fromWeiAmount: amountB, of: tokenB.decimals),
@@ -132,7 +134,7 @@ class RawOrder: Equatable {
         json["erc1400Params"] = erc1400Params.toJson()
         return json
     }
-    
+
     func setSignature(sig: SignatureData) {
         let sigStream = BitStream()
         sigStream.addNumber(BigInt(1), 1, forceAppend: true)
@@ -146,6 +148,4 @@ class RawOrder: Equatable {
     static func ==(lhs: RawOrder, rhs: RawOrder) -> Bool {
         return lhs.hash == rhs.hash
     }
-
-
 }

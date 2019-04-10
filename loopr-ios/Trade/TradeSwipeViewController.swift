@@ -9,14 +9,14 @@
 import UIKit
 
 class TradeSwipeViewController: SwipeViewController, QRCodeScanProtocol {
-    
+
     private var type: TradeSwipeType = .trade
     private var types: [TradeSwipeType] = []
-    
+
     private var viewControllers: [UIViewController] = []
-    
+
     var options = SwipeViewOptions.getDefault()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,11 +25,11 @@ class TradeSwipeViewController: SwipeViewController, QRCodeScanProtocol {
         setBackButton()
         setNavigationBarItem()
         setupChildViewControllers()
-        
+
         // Get the updated nonce
         CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.getNonceFromEthereum(completionHandler: {})
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if Themes.isDark() {
@@ -41,13 +41,13 @@ class TradeSwipeViewController: SwipeViewController, QRCodeScanProtocol {
         }
         swipeView.reloadData(options: options, default: swipeView.currentIndex)
     }
-        
+
     func setNavigationBarItem() {
         let icon = UIImage.init(named: "dropdown-scan")
         let button = UIBarButtonItem(image: icon, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.pressedScanButton))
         self.navigationItem.rightBarButtonItem = button
     }
-    
+
     @objc func pressedScanButton() {
         let viewController = ScanQRCodeViewController()
         // TODO: do we need to support these types
@@ -57,7 +57,7 @@ class TradeSwipeViewController: SwipeViewController, QRCodeScanProtocol {
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
     func setupChildViewControllers() {
         types = [.trade, .records]
         viewControllers.insert(TradeViewController(), at: 0)
@@ -67,53 +67,53 @@ class TradeSwipeViewController: SwipeViewController, QRCodeScanProtocol {
         }
         swipeView.reloadData(options: options)
     }
-    
+
     // MARK: - Delegate
     override func swipeView(_ swipeView: SwipeView, viewWillSetupAt currentIndex: Int) {
     }
-    
+
     override func swipeView(_ swipeView: SwipeView, viewDidSetupAt currentIndex: Int) {
     }
-    
+
     override func swipeView(_ swipeView: SwipeView, willChangeIndexFrom fromIndex: Int, to toIndex: Int) {
         type = types[toIndex]
     }
-    
+
     override func swipeView(_ swipeView: SwipeView, didChangeIndexFrom fromIndex: Int, to toIndex: Int) {
     }
-    
+
     // MARK: - DataSource
     override func numberOfPages(in swipeView: SwipeView) -> Int {
         return viewControllers.count
     }
-    
+
     override func swipeView(_ swipeView: SwipeView, titleForPageAt index: Int) -> String {
         return types[index].description
     }
-    
+
     override func swipeView(_ swipeView: SwipeView, viewControllerForPageAt index: Int) -> UIViewController {
         return viewControllers[index]
     }
-    
+
     // Copy code from WalletViewController.
     func setResultOfScanningQRCode(valueSent: String, type: QRCodeType) {
         if let data = valueSent.data(using: .utf8) {
             let json = JSON(data)
             switch type {
             case .p2pOrder:
-                TradeDataManager.shared.handleResult(of: json["value"])
+                P2POrderDataManager.shared.handleResult(of: json["value"])
                 let vc = TradeConfirmationViewController()
                 vc.view.theme_backgroundColor = ColorPicker.backgroundColor
                 vc.parentNavController = self.navigationController
-                vc.order = TradeDataManager.shared.orders[1]
+                vc.order = P2POrderDataManager.shared.p2pOrders[1]
                 self.navigationController?.pushViewController(vc, animated: true)
-                
+
             case .address:
                 let vc = SendAssetViewController()
                 vc.address = valueSent
                 vc.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(vc, animated: true)
-                
+
             case .keystore, .mnemonic, .privateKey:
                 let vc = UnlockWalletSwipeViewController()
                 vc.hidesBottomBarWhenPushed = true

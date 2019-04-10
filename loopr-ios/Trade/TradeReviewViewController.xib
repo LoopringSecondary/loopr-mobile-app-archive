@@ -40,8 +40,8 @@
                 <outlet property="statusTipLabel" destination="zGP-qQ-tcH" id="s3B-Gj-V2s"/>
                 <outlet property="titleImageInShare" destination="b27-mY-8o8" id="68a-BO-0SE"/>
                 <outlet property="titleLabel" destination="ReC-Oh-Het" id="nL3-1c-Sak"/>
-                <outlet property="tokenB" destination="aga-rZ-zkA" id="FTN-TD-NDh"/>
-                <outlet property="tokenS" destination="0qr-Ib-soK" id="MNt-k7-yLZ"/>
+                <outlet property="quoteToken" destination="aga-rZ-zkA" id="FTN-TD-NDh"/>
+                <outlet property="baseToken" destination="0qr-Ib-soK" id="MNt-k7-yLZ"/>
                 <outlet property="unitBuyLabel" destination="cZ5-u6-iC8" id="dR1-xB-x81"/>
                 <outlet property="unitSellLabel" destination="nLe-5B-Pj0" id="CBf-6F-XDE"/>
                 <outlet property="urlLabel" destination="rjH-nv-ckX" id="7MX-cF-cH7"/>

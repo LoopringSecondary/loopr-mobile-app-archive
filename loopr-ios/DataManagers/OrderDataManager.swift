@@ -14,6 +14,7 @@ import web3
 class OrderDataManager {
 
     static let shared = OrderDataManager()
+
     let Eip191Header = "\u{0019}\u{0001}"
     let Eip712DomainHash = "0xaea25658c273c666156bd427f83a666135fcde6887a6c25fc1cd1562bc4f3f34"
     let Eip712OrderSchemaHash = "0x40b942178d2a51f1f61934268590778feb8114db632db7d88537c98d2b05c5f2"
@@ -122,12 +123,12 @@ class OrderDataManager {
             order.params = orderParams
             order.feeParams = feeParams
             order.erc1400Params = erc1400Params
-            result = completeOrder(&order)
+            completeOrder(&order)
         }
         return result
     }
 
-    func completeOrder(_ order: inout RawOrder) -> RawOrder? {
+    func completeOrder(_ order: inout RawOrder) {
         let orderData = getOrderHash(order: order)
         SendCurrentAppWalletDataManager.shared._keystore()
         if case (let signature?, _?) = web3swift.sign(message: orderData) {
@@ -168,13 +169,13 @@ class OrderDataManager {
         bitStream.addBytes32(erc1400Params.trancheS, forceAppend: true)
         bitStream.addBytes32(erc1400Params.trancheB, forceAppend: true)
         bitStream.addBytes32(transferDataHash, forceAppend: true)
-        
+
         let orderDataHash: String = bitStream.getBytes().sha3(.keccak256).hexString
         let outerStream: BitStream = BitStream()
         outerStream.addHex(Eip191Header.hexString, forceAppend: true)
         outerStream.addBytes32(Eip712DomainHash, forceAppend: true)
         outerStream.addBytes32(orderDataHash, forceAppend: true)
-        
+
         let data1 = Data(bytes: outerStream.getBytes())
         return data1.sha3(.keccak256)
     }

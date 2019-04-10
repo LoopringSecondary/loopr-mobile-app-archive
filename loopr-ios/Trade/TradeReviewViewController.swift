@@ -9,7 +9,7 @@
 import UIKit
 
 class TradeReviewViewController: UIViewController {
-    
+
     @IBOutlet weak var tokenS: UIView!
     @IBOutlet weak var tokenB: UIView!
     @IBOutlet weak var arrowRightImageView: UIImageView!
@@ -18,7 +18,7 @@ class TradeReviewViewController: UIViewController {
     @IBOutlet weak var statusInfoLabel: UILabel!
     @IBOutlet weak var validTipLabel: UILabel!
     @IBOutlet weak var validInfoLabel: UILabel!
-    
+
     @IBOutlet weak var shareContentView: UIView!
     @IBOutlet weak var shareImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -40,11 +40,11 @@ class TradeReviewViewController: UIViewController {
     @IBOutlet weak var productLabel: UILabel!
     @IBOutlet weak var urlLabel: UILabel!
     @IBOutlet weak var logoImageView: UIImageView!
-    
+
     @IBOutlet weak var seperateLineA: UIView!
     @IBOutlet weak var seperateLineB: UIView!
     @IBOutlet weak var seperateLineC: UIView!
-    
+
     var tokenSView: TokenViewController = TokenViewController()
     var tokenBView: TokenViewController = TokenViewController()
 
@@ -61,7 +61,7 @@ class TradeReviewViewController: UIViewController {
         setupShareButton()
         self.view.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationItem.title = LocalizedString("Order Detail", comment: "")
-        
+
         self.seperateLineA.theme_backgroundColor = ColorPicker.cardBackgroundColor
         self.seperateLineB.theme_backgroundColor = ColorPicker.cardBackgroundColor
         self.seperateLineC.theme_backgroundColor = ColorPicker.cardBackgroundColor
@@ -70,11 +70,11 @@ class TradeReviewViewController: UIViewController {
         tokenSView.view.frame = CGRect(x: 0, y: 0, width: tokenS.frame.width, height: tokenS.frame.height)
         tokenS.addSubview(tokenSView.view)
         tokenSView.view.bindFrameToAnotherView(anotherView: tokenS)
-        
+
         tokenBView.view.frame = CGRect(x: 0, y: 0, width: tokenB.frame.width, height: tokenB.frame.height)
         tokenB.addSubview(tokenBView.view)
         tokenBView.view.bindFrameToAnotherView(anotherView: tokenB)
-        
+
         // Labels
         statusTipLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         statusTipLabel.theme_textColor = GlobalPicker.textLightColor
@@ -89,22 +89,22 @@ class TradeReviewViewController: UIViewController {
 
         validInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         validInfoLabel.theme_textColor = GlobalPicker.textColor
-        
+
         if let order = self.order {
             setupShareView(order: order)
         }
-        
+
         // Receive order response
         NotificationCenter.default.addObserver(self, selector: #selector(orderResponseReceivedNotification), name: .orderResponseReceived, object: nil)
     }
-    
+
     func setupShareView(order: RawOrder) {
         shareImageView.image = UIImage(named: "Share-order")
         logoImageView.image = UIImage(named: "\(Production.getProduct())_share_logo")
-        
+
         titleLabel.theme_textColor = GlobalPicker.contrastTextColor
         titleLabel.text = "Loopring"
-        
+
         if SettingDataManager.shared.getCurrentLanguage().name == "zh-Hans" || SettingDataManager.shared.getCurrentLanguage().name  == "zh-Hant" {
             titleLabel.isHidden = true
             titleImageInShare.isHidden = false
@@ -112,7 +112,7 @@ class TradeReviewViewController: UIViewController {
             titleLabel.isHidden = false
             titleImageInShare.isHidden = true
         }
-        
+
         sellTipLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         sellTipLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         sellTipLabel.text = LocalizedString("Sell", comment: "")
@@ -122,40 +122,40 @@ class TradeReviewViewController: UIViewController {
         sellInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         sellInfoLabel.theme_textColor = GlobalPicker.contrastTextColor
         sellInfoLabel.text = order.amountSell.withCommas(length).trailingZero() + " " + order.tokenSell
-        
+
         buyTipLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         buyTipLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         buyTipLabel.text = LocalizedString("Buy", comment: "")
-        
+
         length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenBuy)
 
         buyInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         buyInfoLabel.theme_textColor = GlobalPicker.contrastTextColor
         buyInfoLabel.text = order.amountBuy.withCommas(length).trailingZero() + " " + order.tokenBuy
-        
+
         let price = order.amountBuy / order.amountSell
-        
+
         unitBuyLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         unitBuyLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         unitBuyLabel.text = "1 \(order.tokenSell)"
-        
+
         priceBuyLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         priceBuyLabel.theme_textColor = GlobalPicker.contrastTextColor
         priceBuyLabel.text = "\(price.withCommas(6)) \(order.tokenBuy)"
-        
+
         unitSellLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         unitSellLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         unitSellLabel.text = "1 \(order.tokenBuy)"
-        
+
         priceSellLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         priceSellLabel.theme_textColor = GlobalPicker.contrastTextColor
         priceSellLabel.text = "\((1/price).withCommas(6)) \(order.tokenSell)"
-        
+
         buyEqualLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         buyEqualLabel.theme_textColor = GlobalPicker.contrastTextDarkColor
         sellEqualLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         sellEqualLabel.theme_textColor = GlobalPicker.contrastTextDarkColor
-        
+
         validTipInShare.font = FontConfigManager.shared.getCharactorFont(size: 11)
         validTipInShare.theme_textColor = GlobalPicker.contrastTextLightColor
         validTipInShare.text = LocalizedString("Time to Live", comment: "")
@@ -163,15 +163,15 @@ class TradeReviewViewController: UIViewController {
         validInShare.font = FontConfigManager.shared.getCharactorFont(size: 11)
         validInShare.theme_textColor = GlobalPicker.contrastTextColor
         validInShare.text = until
-        
+
         loopringTipLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         loopringTipLabel.theme_textColor = GlobalPicker.contrastTextExtremeLightColor
         loopringTipLabel.text = LocalizedString("Loopring_TIP", comment: "")
-        
+
         productLabel.font = FontConfigManager.shared.getCharactorFont(size: 14)
         productLabel.theme_textColor = GlobalPicker.contrastTextDarkColor
         productLabel.text = Production.getProduct()
-        
+
         urlLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         urlLabel.theme_textColor = GlobalPicker.contrastTextColor
         urlLabel.text = Production.getUrlText()
@@ -182,28 +182,28 @@ class TradeReviewViewController: UIViewController {
         vc.order = self.order
         self.navigationController?.pushViewController(vc, animated: true)
     }
-        
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let order = self.order else { return }
-        
+
         tokenSView.update(type: .sell, symbol: order.tokenSell, amount: order.amountSell)
         tokenBView.update(type: .buy, symbol: order.tokenBuy, amount: order.amountBuy)
-        
+
         generateQRCode(order: order)
         let scaleX = qrcodeImageView.frame.size.width / qrcodeImageCIImage.extent.size.width
         let scaleY = qrcodeImageView.frame.size.height / qrcodeImageCIImage.extent.size.height
         let transformedImage = qrcodeImageCIImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
         qrcodeImageView.image = UIImage.init(ciImage: transformedImage)
         qrcodeInShare.image = UIImage.init(ciImage: transformedImage)
-        
+
         statusInfoLabel.textColor = .success
         statusInfoLabel.text = LocalizedString("Open", comment: "")
         let since = DateUtil.convertToDate(UInt(order.validSince), format: "MM-dd HH:mm")
         let until = DateUtil.convertToDate(UInt(order.validUntil), format: "MM-dd HH:mm")
         validInfoLabel.text = "\(since) ~ \(until)"
     }
-    
+
     func setupShareButton() {
         let shareButton = UIButton(type: UIButtonType.custom)
         shareButton.setImage(UIImage(named: "ShareButtonImage"), for: .normal)
@@ -212,17 +212,17 @@ class TradeReviewViewController: UIViewController {
         shareButton.addTarget(self, action: #selector(pressedShareButton(_:)), for: UIControlEvents.touchUpInside)
         shareButton.frame = CGRect(x: 0, y: 0, width: 23, height: 23)
         let shareBarButton = UIBarButtonItem(customView: shareButton)
-        
+
         self.navigationItem.rightBarButtonItem = shareBarButton
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
-    
+
     func generateQRCode(order: RawOrder) {
         var body = JSON()
-        body["type"] = JSON(TradeDataManager.qrcodeType)
-        body["value"] = [TradeDataManager.qrcodeHash: order.hash,
-                         TradeDataManager.qrcodeAuth: order.authPrivateKey,
-                         TradeDataManager.sellCount: TradeDataManager.shared.sellCount]
+        body["type"] = JSON(P2POrderDataManager.qrcodeType)
+        body["value"] = [P2POrderDataManager.qrcodeHash: order.hash,
+                         P2POrderDataManager.qrcodeAuth: order.authPrivateKey,
+                         P2POrderDataManager.sellCount: P2POrderDataManager.shared.sellCount]
         do {
             let data = try body.rawData(options: .prettyPrinted)
             let ciContext = CIContext()

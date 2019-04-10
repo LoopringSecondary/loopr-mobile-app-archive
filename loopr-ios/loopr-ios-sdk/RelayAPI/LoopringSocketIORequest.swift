@@ -10,11 +10,11 @@ import Foundation
 import SocketIO
 
 public class LoopringSocketIORequest {
-    
+
     static let manager = SocketManager(socketURL: RelayAPIConfiguration.socketURL, config: [.compress, .forceWebsockets(true), .reconnects(true)])
     static let socket = manager.defaultSocket
     static var handlers: [String: [(JSON) -> Void]] = [:]
-    
+
     static func setup() {
         if handlers.isEmpty {
             // add more requests using socketio here
@@ -23,25 +23,25 @@ public class LoopringSocketIORequest {
         }
         connect()
     }
-    
+
     static func tearDown() {
         handlers = [:]
         socket.removeAllHandlers()
         disconnect()
     }
-    
+
     static func connect() {
         if socket.status != .connected {
             socket.connect()
         }
     }
-    
+
     static func disconnect() {
         if socket.status != .disconnected {
             socket.disconnect()
         }
     }
-    
+
     static func addHandlers(_ handlers: [String: [(JSON) -> Void]]) {
         for (key, methods) in handlers {
             for method in methods {

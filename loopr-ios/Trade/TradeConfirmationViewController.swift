@@ -136,7 +136,7 @@ class TradeConfirmationViewController: UIViewController {
 
     func validateRational() -> Bool {
         guard let order = self.order else { return true }
-        let pair = TradeDataManager.shared.tradePair.replacingOccurrences(of: "/", with: "-")  // "LRC-WETH"
+        let pair = P2POrderDataManager.shared.tradePair.replacingOccurrences(of: "/", with: "-")  // "LRC-WETH"
         let price = order.amountBuy / order.amountSell
         let value = order.side == "buy" ? 1 / price : price
         if let market = MarketDataManager.shared.getMarket(byTradingPair: pair) {
@@ -235,7 +235,7 @@ extension TradeConfirmationViewController {
             let alert = UIAlertController(title: LocalizedString("Please Pay Attention", comment: ""), message: self.message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
                 DispatchQueue.main.async {
-                    self.verifyInfo = TradeDataManager.shared.verify(order: self.order!)
+                    self.verifyInfo = P2POrderDataManager.shared.verify(order: self.order!)
                     self.handleVerifyInfo()
                     P2POrderHistoryDataManager.shared.shouldReloadData = true
                 }
@@ -244,14 +244,14 @@ extension TradeConfirmationViewController {
             }))
             self.present(alert, animated: true, completion: nil)
         } else {
-            self.verifyInfo = TradeDataManager.shared.verify(order: order!)
+            self.verifyInfo = P2POrderDataManager.shared.verify(order: order!)
             self.handleVerifyInfo()
             P2POrderHistoryDataManager.shared.shouldReloadData = true
         }
     }
 
     func isTaker() -> Bool {
-        return TradeDataManager.shared.isTaker
+        return P2POrderDataManager.shared.isTaker
     }
 
     func isBalanceEnough() -> Bool {
@@ -352,19 +352,19 @@ extension TradeConfirmationViewController {
                     self.completion(nil, error!)
                     return
                 }
-                TradeDataManager.shared.startGetOrderStatus(of: self.order!.hash)
+                P2POrderDataManager.shared.startGetOrderStatus(of: self.order!.hash)
                 self.completion(orderHash!, nil)
             }
         } else {
-            MarketOrderDataManager.shared._submitOrderForP2P(self.order!) { (orderHash, error) in
+            MarketOrderDataManager.shared._submitOrder(self.order!) { (orderHash, error) in
                 guard error == nil && orderHash != nil else {
                     let errorCode = (error! as NSError).userInfo["message"] as! String
-                    if let error = TradeDataManager.shared.generateErrorMessage(errorCode: errorCode) {
+                    if let error = P2POrderDataManager.shared.generateErrorMessage(errorCode: errorCode) {
                         self.completion(nil, error)
                     }
                     return
                 }
-                TradeDataManager.shared._submitRing(completion: self.completion)
+                P2POrderDataManager.shared._submitRing(completion: self.completion)
             }
         }
     }

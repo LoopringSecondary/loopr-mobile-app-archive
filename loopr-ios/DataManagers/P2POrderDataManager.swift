@@ -1,5 +1,5 @@
 //
-//  TradeDataManager.swift
+//  P2POrderDataManager.swift
 //  loopr-ios
 //
 //  Created by xiaoruby on 3/6/18.
@@ -10,17 +10,15 @@ import Foundation
 import Geth
 import BigInt
 
-class TradeDataManager {
+class P2POrderDataManager: OrderDataManager {
 
-    static let shared = TradeDataManager()
+    static let shared1 = P2POrderDataManager()
     static let qrcodeType: String = "P2P"
     static let qrcodeHash: String = "hash"
     static let qrcodeAuth: String = "auth"
     static let sellCount: String = "count"
 
-    var state: OrderTradeState
-    var orders: [RawOrder] = []
-    var balanceInfo: [String: Double] = [:]
+    var p2pOrders: [RawOrder] = []
     var errorMessage: [String: String] = [:]
     var makerSignature: SignatureData?
     var takerSignature: SignatureData?
@@ -36,40 +34,28 @@ class TradeDataManager {
     let orderCount: Int = 2
     let byteLength: Int = EthType.MAX_BYTE_LENGTH
 
-    var tokenS: Token {
+    override var baseToken: String {
         didSet {
             updatePair()
         }
     }
-    var tokenB: Token {
+    override var quoteToken: String {
         didSet {
             updatePair()
         }
     }
     var tradePair: String = ""
 
-    private init() {
-        state = .empty
+    override init() {
         // Get TokenS and TokenB from UserDefaults
         let defaults = UserDefaults.standard
-        var tokenS: Token?
         if let symbol = defaults.string(forKey: UserDefaultsKeys.tradeTokenS.rawValue) {
-            tokenS = Token(symbol: symbol)
+            baseToken = symbol
         }
         var tokenB: Token?
         if let symbol = defaults.string(forKey: UserDefaultsKeys.tradeTokenB.rawValue) {
-            tokenB = Token(symbol: symbol)
+            quoteToken = symbol
         }
-
-        // Use default values if loopring_getSupportedTokens returns errors.
-        if tokenS == nil || tokenB == nil {
-            self.tokenS = Token(symbol: "WETH")!
-            self.tokenB = Token(symbol: "LRC")!
-        } else {
-            self.tokenS = tokenS!
-            self.tokenB = tokenB!
-        }
-
         self.updatePair()
         self.setupErrorMessage()
     }
@@ -89,41 +75,37 @@ class TradeDataManager {
     }
 
     func updatePair() {
-        self.tradePair = "\(self.tokenS.symbol)/\(self.tokenB.symbol)"
-    }
-
-    func clear() {
-        state = .empty
+        self.tradePair = "\(self.baseToken)/\(self.quoteToken)"
     }
 
     func swapTokenSAndTokenB() {
-        let tmpToken = Token(symbol: tokenB.symbol)!
-        changeTokenB(tokenS)
+        let tmpToken = quoteToken
+        changeTokenB(baseToken)
         changeTokenS(tmpToken)
     }
 
-    func changeTokenS(_ token: Token) {
-        tokenS = token
+    func changeTokenS(_ token: String) {
+        baseToken = token
         let defaults = UserDefaults.standard
-        defaults.set(token.symbol, forKey: UserDefaultsKeys.tradeTokenS.rawValue)
+        defaults.set(token, forKey: UserDefaultsKeys.tradeTokenS.rawValue)
     }
 
-    func changeTokenB(_ token: Token) {
-        tokenB = token
+    func changeTokenB(_ token: String) {
+        quoteToken = token
         let defaults = UserDefaults.standard
-        defaults.set(token.symbol, forKey: UserDefaultsKeys.tradeTokenB.rawValue)
+        defaults.set(token, forKey: UserDefaultsKeys.tradeTokenB.rawValue)
     }
 
     func handleResult(of scanning: JSON) {
-        self.makerHash = scanning[TradeDataManager.qrcodeHash].stringValue
-        let makerPrivateKey = scanning[TradeDataManager.qrcodeAuth].stringValue
-        self.sellCount = scanning[TradeDataManager.sellCount].intValue
-        if let hash = self.makerHash, let maker = getOrder(by: hash) {
-            let taker = constructTaker(from: maker)
+        self.makerHash = scanning[P2POrderDataManager.qrcodeHash].stringValue
+        let makerPrivateKey = scanning[P2POrderDataManager.qrcodeAuth].stringValue
+        self.sellCount = scanning[P2POrderDataManager.sellCount].intValue
+        if let hash = self.makerHash, let maker = getOrder(by: hash),
+           let taker = constructTaker(from: maker) {
             self.isTaker = true
-            self.orders = []
-            self.orders.insert(maker, at: 0)
-            self.orders.insert(taker, at: 1)
+            self.p2pOrders = []
+            self.p2pOrders.insert(maker, at: 0)
+            self.p2pOrders.insert(taker, at: 1)
             self.makerPrivateKey = makerPrivateKey
         }
     }
@@ -131,55 +113,40 @@ class TradeDataManager {
     func getOrder(by hash: String) -> RawOrder? {
         var result: RawOrder?
         let semaphore = DispatchSemaphore(value: 0)
-        LoopringAPIRequest.getOrderByHash(orderHash: hash) { order, error in
-            guard error == nil && order != nil else {
+        LoopringAPIRequest.getOrdersByHash(hashes: [hash]) { orders, error in
+            guard let orders = orders, error == nil, orders.count == 1 else {
                 return
             }
-            result = order!.originalOrder
+            result = orders[0]
             semaphore.signal()
         }
         _ = semaphore.wait(timeout: .distantFuture)
         return result
     }
 
-    func constructTaker(from maker: RawOrder) -> RawOrder {
-        var buyNoMoreThanAmountB: Bool
-        var amountB, amountS: BigInt
-        var amountBuy, amountSell: Double
-        var tokenSell, tokenBuy, market: String
+    func constructTaker(from maker: RawOrder) -> RawOrder? {
+        baseToken = maker.tokenBuy!  // TODO check here
+        quoteToken = maker.tokenSell! // TODO check here
+        let tokenBuy = TokenDataManager.shared.getTokenBySymbol(maker.tokenBuy!)!
+        let tokenSell = TokenDataManager.shared.getTokenBySymbol(maker.tokenSell!)!
+        var amountBuy = maker.amountSell?.toDouble(by: tokenSell.decimals)
+        var amountSell = maker.amountBuy?.toDouble(by: tokenBuy.decimals)
+        let validS = maker.validSince
+        let validU = maker.params.validUntil
 
-        buyNoMoreThanAmountB = true
-        tokenBuy = maker.tokenSell
-        tokenSell = maker.tokenBuy
-        market = "\(tokenSell)/\(tokenBuy)"
-        amountB = maker.amountS / BigInt(sellCount)
-        if maker.amountB % BigInt(sellCount) == 0 {
-            amountS = maker.amountB / BigInt(sellCount)
-        } else {
-            amountS = maker.amountB / BigInt(sellCount) + 1
-        }
-
-        let tokenB = TokenDataManager.shared.getTokenBySymbol(maker.tokenSell)!
-        let tokenS = TokenDataManager.shared.getTokenBySymbol(maker.tokenBuy)!
-        amountBuy = amountB.toDouble(by: tokenB.decimals)
-        amountSell = amountS.toDouble(by: tokenS.decimals)
-
-        let delegate = RelayAPIConfiguration.delegateAddress
-        let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
-        let since = maker.validSince
-        let until = maker.validUntil
-        var order = RawOrder(delegate: delegate, address: address, side: "buy", tokenS: tokenSell, tokenB: tokenBuy, validSince: since, validUntil: until, amountBuy: amountBuy, amountSell: amountSell, lrcFee: 0, buyNoMoreThanAmountB: buyNoMoreThanAmountB, amountS: amountS, amountB: amountB, orderType: .p2pOrder, p2pType: .taker, market: market)
-        MarketOrderDataManager.shared.completeOrder(&order)
+        var order = constructOrder(side: .sell, amountBuy: amountBuy!, amountSell: amountSell!, validSince: validS, validUntil: validU)
+        order?.orderType = .p2pOrder
+        order?.p2pType = .taker
         return order
     }
 
     func validate(completion: @escaping (String?, Error?) -> Void) -> Bool {
         var result = false
-        if self.orders.count >= 2 {
-            let maker = orders[0]
-            let taker = orders[1]
+        if self.p2pOrders.count >= 2 {
+            let maker = p2pOrders[0]
+            let taker = p2pOrders[1]
             if self.makerPrivateKey != nil && maker.hash != ""
-                && taker.hash != "" && taker.authPrivateKey != "" {
+                && taker.hash != "" && taker.params.dualAuthPrivateKey != "" {
                 result = true
             }
         } else {
@@ -194,11 +161,9 @@ class TradeDataManager {
     func _submitRing(completion: @escaping (String?, Error?) -> Void) {
         guard validate(completion: completion) else { return }
         guard let rawTx = _generate(completion: completion) else { return }
-        let makerOrderHash = orders[0].hash
-        let takerOrderHash = orders[1].hash
-        LoopringAPIRequest.submitRing(makerOrderHash: makerOrderHash, takerOrderHash: takerOrderHash, rawTx: rawTx, completionHandler: { (txHash, error) in
-            CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.incrementNonce()
-            guard txHash != nil && error == nil else {
+
+        EthereumAPIRequest.eth_sendRawTransaction(data: rawTx, completionHandler: { (result, error) in
+            guard error == nil, let txHash = result?.respond else {
                 let errorCode = (error! as NSError).userInfo["message"] as! String
                 if let error = self.generateErrorMessage(errorCode: errorCode) {
                     completion(nil, error)
@@ -223,7 +188,7 @@ class TradeDataManager {
 
     func generateFee() -> [Any] {
         var result: [Any] = []
-        result.append(GethAddress.init(fromHex: orders[0].walletAddress)) // feeReceipt
+        result.append(GethAddress(fromHex: p2pOrders[0].walletAddress)) // feeReceipt
         result.append(GethBigInt.init(0)) // feeSelection
         return result
     }
@@ -242,25 +207,27 @@ class TradeDataManager {
 
     func generateAddresses() -> [Any] {
         var result: [Any] = []
-        for order in orders {
+        for order in p2pOrders {
             let tokenS = TokenDataManager.shared.getAddress(by: order.tokenSell)!
-            result.append(GethAddress.init(fromHex: order.address))
-            result.append(GethAddress.init(fromHex: tokenS))
-            result.append(GethAddress.init(fromHex: order.walletAddress))
-            result.append(GethAddress.init(fromHex: order.authAddr))
+
+
+            result.append(GethAddress(fromHex: order.address))
+            result.append(GethAddress(fromHex: tokenS))
+            result.append(GethAddress(fromHex: order.walletAddress))
+            result.append(GethAddress(fromHex: order.authAddr))
         }
         return result
     }
 
     func generateValues() -> [Any] {
         var result: [Any] = []
-        for order in orders {
+        for order in p2pOrders {
             let amountSell = order.amountS.toEth()
             result.append(amountSell)
             let amountBuy = order.amountB.toEth()
             result.append(amountBuy)
-            result.append(GethBigInt.init(order.validSince))
-            result.append(GethBigInt.init(order.validUntil))
+            result.append(GethBigInt(order.validSince))
+            result.append(GethBigInt(order.validUntil))
             let lrcFee = GethBigInt.generate(valueInEther: order.lrcFee, symbol: "LRC")!
             result.append(lrcFee)
             result.append(amountSell) // rateAmountSell = amountSell
@@ -270,7 +237,7 @@ class TradeDataManager {
 
     func generateMargin() -> [Any] {
         var result: [Any] = []
-        for order in orders {
+        for order in p2pOrders {
             let margin = Int64(order.marginSplitPercentage)
             result.append(GethBigInt.init(margin))
         }
@@ -279,7 +246,7 @@ class TradeDataManager {
 
     func generateFlag() -> [Any] {
         var result: [Any] = []
-        for order in orders {
+        for order in p2pOrders {
             let flag = order.buyNoMoreThanAmountB ? 1 : 0
             result.append(GethBigInt.init(Int64(flag)))
         }
@@ -288,12 +255,12 @@ class TradeDataManager {
 
     func generateVList() -> [Any] {
         var result: [Any] = []
-        for order in orders {
-            result.append(GethBigInt.init(Int64(order.v)))
+        for order in p2pOrders {
+            result.append(GethBigInt(Int64(order.v)))
         }
         if let maker = makerSignature, let taker = takerSignature {
-            result.append(GethBigInt.init(Int64(maker.v)!))
-            result.append(GethBigInt.init(Int64(taker.v)!))
+            result.append(GethBigInt(Int64(maker.v)!))
+            result.append(GethBigInt(Int64(taker.v)!))
         }
         return result
     }
@@ -302,7 +269,7 @@ class TradeDataManager {
         var data: Data = Data()
         let value = GethBigInt.init(Int64(self.orderCount * 2))!
         data.append(contentsOf: try! EthTypeEncoder.default.encode(value).bytes)
-        for order in orders {
+        for order in p2pOrders {
             data.append(contentsOf: order.r.hexBytes)
         }
         if let maker = makerSignature, let taker = takerSignature {
@@ -316,7 +283,7 @@ class TradeDataManager {
         var data: Data = Data()
         let value = GethBigInt.init(Int64(self.orderCount * 2))!
         data.append(contentsOf: try! EthTypeEncoder.default.encode(value).bytes)
-        for order in orders {
+        for order in p2pOrders {
             data.append(contentsOf: order.s.hexBytes)
         }
         if let maker = makerSignature, let taker = takerSignature {
@@ -353,12 +320,12 @@ class TradeDataManager {
 
     func generateHash() -> Data {
         var result: Data = Data()
-        let orderAHash = orders[0].hash.hexBytes
-        let orderBHash = orders[1].hash.hexBytes
+        let orderAHash = p2pOrders[0].hash.hexBytes
+        let orderBHash = p2pOrders[1].hash.hexBytes
         for t in orderAHash.enumerated() {
             result.append(t.element ^ orderBHash[t.offset])
         }
-        result.append(contentsOf: orders[0].walletAddress.hexBytes)
+        result.append(contentsOf: p2pOrders[0].params.wallet.hexBytes)
         result.append(contentsOf: [0, 0]) // feeSelection = 0 UInt16
         return result
     }
@@ -428,7 +395,7 @@ class TradeDataManager {
         let hex = generateHash().hexString
         let hash = Data(bytes: hex.hexBytes)
         makerSignature = signHash(privateKey: self.makerPrivateKey!, hash: hash)
-        takerSignature = signHash(privateKey: orders[1].authPrivateKey, hash: hash)
+        takerSignature = signHash(privateKey: p2pOrders[1].authPrivateKey, hash: hash)
     }
 
     func verify(order: RawOrder) -> [String: Double] {
