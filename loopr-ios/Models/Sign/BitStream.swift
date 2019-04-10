@@ -34,69 +34,68 @@ class BitStream {
         return data.count / 2
     }
 
-    func addAddress(_ x: String, forceAppend: Bool = true) -> Int {
-        return addAddress(x, ADDRESS_LENGTH, forceAppend: forceAppend);
+    func addAddress(_ x: String, forceAppend: Bool = true) {
+        addAddress(x, ADDRESS_LENGTH, forceAppend: forceAppend);
     }
     
-    func addAddress(_ x: String, _ numBytes: Int, forceAppend: Bool = true) -> Int {
+    func addAddress(_ x: String, _ numBytes: Int, forceAppend: Bool = true) {
         let _x = x.count == 0 ? "0" : x
-        return insert(_x.toBigInt!.toHexWithoutPrefixZero(size: numBytes * 2)!, forceAppend)
+        insert(_x.toBigInt!.toHexWithoutPrefixZero(size: numBytes * 2)!, forceAppend)
     }
 
-    func addUint16(_ num: BigInt, forceAppend: Bool = true) -> Int {
-        return addBigInt(num, 2, forceAppend)
+    func addUint16(_ num: BigInt, forceAppend: Bool = true) {
+        addBigInt(num, 2, forceAppend)
     }
 
-    func addInt16(_ num: BigInt, forceAppend: Bool = true) -> Int {
+    func addInt16(_ num: BigInt, forceAppend: Bool = true) {
         if num.signum() == -1 {
             let negUint256 = Uint256Max + num + 1
             let int16Str = negUint256.toHexWithoutPrefix()[60..<64]
-            return addHex(int16Str, forceAppend)
+            addHex(int16Str, forceAppend: forceAppend)
         } else {
-            return addBigInt(num, 2, forceAppend)
+            addBigInt(num, 2, forceAppend)
         }
     }
 
-    func addUint32(_ num: BigInt, forceAppend: Bool = true) -> Int {
-        return addBigInt(num, 4, forceAppend)
+    func addUint32(_ num: BigInt, forceAppend: Bool = true) {
+        addBigInt(num, 4, forceAppend)
     }
 
-    func addUint(_ num: BigInt, forceAppend: Bool = true) -> Int {
-        return addBigInt(num, 32, forceAppend)
+    func addUint(_ num: BigInt, forceAppend: Bool = true) {
+        addBigInt(num, 32, forceAppend)
     }
 
-    func addNumber(_ num: BigInt, _ numBytes: Int, forceAppend: Bool = true) -> Int {
-        return addBigInt(num, numBytes, forceAppend)
+    func addNumber(_ num: BigInt, _ numBytes: Int, forceAppend: Bool = true) {
+        addBigInt(num, numBytes, forceAppend)
     }
 
-    func addBool(_ b: Bool, forceAppend: Bool = true) -> Int {
+    func addBool(_ b: Bool, forceAppend: Bool = true) {
         let _b = b ? BigInt(1) : BigInt(0)
-        return addBigInt(_b, 1, forceAppend)
+        addBigInt(_b, 1, forceAppend)
     }
 
-    func addBytes32(_ x: String, forceAppend: Bool) throws -> Int {
+    func addBytes32(_ x: String, forceAppend: Bool) {
         let strWithoutPrefix = x.drop0x()
-        if strWithoutPrefix.count > 64 {
-            throw NSException(name: NSExceptionName.invalidArgumentException ,reason: "invalid bytes32 str: too long, str: \(strWithoutPrefix)", userInfo: nil) as! Error
+        if strWithoutPrefix.count <= 64 {
+            let strPadded = strWithoutPrefix + String(repeating: "0", count: 64 - strWithoutPrefix.count)
+            insert(strPadded, forceAppend)
         }
-        let strPadded = strWithoutPrefix + String(repeating: "0", count: 64 - strWithoutPrefix.count)
-        return insert(strPadded, forceAppend)
     }
 
-    func addHex(_ x: String, forceAppend: Bool = true) -> Int {
-        return insert(x.drop0x(), forceAppend)
+    func addHex(_ x: String, forceAppend: Bool = true) {
+        insert(x.drop0x(), forceAppend)
     }
 
-    func addRawBytes(data: Data, forceAppend: Bool = true) -> Int {
-        return insert(data.hexStringWithNoPrefix, forceAppend)
+    func addRawBytes(_ data: Data, forceAppend: Bool = true) {
+        insert(data.hexStringWithNoPrefix, forceAppend)
     }
 
-    func addBigInt(_ num: BigInt, _ numBytes: Int, _ forceAppend: Bool = true) -> Int {
+    func addBigInt(_ num: BigInt, _ numBytes: Int, _ forceAppend: Bool = true) {
         let x = num.toHexWithoutPrefixZero(size: numBytes * 2) ?? ""
-        return insert(x, forceAppend)
+        insert(x, forceAppend)
     }
 
-    private func insert(_ x: String, _ forceAppend: Bool) -> Int {
+    private func insert(_ x: String, _ forceAppend: Bool) {
         if !forceAppend {
             var start = 0
             while true {
@@ -104,8 +103,7 @@ class BitStream {
                 if let index = subData.index(of: x) {
                     let distance = data.distance(from: data.startIndex, to: index)
                     if (distance % 2 == 0) {
-                        let offset = distance / 2
-                        return offset
+                        return
                     } else {
                         start += 1
                     }
@@ -115,6 +113,5 @@ class BitStream {
             }
         }
         data.append(x)
-        return getLength()
     }
 }

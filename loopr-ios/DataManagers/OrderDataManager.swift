@@ -82,7 +82,7 @@ class OrderDataManager {
 
     func constructOrder(side: OrderSide, amountBuy: Double, amountSell: Double, validSince: Int, validUntil: Int) -> RawOrder? {
 
-        var result: RawOrder?
+        var result: RawOrder? = RawOrder()
         var tokenB, tokenBuy, tokenS, tokenSell, amountB, amountS: String
         let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
 
@@ -112,6 +112,7 @@ class OrderDataManager {
             feeParams.tokenRecipient = address
 
             var order = RawOrder()
+            order.orderSide = side
             order.owner = address; order.version = 0
             order.tokenB = tokenB; order.tokenBuy = tokenBuy
             order.tokenS = tokenS; order.tokenSell = tokenSell
@@ -121,7 +122,6 @@ class OrderDataManager {
             order.params = orderParams
             order.feeParams = feeParams
             order.erc1400Params = erc1400Params
-
             result = completeOrder(&order)
         }
         return result
@@ -130,53 +130,53 @@ class OrderDataManager {
     func completeOrder(_ order: inout RawOrder) -> RawOrder? {
         let orderData = getOrderHash(order: order)
         SendCurrentAppWalletDataManager.shared._keystore()
-        if case (let signature?, let hash?) = web3swift.sign(message: orderData) {
-            order.hash = hash
-            order.r = signature.r
-            order.s = signature.s
-            order.v = UInt(signature.v)!
+        if case (let signature?, _?) = web3swift.sign(message: orderData) {
+            order.hash = orderData.hexString
+            order.setSignature(sig: signature)
         }
     }
 
     func getOrderHash(order: RawOrder) -> Data {
-        var bitStream: BitStream = BitStream()
+        let bitStream: BitStream = BitStream()
         let orderParams = order.params
         let feeParams = order.feeParams
         let erc1400Params = order.erc1400Params
 
         let transferDataHash = erc1400Params.transferDataS.sha3(.keccak256).hexString
-        try! bitStream.addBytes32(Eip712OrderSchemaHash, forceAppend: true)
-        bitStream.addUint(order.amountS.toBigInt!, forceAppend: true);
-        bitStream.addUint(order.amountB.toBigInt!, forceAppend: true);
-        bitStream.addUint(feeParams.amountFee.toBigInt!, forceAppend: true);
-        bitStream.addUint(BigInt(order.validSince), forceAppend: true);
-        bitStream.addUint(BigInt(order.params.validUntil), forceAppend: true);
-        bitStream.addAddress(order.owner, 32, forceAppend: true);
-        bitStream.addAddress(order.tokenS, 32, forceAppend: true);
-        bitStream.addAddress(order.tokenB, 32, forceAppend: true);
-        bitStream.addAddress(orderParams.dualAuthAddr, 32, forceAppend: true);
-        bitStream.addAddress(orderParams.broker, 32, forceAppend: true);
-        bitStream.addAddress(orderParams.orderInterceptor, 32, forceAppend: true);
-        bitStream.addAddress(orderParams.wallet, 32, forceAppend: true);
-        bitStream.addAddress(feeParams.tokenRecipient, 32, forceAppend: true);
-        bitStream.addAddress(feeParams.tokenFee, forceAppend: true);
-        bitStream.addUint(BigInt(feeParams.walletSplitPercentage), forceAppend: true);
-        bitStream.addUint(BigInt(feeParams.tokenSFeePercentage), forceAppend: true);
-        bitStream.addUint(BigInt(feeParams.tokenBFeePercentage), forceAppend: true);
-        bitStream.addBool(orderParams.allOrNone, forceAppend: true);
-        bitStream.addUint(BigInt(erc1400Params.tokenStandardS), forceAppend: true);
-        bitStream.addUint(BigInt(erc1400Params.tokenStandardB), forceAppend: true);
-        bitStream.addUint(BigInt(erc1400Params.tokenStandardFee), forceAppend: true);
-        try! bitStream.addBytes32(erc1400Params.trancheS, forceAppend: true);
-        try! bitStream.addBytes32(erc1400Params.trancheB, forceAppend: true);
-        try! bitStream.addBytes32(transferDataHash, forceAppend: true);
+        bitStream.addBytes32(Eip712OrderSchemaHash, forceAppend: true)
+        bitStream.addUint(order.amountS.toBigInt!, forceAppend: true)
+        bitStream.addUint(order.amountB.toBigInt!, forceAppend: true)
+        bitStream.addUint(feeParams.amountFee.toBigInt!, forceAppend: true)
+        bitStream.addUint(BigInt(order.validSince), forceAppend: true)
+        bitStream.addUint(BigInt(order.params.validUntil), forceAppend: true)
+        bitStream.addAddress(order.owner, 32, forceAppend: true)
+        bitStream.addAddress(order.tokenS, 32, forceAppend: true)
+        bitStream.addAddress(order.tokenB, 32, forceAppend: true)
+        bitStream.addAddress(orderParams.dualAuthAddr, 32, forceAppend: true)
+        bitStream.addAddress(orderParams.broker, 32, forceAppend: true)
+        bitStream.addAddress(orderParams.orderInterceptor, 32, forceAppend: true)
+        bitStream.addAddress(orderParams.wallet, 32, forceAppend: true)
+        bitStream.addAddress(feeParams.tokenRecipient, 32, forceAppend: true)
+        bitStream.addAddress(feeParams.tokenFee, forceAppend: true)
+        bitStream.addUint(BigInt(feeParams.walletSplitPercentage), forceAppend: true)
+        bitStream.addUint(BigInt(feeParams.tokenSFeePercentage), forceAppend: true)
+        bitStream.addUint(BigInt(feeParams.tokenBFeePercentage), forceAppend: true)
+        bitStream.addBool(orderParams.allOrNone, forceAppend: true)
+        bitStream.addUint(BigInt(erc1400Params.tokenStandardS), forceAppend: true)
+        bitStream.addUint(BigInt(erc1400Params.tokenStandardB), forceAppend: true)
+        bitStream.addUint(BigInt(erc1400Params.tokenStandardFee), forceAppend: true)
+        bitStream.addBytes32(erc1400Params.trancheS, forceAppend: true)
+        bitStream.addBytes32(erc1400Params.trancheB, forceAppend: true)
+        bitStream.addBytes32(transferDataHash, forceAppend: true)
         
         let orderDataHash: String = bitStream.getBytes().sha3(.keccak256).hexString
         let outerStream: BitStream = BitStream()
         outerStream.addHex(Eip191Header.hexString, forceAppend: true)
-        try! outerStream.addBytes32(Eip712DomainHash, forceAppend: true)
-        try! outerStream.addBytes32(orderDataHash, forceAppend: true)
-        return outerStream.getBytes().sha3(.keccak256).hexString
+        outerStream.addBytes32(Eip712DomainHash, forceAppend: true)
+        outerStream.addBytes32(orderDataHash, forceAppend: true)
+        
+        let data1 = Data(bytes: outerStream.getBytes())
+        return data1.sha3(.keccak256)
     }
 
     func getLrcFee(_ amountS: Double, _ tokenS: String) -> Double {

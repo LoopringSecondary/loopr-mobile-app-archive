@@ -24,6 +24,18 @@ open class SignatureData {
         return _s.toHexString()
     }
     
+    func getV() -> Int {
+        return _v
+    }
+    
+    func getR() -> Data {
+        return _r
+    }
+    
+    func getS() -> Data {
+        return _s
+    }
+    
     init(v: Int, r: Data, s: Data) {
         _v = v
         _r = r

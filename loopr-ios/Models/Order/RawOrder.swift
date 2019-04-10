@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import BigInt
 
 class RawOrder: Equatable {
 
@@ -130,6 +131,16 @@ class RawOrder: Equatable {
         json["feeParams"] = feeParams.toJson()
         json["erc1400Params"] = erc1400Params.toJson()
         return json
+    }
+    
+    func setSignature(sig: SignatureData) {
+        let sigStream = BitStream()
+        sigStream.addNumber(BigInt(1), 1, forceAppend: true)
+        sigStream.addNumber(1 + 32 + 32, 1, forceAppend: true)
+        sigStream.addNumber(BigInt(sig.getV()), 1, forceAppend: true)
+        sigStream.addRawBytes(sig.getR(), forceAppend: true)
+        sigStream.addRawBytes(sig.getS(), forceAppend: true)
+        self.params.sig = sigStream.getData()
     }
 
     static func ==(lhs: RawOrder, rhs: RawOrder) -> Bool {
