@@ -222,7 +222,7 @@ class TradeReviewViewController: UIViewController {
         body["type"] = JSON(P2POrderDataManager.qrcodeType)
         body["value"] = [P2POrderDataManager.qrcodeHash: order.hash,
                          P2POrderDataManager.qrcodeAuth: order.authPrivateKey,
-                         P2POrderDataManager.sellCount: P2POrderDataManager.shared.sellCount]
+                         P2POrderDataManager.sellCount: P2POrderDataManager.instance.sellCount]
         do {
             let data = try body.rawData(options: .prettyPrinted)
             let ciContext = CIContext()

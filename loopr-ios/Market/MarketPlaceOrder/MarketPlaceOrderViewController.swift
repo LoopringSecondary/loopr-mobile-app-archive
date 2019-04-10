@@ -52,8 +52,8 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
 
     var isLaunching: Bool = true
 
+    var cursor: UInt = 1
     var previousOrderCount: Int = 0
-    var pageIndex: UInt = 1
     var hasMoreData: Bool = true
 
     let refreshControl = UIRefreshControl()
@@ -100,17 +100,15 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
 
         let nib = Bundle.main.loadNibNamed("MarketPlaceOrderTableViewCell", owner: self, options: nil)
         marketPlaceOrderTableViewCell = nib![0] as! MarketPlaceOrderTableViewCell
-
         numericKeyboardBaseView.theme_backgroundColor = ColorPicker.backgroundColor
         numericKeyboardBaseView.backgroundColor = .clear
-
         blurVisualEffectView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         blurVisualEffectView.alpha = 1
         blurVisualEffectView.frame = UIScreen.main.bounds
     }
 
     @objc private func refreshData() {
-        pageIndex = 1
+        cursor = 1
         hasMoreData = true
         getDataFromRelay()
     }
@@ -129,12 +127,12 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
     }
 
     private func getDataFromRelay() {
-        OrderDataManager.shared.getOrdersFromServer(pageIndex: pageIndex, status: OrderStatus.pending_active.rawValue, completionHandler: { _ in
+        OrderDataManager.shared.getOrdersFromServer(cursor: cursor, completionHandler: { _ in
             DispatchQueue.main.async {
                 if self.isLaunching {
                     self.isLaunching = false
                 }
-                self.orders = OrderDataManager.shared.getOrders(type: .open)
+                self.orders = OrderDataManager.shared.getOrders(orderStatuses: [.new, .pending, .partially_filled])
                 if self.previousOrderCount != self.orders.count {
                     self.hasMoreData = true
                 } else {
@@ -146,20 +144,6 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
                 self.tableView2.reloadData()
             }
         })
-
-        /*
-        MarketDepthDataManager.shared.getDepthFromServer(market: market.name, completionHandler: { buys, sells, _ in
-            self.buys = buys
-            self.sells = sells
-
-            DispatchQueue.main.async {
-                // Update the orderbook on the right
-                self.marketPlaceOrderTableViewCell.setBuys(buys)
-                self.marketPlaceOrderTableViewCell.setSells(sells)
-                self.marketPlaceOrderTableViewCell.orderbookTableView.reloadData()
-            }
-        })
-        */
     }
 
     private func isTableEmpty() -> Bool {
@@ -259,10 +243,9 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
 
                 // Pagination
                 if hasMoreData && indexPath.row == orders.count - 1 {
-                    pageIndex += 1
+                    cursor += 1
                     getDataFromRelay()
                 }
-
                 return cell!
             }
         }
@@ -401,7 +384,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         if let value = Double(marketPlaceOrderTableViewCell.priceTextField.text!.removeComma()) {
             let validate = value > 0.0
             if validate {
-                let tokenBPrice = PriceDataManager.shared.getPrice(of: OrderDataManager.shared.quoteToken.symbol)!
+                let tokenBPrice = PriceDataManager.shared.getPrice(of: OrderDataManager.shared.quoteToken)!
                 let estimateValue: Double = value * tokenBPrice
                 marketPlaceOrderTableViewCell.priceTipLabel.text = "≈ \(estimateValue.currency)"
                 marketPlaceOrderTableViewCell.priceTipLabel.isHidden = false
@@ -503,58 +486,17 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
     }
 
     func constructOrder() -> RawOrder? {
-        var buyNoMoreThanAmountB: Bool
-        var side, tokenSell, tokenBuy: String
-        var amountBuy, amountSell, lrcFee: Double
-        var amountB, amountS: BigInt
+        var amountBuy, amountSell: Double
         if self.type == .buy {
-            side = "buy"
-            tokenBuy = OrderDataManager.shared.baseToken.symbol
-            tokenSell = OrderDataManager.shared.quoteToken.symbol
-            buyNoMoreThanAmountB = true
             amountBuy = Double(marketPlaceOrderTableViewCell.amountTextField.text!.removeComma())!
             amountSell = self.orderAmount
-            amountB = BigInt.generate(from: amountBuy, by: OrderDataManager.shared.baseToken.decimals)
-            amountS = BigInt.generate(from: amountSell, by: OrderDataManager.shared.quoteToken.decimals)
         } else {
-            side = "sell"
-            tokenBuy = OrderDataManager.shared.quoteToken.symbol
-            tokenSell = OrderDataManager.shared.baseToken.symbol
-            buyNoMoreThanAmountB = false
             amountBuy = self.orderAmount
             amountSell = Double(marketPlaceOrderTableViewCell.amountTextField.text!.removeComma())!
-            amountB = BigInt.generate(from: amountBuy, by: OrderDataManager.shared.quoteToken.decimals)
-            amountS = BigInt.generate(from: amountSell, by: OrderDataManager.shared.baseToken.decimals)
         }
-
-        lrcFee = getLrcFee(amountSell, tokenSell)
-        let delegate = RelayAPIConfiguration.delegateAddress
-        let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
-        let since = Int64(Date().timeIntervalSince1970)
-        let until = Int64(Calendar.current.date(byAdding: orderIntervalTime.intervalUnit, value: orderIntervalTime.intervalValue, to: Date())!.timeIntervalSince1970)
-        var order = RawOrder(delegate: delegate, address: address, side: side, tokenS: tokenSell, tokenB: tokenBuy, validSince: since, validUntil: until, amountBuy: amountBuy, amountSell: amountSell, lrcFee: lrcFee, buyNoMoreThanAmountB: buyNoMoreThanAmountB, amountS: amountS, amountB: amountB)
-        MarketOrderDataManager.instance.completeOrder(&order)
-        return order
-    }
-
-}
-
-extension MarketPlaceOrderViewController {
-
-    // TODO: this will be out of date in Relay 2.0
-    func getLrcFee(_ amountS: Double, _ tokenS: String) -> Double {
-        var result: Double = 0
-        let pair = tokenS + "/LRC"
-        let ratio = SettingDataManager.shared.getLrcFeeRatio()
-        if let market = MarketDataManager.shared.getMarket(byTradingPair: pair) {
-            result = market.balance * amountS * ratio
-        } else if let price = PriceDataManager.shared.getPrice(of: tokenS),
-            let lrcPrice = PriceDataManager.shared.getPrice(of: "LRC") {
-            result = price * amountS * ratio / lrcPrice
-        }
-        // do not know what this logic for. temp annotation
-        let minLrc = GasDataManager.shared.getGasAmount(by: "eth_transfer", in: "LRC")
-        return max(result, minLrc)
+        let since = Int(Date().timeIntervalSince1970)
+        let until = Int(Calendar.current.date(byAdding: orderIntervalTime.intervalUnit, value: orderIntervalTime.intervalValue, to: Date())!.timeIntervalSince1970)
+        return MarketOrderDataManager.instance.constructOrder(side: self.type, amountBuy: amountBuy, amountSell: amountSell, validSince: since, validUntil: until)
     }
 
 }

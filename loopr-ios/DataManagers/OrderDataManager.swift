@@ -83,7 +83,6 @@ class OrderDataManager {
 
     func constructOrder(side: OrderSide, amountBuy: Double, amountSell: Double, validSince: Int, validUntil: Int) -> RawOrder? {
 
-        var result: RawOrder? = RawOrder()
         var tokenB, tokenBuy, tokenS, tokenSell, amountB, amountS: String
         let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
 
@@ -124,8 +123,9 @@ class OrderDataManager {
             order.feeParams = feeParams
             order.erc1400Params = erc1400Params
             completeOrder(&order)
+            return order
         }
-        return result
+        return nil
     }
 
     func completeOrder(_ order: inout RawOrder) {

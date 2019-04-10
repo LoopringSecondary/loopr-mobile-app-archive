@@ -199,7 +199,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         tokenBView.update(type: .buy, symbol: order.tokenBuy, amount: order.amountBuy)
 
         let price = order.amountBuy / order.amountSell
-        if order.side == "buy" {
+        if order.orderSide == .buy {
             let value = 1 / price
             priceValueLabel.text = "\(value.withCommas(12).trailingZero()) \(order.tokenBuy)/\(order.tokenSell)"
         } else {

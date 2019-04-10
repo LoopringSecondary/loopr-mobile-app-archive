@@ -99,7 +99,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         buyTipLabel.setTitleDigitFont()
         buyTipLabel.text = LocalizedString("Amount", comment: "")
         amountTokenLabel.setTitleDigitFont()
-        amountTokenLabel.text = OrderDataManager.shared.baseToken.symbol
+        amountTokenLabel.text = OrderDataManager.shared.baseToken
         tipLabel.setSubTitleCharFont()
 
         let textFieldLeftPadding = buyTipLabel.text!.textWidth(font: FontConfigManager.shared.getDigitalFont()) + 16
@@ -118,7 +118,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         sellTipLabel.setTitleDigitFont()
         sellTipLabel.text = LocalizedString("Price", comment: "")
         priceTokenLabel.setTitleDigitFont()
-        priceTokenLabel.text = OrderDataManager.shared.quoteToken.symbol
+        priceTokenLabel.text = OrderDataManager.shared.quoteToken
         estimateValueInCurrencyLabel.text = ""
         estimateValueInCurrencyLabel.setSubTitleCharFont()
 
@@ -233,11 +233,11 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         var message: String = ""
         let title = LocalizedString("Available Balance", comment: "")
         if self.type == .buy {
-            self.tokenB = OrderDataManager.shared.baseToken.symbol
-            self.tokenS = OrderDataManager.shared.quoteToken.symbol
+            self.tokenB = OrderDataManager.shared.baseToken
+            self.tokenS = OrderDataManager.shared.quoteToken
         } else {
-            self.tokenB = OrderDataManager.shared.quoteToken.symbol
-            self.tokenS = OrderDataManager.shared.baseToken.symbol
+            self.tokenB = OrderDataManager.shared.quoteToken
+            self.tokenS = OrderDataManager.shared.baseToken
         }
         if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenS) {
             message = "\(title) \(asset.display) \(self.tokenS)"
@@ -378,38 +378,17 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
     }
 
     func constructOrder() -> RawOrder? {
-        var buyNoMoreThanAmountB: Bool
-        var side, tokenSell, tokenBuy: String
-        var amountBuy, amountSell, lrcFee: Double
-        var amountB, amountS: BigInt
+        var amountBuy, amountSell: Double
         if self.type == .buy {
-            side = "buy"
-            tokenBuy = OrderDataManager.shared.baseToken.symbol
-            tokenSell = OrderDataManager.shared.quoteToken.symbol
-            buyNoMoreThanAmountB = true
             amountBuy = Double(amountTextField.text!.removeComma())!
             amountSell = self.orderAmount
-            amountB = BigInt.generate(from: amountBuy, by: OrderDataManager.shared.baseToken.decimals)
-            amountS = BigInt.generate(from: amountSell, by: OrderDataManager.shared.quoteToken.decimals)
         } else {
-            side = "sell"
-            tokenBuy = OrderDataManager.shared.quoteToken.symbol
-            tokenSell = OrderDataManager.shared.baseToken.symbol
-            buyNoMoreThanAmountB = false
             amountBuy = self.orderAmount
             amountSell = Double(amountTextField.text!.removeComma())!
-            amountB = BigInt.generate(from: amountBuy, by: OrderDataManager.shared.quoteToken.decimals)
-            amountS = BigInt.generate(from: amountSell, by: OrderDataManager.shared.baseToken.decimals)
         }
-
-        lrcFee = getLrcFee(amountSell, tokenSell)
-        let delegate = RelayAPIConfiguration.delegateAddress
-        let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address
-        let since = Int64(Date().timeIntervalSince1970)
-        let until = Int64(Calendar.current.date(byAdding: orderIntervalTime.intervalUnit, value: orderIntervalTime.intervalValue, to: Date())!.timeIntervalSince1970)
-        var order = RawOrder(delegate: delegate, address: address, side: side, tokenS: tokenSell, tokenB: tokenBuy, validSince: since, validUntil: until, amountBuy: amountBuy, amountSell: amountSell, lrcFee: lrcFee, buyNoMoreThanAmountB: buyNoMoreThanAmountB, amountS: amountS, amountB: amountB)
-        MarketOrderDataManager.instance.completeOrder(&order)
-        return order
+        let since = Int(Date().timeIntervalSince1970)
+        let until = Int(Calendar.current.date(byAdding: orderIntervalTime.intervalUnit, value: orderIntervalTime.intervalValue, to: Date())!.timeIntervalSince1970)
+        return MarketOrderDataManager.instance.constructOrder(side: self.type, amountBuy: amountBuy, amountSell: amountSell, validSince: since, validUntil: until)
     }
 
     @IBAction func pressedPlaceOrderButton(_ sender: Any) {
@@ -480,7 +459,7 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
         if let value = Double(priceTextField.text!.removeComma()) {
             let validate = value > 0.0
             if validate {
-                let tokenBPrice = PriceDataManager.shared.getPrice(of: OrderDataManager.shared.quoteToken.symbol)!
+                let tokenBPrice = PriceDataManager.shared.getPrice(of: OrderDataManager.shared.quoteToken)!
                 let estimateValue: Double = value * tokenBPrice
                 estimateValueInCurrencyLabel.text = "≈ \(estimateValue.currency)"
                 estimateValueInCurrencyLabel.isHidden = false
@@ -514,7 +493,6 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
                     tipLabel.text = "\(title) \(maxAmountToBuy.withCommas().trailingZero()) \(tokenB)"
                 }
             }
-
         case .sell:
             if let balance = getBalance() {
                 let title = LocalizedString("Available Balance", comment: "")
@@ -752,7 +730,7 @@ extension BuyViewController: MarketDetailDepthModalViewControllerDelegate {
 
     func dismissWithSelectedDepth(amount: String, price: String) {
         priceTextField.text = price.trailingZero()
-        let token = OrderDataManager.shared.quoteToken.symbol
+        let token = OrderDataManager.shared.quoteToken
         let tokenBPrice = PriceDataManager.shared.getPrice(of: token)!
         let estimateValue: Double = (Double(priceTextField.text!) ?? 0) * tokenBPrice
         estimateValueInCurrencyLabel.isHidden = false
@@ -767,35 +745,16 @@ extension BuyViewController: MarketDetailDepthModalViewControllerDelegate {
 
 extension BuyViewController {
 
-    func getLrcFee(_ amountS: Double, _ tokenS: String) -> Double {
-        var result: Double = 0
-        let pair = tokenS + "/LRC"
-        let ratio = SettingDataManager.shared.getLrcFeeRatio()
-        if let market = MarketDataManager.shared.getMarket(byTradingPair: pair) {
-            result = market.balance * amountS * ratio
-        } else if let price = PriceDataManager.shared.getPrice(of: tokenS),
-            let lrcPrice = PriceDataManager.shared.getPrice(of: "LRC") {
-            result = price * amountS * ratio / lrcPrice
-        }
-        // do not know what this logic for. temp annotation
-        let minLrc = GasDataManager.shared.getGasAmount(by: "eth_transfer", in: "LRC")
-        return max(result, minLrc)
-    }
-
     func getMaxPossibleAmount(side: OrderSide, tokenBuy: String, tokenSell: String) -> Double {
         var maxPossibleAmount: Double = 0
-
         if side == .buy {
             maxPossibleAmount = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenSell)?.balance ?? 0
-
         } else {
             maxPossibleAmount = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenSell)?.balance ?? 0
         }
-
         if maxPossibleAmount < 0 {
             maxPossibleAmount = 0
         }
-
         return maxPossibleAmount
     }
 

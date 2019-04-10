@@ -36,7 +36,7 @@ class P2POrderDataManagerTests: XCTestCase {
 
     // TODO: This test will cause crash. So disable it.
     func _test1() {
-        let data = P2POrderDataManager.shared.encode()
+        let data = P2POrderDataManager.instance.encode()
         print(data.toHexString())
     }
 

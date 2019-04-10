@@ -342,7 +342,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             updateTotalLabels()
         } else {
             priceTextField.text = priceValue.withCommas(14).trailingZero()
-            let tokenBPrice = PriceDataManager.shared.getPrice(of: OrderDataManager.shared.quoteToken.symbol)!
+            let tokenBPrice = PriceDataManager.shared.getPrice(of: OrderDataManager.shared.quoteToken)!
             let estimateValue: Double = priceValue * tokenBPrice
             priceTipLabel.text = "≈ \(estimateValue.currency)"
             updateTotalLabels()
@@ -448,11 +448,11 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         var tokenS: String = ""
 
         if self.type == .buy {
-            tokenB = OrderDataManager.shared.baseToken.symbol
-            tokenS = OrderDataManager.shared.quoteToken.symbol
+            tokenB = OrderDataManager.shared.baseToken
+            tokenS = OrderDataManager.shared.quoteToken
         } else {
-            tokenB = OrderDataManager.shared.quoteToken.symbol
-            tokenS = OrderDataManager.shared.baseToken.symbol
+            tokenB = OrderDataManager.shared.quoteToken
+            tokenS = OrderDataManager.shared.baseToken
         }
         if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokenS) {
             amountValue = asset.balance
@@ -481,12 +481,12 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         var tokenS: String = ""
 
         if self.type == .buy {
-            tokenB = OrderDataManager.shared.baseToken.symbol
-            tokenS = OrderDataManager.shared.quoteToken.symbol
+            tokenB = OrderDataManager.shared.baseToken
+            tokenS = OrderDataManager.shared.quoteToken
             totalAmountInforLabel.text = LocalizedString("Can Buy", comment: "")
         } else {
-            tokenB = OrderDataManager.shared.quoteToken.symbol
-            tokenS = OrderDataManager.shared.baseToken.symbol
+            tokenB = OrderDataManager.shared.quoteToken
+            tokenS = OrderDataManager.shared.baseToken
             totalAmountInforLabel.text = LocalizedString("Can Sell", comment: "")
         }
 

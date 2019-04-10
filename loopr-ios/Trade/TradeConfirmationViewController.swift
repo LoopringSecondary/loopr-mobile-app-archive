@@ -136,15 +136,14 @@ class TradeConfirmationViewController: UIViewController {
 
     func validateRational() -> Bool {
         guard let order = self.order else { return true }
-        let pair = P2POrderDataManager.shared.tradePair.replacingOccurrences(of: "/", with: "-")  // "LRC-WETH"
-        let price = order.amountBuy / order.amountSell
-        let value = order.side == "buy" ? 1 / price : price
-        if let market = MarketDataManager.shared.getMarket(byTradingPair: pair) {
+        let pair = P2POrderDataManager.instance.tradePair.replacingOccurrences(of: "/", with: "-")  // "LRC-WETH"
+        if let market = MarketDataManager.shared.getMarket(byTradingPair: pair),
+           let value = order.orderSide == .buy ? order.priceBuy : order.priceSell {
             let header = LocalizedString("Your price is irrational, ", comment: "")
             let footer = LocalizedString("Do you wish to continue trading or signing with the price?", comment: "")
             let messageA = LocalizedString("which may cause your asset wastage! ", comment: "")
             let messageB = LocalizedString("which may cause your order abolished! ", comment: "")
-            if order.side == "buy" {
+            if order.orderSide == .buy {
                 if value < 0.8 * market.balance {
                     self.message = header + messageB + footer
                     return false
@@ -200,18 +199,16 @@ class TradeConfirmationViewController: UIViewController {
     }
 
     func updateLabels(order: RawOrder) {
-        tokenBView.update(type: .buy, symbol: order.tokenBuy, amount: order.amountBuy)
-        tokenSView.update(type: .sell, symbol: order.tokenSell, amount: order.amountSell)
-        let price = order.amountBuy / order.amountSell
-        let value = order.side == "buy" ? 1 / price : price
-        priceValueLabel.text = "\(value.withCommas(8)) \(order.market)"
-        if let price = PriceDataManager.shared.getPrice(of: "LRC") {
-            let total = (price * order.lrcFee).currency
-            LRCFeeValueLabel.text = "\(order.lrcFee.withCommas(3)) LRC ≈ \(total)"
+        tokenBView.update(type: .buy, symbol: order.tokenBuy!, amount: order.amountBuy!)
+        tokenSView.update(type: .sell, symbol: order.tokenSell!, amount: order.amountSell!)
+        if let lrcFee = order.feeParams.amountF,
+           let price = PriceDataManager.shared.getPrice(of: "LRC"),
+           let value = order.orderSide == .buy ? order.priceBuy : order.priceSell {
+            priceValueLabel.text = "\(value.withCommas(8)) \(order.market)"
+            let total = (price * lrcFee).currency
+            LRCFeeValueLabel.text = "\(lrcFee.withCommas(3)) LRC ≈ \(total)"
         }
-        // let since = DateUtil.convertToDate(UInt(order.validSince), format: "MM-dd HH:mm")
-        let until = DateUtil.convertToDate(UInt(order.validUntil), format: "MM-dd HH:mm")
-        validValueLabel.text = "\(until)"
+        validValueLabel.text = DateUtil.convertToDate(order.params.validUntil, format: "MM-dd HH:mm")
     }
 
     @IBAction func pressedPlaceOrderButton(_ sender: UIButton) {
@@ -235,7 +232,7 @@ extension TradeConfirmationViewController {
             let alert = UIAlertController(title: LocalizedString("Please Pay Attention", comment: ""), message: self.message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
                 DispatchQueue.main.async {
-                    self.verifyInfo = P2POrderDataManager.shared.verify(order: self.order!)
+                    self.verifyInfo = P2POrderDataManager.instance.verify(order: self.order!)
                     self.handleVerifyInfo()
                     P2POrderHistoryDataManager.shared.shouldReloadData = true
                 }
@@ -244,14 +241,14 @@ extension TradeConfirmationViewController {
             }))
             self.present(alert, animated: true, completion: nil)
         } else {
-            self.verifyInfo = P2POrderDataManager.shared.verify(order: order!)
+            self.verifyInfo = P2POrderDataManager.instance.verify(order: order!)
             self.handleVerifyInfo()
             P2POrderHistoryDataManager.shared.shouldReloadData = true
         }
     }
 
     func isTaker() -> Bool {
-        return P2POrderDataManager.shared.isTaker
+        return P2POrderDataManager.instance.isTaker
     }
 
     func isBalanceEnough() -> Bool {
@@ -352,19 +349,19 @@ extension TradeConfirmationViewController {
                     self.completion(nil, error!)
                     return
                 }
-                P2POrderDataManager.shared.startGetOrderStatus(of: self.order!.hash)
+                P2POrderDataManager.instance.startGetOrderStatus(of: self.order!.hash)
                 self.completion(orderHash!, nil)
             }
         } else {
             MarketOrderDataManager.instance._submitOrder(self.order!) { (orderHash, error) in
                 guard error == nil && orderHash != nil else {
                     let errorCode = (error! as NSError).userInfo["message"] as! String
-                    if let error = P2POrderDataManager.shared.generateErrorMessage(errorCode: errorCode) {
+                    if let error = P2POrderDataManager.instance.generateErrorMessage(errorCode: errorCode) {
                         self.completion(nil, error)
                     }
                     return
                 }
-                P2POrderDataManager.shared._submitRing(completion: self.completion)
+                P2POrderDataManager.instance._submitRing(completion: self.completion)
             }
         }
     }
