@@ -51,7 +51,7 @@ class TradeSwipeViewController: SwipeViewController, QRCodeScanProtocol {
     @objc func pressedScanButton() {
         let viewController = ScanQRCodeViewController()
         // TODO: do we need to support these types
-        viewController.expectedQRCodeTypes = [.submitOrder, .login, .cancelOrder, .convert, .approve, .p2pOrder, .address]
+        viewController.expectedQRCodeTypes = [.p2pOrder, .address]
         viewController.delegate = self
         viewController.shouldPop = false
         viewController.hidesBottomBarWhenPushed = true

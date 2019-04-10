@@ -113,6 +113,7 @@ class AddCustomizedTokenViewController: UIViewController, UITextFieldDelegate, D
     @IBAction func pressedAddButton(_ sender: Any) {
         if validateAddress() && validateSymbol() && validateDecimals() {
             SVProgressHUD.show(withStatus: LocalizedString("Adding...", comment: ""))
+            /*
             LoopringAPIRequest.addCustomToken(owner: CurrentAppWalletDataManager.shared.getCurrentAppWallet()!.address, tokenContractAddress: self.address, symbol: self.symbol, decimals: self.decimals) { (result, error) in
                 
                 guard error == nil && result != nil else {
@@ -142,6 +143,7 @@ class AddCustomizedTokenViewController: UIViewController, UITextFieldDelegate, D
                     }
                 })
             }
+            */
         }
     }
     

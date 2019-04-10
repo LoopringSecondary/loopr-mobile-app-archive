@@ -50,6 +50,7 @@ extension WalletViewController {
         
         let dispatchGroup = DispatchGroup()
         
+        /*
         // tokens.json contains 67 tokens.
         if TokenDataManager.shared.getTokens().count < 70 {
             dispatchGroup.enter()
@@ -57,6 +58,7 @@ extension WalletViewController {
                 dispatchGroup.leave()
             })
         }
+        */
         
         dispatchGroup.enter()
         CurrentAppWalletDataManager.shared.getBalanceAndPriceQuoteAndNonce(getPrice: true, completionHandler: { _, error in

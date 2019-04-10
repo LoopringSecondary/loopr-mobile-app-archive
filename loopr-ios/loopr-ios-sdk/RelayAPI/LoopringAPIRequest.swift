@@ -100,10 +100,10 @@ class LoopringAPIRequest {
         }
     }
 
-    static func getTokens(requireMetadata: Bool, requireInfo: Bool, requirePrice: Bool, quoteCurrencyForTicker: Currency, completionHandler: @escaping (_ result: [Token]?, _ error: Error?) -> Void) {
+    static func getTokens(requireMetadata: Bool, requireInfo: Bool, requirePrice: Bool, quoteCurrencyForTicker: String, completionHandler: @escaping (_ result: [Token]?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["method"] = "get_tokens"
-        body["params"] = ["requireMetadata": requireMetadata, "requireInfo": requireInfo, "requirePrice": requirePrice, "quoteCurrencyForTicker": quoteCurrencyForTicker.name]
+        body["params"] = ["requireMetadata": requireMetadata, "requireInfo": requireInfo, "requirePrice": requirePrice, "quoteCurrencyForTicker": quoteCurrencyForTicker]
         body["id"] = JSON(UUID().uuidString)
 
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
