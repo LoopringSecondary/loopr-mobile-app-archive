@@ -347,7 +347,7 @@ extension TradeConfirmationViewController {
 
     func submit() {
         if !isTaker() {
-            MarketOrderDataManager.shared._submitOrder(self.order!) { (orderHash, error) in
+            MarketOrderDataManager.instance._submitOrder(self.order!) { (orderHash, error) in
                 guard error == nil && orderHash != nil else {
                     self.completion(nil, error!)
                     return
@@ -356,7 +356,7 @@ extension TradeConfirmationViewController {
                 self.completion(orderHash!, nil)
             }
         } else {
-            MarketOrderDataManager.shared._submitOrder(self.order!) { (orderHash, error) in
+            MarketOrderDataManager.instance._submitOrder(self.order!) { (orderHash, error) in
                 guard error == nil && orderHash != nil else {
                     let errorCode = (error! as NSError).userInfo["message"] as! String
                     if let error = P2POrderDataManager.shared.generateErrorMessage(errorCode: errorCode) {

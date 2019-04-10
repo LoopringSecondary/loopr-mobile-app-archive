@@ -62,7 +62,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
 
         setBackButton()
-        navigationItem.title = MarketOrderDataManager.shared.market?.description ?? LocalizedString("Trade", comment: "")
+        navigationItem.title = MarketOrderDataManager.instance.market?.description ?? LocalizedString("Trade", comment: "")
         view.theme_backgroundColor = ColorPicker.backgroundColor
         tableView1.theme_backgroundColor = ColorPicker.backgroundColor
 
@@ -533,7 +533,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         let since = Int64(Date().timeIntervalSince1970)
         let until = Int64(Calendar.current.date(byAdding: orderIntervalTime.intervalUnit, value: orderIntervalTime.intervalValue, to: Date())!.timeIntervalSince1970)
         var order = RawOrder(delegate: delegate, address: address, side: side, tokenS: tokenSell, tokenB: tokenBuy, validSince: since, validUntil: until, amountBuy: amountBuy, amountSell: amountSell, lrcFee: lrcFee, buyNoMoreThanAmountB: buyNoMoreThanAmountB, amountS: amountS, amountB: amountB)
-        MarketOrderDataManager.shared.completeOrder(&order)
+        MarketOrderDataManager.instance.completeOrder(&order)
         return order
     }
 

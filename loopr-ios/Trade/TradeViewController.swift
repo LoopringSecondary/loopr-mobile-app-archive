@@ -485,7 +485,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
         let until = Int64(Calendar.current.date(byAdding: orderIntervalTime.intervalUnit, value: orderIntervalTime.intervalValue, to: Date())!.timeIntervalSince1970)
 
         var order = RawOrder(delegate: delegate, address: address, side: "sell", tokenS: tokenSell, tokenB: tokenBuy, validSince: since, validUntil: until, amountBuy: amountBuy, amountSell: amountSell, lrcFee: 0, buyNoMoreThanAmountB: buyNoMoreThanAmountB, amountS: amountS, amountB: amountB, orderType: .p2pOrder, p2pType: .maker, market: market)
-        MarketOrderDataManager.shared.completeOrder(&order)
+        MarketOrderDataManager.instance.completeOrder(&order)
         return order
     }
 

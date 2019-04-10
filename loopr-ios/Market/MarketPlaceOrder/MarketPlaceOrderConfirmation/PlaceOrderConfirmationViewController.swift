@@ -146,10 +146,10 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
     func validateRational() -> Bool {
         // If we use the app to scan a QR code to authorize a market order on cirular,
         // MarketOrderDataManager market is nil
-        guard MarketOrderDataManager.shared.market != nil else {
+        guard MarketOrderDataManager.instance.market != nil else {
             return true
         }
-        let pair = MarketOrderDataManager.shared.market!.name
+        let pair = MarketOrderDataManager.instance.market!.name
         if let price = self.price, let value = Double(price),
             let market = MarketDataManager.shared.getMarket(byTradingPair: pair) {
             let header = LocalizedString("Your price is irrational, ", comment: "")
@@ -258,7 +258,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
             alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
                 DispatchQueue.main.async {
                     SVProgressHUD.show(withStatus: LocalizedString("Submitting order", comment: "") + "...")
-                    self.verifyInfo = MarketOrderDataManager.shared.verify(order: self.order!)
+                    self.verifyInfo = MarketOrderDataManager.instance.verify(order: self.order!)
                     self.handleVerifyInfo()
                 }
             }))
@@ -267,7 +267,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
             self.present(alert, animated: true, completion: nil)
         } else {
             SVProgressHUD.show(withStatus: LocalizedString("Submitting order", comment: "") + "...")
-            self.verifyInfo = MarketOrderDataManager.shared.verify(order: order!)
+            self.verifyInfo = MarketOrderDataManager.instance.verify(order: order!)
             self.handleVerifyInfo()
         }
     }
@@ -288,7 +288,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
                 self.complete(nil, error!)
                 return
             }
-            MarketOrderDataManager.shared._submitOrder(order, completion: { (orderHash, error) in
+            MarketOrderDataManager.instance._submitOrder(order, completion: { (orderHash, error) in
                 guard let orderHash = orderHash, error == nil else {
                     self.complete(nil, error!)
                     return
@@ -426,7 +426,7 @@ extension PlaceOrderConfirmationViewController {
     }
 
     func submit() {
-        MarketOrderDataManager.shared._submitOrder(self.order!) { (orderHash, error) in
+        MarketOrderDataManager.instance._submitOrder(self.order!) { (orderHash, error) in
             if orderHash != nil && error == nil {
                 UserDefaults.standard.set(false, forKey: UserDefaultsKeys.cancelledAll.rawValue)
             }

@@ -12,7 +12,7 @@ import BigInt
 
 class P2POrderDataManager: OrderDataManager {
 
-    static let shared1 = P2POrderDataManager()
+    static let instance = P2POrderDataManager()
     static let qrcodeType: String = "P2P"
     static let qrcodeHash: String = "hash"
     static let qrcodeAuth: String = "auth"
@@ -127,14 +127,12 @@ class P2POrderDataManager: OrderDataManager {
     func constructTaker(from maker: RawOrder) -> RawOrder? {
         baseToken = maker.tokenBuy!  // TODO check here
         quoteToken = maker.tokenSell! // TODO check here
-        let tokenBuy = TokenDataManager.shared.getTokenBySymbol(maker.tokenBuy!)!
-        let tokenSell = TokenDataManager.shared.getTokenBySymbol(maker.tokenSell!)!
-        var amountBuy = maker.amountSell?.toDouble(by: tokenSell.decimals)
-        var amountSell = maker.amountBuy?.toDouble(by: tokenBuy.decimals)
+        let amountBuy = maker.amountSell!
+        let amountSell = maker.amountBuy!
         let validS = maker.validSince
         let validU = maker.params.validUntil
 
-        var order = constructOrder(side: .sell, amountBuy: amountBuy!, amountSell: amountSell!, validSince: validS, validUntil: validU)
+        let order = constructOrder(side: .sell, amountBuy: amountBuy, amountSell: amountSell, validSince: validS, validUntil: validU)
         order?.orderType = .p2pOrder
         order?.p2pType = .taker
         return order
@@ -435,7 +433,7 @@ class P2POrderDataManager: OrderDataManager {
     func calculateGas(for token: String, to amount: Double) -> Double? {
         var result: Double?
         if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: token) {
-            let tokenFrozen = MarketOrderDataManager.shared.getAllowance(of: token)
+            let tokenFrozen = MarketOrderDataManager.instance.getAllowance(of: token)
             if asset.allowance >= amount + tokenFrozen {
                 return 0
             }

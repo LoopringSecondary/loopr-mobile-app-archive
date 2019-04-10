@@ -12,7 +12,7 @@ import BigInt
 
 class MarketOrderDataManager: OrderDataManager {
 
-    static let shared1 = MarketOrderDataManager()
+    static let instance = MarketOrderDataManager()
 
     func getAllowance(of token: String) -> Double {
         var result: Double = 0
