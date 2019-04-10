@@ -246,8 +246,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
     }
 
     func update() {
-        latestPriceButton.setAttributedTitle("\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)".higlighted(words: [market.balanceWithDecimals], attributes: [NSAttributedStringKey.foregroundColor: UIColor.theme]), for: .normal)
-        latestPriceButton.setAttributedTitle("\(market.balanceWithDecimals) \(market.tradingPair.tradingB) ≈ \(market.display.description)".higlighted(words: [market.balanceWithDecimals], attributes: [NSAttributedStringKey.foregroundColor: UIColor.theme.withAlphaComponent(0.6)]), for: .highlighted)
+        latestPriceButton.setAttributedTitle("\(market.ticker.price.withCommas()) \(market.metadata.marketPair.quoteToken) ≈ \(market.ticker.price.withCommas())".higlighted(words: [market.ticker.price.withCommas()], attributes: [NSAttributedStringKey.foregroundColor: UIColor.theme]), for: .normal)
+        latestPriceButton.setAttributedTitle("\(market.ticker.price.withCommas()) \(market.metadata.marketPair.baseToken) ≈ \(market.ticker.price.withCommas())".higlighted(words: [market.ticker.price.withCommas()], attributes: [NSAttributedStringKey.foregroundColor: UIColor.theme.withAlphaComponent(0.6)]), for: .highlighted)
 
         updateAvailableLabel()
         updateTotalLabels()
@@ -260,7 +260,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             sellTabButton.setBackgroundColor(UIColor.dark4, for: .highlighted)
             sellTabButton.setTitleColor(UIColor.text2, for: .normal)
 
-            nextButton.title = LocalizedString("Buy", comment: "") + " " + market.tradingPair.tradingA
+            nextButton.title = LocalizedString("Buy", comment: "") + " " + market.metadata.marketPair.baseToken
             nextButton.setGreen()
         } else {
             buyTabButton.setBackgroundColor(UIColor.dark3, for: .normal)
@@ -270,7 +270,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
             sellTabButton.setBackgroundColor(UIColor.init(rgba: "#DD5252"), for: .normal)
             sellTabButton.setTitleColor(UIColor.white, for: .normal)
 
-            nextButton.title = LocalizedString("Sell", comment: "") + " " + market.tradingPair.tradingA
+            nextButton.title = LocalizedString("Sell", comment: "") + " " + market.metadata.marketPair.baseToken
             nextButton.setRed()
         }
         nextButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)

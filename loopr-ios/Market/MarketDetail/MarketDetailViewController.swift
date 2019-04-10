@@ -108,7 +108,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func setupMarket() {
-        MarketOrderDataManager.shared.new(tokenA: market.ticker.quoteSymbol, tokenB: market.ticker.baseSymbol, market: market)
+        MarketOrderDataManager.shared.new(baseToken: market.ticker.quoteSymbol, quoteToken: market.ticker.baseSymbol, market: market)
 
         buyButton.setTitle(LocalizedString("Buy", comment: "") + " " + market.ticker.quoteSymbol, for: .normal)
         sellButton.setTitle(LocalizedString("Sell", comment: "") + " " + market.ticker.quoteSymbol, for: .normal)
