@@ -58,7 +58,7 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
         self.view.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationItem.title = LocalizedString("Order Detail", comment: "")
         setBackButton()
-        setupQRCodeButton()
+        // setupQRCodeButton()
 
         // TokenView
         tokenSView.view.frame = CGRect(x: 0, y: 0, width: tokenS.frame.width, height: tokenS.frame.height)
@@ -75,7 +75,7 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
 
         statusInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         statusInfoLabel.theme_textColor = GlobalPicker.textColor
-        statusInfoLabel.text = order?.orderStatus.description
+        // statusInfoLabel.text = order?.orderStatus.description
 
         amountTipLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         amountTipLabel.theme_textColor = GlobalPicker.textLightColor
@@ -103,8 +103,8 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
         idTipLabel.text = LocalizedString("TxHash", comment: "")
 
         idInfoButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 14)
-        idInfoButton.setTitle(order?.originalOrder.hash, for: .normal)
-        idInfoButton.addTarget(self, action: #selector(pressedIdButton), for: .touchUpInside)
+        // idInfoButton.setTitle(order?.originalOrder.hash, for: .normal)
+        // idInfoButton.addTarget(self, action: #selector(pressedIdButton), for: .touchUpInside)
         idInfoButton.setTitleColor(.text1, for: .normal)
         idInfoButton.isUserInteractionEnabled = false
 
@@ -125,9 +125,10 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setup()
+        // setup()
     }
 
+    /*
     func setupQRCodeButton() {
         guard order?.originalOrder.orderType == .p2pOrder && (order?.orderStatus == .pending_active ||
             order?.orderStatus == .new) && order?.originalOrder.p2pType == .maker else {
@@ -252,6 +253,7 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
+    */
 }
 
 extension OrderDetailViewController: UIViewControllerTransitioningDelegate {
