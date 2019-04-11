@@ -75,7 +75,7 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
 
         statusInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         statusInfoLabel.theme_textColor = GlobalPicker.textColor
-        // statusInfoLabel.text = order?.orderStatus.description
+        statusInfoLabel.text = order?.orderStatus.description
 
         amountTipLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         amountTipLabel.theme_textColor = GlobalPicker.textLightColor
@@ -103,8 +103,8 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
         idTipLabel.text = LocalizedString("TxHash", comment: "")
 
         idInfoButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 14)
-        // idInfoButton.setTitle(order?.originalOrder.hash, for: .normal)
-        // idInfoButton.addTarget(self, action: #selector(pressedIdButton), for: .touchUpInside)
+        idInfoButton.setTitle(order?.hash, for: .normal)
+        idInfoButton.addTarget(self, action: #selector(pressedIdButton), for: .touchUpInside)
         idInfoButton.setTitleColor(.text1, for: .normal)
         idInfoButton.isUserInteractionEnabled = false
 
@@ -128,10 +128,9 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
         // setup()
     }
 
-    /*
     func setupQRCodeButton() {
-        guard order?.originalOrder.orderType == .p2pOrder && (order?.orderStatus == .pending_active ||
-            order?.orderStatus == .new) && order?.originalOrder.p2pType == .maker else {
+        guard order?.orderType == .p2pOrder && (order?.state.status == .pending_active ||
+            order?.state.status == .new) && order?.p2pType == .maker else {
             return
         }
         let qrCodebutton = UIButton(type: UIButtonType.custom)
@@ -158,9 +157,8 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
             }
 
             let vc = OrderQRCodeViewController()
-            vc.originalOrder = order.originalOrder
 
-            // vc.transitioningDelegate = self
+            vc.order = order
             vc.modalPresentationStyle = .overFullScreen
             vc.dismissClosure = {
                 UIView.animate(withDuration: 0.1, animations: {
@@ -198,46 +196,44 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func setupLRCFee(order: RawOrder) {
-        lrcFeeInfoLabel.text = "\(order.originalOrder.lrcFee.withCommas(3)) LRC"
+        lrcFeeInfoLabel.text = "\(order.feeParams.amountF.withCommas(3)) LRC"
     }
 
     func setupTokenViews(order: RawOrder) {
-        let originOrder = order.originalOrder
-        tokenBView.update(type: .buy, symbol: originOrder.tokenBuy, amount: originOrder.amountBuy)
-        tokenSView.update(type: .sell, symbol: originOrder.tokenSell, amount: originOrder.amountSell)
+        tokenBView.update(type: .buy, symbol: order.tokenBuy, amount: order.amountBuy)
+        tokenSView.update(type: .sell, symbol: order.tokenSell, amount: order.amountSell)
     }
 
     func setupOrderFilled(order: RawOrder) {
         var percent: Double = 0.0
-        if order.originalOrder.side.lowercased() == "sell" {
-            percent = order.dealtAmountS / order.originalOrder.amountSell
-        } else if order.originalOrder.side.lowercased() == "buy" {
-            percent = order.dealtAmountB / order.originalOrder.amountBuy
+        if order.orderSide == .sell {
+            percent = order.dealtAmountS / order.amountSell
+        } else if order.orderSide == .buy {
+            percent = order.dealtAmountB / order.amountBuy
         }
         filledInfoLabel.text = (percent * 100).rounded().description + "%"
     }
 
     func setupOrderAmount(order: RawOrder) {
-        let price = order.originalOrder.amountBuy / order.originalOrder.amountSell
-        if order.originalOrder.side.lowercased() == "buy" {
+        let price = order.amountBuy / order.amountSell
+        if order.orderSide == .buy {
             let value = 1 / price
-            amountInfoLabel.text = "\(value.withCommas(8).trailingZero()) \(order.originalOrder.tokenBuy)/\(order.originalOrder.tokenSell)"
+            amountInfoLabel.text = "\(value.withCommas(8).trailingZero()) \(order.tokenBuy)/\(order.tokenSell)"
         } else {
             let value = price
-            amountInfoLabel.text = "\(value.withCommas(8).trailingZero()) \(order.originalOrder.tokenSell)/\(order.originalOrder.tokenBuy)"
+            amountInfoLabel.text = "\(value.withCommas(8).trailingZero()) \(order.tokenSell)/\(order.tokenBuy)"
         }
     }
 
     func setupOrderDate(order: RawOrder) {
-        let originOrder = order.originalOrder
-        let since = DateUtil.convertToDate(UInt(originOrder.validSince), format: "MM-dd HH:mm")
-        let until = DateUtil.convertToDate(UInt(originOrder.validUntil), format: "MM-dd HH:mm")
+        let since = DateUtil.convertToDate(order.validSince, format: "MM-dd HH:mm")
+        let until = DateUtil.convertToDate(order.params.validUntil, format: "MM-dd HH:mm")
         dateInfoLabel.text = "\(since) ~ \(until)"
     }
 
     @objc func pressedIdButton() {
         var etherUrl = "https://etherscan.io/tx/"
-        if let txHash = order?.originalOrder.hash {
+        if let txHash = order?.hash {
             etherUrl += txHash
             if let url = URL(string: etherUrl) {
                 let viewController = DefaultWebViewController()

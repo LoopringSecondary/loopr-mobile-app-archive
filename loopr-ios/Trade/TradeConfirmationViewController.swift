@@ -137,8 +137,8 @@ class TradeConfirmationViewController: UIViewController {
     func validateRational() -> Bool {
         guard let order = self.order else { return true }
         let pair = P2POrderDataManager.instance.tradePair.replacingOccurrences(of: "/", with: "-")  // "LRC-WETH"
-        if let market = MarketDataManager.shared.getMarket(byTradingPair: pair),
-           let value = order.orderSide == .buy ? order.priceBuy : order.priceSell {
+        if let market = MarketDataManager.shared.getMarket(byTradingPair: pair) {
+            let value = order.orderSide == .buy ? order.priceBuy : order.priceSell
             let header = LocalizedString("Your price is irrational, ", comment: "")
             let footer = LocalizedString("Do you wish to continue trading or signing with the price?", comment: "")
             let messageA = LocalizedString("which may cause your asset wastage! ", comment: "")

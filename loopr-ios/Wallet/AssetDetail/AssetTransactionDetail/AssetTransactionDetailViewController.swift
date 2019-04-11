@@ -12,33 +12,57 @@ import Social
 class AssetTransactionDetailViewController: UIViewController {
 
     @IBOutlet weak var containerView: UIView!
+
     @IBOutlet weak var titleLabel: UILabel!
+
     @IBOutlet weak var closeButton: UIButton!
+
     @IBOutlet weak var typeContainerView: UIView!
+
     @IBOutlet weak var typeTipLabel: UILabel!
+
     @IBOutlet weak var typeInfoLabel: UILabel!
+
     @IBOutlet weak var statusContainerView: UIView!
+
     @IBOutlet weak var statusTipLabel: UILabel!
+
     @IBOutlet weak var statusInfoLabel: UILabel!
+
     @IBOutlet weak var toContainerView: UIView!
+
     @IBOutlet weak var toTipLabel: UILabel!
+
     @IBOutlet weak var toInfoButton: UIButton!
+
     @IBOutlet weak var idContainerView: UIView!
+
     @IBOutlet weak var idTipLabel: UILabel!
+
     @IBOutlet weak var idInfoButton: UIButton!
+
     @IBOutlet weak var gasContainerView: UIView!
+
     @IBOutlet weak var gasTipLabel: UILabel!
+
     @IBOutlet weak var gasInfoLabel: UILabel!
+
     @IBOutlet weak var dateContainerView: UIView!
+
     @IBOutlet weak var dateTipLabel: UILabel!
+
     @IBOutlet weak var dateInfoLabel: UILabel!
+
     @IBOutlet weak var shareContainerView: UIView!
+
     @IBOutlet weak var shareButton: UIButton!
 
     @IBOutlet weak var cellBackgroundView: UIView!
-    
+
     var transaction: Transaction?
+
     var dismissClosure: (() -> Void)?
+
     var parentNavController: UINavigationController?
 
     override func viewDidLoad() {
@@ -46,13 +70,13 @@ class AssetTransactionDetailViewController: UIViewController {
 
         view.backgroundColor = UIColor.clear
         containerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        
+
         setBackButton()
-        
+
         closeButton.theme_setImage(GlobalPicker.close, forState: .normal)
         closeButton.theme_setImage(GlobalPicker.closeHighlight, forState: .highlighted)
         closeButton.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        
+
         typeContainerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         statusContainerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         toContainerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
@@ -62,11 +86,11 @@ class AssetTransactionDetailViewController: UIViewController {
         shareContainerView.theme_backgroundColor = ColorPicker.cardBackgroundColor
 
         cellBackgroundView.theme_backgroundColor = ColorPicker.cardHighLightColor
-        
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         tap.delegate = self
         view.addGestureRecognizer(tap)
-        
+
         // setup label
         setupLabels()
         if let transaction = self.transaction {
@@ -78,50 +102,50 @@ class AssetTransactionDetailViewController: UIViewController {
         titleLabel.theme_textColor = GlobalPicker.textColor
         titleLabel.font = FontConfigManager.shared.getMediumFont(size: 16)
         titleLabel.text = LocalizedString("Transaction Detail", comment: "")
-        
+
         // Row 1
         typeTipLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         typeTipLabel.theme_textColor = GlobalPicker.textLightColor
 
         typeInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         typeInfoLabel.theme_textColor = GlobalPicker.textColor
-        
+
         // Row 2
         statusTipLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         statusTipLabel.theme_textColor = GlobalPicker.textLightColor
         statusTipLabel.text = LocalizedString("Status", comment: "")
-        
+
         statusInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         statusInfoLabel.theme_textColor = GlobalPicker.textColor
-        
+
         // Row 3
         toTipLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         toTipLabel.theme_textColor = GlobalPicker.textLightColor
         toTipLabel.text = LocalizedString("Address", comment: "")
         toInfoButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 14)
-        
+
         // Row 4
         idTipLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         idTipLabel.theme_textColor = GlobalPicker.textLightColor
         idTipLabel.text = LocalizedString("TxHash", comment: "")
         idInfoButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 14)
-        
+
         // Row 5
         gasTipLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         gasTipLabel.theme_textColor = GlobalPicker.textLightColor
         gasTipLabel.text = LocalizedString("Gas", comment: "")
-        
+
         gasInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         gasInfoLabel.theme_textColor = GlobalPicker.textColor
-        
+
         // Row 6
         dateTipLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         dateTipLabel.theme_textColor = GlobalPicker.textLightColor
         dateTipLabel.text = LocalizedString("Date", comment: "")
-        
+
         dateInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         dateInfoLabel.theme_textColor = GlobalPicker.textColor
-        
+
         // Row 7
         shareButton.titleLabel?.font = FontConfigManager.shared.getRegularFont(size: 14)
         shareButton.theme_setTitleColor(GlobalPicker.textColor, forState: .normal)
@@ -129,49 +153,51 @@ class AssetTransactionDetailViewController: UIViewController {
         shareButton.title = LocalizedString("Share", comment: "")
         shareButton.addTarget(self, action: #selector(pressedShareButton(_:)), for: UIControlEvents.touchUpInside)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-        
+
     func update(transaction: Transaction) {
         switch transaction.type {
-        case .convert_income:
-            updateConvertIncome(tx: transaction)
-        case .convert_outcome:
-            updateConvertOutcome(tx: transaction)
-        case .approved:
+        case .ether_wrap:
+            updateWrap(tx: transaction)
+        case .ether_unwrap:
+            updateUnwrap(tx: transaction)
+        case .token_auth:
             updateApprove(tx: transaction)
-        case .cutoff, .canceledOrder:
+        case .order_cancel:
             udpateCutoffAndCanceledOrder()
         default:
             updateDefault(tx: transaction)
         }
         updateLabels(tx: transaction)
     }
-    
-    private func updateConvertIncome(tx: Transaction) {
+
+    private func updateUnwrap(tx: Transaction) {
         if tx.symbol.lowercased() == "weth" {
-            typeTipLabel.text = LocalizedString("Convert to WETH", comment: "")
+            typeInfoLabel.textColor = UIColor.down
+            typeInfoLabel.text = "-\(tx.value) \(tx.symbol) ≈ \(tx.currency)"
         } else if tx.symbol.lowercased() == "eth" {
-            typeTipLabel.text = LocalizedString("Convert to ETH", comment: "")
+            typeInfoLabel.textColor = UIColor.up
+            typeInfoLabel.text = "+\(tx.value) \(tx.symbol) ≈ \(tx.currency)"
         }
+        typeTipLabel.text = LocalizedString("Convert to ETH", comment: "")
         typeInfoLabel.isHidden = false
-        typeInfoLabel.textColor = UIColor.up
-        typeInfoLabel.text = "+\(tx.value) \(tx.symbol) ≈ \(tx.currency)"
     }
-    
-    private func updateConvertOutcome(tx: Transaction) {
+
+    private func updateWrap(tx: Transaction) {
         if tx.symbol.lowercased() == "weth" {
-            typeTipLabel.text = LocalizedString("Convert to ETH", comment: "")
+            typeInfoLabel.textColor = UIColor.up
+            typeInfoLabel.text = "+\(tx.value) \(tx.symbol) ≈ \(tx.currency)"
         } else if transaction!.symbol.lowercased() == "eth" {
-            typeTipLabel.text = LocalizedString("Convert to WETH", comment: "")
+            typeInfoLabel.textColor = UIColor.down
+            typeInfoLabel.text = "-\(tx.value) \(tx.symbol) ≈ \(tx.currency)"
         }
+        typeTipLabel.text = LocalizedString("Convert to WETH", comment: "")
         typeInfoLabel.isHidden = false
-        typeInfoLabel.textColor = UIColor.down
-        typeInfoLabel.text = "-\(tx.value) \(tx.symbol) ≈ \(tx.currency)"
     }
-    
+
     private func updateApprove(tx: Transaction) {
         typeInfoLabel.isHidden = true
         typeTipLabel.textAlignment = .center
@@ -179,26 +205,26 @@ class AssetTransactionDetailViewController: UIViewController {
         let footer = LocalizedString("to Trade", comment: "")
         typeTipLabel.text = "\(header) \(transaction!.symbol) \(footer)"
     }
-    
+
     private func udpateCutoffAndCanceledOrder() {
         typeInfoLabel.isHidden = true
         typeTipLabel.textAlignment = .center
         typeTipLabel.text = LocalizedString("Cancel Order", comment: "")
     }
-    
+
     private func updateDefault(tx: Transaction) {
         typeTipLabel.text = tx.type.description
         typeInfoLabel.isHidden = false
-        if tx.type == .bought || tx.type == .received {
+        if tx.type == .trade_buy || tx.type == .eth_in || tx.type == .token_in {
             typeInfoLabel.textColor = UIColor.up
             typeInfoLabel.text = "+\(tx.value) \(tx.symbol) ≈ \(tx.currency)"
             toInfoButton.title = tx.from
-        } else if tx.type == .sold || tx.type == .sent {
+        } else if tx.type == .trade_sell || tx.type == .eth_out || tx.type == .token_out {
             typeInfoLabel.textColor = UIColor.down
             typeInfoLabel.text = "-\(tx.value) \(tx.symbol) ≈ \(tx.currency)"
         }
     }
-    
+
     func updateLabels(tx: Transaction) {
         switch tx.status {
         case .success:
@@ -218,12 +244,12 @@ class AssetTransactionDetailViewController: UIViewController {
         let currency = PriceDataManager.shared.getPrice(of: "ETH", by: total)
         gasInfoLabel.text = "\(total.withCommas(6)) ETH ≈ \(currency!)"
     }
-    
+
     @IBAction func pressedToButton(_ sender: UIButton) {
         self.close()
         var etherUrl = "https://etherscan.io/address/"
         if let tx = self.transaction {
-            if tx.type == .received {
+            if tx.type == .token_in || tx.type == .eth_in {
                 etherUrl += tx.from
             } else {
                 etherUrl += tx.to
@@ -237,7 +263,7 @@ class AssetTransactionDetailViewController: UIViewController {
             }
         }
     }
-    
+
     @IBAction func pressedIdButton(_ sender: UIButton) {
         self.close()
         var etherUrl = "https://etherscan.io/tx/"
@@ -252,7 +278,7 @@ class AssetTransactionDetailViewController: UIViewController {
             }
         }
     }
-    
+
     @objc func pressedShareButton(_ sender: UIButton) {
         var etherUrl = "https://etherscan.io/tx/"
         if let tx = self.transaction {
@@ -266,7 +292,7 @@ class AssetTransactionDetailViewController: UIViewController {
             }
         }
     }
-    
+
     func close() {
         if let closure = self.dismissClosure {
             closure()
@@ -274,7 +300,7 @@ class AssetTransactionDetailViewController: UIViewController {
         self.dismiss(animated: true, completion: {
         })
     }
-    
+
     @IBAction func pressedCloseButton(_ sender: UIButton) {
         self.close()
     }
@@ -282,7 +308,7 @@ class AssetTransactionDetailViewController: UIViewController {
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         close()
     }
-    
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let location = touch.location(in: nil)
         if containerView.frame.contains(location) {

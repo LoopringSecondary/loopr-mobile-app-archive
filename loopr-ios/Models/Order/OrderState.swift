@@ -23,15 +23,15 @@ class OrderState {
     // 订单未成交数量，计算fill
     var outstandingAmountS: String = ""
 
-    var outstandingAmountSell: Double
+    var outstandingAmountSell: Double = 0
 
     var outstandingAmountB: String = ""
 
-    var outstandingAmountBuy: Double
+    var outstandingAmountBuy: Double = 0
 
     var outstandingAmountFee: String = ""
 
-    var outstandingAmountF: Double
+    var outstandingAmountF: Double = 0
 
     init() {
 

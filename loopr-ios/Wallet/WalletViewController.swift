@@ -428,14 +428,13 @@ extension WalletViewController: WalletBalanceTableViewCellDelegate {
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
-
 }
 
 extension WalletViewController: WalletButtonTableViewCellDelegate {
 
     func navigationToScanViewController() {
         let viewController = ScanQRCodeViewController()
-        viewController.expectedQRCodeTypes = [.mnemonic, .keystore, .privateKey, .submitOrder, .login, .cancelOrder, .convert, .approve, .p2pOrder, .address]
+        viewController.expectedQRCodeTypes = [.mnemonic, .keystore, .privateKey, .p2pOrder, .address]
         viewController.delegate = self
         viewController.shouldPop = false
         viewController.hidesBottomBarWhenPushed = true

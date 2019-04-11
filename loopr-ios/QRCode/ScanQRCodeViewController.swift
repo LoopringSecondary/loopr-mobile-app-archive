@@ -20,9 +20,8 @@ enum QRCodeType: String {
     case keystore = "Keystore"
     case privateKey = "Private Key"
     case p2pOrder = "P2P Order"
-    case approve = "Approve"
     case undefined = "Undefined type of QRCode"
-    
+
     var detectedDescription: String {
         switch self {
         case .address: return LocalizedString("Address detected", comment: "")
@@ -30,19 +29,18 @@ enum QRCodeType: String {
         case .keystore: return LocalizedString("Keystore detected", comment: "")
         case .privateKey: return LocalizedString("Private key detected", comment: "")
         case .p2pOrder: return LocalizedString("P2P message detected", comment: "")
-        case .approve: return LocalizedString("Approve", comment: "")
         case .undefined: return LocalizedString("Undefined type of QRCode", comment: "")
         }
     }
 }
 
 class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+
     @IBOutlet weak var scanView: UIView!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var scanTipLabel: UILabel!
     @IBOutlet weak var scanTipLabelTopLayoutConstraint: NSLayoutConstraint!
-    
+
     weak var delegate: QRCodeScanProtocol?
     var captureSession = AVCaptureSession()
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -50,11 +48,11 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
     var scanning: String!
     var scanLine = UIImageView(frame: CGRect.zero)
     var scanQRCodeView = UIView(frame: CGRect.zero)
-    
+
     var isTorchOn = false
     var shouldPop = true
     var scanViewWidth: CGFloat = UIScreen.main.bounds.width
-    
+
     var expectedQRCodeTypes: [QRCodeType] = [.address, .mnemonic, .keystore, .privateKey, .p2pOrder]
 
     let imagePicker = UIImagePickerController()
@@ -62,19 +60,19 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+
         setBackButton()
         self.navigationItem.title = LocalizedString("Scan QR Code", comment: "")
-        
+
         let albumButton = UIBarButtonItem.init(title: LocalizedString("Album", comment: ""), style: .plain, target: self, action: #selector(self.pressedAlbumButton(_:)))
         self.navigationItem.rightBarButtonItem = albumButton
-        
+
         scanTipLabel.setTitleDigitFont()
         scanTipLabel.text = LocalizedString("Align QR code within frame to scan", comment: "")
         scanTipLabelTopLayoutConstraint.constant = scanViewWidth
-        
+
         self.flashButton.image = UIImage(named: "TorchOff")
-        
+
         // Get the camera for capturing videos
         let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .back)
         print("devices: \(deviceDiscoverySession.devices)")
@@ -88,10 +86,10 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
             videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             videoPreviewLayer?.frame = self.scanView.layer.bounds
             self.scanView.layer.addSublayer(videoPreviewLayer!)
-            
+
             // Start video capture.
             captureSession.startRunning()
-            
+
             let input = try AVCaptureDeviceInput(device: captureDevice)
             captureSession.addInput(input)
             let captureMetadataOutput = AVCaptureMetadataOutput()
@@ -111,33 +109,33 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
         self.setupScanLine()
         self.setupBackGroundView()
         self.setupFrameLine()
-        
+
         imagePicker.delegate = self
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if captureSession.isRunning == false {
             captureSession.startRunning()
         }
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if captureSession.isRunning == true {
             captureSession.stopRunning()
         }
     }
-    
+
     @objc func pressedAlbumButton(_ button: UIBarButtonItem) {
         print("pressedAlbumButton")
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
         self.present(imagePicker, animated: true) {
-            
+
         }
     }
-    
+
     @IBAction func switchFlash(_ sender: UIButton) {
         guard let device = AVCaptureDevice.default(for: .video) else { return }
         if device.hasTorch && device.isTorchAvailable {
@@ -156,7 +154,7 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
             sender.setImage(#imageLiteral(resourceName: "TorchOff"), for: .normal)
         }
     }
-    
+
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if scanning == "start" {
             timer.fire()
@@ -164,7 +162,7 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
             timer.invalidate()
         }
     }
-    
+
     @objc func moveScannerLayer(_ timer: Timer) {
         guard captureSession.isRunning else { return }
         scanLine.frame = CGRect(x: 0, y: 0, width: self.scanQRCodeView.frame.size.width, height: 1)
@@ -172,7 +170,7 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
             self.scanLine.frame = CGRect(x: self.scanLine.frame.origin.x, y: self.scanLine.frame.origin.y + self.scanQRCodeView.frame.size.height - 10, width: self.scanLine.frame.size.width, height: self.scanLine.frame.size.height)
         }
     }
-    
+
     func setupScanLine() {
         scanQRCodeView = UIView(frame: CGRect(x: scanViewWidth * 0.2, y: scanViewWidth * 0.2, width: scanViewWidth * 0.6, height: scanViewWidth * 0.6))
         scanQRCodeView.layer.borderWidth = 1.0
@@ -184,24 +182,24 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
         self.addObserver(self, forKeyPath: "scanning", options: .new, context: nil)
         timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(moveScannerLayer(_:)), userInfo: nil, repeats: true)
     }
-    
+
     func setupBackGroundView() {
         let topView = UIView(frame: CGRect(x: 0, y: 0, width: scanViewWidth, height: scanViewWidth * 0.2))
         let leftView = UIView(frame: CGRect(x: 0, y: topView.bottomY, width: scanViewWidth * 0.2, height: scanViewWidth * 0.6))
         let bottomView = UIView(frame: CGRect(x: 0, y: leftView.bottomY, width: scanViewWidth, height: UIScreen.main.bounds.height))
         let rightView = UIView(frame: CGRect(x: scanViewWidth * 0.8, y: leftView.y, width: scanViewWidth * 0.2, height: scanViewWidth * 0.6))
-        
+
         topView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
         bottomView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
         leftView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
         rightView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
-        
+
         self.scanView.addSubview(topView)
         self.scanView.addSubview(bottomView)
         self.scanView.addSubview(leftView)
         self.scanView.addSubview(rightView)
     }
-    
+
     func setupFrameLine() {
         let line = CAShapeLayer()
         let path = UIBezierPath()
@@ -210,30 +208,30 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
         path.addLine(to: CGPoint(x: scanQRCodeView.frame.minX + lineLength, y: scanQRCodeView.frame.minY + 2))
         path.move(to: CGPoint(x: scanQRCodeView.frame.minX + 2, y: scanQRCodeView.frame.minY))
         path.addLine(to: CGPoint(x: scanQRCodeView.frame.minX + 2, y: scanQRCodeView.frame.minY + lineLength))
-        
+
         path.move(to: CGPoint(x: scanQRCodeView.frame.minX, y: scanQRCodeView.frame.maxY - 2))
         path.addLine(to: CGPoint(x: scanQRCodeView.frame.minX + lineLength, y: scanQRCodeView.frame.maxY - 2))
         path.move(to: CGPoint(x: scanQRCodeView.frame.minX + 2, y: scanQRCodeView.frame.maxY))
         path.addLine(to: CGPoint(x: scanQRCodeView.frame.minX + 2, y: scanQRCodeView.frame.maxY - lineLength))
-        
+
         path.move(to: CGPoint(x: scanQRCodeView.frame.maxX, y: scanQRCodeView.frame.minY + 2))
         path.addLine(to: CGPoint(x: scanQRCodeView.frame.maxX - lineLength, y: scanQRCodeView.frame.minY + 2))
         path.move(to: CGPoint(x: scanQRCodeView.frame.maxX - 2, y: scanQRCodeView.frame.minY))
         path.addLine(to: CGPoint(x: scanQRCodeView.frame.maxX - 2, y: scanQRCodeView.frame.minY + lineLength))
-        
+
         path.move(to: CGPoint(x: scanQRCodeView.frame.maxX, y: scanQRCodeView.frame.maxY - 2))
         path.addLine(to: CGPoint(x: scanQRCodeView.frame.maxX - lineLength, y: scanQRCodeView.frame.maxY - 2))
         path.move(to: CGPoint(x: scanQRCodeView.frame.maxX - 2, y: scanQRCodeView.frame.maxY))
         path.addLine(to: CGPoint(x: scanQRCodeView.frame.maxX - 2, y: scanQRCodeView.frame.maxY - lineLength))
-        
+
         line.path = path.cgPath
         line.strokeColor = UIColor.white.cgColor
         line.lineWidth = 4
-        
+
         line.lineJoin = kCALineJoinRound
         self.view.layer.addSublayer(line)
     }
-    
+
     func launchApp(decodedURL: String, codeType: QRCodeType) {
         if presentedViewController != nil {
             return
@@ -258,15 +256,15 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
             launchApp(decodedURL: stringValue, codeType: codeCategory)
         }
     }
-    
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
-    
+
     func qrCodeContentDetector(qrContent: String) -> QRCodeType {
         if expectedQRCodeTypes.contains(.address) && QRCodeMethod.isAddress(content: qrContent) {
             return QRCodeType.address
@@ -279,18 +277,18 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
         if expectedQRCodeTypes.contains(.privateKey) && QRCodeMethod.isPrivateKey(content: qrContent) {
             return QRCodeType.privateKey
         }
-        
+
         if expectedQRCodeTypes.contains(.keystore) && QRCodeMethod.isKeystore(content: qrContent) {
             return QRCodeType.keystore
         }
-        
+
         if expectedQRCodeTypes.contains(.p2pOrder) && QRCodeMethod.isP2POrder(content: qrContent) {
             return QRCodeType.p2pOrder
         }
 
         return QRCodeType.undefined
     }
-    
+
     func showAlert(decodedURL: String) {
         let title = LocalizedString("QR Code type doesn't fit here", comment: "")
         let alertPrompt = UIAlertController(title: title, message: "\(decodedURL)", preferredStyle: .actionSheet)
@@ -300,7 +298,7 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
         alertPrompt.addAction(cancelAction)
         present(alertPrompt, animated: true, completion: nil)
     }
-    
+
     // MARK: - UIImagePickerControllerDelegate Methods
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         var stringValue: String?
@@ -311,7 +309,7 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
                 }
             }
         }
-        
+
         dismiss(animated: true) {
             if stringValue != nil {
                 self.captureSession.stopRunning()
@@ -321,10 +319,10 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
             }
         }
     }
-    
+
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true) {
-            
+
         }
     }
 
@@ -341,7 +339,7 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
             }
             let features = qrDetector?.features(in: ciImage, options: options)
             return features
-            
+
         }
         return nil
     }
@@ -354,7 +352,7 @@ class ScanQRCodeViewController: UIViewController, AVCaptureMetadataOutputObjects
                                    customAttributes: [
                                     "update": "true"])
         }))
-        
+
         self.present(alert, animated: true, completion: nil)
     }
 }

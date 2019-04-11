@@ -9,14 +9,14 @@
 import Foundation
 
 class NeoAPIRequest {
-    
+
     static var param: String = {
         let path = Bundle.main.path(forResource: "neo", ofType: "json")!
         let jsonString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8)
         let json = JSON(parseJSON: jsonString!)
         return json["param"].stringValue
     }()
-    
+
     static var method: String = {
         let path = Bundle.main.path(forResource: "neo", ofType: "json")!
         let jsonString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8)
@@ -28,14 +28,14 @@ class NeoAPIRequest {
         body["method"] = JSON(method)
         body["jsonrpc"] = JSON("2.0")
         body["id"] = JSON(UUID().uuidString)
-        
+
         Request.post(body: body, url: RelayAPIConfiguration.neoURL) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
                 completionHandler(nil, error)
                 return
             }
-            
+
             // TODO: need to check the status code.
             var json = JSON(data)
             if json["result"] != JSON.null {
@@ -49,7 +49,7 @@ class NeoAPIRequest {
             }
         }
     }
-    
+
     // READY
     static func neo_getAmount(bindAddress: String, completion: @escaping (_ response: AirdropAmount?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
@@ -58,7 +58,7 @@ class NeoAPIRequest {
         body["method"] = JSON("invokescript")
         body["jsonrpc"] = JSON("2.0")
         body["id"] = JSON(UUID().uuidString)
-        
+
         Request.post(body: body, url: RelayAPIConfiguration.neoURL, showFailureBannerNotification: true) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
@@ -82,9 +82,9 @@ class NeoAPIRequest {
     // READY
     static func neo_claimAmount(bindAddress: String, completion: @escaping (_ response: String?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
-        
-        let stamp = UInt(Date().timeIntervalSince1970)
-        let id = DateUtil.convertToDate(Int(stamp), format: "yyyyMMddHHmm")
+
+        let stamp = Int(Date().timeIntervalSince1970)
+        let id = DateUtil.convertToDate(stamp, format: "yyyyMMddHHmm")
         let key = "d1013d1c\(id)0000\(bindAddress.hashFromAddress())\(method)"
         body["params"] = [JSON(key)]
         body["method"] = JSON("sendrawtransaction")

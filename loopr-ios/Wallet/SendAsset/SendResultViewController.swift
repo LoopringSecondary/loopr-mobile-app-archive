@@ -9,7 +9,7 @@
 import UIKit
 
 class SendResultViewController: UIViewController {
-    
+
     @IBOutlet weak var statusIcon: UIImageView!
     @IBOutlet weak var balanceLabel: UILabel!
     @IBOutlet weak var statusTipLabel: UILabel!
@@ -19,33 +19,33 @@ class SendResultViewController: UIViewController {
     @IBOutlet weak var timeTipLabel: UILabel!
     @IBOutlet weak var timeInfoLabel: UILabel!
     @IBOutlet weak var doneButton: GradientButton!
-    
+
     @IBOutlet weak var seperatorA: UIView!
     @IBOutlet weak var seperatorB: UIView!
     @IBOutlet weak var seperatorC: UIView!
     @IBOutlet weak var seperatorD: UIView!
-    
+
     var asset: Asset?
     var sendAmount: String!
     var receiveAddress: String!
     var errorMessage: String?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
+
         let seperators = [seperatorA, seperatorB, seperatorC, seperatorD]
         seperators.forEach { $0?.theme_backgroundColor = ColorPicker.cardBackgroundColor }
-        
+
         doneButton.title = LocalizedString("Done", comment: "")
         doneButton.setPrimaryColor()
         if let asset = self.asset {
             update(asset: asset)
         }
     }
-    
+
     func update(asset: Asset) {
         if let errorMessage = self.errorMessage {
             statusIcon.image = UIImage.init(named: "Result-header-fail")
@@ -72,12 +72,12 @@ class SendResultViewController: UIViewController {
         timeTipLabel.setTitleCharFont()
         timeTipLabel.text = LocalizedString("Time", comment: "")
         timeInfoLabel.setTitleCharFont()
-        let stamp = UInt(Date().timeIntervalSince1970)
-        timeInfoLabel.text = DateUtil.convertToDate(Int(stamp), format: "yyyy-MM-dd HH:mm")
+        let stamp = Int(Date().timeIntervalSince1970)
+        timeInfoLabel.text = DateUtil.convertToDate(stamp, format: "yyyy-MM-dd HH:mm")
     }
 
     @IBAction func pressedDoneButton(_ sender: UIButton) {
         self.navigationController?.popToRootViewController(animated: true)
     }
-    
+
 }

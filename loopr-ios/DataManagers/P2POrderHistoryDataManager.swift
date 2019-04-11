@@ -25,7 +25,7 @@ class P2POrderHistoryDataManager {
 
     func getOrderDataFromLocal(originalOrder: RawOrder) -> String? {
         let defaults = UserDefaults.standard
-        return defaults.string(forKey: originalOrder.hash) ?? nil
+        return defaults.string(forKey: hash) ?? nil
     }
 
     func getOrders(orderStatuses: [OrderStatus]? = nil) -> [RawOrder] {
@@ -33,7 +33,7 @@ class P2POrderHistoryDataManager {
             return orders
         }
         let filteredOrder = orders.filter { (order) -> Bool in
-            orderStatuses.contains(order.orderStatus)
+            orderStatuses.contains(order.state.status)
         }
         return filteredOrder
     }
@@ -43,7 +43,7 @@ class P2POrderHistoryDataManager {
             return orders
         }
         return orders.filter { (order) -> Bool in
-            let pair = order.originalOrder.market.components(separatedBy: "-")
+            let pair = order.market.components(separatedBy: "-")
             return pair[0].lowercased() == token.lowercased()
         }
     }

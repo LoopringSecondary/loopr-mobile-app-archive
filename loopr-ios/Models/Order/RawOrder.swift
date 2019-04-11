@@ -21,25 +21,25 @@ class RawOrder: Equatable {
     var tokenB: String = ""
 
     // token name e.g. lrc
-    var tokenBuy: String
+    var tokenBuy: String = ""
 
     // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
     var tokenS: String = ""
 
     // token name e.g. lrc
-    var tokenSell: String
+    var tokenSell: String = ""
 
     // big integer hex string e.g. "0x34f07768a92a83d00000"
     var amountB: String = ""
 
     // double value e.g. 0.02
-    var amountBuy: Double
+    var amountBuy: Double = 0.0
 
     // big integer hex string e.g. 0x34f07768a92a83d00000
     var amountS: String = ""
 
     // double value e.g. 0.02
-    var amountSell: Double
+    var amountSell: Double = 0.0
 
     // int value e.g. 1548422323
     var validSince: Int = 0
@@ -52,13 +52,13 @@ class RawOrder: Equatable {
 
     var state: OrderState
 
-    var priceB: String
+    var priceB: String = ""
 
-    var priceBuy: Double
+    var priceBuy: Double = 0.0
 
-    var priceS: String
+    var priceS: String = ""
 
-    var priceSell: Double
+    var priceSell: Double = 0.0
 
     // e.g. 10.50%
     var filled: String = ""
@@ -97,26 +97,26 @@ class RawOrder: Equatable {
            let tokenS = TokenDataManager.shared.getTokenByAddress(tokenS) {
             self.tokenBuy = tokenB.symbol
             self.tokenSell = tokenS.symbol
-            self.amountBuy = TokenDataManager.shared.getAmount(fromWeiAmount: amountB, of: tokenB.decimals)
-            self.amountSell = TokenDataManager.shared.getAmount(fromWeiAmount: amountS, of: tokenS.decimals)
-            if let amountBuy = self.amountBuy, let amountSell = self.amountSell {
+            if let amountBuy = TokenDataManager.shared.getAmount(fromWeiAmount: amountB, of: tokenB.decimals),
+               let amountSell = TokenDataManager.shared.getAmount(fromWeiAmount: amountS, of: tokenS.decimals) {
                 self.priceBuy = Double(amountBuy / amountSell)
                 self.priceSell = Double(amountSell / amountBuy)
-                self.priceB = "≈\(priceBuy ?? 0.0) \(tokenB.symbol)/\(tokenS.symbol)"  //TODO: market precision
-                self.priceS = "≈\(priceSell ?? 0.0) \(tokenS.symbol)/\(tokenB.symbol)"  //TODO: market precision
+                self.amountBuy = amountBuy
+                self.amountSell = amountSell
+                self.priceB = "≈\(priceBuy) \(tokenB.symbol)/\(tokenS.symbol)"  //TODO: market precision
+                self.priceS = "≈\(priceSell) \(tokenS.symbol)/\(tokenB.symbol)"  //TODO: market precision
             }
             if let symbol = feeParams.tokenF, let tokenF = TokenDataManager.shared.getTokenBySymbol(symbol),
                let outstandingAmountBuy = TokenDataManager.shared.getAmount(fromWeiAmount: amountB, of: tokenB.decimals),
-               let outstandingAmountSell = TokenDataManager.shared.getAmount(fromWeiAmount: amountS, of: tokenS.decimals) {
+               let outstandingAmountSell = TokenDataManager.shared.getAmount(fromWeiAmount: amountS, of: tokenS.decimals),
+               let tokenFee = TokenDataManager.shared.getAmount(fromWeiAmount: feeParams.tokenFee, of: tokenF.decimals) {
                 self.state.outstandingAmountBuy = outstandingAmountBuy
                 self.state.outstandingAmountSell = outstandingAmountSell
-                self.state.outstandingAmountF = TokenDataManager.shared.getAmount(fromWeiAmount: feeParams.tokenFee, of: tokenF.decimals)
+                self.state.outstandingAmountF = tokenFee
             }
-            if let amountBuy = self.amountBuy, let outstandingAmountBuy = self.state.outstandingAmountBuy {
-                let numberFormatter = NumberFormatter()
-                let rate = (amountBuy - outstandingAmountBuy) / amountBuy * 100
-                self.filled = rate.withCommas(0) + numberFormatter.percentSymbol
-            }
+            let numberFormatter = NumberFormatter()
+            let rate = (self.amountBuy - self.state.outstandingAmountBuy) / self.amountBuy * 100
+            self.filled = rate.withCommas(0) + numberFormatter.percentSymbol
         }
     }
 

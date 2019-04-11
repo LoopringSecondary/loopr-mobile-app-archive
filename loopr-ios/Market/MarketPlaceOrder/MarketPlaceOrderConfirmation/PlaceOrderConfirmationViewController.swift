@@ -135,9 +135,9 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
 
     func isBuyingOrder() -> Bool {
         var result: Bool = false
-        if self.order?.side == "buy" {
+        if self.order?.orderSide == .buy {
             result = true
-        } else if self.order?.side == "sell" {
+        } else if self.order?.orderSide == .sell {
             result = false
         }
         return result
@@ -146,10 +146,10 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
     func validateRational() -> Bool {
         // If we use the app to scan a QR code to authorize a market order on cirular,
         // MarketOrderDataManager market is nil
-        guard MarketOrderDataManager.instance.market != nil else {
+        guard let market = MarketOrderDataManager.instance.market else {
             return true
         }
-        let pair = MarketOrderDataManager.instance.market!.name
+        let pair = market.description
         if let price = self.price, let value = Double(price),
             let market = MarketDataManager.shared.getMarket(byTradingPair: pair) {
             let header = LocalizedString("Your price is irrational, ", comment: "")
@@ -208,11 +208,11 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         }
 
         if let price = PriceDataManager.shared.getPrice(of: "LRC") {
-            let total = (price * order.lrcFee).currency
-            LRCFeeValueLabel.text = "\(order.lrcFee.withCommas(3)) LRC ≈ \(total)"
+            let total = (price * order.feeParams.amountF).currency
+            LRCFeeValueLabel.text = "\(order.feeParams.amountF.withCommas(3)) LRC ≈ \(total)"
         }
         // let since = DateUtil.convertToDate(UInt(order.validSince), format: "MM-dd HH:mm")
-        let until = DateUtil.convertToDate(UInt(order.validUntil), format: "MM-dd HH:mm")
+        let until = DateUtil.convertToDate(order.params.validUntil, format: "MM-dd HH:mm")
         validValueLabel.text = "\(until)"
     }
 
@@ -275,7 +275,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
     func doSigning() {
         let manager = AuthorizeDataManager.shared
         guard let address = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address, let hash = manager.submitHash, let order = manager.submitOrder else { return }
-        guard address.lowercased() == order.address.lowercased() else {
+        guard address.lowercased() == order.owner.lowercased() else {
             let errorMessage = LocalizedString("Signer address does NOT match the order's, please transfer and try again later", comment: "")
             let error = NSError(domain: "approving", code: 0, userInfo: ["message": errorMessage])
             self.completion(nil, error)

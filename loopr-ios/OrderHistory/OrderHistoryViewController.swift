@@ -31,7 +31,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
     var canHideKeyboard = true
 
     var previousOrderCount: Int = 0
-    var pageIndex: UInt = 1
+    var cursor: UInt = 1
     var hasMoreData: Bool = true
 
     let searchBar = UISearchBar()
@@ -123,18 +123,18 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     @objc private func refreshData() {
-        pageIndex = 1
+        cursor = 1
         hasMoreData = true
         getOrderHistoryFromRelay()
     }
 
     private func getOrderHistoryFromRelay() {
-        OrderDataManager.shared.getOrdersFromServer(pageIndex: pageIndex, completionHandler: { _ in
+        OrderDataManager.shared.getOrdersFromServer(cursor: cursor, completionHandler: { _ in
             DispatchQueue.main.async {
                 if self.isLaunching {
                     self.isLaunching = false
                 }
-                self.orders = OrderDataManager.shared.getOrders(type: .all)
+                self.orders = OrderDataManager.shared.getOrders(orderStatuses: nil)
                 if self.previousOrderCount != self.orders.count {
                     self.hasMoreData = true
                 } else {
@@ -226,7 +226,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
 
             // Pagination
             if hasMoreData && indexPath.row == orders.count - 1 {
-                pageIndex += 1
+                cursor += 1
                 getOrderHistoryFromRelay()
             }
 
@@ -287,8 +287,8 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func filterContentForSearchText(_ searchText: String) {
-        let newFilteredOrders = OrderDataManager.shared.getOrders(type: .all).filter { (order) -> Bool in
-            return order.originalOrder.market.lowercased().contains(searchText.lowercased())
+        let newFilteredOrders = OrderDataManager.shared.getOrders().filter { (order) -> Bool in
+            return order.market.lowercased().contains(searchText.lowercased())
         }
         filteredOrders = newFilteredOrders
         if historyTableView.contentOffset.y == 0 {

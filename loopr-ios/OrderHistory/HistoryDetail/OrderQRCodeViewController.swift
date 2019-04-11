@@ -43,7 +43,7 @@ class OrderQRCodeViewController: UIViewController {
     @IBOutlet weak var urlLabel: UILabel!
     @IBOutlet weak var logoImageView: UIImageView!
 
-    var originalOrder: RawOrder?
+    var order: RawOrder?
     var qrcodeImage: UIImage!
     var qrcodeImageCIImage: CIImage!
     var dismissClosure: (() -> Void)?
@@ -73,9 +73,9 @@ class OrderQRCodeViewController: UIViewController {
         saveToAlbumButton.theme_setTitleColor(GlobalPicker.textDarkColor, forState: .highlighted)
         saveToAlbumButton.titleLabel?.font = FontConfigManager.shared.getMediumFont(size: 14)
 
-        generateQRCode(originalOrder: self.originalOrder!)
+        generateQRCode(originalOrder: self.order!)
 
-        if let order = self.originalOrder {
+        if let order = self.order {
             setupShareView(order: order)
         }
     }
@@ -102,16 +102,16 @@ class OrderQRCodeViewController: UIViewController {
         var length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenSell)
         sellInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         sellInfoLabel.theme_textColor = GlobalPicker.contrastTextColor
-        sellInfoLabel.text = order.amountSell!.withCommas(length).trailingZero()  + " " + order.tokenSell!
+        sellInfoLabel.text = order.amountSell.withCommas(length).trailingZero()  + " " + order.tokenSell
 
         buyTipLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         buyTipLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         buyTipLabel.text = LocalizedString("Buy", comment: "")
 
-        length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenBuy!)
+        length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenBuy)
         buyInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         buyInfoLabel.theme_textColor = GlobalPicker.contrastTextColor
-        buyInfoLabel.text = order.amountBuy!.withCommas(length).trailingZero() + " " + order.tokenBuy!
+        buyInfoLabel.text = order.amountBuy.withCommas(length).trailingZero() + " " + order.tokenBuy
 
         let price = order.amountBuy / order.amountSell
 
@@ -125,7 +125,6 @@ class OrderQRCodeViewController: UIViewController {
         if price > 100 {
             lengthPriceBuy = 4
         } else if price < 1 {
-            // 8 is too long
             lengthPriceBuy = 6
         }
         priceBuyLabel.text = "\(price.withCommas(lengthPriceBuy)) \(order.tokenBuy)"
@@ -153,7 +152,7 @@ class OrderQRCodeViewController: UIViewController {
         validTipInShare.font = FontConfigManager.shared.getCharactorFont(size: 11)
         validTipInShare.theme_textColor = GlobalPicker.contrastTextLightColor
         validTipInShare.text = LocalizedString("Time to Live", comment: "")
-        let until = DateUtil.convertToDate(UInt(order.validUntil), format: "MM-dd HH:mm")
+        let until = DateUtil.convertToDate(order.params.validUntil, format: "MM-dd HH:mm")
         validInShare.font = FontConfigManager.shared.getCharactorFont(size: 11)
         validInShare.theme_textColor = GlobalPicker.contrastTextColor
         validInShare.text = until
@@ -176,7 +175,7 @@ class OrderQRCodeViewController: UIViewController {
         var body = JSON()
         let array = data.components(separatedBy: "-")
         body["type"] = JSON(P2POrderDataManager.qrcodeType)
-        body["value"] = [P2POrderDataManager.qrcodeHash: originalOrder.hash,
+        body["value"] = [P2POrderDataManager.qrcodeHash: hash,
                          P2POrderDataManager.qrcodeAuth: array[0],
                          P2POrderDataManager.sellCount: array[1]]
         do {
@@ -197,7 +196,7 @@ class OrderQRCodeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let originalOrder = self.originalOrder, let image = self.qrcodeImageCIImage else { return }
+        guard let originalOrder = self.order, let image = self.qrcodeImageCIImage else { return }
 
         generateQRCode(originalOrder: originalOrder)
         qrcodeImageView.image = qrcodeImage

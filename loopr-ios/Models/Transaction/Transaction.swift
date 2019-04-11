@@ -25,7 +25,7 @@ class Transaction {
     var updateTime: String
     var gasUsed: Double
     var gasPriceInGWei: Double
-    
+
     init?(json: JSON) {
         self.currency = "0.0"
         if let symbol = json["symbol"].string, let value = json["value"].string, let from = json["from"].string, let to = json["to"].string, let owner = json["owner"].string, let txHash = json["txHash"].string, let gasUsed = json["gas_used"].string, let gasPrice = json["gas_price"].string {
@@ -56,13 +56,13 @@ class Transaction {
         } else {
             return nil
         }
-        
+
         self.type = TxType(rawValue: json["type"].string ?? "other") ?? .other
         self.status = TxStatus(rawValue: json["status"].string ?? "other") ?? .other
         self.icon = UIImage(named: "Transaction-\(self.type.rawValue)-\(Themes.getTheme())") ?? nil
-        let createTime = DateUtil.convertToDate(Int(json["createTime"].uIntValue), format: "yyyy-MM-dd HH:mm")
+        let createTime = DateUtil.convertToDate(json["createTime"].intValue, format: "yyyy-MM-dd HH:mm")
         self.createTime = createTime
-        let updateTime = DateUtil.convertToDate(Int(json["updateTime"].uIntValue), format: "yyyy-MM-dd HH:mm")
+        let updateTime = DateUtil.convertToDate(json["updateTime"].intValue, format: "yyyy-MM-dd HH:mm")
         self.updateTime = updateTime
     }
 
