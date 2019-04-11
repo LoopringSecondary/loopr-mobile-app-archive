@@ -21,7 +21,7 @@ class FeeParams {
     var amountFee: String = ""
 
     // big int value e.g. 0.02
-    var amountF: Double?
+    var amountF: Double = 0.0
 
     var tokenRecipient: String = ""
 
@@ -45,7 +45,7 @@ class FeeParams {
 
         if let tokenF = TokenDataManager.shared.getTokenByAddress(tokenFee) {
             self.tokenF = tokenF.symbol
-            self.amountF = TokenDataManager.shared.getAmount(fromWeiAmount: amountFee, of: tokenF.decimals)
+            self.amountF = TokenDataManager.shared.getAmount(fromWeiAmount: amountFee, of: tokenF.decimals) ?? 0.0
         }
     }
 

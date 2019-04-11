@@ -99,25 +99,25 @@ class OrderQRCodeViewController: UIViewController {
         sellTipLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         sellTipLabel.text = LocalizedString("Sell", comment: "")
 
-        var length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenSell)
+        var length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenSell!)
         sellInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         sellInfoLabel.theme_textColor = GlobalPicker.contrastTextColor
-        sellInfoLabel.text = order.amountSell.withCommas(length).trailingZero()  + " " + order.tokenSell
+        sellInfoLabel.text = order.amountSell!.withCommas(length).trailingZero()  + " " + order.tokenSell!
 
         buyTipLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         buyTipLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         buyTipLabel.text = LocalizedString("Buy", comment: "")
 
-        length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenBuy)
+        length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenBuy!)
         buyInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         buyInfoLabel.theme_textColor = GlobalPicker.contrastTextColor
-        buyInfoLabel.text = order.amountBuy.withCommas(length).trailingZero() + " " + order.tokenBuy
+        buyInfoLabel.text = order.amountBuy!.withCommas(length).trailingZero() + " " + order.tokenBuy!
 
         let price = order.amountBuy / order.amountSell
 
         unitBuyLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         unitBuyLabel.theme_textColor = GlobalPicker.contrastTextLightColor
-        unitBuyLabel.text = "1 \(order.tokenSell)"
+        unitBuyLabel.text = "1 \(order.tokenSell!)"
 
         priceBuyLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         priceBuyLabel.theme_textColor = GlobalPicker.contrastTextColor
@@ -132,7 +132,7 @@ class OrderQRCodeViewController: UIViewController {
 
         unitSellLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         unitSellLabel.theme_textColor = GlobalPicker.contrastTextLightColor
-        unitSellLabel.text = "1 \(order.tokenBuy)"
+        unitSellLabel.text = "1 \(order.tokenBuy!)"
 
         priceSellLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         priceSellLabel.theme_textColor = GlobalPicker.contrastTextColor

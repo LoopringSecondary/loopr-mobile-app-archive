@@ -272,8 +272,8 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
 
     func update(text: String? = nil, color: UIColor? = nil) {
         var message: String = ""
-        let tokens = P2POrderDataManager.instance.baseToken.symbol
-        let tokenb = P2POrderDataManager.instance.quoteToken.symbol
+        let tokens = P2POrderDataManager.instance.baseToken
+        let tokenb = P2POrderDataManager.instance.quoteToken
 
         tradingPairTokenSLabel.text = tokens
         tradingPairTokenBLabel.text = tokenb
@@ -333,7 +333,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
 
     func updateStepSlider() {
         var stepSliderPercentage: Double = 0
-        let tokens = P2POrderDataManager.instance.baseToken.symbol
+        let tokens = P2POrderDataManager.instance.baseToken
         if let asset = CurrentAppWalletDataManager.shared.getAsset(symbol: tokens), let amountSell = Double(amountSellTextField.text!), asset.balance > 0 {
             stepSliderPercentage = amountSell/asset.balance
         } else {
@@ -470,8 +470,8 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
         var amountBuy, amountSell: Double
         var tokenSell, tokenBuy, market: String
 
-        tokenBuy = P2POrderDataManager.instance.quoteToken.symbol
-        tokenSell = P2POrderDataManager.instance.baseToken.symbol
+        tokenBuy = P2POrderDataManager.instance.quoteToken
+        tokenSell = P2POrderDataManager.instance.baseToken
         market = "\(tokenSell)/\(tokenBuy)"
         amountBuy = Double(amountBuyTextField.text!)!
         amountSell = Double(amountSellTextField.text!)!
@@ -535,7 +535,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
 
     func validateAmountSell() -> Bool {
         var text: String
-        let tokens = P2POrderDataManager.instance.baseToken.symbol
+        let tokens = P2POrderDataManager.instance.baseToken
         let title = LocalizedString("Available Balance", comment: "")
         if let amounts = amountSellTextField.text, let amountSell = Double(amounts) {
             if let balance = CurrentAppWalletDataManager.shared.getBalance(of: tokens) {
@@ -570,7 +570,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
     func validateAmountBuy() -> Bool {
         availableLabel.isHidden = true
         if let amountb = amountBuyTextField.text, let amountBuy = Double(amountb) {
-            let tokenb = P2POrderDataManager.instance.quoteToken.symbol
+            let tokenb = P2POrderDataManager.instance.quoteToken
             if let price = PriceDataManager.shared.getPrice(of: tokenb) {
                 let estimateValue: Double = amountBuy * price
                 availableLabel.isHidden = false
@@ -722,7 +722,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
 
     func stepSliderValueChanged(_ value: Double) {
         var message: String = ""
-        let tokens = P2POrderDataManager.instance.baseToken.symbol
+        let tokens = P2POrderDataManager.instance.baseToken
 
         let length = MarketDataManager.shared.getDecimals(tokenSymbol: tokens)
         let title = LocalizedString("Available Balance", comment: "")

@@ -21,25 +21,25 @@ class RawOrder: Equatable {
     var tokenB: String = ""
 
     // token name e.g. lrc
-    var tokenBuy: String?
+    var tokenBuy: String
 
     // token protocol e.g. 0xef68e7c694f40c8202821edf525de3782458639f
     var tokenS: String = ""
 
     // token name e.g. lrc
-    var tokenSell: String?
+    var tokenSell: String
 
     // big integer hex string e.g. "0x34f07768a92a83d00000"
     var amountB: String = ""
 
     // double value e.g. 0.02
-    var amountBuy: Double?
+    var amountBuy: Double
 
     // big integer hex string e.g. 0x34f07768a92a83d00000
     var amountS: String = ""
 
     // double value e.g. 0.02
-    var amountSell: Double?
+    var amountSell: Double
 
     // int value e.g. 1548422323
     var validSince: Int = 0
@@ -52,13 +52,13 @@ class RawOrder: Equatable {
 
     var state: OrderState
 
-    var priceB: String?
+    var priceB: String
 
-    var priceBuy: Double?
+    var priceBuy: Double
 
-    var priceS: String?
+    var priceS: String
 
-    var priceSell: Double?
+    var priceSell: Double
 
     // e.g. 10.50%
     var filled: String = ""

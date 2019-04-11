@@ -30,7 +30,7 @@ class MarketOrderDataManager: OrderDataManager {
         var result: Double = 0
         let lrcFrozen = 0.0 // TODO
         let lrcBalance = walletManager.getBalance(of: "LRC")!
-        result = lrcBalance - order.feeParams.amountF! - lrcFrozen
+        result = lrcBalance - order.feeParams.amountF - lrcFrozen
         if result < 0 {
             balanceInfo["MINUS_LRC"] = -result
         }
@@ -39,9 +39,9 @@ class MarketOrderDataManager: OrderDataManager {
     func checkGasEnough(of order: RawOrder, includingLRC: Bool = true) {
         var result: Double = 0
         if let ethBalance = walletManager.getBalance(of: "ETH"),
-           let tokenGas = calculateGas(for: order.tokenSell!, to: order.amountSell!, lrcFee: order.feeParams.amountF!) {
+           let tokenGas = calculateGas(for: order.tokenSell, to: order.amountSell, lrcFee: order.feeParams.amountF) {
             if includingLRC {
-                if let lrcGas = calculateGas(for: "LRC", to: order.amountSell!, lrcFee: order.feeParams.amountF!) {
+                if let lrcGas = calculateGas(for: "LRC", to: order.amountSell, lrcFee: order.feeParams.amountF) {
                     result = ethBalance - lrcGas - tokenGas
                 }
             } else {
@@ -93,9 +93,9 @@ class MarketOrderDataManager: OrderDataManager {
 
     func calculateGasForLRC(of order: RawOrder) -> Double? {
         var result: Double?
-        if let asset = walletManager.getAsset(symbol: "LRC"),
-           let lrcFee = order.feeParams.amountF,
-           let amountSell = order.amountSell {
+        if let asset = walletManager.getAsset(symbol: "LRC") {
+            let lrcFee = order.feeParams.amountF
+            let amountSell = order.amountSell
             let lrcAllowance = asset.allowance
             let lrcFrozen = 0.0  // TODO
             let sellingFrozen = getAllowance(of: "LRC")
@@ -125,14 +125,14 @@ class MarketOrderDataManager: OrderDataManager {
     func verify(order: RawOrder) -> [String: Double] {
         balanceInfo = [:]
         if order.orderSide == .buy {
-            if order.tokenBuy?.uppercased() == "LRC" {
+            if order.tokenBuy.uppercased() == "LRC" {
                 checkGasEnough(of: order, includingLRC: false)
             } else {
                 checkLRCEnough(of: order)
                 checkGasEnough(of: order)
             }
         } else {
-            if order.tokenSell?.uppercased() == "LRC" {
+            if order.tokenSell.uppercased() == "LRC" {
                 checkLRCEnough(of: order)
                 checkLRCGasEnough(of: order)
             } else {

@@ -125,10 +125,10 @@ class P2POrderDataManager: OrderDataManager {
     }
 
     func constructTaker(from maker: RawOrder) -> RawOrder? {
-        baseToken = maker.tokenBuy!  // TODO check here
-        quoteToken = maker.tokenSell! // TODO check here
-        let amountBuy = maker.amountSell!
-        let amountSell = maker.amountBuy!
+        baseToken = maker.tokenBuy  // TODO check here
+        quoteToken = maker.tokenSell // TODO check here
+        let amountBuy = maker.amountSell
+        let amountSell = maker.amountBuy
         let validS = maker.validSince
         let validU = maker.params.validUntil
 
@@ -207,8 +207,6 @@ class P2POrderDataManager: OrderDataManager {
         var result: [Any] = []
         for order in p2pOrders {
             let tokenS = TokenDataManager.shared.getAddress(by: order.tokenSell)!
-
-
             result.append(GethAddress(fromHex: order.address))
             result.append(GethAddress(fromHex: tokenS))
             result.append(GethAddress(fromHex: order.walletAddress))

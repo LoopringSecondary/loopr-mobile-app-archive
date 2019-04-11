@@ -9,7 +9,7 @@
 import UIKit
 
 class ConvertETHResultViewController: UIViewController {
-    
+
     @IBOutlet weak var statusIcon: UIImageView!
     @IBOutlet weak var balanceLabel: UILabel!
     @IBOutlet weak var statusTipLabel: UILabel!
@@ -19,43 +19,43 @@ class ConvertETHResultViewController: UIViewController {
     @IBOutlet weak var timeTipLabel: UILabel!
     @IBOutlet weak var timeInfoLabel: UILabel!
     @IBOutlet weak var doneButton: GradientButton!
-    
+
     @IBOutlet weak var seperatorA: UIView!
     @IBOutlet weak var seperatorB: UIView!
     @IBOutlet weak var seperatorC: UIView!
     @IBOutlet weak var seperatorD: UIView!
-    
+
     var convertAsset: Asset?
     var otherAsset: Asset?
     var convertAmount: String!
     var receiveAddress: String!
     var errorMessage: String?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.theme_backgroundColor = ColorPicker.backgroundColor
-        
+
         let seperators = [seperatorA, seperatorB, seperatorC, seperatorD]
         seperators.forEach { $0?.theme_backgroundColor = ColorPicker.cardBackgroundColor }
-        
+
         doneButton.title = LocalizedString("Done", comment: "")
         doneButton.setPrimaryColor()
         if let asset = self.convertAsset {
             update(asset: asset)
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
-    
+
     func update(asset: Asset) {
         if let errorMessage = self.errorMessage {
             statusIcon.image = UIImage.init(named: "Result-header-fail")
@@ -82,7 +82,7 @@ class ConvertETHResultViewController: UIViewController {
         timeTipLabel.setTitleCharFont()
         timeTipLabel.text = LocalizedString("Time", comment: "")
         timeInfoLabel.setTitleCharFont()
-        let stamp = UInt(Date().timeIntervalSince1970)
+        let stamp = Int(Date().timeIntervalSince1970)
         timeInfoLabel.text = DateUtil.convertToDate(stamp, format: "yyyy-MM-dd HH:mm")
     }
 
@@ -95,7 +95,7 @@ class ConvertETHResultViewController: UIViewController {
                 self.navigationController!.popToViewController(controller, animated: true)
                 break
             }
-            
+
             // Jumps back to asset detail view controller
             if controller.isKind(of: AssetDetailViewController.self) {
                 self.navigationController?.setNavigationBarHidden(false, animated: false)
