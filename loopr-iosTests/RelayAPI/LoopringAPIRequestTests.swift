@@ -104,6 +104,7 @@ class LoopringAPIRequestTests: XCTestCase {
     }
     
     func testGetLatestFills() {
+        /*
         let expectation = XCTestExpectation()
         
         LoopringAPIRequest.getLatestFills(market: "LRC-WETH") { orderFills, error in
@@ -117,6 +118,7 @@ class LoopringAPIRequestTests: XCTestCase {
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 10.0)
+        */
     }
     
     // getTrend may be updated.

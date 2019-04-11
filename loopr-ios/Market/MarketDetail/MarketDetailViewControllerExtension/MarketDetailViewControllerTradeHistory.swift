@@ -11,6 +11,7 @@ import Foundation
 extension MarketDetailViewController {
     
     func getTradeHistoryFromRelay() {
+        /*
         MarketTradeHistoryDataManager.shared.getTradeHistoryFromServer(market: market.name, completionHandler: { (orderFills, _) in
             self.preivousMarketName = self.market.name
             self.orderFills = orderFills
@@ -21,6 +22,7 @@ extension MarketDetailViewController {
                 self.tableView.reloadData()
             }
         })
+        */
     }
     
     private func isTradeHistoryEmpty() -> Bool {

@@ -55,6 +55,7 @@ class MarketDetailTradeHistoryTableViewCell: UITableViewCell {
     }
     
     func update() {
+        /*
         if let orderFill = orderFill {
             label1.text = "\(orderFill.price.withCommas(8))"
             label2.text = "\(orderFill.amount)"
@@ -63,6 +64,7 @@ class MarketDetailTradeHistoryTableViewCell: UITableViewCell {
             label1.text = ""
             label2.text = ""
         }
+        */
     }
     
     class func getCellIdentifier() -> String {
