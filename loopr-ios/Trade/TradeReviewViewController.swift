@@ -199,7 +199,7 @@ class TradeReviewViewController: UIViewController {
 
         statusInfoLabel.textColor = .success
         statusInfoLabel.text = LocalizedString("Open", comment: "")
-        let since = DateUtil.convertToDate(UInt(order.validSince), format: "MM-dd HH:mm")
+        let since = DateUtil.convertToDate(order.validSince, format: "MM-dd HH:mm")
         let until = DateUtil.convertToDate(UInt(order.validUntil), format: "MM-dd HH:mm")
         validInfoLabel.text = "\(since) ~ \(until)"
     }

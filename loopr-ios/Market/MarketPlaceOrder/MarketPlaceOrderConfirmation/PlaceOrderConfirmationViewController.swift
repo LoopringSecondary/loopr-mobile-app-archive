@@ -284,7 +284,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         SVProgressHUD.show(withStatus: LocalizedString("Approving authorization", comment: "") + "...")
         manager._authorizeOrder { (_, error) in
             guard error == nil else {
-                LoopringAPIRequest.notifyStatus(hash: hash, status: .txFailed, completionHandler: { (_, _) in })
+                // LoopringAPIRequest.notifyStatus(hash: hash, status: .txFailed, completionHandler: { (_, _) in })
                 self.complete(nil, error!)
                 return
             }
@@ -294,7 +294,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
                     return
                 }
                 UserDefaults.standard.set(false, forKey: UserDefaultsKeys.cancelledAll.rawValue)
-                LoopringAPIRequest.notifyStatus(hash: hash, status: .accept, completionHandler: { (_, error) in
+                // LoopringAPIRequest.notifyStatus(hash: hash, status: .accept, completionHandler: { (_, error) in
                     self.completion(orderHash, error)
                 })
             })

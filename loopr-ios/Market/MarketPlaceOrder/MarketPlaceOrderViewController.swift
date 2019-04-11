@@ -21,8 +21,8 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
     private var types: [OrderSide] = [.buy, .sell]
 
     // TODO: needs to update buys and sells in Relay 2.0
-    var buys: [Depth] = []
-    var sells: [Depth] = []
+    var buys: [OrderbookItem] = []
+    var sells: [OrderbookItem] = []
 
     // TODO: needs to change tableView1 to a UIView
     @IBOutlet weak var tableView1: UITableView!
@@ -229,11 +229,14 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
                     let title = LocalizedString("You are going to cancel the order.", comment: "")
                     let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
+                        // TODO: disable cancelOrder
+                        /*
                         SendCurrentAppWalletDataManager.shared._cancelOrder(order: order.originalOrder, completion: { (txHash, error) in
                             // TODO: if the page index is not 1, it may have some bugs
                             self.refreshData()
                             self.completion(txHash, error)
                         })
+                        */
                     }))
                     alert.addAction(UIAlertAction(title: LocalizedString("Cancel", comment: ""), style: .cancel, handler: { _ in
                     }))

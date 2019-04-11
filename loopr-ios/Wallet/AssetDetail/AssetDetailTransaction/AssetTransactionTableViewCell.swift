@@ -80,6 +80,8 @@ class AssetTransactionTableViewCell: UITableViewCell {
     
     func update() {
         if let tx = transaction {
+            // TODO: disable during Relay 2.0 refactor
+            /*
             switch tx.type {
             case .convert_income:
                 updateConvertIncome()
@@ -92,6 +94,7 @@ class AssetTransactionTableViewCell: UITableViewCell {
             default:
                 updateDefault()
             }
+            */
             amountLabel.textColor = UIStyleConfig.getChangeColor(change: amountLabel.text ?? "")
             typeImageView.image = tx.icon
             dateLabel.text = tx.createTime

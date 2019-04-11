@@ -88,14 +88,14 @@ extension MarketPlaceOrderTableViewCell {
             let index = sells.count-1-indexPath.row
             if index < sells.count && index >= 0 {
                 let depth = sells[sells.count-1-indexPath.row]
-                cell?.update(indexPath: indexPath, depth: depth)
+                cell?.update(indexPath: indexPath, orderbookItem: depth)
             } else {
                 cell?.setEmptyUI()
             }
         } else if indexPath.section == 1 {
             if indexPath.row < buys.count {
                 let depth = buys[indexPath.row]
-                cell?.update(indexPath: indexPath, depth: depth)
+                cell?.update(indexPath: indexPath, orderbookItem: depth)
             } else {
                 cell?.setEmptyUI()
             }

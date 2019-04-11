@@ -48,9 +48,6 @@ class CurrentAppWalletDataManager {
         defaults.set(appWallet.address, forKey: UserDefaultsKeys.currentAppWallet.rawValue)
         currentAppWallet = appWallet
         
-        // Update websocket
-        startGetBalance()
-        
         // TODO: This needs to join TokenLists
         self.assetsInHideSmallMode = []
         self.assets = []

@@ -58,7 +58,6 @@ class SettingDataManager {
     func setCurrentCurrency(_ currency: Currency, syncToServer: Bool) {
         let defaults = UserDefaults.standard
         defaults.set(currency.name, forKey: UserDefaultsKeys.currentCurrency.rawValue)
-        PriceDataManager.shared.startGetPriceQuote()
         if syncToServer {
             AppServiceUserManager.shared.updateUserConfigWithUserDefaults()
         }

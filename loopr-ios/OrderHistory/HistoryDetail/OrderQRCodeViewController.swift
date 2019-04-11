@@ -99,7 +99,7 @@ class OrderQRCodeViewController: UIViewController {
         sellTipLabel.theme_textColor = GlobalPicker.contrastTextLightColor
         sellTipLabel.text = LocalizedString("Sell", comment: "")
 
-        var length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenSell!)
+        var length = MarketDataManager.shared.getDecimals(tokenSymbol: order.tokenSell)
         sellInfoLabel.font = FontConfigManager.shared.getCharactorFont(size: 12)
         sellInfoLabel.theme_textColor = GlobalPicker.contrastTextColor
         sellInfoLabel.text = order.amountSell!.withCommas(length).trailingZero()  + " " + order.tokenSell!
@@ -117,7 +117,7 @@ class OrderQRCodeViewController: UIViewController {
 
         unitBuyLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         unitBuyLabel.theme_textColor = GlobalPicker.contrastTextLightColor
-        unitBuyLabel.text = "1 \(order.tokenSell!)"
+        unitBuyLabel.text = "1 \(order.tokenSell)"
 
         priceBuyLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         priceBuyLabel.theme_textColor = GlobalPicker.contrastTextColor
@@ -132,7 +132,7 @@ class OrderQRCodeViewController: UIViewController {
 
         unitSellLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         unitSellLabel.theme_textColor = GlobalPicker.contrastTextLightColor
-        unitSellLabel.text = "1 \(order.tokenBuy!)"
+        unitSellLabel.text = "1 \(order.tokenBuy)"
 
         priceSellLabel.font = FontConfigManager.shared.getCharactorFont(size: 11)
         priceSellLabel.theme_textColor = GlobalPicker.contrastTextColor

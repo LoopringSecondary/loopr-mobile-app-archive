@@ -177,7 +177,7 @@ class MarketDetailSummaryTableViewCell: UITableViewCell {
         */
     }
     
-    func setHighlighted(trend: Trend) {
+    func setHighlighted(trend: MarketHistoryItem) {
         self.baseView.isHidden = true
         self.highlightView.isHidden = false
 

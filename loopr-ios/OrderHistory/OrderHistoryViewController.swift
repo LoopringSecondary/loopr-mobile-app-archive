@@ -209,11 +209,14 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
                 let title = LocalizedString("You are going to cancel the order.", comment: "")
                 let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
+                    // TODO: Disable _cancelOrder
+                    /*
                     SendCurrentAppWalletDataManager.shared._cancelOrder(order: order.originalOrder, completion: { (txHash, error) in
                         // TODO: if the page index is not 1, it may have some bugs
                         self.refreshData()
                         self.completion(txHash, error)
                     })
+                    */
                 }))
                 alert.addAction(UIAlertAction(title: LocalizedString("Cancel", comment: ""), style: .cancel, handler: { _ in
                 }))

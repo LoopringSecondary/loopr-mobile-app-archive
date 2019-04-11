@@ -199,8 +199,8 @@ class TradeConfirmationViewController: UIViewController {
     }
 
     func updateLabels(order: RawOrder) {
-        tokenBView.update(type: .buy, symbol: order.tokenBuy!, amount: order.amountBuy!)
-        tokenSView.update(type: .sell, symbol: order.tokenSell!, amount: order.amountSell!)
+        tokenBView.update(type: .buy, symbol: order.tokenBuy, amount: order.amountBuy)
+        tokenSView.update(type: .sell, symbol: order.tokenSell, amount: order.amountSell)
         if let lrcFee = order.feeParams.amountF,
            let price = PriceDataManager.shared.getPrice(of: "LRC"),
            let value = order.orderSide == .buy ? order.priceBuy : order.priceSell {
@@ -349,7 +349,8 @@ extension TradeConfirmationViewController {
                     self.completion(nil, error!)
                     return
                 }
-                P2POrderDataManager.instance.startGetOrderStatus(of: self.order!.hash)
+                // TODO: Relay 2.0 API has been changed.
+                // P2POrderDataManager.instance.startGetOrderStatus(of: self.order!.hash)
                 self.completion(orderHash!, nil)
             }
         } else {

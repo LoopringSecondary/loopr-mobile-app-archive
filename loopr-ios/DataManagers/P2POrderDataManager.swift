@@ -222,7 +222,7 @@ class P2POrderDataManager: OrderDataManager {
             result.append(amountSell)
             let amountBuy = order.amountB.toEth()
             result.append(amountBuy)
-            result.append(GethBigInt(order.validSince))
+            result.append(GethBigInt(Int64(order.validSince)))
             result.append(GethBigInt(order.validUntil))
             let lrcFee = GethBigInt.generate(valueInEther: order.lrcFee, symbol: "LRC")!
             result.append(lrcFee)
@@ -453,10 +453,13 @@ class P2POrderDataManager: OrderDataManager {
      3. 若还在展示二维码，跳转至订单详情；若已经离开，显示banner
      4. 停止接收sockeio的推送
      */
+    // TODO: in Relay 2.0 API is changed.
     func onOrderResponse(json: JSON) {
+        /*
         if json["status"].stringValue == OrderStatus.new.rawValue {
             stopGetOrderStatus()
             NotificationCenter.default.post(name: .orderResponseReceived, object: nil)
         }
+        */
     }
 }

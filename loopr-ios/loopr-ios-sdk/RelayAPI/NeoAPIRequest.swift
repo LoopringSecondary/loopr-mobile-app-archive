@@ -84,7 +84,7 @@ class NeoAPIRequest {
         var body: JSON = JSON()
         
         let stamp = UInt(Date().timeIntervalSince1970)
-        let id = DateUtil.convertToDate(stamp, format: "yyyyMMddHHmm")
+        let id = DateUtil.convertToDate(Int(stamp), format: "yyyyMMddHHmm")
         let key = "d1013d1c\(id)0000\(bindAddress.hashFromAddress())\(method)"
         body["params"] = [JSON(key)]
         body["method"] = JSON("sendrawtransaction")

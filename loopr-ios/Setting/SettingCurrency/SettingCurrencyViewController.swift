@@ -35,6 +35,8 @@ class SettingCurrencyViewController: UIViewController, UITableViewDelegate, UITa
         super.viewDidDisappear(animated)
         if localCurrentCurrency != SettingDataManager.shared.getCurrentCurrency() {
             // TODO: config in setting
+            // TODO: disable
+            /*
             LoopringAPIRequest.getTicker(by: .coinmarketcap) { (markets, error) in
                 print("receive LoopringAPIRequest.getMarkets")
                 guard error == nil else {
@@ -43,6 +45,7 @@ class SettingCurrencyViewController: UIViewController, UITableViewDelegate, UITa
                 }
                 MarketDataManager.shared.setMarkets(newMarkets: markets)
             }
+            */
             NotificationCenter.default.post(name: .needRelaunchCurrentAppWallet, object: nil)
         }
     }

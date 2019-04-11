@@ -60,9 +60,9 @@ class Transaction {
         self.type = TxType(rawValue: json["type"].string ?? "other") ?? .other
         self.status = TxStatus(rawValue: json["status"].string ?? "other") ?? .other
         self.icon = UIImage(named: "Transaction-\(self.type.rawValue)-\(Themes.getTheme())") ?? nil
-        let createTime = DateUtil.convertToDate(json["createTime"].uIntValue, format: "yyyy-MM-dd HH:mm")
+        let createTime = DateUtil.convertToDate(Int(json["createTime"].uIntValue), format: "yyyy-MM-dd HH:mm")
         self.createTime = createTime
-        let updateTime = DateUtil.convertToDate(json["updateTime"].uIntValue, format: "yyyy-MM-dd HH:mm")
+        let updateTime = DateUtil.convertToDate(Int(json["updateTime"].uIntValue), format: "yyyy-MM-dd HH:mm")
         self.updateTime = updateTime
     }
 

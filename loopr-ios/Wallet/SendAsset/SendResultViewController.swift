@@ -73,7 +73,7 @@ class SendResultViewController: UIViewController {
         timeTipLabel.text = LocalizedString("Time", comment: "")
         timeInfoLabel.setTitleCharFont()
         let stamp = UInt(Date().timeIntervalSince1970)
-        timeInfoLabel.text = DateUtil.convertToDate(stamp, format: "yyyy-MM-dd HH:mm")
+        timeInfoLabel.text = DateUtil.convertToDate(Int(stamp), format: "yyyy-MM-dd HH:mm")
     }
 
     @IBAction func pressedDoneButton(_ sender: UIButton) {
