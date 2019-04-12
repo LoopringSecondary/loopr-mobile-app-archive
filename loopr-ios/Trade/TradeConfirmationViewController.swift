@@ -201,9 +201,9 @@ class TradeConfirmationViewController: UIViewController {
     func updateLabels(order: RawOrder) {
         tokenBView.update(type: .buy, symbol: order.tokenBuy, amount: order.amountBuy)
         tokenSView.update(type: .sell, symbol: order.tokenSell, amount: order.amountSell)
-        if let lrcFee = order.feeParams.amountF,
-           let price = PriceDataManager.shared.getPrice(of: "LRC"),
-           let value = order.orderSide == .buy ? order.priceBuy : order.priceSell {
+        if let price = PriceDataManager.shared.getPrice(of: "LRC") {
+            let lrcFee = order.feeParams.amountF
+            let value = order.orderSide == .buy ? order.priceBuy : order.priceSell
             priceValueLabel.text = "\(value.withCommas(8)) \(order.market)"
             let total = (price * lrcFee).currency
             LRCFeeValueLabel.text = "\(lrcFee.withCommas(3)) LRC ≈ \(total)"

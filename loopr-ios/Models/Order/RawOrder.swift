@@ -63,6 +63,8 @@ class RawOrder: Equatable {
     // e.g. 10.50%
     var filled: String = ""
 
+    var market: String = ""
+
     var orderSide: OrderSide = .buy
 
     var p2pType: P2PType = .maker

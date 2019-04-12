@@ -492,7 +492,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
     func preserveMaker(order: RawOrder) {
         let defaults = UserDefaults.standard
         let count = P2POrderDataManager.instance.sellCount
-        defaults.set("\(order.authPrivateKey)-\(count)", forKey: order.hash)
+        defaults.set("\(order.params.dualAuthPrivateKey)-\(count)", forKey: order.hash)
     }
 
     func pushController() {

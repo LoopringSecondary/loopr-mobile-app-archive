@@ -23,9 +23,9 @@ class P2POrderHistoryDataManager {
         orders = []
     }
 
-    func getOrderDataFromLocal(originalOrder: RawOrder) -> String? {
+    func getOrderDataFromLocal(order: RawOrder) -> String? {
         let defaults = UserDefaults.standard
-        return defaults.string(forKey: hash) ?? nil
+        return defaults.string(forKey: order.hash) ?? nil
     }
 
     func getOrders(orderStatuses: [OrderStatus]? = nil) -> [RawOrder] {
@@ -48,21 +48,21 @@ class P2POrderHistoryDataManager {
         }
     }
 
-    func getOrdersFromServer(pageIndex: UInt, pageSize: UInt = 50, completionHandler: @escaping (_ orders: [RawOrder], _ error: Error?) -> Void) {
+    func getOrdersFromServer(cursor: UInt, size: UInt = 50, completionHandler: @escaping (_ orders: [RawOrder], _ error: Error?) -> Void) {
         if let owner = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address {
-            LoopringAPIRequest.getOrders(owner: owner, orderType: OrderType.p2pOrder.rawValue, pageIndex: pageIndex, pageSize: pageSize) { orders, error in
-                guard let orders = orders, error == nil else {
+            LoopringAPIRequest.getOrders(owner: owner, cursor: cursor, size: size) { result, error in
+                guard let result = result, error == nil else {
                     self.orders = []
                     completionHandler([], error)
                     return
                 }
-
-                if pageIndex == 1 {
-                    self.orders = orders
+                let p2pOrders = result.orders.filter { $0.orderType == .p2pOrder }  // TODO no type from relay2.0 now
+                if cursor == 1 {
+                    self.orders = p2pOrders
                 } else {
-                    self.orders += orders
+                    self.orders += p2pOrders
                 }
-                completionHandler(orders, error)
+                completionHandler(p2pOrders, error)
             }
         }
     }

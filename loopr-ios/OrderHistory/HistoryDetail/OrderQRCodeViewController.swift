@@ -171,7 +171,7 @@ class OrderQRCodeViewController: UIViewController {
     }
 
     func generateQRCode(originalOrder: RawOrder) {
-        guard let data = P2POrderHistoryDataManager.shared.getOrderDataFromLocal(originalOrder: originalOrder) else { return }
+        guard let data = P2POrderHistoryDataManager.shared.getOrderDataFromLocal(order: originalOrder) else { return }
         var body = JSON()
         let array = data.components(separatedBy: "-")
         body["type"] = JSON(P2POrderDataManager.qrcodeType)

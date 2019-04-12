@@ -145,7 +145,7 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
 
     @objc func pressQRCodeButton(_ sender: UIButton) {
         if let order = self.order {
-            guard P2POrderHistoryDataManager.shared.getOrderDataFromLocal(originalOrder: order.originalOrder) != nil else {
+            guard P2POrderHistoryDataManager.shared.getOrderDataFromLocal(order: order) != nil else {
                 // TODO: Not sure about the title.
                 let title = LocalizedString("The P2P order is not created in this iPhone. You can't share the QR code.", comment: "")
                 let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
@@ -237,7 +237,7 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
 
-            LoopringAPIRequest.getOrderByHash(orderHash: txHash) { (_, _) in
+            LoopringAPIRequest.getOrdersByHash(hashes: [txHash]) { (_, _) in
 
             }
         }

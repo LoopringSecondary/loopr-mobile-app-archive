@@ -16,14 +16,14 @@ class MarketChangeTokenTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var marketPriceInBitcoinLabel: UILabel!
     @IBOutlet weak var percentageChangeLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+
         theme_backgroundColor = ColorPicker.backgroundColor
         baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        
+
         nameLabel.font = FontConfigManager.shared.getMediumFont(size: 14)
         nameLabel.theme_textColor = GlobalPicker.textColor
 
@@ -32,7 +32,7 @@ class MarketChangeTokenTableViewCell: UITableViewCell {
 
         percentageChangeLabel.font = FontConfigManager.shared.getMediumFont(size: 14)
     }
-    
+
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         if highlighted {
             baseView.theme_backgroundColor = ColorPicker.cardHighLightColor
@@ -40,10 +40,10 @@ class MarketChangeTokenTableViewCell: UITableViewCell {
             baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         }
     }
-    
+
     func update() {
         if let market = market {
-            nameLabel.text = market.description
+            nameLabel.text = market.name
             nameLabel.setMarket()
             marketPriceInBitcoinLabel.text = market.ticker.price.withCommas(6)
             percentageChangeLabel.text = market.ticker.percentChange24H
@@ -54,7 +54,7 @@ class MarketChangeTokenTableViewCell: UITableViewCell {
     class func getCellIdentifier() -> String {
         return "MarketChangeTokenTableViewCell"
     }
-    
+
     class func getHeight() -> CGFloat {
         return 40
     }

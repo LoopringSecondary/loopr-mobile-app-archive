@@ -29,26 +29,26 @@ class MarketTableViewCell: UITableViewCell {
 
         theme_backgroundColor = ColorPicker.backgroundColor
         baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
-        
+
         nameLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         nameLabel.theme_textColor = GlobalPicker.textColor
-        
+
         balanceLabel.font = FontConfigManager.shared.getRegularFont(size: 13)
         balanceLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         marketPriceInBitcoinLabel.font = FontConfigManager.shared.getMediumFont(size: 14)
         marketPriceInBitcoinLabel.theme_textColor = GlobalPicker.textColor
-        
+
         marketPriceInFiatCurrencyLabel.font = FontConfigManager.shared.getRegularFont(size: 13)
         marketPriceInFiatCurrencyLabel.theme_textColor = GlobalPicker.textLightColor
-        
+
         percentageChangeLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         percentageChangeLabel.textColor = UIColor.white
         percentageChangeLabel.textAlignment = .center
         percentageChangeLabel.cornerRadius = 6
         percentageChangeLabel.clipsToBounds = true
     }
-    
+
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         if highlighted {
             baseView.theme_backgroundColor = ColorPicker.cardHighLightColor
@@ -56,7 +56,7 @@ class MarketTableViewCell: UITableViewCell {
             baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         }
     }
-    
+
     func updateStarButton(market: Market) {
         /*
         if market.isFavorite() {
@@ -70,17 +70,17 @@ class MarketTableViewCell: UITableViewCell {
     func update() {
         if let market = market {
             updateStarButton(market: market)
-            nameLabel.text = market.description
+            nameLabel.text = market.name
             nameLabel.setMarket()
             balanceLabel.text = "Vol \(market.ticker.percentChange24H)"
-            
+
             marketPriceInBitcoinLabel.text = market.ticker.price.withCommas()
             marketPriceInFiatCurrencyLabel.text = market.ticker.price.withCommas()
             percentageChangeLabel.text = market.ticker.percentChange24H
             percentageChangeLabel.backgroundColor = UIStyleConfig.getChangeColor(change: market.ticker.percentChange24H)
         }
     }
-    
+
     @IBAction func pressedFavButton(_ sender: UIButton) {
         guard let market = market else {
             return
@@ -94,11 +94,11 @@ class MarketTableViewCell: UITableViewCell {
         */
         updateStarButton(market: market)
     }
-    
+
     class func getCellIdentifier() -> String {
         return "MarketTableViewCell"
     }
-    
+
     class func getHeight() -> CGFloat {
         return 60
     }

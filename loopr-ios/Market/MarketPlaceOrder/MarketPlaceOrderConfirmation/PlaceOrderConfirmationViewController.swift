@@ -149,7 +149,7 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
         guard let market = MarketOrderDataManager.instance.market else {
             return true
         }
-        let pair = market.description
+        let pair = market.name
         if let price = self.price, let value = Double(price),
             let market = MarketDataManager.shared.getMarket(byTradingPair: pair) {
             let header = LocalizedString("Your price is irrational, ", comment: "")
@@ -288,16 +288,16 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
                 self.complete(nil, error!)
                 return
             }
-            MarketOrderDataManager.instance._submitOrder(order, completion: { (orderHash, error) in
-                guard let orderHash = orderHash, error == nil else {
-                    self.complete(nil, error!)
-                    return
-                }
-                UserDefaults.standard.set(false, forKey: UserDefaultsKeys.cancelledAll.rawValue)
-                // LoopringAPIRequest.notifyStatus(hash: hash, status: .accept, completionHandler: { (_, error) in
-                    self.completion(orderHash, error)
-                })
-            })
+//            MarketOrderDataManager.instance._submitOrder(order, completion: { (orderHash, error) in
+//                guard let orderHash = orderHash, error == nil else {
+//                    self.complete(nil, error!)
+//                    return
+//                }
+//                UserDefaults.standard.set(false, forKey: UserDefaultsKeys.cancelledAll.rawValue)
+//                // LoopringAPIRequest.notifyStatus(hash: hash, status: .accept, completionHandler: { (_, error) in
+//                    self.completion(orderHash, error)
+//
+//                )}
         }
     }
 

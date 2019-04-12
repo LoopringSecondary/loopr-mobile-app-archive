@@ -104,7 +104,7 @@ class OrderTableViewCell: UITableViewCell {
     }
 
     func setupTradingPairlabel(order: RawOrder) {
-        tradingPairLabel.text = order.tradingPairDescription
+        tradingPairLabel.text = OrderDataManager.shared.market?.name
         tradingPairLabel.font = FontConfigManager.shared.getDigitalFont(size: 14)
         tradingPairLabel.theme_textColor = GlobalPicker.textColor
         tradingPairLabel.setMarket()
@@ -127,7 +127,7 @@ class OrderTableViewCell: UITableViewCell {
     }
 
     func setupPriceLabel(order: RawOrder) {
-        let decimals = MarketDataManager.shared.getDecimals(tradingPair: order.tradingPairDescription)
+        let decimals = MarketDataManager.shared.getDecimals(pair: order.market)
         // TODO: Simplify the followering code.
         if order.orderSide == .buy {
             var value = order.priceBuy.withCommas(decimals)

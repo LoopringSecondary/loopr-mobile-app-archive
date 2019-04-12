@@ -62,7 +62,7 @@ class MarketPlaceOrderViewController: UIViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
 
         setBackButton()
-        navigationItem.title = MarketOrderDataManager.instance.market?.description ?? LocalizedString("Trade", comment: "")
+        navigationItem.title = MarketOrderDataManager.instance.market?.name ?? LocalizedString("Trade", comment: "")
         view.theme_backgroundColor = ColorPicker.backgroundColor
         tableView1.theme_backgroundColor = ColorPicker.backgroundColor
 

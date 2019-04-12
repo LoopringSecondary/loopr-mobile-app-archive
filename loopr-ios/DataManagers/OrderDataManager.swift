@@ -30,7 +30,7 @@ class OrderDataManager {
     // Similar naming in Trade.swift
     var baseToken: String = "LRC"
     var quoteToken: String = "WETH"
-    var market: Market?
+    var market: Market!
 
     func new(baseToken: String, quoteToken: String, market: Market) {
         self.baseToken = baseToken
@@ -113,6 +113,7 @@ class OrderDataManager {
 
             var order = RawOrder()
             order.orderSide = side
+            order.market = market.name
             order.owner = address; order.version = 0
             order.tokenB = tokenB; order.tokenBuy = tokenBuy
             order.tokenS = tokenS; order.tokenSell = tokenSell

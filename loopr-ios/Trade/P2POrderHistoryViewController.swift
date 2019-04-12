@@ -16,18 +16,18 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
     var isLaunching: Bool = true
 
     // These data need to be loaded when viewDidLoad() is called. Users can also pull to refresh the table view.
-    var orders: [Order] = []
+    var orders: [RawOrder] = []
 
     private let refreshControl = UIRefreshControl()
     var viewAppear: Bool = false
-    
+
     var previousOrderCount: Int = 0
     var pageIndex: UInt = 1
     var hasMoreData: Bool = true
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.theme_backgroundColor = ColorPicker.backgroundColor
         historyTableView.theme_backgroundColor = ColorPicker.backgroundColor
         self.navigationItem.title = LocalizedString("P2P Order History", comment: "")
@@ -48,7 +48,7 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
         P2POrderHistoryDataManager.shared.shouldReloadData = false
         getOrderHistoryFromRelay()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if P2POrderHistoryDataManager.shared.shouldReloadData {
@@ -57,15 +57,15 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
             getOrderHistoryFromRelay()
         }
     }
-    
+
     @objc private func refreshData() {
         pageIndex = 1
         hasMoreData = true
         getOrderHistoryFromRelay()
     }
-    
+
     func getOrderHistoryFromRelay() {
-        P2POrderHistoryDataManager.shared.getOrdersFromServer(pageIndex: self.pageIndex, completionHandler: { orders, _ in
+        P2POrderHistoryDataManager.shared.getOrdersFromServer(cursor: self.pageIndex, completionHandler: { orders, _ in
             DispatchQueue.main.async {
                 if self.isLaunching {
                     self.isLaunching = false
@@ -82,11 +82,11 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
             }
         })
     }
-    
+
     func isTableEmpty() -> Bool {
         return orders.count == 0 && !isLaunching
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -94,7 +94,7 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return isTableEmpty() ? 1 : orders.count
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if orders.count == 0 {
             return 0
@@ -104,25 +104,25 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let screenWidth = view.frame.size.width
-        
+
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 30+0.5))
         headerView.theme_backgroundColor = ColorPicker.backgroundColor
-        
+
         let baseView = UIView(frame: CGRect(x: 15, y: 0, width: screenWidth - 15*2, height: 30))
         baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
         baseView.round(corners: [.topLeft, .topRight], radius: 6)
         headerView.addSubview(baseView)
-        
+
         let labelWidth = (view.frame.size.width-15*2)/3
         let paddingX: CGFloat = 10
-        
+
         let label1 = UILabel(frame: CGRect(x: paddingX, y: 0, width: labelWidth, height: 30))
         label1.theme_textColor = GlobalPicker.textLightColor
         label1.font = FontConfigManager.shared.getCharactorFont(size: 13)
         label1.text = LocalizedString("Market/Price", comment: "")
         label1.textAlignment = .left
         baseView.addSubview(label1)
-        
+
         let label2Width = LocalizedString("Amount/Filled", comment: "").textWidth(font: FontConfigManager.shared.getCharactorFont(size: 13))
         let label2 = UILabel(frame: CGRect(x: (UIScreen.main.bounds.width-15*2)*0.5-label2Width*0.5, y: 0, width: labelWidth, height: 30))
         label2.theme_textColor = GlobalPicker.textLightColor
@@ -130,14 +130,14 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
         label2.text = LocalizedString("Amount/Filled", comment: "")
         label2.textAlignment = .left
         baseView.addSubview(label2)
-        
+
         let label3 = UILabel(frame: CGRect(x: baseView.width - labelWidth - 10, y: 0, width: labelWidth, height: 30))
         label3.theme_textColor = GlobalPicker.textLightColor
         label3.font = FontConfigManager.shared.getCharactorFont(size: 13)
         label3.text = LocalizedString("Status/Date", comment: "")
         label3.textAlignment = .right
         baseView.addSubview(label3)
-        
+
         return headerView
     }
 
@@ -147,7 +147,7 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
         }
         return OrderTableViewCell.getHeight()
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if orders.count == 0 {
             var cell = tableView.dequeueReusableCell(withIdentifier: OrderNoDataTableViewCell.getCellIdentifier()) as? OrderNoDataTableViewCell
@@ -182,17 +182,17 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
                 self.present(alert, animated: true, completion: nil)
             }
             cell?.update()
-            
+
             // Pagination
             if hasMoreData && indexPath.row == orders.count - 1 {
                 pageIndex += 1
                 getOrderHistoryFromRelay()
             }
-            
+
             return cell!
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if orders.count == 0 {
@@ -204,11 +204,11 @@ class P2POrderHistoryViewController: UIViewController, UITableViewDelegate, UITa
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
 }
 
 extension P2POrderHistoryViewController {
-    
+
     func completion(_ txHash: String?, _ error: Error?) {
         var title: String = ""
         guard error == nil && txHash != nil else {

@@ -99,7 +99,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         buttonInNavigationBar.setRightImage(imageName: "Caret-down-dark", imagePaddingTop: 0, imagePaddingLeft: -24, titlePaddingRight: 0)
         // TODO: needs to update the icon. It's too big here.
         var padding = "  "
-        for _ in 0..<market!.description.count {
+        for _ in 0..<market!.name.count {
             padding += " "
         }
         buttonInNavigationBar.title = padding + market!.description
