@@ -136,6 +136,7 @@ class TradeConfirmationViewController: UIViewController {
 
     func validateRational() -> Bool {
         guard let order = self.order else { return true }
+        /*
         let pair = P2POrderDataManager.instance.tradePair.replacingOccurrences(of: "/", with: "-")  // "LRC-WETH"
         if let market = MarketDataManager.shared.getMarket(byTradingPair: pair) {
             let value = order.orderSide == .buy ? order.priceBuy : order.priceSell
@@ -162,6 +163,7 @@ class TradeConfirmationViewController: UIViewController {
             }
             return true
         }
+        */
         return true
     }
 
@@ -228,6 +230,7 @@ class TradeConfirmationViewController: UIViewController {
 extension TradeConfirmationViewController {
 
     func authorizeToPlaceOrder() {
+        /*
         if !priceTipLabel.isHidden {
             let alert = UIAlertController(title: LocalizedString("Please Pay Attention", comment: ""), message: self.message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: LocalizedString("Confirm", comment: ""), style: .default, handler: { _ in
@@ -245,10 +248,12 @@ extension TradeConfirmationViewController {
             self.handleVerifyInfo()
             P2POrderHistoryDataManager.shared.shouldReloadData = true
         }
+        */
     }
 
     func isTaker() -> Bool {
-        return P2POrderDataManager.instance.isTaker
+        // return P2POrderDataManager.instance.isTaker
+        return true
     }
 
     func isBalanceEnough() -> Bool {
@@ -355,6 +360,7 @@ extension TradeConfirmationViewController {
             }
         } else {
             MarketOrderDataManager.instance._submitOrder(self.order!) { (orderHash, error) in
+                /*
                 guard error == nil && orderHash != nil else {
                     let errorCode = (error! as NSError).userInfo["message"] as! String
                     if let error = P2POrderDataManager.instance.generateErrorMessage(errorCode: errorCode) {
@@ -363,6 +369,7 @@ extension TradeConfirmationViewController {
                     return
                 }
                 P2POrderDataManager.instance._submitRing(completion: self.completion)
+                */
             }
         }
     }

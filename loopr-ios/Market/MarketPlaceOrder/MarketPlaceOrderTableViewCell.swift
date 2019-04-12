@@ -306,8 +306,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
 
     // Prefill textFields
     @objc func pressedLatestPriceButton() {
-        priceTextField.text = market.balanceWithDecimals.trailingZero()
-        priceTipLabel.text = "≈ \(market.display.description)"
+        priceTextField.text = market.ticker.price.withCommas() // .balanceWithDecimals.trailingZero()
+        priceTipLabel.text = "≈ \(market.ticker.price)"
         updateTotalLabels()
     }
 
@@ -424,7 +424,8 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // updateAvailableLabel()
     }
 
-    func pressedDepthCell(depth: Depth) {
+    func pressedDepthCell(depth: MarketHistoryItem) {
+        /*
         // TODO: Should put it to func setPriceTextField(priceValue: Double)
         priceTextField.text = depth.price.toDecimalPlaces(decimalsSettingValue)
         if let value = Double(priceTextField.text!.removeComma()) {
@@ -439,6 +440,7 @@ class MarketPlaceOrderTableViewCell: UITableViewCell, UITableViewDelegate, UITab
         // No need to update available label
         // updateAvailableLabel()
         updateTotalLabels()
+        */
     }
 
     // Only update at init method and switch buy and sell type

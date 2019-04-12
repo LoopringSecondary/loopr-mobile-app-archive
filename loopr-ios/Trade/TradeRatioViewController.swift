@@ -17,7 +17,7 @@ class TradeRatioViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var pickerView: UIPickerView!
 
     // Get the init value from P2POrderDataManager.
-    var sellCount: Int = P2POrderDataManager.instance.sellCount
+    var sellCount: Int = 0  // P2POrderDataManager.instance.sellCount
     var titleArray = [Int]()
     var digitArray = [Int]()
     var dismissClosure: (() -> Void)?

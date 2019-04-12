@@ -287,6 +287,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func filterContentForSearchText(_ searchText: String) {
+        /*
         let newFilteredOrders = OrderDataManager.shared.getOrders().filter { (order) -> Bool in
             return order.market.lowercased().contains(searchText.lowercased())
         }
@@ -304,6 +305,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
             let topIndex = IndexPath(row: 0, section: 0)
             historyTableView.scrollToRow(at: topIndex, at: .top, animated: true)
         }
+        */
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

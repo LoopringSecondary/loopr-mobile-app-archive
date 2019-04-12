@@ -169,7 +169,7 @@ class SendAssetViewController: UIViewController, UITextFieldDelegate, UIScrollVi
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: .UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChange), name: .UITextFieldTextDidChange, object: nil)
 
-        GasDataManager.shared.getEstimateGasPrice { (gasPrice, _) in
+        GasDataManager.shared.getGasPrice { (gasPrice, _) in
             self.gasPriceInGwei = Double(gasPrice)
             DispatchQueue.main.async {
                 self.updateTransactionFeeAmountLabel()

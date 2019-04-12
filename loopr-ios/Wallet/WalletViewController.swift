@@ -202,12 +202,15 @@ class WalletViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let json = JSON(data)
             switch type {
             case .p2pOrder:
+                /*
                 P2POrderDataManager.instance.handleResult(of: json["value"])
                 let vc = TradeConfirmationViewController()
                 vc.view.theme_backgroundColor = ColorPicker.backgroundColor
                 vc.parentNavController = self.navigationController
                 vc.order = P2POrderDataManager.instance.p2pOrders[1]
                 self.navigationController?.pushViewController(vc, animated: true)
+                */
+                break
 
             case .address:
                 let vc = SendAssetViewController()

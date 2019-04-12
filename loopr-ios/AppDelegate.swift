@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         self.window?.makeKeyAndVisible()
         
         // Get the estimate gas price when launching the app.
-        GasDataManager.shared.getEstimateGasPrice { (_, _) in }
+        GasDataManager.shared.getGasPrice { (_, _) in }
 
         _ = SettingDataManager.shared.getCurrentLanguage()
 

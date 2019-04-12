@@ -174,7 +174,7 @@ class MarketDetailPriceChartTableViewCell: UITableViewCell {
         var upVals: [CandleChartDataEntry] = []
 
         for (i, trend) in trends.enumerated() {
-            let dataEntry: CandleChartDataEntry
+            var dataEntry: CandleChartDataEntry
             if trend.amount == 0 {
                 dataEntry = CandleChartDataEntry(x: Double(i), shadowH: 0, shadowL: 0, open: 0, close: 0)
             }
@@ -230,7 +230,7 @@ class MarketDetailPriceChartTableViewCell: UITableViewCell {
         let chartWidth = priceCandleStickChartView.width
         let barWidth = chartWidth/CGFloat(trends.count)
 
-        hightlightLabel.text = trend.getTimeRangeString()
+        // hightlightLabel.text = trend.getTimeRangeString()
         
         // Adjust the frame for edge cases.
         let textWidth = hightlightLabel.text!.widthOfString(usingFont: hightlightLabel.font)

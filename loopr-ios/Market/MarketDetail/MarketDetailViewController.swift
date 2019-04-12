@@ -102,7 +102,7 @@ class MarketDetailViewController: UIViewController, UITableViewDelegate, UITable
         for _ in 0..<market!.name.count {
             padding += " "
         }
-        buttonInNavigationBar.title = padding + market!.description
+        buttonInNavigationBar.title = padding + market.debugDescription
 
         getOrderbookFromRelay()
     }

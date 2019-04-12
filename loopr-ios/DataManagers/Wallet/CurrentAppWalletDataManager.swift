@@ -189,12 +189,14 @@ class CurrentAppWalletDataManager {
         guard let wallet = currentAppWallet else {
             return
         }
+        /*
         LoopringAPIRequest.getTransactions(owner: wallet.address, symbol: asset.symbol, txHash: nil, pageIndex: pageIndex, pageSize: pageSize, completionHandler: { (transactions, error) in
             guard error == nil, let transactions = transactions else {
                 return
             }
             completionHandler(transactions, nil)
         })
+        */
     }
 
     // JSON RPC
@@ -205,6 +207,7 @@ class CurrentAppWalletDataManager {
     func getBalanceAndPriceQuoteAndNonce(getPrice: Bool, completionHandler: @escaping (_ assets: [Asset], _ error: Error?) -> Void) {
         let address = self.currentAppWallet!.address        
         var localAssets: [Asset] = []
+        /*
         let dispatchGroup = DispatchGroup()
 
         dispatchGroup.enter()
@@ -252,5 +255,6 @@ class CurrentAppWalletDataManager {
             self.setAssets(newAssets: localAssets)
             completionHandler(self.assets, nil)
         }
+        */
     }
 }

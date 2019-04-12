@@ -245,6 +245,7 @@ class AppWalletDataManager {
     func getTotalCurrencyValue(address: String, getPrice: Bool, completionHandlerInBackgroundThread: @escaping (_ totalCurrencyValue: Double, _ error: Error?) -> Void) {        
         let appWallet = getWallet(address: address)
         var localAssets: [Asset] = []
+        /*
         let dispatchGroup = DispatchGroup()
         
         if getPrice {
@@ -299,6 +300,7 @@ class AppWalletDataManager {
 
             completionHandlerInBackgroundThread(totalCurrencyValue, nil)
         }
+        */
     }
     
     // Not used in WalletViewController. 

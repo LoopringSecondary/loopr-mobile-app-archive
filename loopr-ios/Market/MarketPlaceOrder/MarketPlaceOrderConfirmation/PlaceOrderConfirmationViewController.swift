@@ -157,18 +157,18 @@ class PlaceOrderConfirmationViewController: UIViewController, UIScrollViewDelega
             let messageA = LocalizedString("which may cause your asset wastage! ", comment: "")
             let messageB = LocalizedString("which may cause your order abolished! ", comment: "")
             if isBuyingOrder() {
-                if value < 0.8 * market.balance {
+                if value < 0.8 * market.ticker.price {
                     self.message = header + messageB + footer
                     return false
-                } else if value > 1.2 * market.balance {
+                } else if value > 1.2 * market.ticker.price {
                     self.message = header + messageA + footer
                     return false
                 }
             } else {
-                if value < 0.8 * market.balance {
+                if value < 0.8 * market.ticker.price {
                     self.message = header + messageA + footer
                     return false
-                } else if value > 1.2 * market.balance {
+                } else if value > 1.2 * market.ticker.price {
                     self.message = header + messageB + footer
                     return false
                 }

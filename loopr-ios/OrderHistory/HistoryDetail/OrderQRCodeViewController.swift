@@ -171,6 +171,7 @@ class OrderQRCodeViewController: UIViewController {
     }
 
     func generateQRCode(originalOrder: RawOrder) {
+        /*
         guard let data = P2POrderHistoryDataManager.shared.getOrderDataFromLocal(order: originalOrder) else { return }
         var body = JSON()
         let array = data.components(separatedBy: "-")
@@ -192,6 +193,7 @@ class OrderQRCodeViewController: UIViewController {
         } catch let error as NSError {
             print ("Error: \(error.domain)")
         }
+        */
     }
 
     override func viewWillAppear(_ animated: Bool) {

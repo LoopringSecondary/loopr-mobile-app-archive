@@ -218,6 +218,7 @@ class TradeReviewViewController: UIViewController {
     }
 
     func generateQRCode(order: RawOrder) {
+        /*
         var body = JSON()
         body["type"] = JSON(P2POrderDataManager.qrcodeType)
         body["value"] = [P2POrderDataManager.qrcodeHash: order.hash,
@@ -237,6 +238,7 @@ class TradeReviewViewController: UIViewController {
         } catch let error as NSError {
             print ("Error: \(error.domain)")
         }
+        */
     }
 
     @IBAction func pressedShareButton(_ sender: UIButton) {

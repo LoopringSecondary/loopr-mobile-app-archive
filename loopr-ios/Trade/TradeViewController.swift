@@ -11,7 +11,8 @@ import Geth
 import BigInt
 import StepSlider
 
-class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, NumericKeyboardDelegate, NumericKeyboardProtocol, StepSliderDelegate {
+// class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, NumericKeyboardDelegate, NumericKeyboardProtocol, StepSliderDelegate {
+class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
 
     // Header
     @IBOutlet weak var headerButton: UIButton!
@@ -78,6 +79,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
     var blurVisualEffectView = UIView(frame: .zero)
     var dismissInteractor: MiniToLargeViewInteractive!
 
+    /*
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -744,6 +746,7 @@ class TradeViewController: UIViewController, UITextFieldDelegate, UIScrollViewDe
         activeTextFieldTag = amountSellTextField.tag
 
     }
+    */
 }
 
 extension TradeViewController: UIViewControllerTransitioningDelegate {
