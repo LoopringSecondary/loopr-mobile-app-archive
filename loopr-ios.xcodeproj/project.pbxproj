@@ -143,6 +143,7 @@
 		9B34D7D2225F0BD4005CF701 /* OrderFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7D1225F0BD4005CF701 /* OrderFill.swift */; };
 		9B34D7D4226072B8005CF701 /* AccountBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7D3226072B7005CF701 /* AccountBalance.swift */; };
 		9B34D7D62260733D005CF701 /* TokenBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7D52260733D005CF701 /* TokenBalance.swift */; };
+		9B34D7D8226076D6005CF701 /* UserFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7D7226076D6005CF701 /* UserFill.swift */; };
 		9B76455D21FC4DDE00896B3E /* NewsDetailDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76455C21FC4DDE00896B3E /* NewsDetailDropdownMenu.swift */; };
 		9B76456021FD2CF200896B3E /* AssetBalanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76455E21FD2CF200896B3E /* AssetBalanceTableViewCell.swift */; };
 		9B76456121FD2CF200896B3E /* AssetBalanceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B76455F21FD2CF200896B3E /* AssetBalanceTableViewCell.xib */; };
@@ -739,6 +740,7 @@
 		9B34D7D1225F0BD4005CF701 /* OrderFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFill.swift; sourceTree = "<group>"; };
 		9B34D7D3226072B7005CF701 /* AccountBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalance.swift; sourceTree = "<group>"; };
 		9B34D7D52260733D005CF701 /* TokenBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenBalance.swift; sourceTree = "<group>"; };
+		9B34D7D7226076D6005CF701 /* UserFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFill.swift; sourceTree = "<group>"; };
 		9B76455C21FC4DDE00896B3E /* NewsDetailDropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailDropdownMenu.swift; sourceTree = "<group>"; };
 		9B76455E21FD2CF200896B3E /* AssetBalanceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetBalanceTableViewCell.swift; sourceTree = "<group>"; };
 		9B76455F21FD2CF200896B3E /* AssetBalanceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AssetBalanceTableViewCell.xib; sourceTree = "<group>"; };
@@ -2376,6 +2378,7 @@
 				9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */,
 				9B34D7D3226072B7005CF701 /* AccountBalance.swift */,
 				9B34D7D52260733D005CF701 /* TokenBalance.swift */,
+				9B34D7D7226076D6005CF701 /* UserFill.swift */,
 				CED82E0BCD90FD051E716A15 /* Order */,
 				CED821EB2D107E718901FE68 /* Market */,
 				CED8202FF0EA4455C29111D8 /* Token */,
@@ -3333,6 +3336,7 @@
 				AC99CF462083DD6A000AE4BD /* MnemonicEnterDerivationPathViewController.swift in Sources */,
 				ACB9118C20266A9C00F14644 /* AssetDetailViewController.swift in Sources */,
 				94D94CE32084A9380000BBC8 /* ConfirmationResultViewController.swift in Sources */,
+				9B34D7D8226076D6005CF701 /* UserFill.swift in Sources */,
 				9B82E78A221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift in Sources */,
 				9BA3015021B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.swift in Sources */,
 				AC0CD58B20D393F300ABB7BA /* SendCurrentAppWalletDataManager.swift in Sources */,

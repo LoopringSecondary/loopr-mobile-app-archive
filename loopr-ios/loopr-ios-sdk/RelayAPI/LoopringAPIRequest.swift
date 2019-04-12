@@ -174,7 +174,6 @@ class LoopringAPIRequest {
     // Not ready
     public static func getAccounts(addresses: [String], tokens: [String], allTokens: Bool, completionHandler: @escaping (_ assets: [Asset], _ error: Error?) -> Void) {
         var body = newJSON()
-
         body["method"] = "get_accounts"
         body["params"] = [[
             "addresses": addresses,
@@ -201,10 +200,8 @@ class LoopringAPIRequest {
         }
     }
 
-    // Not ready
     public static func getAccountNonce(address: String, completionHandler: @escaping (_ nonce: Int?, _ error: Error?) -> Void) {
         var body = newJSON()
-
         body["method"] = "get_account_nonce"
         body["params"] = [[
             "address": address
@@ -222,10 +219,8 @@ class LoopringAPIRequest {
         }
     }
 
-    // Not ready
-    public static func getUserFills(owner: String, marketPair: MarketPair, sort: Sort, paging: Paging) {
+    public static func getUserFills(owner: String, marketPair: MarketPair, sort: Sort = .ASC, paging: Paging, completionHandler: @escaping (_ userFills: [UserFill], _ error: Error?) -> Void) {
         var body = newJSON()
-
         body["method"] = "get_user_fills"
         body["params"] = [[
             "owner": owner,
@@ -234,9 +229,22 @@ class LoopringAPIRequest {
             "paging": paging.toJSON()
             ]]
 
-        // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler([], error)
+                return
+            }
+            let json = JSON(data)
+            var userFills: [UserFill] = []
+            let arrayData = json["result"]["fills"]
+            print(arrayData)
+            for subJson in arrayData.arrayValue {
+                let userFill = UserFill(json: subJson)
+                userFills.append(userFill)
+            }
+            
+            completionHandler(userFills, error)
         }
     }
 
