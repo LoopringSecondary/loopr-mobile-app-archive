@@ -7,11 +7,14 @@
 //
 
 enum OrderSide: String, CustomStringConvertible {
-    case buy = "BUY"
-    case sell = "SELL"
+
+    case both = "both"
+    case buy = "buy"
+    case sell = "sell"
 
     var description: String {
         switch self {
+        case .both: return LocalizedString("Both", comment: "")
         case .buy: return LocalizedString("Buy", comment: "")
         case .sell: return LocalizedString("Sell", comment: "")
         }

@@ -343,6 +343,8 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
                     let title = LocalizedString("Available Balance", comment: "")
                     message = "\(title) \(asset.display) \(tokenS)"
                     amountTextField.text = (maxPossibleAmount * value).withCommas(length).trailingZero().removeComma()
+                case .both:
+                    break
                 }
             }
         } else {
@@ -500,6 +502,8 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
                 tipLabel.textColor = .text1
                 tipLabel.text = "\(title) \(balance.withCommas()) \(self.tokenS)"
             }
+        case .both:
+            break
         }
     }
 
@@ -523,6 +527,8 @@ class BuyViewController: UIViewController, UITextFieldDelegate, UIScrollViewDele
                 percentage = amount/maxAmountToBuy
             case .sell:
                 percentage = amount/maxPossibleAmount
+            case .both:
+                break
             }
             if percentage > 1 {
                 percentage = 1

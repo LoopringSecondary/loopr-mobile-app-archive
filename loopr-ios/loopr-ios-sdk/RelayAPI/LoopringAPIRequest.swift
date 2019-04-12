@@ -103,11 +103,13 @@ class LoopringAPIRequest {
         }
     }
 
-    static func getOrders(owner: String, statuses: [OrderStatus]? = nil, marketPair: MarketPair? = nil, side: OrderSide? = nil, sort: Sort? = nil, cursor: UInt = 0, size: UInt = 20, completionHandler: @escaping (_ order: OrderResult?, _ error: Error?) -> Void) {
-        var body: JSON = JSON()
+    static func getOrders(owner: String, statuses: [OrderStatus] = [], marketPair: MarketPair? = nil, side: OrderSide = .both, sort: Sort = .ASC, cursor: UInt = 0, size: UInt = 20, completionHandler: @escaping (_ order: OrderResult?, _ error: Error?) -> Void) {
+        var body: JSON = newJSON()
         body["method"] = "get_orders"
-        body["params"] = ["owner": owner, "status": statuses?.map { $0.rawValue }, "marketPair": marketPair?.toJSON(), "side": side?.rawValue, "sort": sort?.rawValue, "paging": Paging(cursor: cursor, size: size).toJSON()]
-        body["id"] = JSON(UUID().uuidString)
+        body["params"] = ["owner": owner, "status": statuses.map { $0.rawValue }, "side": side.rawValue, "sort": sort.rawValue, "paging": Paging(cursor: cursor, size: size).toJSON()]
+        if marketPair != nil {
+            body["params"]["marketPair"] = marketPair!.toJSON()
+        }
 
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
             guard let data = data, error == nil else {

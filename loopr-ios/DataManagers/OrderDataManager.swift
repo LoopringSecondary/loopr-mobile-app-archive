@@ -63,7 +63,7 @@ class OrderDataManager {
         }
     }
 
-    func getOrdersFromServer(cursor: UInt, size: UInt = 20, statuses: [OrderStatus]? = nil, completionHandler: @escaping (_ error: Error?) -> Void) {
+    func getOrdersFromServer(cursor: UInt, size: UInt = 20, statuses: [OrderStatus] = [], completionHandler: @escaping (_ error: Error?) -> Void) {
         if let owner = CurrentAppWalletDataManager.shared.getCurrentAppWallet()?.address {
             LoopringAPIRequest.getOrders(owner: owner, statuses: statuses, cursor: cursor, size: size) { result, error in
                 guard let orders = result?.orders, error == nil else {

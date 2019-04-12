@@ -92,5 +92,15 @@ class LoopringAPIRequestTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 10.0)
     }
+    
+    func testGetOrders() {
+        let expectation = XCTestExpectation()
+        LoopringAPIRequest.getOrders(owner: "0xd65a23388d5d6f0b1ec52a7fc07a291c132d57ed") { (orderResult, error) in
+            XCTAssertTrue(orderResult!.total > 0)
+            let orders = orderResult!.orders
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
 
 }
