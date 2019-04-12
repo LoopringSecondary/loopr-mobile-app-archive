@@ -44,7 +44,7 @@ class TokenDataManager {
     }
 
     private func loadTokensFromServer(completionHandler: @escaping () -> Void) {
-        LoopringAPIRequest.getTokens(requireMetadata: true, requireInfo: true, requirePrice: true, quoteCurrencyForTicker: "USD") { (tokens, error) in
+        LoopringAPIRequest.getTokens(requireMetadata: true, requireInfo: true, requirePrice: true, quoteCurrencyForPrice: Currency.init(name: "USD")) { (tokens, error) in
             guard let tokens = tokens, error == nil else {
                 completionHandler()
                 return

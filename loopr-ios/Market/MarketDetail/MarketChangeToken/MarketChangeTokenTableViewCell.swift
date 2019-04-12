@@ -46,7 +46,7 @@ class MarketChangeTokenTableViewCell: UITableViewCell {
             nameLabel.text = market.name
             nameLabel.setMarket()
             marketPriceInBitcoinLabel.text = market.ticker.price.withCommas(6)
-            percentageChangeLabel.text = market.ticker.percentChange24H
+            percentageChangeLabel.text = market.ticker.percentChange24HString
             // percentageChangeLabel.textColor = UIStyleConfig.getChangeColor(change: market.changeInPat24)
         }
     }

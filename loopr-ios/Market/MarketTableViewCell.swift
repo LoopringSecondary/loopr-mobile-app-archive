@@ -76,8 +76,8 @@ class MarketTableViewCell: UITableViewCell {
 
             marketPriceInBitcoinLabel.text = market.ticker.price.withCommas()
             marketPriceInFiatCurrencyLabel.text = market.ticker.price.withCommas()
-            percentageChangeLabel.text = market.ticker.percentChange24H
-            percentageChangeLabel.backgroundColor = UIStyleConfig.getChangeColor(change: market.ticker.percentChange24H)
+            percentageChangeLabel.text = market.ticker.percentChange24HString
+            percentageChangeLabel.backgroundColor = UIStyleConfig.getChangeColor(change: market.ticker.percentChange24HString)
         }
     }
 

@@ -65,5 +65,32 @@ class LoopringAPIRequestTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 10.0)
     }
+    
+    func testGetTokens_USD() {
+        let expectation = XCTestExpectation()
+        LoopringAPIRequest.getTokens(requireMetadata: true, requireInfo: true, requirePrice: true, quoteCurrencyForPrice: Currency.init(name: "USD")) { (tokens, error) in
+            XCTAssertTrue(tokens!.count > 1)
+            for token in tokens! {
+                XCTAssertTrue(token.metadata.decimals > 0)
+                XCTAssertTrue(token.metadata.precision > 0)
+                XCTAssertTrue(token.metadata.burnRate.forMarket > 0)
+                XCTAssertTrue(token.metadata.burnRate.forP2P >= 0)
+                
+                XCTAssertTrue(token.info.circulatingSupply >= 0)
+                XCTAssertTrue(token.info.totalSupply >= 0)
+                XCTAssertTrue(token.info.maxSupply >= 0)
+                XCTAssertTrue(token.info.cmcRank >= 0)
+                XCTAssertTrue(token.info.icoRateWithEth >= 0)
+                
+                XCTAssertTrue(token.ticker.price >= 0)
+                XCTAssertTrue(token.ticker.volume24H >= 0)
+                XCTAssertTrue(token.ticker.percentChange1H >= 0)
+                XCTAssertTrue(token.ticker.percentChange24H >= 0)
+                XCTAssertTrue(token.ticker.percentChange7D >= 0)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
 
 }

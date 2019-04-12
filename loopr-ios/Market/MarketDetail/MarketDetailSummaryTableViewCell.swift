@@ -151,7 +151,7 @@ class MarketDetailSummaryTableViewCell: UITableViewCell {
         self.market = market
 
         priceInFiatCurrencyLabel.text = market.ticker.price.withCommas()
-        priceChangeIn24HoursLabel.text = market.ticker.percentChange24H
+        priceChangeIn24HoursLabel.text = market.ticker.percentChange24HString
         
         let hoursChangeWidth = hoursChangeInfoLabel.text!.widthOfString(usingFont: hoursChangeInfoLabel.font)
         let volumeChangeWidth = hoursChangeInfoLabel.text!.widthOfString(usingFont: hoursVolumeLabel.font)
@@ -160,7 +160,7 @@ class MarketDetailSummaryTableViewCell: UITableViewCell {
         priceInCryptoLabel.text = "\(market.ticker.price.withCommas()) \(market.metadata.marketPair.quoteToken) ≈ \(market.ticker.price.withCommas())"
         // priceInCryptoLabel.textColor = UIStyleConfig.getChangeColor(change: market.changeInPat24)
         
-        hoursChangeLabel.text = market.ticker.percentChange24H
+        hoursChangeLabel.text = market.ticker.percentChange24HString
         
         var tradeSymbol = market.metadata.marketPair.quoteToken
         if tradeSymbol == "WETH" {

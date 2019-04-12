@@ -16,10 +16,16 @@ class MarketTicker {
     var quoteSymbol: String = ""
     let exchangeRate: Double
     let price: Double
-    let volume24H: String
-    var percentChange1H: String = ""
-    var percentChange24H: String = ""
-    var percentChange7D: String = ""
+    
+    let volume24H: Double
+    
+    let percentChange1H: Double
+    let percentChange24H: Double
+    let percentChange7D: Double
+    
+    var percentChange1HString: String = ""
+    var percentChange24HString: String = ""
+    var percentChange7DString: String = ""
 
     init?(json: JSON) {
         let baseToken = json["baseToken"].stringValue
@@ -33,10 +39,16 @@ class MarketTicker {
         self.baseSymbol = TokenDataManager.shared.getTokenByAddress(baseToken)!.source
         self.quoteSymbol = TokenDataManager.shared.getTokenByAddress(quoteToken)!.source
         self.price = json["price"].doubleValue
-        self.volume24H = json["volume24H"].stringValue
-        self.percentChange1H = toString(json: json["percentChange1H"])
-        self.percentChange24H = toString(json: json["percentChange24H"])
-        self.percentChange7D = toString(json: json["percentChange7D"])
+
+        self.volume24H = json["volume24H"].doubleValue
+        
+        self.percentChange1H = json["percentChange1H"].doubleValue
+        self.percentChange24H = json["percentChange24H"].doubleValue
+        self.percentChange7D = json["percentChange7D"].doubleValue
+        
+        self.percentChange1HString = toString(json: json["percentChange1H"])
+        self.percentChange24HString = toString(json: json["percentChange24H"])
+        self.percentChange7DString = toString(json: json["percentChange7D"])
     }
 
     func toString(json: JSON) -> String {
