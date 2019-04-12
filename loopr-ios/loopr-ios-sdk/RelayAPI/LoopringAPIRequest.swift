@@ -202,7 +202,7 @@ class LoopringAPIRequest {
     }
 
     // Not ready
-    public static func getAccountNonce(address: String) {
+    public static func getAccountNonce(address: String, completionHandler: @escaping (_ nonce: Int?, _ error: Error?) -> Void) {
         var body = newJSON()
 
         body["method"] = "get_account_nonce"
@@ -210,9 +210,15 @@ class LoopringAPIRequest {
             "address": address
             ]]
 
-        // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler(0, error)
+                return
+            }
+            let json = JSON(data)
+            let nonce = json["result"]["nonce"].intValue
+            completionHandler(nonce, error)
         }
     }
 

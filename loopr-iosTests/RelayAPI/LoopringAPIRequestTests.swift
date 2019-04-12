@@ -114,5 +114,14 @@ class LoopringAPIRequestTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 10.0)
     }
+    
+    func testGetAccountNonce() {
+        let expectation = XCTestExpectation()
+        LoopringAPIRequest.getAccountNonce(address: "0xd65a23388d5d6f0b1ec52a7fc07a291c132d57ed") { (nonce, error) in
+            XCTAssertTrue(nonce! >= 0)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
 
 }
