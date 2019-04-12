@@ -75,7 +75,7 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
 
         statusInfoLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         statusInfoLabel.theme_textColor = GlobalPicker.textColor
-        statusInfoLabel.text = order?.orderStatus.description
+        statusInfoLabel.text = order?.state.status.description
 
         amountTipLabel.font = FontConfigManager.shared.getRegularFont(size: 14)
         amountTipLabel.theme_textColor = GlobalPicker.textLightColor
@@ -205,13 +205,7 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func setupOrderFilled(order: RawOrder) {
-        var percent: Double = 0.0
-        if order.orderSide == .sell {
-            percent = order.dealtAmountS / order.amountSell
-        } else if order.orderSide == .buy {
-            percent = order.dealtAmountB / order.amountBuy
-        }
-        filledInfoLabel.text = (percent * 100).rounded().description + "%"
+        filledInfoLabel.text = order.filled
     }
 
     func setupOrderAmount(order: RawOrder) {
@@ -248,8 +242,6 @@ class OrderDetailViewController: UIViewController, UIScrollViewDelegate {
             }
         }
     }
-
-    */
 }
 
 extension OrderDetailViewController: UIViewControllerTransitioningDelegate {

@@ -159,7 +159,7 @@ class TradeReviewViewController: UIViewController {
         validTipInShare.font = FontConfigManager.shared.getCharactorFont(size: 11)
         validTipInShare.theme_textColor = GlobalPicker.contrastTextLightColor
         validTipInShare.text = LocalizedString("Time to Live", comment: "")
-        let until = DateUtil.convertToDate(UInt(order.validUntil), format: "MM-dd HH:mm")
+        let until = DateUtil.convertToDate(order.params.validUntil, format: "MM-dd HH:mm")
         validInShare.font = FontConfigManager.shared.getCharactorFont(size: 11)
         validInShare.theme_textColor = GlobalPicker.contrastTextColor
         validInShare.text = until
@@ -200,7 +200,7 @@ class TradeReviewViewController: UIViewController {
         statusInfoLabel.textColor = .success
         statusInfoLabel.text = LocalizedString("Open", comment: "")
         let since = DateUtil.convertToDate(order.validSince, format: "MM-dd HH:mm")
-        let until = DateUtil.convertToDate(UInt(order.validUntil), format: "MM-dd HH:mm")
+        let until = DateUtil.convertToDate(order.params.validUntil, format: "MM-dd HH:mm")
         validInfoLabel.text = "\(since) ~ \(until)"
     }
 
@@ -221,7 +221,7 @@ class TradeReviewViewController: UIViewController {
         var body = JSON()
         body["type"] = JSON(P2POrderDataManager.qrcodeType)
         body["value"] = [P2POrderDataManager.qrcodeHash: order.hash,
-                         P2POrderDataManager.qrcodeAuth: order.authPrivateKey,
+                         P2POrderDataManager.qrcodeAuth: order.params.dualAuthPrivateKey,
                          P2POrderDataManager.sellCount: P2POrderDataManager.instance.sellCount]
         do {
             let data = try body.rawData(options: .prettyPrinted)
