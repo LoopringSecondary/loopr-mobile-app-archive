@@ -21,9 +21,14 @@ class MarketTicker {
     var percentChange24H: String = ""
     var percentChange7D: String = ""
 
-    init(json: JSON) {
-        self.baseToken = json["baseToken"].stringValue
-        self.quoteToken = json["quoteToken"].stringValue
+    init?(json: JSON) {
+        let baseToken = json["baseToken"].stringValue
+        let quoteToken = json["quoteToken"].stringValue
+        guard TokenDataManager.shared.getTokenByAddress(baseToken) != nil && TokenDataManager.shared.getTokenByAddress(quoteToken) != nil else {
+            return nil
+        }
+        self.baseToken = baseToken
+        self.quoteToken = quoteToken
         self.exchangeRate = json["exchangeRate"].doubleValue
         self.baseSymbol = TokenDataManager.shared.getTokenByAddress(baseToken)!.source
         self.quoteSymbol = TokenDataManager.shared.getTokenByAddress(quoteToken)!.source

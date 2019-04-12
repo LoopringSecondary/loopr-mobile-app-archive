@@ -9,6 +9,13 @@
 import Foundation
 
 class LoopringAPIRequest {
+    
+    static func newJSON() -> JSON {
+        var body: JSON = JSON()
+        body["jsonrpc"] = "2.0"
+        body["id"] = JSON(UUID().uuidString)
+        return body
+    }
 
     static func invoke<T: Initable>(method: String, withBody body: inout JSON, _ completionHandler: @escaping (_ response: T?, _ error: Error?) -> Void) {
         body["method"] = JSON(method)
@@ -33,9 +40,9 @@ class LoopringAPIRequest {
     }
 
     static func getTime(completionHandler: @escaping (_ error: Error?) -> Void) {
-        var body: JSON = JSON()
+        var body: JSON = newJSON()
         body["method"] = "get_time"
-        body["id"] = JSON(UUID().uuidString)
+        body["params"] = JSON()
 
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
             guard let data = data, error == nil else {
@@ -50,12 +57,11 @@ class LoopringAPIRequest {
     }
 
     static func getMarkets(requireMetadata: Bool, requireTicker: Bool, quoteCurrencyForTicker: Currency, marketPairs: [MarketPair], completionHandler: @escaping (_ result: [Market]?, _ error: Error?) -> Void) {
-        var body: JSON = JSON()
+        var body: JSON = newJSON()
         body["method"] = "get_markets"
 
         // TODO: add marketPairs
         body["params"] = ["requireMetadata": requireMetadata, "requireTicker": requireTicker, "quoteCurrencyForTicker": quoteCurrencyForTicker.name]
-        body["id"] = JSON(UUID().uuidString)
 
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
             guard let data = data, error == nil else {
@@ -67,8 +73,9 @@ class LoopringAPIRequest {
             var markets: [Market] = []
             let offerData = json["result"]["markets"]
             for subJson in offerData.arrayValue {
-                let market = Market(json: subJson)
-                markets.append(market)
+                if let market = Market(json: subJson) {
+                    markets.append(market)
+                }
             }
             completionHandler(markets, error)
         }
@@ -158,13 +165,6 @@ class LoopringAPIRequest {
             }
             completionHandler(data!.respond, nil)
         }
-    }
-
-    static func newJSON() -> JSON {
-        var body: JSON = JSON()
-        body["jsonrpc"] = "2.0"
-        body["id"] = JSON(UUID().uuidString)
-        return body
     }
 
     // Not ready

@@ -13,9 +13,14 @@ class Market {
     let metadata: MarketMetadata
     let ticker: MarketTicker
 
-    init(json: JSON) {
+    // TODO: ruby should not return nil
+    init?(json: JSON) {
         self.metadata = MarketMetadata(json: json["metadata"])
-        self.ticker = MarketTicker(json: json["ticker"])
+        let ticker = MarketTicker(json: json["ticker"])
+        guard ticker != nil else {
+            return nil
+        }
+        self.ticker = ticker!
     }
 
     var name: String {

@@ -23,9 +23,35 @@ class LoopringAPIRequestTests: XCTestCase {
         super.tearDown()
     }
     
-    func testGetMarket() {
+    func testGetTime() {
+        let expectation = XCTestExpectation()
+        LoopringAPIRequest.getTime { (error) in
+            expectation.fulfill()
+
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testGetMarket_USD() {
         let expectation = XCTestExpectation()
         LoopringAPIRequest.getMarkets(requireMetadata: true, requireTicker: true, quoteCurrencyForTicker: Currency.init(name: "USD"), marketPairs: []) { (markets, error) in
+            
+            XCTAssertTrue(markets!.count > 1)
+            for market in markets! {
+                XCTAssertTrue(market.metadata.priceDecimals > 0)
+                XCTAssertTrue(market.metadata.orderbookAggLevels > 0)
+                XCTAssertTrue(market.metadata.precisionForAmount > 0)
+                XCTAssertTrue(market.metadata.precisionForTotal > 0)
+            }
+            
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testGetMarket_RMB() {
+        let expectation = XCTestExpectation()
+        LoopringAPIRequest.getMarkets(requireMetadata: true, requireTicker: true, quoteCurrencyForTicker: Currency.init(name: "RMB"), marketPairs: []) { (markets, error) in
             
             XCTAssertTrue(markets!.count > 1)
             for market in markets! {
