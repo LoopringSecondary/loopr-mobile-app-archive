@@ -12,7 +12,7 @@ class RelayAPIConfiguration {
 
     static let baseURL = "http://13.231.176.170:8080"
     static let rpcURL = URL(string: baseURL + "/api/loopring")!
-    static let ethURL = URL(string: baseURL + "/eth")!
+    static let ethURL = URL(string: baseURL + "/api/ethereum")!
     static let neoURL = URL(string: baseURL + "doesn't work /neo")!
     static let crawlerURL = URL(string: baseURL + "doesn't work /news")!
     static let socketURL = URL(string: baseURL)!

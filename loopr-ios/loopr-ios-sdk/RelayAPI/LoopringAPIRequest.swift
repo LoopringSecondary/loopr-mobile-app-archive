@@ -9,7 +9,7 @@
 import Foundation
 
 class LoopringAPIRequest {
-    
+
     static func newJSON() -> JSON {
         var body: JSON = JSON()
         body["jsonrpc"] = "2.0"
@@ -195,7 +195,6 @@ class LoopringAPIRequest {
                 let asset = Asset(json: subJson)
                 assets.append(asset)
             }
-
             completionHandler(assets, error)
         }
     }
@@ -203,9 +202,9 @@ class LoopringAPIRequest {
     public static func getAccountNonce(address: String, completionHandler: @escaping (_ nonce: Int?, _ error: Error?) -> Void) {
         var body = newJSON()
         body["method"] = "get_account_nonce"
-        body["params"] = [[
+        body["params"] = [
             "address": address
-            ]]
+            ]
 
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
             guard let data = data, error == nil else {
@@ -222,12 +221,12 @@ class LoopringAPIRequest {
     public static func getUserFills(owner: String, marketPair: MarketPair, sort: Sort = .ASC, paging: Paging, completionHandler: @escaping (_ userFills: [UserFill], _ error: Error?) -> Void) {
         var body = newJSON()
         body["method"] = "get_user_fills"
-        body["params"] = [[
+        body["params"] = [
             "owner": owner,
             "marketPair": marketPair.toJSON(),
             "sort": sort.rawValue,
             "paging": paging.toJSON()
-            ]]
+            ]
 
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
             guard let data = data, error == nil else {
@@ -243,7 +242,7 @@ class LoopringAPIRequest {
                 let userFill = UserFill(json: subJson)
                 userFills.append(userFill)
             }
-            
+
             completionHandler(userFills, error)
         }
     }
@@ -253,9 +252,9 @@ class LoopringAPIRequest {
         var body = newJSON()
 
         body["method"] = "get_market_fills"
-        body["params"] = [[
+        body["params"] = [
             "marketPair": marketPair.toJSON()
-            ]]
+            ]
 
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
@@ -268,13 +267,12 @@ class LoopringAPIRequest {
         var body = newJSON()
 
         body["method"] = "get_order_book"
-        body["params"] = [[
+        body["params"] = [
             "level": level,
             "size": size,
             "marketPair": marketPair.toJSON()
-            ]]
+        ]
 
-        // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
 
         }
@@ -285,10 +283,10 @@ class LoopringAPIRequest {
         var body = newJSON()
 
         body["method"] = "get_rings"
-        body["params"] = [[
+        body["params"] = [
             "sort": sort.rawValue,
             "paging": paging.toJSON()
-            ]]
+        ]
 
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
@@ -301,11 +299,11 @@ class LoopringAPIRequest {
         var body = newJSON()
 
         body["method"] = "get_activities"
-        body["params"] = [[
+        body["params"] = [
             "owner": owner,
             "token": token,
             "paging": paging.toJSON()
-            ]]
+            ]
 
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
@@ -318,10 +316,10 @@ class LoopringAPIRequest {
         var body = newJSON()
 
         body["method"] = "get_market_history"
-        body["params"] = [[
+        body["params"] = [
             "marketPair": marketPair.toJSON(),
             "interval": interval.rawValue
-            ]]
+        ]
 
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
@@ -333,8 +331,8 @@ class LoopringAPIRequest {
         var body = newJSON()
 
         body["method"] = "get_gas_price"
-        body["params"] = [[
-            ]]
+        body["params"] = [
+            ]
 
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
