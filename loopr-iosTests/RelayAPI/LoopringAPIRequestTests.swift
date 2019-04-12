@@ -102,5 +102,17 @@ class LoopringAPIRequestTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 10.0)
     }
+    
+    func testGetAccounts() {
+        let addresses = ["0xd65a23388d5d6f0b1ec52a7fc07a291c132d57ed"]
+        let tokens: [String] = []
+        
+        let expectation = XCTestExpectation()
+        LoopringAPIRequest.getAccounts(addresses: addresses, tokens: tokens, allTokens: true) { (assets, error) in
+            
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
 
 }

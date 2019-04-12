@@ -141,6 +141,8 @@
 		9B2ED83E21DA083600ACEE84 /* Inter-UI-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2ED83221DA083600ACEE84 /* Inter-UI-Black.ttf */; };
 		9B34D7D0225DAE9D005CF701 /* MarketHistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7CF225DAE9D005CF701 /* MarketHistoryItem.swift */; };
 		9B34D7D2225F0BD4005CF701 /* OrderFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7D1225F0BD4005CF701 /* OrderFill.swift */; };
+		9B34D7D4226072B8005CF701 /* AccountBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7D3226072B7005CF701 /* AccountBalance.swift */; };
+		9B34D7D62260733D005CF701 /* TokenBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7D52260733D005CF701 /* TokenBalance.swift */; };
 		9B76455D21FC4DDE00896B3E /* NewsDetailDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76455C21FC4DDE00896B3E /* NewsDetailDropdownMenu.swift */; };
 		9B76456021FD2CF200896B3E /* AssetBalanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76455E21FD2CF200896B3E /* AssetBalanceTableViewCell.swift */; };
 		9B76456121FD2CF200896B3E /* AssetBalanceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B76455F21FD2CF200896B3E /* AssetBalanceTableViewCell.xib */; };
@@ -735,6 +737,8 @@
 		9B2ED83221DA083600ACEE84 /* Inter-UI-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Black.ttf"; sourceTree = "<group>"; };
 		9B34D7CF225DAE9D005CF701 /* MarketHistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketHistoryItem.swift; sourceTree = "<group>"; };
 		9B34D7D1225F0BD4005CF701 /* OrderFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFill.swift; sourceTree = "<group>"; };
+		9B34D7D3226072B7005CF701 /* AccountBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalance.swift; sourceTree = "<group>"; };
+		9B34D7D52260733D005CF701 /* TokenBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenBalance.swift; sourceTree = "<group>"; };
 		9B76455C21FC4DDE00896B3E /* NewsDetailDropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailDropdownMenu.swift; sourceTree = "<group>"; };
 		9B76455E21FD2CF200896B3E /* AssetBalanceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetBalanceTableViewCell.swift; sourceTree = "<group>"; };
 		9B76455F21FD2CF200896B3E /* AssetBalanceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AssetBalanceTableViewCell.xib; sourceTree = "<group>"; };
@@ -2370,6 +2374,8 @@
 				ACFD5FB8217448E200E161EE /* SocialMedia.swift */,
 				9BA4FC9A21DC4FA4005A3DC0 /* News */,
 				9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */,
+				9B34D7D3226072B7005CF701 /* AccountBalance.swift */,
+				9B34D7D52260733D005CF701 /* TokenBalance.swift */,
 				CED82E0BCD90FD051E716A15 /* Order */,
 				CED821EB2D107E718901FE68 /* Market */,
 				CED8202FF0EA4455C29111D8 /* Token */,
@@ -3420,6 +3426,7 @@
 				9B05EB4D225C842A003507B4 /* AuthorizeDataManager.swift in Sources */,
 				AC9089F3214D7ABB00F421F1 /* SplashImageView.swift in Sources */,
 				ACB5DD9A202D5B7100140A09 /* DefaultNumericKeyboard.swift in Sources */,
+				9B34D7D62260733D005CF701 /* TokenBalance.swift in Sources */,
 				940B45262060F67E00ADE2B9 /* ConvertDataManager.swift in Sources */,
 				ACB6A1A120966BC0004C64BC /* DefaultNotificationBanner.swift in Sources */,
 				9BA4FCA821EC0020005A3DC0 /* NewsParagraph.swift in Sources */,
@@ -3490,6 +3497,7 @@
 				AC4B894B2110262B00643910 /* MarketTradeHistoryDataManager.swift in Sources */,
 				AC9DC45821159084002D7D23 /* MiniToLargeViewAnimator.swift in Sources */,
 				9B76458421FED36E00896B3E /* NewsFooterView.swift in Sources */,
+				9B34D7D4226072B8005CF701 /* AccountBalance.swift in Sources */,
 				947B1FD921CB7D5A009AE556 /* Data+Extension.swift in Sources */,
 				9B15B87022348ADC00B58C40 /* EncryptionAESGCMConfigV1.swift in Sources */,
 				947B1FDB21CB7FA7009AE556 /* Base58Util.swift in Sources */,

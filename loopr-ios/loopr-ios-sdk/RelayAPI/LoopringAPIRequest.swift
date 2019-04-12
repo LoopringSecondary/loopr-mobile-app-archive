@@ -123,6 +123,7 @@ class LoopringAPIRequest {
         }
     }
 
+    // not test
     static func getOrdersByHash(hashes: [String], completionHandler: @escaping (_ orders: [RawOrder]?, _ error: Error?) -> Void) {
         var body = newJSON()
         body["method"] = "get_orders_by_hash"
@@ -144,6 +145,7 @@ class LoopringAPIRequest {
         }
     }
 
+    // not test
     static func submitOrder(order: RawOrder, completionHandler: @escaping (_ result: String?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["params"] = ["rawOrder": order.toJson()]
@@ -156,6 +158,7 @@ class LoopringAPIRequest {
         }
     }
 
+    // not test
     static func cancelOrders(param: OrderCancelParam, completionHandler: @escaping (_ result: String?, _ error: Error?) -> Void) {
         var body: JSON = JSON()
         body["params"] = param.toJson()
@@ -179,7 +182,6 @@ class LoopringAPIRequest {
             "allTokens": allTokens
             ]]
 
-        // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
@@ -188,8 +190,8 @@ class LoopringAPIRequest {
             }
             let json = JSON(data)
             var assets: [Asset] = []
-            let offerData = json["result"]["tokens"]
-            // print(offerData)
+            let offerData = json["result"]["accountBalances"]
+            print(offerData)
             for subJson in offerData.arrayValue {
                 let asset = Asset(json: subJson)
                 assets.append(asset)

@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import BigInt
 
+// TODO: we may not use Asset class in Relay 2.0
 class Asset: CustomStringConvertible, Equatable {
 
     let symbol: String
