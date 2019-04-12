@@ -22,5 +22,22 @@ class LoopringAPIRequestTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
+    
+    func testGetMarket() {
+        let expectation = XCTestExpectation()
+        LoopringAPIRequest.getMarkets(requireMetadata: true, requireTicker: true, quoteCurrencyForTicker: Currency.init(name: "USD"), marketPairs: []) { (markets, error) in
+            
+            XCTAssertTrue(markets!.count > 1)
+            for market in markets! {
+                XCTAssertTrue(market.metadata.priceDecimals > 0)
+                XCTAssertTrue(market.metadata.orderbookAggLevels > 0)
+                XCTAssertTrue(market.metadata.precisionForAmount > 0)
+                XCTAssertTrue(market.metadata.precisionForTotal > 0)
+            }
+            
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
 
 }

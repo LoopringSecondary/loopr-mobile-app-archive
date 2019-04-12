@@ -10,11 +10,11 @@ import Foundation
 
 class RelayAPIConfiguration {
 
-    static let baseURL = "https://relay1.loopring.io"
-    static let rpcURL = URL(string: baseURL + "/rpc/v2")!
+    static let baseURL = "http://13.231.176.170:8080"
+    static let rpcURL = URL(string: baseURL + "/api/loopring")!
     static let ethURL = URL(string: baseURL + "/eth")!
-    static let neoURL = URL(string: baseURL + "/neo")!
-    static let crawlerURL = URL(string: baseURL + "/news")!
+    static let neoURL = URL(string: baseURL + "doesn't work /neo")!
+    static let crawlerURL = URL(string: baseURL + "doesn't work /news")!
     static let socketURL = URL(string: baseURL)!
 
     // Deployment on Ethereum https://github.com/Loopring/token-listing/blob/master/ethereum/deployment.md#protocol
