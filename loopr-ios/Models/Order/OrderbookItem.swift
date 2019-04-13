@@ -20,4 +20,11 @@ class OrderbookItem {
         self.price = price
         self.total = total
     }
+    
+    init(json: JSON) {
+        self.amount = json["amount"].doubleValue
+        self.price = json["price"].doubleValue
+        self.total = json["total"].doubleValue
+    }
+
 }

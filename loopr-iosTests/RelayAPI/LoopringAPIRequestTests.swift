@@ -144,4 +144,13 @@ class LoopringAPIRequestTests: XCTestCase {
         wait(for: [expectation], timeout: 60)
     }
     
+    func testGetOrderbook() {
+        let expectation = XCTestExpectation()
+        LoopringAPIRequest.getOrderBook(level: 8, size: 100, marketPair: MarketPair(baseToken: "0xef68e7c694f40c8202821edf525de3782458639f", quoteToken: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2")) { (lastPrice, buyDepths, sellDepths, error) in
+            XCTAssertTrue(error != nil)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 60)
+    }
+    
 }

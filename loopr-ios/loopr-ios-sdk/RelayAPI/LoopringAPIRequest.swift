@@ -276,9 +276,8 @@ class LoopringAPIRequest {
     }
 
     // Not ready
-    public static func getOrderBook(level: Int, size: Int, marketPair: MarketPair, completionHandler: @escaping (_ sells: [OrderbookItem], _ buys: [OrderbookItem], _ error: Error?) -> Void) {
+    public static func getOrderBook(level: Int, size: Int, marketPair: MarketPair, completionHandler: @escaping (_ lastPrice: Double, _ sells: [OrderbookItem], _ buys: [OrderbookItem], _ error: Error?) -> Void) {
         var body = newJSON()
-
         body["method"] = "get_order_book"
         body["params"] = [
             "level": level,
@@ -287,7 +286,31 @@ class LoopringAPIRequest {
         ]
 
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler(0, [], [], error)
+                return
+            }
+            let json = JSON(data)
+            var userFills: [UserFill] = []
+            let orderbook = json["result"]["orderbook"]
+            let lastPrice = orderbook["lastPrice"].doubleValue
+            
+            var sells: [OrderbookItem] = []
+            let sellArrayData = orderbook["sells"].arrayValue
+            for subJson in sellArrayData {
+                let item = OrderbookItem(json: subJson)
+                sells.append(item)
+            }
+            
+            var buys: [OrderbookItem] = []
+            let buyArrayData = orderbook["buys"].arrayValue
+            for subJson in buyArrayData {
+                let item = OrderbookItem(json: subJson)
+                buys.append(item)
+            }
 
+            completionHandler(lastPrice, sells, buys, error)
         }
     }
 
