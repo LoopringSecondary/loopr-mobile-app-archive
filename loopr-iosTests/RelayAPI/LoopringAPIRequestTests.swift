@@ -161,5 +161,13 @@ class LoopringAPIRequestTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 60)
     }
+    
+    func testGetActivities() {
+        let expectation = XCTestExpectation()
+        LoopringAPIRequest.getActivities(owner: "0xb94065482ad64d4c2b9252358d746b39e820a582", token: "0xef68e7c694f40c8202821edf525de3782458639f", paging: Paging(cursor: 0, size: 50)) { (activities, error) in
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 60)
+    }
 
 }

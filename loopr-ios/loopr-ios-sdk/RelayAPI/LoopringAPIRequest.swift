@@ -275,7 +275,6 @@ class LoopringAPIRequest {
         }
     }
 
-    // Not ready
     public static func getOrderBook(level: Int, size: Int, marketPair: MarketPair, completionHandler: @escaping (_ lastPrice: Double, _ sells: [OrderbookItem], _ buys: [OrderbookItem], _ error: Error?) -> Void) {
         var body = newJSON()
         body["method"] = "get_order_book"
@@ -332,7 +331,6 @@ class LoopringAPIRequest {
         }
         body["params"]["filter"] = filter
 
-        // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
@@ -352,10 +350,10 @@ class LoopringAPIRequest {
         }
     }
 
-    // Not ready
-    public static func getActivities(owner: String, token: String, paging: Paging) {
+    // market fills is similar to user fills but without owner, sort, and paging.
+    // The endpoint is slow.
+    public static func getActivities(owner: String, token: String, paging: Paging, completionHandler: @escaping (_ activities: [Activity], _ error: Error?) -> Void) {
         var body = newJSON()
-
         body["method"] = "get_activities"
         body["params"] = [
             "owner": owner,
@@ -363,9 +361,20 @@ class LoopringAPIRequest {
             "paging": paging.toJSON()
             ]
 
-        // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler([], error)
+                return
+            }
+            var activities: [Activity] = []
+            let json = JSON(data)
+            let arrayData = json["result"]["activities"].arrayValue
+            for subJson in arrayData {
+                let activity = Activity(json: subJson)
+                activities.append(activity)
+            }
+            completionHandler(activities, nil)
         }
     }
 
