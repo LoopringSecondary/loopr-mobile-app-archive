@@ -378,32 +378,57 @@ class LoopringAPIRequest {
         }
     }
 
-    // Not ready
-    public static func getMarketHistory(marketPair: MarketPair, interval: MarketInterval) {
+    public static func getMarketHistory(marketPair: MarketPair, interval: MarketInterval, completionHandler: @escaping (_ marketHistoryItems: [MarketHistoryItem], _ error: Error?) -> Void) {
         var body = newJSON()
-
         body["method"] = "get_market_history"
         body["params"] = [
             "marketPair": marketPair.toJSON(),
             "interval": interval.rawValue
         ]
 
-        // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler([], error)
+                return
+            }
+            var marketHistoryItems: [MarketHistoryItem] = []
+            let json = JSON(data)
+            let arrayData = json["result"]["data"].arrayValue
+            for subJson in arrayData {
+                let data = subJson["data"].arrayValue
+                if data.count == 7 {
+                    let startingPoint = data[0].doubleValue
+                    let quality = data[1].doubleValue
+                    let amount = data[2].doubleValue
+                    let openingPrice = data[3].doubleValue
+                    let closingPrice = data[4].doubleValue
+                    let highestPrice = data[5].doubleValue
+                    let lowestPrice = data[6].doubleValue
+                    let item = MarketHistoryItem(startingPoint: startingPoint, quality: quality, amount: amount, openingPrice: openingPrice, closingPrice: closingPrice, highestPrice: highestPrice, lowestPrice: lowestPrice)
+                    marketHistoryItems.append(item)
+                }
+            }
+            completionHandler(marketHistoryItems, nil)
         }
     }
 
-    public static func getGasPrice(completionHandler: @escaping (_ gasPrice: Double, _ error: Error?) -> Void) {
+    public static func getGasPrice(completionHandler: @escaping (_ gasPrice: String, _ error: Error?) -> Void) {
         var body = newJSON()
 
         body["method"] = "get_gas_price"
         body["params"] = [
             ]
 
-        // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-            completionHandler(0, error)
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler("0", error)
+                return
+            }
+            let json = JSON(data)
+            let gasPrice = json["result"]["gasPrice"].stringValue
+            completionHandler(gasPrice, nil)
         }
     }
 

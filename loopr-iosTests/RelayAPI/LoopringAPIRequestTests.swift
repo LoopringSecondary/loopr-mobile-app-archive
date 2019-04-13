@@ -170,4 +170,12 @@ class LoopringAPIRequestTests: XCTestCase {
         wait(for: [expectation], timeout: 60)
     }
 
+    func testGetMarketHistory() {
+        let expectation = XCTestExpectation()
+        LoopringAPIRequest.getMarketHistory(marketPair: MarketPair(baseToken: "0xef68e7c694f40c8202821edf525de3782458639f", quoteToken: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"), interval: MarketInterval.one_week) { (marketHistoryItems, error) in
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 60)
+    }
+
 }
