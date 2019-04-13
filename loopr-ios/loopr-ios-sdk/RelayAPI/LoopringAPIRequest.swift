@@ -247,18 +247,31 @@ class LoopringAPIRequest {
         }
     }
 
-    // Not ready
-    public static func getMarketFills(marketPair: MarketPair) {
+    // market fills is similar to user fills but without owner, sort, and paging.
+    // The endpoint is slow.
+    public static func getMarketFills(marketPair: MarketPair, completionHandler: @escaping (_ orderFill: [UserFill], _ error: Error?) -> Void) {
         var body = newJSON()
-
         body["method"] = "get_market_fills"
         body["params"] = [
             "marketPair": marketPair.toJSON()
             ]
 
-        // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler([], error)
+                return
+            }
+            let json = JSON(data)
+            var userFills: [UserFill] = []
+            let arrayData = json["result"]["fills"]
+            print(arrayData)
+            for subJson in arrayData.arrayValue {
+                let userFill = UserFill(json: subJson)
+                userFills.append(userFill)
+            }
+            
+            completionHandler(userFills, error)
         }
     }
 
