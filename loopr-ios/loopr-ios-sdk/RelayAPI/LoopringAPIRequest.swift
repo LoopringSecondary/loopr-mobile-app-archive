@@ -218,7 +218,7 @@ class LoopringAPIRequest {
         }
     }
 
-    public static func getUserFills(owner: String, marketPair: MarketPair, sort: Sort = .ASC, paging: Paging, completionHandler: @escaping (_ userFills: [UserFill], _ error: Error?) -> Void) {
+    public static func getUserFills(owner: String, marketPair: MarketPair, sort: Sort = .ASC, paging: Paging, completionHandler: @escaping (_ userFills: [OrderFill], _ error: Error?) -> Void) {
         var body = newJSON()
         body["method"] = "get_user_fills"
         body["params"] = [
@@ -235,11 +235,11 @@ class LoopringAPIRequest {
                 return
             }
             let json = JSON(data)
-            var userFills: [UserFill] = []
+            var userFills: [OrderFill] = []
             let arrayData = json["result"]["fills"]
             print(arrayData)
             for subJson in arrayData.arrayValue {
-                let userFill = UserFill(json: subJson)
+                let userFill = OrderFill(json: subJson)
                 userFills.append(userFill)
             }
 
@@ -249,7 +249,7 @@ class LoopringAPIRequest {
 
     // market fills is similar to user fills but without owner, sort, and paging.
     // The endpoint is slow.
-    public static func getMarketFills(marketPair: MarketPair, completionHandler: @escaping (_ orderFill: [UserFill], _ error: Error?) -> Void) {
+    public static func getMarketFills(marketPair: MarketPair, completionHandler: @escaping (_ orderFill: [OrderFill], _ error: Error?) -> Void) {
         var body = newJSON()
         body["method"] = "get_market_fills"
         body["params"] = [
@@ -263,11 +263,11 @@ class LoopringAPIRequest {
                 return
             }
             let json = JSON(data)
-            var userFills: [UserFill] = []
+            var userFills: [OrderFill] = []
             let arrayData = json["result"]["fills"]
             print(arrayData)
             for subJson in arrayData.arrayValue {
-                let userFill = UserFill(json: subJson)
+                let userFill = OrderFill(json: subJson)
                 userFills.append(userFill)
             }
             
@@ -292,7 +292,6 @@ class LoopringAPIRequest {
                 return
             }
             let json = JSON(data)
-            var userFills: [UserFill] = []
             let orderbook = json["result"]["orderbook"]
             let lastPrice = orderbook["lastPrice"].doubleValue
             
@@ -314,8 +313,8 @@ class LoopringAPIRequest {
         }
     }
 
-    // Not ready
-    public static func getRings(sort: Sort, paging: Paging) {
+    // Implementation is ready, however Relay is not ready.
+    public static func getRings(sort: Sort, paging: Paging, filterRingHash: Int? = nil, filterRingIndex: Int? = nil, completionHandler: @escaping (_ ringResult: RingResult?, _ error: Error?) -> Void) {
         var body = newJSON()
 
         body["method"] = "get_rings"
@@ -323,10 +322,33 @@ class LoopringAPIRequest {
             "sort": sort.rawValue,
             "paging": paging.toJSON()
         ]
+        
+        var filter = JSON()
+        if filterRingHash != nil {
+            filter["ringHash"] = JSON(filterRingHash!)
+        }
+        if filterRingIndex != nil {
+            filter["ringIndex"] = JSON(filterRingIndex!)
+        }
+        body["params"]["filter"] = filter
 
         // TOOD
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
-
+            guard let data = data, error == nil else {
+                print("error=\(String(describing: error))")
+                completionHandler(nil, error)
+                return
+            }
+            var rings: [Ring] = []
+            let json = JSON(data)
+            let ringData = json["result"]["rings"].arrayValue
+            for subJson in ringData {
+                let ring = Ring(json: subJson)
+                rings.append(ring)
+            }
+            let total = json["result"]["total"].intValue
+            let ringResult = RingResult(rings: rings, total: total)
+            completionHandler(ringResult, nil)
         }
     }
 

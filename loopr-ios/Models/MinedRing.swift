@@ -8,6 +8,7 @@
 
 import Foundation
 
+// TODO: remove?
 class MinedRing {
 
     let id: UInt

@@ -143,7 +143,8 @@
 		9B34D7D2225F0BD4005CF701 /* OrderFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7D1225F0BD4005CF701 /* OrderFill.swift */; };
 		9B34D7D4226072B8005CF701 /* AccountBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7D3226072B7005CF701 /* AccountBalance.swift */; };
 		9B34D7D62260733D005CF701 /* TokenBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7D52260733D005CF701 /* TokenBalance.swift */; };
-		9B34D7D8226076D6005CF701 /* UserFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7D7226076D6005CF701 /* UserFill.swift */; };
+		9B34D7DC22618289005CF701 /* Ring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7DB22618289005CF701 /* Ring.swift */; };
+		9B34D7DE22618603005CF701 /* RingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34D7DD22618603005CF701 /* RingResult.swift */; };
 		9B76455D21FC4DDE00896B3E /* NewsDetailDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76455C21FC4DDE00896B3E /* NewsDetailDropdownMenu.swift */; };
 		9B76456021FD2CF200896B3E /* AssetBalanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76455E21FD2CF200896B3E /* AssetBalanceTableViewCell.swift */; };
 		9B76456121FD2CF200896B3E /* AssetBalanceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B76455F21FD2CF200896B3E /* AssetBalanceTableViewCell.xib */; };
@@ -740,7 +741,8 @@
 		9B34D7D1225F0BD4005CF701 /* OrderFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFill.swift; sourceTree = "<group>"; };
 		9B34D7D3226072B7005CF701 /* AccountBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalance.swift; sourceTree = "<group>"; };
 		9B34D7D52260733D005CF701 /* TokenBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenBalance.swift; sourceTree = "<group>"; };
-		9B34D7D7226076D6005CF701 /* UserFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFill.swift; sourceTree = "<group>"; };
+		9B34D7DB22618289005CF701 /* Ring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ring.swift; sourceTree = "<group>"; };
+		9B34D7DD22618603005CF701 /* RingResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingResult.swift; sourceTree = "<group>"; };
 		9B76455C21FC4DDE00896B3E /* NewsDetailDropdownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailDropdownMenu.swift; sourceTree = "<group>"; };
 		9B76455E21FD2CF200896B3E /* AssetBalanceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetBalanceTableViewCell.swift; sourceTree = "<group>"; };
 		9B76455F21FD2CF200896B3E /* AssetBalanceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AssetBalanceTableViewCell.xib; sourceTree = "<group>"; };
@@ -2362,6 +2364,8 @@
 				9401C4D421C11CBF00A01E0B /* Contact.swift */,
 				ACC2A2CE209EC39E00F2B7A1 /* OrderExpire.swift */,
 				949629DE204E9C9800858F03 /* MinedRing.swift */,
+				9B34D7DD22618603005CF701 /* RingResult.swift */,
+				9B34D7DB22618289005CF701 /* Ring.swift */,
 				94B5CA89204FB4E20081BA93 /* DefaultBlock.swift */,
 				94E185962051451C00D86FFA /* Initable.swift */,
 				94E185982051455C00D86FFA /* SimpleRespond.swift */,
@@ -2378,7 +2382,6 @@
 				9B2AEBBA21DB733800A8C32C /* RefreshControlType.swift */,
 				9B34D7D3226072B7005CF701 /* AccountBalance.swift */,
 				9B34D7D52260733D005CF701 /* TokenBalance.swift */,
-				9B34D7D7226076D6005CF701 /* UserFill.swift */,
 				CED82E0BCD90FD051E716A15 /* Order */,
 				CED821EB2D107E718901FE68 /* Market */,
 				CED8202FF0EA4455C29111D8 /* Token */,
@@ -3319,6 +3322,7 @@
 				AC2D2C0B2089CE1F00D619AD /* ImportWalletUsingKeystoreDataManager.swift in Sources */,
 				ACACB8B5213B90BF00F5ACC5 /* PushNotificationDeviceDataManager.swift in Sources */,
 				AC9DC45A21159084002D7D23 /* MiniToLargeViewInteractive.swift in Sources */,
+				9B34D7DE22618603005CF701 /* RingResult.swift in Sources */,
 				AC120758214DA02300EEDC49 /* SetupWalletViewController.swift in Sources */,
 				9BA3020921CF64A900E55E49 /* WalletSectionInViewController.swift in Sources */,
 				ACB8485920BA75E7006B83AD /* SettingTouchIDAndFaceIDTableViewCell.swift in Sources */,
@@ -3336,7 +3340,6 @@
 				AC99CF462083DD6A000AE4BD /* MnemonicEnterDerivationPathViewController.swift in Sources */,
 				ACB9118C20266A9C00F14644 /* AssetDetailViewController.swift in Sources */,
 				94D94CE32084A9380000BBC8 /* ConfirmationResultViewController.swift in Sources */,
-				9B34D7D8226076D6005CF701 /* UserFill.swift in Sources */,
 				9B82E78A221809E2009441BD /* MarketPlaceOrderbookTableViewCell.swift in Sources */,
 				9BA3015021B0B63400E55E49 /* MarketDetailPriceChartTableViewCell.swift in Sources */,
 				AC0CD58B20D393F300ABB7BA /* SendCurrentAppWalletDataManager.swift in Sources */,
@@ -3578,6 +3581,7 @@
 				CED82E4FC9FFE110F261C01E /* OrderState.swift in Sources */,
 				CED822579F89B39158000A16 /* Paging.swift in Sources */,
 				CED8238B0F9AE06AE9612073 /* Sort.swift in Sources */,
+				9B34D7DC22618289005CF701 /* Ring.swift in Sources */,
 				CED8201DE1E3676B359A0986 /* OrderSide.swift in Sources */,
 				CED8291C157FFDC85A0CB426 /* Currency.swift in Sources */,
 				CED82418C430C90C79980928 /* OrderCancelParam.swift in Sources */,
