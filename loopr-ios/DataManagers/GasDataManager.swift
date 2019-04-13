@@ -85,7 +85,7 @@ class GasDataManager {
                 completionHandler(self.gasPrice, nil)
                 return
             }
-            self.gasPrice = gasPrice * 1000000000
+            self.gasPrice = 0 * 1000000000
             self.gasPrice.round()
             print("Estimate gas price: \(self.gasPrice)")
             
