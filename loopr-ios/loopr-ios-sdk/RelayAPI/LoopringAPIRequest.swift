@@ -413,7 +413,8 @@ class LoopringAPIRequest {
         }
     }
 
-    public static func getGasPrice(completionHandler: @escaping (_ gasPrice: String, _ error: Error?) -> Void) {
+    // TODO: Relay API is not ready
+    public static func getGasPrice(completionHandler: @escaping (_ gasPrice: Double, _ error: Error?) -> Void) {
         var body = newJSON()
 
         body["method"] = "get_gas_price"
@@ -423,12 +424,16 @@ class LoopringAPIRequest {
         Request.post(body: body, url: RelayAPIConfiguration.rpcURL) { data, _, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
-                completionHandler("0", error)
+                completionHandler(0, error)
                 return
             }
             let json = JSON(data)
-            let gasPrice = json["result"]["gasPrice"].stringValue
-            completionHandler(gasPrice, nil)
+            let gasPriceHex = json["result"]["gasPrice"].stringValue
+            if let gasPrice = Double(gasPriceHex.hexToString() ?? "0") {
+                completionHandler(gasPrice, nil)
+            } else {
+                completionHandler(0, nil)
+            }
         }
     }
 
