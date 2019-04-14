@@ -8,7 +8,6 @@
 
 import Foundation
 
-// TODO: Deprecate. We are using Transaction now.
 class ETH_Transaction: Initable {
 
     let blockNumber: String
