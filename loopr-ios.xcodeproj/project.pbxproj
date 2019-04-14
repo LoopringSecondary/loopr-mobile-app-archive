@@ -495,7 +495,6 @@
 		ACBA47EB207897C60032C2B4 /* SettingWalletDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACBA47E9207897C60032C2B4 /* SettingWalletDetailViewController.xib */; };
 		ACBA47EE207932DA0032C2B4 /* ExportKeystoreEnterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBA47EC207932DA0032C2B4 /* ExportKeystoreEnterPasswordViewController.swift */; };
 		ACBA47EF207932DA0032C2B4 /* ExportKeystoreEnterPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACBA47ED207932DA0032C2B4 /* ExportKeystoreEnterPasswordViewController.xib */; };
-		ACC2A2CF209EC39E00F2B7A1 /* OrderExpire.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC2A2CE209EC39E00F2B7A1 /* OrderExpire.swift */; };
 		ACC31C78215B552B00582CC0 /* ExportWalletInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC31C77215B552B00582CC0 /* ExportWalletInfoType.swift */; };
 		ACC6E12221B517F6001729EC /* FeatureConfigDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC6E12121B517F6001729EC /* FeatureConfigDataManager.swift */; };
 		ACC6E12521BA5A59001729EC /* OrderDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC6E12421BA5A59001729EC /* OrderDataManager.swift */; };
@@ -1104,7 +1103,6 @@
 		ACBA47E9207897C60032C2B4 /* SettingWalletDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingWalletDetailViewController.xib; sourceTree = "<group>"; };
 		ACBA47EC207932DA0032C2B4 /* ExportKeystoreEnterPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportKeystoreEnterPasswordViewController.swift; sourceTree = "<group>"; };
 		ACBA47ED207932DA0032C2B4 /* ExportKeystoreEnterPasswordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExportKeystoreEnterPasswordViewController.xib; sourceTree = "<group>"; };
-		ACC2A2CE209EC39E00F2B7A1 /* OrderExpire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderExpire.swift; sourceTree = "<group>"; };
 		ACC31C77215B552B00582CC0 /* ExportWalletInfoType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportWalletInfoType.swift; sourceTree = "<group>"; };
 		ACC6E12121B517F6001729EC /* FeatureConfigDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureConfigDataManager.swift; sourceTree = "<group>"; };
 		ACC6E12421BA5A59001729EC /* OrderDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDataManager.swift; sourceTree = "<group>"; };
@@ -2368,7 +2366,6 @@
 				ACFEFE9620C3389400013921 /* Transaction */,
 				ACB9115F20242E3F00F14644 /* Asset.swift */,
 				9401C4D421C11CBF00A01E0B /* Contact.swift */,
-				ACC2A2CE209EC39E00F2B7A1 /* OrderExpire.swift */,
 				949629DE204E9C9800858F03 /* MinedRing.swift */,
 				9B34D7DD22618603005CF701 /* RingResult.swift */,
 				9B34D7DB22618289005CF701 /* Ring.swift */,
@@ -3406,7 +3403,6 @@
 				942F31AF225C508600E0760A /* ERC1400Params.swift in Sources */,
 				9BA4FC9C21DC4FC8005A3DC0 /* NewsParams.swift in Sources */,
 				ACBA47EE207932DA0032C2B4 /* ExportKeystoreEnterPasswordViewController.swift in Sources */,
-				ACC2A2CF209EC39E00F2B7A1 /* OrderExpire.swift in Sources */,
 				9BB789EE21EC22C90095631D /* NewsDetailTitleTableViewCell.swift in Sources */,
 				AC06193C208404FA0060F416 /* FoundationString+Extension.swift in Sources */,
 				ACBA47EA207897C60032C2B4 /* SettingWalletDetailViewController.swift in Sources */,
