@@ -36,7 +36,7 @@ class FontConfigManager {
         UITabBarItem.appearance().setTitleTextAttributes(tabBarItemAttributes, for: .selected)
     }
 
-    func getRegular() -> String {
+    private func getRegular() -> String {
         return "\(currentFont.rawValue)-Regular"
     }
     
@@ -46,7 +46,7 @@ class FontConfigManager {
         return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
     }
 
-    func getLight() -> String {
+    private func getLight() -> String {
         return "\(currentFont.rawValue)-Light"
     }
     
@@ -56,7 +56,7 @@ class FontConfigManager {
         return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize, weight: UIFont.Weight.light)
     }
 
-    func getMedium() -> String {
+    private func getMedium() -> String {
         return "\(currentFont.rawValue)-Medium"
     }
     
@@ -66,7 +66,7 @@ class FontConfigManager {
         return UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize, weight: UIFont.Weight.medium)
     }
 
-    func getBold() -> String {
+    private func getBold() -> String {
         return "\(currentFont.rawValue)-Bold"
     }
     

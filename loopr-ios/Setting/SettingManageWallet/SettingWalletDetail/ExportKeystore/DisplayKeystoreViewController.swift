@@ -27,7 +27,7 @@ class DisplayKeystoreViewController: UIViewController {
         // privateKeyTextView.contentOffset = CGPoint(x: 0, y: -10)
         
         keystoreTextView.cornerRadius = 12
-        keystoreTextView.font = UIFont.init(name: FontConfigManager.shared.getLight(), size: 12.0)
+        keystoreTextView.font = FontConfigManager.shared.getLightFont(size: 12)
         keystoreTextView.backgroundColor = UIColor.init(rgba: "#F8F8F8")
         keystoreTextView.textColor = UIColor.black
         keystoreTextView.isEditable = false

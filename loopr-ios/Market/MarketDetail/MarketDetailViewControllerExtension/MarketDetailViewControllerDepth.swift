@@ -29,7 +29,7 @@ extension MarketDetailViewController {
             */
 
             if sells.count > 0 {
-                self.minSellPrice = Double(sells[0].price) ?? 0
+                self.minSellPrice = sells[0].price
             }
 
             DispatchQueue.main.async {

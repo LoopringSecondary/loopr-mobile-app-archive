@@ -128,7 +128,7 @@ class MarketDetailDepthTableViewCell: UITableViewCell {
             }
             depthViewBuy.frame = CGRect(x: baseViewBuy.width*CGFloat(1.0-percentage), y: 1, width: baseViewBuy.width*CGFloat(percentage), height: MarketDetailDepthTableViewCell.getHeight()-2)
 
-            let currentBuyDepthPrice = Double(buyDepth.price) ?? 0
+            let currentBuyDepthPrice = buyDepth.price
             if currentBuyDepthPrice > minSellPrice && minSellPrice > 0 {
                 depthInfoImageView.x = (label1.text?.textWidth(font: label1.font))! + label1.x - 4
                 depthInfoImageView.isHidden = false
