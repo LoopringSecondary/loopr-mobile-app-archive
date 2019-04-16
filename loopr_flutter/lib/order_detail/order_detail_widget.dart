@@ -16,6 +16,8 @@ class OrderDetailWidget extends StatefulWidget {
 
 class _OrderDetailWidgetState extends State<OrderDetailWidget> {
   String _qrCodeData = '';
+
+  // This value must be equal to the value in iOS and Android
   static const String methodChannel = "orderDetail";
 
   // Receive data from native
@@ -39,6 +41,7 @@ class _OrderDetailWidgetState extends State<OrderDetailWidget> {
   @override
   Widget build(BuildContext context) {
     print("update OrderDetailWidget");
+
     if (_qrCodeData == "") {
       _getInitDataFromNative();
     }
