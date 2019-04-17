@@ -68,7 +68,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
   
     return Scaffold(
       appBar: null,
-      backgroundColor: HexColor("#16162A"),
+      backgroundColor: HexColor.backgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

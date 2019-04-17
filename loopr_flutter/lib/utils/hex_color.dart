@@ -10,4 +10,11 @@ class HexColor extends Color {
   }
 
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+
+  static HexColor backgroundColor = HexColor("#16162A");
+  static HexColor cardBackgroundColor = HexColor("#21203A");
+
+  static HexColor textColor = HexColor("#cccccc");
+  static HexColor textLightColor = HexColor("#666666");
+
 }

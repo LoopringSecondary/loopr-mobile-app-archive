@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 
 import '../utils/hex_color.dart';
+import 'order_detail_row_widget.dart';
 
 class OrderDetailWidget extends StatefulWidget {
   OrderDetailWidget({Key key, this.title}) : super(key: key);
@@ -48,15 +49,22 @@ class _OrderDetailWidgetState extends State<OrderDetailWidget> {
   
     return Scaffold(
       appBar: null,
-      backgroundColor: HexColor("#16162A"),
-      body: Center(
+      backgroundColor: HexColor.backgroundColor,
+      body: Container(
+        margin: const EdgeInsets.all(0.0),
+        color: HexColor.backgroundColor,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            OrderDetailRowWidget(leftText: "Status", rightText: "Completed"),
+            OrderDetailRowWidget(leftText: "Price", rightText: "0.05 LRC/WETH"),
+            OrderDetailRowWidget(leftText: "Trading Fee", rightText: "1.100 LRC"),
+            OrderDetailRowWidget(leftText: "Filled", rightText: "330.0%"),
+            OrderDetailRowWidget(leftText: "TxHash", rightText: "0xb38c...3963d"),
+            OrderDetailRowWidget(leftText: "Time to Live", rightText: "02-25 00:04 ~ 02-25 01:04"),
             new Container(
-              height: 50.0,
-              width: 180.0,
-            ),
+              height: 1.0,
+              color: HexColor.cardBackgroundColor,
+            )
           ],
         ),
       ),
