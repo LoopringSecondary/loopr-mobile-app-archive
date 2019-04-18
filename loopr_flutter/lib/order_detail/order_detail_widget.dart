@@ -16,8 +16,6 @@ class OrderDetailWidget extends StatefulWidget {
 }
 
 class _OrderDetailWidgetState extends State<OrderDetailWidget> {
-  String _qrCodeData = '';
-
   String _status = '';
   String _price = '';
   String _tradingFee = '';
@@ -30,32 +28,28 @@ class _OrderDetailWidgetState extends State<OrderDetailWidget> {
 
   // Receive data from native
   Future<void> _getInitDataFromNative() async {
-    String qrCodeData;
     try {
       MethodChannel channel = const MethodChannel(methodChannel);
       final response = await channel.invokeMethod("orderDetail.get", []);
       List<String> body = response.cast<String>();
-      _status = body[0];
-      _price = body[1];
-      _tradingFee = body[2];
-      _filled = body[3];
-      _txHash = body[4];
-      _timeToLive = body[5];
+      setState(() {
+        _status = body[0];
+        _price = body[1];
+        _tradingFee = body[2];
+        _filled = body[3];
+        _txHash = body[4];
+        _timeToLive = body[5];
+      });
     } on Exception catch (e) {
       print("MethodChannel... $e");
-      qrCodeData = "";
     }
-
-    setState(() {
-      _qrCodeData = qrCodeData;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     print("update OrderDetailWidget");
 
-    if (_qrCodeData == "") {
+    if (_status == "") {
       _getInitDataFromNative();
     }
   
