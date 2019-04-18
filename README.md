@@ -16,7 +16,7 @@
 - Add Contact
 - Add Tokens
 - Order list
-- Order detail
+- Order detail (Completed)
 - P2P list
 - P2P detail
 - Asset detail
