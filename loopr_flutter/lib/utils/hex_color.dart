@@ -14,7 +14,7 @@ class HexColor extends Color {
   static HexColor backgroundColor = HexColor("#16162A");
   static HexColor cardBackgroundColor = HexColor("#21203A");
 
-  static HexColor textColor = HexColor("#cccccc");
-  static HexColor textLightColor = HexColor("#666666");
-
+  // The leading two digits are used for opaque. It's different from iOS
+  static Color textColor = Color(0xCCFFFFFF);
+  static Color textLightColor = Color(0x66FFFFFF);
 }
