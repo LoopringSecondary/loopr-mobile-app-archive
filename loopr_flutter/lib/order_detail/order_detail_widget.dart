@@ -18,6 +18,13 @@ class OrderDetailWidget extends StatefulWidget {
 class _OrderDetailWidgetState extends State<OrderDetailWidget> {
   String _qrCodeData = '';
 
+  String _status = '';
+  String _price = '';
+  String _tradingFee = '';
+  String _filled = '';
+  String _txHash = '';
+  String _timeToLive = '';
+
   // This value must be equal to the value in iOS and Android
   static const String methodChannel = "orderDetail";
 
@@ -27,8 +34,13 @@ class _OrderDetailWidgetState extends State<OrderDetailWidget> {
     try {
       MethodChannel channel = const MethodChannel(methodChannel);
       final response = await channel.invokeMethod("orderDetail.get", []);
-      String body = response;
-      qrCodeData = '$body';
+      List<String> body = response.cast<String>();
+      _status = body[0];
+      _price = body[1];
+      _tradingFee = body[2];
+      _filled = body[3];
+      _txHash = body[4];
+      _timeToLive = body[5];
     } on Exception catch (e) {
       print("MethodChannel... $e");
       qrCodeData = "";
@@ -55,12 +67,12 @@ class _OrderDetailWidgetState extends State<OrderDetailWidget> {
         color: HexColor.backgroundColor,
         child: Column(
           children: <Widget>[
-            OrderDetailRowWidget(leftText: "Status", rightText: "Completed"),
-            OrderDetailRowWidget(leftText: "Price", rightText: "0.05 LRC/WETH"),
-            OrderDetailRowWidget(leftText: "Trading Fee", rightText: "1.100 LRC"),
-            OrderDetailRowWidget(leftText: "Filled", rightText: "330.0%"),
-            OrderDetailRowWidget(leftText: "TxHash", rightText: "0xb38c...3963d"),
-            OrderDetailRowWidget(leftText: "Time to Live", rightText: "02-25 00:04 ~ 02-25 01:04"),
+            OrderDetailRowWidget(leftText: "Status", rightText: _status),
+            OrderDetailRowWidget(leftText: "Price", rightText: _price),
+            OrderDetailRowWidget(leftText: "Trading Fee", rightText: _tradingFee),
+            OrderDetailRowWidget(leftText: "Filled", rightText: _filled),
+            OrderDetailRowWidget(leftText: "TxHash", rightText: _txHash),
+            OrderDetailRowWidget(leftText: "Time to Live", rightText: _timeToLive),
             new Container(
               height: 1.0,
               color: HexColor.cardBackgroundColor,
