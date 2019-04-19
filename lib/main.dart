@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'backup_mnemonic/backup_mnemonic_app.dart';
 import 'my_app/my_app.dart';
 import 'order_detail/order_detail_app.dart';
 import 'qr_code/qr_code_app.dart';
@@ -11,6 +12,7 @@ void main() => runApp(
     home: MyApp(),
     debugShowCheckedModeBanner: false,
     routes: <String, WidgetBuilder> {
+      'backupMnemonic': (BuildContext context) => BackupMnemonicApp(),
       'orderDetail': (BuildContext context) => OrderDetailApp(),
       'qrCode': (BuildContext context) => QRCodeApp(),
       'sendListChoose': (BuildContext context) => SendListChooseApp(),
@@ -43,6 +45,9 @@ I/flutter: Another exception was thrown: Could not navigate to initial route.
 
 // iOS
 // https://github.com/flutter/flutter/issues/22356
+@pragma('vm:entry-point')
+void backupMnemonic() => runApp(BackupMnemonicApp());
+
 @pragma('vm:entry-point')
 void orderDetail() => runApp(OrderDetailApp());
 
