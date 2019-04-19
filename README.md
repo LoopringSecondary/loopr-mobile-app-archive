@@ -26,6 +26,7 @@
 - Switch send token
 - Order detail view
 - Backup mnemonics
+- News
 
 ### UI view and data
 An app is always to render data in a UI view. flutter-module is primary for UI view and should be stateless. How to fetch data, process data and store data are in iOS and Android native code.
