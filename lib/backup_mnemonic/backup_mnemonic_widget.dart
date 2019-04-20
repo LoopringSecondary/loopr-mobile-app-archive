@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 
+import './backup_mnemonic_grid_view_widget.dart';
+
 import '../utils/hex_color.dart';
 
 class BackupMnemonicWidget extends StatefulWidget {
@@ -54,7 +56,7 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
               constraints: new BoxConstraints.expand(
                 height: 200
               ),
-              padding: new EdgeInsets.only(left: 18, bottom: 18),
+              padding: new EdgeInsets.only(left: 18, right: 18),
               decoration: new BoxDecoration(
                 image: new DecorationImage(
                   image: new AssetImage('assets/mnemonic-1@3x.png')
@@ -63,13 +65,12 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
               child: Column(
                 children: <Widget>[
                   new Container(
-                    // TODO: the edge insets are wild.
                     // TODO: need to set line height.
-                    padding: EdgeInsets.only(left: 20.0, right: 35.0, top: 30),
+                    padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 30),
                       child: new Text(
                       "Please don't show up in public places (prevent cameras from taking photos) or take a screen shot(your operating system may back up images to cloud storage). These operations can bring you huge and irreversible security risks.",
                       style: TextStyle(
-                        color: HexColor.textColor,
+                        color: Colors.white,
                         fontSize: 15,
                         fontStyle: FontStyle.italic),
                     ),
@@ -81,16 +82,13 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
               constraints: new BoxConstraints.expand(
                 height: 200
               ),
-              padding: new EdgeInsets.only(left: 18, bottom: 18),
+              padding: new EdgeInsets.only(left: 20, right: 20),
               decoration: new BoxDecoration(
                 image: new DecorationImage(
                   image: new AssetImage('assets/mnemonic-2@3x.png')
                 )
               ),
-              child: new Text(
-                "",
-                style: TextStyle(color: HexColor.textColor, fontSize: 14),
-              ),
+              child: new BackupMnemonicGridViewWidget(words: _words),
             ),
             new Expanded(
               child: new Align(
