@@ -17,4 +17,5 @@ class HexColor extends Color {
   // The leading two digits are used for opaque. It's different from iOS
   static Color textColor = Color(0xCCFFFFFF);
   static Color textLightColor = Color(0x66FFFFFF);
+  static Color theme = HexColor("#FDAE25");
 }

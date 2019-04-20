@@ -45,7 +45,9 @@ flutter:
 
   # To add Flutter specific assets to your application, add an assets section, 
   # like this:
-  # assets:
+  assets:
+    - assets/mnemonic-1@3x.png
+    - assets/mnemonic-2@3x.png
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

@@ -77,7 +77,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
               width: 270,
               padding: EdgeInsets.all(10.0),
               decoration: new BoxDecoration(
-                color: HexColor("#21203A"),
+                color: HexColor.cardBackgroundColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
