@@ -7,10 +7,53 @@ import './backup_mnemonic_grid_view_widget.dart';
 
 import '../utils/hex_color.dart';
 
+// This is likely all your InheritedWidget will ever need.
+class InheritedStateContainer extends InheritedWidget {
+  // The data is whatever this widget is passing down.
+  final List<String> words;
+
+  // InheritedWidgets are always just wrappers.
+  // So there has to be a child, 
+  // Although Flutter just knows to build the Widget thats passed to it
+  // So you don't have have a build method or anything.
+  InheritedStateContainer({
+    Key key,
+    this.words,
+    @required Widget child,
+  }) : super(key: key, child: child);
+  
+  // This is a better way to do this, which you'll see later.
+  // But basically, Flutter automatically calls this method when any data
+  // in this widget is changed. 
+  // You can use this method to make sure that flutter actually should
+  // repaint the tree, or do nothing.
+  // It helps with performance.
+  @override
+  bool updateShouldNotify(InheritedStateContainer old) {
+    print("updateShouldNotify");
+    return true;
+  }
+
+  static InheritedStateContainer of(BuildContext context) =>
+      context.inheritFromWidgetOfExactType(InheritedStateContainer);
+
+}
+
 class BackupMnemonicWidget extends StatefulWidget {
   BackupMnemonicWidget({Key key, this.title}) : super(key: key);
 
   final String title;
+
+/*
+  // This creates a method on the AppState that's just like 'of'
+  // On MediaQueries, Theme, etc
+  // This is the secret to accessing your AppState all over your app
+  static _BackupMnemonicWidgetState of(BuildContext context) {
+    return (context.inheritFromWidgetOfExactType(_InheritedStateContainer)
+            as _InheritedStateContainer)
+        .data;
+  }
+*/
 
   @override
   _BackupMnemonicWidgetState createState() => _BackupMnemonicWidgetState();
@@ -19,6 +62,7 @@ class BackupMnemonicWidget extends StatefulWidget {
 class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
   List<String> _words = [];
   static const String methodChannel = "backupMnemonic";
+  MethodChannel platform = const MethodChannel('backupMnemonic');
 
   // Receive data from native
   Future<void> _getDataFromNative() async {
@@ -31,6 +75,21 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
       });
     } on Exception catch (e) {
       print("MethodChannel... $e");
+    }
+  }
+
+  Future<void> methodCallHandler(MethodCall methodCall) async {
+    switch (methodCall.method) {
+      case 'backupMnemonic.update':
+        print("received");
+        print(methodCall.arguments);
+        InheritedStateContainer(words: methodCall.arguments, child: new BackupMnemonicGridViewWidget());
+        setState(() {
+          _words = methodCall.arguments;
+        });
+        break;
+      default:
+        print("other methods");
     }
   }
 
@@ -56,6 +115,9 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
   @override
   Widget build(BuildContext context) {
     print("render in backup_mnemonic_widget ...  $_words");
+
+    platform.setMethodCallHandler(methodCallHandler);
+
     if (_words.length == 0) {
       _getDataFromNative();
     }
@@ -108,7 +170,10 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
                   image: new AssetImage('assets/mnemonic-2@3x.png')
                 )
               ),
-              child: new BackupMnemonicGridViewWidget(),
+              child: InheritedStateContainer(
+                        child: new BackupMnemonicGridViewWidget(),
+                        words: _words,
+                      ),
             ),
             new Expanded(
               child: new Align(

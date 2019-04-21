@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'dart:async';
+import './backup_mnemonic_widget.dart';
+
 
 class BackupMnemonicGridViewWidget extends StatefulWidget {
   BackupMnemonicGridViewWidget({Key key}) : super(key: key);
@@ -12,35 +12,20 @@ class BackupMnemonicGridViewWidget extends StatefulWidget {
 }
 
 class _BackupMnemonicGridViewWidgetState extends State<BackupMnemonicGridViewWidget> {
-  List<String> _words = [];
   static const String methodChannel = "backupMnemonicGrid";
-
-  MethodChannel platform = const MethodChannel('backupMnemonic');
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<void> methodCallHandler(MethodCall methodCall) async {
-    switch (methodCall.method) {
-      case 'backupMnemonic.update':
-        print("received");
-        print(methodCall.arguments);
-        setState(() {
-          _words = methodCall.arguments;
-        });
-        break;
-      default:
-        print("other methods");
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
+    final _words = InheritedStateContainer.of(context).words;
     print("render in BackupMnemonicGridViewWidget ...  $_words");
 
-    platform.setMethodCallHandler(methodCallHandler);
 
     List<Widget> list = [];
     for(var i = 0; i < _words.length; i++) {
