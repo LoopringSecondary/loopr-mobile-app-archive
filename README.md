@@ -37,3 +37,4 @@ An app is always to render data in a UI view. flutter-module is primary for UI v
 
 ### Open questions
 - How to use FlutterDartProject https://stackoverflow.com/questions/55127464/how-to-use-flutterdartproject
+- Flutter setState changing, but not rerendering https://stackoverflow.com/questions/52920963/flutter-setstate-changing-but-not-rerendering

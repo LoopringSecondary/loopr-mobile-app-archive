@@ -34,8 +34,28 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
     }
   }
 
+  // Send data to native
+  Future<void> _pressedVerifyButton() async {
+    try {
+      MethodChannel channel = const MethodChannel(methodChannel);
+      await channel.invokeMethod("backupMnemonic.verify", []);
+    } on Exception catch (e) {
+      print("MethodChannel... $e");
+    }
+  }
+
+  Future<void> _pressedSkipButton() async {
+    try {
+      MethodChannel channel = const MethodChannel(methodChannel);
+      await channel.invokeMethod("backupMnemonic.skip", []);
+    } on Exception catch (e) {
+      print("MethodChannel... $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("render in backup_mnemonic_widget ...  $_words");
     if (_words.length == 0) {
       _getDataFromNative();
     }
@@ -113,8 +133,8 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
                             style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
                           onPressed: () {
-                            // _copyAddress();
-                            print("Copy Address onPressed");
+                            _pressedVerifyButton();
+                            print("_pressedVerifyButton onPressed");
                           },
                         ),
                     )),
@@ -134,8 +154,8 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
                             style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
                           onPressed: () {
-                            // _saveToAlbum();
-                            print("Save to Album onPressed");
+                            _pressedSkipButton();
+                            print("_pressedSkipButton onPressed");
                           },
                         ),
                     )),
