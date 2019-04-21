@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import './backup_mnemonic_widget.dart';
 
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+import 'package:meta/meta.dart';
+
+import './middleware.dart';
+import './reducers.dart';
+import './state.dart';
 
 class BackupMnemonicGridViewWidget extends StatefulWidget {
   BackupMnemonicGridViewWidget({Key key}) : super(key: key);
@@ -18,8 +25,6 @@ class _BackupMnemonicGridViewWidgetState extends State<BackupMnemonicGridViewWid
   void initState() {
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {

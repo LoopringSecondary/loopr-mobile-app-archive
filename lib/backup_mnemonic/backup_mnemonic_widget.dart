@@ -5,6 +5,10 @@ import 'dart:async';
 
 import './backup_mnemonic_grid_view_widget.dart';
 
+import './middleware.dart';
+import './reducers.dart';
+import './state.dart';
+
 import '../utils/hex_color.dart';
 
 class AppModel {
@@ -48,17 +52,6 @@ class BackupMnemonicWidget extends StatefulWidget {
 
   final String title;
 
-/*
-  // This creates a method on the AppState that's just like 'of'
-  // On MediaQueries, Theme, etc
-  // This is the secret to accessing your AppState all over your app
-  static _BackupMnemonicWidgetState of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(_InheritedStateContainer)
-            as _InheritedStateContainer)
-        .data;
-  }
-*/
-
   @override
   _BackupMnemonicWidgetState createState() => _BackupMnemonicWidgetState();
 }
@@ -90,7 +83,7 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
         print("received");
         print(methodCall.arguments);
         InheritedStateContainer.of(context).appModel.words = methodCall.arguments;
-        // InheritedStateContainer(words: methodCall.arguments, child: new BackupMnemonicGridViewWidget());
+
         setState(() {
           _words = methodCall.arguments;
         });
@@ -128,7 +121,7 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
     if (_words.length == 0) {
       _getDataFromNative();
     }
-  
+
     return Scaffold(
       appBar: null,
       backgroundColor: HexColor("#16162A"),
