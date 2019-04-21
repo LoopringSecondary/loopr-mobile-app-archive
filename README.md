@@ -5,6 +5,9 @@
 - [Add Flutter to existing apps](https://github.com/flutter/flutter/wiki/Add-Flutter-to-existing-apps)
 - [Flutter and Native Communication](https://blog.testfairy.com/flutter-and-native-communication/)
 - [Flutter 实现原理及实践](https://mp.weixin.qq.com/s/-nOsT8yQTvPAojmGIO7Yzg)
+- [Introduction to Flutter: Building iOS and Android Apps from a Single Codebase](https://www.appcoda.com/flutter-basics/)
+- [How to develop a platform channel in Flutter between Dart and Native Code](https://medium.com/@atul.sharma_94062/creating-a-bridge-in-flutter-between-dart-and-native-code-in-java-or-objectivec-5f80fd0cd713)
+- [Introduction to Redux in Flutter](https://blog.novoda.com/introduction-to-redux-in-flutter/)
 
 ### Features that will be written in Flutter
 - Chat

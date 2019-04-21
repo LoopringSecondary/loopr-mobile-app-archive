@@ -7,10 +7,14 @@ import './backup_mnemonic_grid_view_widget.dart';
 
 import '../utils/hex_color.dart';
 
+class AppModel {
+  List<String> words = [];
+}
+
 // This is likely all your InheritedWidget will ever need.
 class InheritedStateContainer extends InheritedWidget {
   // The data is whatever this widget is passing down.
-  final List<String> words;
+  final AppModel appModel;
 
   // InheritedWidgets are always just wrappers.
   // So there has to be a child, 
@@ -18,7 +22,7 @@ class InheritedStateContainer extends InheritedWidget {
   // So you don't have have a build method or anything.
   InheritedStateContainer({
     Key key,
-    this.words,
+    this.appModel,
     @required Widget child,
   }) : super(key: key, child: child);
   
@@ -62,7 +66,9 @@ class BackupMnemonicWidget extends StatefulWidget {
 class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
   List<String> _words = [];
   static const String methodChannel = "backupMnemonic";
-  MethodChannel platform = const MethodChannel('backupMnemonic');
+  static MethodChannel platform = const MethodChannel('backupMnemonic');
+
+  final AppModel model = AppModel();
 
   // Receive data from native
   Future<void> _getDataFromNative() async {
@@ -83,7 +89,8 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
       case 'backupMnemonic.update':
         print("received");
         print(methodCall.arguments);
-        InheritedStateContainer(words: methodCall.arguments, child: new BackupMnemonicGridViewWidget());
+        InheritedStateContainer.of(context).appModel.words = methodCall.arguments;
+        // InheritedStateContainer(words: methodCall.arguments, child: new BackupMnemonicGridViewWidget());
         setState(() {
           _words = methodCall.arguments;
         });
@@ -172,7 +179,7 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
               ),
               child: InheritedStateContainer(
                         child: new BackupMnemonicGridViewWidget(),
-                        words: _words,
+                        appModel: model,
                       ),
             ),
             new Expanded(

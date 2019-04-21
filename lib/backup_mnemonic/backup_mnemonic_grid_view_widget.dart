@@ -23,7 +23,7 @@ class _BackupMnemonicGridViewWidgetState extends State<BackupMnemonicGridViewWid
 
   @override
   Widget build(BuildContext context) {
-    final _words = InheritedStateContainer.of(context).words;
+    final _words = InheritedStateContainer.of(context).appModel.words;
     print("render in BackupMnemonicGridViewWidget ...  $_words");
 
 
