@@ -8,6 +8,7 @@
 - [Introduction to Flutter: Building iOS and Android Apps from a Single Codebase](https://www.appcoda.com/flutter-basics/)
 - [How to develop a platform channel in Flutter between Dart and Native Code](https://medium.com/@atul.sharma_94062/creating-a-bridge-in-flutter-between-dart-and-native-code-in-java-or-objectivec-5f80fd0cd713)
 - [Introduction to Redux in Flutter](https://blog.novoda.com/introduction-to-redux-in-flutter/)
+- [flutter_redux](https://github.com/brianegan/flutter_redux)
 
 ### Features that will be written in Flutter
 - Chat
