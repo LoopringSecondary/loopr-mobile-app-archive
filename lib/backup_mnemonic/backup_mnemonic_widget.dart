@@ -108,7 +108,7 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
                   image: new AssetImage('assets/mnemonic-2@3x.png')
                 )
               ),
-              child: new BackupMnemonicGridViewWidget(words: _words),
+              child: new BackupMnemonicGridViewWidget(),
             ),
             new Expanded(
               child: new Align(

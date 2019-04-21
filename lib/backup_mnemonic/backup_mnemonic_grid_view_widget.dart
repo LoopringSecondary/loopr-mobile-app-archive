@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 
 class BackupMnemonicGridViewWidget extends StatefulWidget {
-  BackupMnemonicGridViewWidget({Key key, this.words}) : super(key: key);
+  BackupMnemonicGridViewWidget({Key key}) : super(key: key);
 
-  final List<String> words;
+  // final List<String> words;
 
   @override
   _BackupMnemonicGridViewWidgetState createState() => _BackupMnemonicGridViewWidgetState();
@@ -13,19 +13,19 @@ class BackupMnemonicGridViewWidget extends StatefulWidget {
 
 class _BackupMnemonicGridViewWidgetState extends State<BackupMnemonicGridViewWidget> {
   List<String> _words = [];
-  static const String methodChannel = "backupMnemonic";
+  static const String methodChannel = "backupMnemonicGrid";
 
   MethodChannel platform = const MethodChannel('backupMnemonic');
 
   @override
   void initState() {
     super.initState();
-    platform.setMethodCallHandler(methodCallHandler);
   }
 
   Future<void> methodCallHandler(MethodCall methodCall) async {
     switch (methodCall.method) {
       case 'backupMnemonic.update':
+        print("received");
         print(methodCall.arguments);
         setState(() {
           _words = methodCall.arguments;
@@ -38,6 +38,9 @@ class _BackupMnemonicGridViewWidgetState extends State<BackupMnemonicGridViewWid
 
   @override
   Widget build(BuildContext context) {
+    print("render in BackupMnemonicGridViewWidget ...  $_words");
+
+    platform.setMethodCallHandler(methodCallHandler);
 
     List<Widget> list = [];
     for(var i = 0; i < _words.length; i++) {
