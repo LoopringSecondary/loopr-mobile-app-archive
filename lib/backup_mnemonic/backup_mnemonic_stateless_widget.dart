@@ -12,36 +12,10 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 
 class ToDoListPage extends StatelessWidget {
-  static const String methodChannel = "backupMnemonic";
-  static MethodChannel platform = const MethodChannel('backupMnemonic');
-
-  Future<void> methodCallHandler(MethodCall methodCall) async {
-    switch (methodCall.method) {
-      case 'backupMnemonic.update':
-        print("received");
-        print(methodCall.arguments);
-
-        // InheritedStateContainer.of(context).appModel.words = methodCall.arguments;
-
-        /*
-        setState(() {
-          _words = methodCall.arguments;
-        });
-        */
-
-        
-
-        break;
-      default:
-        print("other methods");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     print("render in stateless widget ");
-
-    platform.setMethodCallHandler(methodCallHandler);
 
     return StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.create(store),
@@ -101,9 +75,17 @@ class _ViewModel {
   final String newItemToolTip;
   final IconData newItemIcon;
 
+
+  static const String methodChannel = "backupMnemonic";
+  static MethodChannel platform = const MethodChannel('backupMnemonic');
+
   _ViewModel(this.pageTitle, this.items, this.onAddItem, this.newItemToolTip, this.newItemIcon);
 
   factory _ViewModel.create(Store<AppState> store) {
+
+    print("factory _ViewModel.create");
+
+    // platform.setMethodCallHandler(methodCallHandler);
 
     List<_ItemViewModel> items = store.state.toDos
         .map((String item) => _ToDoItemViewModel(item, () {
@@ -117,11 +99,35 @@ class _ViewModel {
         store.dispatch(DisplayListOnlyAction());
         store.dispatch(AddItemAction(title));
         store.dispatch(SaveListAction());
+        print("Type the next task here");
       }, 'Add'));
     }
 
     return _ViewModel('To Do', items, () => store.dispatch(DisplayListWithNewItemAction()), 'Add new to-do item', Icons.add);
   }
+
+  /*
+  static Future<void> methodCallHandler(MethodCall methodCall) async {
+    switch (methodCall.method) {
+      case 'backupMnemonic.update':
+        print("received");
+        print(methodCall.arguments);
+
+        // InheritedStateContainer.of(context).appModel.words = methodCall.arguments;
+
+        /*
+        setState(() {
+          _words = methodCall.arguments;
+        });
+        */
+
+        break;
+      default:
+        print("other methods");
+    }
+  }
+  */
+
 }
 
 abstract class _ItemViewModel {}
