@@ -20,7 +20,7 @@ class _BackupMnemonicGridViewWidgetState extends State<BackupMnemonicGridViewWid
       int num = i+1;
       list.add(
         new Container(
-          padding: EdgeInsets.only(left: 4.0, right: 0.0, top: 8, bottom: 0),
+          padding: EdgeInsets.only(left: 4.0, right: 0.0, top: 0, bottom: 0),
           child: new Text(
             "$num. $word",
             style: TextStyle(
@@ -36,7 +36,7 @@ class _BackupMnemonicGridViewWidgetState extends State<BackupMnemonicGridViewWid
       child: new GridView.count(
           crossAxisCount: 3,
           childAspectRatio: 2.6,
-          padding: const EdgeInsets.only(left: 4.0, right: 4.0, top: 10, bottom: 4),
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 30, bottom: 4),
           mainAxisSpacing: 4.0,
           crossAxisSpacing: 4.0,
           children: list
