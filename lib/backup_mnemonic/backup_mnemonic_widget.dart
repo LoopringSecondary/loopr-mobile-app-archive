@@ -5,6 +5,11 @@ import 'dart:async';
 
 import './backup_mnemonic_grid_view_widget.dart';
 
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:meta/meta.dart';
+import 'package:redux/redux.dart';
+
+import './actions.dart';
 import './middleware.dart';
 import './reducers.dart';
 import './state.dart';
@@ -47,13 +52,80 @@ class InheritedStateContainer extends InheritedWidget {
 
 }
 
-class BackupMnemonicWidget extends StatefulWidget {
-  BackupMnemonicWidget({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+class BackupMnemonicWidget extends StatelessWidget {
+  
   @override
-  _BackupMnemonicWidgetState createState() => _BackupMnemonicWidgetState();
+  Widget build(BuildContext context) {
+    print("render in stateless widget ");
+
+    return StoreConnector<AppState, _ViewModel>(
+        converter: (Store<AppState> store) => _ViewModel.create(store),
+        builder: (BuildContext context, _ViewModel viewModel) => Scaffold(
+              appBar: AppBar(
+                title: Text(viewModel.pageTitle),
+              ),
+              body: ListView(children: viewModel.items.map((_ItemViewModel item) => _createWidget(item)).toList()),
+              floatingActionButton: FloatingActionButton(
+                onPressed: viewModel.onAddItem,
+                tooltip: viewModel.newItemToolTip,
+                child: Icon(viewModel.newItemIcon),
+              ),
+            ),
+      );
+  }
+
+}
+
+class _ViewModel {
+  final String pageTitle;
+  final List<_ItemViewModel> items;
+  final Function() onAddItem;
+  final String newItemToolTip;
+  final IconData newItemIcon;
+
+
+  static const String methodChannel = "backupMnemonic";
+  static MethodChannel platform = const MethodChannel('backupMnemonic');
+
+  _ViewModel(this.pageTitle, this.items, this.onAddItem, this.newItemToolTip, this.newItemIcon);
+
+  factory _ViewModel.create(Store<AppState> store) {
+
+    print("factory _ViewModel.create");
+
+    // platform.setMethodCallHandler(methodCallHandler);
+
+    List<_ItemViewModel> items = store.state.toDos
+        .map((String item) => _ToDoItemViewModel(item, () {
+              store.dispatch(RemoveItemAction(item));
+              store.dispatch(SaveListAction());
+            }, 'Delete', Icons.delete) as _ItemViewModel)
+        .toList();
+
+    if (store.state.listState == ListState.listWithNewItem) {
+      items.add(_EmptyItemViewModel('Type the next task here', (String title) {
+        store.dispatch(DisplayListOnlyAction());
+        store.dispatch(AddItemAction(title));
+        store.dispatch(SaveListAction());
+        print("Type the next task here");
+      }, 'Add'));
+    }
+
+    return _ViewModel('To Do', items, () => store.dispatch(DisplayListWithNewItemAction()), 'Add new to-do item', Icons.add);
+  }
+
+}
+
+abstract class _ItemViewModel {}
+
+@immutable
+class _ToDoItemViewModel extends _ItemViewModel {
+  final String title;
+  final Function() onDeleteItem;
+  final String deleteItemToolTip;
+  final IconData deleteItemIcon;
+
+  _ToDoItemViewModel(this.title, this.onDeleteItem, this.deleteItemToolTip, this.deleteItemIcon);
 }
 
 class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
