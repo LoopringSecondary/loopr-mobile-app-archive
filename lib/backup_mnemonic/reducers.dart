@@ -11,7 +11,12 @@ final Reducer<List<String>> toDoListReducer = combineReducers([
 
 List<String> _removeItem(List<String> toDos, RemoveItemAction action) => List.unmodifiable(List.from(toDos)..remove(action.item));
 
-List<String> _addItem(List<String> toDos, AddItemAction action) => List.unmodifiable(List.from(toDos)..add(action.item));
+List<String> _addItem(List<String> toDos, AddItemAction action) {
+  print("_addItem .................. ");
+  toDos = action.items;
+  // return List.unmodifiable(List.from(toDos)..add("hello"));
+  return action.items;
+} 
 
 final Reducer<ListState> listStateReducer = combineReducers<ListState>([
   TypedReducer<ListState, DisplayListOnlyAction>(_displayListOnly),

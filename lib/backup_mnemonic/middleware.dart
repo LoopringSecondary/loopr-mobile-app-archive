@@ -9,6 +9,6 @@ List<Middleware<AppState>> createStoreMiddleware() => [
     ];
 
 Future _saveList(Store<AppState> store, SaveListAction action, NextDispatcher next) async {
-  await Future.sync(() => Duration(seconds: 3)); // Simulate saving the list to disk
+  print("saveList");
   next(action);
 }

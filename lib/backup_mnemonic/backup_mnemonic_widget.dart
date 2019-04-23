@@ -6,12 +6,8 @@ import 'dart:async';
 import './backup_mnemonic_grid_view_widget.dart';
 
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
 
-import './actions.dart';
-import './middleware.dart';
-import './reducers.dart';
 import './state.dart';
 
 import '../utils/hex_color.dart';

@@ -26,15 +26,12 @@ class BackupMnemonicApp extends StatelessWidget {
       case 'backupMnemonic.update':
         print("received");
         print(methodCall.arguments);
+        // TODO: this line of code is very critical!
+        // We need to cast the data. Otherwise, it fails.
+        List<String> newMnemonic = methodCall.arguments.cast<String>();
+        print("end.........");
 
-        // InheritedStateContainer.of(context).appModel.words = methodCall.arguments;
-
-        /*
-        setState(() {
-          _words = methodCall.arguments;
-        });
-        */
-        store.dispatch(AddItemAction('hello'));
+        store.dispatch(AddItemAction(newMnemonic));
         store.dispatch(SaveListAction());
         store.dispatch(DisplayListOnlyAction());
 

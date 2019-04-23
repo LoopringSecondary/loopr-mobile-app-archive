@@ -5,9 +5,9 @@ class RemoveItemAction {
 }
 
 class AddItemAction {
-  final String item;
+  final List<String> items;
 
-  AddItemAction(this.item);
+  AddItemAction(this.items);
 }
 
 class DisplayListOnlyAction {}
