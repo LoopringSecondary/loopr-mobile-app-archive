@@ -10,9 +10,9 @@ import './reducers.dart';
 import './state.dart';
 
 class BackupMnemonicGridViewWidget extends StatefulWidget {
-  BackupMnemonicGridViewWidget({Key key}) : super(key: key);
+  BackupMnemonicGridViewWidget({Key key, this.words}) : super(key: key);
 
-  // final List<String> words;
+  final List<String> words;
 
   @override
   _BackupMnemonicGridViewWidgetState createState() => _BackupMnemonicGridViewWidgetState();
@@ -28,9 +28,8 @@ class _BackupMnemonicGridViewWidgetState extends State<BackupMnemonicGridViewWid
 
   @override
   Widget build(BuildContext context) {
-    final _words = InheritedStateContainer.of(context).appModel.words;
+    List<String> _words = this.widget.words;
     print("render in BackupMnemonicGridViewWidget ...  $_words");
-
 
     List<Widget> list = [];
     for(var i = 0; i < _words.length; i++) {

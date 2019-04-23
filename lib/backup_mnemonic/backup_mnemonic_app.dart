@@ -3,8 +3,6 @@ import 'backup_mnemonic_widget.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-import 'backup_mnemonic_stateless_widget.dart';
-
 import './actions.dart';
 import './middleware.dart';
 import './reducers.dart';
@@ -36,7 +34,7 @@ class BackupMnemonicApp extends StatelessWidget {
           _words = methodCall.arguments;
         });
         */
-        store.dispatch(AddItemAction("hello"));
+        store.dispatch(AddItemAction('hello'));
         store.dispatch(SaveListAction());
         store.dispatch(DisplayListOnlyAction());
 
@@ -56,7 +54,7 @@ class BackupMnemonicApp extends StatelessWidget {
         title: '',
         debugShowCheckedModeBanner: false,
         routes: {
-          '/': (context) => ToDoListPage(),
+          '/': (context) => BackupMnemonicWidget(),
         },
         theme: ThemeData(
           primarySwatch: Colors.blue,
