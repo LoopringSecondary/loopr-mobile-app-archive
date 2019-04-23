@@ -16,60 +16,43 @@ import './state.dart';
 
 import '../utils/hex_color.dart';
 
-class AppModel {
-  List<String> words = [];
-}
-
-// This is likely all your InheritedWidget will ever need.
-class InheritedStateContainer extends InheritedWidget {
-  // The data is whatever this widget is passing down.
-  final AppModel appModel;
-
-  // InheritedWidgets are always just wrappers.
-  // So there has to be a child, 
-  // Although Flutter just knows to build the Widget thats passed to it
-  // So you don't have have a build method or anything.
-  InheritedStateContainer({
-    Key key,
-    this.appModel,
-    @required Widget child,
-  }) : super(key: key, child: child);
-  
-  // This is a better way to do this, which you'll see later.
-  // But basically, Flutter automatically calls this method when any data
-  // in this widget is changed. 
-  // You can use this method to make sure that flutter actually should
-  // repaint the tree, or do nothing.
-  // It helps with performance.
-  @override
-  bool updateShouldNotify(InheritedStateContainer old) {
-    print("updateShouldNotify");
-    return true;
-  }
-
-  static InheritedStateContainer of(BuildContext context) =>
-      context.inheritFromWidgetOfExactType(InheritedStateContainer);
-
-}
-
 class BackupMnemonicWidget extends StatelessWidget {
   
+  static const String methodChannel = "backupMnemonic";
+  static MethodChannel platform = const MethodChannel('backupMnemonic');
+
+  // Send data to native
+  Future<void> _pressedVerifyButton() async {
+    try {
+      MethodChannel channel = const MethodChannel(methodChannel);
+      await channel.invokeMethod("backupMnemonic.verify", []);
+    } on Exception catch (e) {
+      print("MethodChannel... $e");
+    }
+  }
+
+  Future<void> _pressedSkipButton() async {
+    try {
+      MethodChannel channel = const MethodChannel(methodChannel);
+      await channel.invokeMethod("backupMnemonic.skip", []);
+    } on Exception catch (e) {
+      print("MethodChannel... $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print("render in stateless widget ");
 
     return StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.create(store),
-        builder: (BuildContext context, _ViewModel viewModel) => Scaffold(
+        builder: (BuildContext context, _ViewModel viewModel) => 
+          Scaffold(
               appBar: AppBar(
                 title: Text(viewModel.pageTitle),
               ),
-              body: ListView(children: viewModel.items.map((_ItemViewModel item) => _createWidget(item)).toList()),
-              floatingActionButton: FloatingActionButton(
-                onPressed: viewModel.onAddItem,
-                tooltip: viewModel.newItemToolTip,
-                child: Icon(viewModel.newItemIcon),
-              ),
+              body: ListView(children: 
+                viewModel.items.map((_ItemViewModel item) => _createWidget(item)).toList()),
             ),
       );
   }
@@ -92,8 +75,6 @@ class _ViewModel {
   factory _ViewModel.create(Store<AppState> store) {
 
     print("factory _ViewModel.create");
-
-    // platform.setMethodCallHandler(methodCallHandler);
 
     List<_ItemViewModel> items = store.state.toDos
         .map((String item) => _ToDoItemViewModel(item, () {
@@ -128,26 +109,9 @@ class _ToDoItemViewModel extends _ItemViewModel {
   _ToDoItemViewModel(this.title, this.onDeleteItem, this.deleteItemToolTip, this.deleteItemIcon);
 }
 
+// 
 class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
   List<String> _words = [];
-  static const String methodChannel = "backupMnemonic";
-  static MethodChannel platform = const MethodChannel('backupMnemonic');
-
-  final AppModel model = AppModel();
-
-  // Receive data from native
-  Future<void> _getDataFromNative() async {
-    try {
-      MethodChannel channel = const MethodChannel(methodChannel);
-      final response = await channel.invokeMethod("backupMnemonic.get", []);
-      List<String> body = response.cast<String>();
-      setState(() {
-        _words = body;
-      });
-    } on Exception catch (e) {
-      print("MethodChannel... $e");
-    }
-  }
 
   Future<void> methodCallHandler(MethodCall methodCall) async {
     switch (methodCall.method) {
@@ -165,34 +129,10 @@ class _BackupMnemonicWidgetState extends State<BackupMnemonicWidget> {
     }
   }
 
-  // Send data to native
-  Future<void> _pressedVerifyButton() async {
-    try {
-      MethodChannel channel = const MethodChannel(methodChannel);
-      await channel.invokeMethod("backupMnemonic.verify", []);
-    } on Exception catch (e) {
-      print("MethodChannel... $e");
-    }
-  }
-
-  Future<void> _pressedSkipButton() async {
-    try {
-      MethodChannel channel = const MethodChannel(methodChannel);
-      await channel.invokeMethod("backupMnemonic.skip", []);
-    } on Exception catch (e) {
-      print("MethodChannel... $e");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     print("render in backup_mnemonic_widget ...  $_words");
-
-    platform.setMethodCallHandler(methodCallHandler);
-
-    if (_words.length == 0) {
-      _getDataFromNative();
-    }
 
     return Scaffold(
       appBar: null,
