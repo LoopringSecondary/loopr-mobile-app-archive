@@ -83,7 +83,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
               child: Column(
                 children: <Widget>[
                   new Container(
-                    height: 30.0,
+                    height: 40.0,
                     width: 180.0,
                   ),
                   new QrImage(
@@ -138,12 +138,16 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
                           print("Save to Album onPressed");
                         },
                       ),
-                  )
+                  ),
+                  new Container(
+                    height: 10.0,
+                    width: 180.0,
+                  ),
                 ],
               ),
             ),
             new Container(
-              height: 50.0,
+              height: 70.0,
               width: 180.0,
             ),
           ],
