@@ -10,12 +10,6 @@ class BackupMnemonicGridViewWidget extends StatefulWidget {
 }
 
 class _BackupMnemonicGridViewWidgetState extends State<BackupMnemonicGridViewWidget> {
-  static const String methodChannel = "backupMnemonicGrid";
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
