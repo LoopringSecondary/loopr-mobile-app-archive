@@ -4,7 +4,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import './redux/actions.dart';
-import './redux/middleware.dart';
 import './redux/reducers.dart';
 import './redux/state.dart';
 
@@ -15,7 +14,6 @@ class BackupMnemonicApp extends StatelessWidget {
   final Store<AppState> store = Store<AppState>(
     appReducer,
     initialState: AppState.initial(),
-    middleware: createStoreMiddleware(),
   );
 
   static const String methodChannel = "backupMnemonic";
@@ -30,8 +28,6 @@ class BackupMnemonicApp extends StatelessWidget {
         // We need to cast the data. Otherwise, it fails.
         List<String> newMnemonic = methodCall.arguments.cast<String>();
         store.dispatch(AddItemAction(newMnemonic));
-        store.dispatch(SaveListAction());
-        store.dispatch(DisplayListOnlyAction());
         break;
       default:
         print("other methods");

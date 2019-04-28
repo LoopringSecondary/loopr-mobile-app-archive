@@ -3,9 +3,3 @@ class AddItemAction {
 
   AddItemAction(this.items);
 }
-
-class DisplayListOnlyAction {}
-
-class DisplayListWithNewItemAction {}
-
-class SaveListAction {}
