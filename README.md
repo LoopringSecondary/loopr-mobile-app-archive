@@ -29,7 +29,7 @@
 - Select token to send
 - Switch send token
 - Order detail view
-- Backup mnemonics
+- Backup mnemonics (Completed)
 - News
 
 ### UI view and data
