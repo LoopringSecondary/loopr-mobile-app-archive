@@ -5,11 +5,8 @@ import './actions.dart';
 AppState appReducer(AppState state, action) => AppState(toDoListReducer(state.toDos, action), listStateReducer(state.listState, action));
 
 final Reducer<List<String>> toDoListReducer = combineReducers([
-  TypedReducer<List<String>, AddItemAction>(_addItem),
-  TypedReducer<List<String>, RemoveItemAction>(_removeItem),
+  TypedReducer<List<String>, AddItemAction>(_addItem)
 ]);
-
-List<String> _removeItem(List<String> toDos, RemoveItemAction action) => List.unmodifiable(List.from(toDos)..remove(action.item));
 
 List<String> _addItem(List<String> toDos, AddItemAction action) {
   toDos = action.items;

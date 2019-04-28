@@ -1,9 +1,3 @@
-class RemoveItemAction {
-  final String item;
-
-  RemoveItemAction(this.item);
-}
-
 class AddItemAction {
   final List<String> items;
 

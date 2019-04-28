@@ -3,10 +3,10 @@ import 'backup_mnemonic_widget.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-import './actions.dart';
-import './middleware.dart';
-import './reducers.dart';
-import './state.dart';
+import './redux/actions.dart';
+import './redux/middleware.dart';
+import './redux/reducers.dart';
+import './redux/state.dart';
 
 import 'package:flutter/services.dart';
 import 'dart:async';

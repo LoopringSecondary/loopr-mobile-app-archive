@@ -8,7 +8,7 @@ import './backup_mnemonic_grid_view_widget.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-import './state.dart';
+import './redux/state.dart';
 
 import '../utils/hex_color.dart';
 
@@ -169,11 +169,8 @@ class _ViewModel {
   _ViewModel(this.items);
 
   factory _ViewModel.create(Store<AppState> store) {
-
     print("factory _ViewModel.create");
-
     List<String> items = store.state.toDos;
-
     return _ViewModel(items);
   }
 
