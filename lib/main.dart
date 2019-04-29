@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'airdrop/airdrop_app.dart';
 import 'backup_mnemonic/backup_mnemonic_app.dart';
 import 'my_app/my_app.dart';
 import 'order_detail/order_detail_app.dart';
@@ -12,6 +13,7 @@ void main() => runApp(
     home: MyApp(),
     debugShowCheckedModeBanner: false,
     routes: <String, WidgetBuilder> {
+      'airdrop': (BuildContext context) => AirdropApp(),
       'backupMnemonic': (BuildContext context) => BackupMnemonicApp(),
       'orderDetail': (BuildContext context) => OrderDetailApp(),
       'qrCode': (BuildContext context) => QRCodeApp(),
@@ -56,3 +58,6 @@ void qrCode() => runApp(QRCodeApp());
 
 @pragma('vm:entry-point')
 void sendListChoose() => runApp(SendListChooseApp());
+
+@pragma('vm:entry-point')
+void airdrop() => runApp(AirdropApp());

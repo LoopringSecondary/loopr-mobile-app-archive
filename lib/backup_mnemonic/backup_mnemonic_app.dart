@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'backup_mnemonic_widget.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter/services.dart';
+import 'dart:async';
+
 import 'package:redux/redux.dart';
+
+import 'backup_mnemonic_widget.dart';
 
 import './redux/actions.dart';
 import './redux/reducers.dart';
 import './redux/state.dart';
-
-import 'package:flutter/services.dart';
-import 'dart:async';
 
 class BackupMnemonicApp extends StatelessWidget {
   final Store<AppState> store = Store<AppState>(

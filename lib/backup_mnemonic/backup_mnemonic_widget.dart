@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 
 import './backup_mnemonic_grid_view_widget.dart';
-
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
-
 import './redux/state.dart';
-
 import '../utils/hex_color.dart';
 
 class BackupMnemonicWidget extends StatelessWidget {
