@@ -25,7 +25,9 @@ class AirdropWidget extends StatelessWidget {
             body: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                children: <Widget>[]
+                children: <Widget>[
+                  
+                ]
               ),
             )
           )
