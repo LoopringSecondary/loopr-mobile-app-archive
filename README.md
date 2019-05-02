@@ -28,7 +28,6 @@
 - Set gas
 - Select token to send
 - Switch send token
-- Order detail view
 - Backup mnemonics (Completed)
 - News
 

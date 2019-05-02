@@ -5,6 +5,7 @@ import 'my_app/my_app.dart';
 import 'order_detail/order_detail_app.dart';
 import 'qr_code/qr_code_app.dart';
 import 'send_list_choose/send_list_choose_app.dart';
+import 'transaction_detail/transaction_detail_app.dart';
 
 // Android
 // Refer https://github.com/flutter/flutter/issues/10813
@@ -48,6 +49,9 @@ I/flutter: Another exception was thrown: Could not navigate to initial route.
 // iOS
 // https://github.com/flutter/flutter/issues/22356
 @pragma('vm:entry-point')
+void airdrop() => runApp(AirdropApp());
+
+@pragma('vm:entry-point')
 void backupMnemonic() => runApp(BackupMnemonicApp());
 
 @pragma('vm:entry-point')
@@ -60,4 +64,4 @@ void qrCode() => runApp(QRCodeApp());
 void sendListChoose() => runApp(SendListChooseApp());
 
 @pragma('vm:entry-point')
-void airdrop() => runApp(AirdropApp());
+void transactionDetail() => runApp(TransactionDetailApp());
