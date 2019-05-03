@@ -32,6 +32,7 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
       MethodChannel channel = const MethodChannel(methodChannel);
       final response = await channel.invokeMethod("transactionDetail.get", []);
       List<String> body = response.cast<String>();
+      print(body);
       /*
       setState(() {
         _status = body[0];

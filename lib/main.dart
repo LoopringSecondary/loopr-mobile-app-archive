@@ -19,6 +19,7 @@ void main() => runApp(
       'orderDetail': (BuildContext context) => OrderDetailApp(),
       'qrCode': (BuildContext context) => QRCodeApp(),
       'sendListChoose': (BuildContext context) => SendListChooseApp(),
+      'transactionDetail': (BuildContext context) => TransactionDetailApp(),
       'default': (BuildContext context) => QRCodeApp(),
     },
   )
