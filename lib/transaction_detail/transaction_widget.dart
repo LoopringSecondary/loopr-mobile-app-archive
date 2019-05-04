@@ -16,12 +16,8 @@ class TransactionDetailWidget extends StatefulWidget {
 }
 
 class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
-  String _status = '';
-  String _price = '';
-  String _tradingFee = '';
-  String _filled = '';
-  String _txHash = '';
-  String _timeToLive = '';
+
+  List<String> _params = [];
 
   // This value must be equal to the value in iOS and Android
   static const String methodChannel = "transactionDetail";
@@ -33,16 +29,9 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
       final response = await channel.invokeMethod("transactionDetail.get", []);
       List<String> body = response.cast<String>();
       print(body);
-      /*
       setState(() {
-        _status = body[0];
-        _price = body[1];
-        _tradingFee = body[2];
-        _filled = body[3];
-        _txHash = body[4];
-        _timeToLive = body[5];
+        _params = body;
       });
-      */
     } on Exception catch (e) {
       print("MethodChannel... $e");
     }
@@ -52,7 +41,7 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
   Widget build(BuildContext context) {
     print("update TransactionDetailWidget");
 
-    if (_status == "") {
+    if (_params.length == 0) {
       _getInitDataFromNative();
     }
   
@@ -64,12 +53,11 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
         color: HexColor.backgroundColor,
         child: Column(
           children: <Widget>[
-            OrderDetailRowWidget(leftText: "Status", rightText: _status),
-            OrderDetailRowWidget(leftText: "Price", rightText: _price),
-            OrderDetailRowWidget(leftText: "Trading Fee", rightText: _tradingFee),
-            OrderDetailRowWidget(leftText: "Filled", rightText: _filled),
-            OrderDetailRowWidget(leftText: "TxHash", rightText: _txHash),
-            OrderDetailRowWidget(leftText: "Time to Live", rightText: _timeToLive),
+            OrderDetailRowWidget(leftText: _params[0], rightText: _params[1]),
+            OrderDetailRowWidget(leftText: _params[2], rightText: _params[3]),
+            OrderDetailRowWidget(leftText: _params[4], rightText: _params[5]),
+            OrderDetailRowWidget(leftText: _params[6], rightText: _params[7]),
+            OrderDetailRowWidget(leftText: _params[8], rightText: _params[9]),
             new Container(
               height: 1.0,
               color: HexColor.cardBackgroundColor,
