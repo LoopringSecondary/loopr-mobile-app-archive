@@ -53,11 +53,29 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
         color: HexColor.backgroundColor,
         child: Column(
           children: <Widget>[
-            OrderDetailRowWidget(leftText: _params[0], rightText: _params[1]),
-            OrderDetailRowWidget(leftText: _params[2], rightText: _params[3]),
-            OrderDetailRowWidget(leftText: _params[4], rightText: _params[5]),
-            OrderDetailRowWidget(leftText: _params[6], rightText: _params[7]),
-            OrderDetailRowWidget(leftText: _params[8], rightText: _params[9]),
+            new Container(
+              height: 49,
+              color: HexColor.backgroundColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  new Text(
+                    _params[0],
+                    style: TextStyle(
+                      color: HexColor.textColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500
+                    ),
+                  ),
+                ],
+              )
+            ),
+            OrderDetailRowWidget(leftText: _params[1], rightText: _params[2]),
+            OrderDetailRowWidget(leftText: _params[3], rightText: _params[4]),
+            OrderDetailRowWidget(leftText: _params[5], rightText: _params[6]),
+            OrderDetailRowWidget(leftText: _params[7], rightText: _params[8]),
+            OrderDetailRowWidget(leftText: _params[9], rightText: _params[10]),
             new Container(
               height: 1.0,
               color: HexColor.cardBackgroundColor,
