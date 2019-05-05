@@ -7,9 +7,7 @@ import '../utils/hex_color.dart';
 import 'order_detail_row_widget.dart';
 
 class OrderDetailWidget extends StatefulWidget {
-  OrderDetailWidget({Key key, this.title}) : super(key: key);
-
-  final String title;
+  OrderDetailWidget({Key key}) : super(key: key);
 
   @override
   _OrderDetailWidgetState createState() => _OrderDetailWidgetState();

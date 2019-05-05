@@ -9,7 +9,7 @@ class QRCodeApp extends StatelessWidget {
       title: '',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => QRCodeWidget(title: 'second'),
+        '/': (context) => QRCodeWidget(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

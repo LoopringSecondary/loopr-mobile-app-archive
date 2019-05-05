@@ -8,7 +8,7 @@ class TransactionDetailApp extends StatelessWidget {
       title: '',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => TransactionDetailWidget(title: ''),
+        '/': (context) => TransactionDetailWidget(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

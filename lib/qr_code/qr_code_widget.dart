@@ -7,9 +7,7 @@ import 'dart:async';
 import '../utils/hex_color.dart';
 
 class QRCodeWidget extends StatefulWidget {
-  QRCodeWidget({Key key, this.title}) : super(key: key);
-
-  final String title;
+  QRCodeWidget({Key key}) : super(key: key);
 
   @override
   _QRCodeWidgetState createState() => _QRCodeWidgetState();

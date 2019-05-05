@@ -8,7 +8,7 @@ class OrderDetailApp extends StatelessWidget {
       title: '',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => OrderDetailWidget(title: ''),
+        '/': (context) => OrderDetailWidget(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

@@ -7,9 +7,7 @@ import '../utils/hex_color.dart';
 import '../order_detail/order_detail_row_widget.dart';
 
 class TransactionDetailWidget extends StatefulWidget {
-  TransactionDetailWidget({Key key, this.title}) : super(key: key);
-
-  final String title;
+  TransactionDetailWidget({Key key}) : super(key: key);
 
   @override
   _TransactionDetailWidgetState createState() => _TransactionDetailWidgetState();
@@ -17,7 +15,7 @@ class TransactionDetailWidget extends StatefulWidget {
 
 class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
 
-  List<String> _params = [];
+  List<String> _params = ["", "", "", "", "", "", "", "", "", "", "", "", "", "",];
 
   // This value must be equal to the value in iOS and Android
   static const String methodChannel = "transactionDetail";
@@ -41,7 +39,7 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
   Widget build(BuildContext context) {
     print("update TransactionDetailWidget");
 
-    if (_params.length == 0) {
+    if (_params[0] == "") {
       _getInitDataFromNative();
     }
   
