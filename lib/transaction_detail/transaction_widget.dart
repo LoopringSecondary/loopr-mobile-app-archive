@@ -50,12 +50,16 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
       backgroundColor: HexColor.backgroundColor,
       body: Container(
         margin: const EdgeInsets.all(0.0),
-        color: HexColor.backgroundColor,
+        decoration: new BoxDecoration(
+                  color: HexColor.backgroundColor,
+                  borderRadius: new BorderRadius.only(
+                      topLeft: const Radius.circular(8.0),
+                      topRight: const Radius.circular(8.0))),
         child: Column(
           children: <Widget>[
             new Container(
-              height: 49,
-              color: HexColor.backgroundColor,
+              height: 60,
+              // color: HexColor.backgroundColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,10 +80,33 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
             OrderDetailRowWidget(leftText: _params[5], rightText: _params[6]),
             OrderDetailRowWidget(leftText: _params[7], rightText: _params[8]),
             OrderDetailRowWidget(leftText: _params[9], rightText: _params[10]),
+            OrderDetailRowWidget(leftText: _params[11], rightText: _params[12]),
             new Container(
               height: 1.0,
               color: HexColor.cardBackgroundColor,
-            )
+            ),
+            new Container(
+              height: 49,
+              color: HexColor.backgroundColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  new Text(
+                    _params[13],
+                    style: TextStyle(
+                      color: HexColor.textColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500
+                    ),
+                  ),
+                ],
+              )
+            ),
+            new Container(
+              height: 1.0,
+              color: HexColor.cardBackgroundColor,
+            ),
           ],
         ),
       ),
