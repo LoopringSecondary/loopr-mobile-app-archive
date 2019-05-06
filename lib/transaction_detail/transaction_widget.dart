@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'dart:async';
 
 import '../utils/hex_color.dart';
@@ -13,7 +14,11 @@ class TransactionDetailWidget extends StatefulWidget {
   _TransactionDetailWidgetState createState() => _TransactionDetailWidgetState();
 }
 
-class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
+class _TransactionDetailWidgetState extends State<TransactionDetailWidget>
+  with TickerProviderStateMixin {
+
+  AnimationController _controller;
+  Animation _animation;
 
   List<String> _params = ["", "", "", "", "", "", "", "", "", "", "", "", "", "",];
 
@@ -36,14 +41,39 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(vsync: this, duration: Duration(microseconds: 300000));
+    _animation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.fastOutSlowIn,
+    ))..addStatusListener(handler);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void handler(status) {
+    if (status == AnimationStatus.completed) {
+      
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     print("update TransactionDetailWidget");
+    final double height = 431;
+    _controller.forward();
 
     if (_params[0] == "") {
       _getInitDataFromNative();
     }
-  
-    return Scaffold(
+
+    var view =  Scaffold(
       appBar: null,
       backgroundColor: HexColor.backgroundColor,
       body: Container(
@@ -108,6 +138,19 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget> {
           ],
         ),
       ),
+    );
+  
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (BuildContext context, Widget child) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Transform(
+            transform: Matrix4.translationValues(0, _animation.value * height, 0),
+            child: view,
+          ),
+        );
+      }
     );
   }
 }
