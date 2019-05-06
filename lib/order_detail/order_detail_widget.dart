@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 
 import '../utils/hex_color.dart';
-import 'order_detail_row_widget.dart';
+import '../common/order_detail_row_widget.dart';
 
 class OrderDetailWidget extends StatefulWidget {
   OrderDetailWidget({Key key}) : super(key: key);
@@ -59,12 +59,12 @@ class _OrderDetailWidgetState extends State<OrderDetailWidget> {
         color: HexColor.backgroundColor,
         child: Column(
           children: <Widget>[
-            OrderDetailRowWidget(leftText: "Status", rightText: _status),
-            OrderDetailRowWidget(leftText: "Price", rightText: _price),
-            OrderDetailRowWidget(leftText: "Trading Fee", rightText: _tradingFee),
-            OrderDetailRowWidget(leftText: "Filled", rightText: _filled),
-            OrderDetailRowWidget(leftText: "TxHash", rightText: _txHash),
-            OrderDetailRowWidget(leftText: "Time to Live", rightText: _timeToLive),
+            OrderDetailRowWidget(leftText: "Status", rightText: _status, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
+            OrderDetailRowWidget(leftText: "Price", rightText: _price, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
+            OrderDetailRowWidget(leftText: "Trading Fee", rightText: _tradingFee, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
+            OrderDetailRowWidget(leftText: "Filled", rightText: _filled, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
+            OrderDetailRowWidget(leftText: "TxHash", rightText: _txHash, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
+            OrderDetailRowWidget(leftText: "Time to Live", rightText: _timeToLive, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
             new Container(
               height: 1.0,
               color: HexColor.cardBackgroundColor,

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'transaction_detail_widget.dart';
+import 'set_gas_widget.dart';
 
-class TransactionDetailApp extends StatelessWidget {
+class SetGasApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => TransactionDetailWidget(),
+        '/': (context) => SetGasWidget(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

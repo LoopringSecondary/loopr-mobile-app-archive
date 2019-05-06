@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:async';
 
 import '../utils/hex_color.dart';
-import '../order_detail/order_detail_row_widget.dart';
+import '../common/order_detail_row_widget.dart';
 
 class TransactionDetailWidget extends StatefulWidget {
   TransactionDetailWidget({Key key}) : super(key: key);
@@ -75,11 +75,11 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget>
 
     var view =  Scaffold(
       appBar: null,
-      backgroundColor: HexColor.backgroundColor,
+      backgroundColor: HexColor.cardBackgroundColor,
       body: Container(
         margin: const EdgeInsets.all(0.0),
         decoration: new BoxDecoration(
-                  color: HexColor.backgroundColor,
+                  color: HexColor.cardBackgroundColor,
                   borderRadius: new BorderRadius.only(
                       topLeft: const Radius.circular(8.0),
                       topRight: const Radius.circular(8.0))),
@@ -87,7 +87,7 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget>
           children: <Widget>[
             new Container(
               height: 60,
-              // color: HexColor.backgroundColor,
+              // color: HexColor.cardBackgroundColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,19 +103,19 @@ class _TransactionDetailWidgetState extends State<TransactionDetailWidget>
                 ],
               )
             ),
-            OrderDetailRowWidget(leftText: _params[1], rightText: _params[2]),
-            OrderDetailRowWidget(leftText: _params[3], rightText: _params[4]),
-            OrderDetailRowWidget(leftText: _params[5], rightText: _params[6]),
-            OrderDetailRowWidget(leftText: _params[7], rightText: _params[8]),
-            OrderDetailRowWidget(leftText: _params[9], rightText: _params[10]),
-            OrderDetailRowWidget(leftText: _params[11], rightText: _params[12]),
+            OrderDetailRowWidget(leftText: _params[1], rightText: _params[2], backgroundColor: HexColor.cardBackgroundColor, lineColor: HexColor.cardHighLightColor),
+            OrderDetailRowWidget(leftText: _params[3], rightText: _params[4], backgroundColor: HexColor.cardBackgroundColor, lineColor: HexColor.cardHighLightColor),
+            OrderDetailRowWidget(leftText: _params[5], rightText: _params[6], backgroundColor: HexColor.cardBackgroundColor, lineColor: HexColor.cardHighLightColor),
+            OrderDetailRowWidget(leftText: _params[7], rightText: _params[8], backgroundColor: HexColor.cardBackgroundColor, lineColor: HexColor.cardHighLightColor),
+            OrderDetailRowWidget(leftText: _params[9], rightText: _params[10], backgroundColor: HexColor.cardBackgroundColor, lineColor: HexColor.cardHighLightColor),
+            OrderDetailRowWidget(leftText: _params[11], rightText: _params[12], backgroundColor: HexColor.cardBackgroundColor, lineColor: HexColor.cardHighLightColor),
             new Container(
               height: 1.0,
-              color: HexColor.cardBackgroundColor,
+              color: HexColor.cardHighLightColor,
             ),
             new Container(
               height: 49,
-              color: HexColor.backgroundColor,
+              color: HexColor.cardBackgroundColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
