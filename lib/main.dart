@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'airdrop/airdrop_app.dart';
 import 'backup_mnemonic/backup_mnemonic_app.dart';
+import 'mnemonic_enter_derivation_path/mnemonic_enter_derivation_path_app.dart';
 import 'order_detail/order_detail_app.dart';
 import 'qr_code/qr_code_app.dart';
 import 'send_list_choose/send_list_choose_app.dart';
@@ -15,6 +16,7 @@ void main() => runApp(
     routes: <String, WidgetBuilder> {
       'airdrop': (BuildContext context) => AirdropApp(),
       'backupMnemonic': (BuildContext context) => BackupMnemonicApp(),
+      'mnemonicEnterDerivationPath': (BuildContext context) => MnemonicEnterDerivationPathApp(),
       'orderDetail': (BuildContext context) => OrderDetailApp(),
       'qrCode': (BuildContext context) => QRCodeApp(),
       'sendListChoose': (BuildContext context) => SendListChooseApp(),
@@ -54,6 +56,9 @@ void airdrop() => runApp(AirdropApp());
 
 @pragma('vm:entry-point')
 void backupMnemonic() => runApp(BackupMnemonicApp());
+
+@pragma('vm:entry-point')
+void mnemonicEnterDerivationPath() => runApp(MnemonicEnterDerivationPathApp());
 
 @pragma('vm:entry-point')
 void orderDetail() => runApp(OrderDetailApp());

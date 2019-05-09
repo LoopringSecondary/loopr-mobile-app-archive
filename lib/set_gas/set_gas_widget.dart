@@ -13,12 +13,12 @@ class SetGasWidget extends StatefulWidget {
   _SetGasWidgetState createState() => _SetGasWidgetState();
 }
 
-class _SetGasWidgetState extends State<SetGasWidget>
-  with TickerProviderStateMixin {
+class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMixin {
 
   AnimationController _controller;
   Animation _animation;
 
+  double _sliderValue = 1;
   List<String> _params = ["", "", "", "", "", "", "", "", "", "", "", "", "", "",];
 
   // This value must be equal to the value in iOS and Android
@@ -106,6 +106,28 @@ class _SetGasWidgetState extends State<SetGasWidget>
               height: 1.0,
               color: HexColor.cardHighLightColor,
             ),
+            new Container(
+              width: double.infinity,
+              color: Colors.red,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  new CupertinoSlider(
+                    value: _sliderValue,
+                    onChanged: (double value) {
+                      print("slider value: $value");
+                      setState(() {
+                        _sliderValue = value;
+                      });
+                    },
+                    min: 1,
+                    max: 10,
+                    divisions: 10,
+                    activeColor: HexColor.theme,
+                  )
+                ],
+              ),
+            ) 
           ],
         ),
       ),
