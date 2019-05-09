@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'airdrop/airdrop_app.dart';
 import 'backup_mnemonic/backup_mnemonic_app.dart';
-import 'my_app/my_app.dart';
 import 'order_detail/order_detail_app.dart';
 import 'qr_code/qr_code_app.dart';
 import 'send_list_choose/send_list_choose_app.dart';
@@ -12,7 +11,6 @@ import 'transaction_detail/transaction_detail_app.dart';
 // Refer https://github.com/flutter/flutter/issues/10813
 void main() => runApp(
   new MaterialApp(
-    home: MyApp(),
     debugShowCheckedModeBanner: false,
     routes: <String, WidgetBuilder> {
       'airdrop': (BuildContext context) => AirdropApp(),
