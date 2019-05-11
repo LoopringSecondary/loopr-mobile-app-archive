@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:async';
 
 import '../utils/hex_color.dart';
+import '../common/upwallet_slider.dart';
 
 class SetGasWidget extends StatefulWidget {
   SetGasWidget({Key key}) : super(key: key);
@@ -112,7 +113,7 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  new CupertinoSlider(
+                  new UpwalletSlider(
                     value: _sliderValue,
                     onChanged: (double value) {
                       print("slider value: $value");
