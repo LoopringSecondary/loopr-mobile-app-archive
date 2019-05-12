@@ -11,6 +11,9 @@ import 'package:flutter/widgets.dart';
 
 import 'package:flutter/cupertino.dart';
 
+import '../utils/hex_color.dart';
+import 'upwallet_thumb_painter.dart';
+
 // Examples can assume:
 // int _cupertinoSliderValue = 1;
 // void setState(VoidCallback fn) { }
@@ -285,9 +288,10 @@ class _UpwalletSliderRenderObjectWidget extends LeafRenderObjectWidget {
   }
 }
 
+// Hack: these values should not be hard-coded.
 const double _kPadding = 8.0;
 const Color _kTrackColor = Color(0xFFB5B5B5);
-const double _kSliderHeight = 2.0 * (CupertinoThumbPainter.radius + _kPadding);
+const double _kSliderHeight = 2.0 * (UpwalletThumbPainter.radius + _kPadding);
 const double _kSliderWidth = 176.0; // Matches Material Design slider.
 const Duration _kDiscreteTransitionDuration = Duration(milliseconds: 500);
 
@@ -310,7 +314,7 @@ class _RenderUpwalletSlider extends RenderConstrainedBox {
        _activeColor = activeColor,
        _onChanged = onChanged,
        _textDirection = textDirection,
-       super(additionalConstraints: const BoxConstraints.tightFor(width: _kSliderWidth, height: _kSliderHeight)) {
+       super(additionalConstraints: const BoxConstraints(minWidth: double.infinity, minHeight: _kSliderHeight, maxHeight: _kSliderHeight)) {
     _drag = HorizontalDragGestureRecognizer()
       ..onStart = _handleDragStart
       ..onUpdate = _handleDragUpdate
@@ -402,7 +406,7 @@ class _RenderUpwalletSlider extends RenderConstrainedBox {
         visualPosition = _value;
         break;
     }
-    return lerpDouble(_trackLeft + CupertinoThumbPainter.radius, _trackRight - CupertinoThumbPainter.radius, visualPosition);
+    return lerpDouble(_trackLeft + UpwalletThumbPainter.radius, _trackRight - UpwalletThumbPainter.radius, visualPosition);
   }
 
   bool get isInteractive => onChanged != null;
@@ -411,7 +415,7 @@ class _RenderUpwalletSlider extends RenderConstrainedBox {
 
   void _handleDragUpdate(DragUpdateDetails details) {
     if (isInteractive) {
-      final double extent = math.max(_kPadding, size.width - 2.0 * (_kPadding + CupertinoThumbPainter.radius));
+      final double extent = math.max(_kPadding, size.width - 2.0 * (_kPadding + UpwalletThumbPainter.radius));
       final double valueDelta = details.primaryDelta / extent;
       switch (textDirection) {
         case TextDirection.rtl:
@@ -446,7 +450,7 @@ class _RenderUpwalletSlider extends RenderConstrainedBox {
 
   @override
   bool hitTestSelf(Offset position) {
-    return (position.dx - _thumbCenter).abs() < CupertinoThumbPainter.radius + _kPadding;
+    return (position.dx - _thumbCenter).abs() < UpwalletThumbPainter.radius + _kPadding;
   }
 
   @override
@@ -456,7 +460,7 @@ class _RenderUpwalletSlider extends RenderConstrainedBox {
       _drag.addPointer(event);
   }
 
-  final CupertinoThumbPainter _thumbPainter = CupertinoThumbPainter();
+  final UpwalletThumbPainter _thumbPainter = UpwalletThumbPainter(color: HexColor.theme);
 
   @override
   void paint(PaintingContext context, Offset offset) {
@@ -496,7 +500,7 @@ class _RenderUpwalletSlider extends RenderConstrainedBox {
     }
 
     final Offset thumbCenter = Offset(trackActive, trackCenter);
-    _thumbPainter.paint(canvas, Rect.fromCircle(center: thumbCenter, radius: CupertinoThumbPainter.radius));
+    _thumbPainter.paint(canvas, Rect.fromCircle(center: thumbCenter, radius: UpwalletThumbPainter.radius));
   }
 
   @override
