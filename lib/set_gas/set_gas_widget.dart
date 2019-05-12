@@ -187,6 +187,11 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
               ),
             ),
             new Container(
+              height: 10.0,
+              width: 180.0,
+            ),
+            new Container(
+              padding: new EdgeInsets.only(left: 15, right: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
