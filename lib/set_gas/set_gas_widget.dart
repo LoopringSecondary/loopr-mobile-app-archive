@@ -109,7 +109,7 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
             ),
             new Container(
               width: double.infinity,
-              color: Colors.red,
+              padding: new EdgeInsets.only(left: 15, right: 15),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
@@ -123,8 +123,8 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
                     },
                     min: 1,
                     max: 10,
-                    divisions: 10,
                     activeColor: HexColor.theme,
+                    trackColor: HexColor.cardHighLightColor,
                   )
                 ],
               ),

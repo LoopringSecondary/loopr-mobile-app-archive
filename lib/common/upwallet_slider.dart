@@ -61,6 +61,7 @@ class UpwalletSlider extends StatefulWidget {
     this.max = 1.0,
     this.divisions,
     this.activeColor,
+    this.trackColor,
   }) : assert(value != null),
        assert(min != null),
        assert(max != null),
@@ -194,6 +195,11 @@ class UpwalletSlider extends StatefulWidget {
   /// Defaults to the [CupertinoTheme]'s primary color if null.
   final Color activeColor;
 
+  /// The color to use for the portion of the slider that has been unselected.
+  ///
+  /// Defaults to the [CupertinoTheme]'s primary color if null.
+  final Color trackColor;
+
   @override
   _UpwalletSliderState createState() => _UpwalletSliderState();
 
@@ -231,6 +237,7 @@ class _UpwalletSliderState extends State<UpwalletSlider> with TickerProviderStat
       value: (widget.value - widget.min) / (widget.max - widget.min),
       divisions: widget.divisions,
       activeColor: widget.activeColor ?? CupertinoTheme.of(context).primaryColor,
+      trackColor: widget.trackColor ?? CupertinoTheme.of(context).primaryColor,
       onChanged: widget.onChanged != null ? _handleChanged : null,
       onChangeStart: widget.onChangeStart != null ? _handleDragStart : null,
       onChangeEnd: widget.onChangeEnd != null ? _handleDragEnd : null,
@@ -245,6 +252,7 @@ class _UpwalletSliderRenderObjectWidget extends LeafRenderObjectWidget {
     this.value,
     this.divisions,
     this.activeColor,
+    this.trackColor,
     this.onChanged,
     this.onChangeStart,
     this.onChangeEnd,
@@ -254,6 +262,7 @@ class _UpwalletSliderRenderObjectWidget extends LeafRenderObjectWidget {
   final double value;
   final int divisions;
   final Color activeColor;
+  final Color trackColor;
   final ValueChanged<double> onChanged;
   final ValueChanged<double> onChangeStart;
   final ValueChanged<double> onChangeEnd;
@@ -265,6 +274,7 @@ class _UpwalletSliderRenderObjectWidget extends LeafRenderObjectWidget {
       value: value,
       divisions: divisions,
       activeColor: activeColor,
+      trackColor: trackColor,
       onChanged: onChanged,
       onChangeStart: onChangeStart,
       onChangeEnd: onChangeEnd,
@@ -279,6 +289,7 @@ class _UpwalletSliderRenderObjectWidget extends LeafRenderObjectWidget {
       ..value = value
       ..divisions = divisions
       ..activeColor = activeColor
+      ..trackColor = trackColor
       ..onChanged = onChanged
       ..onChangeStart = onChangeStart
       ..onChangeEnd = onChangeEnd
@@ -289,8 +300,7 @@ class _UpwalletSliderRenderObjectWidget extends LeafRenderObjectWidget {
 }
 
 // Hack: these values should not be hard-coded.
-const double _kPadding = 8.0;
-const Color _kTrackColor = Color(0xFFB5B5B5);
+const double _kPadding = 0;
 const double _kSliderHeight = 2.0 * (UpwalletThumbPainter.radius + _kPadding);
 const double _kSliderWidth = 176.0; // Matches Material Design slider.
 const Duration _kDiscreteTransitionDuration = Duration(milliseconds: 500);
@@ -302,6 +312,7 @@ class _RenderUpwalletSlider extends RenderConstrainedBox {
     @required double value,
     int divisions,
     Color activeColor,
+    Color trackColor,
     ValueChanged<double> onChanged,
     this.onChangeStart,
     this.onChangeEnd,
@@ -312,6 +323,7 @@ class _RenderUpwalletSlider extends RenderConstrainedBox {
        _value = value,
        _divisions = divisions,
        _activeColor = activeColor,
+       _trackColor = trackColor,
        _onChanged = onChanged,
        _textDirection = textDirection,
        super(additionalConstraints: const BoxConstraints(minWidth: double.infinity, minHeight: _kSliderHeight, maxHeight: _kSliderHeight)) {
@@ -355,6 +367,15 @@ class _RenderUpwalletSlider extends RenderConstrainedBox {
     if (value == _activeColor)
       return;
     _activeColor = value;
+    markNeedsPaint();
+  }
+
+  Color get trackColor => _trackColor;
+  Color _trackColor;
+  set trackColor(Color value) {
+    if (value == _trackColor)
+      return;
+    _trackColor = value;
     markNeedsPaint();
   }
 
@@ -471,11 +492,11 @@ class _RenderUpwalletSlider extends RenderConstrainedBox {
       case TextDirection.rtl:
         visualPosition = 1.0 - _position.value;
         leftColor = _activeColor;
-        rightColor = _kTrackColor;
+        rightColor = _trackColor;
         break;
       case TextDirection.ltr:
         visualPosition = _position.value;
-        leftColor = _kTrackColor;
+        leftColor = _trackColor;
         rightColor = _activeColor;
         break;
     }
