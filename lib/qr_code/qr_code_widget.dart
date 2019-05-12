@@ -110,7 +110,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
                     width: 180.0, // specific value
                     child: 
                       CupertinoButton(
-                        color: HexColor("#FDAE25"),
+                        color: HexColor.theme,
                         padding: EdgeInsets.only(left: 2, right: 2),
                         borderRadius: BorderRadius.circular(22),
                         child: const Text(

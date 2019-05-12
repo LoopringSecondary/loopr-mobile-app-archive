@@ -19,8 +19,14 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
   AnimationController _controller;
   Animation _animation;
 
-  double _sliderValue = 1;
-  List<String> _params = ["", "", "", "", "", "", "", "", "", "", "", "", "", "",];
+  double _sliderValue = 2;
+
+  double _gasPriceInGwei = 1;
+  double _maxGasValue = 10;
+  double _ethPrice = 0;
+  double _gasLimit = 0;
+
+  List<String> _params = ["", "", "", "", "", "", "", "", ""];
 
   // This value must be equal to the value in iOS and Android
   static const String methodChannel = "setGas";
@@ -34,7 +40,21 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
       print(body);
       setState(() {
         _params = body;
+        _gasPriceInGwei = double.parse(body[0]);
+        _maxGasValue = double.parse(body[1]);
+        _ethPrice = double.parse(body[2]);
+        _gasLimit = double.parse(body[3]);
       });
+    } on Exception catch (e) {
+      print("MethodChannel... $e");
+    }
+  }
+
+  Future<void> _updateSliderValue() async {
+    try {
+      MethodChannel channel = const MethodChannel(methodChannel);
+      final response = await channel.invokeMethod("setGas.update", [_sliderValue]);
+      print(response);
     } on Exception catch (e) {
       print("MethodChannel... $e");
     }
@@ -63,6 +83,10 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
     }
   }
 
+  void _pressedRecommendPrice() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     print("update SetGasWidget");
@@ -72,6 +96,16 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
     if (_params[0] == "") {
       _getInitDataFromNative();
     }
+    print("rendering.... $_gasPriceInGwei");
+    double amountInEther = _gasPriceInGwei / 1000000000;
+    double totalGasInEther = amountInEther * _gasLimit;
+    print("_gasLimit.... $_gasLimit");
+
+    // TODO: add currency method
+    double transactionFeeInFiat = totalGasInEther * _ethPrice;
+    String gasValueLabelText = "$totalGasInEther ETH";
+    String gasTip = _params[6];
+    String gasTipLabelText = "$gasTip ($_gasPriceInGwei Gwei)";
 
     var view =  Scaffold(
       appBar: null,
@@ -87,13 +121,12 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
           children: <Widget>[
             new Container(
               height: 60,
-              // color: HexColor.cardBackgroundColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   new Text(
-                    _params[0],
+                    _params[4],
                     style: TextStyle(
                       color: HexColor.textColor,
                       fontSize: 16,
@@ -120,26 +153,36 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         new Text(
-                          "0.000106 ETH ≈ \$0.12",
+                          gasValueLabelText,
                           style: TextStyle(
                             color: HexColor.textColor,
                             fontSize: 14,
                             fontWeight: FontWeight.w500
                           ),
                         ),
-                        new Text(
-                          "Recommend Price",
-                          style: TextStyle(
-                            color: HexColor.textColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500
-                          ),
+                        SizedBox(
+                          height: 30,
+                          child: 
+                            CupertinoButton(
+                              padding: EdgeInsets.all(0),
+                              child: Text(
+                                _params[5],
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500
+                                ),
+                              ),
+                              onPressed: () {
+                                _pressedRecommendPrice();
+                              },
+                            ),
                         ),
                       ],
                     ),
                   ),
                   new Container(
-                    height: 8.0,
+                    height: 0.0,
                     width: 180.0,
                   ),
                   new Container(
@@ -147,7 +190,7 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         new Text(
-                          "0.000106 ETH ≈ \$0.12",
+                          gasTipLabelText,
                           style: TextStyle(
                             color: HexColor.textLightColor,
                             fontSize: 12,
@@ -178,8 +221,11 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
                         _sliderValue = value;
                       });
                     },
+                    onChangeEnd: (double value) {
+                      _updateSliderValue();
+                    },
                     min: 1,
-                    max: 10,
+                    max: _maxGasValue,
                     activeColor: HexColor.theme,
                     trackColor: HexColor.cardHighLightColor,
                   )
@@ -196,7 +242,7 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   new Text(
-                    "Fast",
+                    _params[7],
                     style: TextStyle(
                       color: HexColor.textLightColor,
                       fontSize: 12,
@@ -204,7 +250,7 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
                     ),
                   ),
                   new Text(
-                    "Slow",
+                    _params[8],
                     style: TextStyle(
                       color: HexColor.textLightColor,
                       fontSize: 12,
