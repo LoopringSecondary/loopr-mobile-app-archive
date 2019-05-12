@@ -108,6 +108,63 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
               color: HexColor.cardHighLightColor,
             ),
             new Container(
+              height: 24.0,
+              width: 180.0,
+            ),
+            new Container(
+              padding: new EdgeInsets.only(left: 15, right: 15),
+              child: Column(
+                children: <Widget>[
+                  new Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        new Text(
+                          "0.000106 ETH ≈ \$0.12",
+                          style: TextStyle(
+                            color: HexColor.textColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500
+                          ),
+                        ),
+                        new Text(
+                          "Recommend Price",
+                          style: TextStyle(
+                            color: HexColor.textColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  new Container(
+                    height: 8.0,
+                    width: 180.0,
+                  ),
+                  new Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        new Text(
+                          "0.000106 ETH ≈ \$0.12",
+                          style: TextStyle(
+                            color: HexColor.textLightColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            new Container(
+              height: 24.0,
+              width: 180.0,
+            ),
+            new Container(
               width: double.infinity,
               padding: new EdgeInsets.only(left: 15, right: 15),
               child: Column(
@@ -128,7 +185,30 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
                   )
                 ],
               ),
-            ) 
+            ),
+            new Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  new Text(
+                    "Fast",
+                    style: TextStyle(
+                      color: HexColor.textLightColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500
+                    ),
+                  ),
+                  new Text(
+                    "Slow",
+                    style: TextStyle(
+                      color: HexColor.textLightColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
