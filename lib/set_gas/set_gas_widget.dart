@@ -217,8 +217,10 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
                     value: _sliderValue,
                     onChanged: (double value) {
                       print("slider value: $value");
+                      double gasPriceInGwei = value.round().toDouble();
                       setState(() {
                         _sliderValue = value;
+                        _gasPriceInGwei = gasPriceInGwei;
                       });
                     },
                     onChangeEnd: (double value) {
