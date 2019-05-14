@@ -141,7 +141,7 @@ class _SetGasWidgetState extends State<SetGasWidget> with TickerProviderStateMix
               color: HexColor.cardHighLightColor,
             ),
             new Container(
-              height: 24.0,
+              height: 22.0,
               width: 180.0,
             ),
             new Container(
