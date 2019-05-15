@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 
+import 'wallet_type.dart';
 import '../utils/hex_color.dart';
 
 class MnemonicEnterDerivationPathWidget extends StatefulWidget {
@@ -19,7 +20,20 @@ class _MnemonicEnterDerivationPathWidgetState extends State<MnemonicEnterDerivat
   AnimationController _controller;
   Animation _animation;
 
-  List<String> _params = ["", "", "", "", "", "", "", "", "", "", "", "", "", "",];
+  final List<WalletType> walletTypes = [
+    WalletType("Loopring Wallet", "m/44'/60'/0'/0"),
+    WalletType("imToken", "m/44'/60'/0'/0"),
+    WalletType("MetaMask", "m/44'/60'/0'/0"),
+    WalletType("TREZOR (ETH)", "m/44'/60'/0'/0"),
+    WalletType("TREZOR (ETC)", "m/44'/61'/0'/0"),
+    WalletType("Ledger (ETH)", "m/44'/60'/0'"),
+    WalletType("Ledger (ETC)", "m/44'/60'/160720'/0'"),
+    WalletType("SingularDTV", "m/0'/0'/0'"),
+    WalletType("Network: Testnets", "m/44'/1'/0'/0"),
+    WalletType("Network: Expanse", "m/44'/40'/0'/0"),
+    WalletType("Network: Ubiq", "m/44'/108'/0'/0"),
+    WalletType("Network: Ellaism", "m/44'/163'/0'/0")
+  ];
 
   // This value must be equal to the value in iOS and Android
   static const String methodChannel = "mnemonicEnterDerivationPath";
@@ -68,18 +82,14 @@ class _MnemonicEnterDerivationPathWidgetState extends State<MnemonicEnterDerivat
     final double height = 431;
     _controller.forward();
 
-    final List<String> names = <String>['Loopring Wallet', 'imToken'];
-    final List<String> derivationPaths = <String>["m/44'/60'/0'/0", "m/44'/60'/0'/0"];
-
     var listView = ListView.separated(
       padding: const EdgeInsets.all(8.0),
-      itemCount: names.length,
+      itemCount: walletTypes.length,
       itemBuilder: (BuildContext context, int index) {
-        var name = names[index];
-        var derivationPath = derivationPaths[index];
+        var walletType = walletTypes[index];
         return ListTile(
           title: Text(
-            name,
+            walletType.name,
             style: TextStyle(
               color: HexColor.textColor,
               fontSize: 16,
@@ -87,14 +97,14 @@ class _MnemonicEnterDerivationPathWidgetState extends State<MnemonicEnterDerivat
             ),
           ),
           subtitle: Text(
-            derivationPath,
+            walletType.derivationPath,
             style: TextStyle(
               color: HexColor.textLightColor,
               fontSize: 14,
               fontWeight: FontWeight.w400
             ),
           ),
-          onTap: () => onTapped(name, derivationPath),
+          onTap: () => onTapped(walletType.name, walletType.derivationPath),
         );
       },
       separatorBuilder: (BuildContext context, int index) => const Divider(),
