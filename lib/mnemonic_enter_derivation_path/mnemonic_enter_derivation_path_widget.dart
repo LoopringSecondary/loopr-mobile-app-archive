@@ -117,7 +117,7 @@ class _MnemonicEnterDerivationPathWidgetState extends State<MnemonicEnterDerivat
           backgroundColor: Colors.transparent,
           body: Transform(
             transform: Matrix4.translationValues(0, _animation.value * height, 0),
-            child: listView,
+            child: listView,  // Hack: how to put a button to the bottom of the screen?
           ),
         );
       }
