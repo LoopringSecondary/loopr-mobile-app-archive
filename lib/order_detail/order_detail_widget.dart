@@ -47,10 +47,13 @@ class _OrderDetailWidgetState extends State<OrderDetailWidget> {
   Widget build(BuildContext context) {
     print("update OrderDetailWidget");
 
+    String txHash = "";
     if (_status == "") {
       _getInitDataFromNative();
+    } else {
+      txHash = _txHash.substring(0, 13) + '...' + _txHash.substring(_txHash.length-1-13, _txHash.length-1);
     }
-  
+
     return Scaffold(
       appBar: null,
       backgroundColor: HexColor.backgroundColor,
@@ -63,7 +66,7 @@ class _OrderDetailWidgetState extends State<OrderDetailWidget> {
             OrderDetailRowWidget(leftText: "Price", rightText: _price, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
             OrderDetailRowWidget(leftText: "Trading Fee", rightText: _tradingFee, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
             OrderDetailRowWidget(leftText: "Filled", rightText: _filled, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
-            OrderDetailRowWidget(leftText: "TxHash", rightText: _txHash, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
+            OrderDetailRowWidget(leftText: "TxHash", rightText: txHash, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
             OrderDetailRowWidget(leftText: "Time to Live", rightText: _timeToLive, backgroundColor: HexColor.backgroundColor, lineColor: HexColor.cardBackgroundColor),
             new Container(
               height: 1.0,
