@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/radius_bg_29"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="@string/dialog_fee_title"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <ImageView
+                android:id="@+id/cancel"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margSide"
+                android:src="@mipmap/icon_remove"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lineBac"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tv_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_horizontal"
+                android:text="0.000200 ETH = $0.97"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/recommend_gas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:gravity="center_horizontal"
+                android:text="@string/dialog_fee_recom"
+                android:textColor="@drawable/link_state_color"
+                android:textSize="@dimen/normal14Text"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_wallet_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorSixText"
+            android:textSize="@dimen/mainTabText"/>
+
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/gasSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="20dp"
+            app:bsb_bubble_color="@color/colorCenter"
+            app:bsb_is_float_type="true"
+            app:bsb_second_track_color="@color/colorGreen"
+            app:bsb_thumb_color="@color/colorGreen"
+            app:bsb_thumb_radius="7dp"
+            app:bsb_touch_to_seek="true"
+            app:bsb_track_color="@color/colorNineText"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/slow"
+                android:textColor="@color/colorSixText"
+                android:textSize="@dimen/mainTabText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="5dp"
+                android:text="@string/quick"
+                android:textColor="@color/colorSixText"
+                android:textSize="@dimen/mainTabText"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

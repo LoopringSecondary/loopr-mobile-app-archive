@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
+
+    <leaf.prod.app.views.TitleView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/radius_bg_38"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title">
+
+        <LinearLayout
+            android:id="@+id/first_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/first_token_img1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/icon_token_eth"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/first_token_img2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:alpha="0"
+                    android:src="@mipmap/icon_token_weth"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <TextView
+                    android:id="@+id/first_token_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="ETH"
+                    android:textColor="@color/colorNineText"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/first_token_img1"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/second_token_img1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/icon_token_weth"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/second_token_img2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:alpha="0"
+                    android:src="@mipmap/icon_token_eth"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <TextView
+                    android:id="@+id/second_token_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="WETH"
+                    android:textColor="@color/colorNineText"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/second_token_img1"/>
+
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/second_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="21dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/first_line">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/radius_white_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/first_val"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/margSide"
+                    android:layout_weight="1"
+                    android:cursorVisible="true"
+                    android:focusableInTouchMode="true"
+                    android:imeOptions="actionNext"
+                    android:inputType="number|numberDecimal"
+                    android:maxLength="100"
+                    android:singleLine="true"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/black"
+                    android:textCursorDrawable="@drawable/black_color_cursor"
+                    android:textSize="@dimen/normalText"
+                    app:met_baseColor="@color/black"
+                    app:met_checkCharactersCountAtBeginning="false"
+                    app:met_floatingLabel="none"
+                    app:met_helperTextColor="@color/black"
+                    app:met_hideUnderline="true"
+                    app:met_primaryColor="@color/black"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/switch_img"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:alpha="0.7"
+                android:src="@mipmap/icon_convert"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/radius_white_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/second_val"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/margSide"
+                    android:layout_weight="1"
+                    android:cursorVisible="true"
+                    android:editable="false"
+                    android:focusableInTouchMode="true"
+                    android:imeOptions="actionNext"
+                    android:inputType="number|numberDecimal"
+                    android:maxLength="100"
+                    android:singleLine="true"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/black"
+                    android:textCursorDrawable="@drawable/black_color_cursor"
+                    android:textSize="@dimen/normalText"
+                    app:met_baseColor="@color/black"
+                    app:met_checkCharactersCountAtBeginning="false"
+                    app:met_floatingLabel="none"
+                    app:met_helperTextColor="@color/black"
+                    app:met_hideUnderline="true"
+                    app:met_primaryColor="@color/black"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/third_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/second_line">
+
+            <TextView
+                android:id="@+id/hint_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="@string/available_balance"
+                android:textColor="@color/colorNineText"
+                android:textSize="@dimen/text_11"/>
+
+            <TextView
+                android:id="@+id/max"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:text="@string/max"
+                android:textColor="@color/colorCenter"
+                android:textSize="@dimen/text_11"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_show_fee"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/third_line">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:gravity="center_vertical"
+                android:text="@string/transaction_fee"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <TextView
+                android:id="@+id/transaction_fee"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"
+                android:text="0.0002 ETH ≈ ¥1.22"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_next"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="20dp"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_show_fee">
+
+            <Button
+                android:id="@+id/btn_convert"
+                style="@style/SubmitBtnStyle"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:text="@string/convert"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"/>
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/content_layout">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2dp"
+            android:text="@string/convert_des"
+            android:textColor="@color/colorSixText"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="2dp"
+            android:text="@string/convert_tip"
+            android:textColor="@color/colorSixText"
+            android:textSize="10sp"/>
+
+    </LinearLayout>
+</LinearLayout>

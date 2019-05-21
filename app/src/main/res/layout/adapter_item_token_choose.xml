@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_bg2_pressed"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/wallet_image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:src="@mipmap/icon_trades"/>
+
+    <TextView
+        android:id="@+id/wallet_symbol"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/stroke_token_bg"
+        android:gravity="center"
+        android:textColor="@color/colorToken"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="invisible"/>
+
+    <RelativeLayout
+        style="@style/WrapMatch"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/wallet_image"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/wallet_name"
+            style="@style/WrapWrap"
+            android:layout_centerVertical="true"
+            android:text="LRC"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/normal14Text"/>
+
+        <TextView
+            android:id="@+id/wallet_amount"
+            style="@style/WrapWrap"
+            android:layout_below="@+id/wallet_name"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="1dp"
+            android:text="Loopring"
+            android:textColor="@color/colorWhite"
+            android:textSize="13sp"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_checked"
+        android:layout_width="22.7dp"
+        android:layout_height="22.7dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:checked="false"
+        android:textOff="@null"
+        android:textOn="@null"
+        android:visibility="gone"/>
+
+</RelativeLayout>
+

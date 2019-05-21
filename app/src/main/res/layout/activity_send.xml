@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
+
+    <leaf.prod.app.views.TitleView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/ll_manager_wallet"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/button_bg2_pressed"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/wallet_image"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/icon_trades"/>
+
+            <TextView
+                android:id="@+id/wallet_symbol"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/stroke_token_bg"
+                android:gravity="center"
+                android:textColor="@color/colorToken"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/send_wallet_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="center_vertical"
+                android:text="LRC"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <TextView
+                android:id="@+id/send_wallet_count"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"
+                android:text="0.000 LRC"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_next"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/radius_bg_38"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/margSide"
+        android:paddingRight="@dimen/margSide"
+        app:layout_constraintTop_toBottomOf="@id/ll_manager_wallet">
+
+        <LinearLayout
+            android:id="@+id/ll_wallet_address"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/itemHeight"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/radius_white_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/wallet_address"
+                style="@style/editTextStyle"
+                android:layout_width="0dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/margSide"
+                android:layout_weight="1"
+                android:cursorVisible="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/enter_the_address"
+                android:imeOptions="actionNext"
+                android:maxLength="100"
+                android:singleLine="true"
+                android:textColorHint="@color/black"
+                android:textCursorDrawable="@drawable/black_color_cursor"
+                android:textSize="@dimen/normalText"
+                app:met_baseColor="@color/black"
+                app:met_checkCharactersCountAtBeginning="false"
+                app:met_floatingLabel="none"
+                app:met_helperTextColor="@color/black"
+                app:met_hideUnderline="true"
+                app:met_primaryColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/iv_contact"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_contact"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/address_toast"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/address_confirm"
+            android:textColor="@color/colorNineText"
+            android:textSize="@dimen/text_11"
+            app:layout_constraintTop_toBottomOf="@id/ll_wallet_address"/>
+
+        <LinearLayout
+            android:id="@+id/ll_money_amount"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/itemHeight"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/radius_white_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/address_toast">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/money_amount"
+                style="@style/editTextStyle"
+                android:layout_width="0dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/margSide"
+                android:layout_weight="1"
+                android:ellipsize="middle"
+                android:focusableInTouchMode="true"
+                android:hint="@string/enter_the_amount"
+                android:imeOptions="actionNext"
+                android:inputType="number|numberDecimal"
+                android:singleLine="true"
+                android:textColorHint="@color/black"
+                android:textCursorDrawable="@drawable/black_color_cursor"
+                android:textSize="@dimen/normalText"
+                app:met_baseColor="@color/black"
+                app:met_checkCharactersCountAtBeginning="false"
+                app:met_floatingLabel="none"
+                app:met_helperTextColor="@color/black"
+                app:met_hideUnderline="true"
+                app:met_primaryColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/wallet_name2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/margSide"
+                android:text="LRC"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normalText"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/amount_toast"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorNineText"
+            android:textSize="@dimen/text_11"
+            app:layout_constraintTop_toBottomOf="@id/ll_money_amount"/>
+
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:bsb_bubble_color="@color/colorCenter"
+            app:bsb_is_float_type="true"
+            app:bsb_second_track_color="@color/colorGreen"
+            app:bsb_section_count="4"
+            app:bsb_section_text_position="below_section_mark"
+            app:bsb_seek_step_section="true"
+            app:bsb_show_section_mark="true"
+            app:bsb_thumb_color="@color/colorGreen"
+            app:bsb_thumb_radius="7dp"
+            app:bsb_touch_to_seek="true"
+            app:bsb_track_color="@color/colorNineText"
+            app:layout_constraintTop_toBottomOf="@id/amount_toast"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_show_fee"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="18dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/seekBar">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:gravity="center_vertical"
+                android:text="@string/transaction_fee"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <TextView
+                android:id="@+id/transaction_fee"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"
+                android:text="0.0002 ETH ≈ ¥1.22"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_next"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_show_fee">
+
+            <Button
+                android:id="@+id/btn_send"
+                style="@style/SubmitBtnStyle"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:text="@string/send"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_search_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/radius_white_bg_bottom"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@id/ll_wallet_address">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_search_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:fadeScrollbars="false"
+                android:scrollbars="vertical"/>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

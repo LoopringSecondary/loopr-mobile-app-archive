@@ -1,0 +1,42 @@
+[
+  {
+    "type": "eth_transfer",
+    "gasLimit": 21273
+  },
+  {
+    "type": "token_transfer",
+    "gasLimit": 100273
+  },
+  {
+    "type": "approve",
+    "gasLimit": 100273
+  },
+  {
+    "type": "withdraw",
+    "gasLimit": 100273
+  },
+  {
+    "type": "deposit",
+    "gasLimit": 100273
+  },
+  {
+    "type": "cancelOrder",
+    "gasLimit": 150273
+  },
+  {
+    "type": "cancelAllOrders",
+    "gasLimit": 100273
+  },
+  {
+    "type": "cancelOrderByTokenPair",
+    "gasLimit": 100273
+  },
+  {
+    "type": "submitRing",
+    "gasLimit": 400000
+  },
+  {
+    "type": "lrcFee",
+    "gasLimit": 400000
+  }
+]

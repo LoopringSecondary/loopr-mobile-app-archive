@@ -1,0 +1,27 @@
+<resources>
+    <string name="order_open">進行中</string>
+    <string name="order_pending">未开始</string>
+    <string name="order_filled">成交率</string>
+    <string name="order_finished">已成交</string>
+    <string name="order_expired">已過期</string>
+    <string name="order_submitted">掛單中</string>
+    <string name="order_matching">撮合中</string>
+    <string name="order_cancelled">已取消</string>
+    <string name="order_completed">完全成交</string>
+    <string name="order_locked">已鎖定</string>
+    <string name="order_unknown">未知狀態</string>
+    <string name="order_cutoff">已取消</string>
+
+    <string name="R10001">抱歉，系統錯誤，請稍後重試</string>
+    <string name="R32000">抱歉，用戶余額不足或者下單總量已經超過余額上限</string>
+    <string name="R50001">抱歉，無法獲取到掃描訂單信息</string>
+    <string name="R50002">抱歉，掃描二維碼訂單必須是P2P訂單</string>
+    <string name="R50003">抱歉，掃描到的訂單，目前無法成交，請稍後重試</string>
+    <string name="R50004">抱歉，雙方訂單數額不匹配，請核對後重新下單</string>
+    <string name="R50005">抱歉，買單和賣單地址相同，請核對後重新下單</string>
+    <string name="R50006">抱歉，訂單已過期，請掃描其他二維碼後重新下單</string>
+    <string name="R50007">抱歉，訂單未成交數額過小，已無法下單成交</string>
+    <string name="R50008">抱歉，無法獲取當前下單信息，請稍後重試</string>
+
+    <string name="approve_failed">交易代幣授權失敗</string>
+</resources>

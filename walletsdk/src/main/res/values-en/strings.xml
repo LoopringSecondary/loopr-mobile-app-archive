@@ -1,0 +1,27 @@
+<resources>
+    <string name="order_open">Open</string>
+    <string name="order_pending">Pending</string>
+    <string name="order_filled">Filled</string>
+    <string name="order_finished">Finished</string>
+    <string name="order_expired">Expired</string>
+    <string name="order_submitted">Submitted</string>
+    <string name="order_matching">Waiting</string>
+    <string name="order_cancelled">Cancelled</string>
+    <string name="order_completed">Completed</string>
+    <string name="order_locked">Locked</string>
+    <string name="order_unknown">Unknown</string>
+    <string name="order_cutoff">Cut Off</string>
+
+    <string name="R10001">Sorry, system error, please try again later</string>
+    <string name="R32000">Sorry, balance is not enough to submit rawOrder</string>
+    <string name="R50001">Sorry, selling rawOrder does not exist, could not complete this rawOrder</string>
+    <string name="R50002">Sorry, only p2p rawOrder could be submitted, could not complete this rawOrder</string>
+    <string name="R50003">Sorry, selling rawOrder already dealt with another buying rawOrder, please try with other orders</string>
+    <string name="R50004">Sorry, selling and buying price did not match between two orders, could not complete this rawOrder</string>
+    <string name="R50005">Sorry, owner of buying rawOrder is the same as selling, could not complete this rawOrder</string>
+    <string name="R50006">Sorry, buying rawOrder has expired, please try with other orders</string>
+    <string name="R50007">Sorry, undealt amount of rawOrder is too small, could not complete this rawOrder</string>
+    <string name="R50008">Sorry, buying rawOrder does not exist, could not complete this rawOrder</string>
+
+    <string name="approve_failed">Failed to approve trading token</string>
+</resources>

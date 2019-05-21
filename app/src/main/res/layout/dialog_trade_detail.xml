@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/radius_bg_29"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="@string/trade_detail"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tx_approve_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
+
+            <TextView
+                android:id="@+id/tx_approve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margSide"
+                android:gravity="center"
+                android:text="授权撮合交易"
+                android:textColor="@color/colorNineText"
+                android:textSize="@dimen/normal14Text"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tx_received_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margSide"
+                android:text="@string/received"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <TextView
+                android:id="@+id/tx_detail_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margSide"
+                android:textColor="@color/colorGreen"
+                android:textSize="@dimen/normal14Text"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margSide"
+                android:text="@string/status"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <TextView
+                android:id="@+id/tx_detail_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margSide"
+                android:textColor="@color/colorGreen"
+                android:textSize="@dimen/normal14Text"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margSide"
+                android:text="@string/address"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <TextView
+                android:id="@+id/tx_detail_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margSide"
+                android:layout_marginStart="100dp"
+                android:clickable="true"
+                android:ellipsize="middle"
+                android:focusable="true"
+                android:singleLine="true"
+                android:textColor="@drawable/link_state_color"
+                android:textSize="@dimen/normal14Text"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margSide"
+                android:text="@string/ID"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <TextView
+                android:id="@+id/tx_detail_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margSide"
+                android:layout_marginStart="100dp"
+                android:clickable="true"
+                android:ellipsize="middle"
+                android:focusable="true"
+                android:singleLine="true"
+                android:textColor="@drawable/link_state_color"
+                android:textSize="@dimen/normal14Text"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margSide"
+                android:text="@string/gas_fee"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <TextView
+                android:id="@+id/tx_detail_gas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margSide"
+                android:layout_marginStart="100dp"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineBac"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margSide"
+                android:text="@string/date"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <TextView
+                android:id="@+id/receive_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margSide"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/lineBac"/>
+    </LinearLayout>
+</RelativeLayout>

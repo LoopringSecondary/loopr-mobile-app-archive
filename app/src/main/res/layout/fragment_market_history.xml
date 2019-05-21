@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginEnd="@dimen/margSide"
+            android:layout_marginStart="@dimen/margSide"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/radius_top_bg_29"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margSide"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/price"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorNineText"
+                android:textSize="12sp"
+                tools:ignore="RtlCompat"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/amount"
+                android:textAlignment="center"
+                android:textColor="@color/colorNineText"
+                android:textSize="12sp"
+                tools:ignore="RtlCompat"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/margSide"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/time"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorNineText"
+                android:textSize="12sp"
+                tools:ignore="RtlCompat"/>
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margSide"
+            android:layout_marginRight="@dimen/margSide"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

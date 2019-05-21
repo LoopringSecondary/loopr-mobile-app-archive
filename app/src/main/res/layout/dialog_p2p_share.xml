@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="520dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="460dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/radius_bg_38"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:text="Loopring P2P Order"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:id="@+id/iv_qr_code"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/lineBac"/>
+
+            <Button
+                android:id="@+id/btn_share"
+                style="@style/SubmitBtnStyle"
+                android:layout_width="220dp"
+                android:layout_height="43dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/share_order"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/tv_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/save_to_album"
+                android:textColor="@color/colorWhite"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_trade_modal"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="-490dp"
+            android:src="@mipmap/icon_trade_modal"/>
+    </LinearLayout>
+
+</LinearLayout>

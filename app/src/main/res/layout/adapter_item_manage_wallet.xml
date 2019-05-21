@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@mipmap/wallet_bg">
+
+        <ImageView
+            android:id="@+id/icon_status"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@mipmap/icon_checked_outline"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/wallet_name"
+            style="@style/WrapWrap"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:text="钱包名称"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/wallet_count"
+            style="@style/WrapWrap"
+            android:layout_below="@+id/wallet_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="$37,013.79"
+            android:textColor="@color/colorWhite"
+            android:textSize="22sp"/>
+
+        <LinearLayout
+            style="@style/MatchWrap.Horizontal"
+            android:layout_below="@+id/wallet_count"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/wallet_address"
+                style="@style/WrapWrap"
+                android:layout_marginLeft="70dp"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:text="shadhwufh...sbadhasuhd"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/normal14Text"/>
+
+            <ImageView
+                android:id="@+id/wallet_qrcode"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="70dp"
+                android:src="@mipmap/icon_wallet_qrcode"/>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
+

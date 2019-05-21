@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/generate_partthree"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
+
+    <leaf.prod.app.views.TitleView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    <!--<TextView-->
+    <!--android:id="@+id/confirm_mnemonic_word"-->
+    <!--style="@style/WrapWrap"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:text="@string/confirm_mnemonic_word"-->
+    <!--android:textColor="@color/colorWhite"-->
+    <!--android:textSize="@dimen/normalText"/>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/radius_bg_38">
+
+        <TextView
+            android:id="@+id/confirm_mnemonic_word_info"
+            style="@style/WrapWrap"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:lineSpacingExtra="9dp"
+            android:text=""
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/normalText"/>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margSide"
+        android:layout_marginRight="@dimen/margSide"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout style="@style/MatchMatch.Horizontal">
+
+        <Button
+            android:id="@+id/btn_confirm"
+            style="@style/SubmitBtnStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:text="@string/confirm"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"/>
+
+        <Button
+            android:id="@+id/btn_skip"
+            style="@style/CancelBtnStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="0dp"
+            android:layout_weight="1"
+            android:text="@string/skip"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"/>
+
+    </LinearLayout>
+</LinearLayout>

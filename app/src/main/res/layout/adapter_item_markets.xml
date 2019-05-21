@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/wallet_item"
+              android:layout_width="match_parent"
+              android:layout_height="68dp"
+              android:layout_marginTop="2dp"
+              android:background="@color/colorBg2"
+              android:gravity="center"
+              android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/ll_favorite"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_fav"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:background="@mipmap/icon_unfavorite"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_token_s"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LRC"
+                android:textAlignment="center"
+                android:layout_gravity="bottom"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:layout_gravity="bottom"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/tv_token_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="WETH"
+                android:layout_gravity="bottom"
+                android:textColor="@color/colorNineText"
+                android:textSize="@dimen/text_11"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_volume"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Vol 7.481"
+            android:textColor="@color/colorNineText"
+            android:textSize="11sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:text="0.0008"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_currency"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="￥4.00"
+            android:textColor="@color/colorNineText"
+            android:textSize="11sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="0dp"
+        android:layout_weight="0.75"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_change"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:background="@drawable/sell_bg"
+            android:gravity="center"
+
+            android:layout_gravity="center"
+            android:textColor="@color/colorWhite"
+            android:text="↑7.63%"
+            android:textSize="13sp"
+            tools:ignore="RtlCompat"/>
+    </LinearLayout>
+</LinearLayout>
+

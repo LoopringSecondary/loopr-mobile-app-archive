@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/wallet_item"
+              android:layout_width="match_parent"
+              android:layout_height="5dp"
+              android:layout_marginTop="0dp"
+              android:background="@drawable/radius_bottom_bg_29"
+              android:gravity="center"
+              android:orientation="horizontal">
+</LinearLayout>
+

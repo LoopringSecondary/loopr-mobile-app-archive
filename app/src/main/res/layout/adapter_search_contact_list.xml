@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/wallet_item"
+              android:layout_width="match_parent"
+              android:layout_height="50dp"
+              android:background="@color/colorWhite"
+              android:clickable="true"
+              android:focusable="true"
+              android:gravity="center"
+              android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/margSide"
+        android:layout_marginStart="@dimen/margSide">
+
+        <View
+            android:id="@+id/top_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorNineText"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <LinearLayout
+            style="@style/WrapMatch"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_wallet_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:text="wallet_name"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_wallet_address"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_weight="2"
+                android:ellipsize="middle"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:text="0xA64B16a18885F00FA1AD6D3d3100C3E6F1CEf724"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_10"/>
+
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>
+

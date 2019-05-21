@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/generate_partone"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:focusableInTouchMode="true"
+              android:orientation="vertical"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="20dp">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/wallet_name"
+            style="@style/editTextStyle"
+            android:layout_centerInParent="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_horizontal"
+            android:hint="@string/wallet_name"
+            android:imeOptions="actionNext"
+            android:maxLength="16"
+            android:maxLines="1"
+            android:minWidth="40dp"
+            android:textColorHint="@color/colorWhite"
+            android:textCursorDrawable="@drawable/white_color_cursor"
+            android:textSize="@dimen/normalText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:met_baseColor="@color/colorWhite"
+            app:met_checkCharactersCountAtBeginning="false"
+            app:met_floatingLabel="none"
+            app:met_helperTextColor="@color/colorWhite"
+            app:met_hideUnderline="true"
+            app:met_primaryColor="@color/colorWhite"/>
+
+        <requestFocus/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/password"
+            style="@style/editTextStyle"
+            android:layout_centerInParent="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_horizontal"
+            android:hint="@string/password"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:maxLines="1"
+            android:minWidth="40dp"
+            android:textColorHint="@color/colorWhite"
+            android:textCursorDrawable="@drawable/white_color_cursor"
+            android:textSize="@dimen/normalText"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:met_baseColor="@color/colorWhite"
+            app:met_checkCharactersCountAtBeginning="false"
+            app:met_floatingLabel="none"
+            app:met_helperTextColor="@color/colorWhite"
+            app:met_hideUnderline="true"
+            app:met_primaryColor="@color/colorWhite"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/repeat_password"
+            style="@style/editTextStyle"
+            android:layout_centerInParent="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_horizontal"
+            android:hint="@string/repeat_password"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:maxLines="1"
+            android:minWidth="40dp"
+            android:textColorHint="@color/colorWhite"
+            android:textCursorDrawable="@drawable/white_color_cursor"
+            android:textSize="@dimen/normalText"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:met_baseColor="@color/colorWhite"
+            app:met_checkCharactersCountAtBeginning="false"
+            app:met_floatingLabel="none"
+            app:met_helperTextColor="@color/colorWhite"
+            app:met_hideUnderline="true"
+            app:met_primaryColor="@color/colorWhite"/>
+
+        <LinearLayout
+            android:id="@+id/password_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/level1"
+                    android:layout_width="5dp"
+                    android:layout_height="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/colorRed"/>
+
+                <View
+                    android:id="@+id/level2"
+                    android:layout_width="5dp"
+                    android:layout_height="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/colorCenter"/>
+
+                <View
+                    android:id="@+id/level3"
+                    android:layout_width="5dp"
+                    android:layout_height="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/colorGreen"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/level_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="强"
+                android:textColor="@color/colorNineText"/>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        style="@style/SubmitBtnStyle"
+        android:layout_width="280dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="@string/next"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"/>
+
+    <LinearLayout
+        android:id="@+id/ll_password"
+        style="@style/MatchWrap.Horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/password_hint"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:text="@string/good"
+            android:textAlignment="center"
+            android:textColor="@color/colorNineText"
+            android:textSize="@dimen/normal14Text"
+            android:visibility="gone"/>
+    </LinearLayout>
+</LinearLayout>
