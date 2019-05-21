@@ -1,0 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:${appName}${relative}/index.dart';
+
+class ${upperName}Page extends StatelessWidget {
+  static const String routeName = "/${privateName}";
+
+  @override
+  Widget build(BuildContext context) {
+    var _${privateName}Bloc = new ${upperName}Bloc();
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("${upperName}"),
+      ),
+      body: new ${upperName}Screen(${privateName}Bloc: _${privateName}Bloc),
+    );
+  }
+}
