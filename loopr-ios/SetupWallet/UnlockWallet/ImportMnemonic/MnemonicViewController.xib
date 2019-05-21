@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MnemonicViewController" customModule="loopr_ios" customModuleProvider="target">
+            <connections>
+                <outlet property="mnemonicWordTextView" destination="wnQ-al-rIC" id="8Ym-9j-LR3"/>
+                <outlet property="passwordTextField" destination="4pM-2Z-5Ap" id="YxA-yJ-ty3"/>
+                <outlet property="unlockButton" destination="T0O-fl-KJI" id="ZT5-Pd-eFc"/>
+                <outlet property="unlockButtonBottonLayoutConstraint" destination="80I-li-298" id="gLX-7P-wpU"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Please use space to seperate the mnemonic words" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wnQ-al-rIC">
+                    <rect key="frame" x="15" y="28" width="384" height="140"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <color key="tintColor" red="0.25882352939999997" green="0.25882352939999997" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="140" id="iH7-sy-7Y2"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T0O-fl-KJI" customClass="GradientButton" customModule="loopr_ios" customModuleProvider="target">
+                    <rect key="frame" x="48" y="248" width="318" height="44"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="MpU-ba-qC9"/>
+                    </constraints>
+                    <state key="normal" title="Unlock">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="pressUnlockButton:" destination="-1" eventType="touchUpInside" id="aZ7-UM-uaa"/>
+                    </connections>
+                </button>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4pM-2Z-5Ap">
+                    <rect key="frame" x="15" y="178" width="384" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="5mw-NE-BEY"/>
+                    </constraints>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="T0O-fl-KJI" secondAttribute="bottom" priority="750" constant="280" id="80I-li-298"/>
+                <constraint firstItem="4pM-2Z-5Ap" firstAttribute="top" secondItem="wnQ-al-rIC" secondAttribute="bottom" constant="10" id="MUF-Q6-RFl"/>
+                <constraint firstItem="4pM-2Z-5Ap" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="RUH-Br-Vxj"/>
+                <constraint firstItem="wnQ-al-rIC" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="8" id="UBY-om-phR"/>
+                <constraint firstItem="wnQ-al-rIC" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="pjD-ZM-Uks"/>
+                <constraint firstItem="T0O-fl-KJI" firstAttribute="top" secondItem="4pM-2Z-5Ap" secondAttribute="bottom" constant="20" id="pxc-t6-ZDS"/>
+                <constraint firstItem="T0O-fl-KJI" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="48" id="rlX-jG-n6I"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="wnQ-al-rIC" secondAttribute="trailing" constant="15" id="wZj-UN-n3b"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4pM-2Z-5Ap" secondAttribute="trailing" constant="15" id="x2p-wE-o3L"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="T0O-fl-KJI" secondAttribute="trailing" constant="48" id="zcT-cY-DFZ"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="34.5" y="107.5"/>
+        </view>
+    </objects>
+</document>

@@ -1,0 +1,62 @@
+//
+//  MarketChangeTokenTableViewCell.swift
+//  loopr-ios
+//
+//  Created by xiaoruby on 8/17/18.
+//  Copyright © 2018 Loopring. All rights reserved.
+//
+
+import UIKit
+
+class MarketChangeTokenTableViewCell: UITableViewCell {
+
+    var market: Market?
+
+    @IBOutlet weak var baseView: UIView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var marketPriceInBitcoinLabel: UILabel!
+    @IBOutlet weak var percentageChangeLabel: UILabel!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+
+        theme_backgroundColor = ColorPicker.backgroundColor
+        baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
+
+        nameLabel.font = FontConfigManager.shared.getMediumFont(size: 14)
+        nameLabel.theme_textColor = GlobalPicker.textColor
+
+        marketPriceInBitcoinLabel.font = FontConfigManager.shared.getMediumFont(size: 14)
+        marketPriceInBitcoinLabel.theme_textColor = GlobalPicker.textColor
+
+        percentageChangeLabel.font = FontConfigManager.shared.getMediumFont(size: 14)
+    }
+
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        if highlighted {
+            baseView.theme_backgroundColor = ColorPicker.cardHighLightColor
+        } else {
+            baseView.theme_backgroundColor = ColorPicker.cardBackgroundColor
+        }
+    }
+
+    func update() {
+        if let market = market {
+            nameLabel.text = market.name
+            nameLabel.setMarket()
+            marketPriceInBitcoinLabel.text = market.ticker.price.withCommas(6)
+            percentageChangeLabel.text = market.ticker.percentChange24HString
+            // percentageChangeLabel.textColor = UIStyleConfig.getChangeColor(change: market.changeInPat24)
+        }
+    }
+
+    class func getCellIdentifier() -> String {
+        return "MarketChangeTokenTableViewCell"
+    }
+
+    class func getHeight() -> CGFloat {
+        return 40
+    }
+
+}

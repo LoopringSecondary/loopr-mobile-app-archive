@@ -1,0 +1,169 @@
+//
+//  ImportWalletEnterWalletNameViewController.swift
+//  loopr-ios
+//
+//  Created by xiaoruby on 6/1/18.
+//  Copyright © 2018 Loopring. All rights reserved.
+//
+
+import UIKit
+
+class ImportWalletEnterWalletNameViewController: UIViewController, UITextFieldDelegate {
+
+    var setupWalletMethod: QRCodeMethod = .create
+
+    var walletNameTextField: UITextField = UITextField(frame: .zero)
+    var continueButton = GradientButton(frame: .zero)
+    var errorInfoLabel: UILabel = UILabel(frame: .zero)
+
+    convenience init(setupWalletMethod: QRCodeMethod) {
+        self.init(nibName: "ImportWalletEnterWalletNameViewController", bundle: nil)
+        self.setupWalletMethod = setupWalletMethod
+    }
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.theme_backgroundColor = ColorPicker.backgroundColor
+        self.navigationItem.title = LocalizedString("Wallet Name", comment: "")
+        setBackButton()
+
+        // Setup UI in the scroll view
+        let screensize: CGRect = UIScreen.main.bounds
+        let screenWidth = screensize.width
+        
+        let originY: CGFloat = 80
+        let padding: CGFloat = 15
+        
+        walletNameTextField.frame = CGRect(x: padding, y: originY, width: screenWidth-padding*2, height: 40)
+        
+        walletNameTextField.delegate = self
+        walletNameTextField.tag = 0
+        walletNameTextField.theme_tintColor = GlobalPicker.textColor
+        walletNameTextField.theme_textColor = GlobalPicker.textColor
+        walletNameTextField.keyboardAppearance = Themes.isDark() ? .dark : .default
+        walletNameTextField.textAlignment = .center
+        walletNameTextField.font = FontConfigManager.shared.getRegularFont(size: 18)
+        walletNameTextField.placeholder = LocalizedString("Wallet Name", comment: "")
+        walletNameTextField.setValue(UIColor.init(white: 1, alpha: 0.4), forKeyPath: "_placeholderLabel.textColor")
+        walletNameTextField.contentMode = UIViewContentMode.bottom
+        view.addSubview(walletNameTextField)
+        
+        continueButton = GradientButton(frame: CGRect(x: 48, y: 200, width: screenWidth-48*2, height: 49))
+        continueButton.setTitle(LocalizedString("Next", comment: ""), for: .normal)
+        continueButton.addTarget(self, action: #selector(pressedContinueButton), for: .touchUpInside)
+        view.addSubview(continueButton)
+        
+        errorInfoLabel.frame = CGRect(x: padding, y: continueButton.bottomY + 40, width: screenWidth-padding*2, height: 40)
+        errorInfoLabel.textColor = UIColor.fail
+        errorInfoLabel.textAlignment = .center
+        errorInfoLabel.alpha = 0.0
+        view.addSubview(errorInfoLabel)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        walletNameTextField.becomeFirstResponder()
+    }
+
+    @objc func pressedContinueButton(_ sender: Any) {
+        guard !AppWalletDataManager.shared.isNewWalletNameToken(newWalletname: walletNameTextField.text ?? "") else {
+            errorInfoLabel.shake()
+            errorInfoLabel.alpha = 1.0
+            errorInfoLabel.text = LocalizedString("The name is taken, please try another one.", comment: "")
+            return
+        }
+
+        switch setupWalletMethod {
+        case .importUsingMnemonic:
+            if !validation() {
+                return
+            }
+            walletNameTextField.resignFirstResponder()
+            ImportWalletUsingMnemonicDataManager.shared.walletName = walletNameTextField.text!
+            importUsingMnemonic()
+            return
+            
+        case .importUsingKeystore:
+            if !validation() {
+                return
+            }
+            walletNameTextField.resignFirstResponder()
+            ImportWalletUsingKeystoreDataManager.shared.walletName = walletNameTextField.text!
+            do {
+                try ImportWalletUsingKeystoreDataManager.shared.complete()
+                succeedAndExit(setupWalletMethod: setupWalletMethod)
+            } catch AddWalletError.duplicatedAddress {
+                alertForDuplicatedAddress()
+            } catch {
+                alertForError()
+            }
+            return
+            
+        case .importUsingPrivateKey:
+            if !validation() {
+                return
+            }
+            walletNameTextField.resignFirstResponder()
+            ImportWalletUsingPrivateKeyDataManager.shared.walletName = walletNameTextField.text!
+            
+            let viewController = SetupWalletEnterPasswordViewController(setupWalletMethod: .importUsingPrivateKey)
+            self.navigationController?.pushViewController(viewController, animated: true)
+            return
+            
+        default:
+            return
+        }        
+    }
+    
+    func importUsingMnemonic() {
+        // If password is empty, then ask user to enter a password.
+        if ImportWalletUsingMnemonicDataManager.shared.password == "" {
+            let viewController = SetupWalletEnterPasswordViewController(setupWalletMethod: .importUsingMnemonic)
+            self.navigationController?.pushViewController(viewController, animated: true)
+        } else {
+            ImportWalletUsingMnemonicDataManager.shared.complete(completion: {(appWallet, error) in
+                if error == nil {
+                    self.succeedAndExit(setupWalletMethod: self.setupWalletMethod)
+                } else if error == .duplicatedAddress {
+                    self.alertForDuplicatedAddress()
+                } else {
+                    self.alertForError()
+                }
+            })
+        }
+    }
+
+    func validation() -> Bool {
+        var validWalletName = true
+        let walletName = walletNameTextField.text ?? ""
+        if walletName.trim() == "" {
+            validWalletName = false
+            errorInfoLabel.shake()
+            errorInfoLabel.alpha = 1.0
+            errorInfoLabel.text = LocalizedString("New wallet name can't be empty", comment: "")
+        }
+        return validWalletName
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if walletNameTextField.isFirstResponder == true {
+            walletNameTextField.placeholder = ""
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        errorInfoLabel.alpha = 0.0
+        errorInfoLabel.text = ""
+        return true
+    }
+
+}

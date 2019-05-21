@@ -1,0 +1,512 @@
+/*
+ File.strings
+ loopr-ios
+
+ Created by xiaoruby on 2/27/18.
+ Copyright © 2018 Loopring. All rights reserved.
+ */
+
+/* App */
+"Loopring P2P Order" = "路印P2P指示";
+"UP Wallet" = "UP錢包";
+
+/* Third party */
+"Third title" = "—— 第三方授權 ——";
+"Third skip" = "跳過";
+"Third tip1" = "第三方授權登錄，系統可以保存您的APP配置。";
+"Third tip2" = "防止刪除或者更新APP後丟失，您也可以選擇跳過。";
+"Third party title" = "退出第三方授權";
+"Third party message" = "退出授權將移除您所有已綁定的設置，是否繼續？";
+"Third" = "第三方授權登錄";
+"Unthird" = "退出第三方授權登錄";
+"Failed to open WeChat" = "打開微信失敗";
+
+/* ETH related */
+"Mnemonic" = "助記詞";
+"Keystore" = "Keystore";
+"Private Key" = "私人鎖匙";
+"Address" = "地址";
+"gas price" = "油價";
+"Gas" = "油費";
+"Gas Limit" = "油費上限";
+"Gas Price" = "油價";
+"Tokens" = "代幣";
+"TxHash" = "交易哈希";
+
+/* Wallet home page */
+"Wallet" = "錢包";
+"Receive" = "轉入";
+"Received" = "已轉入";
+"Send" = "轉出";
+"Sent" = "已轉出";
+"Scan" = "掃描";
+"Please go to device settings to enable access." = "請到手機設置更改訪問權限";
+"Copy Address" = "複製地址";
+"Hide Small Assets" = "隱藏小額資產";
+"My Wallet Address" = "我的錢包地址";
+"My wallet address" = "我的錢包地址";
+"Send tokens to the address in pasteboard?" = "發送代幣到剪切板上的地址？";
+
+/* Import wallet and create wallet */
+"Initializing the wallet" = "錢包正在啟動";
+"Import Wallet" = "導入錢包";
+"Generate Wallet" = "創建錢包";
+"Please enter your private key" = "請輸入您的私人鎖匙";
+"Please use space to seperate the mnemonic words" = "請用空格隔開助記詞";
+"Backup Mnemonic" = "備份助記詞";
+"Verify Mnemonic" = "驗證助記詞";
+"Verify" = "馬上驗證";
+"Skip_Verification" = "跳過驗證";
+"Invalid mnemonic. Please enter again." = "助記詞無效。請重新輸入。";
+"Invalid private key. Please enter again." = "私人鎖匙無效。請重新輸入。";
+"Invalid keystore. Please enter again." = "Keystore無效。請重新輸入。";
+"Please enter mnemonic" = "請輸入助記詞";
+"Please enter private key" = "請輸入私人鎖匙";
+"Please enter the keystore" = "請輸入keystore";
+"Please enter your private key" = "請輸入您的私人鎖匙";
+"Select Your Wallet Type" = "請選擇您的錢包類型";
+"Select Your Address" = "請選擇您的地址";
+"Because you did a screen capture, we have updated the wallet mnemonics for you, and your screenshots have been voided! This is for your asset security." = "因為您做了截屏操作，我們為您更新了錢包助記詞，為了您的資產安全著想，您的截屏已經作廢！";
+"Please don't show up in public places (prevent cameras from taking photos) or take a screen shot(your operating system may back up images to cloud storage). These operations can bring you huge and irreversible security risks." = "請不要在公眾場所展示(防止攝像頭拍照)，也不要截屏(您的操作系統可能會將圖片備份到雲端存儲)。這些操作會給您帶來巨大而不可逆轉的安全隱患。";
+"No wallet is found in the device. Navigate to the wallet creation view." = "此手機已清空所有錢包，跳轉到錢包創建頁面。";
+"New Wallet Name" = "新錢包名稱";
+"New wallet name can't be empty" = "新錢包名稱不能留空";
+"Confirm Mnemonic Word" = "確認助記詞";
+"Mnemonic doesn't match. Please verify again." = "輸入的助記詞不相符，請重新驗證。";
+"Please click words in order to verify your mnemonic." = "請順序點擊助記詞以便確認。";
+"Your mnemonic has been verified successfully." = "您的助記詞已驗證成功。";
+"Importing keystore" = "正在導入keystore";
+"The name is taken, please try another one." = "錢包名稱重復，請輸入另一名稱";
+"Failed to import address." = "導入錢包失敗";
+"Failed to import address. The device has imported the address already." = "導入錢包失敗。手機已經導入該地址。";
+"Please Verify Your Mnemonic" = "請驗證您的錢包助記詞";
+"Please click words in order." = "請順序點擊助記詞。";
+"Wallet Created Successfully!" = "錢包創建成功!";
+"OK, got it" = "好的";
+
+/* Password related */
+"Please enter a password" = "請輸入密碼";
+"Password" = "密碼";
+"Repeat Password" = "再輸入密碼";
+"Enter password" = "請輸入密碼";
+"Enter Password" = "請輸入密碼";
+"Wrong password" = "密碼錯誤";
+"Create Password" = "創建密碼";
+"Password can't be empty." = "密碼不能留空";
+"The length of password needs to be larger than or equal to 6." = "密碼長度必須6位或以上";
+"Password doesn't match" = "密碼不相符";
+"Please enter password" = "請輸入密碼";
+"Keystore Password" = "Keystore密碼";
+"Mnemonic Password" = "助記詞密碼";
+
+/* Add custom token page */
+"Add Token" = "添加代幣";
+"Select Tokens" = "選擇代幣";
+"Custom Token" = "自定代幣";
+"Added the token successfully." = "成功添加代幣";
+"Failed to add the token." = "添加代幣失敗";
+"same address was registed" = "代幣地址已被註冊";
+"same symbol exist" = "代幣符號已被註冊";
+"Decimals of precision must be between 0 and 20" = "小數位精確度必須在0到20之間";
+"Add Custom Token" = "添加自定代幣";
+"Add custom token" = "添加自定代幣";
+"Add" = "添加";
+"Please enter the token address" = "請輸入代幣合約地址";
+"Please input a correct address" = "請輸入正確的代幣合約地址";
+"Please enter the token symbol" = "請輸入代幣符號";
+"Please input a correct value for decimal" = "請輸入正確的小數點";
+"Token Address" = "代幣地址";
+"Token Symbol" = "代幣符號";
+"Decimals of Precision" = "小數位精確度";
+"Adding..." = "正在添加...";
+
+/* Add contact page */
+"Add Contact" = "添咖聯系人";
+"Contact Name" = "聯系人名稱";
+"Contact Address" = "聯系人的址";
+"Contact Note" = "備主，如：蘄資（可選）";
+"Contact Input" = "請輸入正確的聯系人名稱";
+"QRCode error tip" = "請掃描錢包地址類型的二維碼";
+
+/* Airdrop page */
+"Airdrop" = "空投";
+"Airdrop title" = "LRN 空投領取";
+"Airdrop address tip" = "您的LRN空投領取地址";
+"Airdrop amount tip" = "您本日的LRN空投領取金額";
+"Airdrop button" = "領取空投";
+"Airdrop success" = "成功領取空投";
+"Airdrop failed" = "領取空投失敗，請稍後重試";
+"Airdrop empty" = "沒有可領空投金額";
+"Airdrop forward" = "前往NEO瀏覽器查看詳情";
+"Airdrop no bind" = "您尚未绑定LRN的空投地址，目前无法领取";
+"Airdrop time invalid" = "距您上次领取，还未到一天，请稍后领取";
+"Airdrop browser" = "NEO Tracker";
+"Airdrop next claim date" = "下次可領取空投時間";
+"Airdrop last claim date" = "上次領取空投時間";
+"Processing claiming Airdrop..." = "正在處理領取空投...";
+
+/* News */
+"News" = "資訊";
+"News_Up" = "利好";
+"News_Down" = "利空";
+"News_information" = "新聞";
+"News_flash" = "快訊";
+"Pull to read previous" = "下拉閱讀上一篇新聞";
+"Pull to read more" = "上拉閱讀全文";
+"Release to read more" = "鬆開閱讀全文";
+"Pull Down for the Latest News" = "下拉獲取最新資訊";
+
+"years ago" = "年前";
+"Last year" = "去年";
+"months ago" = "月前";
+"Last month" = "上个月前";
+"weeks ago" = "星期前";
+"Last week" = "上星期前";
+"days ago" = "天前";
+"Yesterday" = "昨天";
+"hours ago" = "小時前";
+"An hour ago" = "1 小時前";
+"minutes ago" = "分鐘前";
+"A minute ago" = "1 分鐘前";
+"seconds ago" = "秒前";
+"Just now" = "剛剛";
+
+/* DEX Trade page */
+"Loopring Order" = "路印訂單";
+"DEX Trade" = "去中心化交易所";
+"P2P Trade" = "點對點交易";
+"Trading Competition" = "交易排位賽";
+"Buy" = "買入";
+"Buy Price" = "買入價";
+"B" = "買";
+"S" = "沽";
+"Bought" = "買入";
+"Sell" = "沽出";
+"Sell Price" = "沽出價";
+"Sold" = "賣出";
+"Buying" = "買入中";
+"Selling" = "賣出中";
+"Buy_Tip" = "買";
+"Sell_Tip" = "賣";
+"Trade" = "交易";
+"Market" = "市場";
+"Markets" = "市場";
+"Order History" = "買賣指示記錄";
+"Place Order" = "落盤";
+"Share Order" = "分享買賣指示";
+"Review" = "查看";
+"Check Details" = "查看詳情";
+"Done" = "返回";
+"Max" = "最大值";
+"Price" = "價格";
+"Trading Fee" = "撮合費";
+"Fee" = "撮合費";
+"LRC Fee Ratio" = "LRC費用比例";
+"Margin Split" = "孖展分成";
+"Enter the amount" = "請輸入數額";
+"Orders" = "買賣指示";
+"Trades" = "交易記錄";
+"Please input a valid price" = "請輸入有效價格";
+"Please input a valid amount" = "請輸入有效數額";
+"You Need More" = "您尚需";
+"24H Change" = "24H 漲跌";
+"24H High" = "24H 最高價";
+"24H Low" = "24H 最低價";
+"24H Volume" = "24H 成交量";
+"Kline Chart" = "K線圖";
+"Volume" = "成交量";
+"Open_in_chart_view" = "開盤";
+"Close_in_chart_view" = "收盤";
+"High_in_chart_view" = "最高";
+"Low_in_chart_view" = "最低";
+"Latest Price" = "最新價格";
+"Receiver" = "接收方地址";
+"Sender" = "發送方地址";
+"Custom" = "自定";
+"Can Buy" = "可買";
+"Can Sell" = "可賣";
+"Time to Live" = "有效期";
+"Expiration Time" = "失效時間";
+"Change" = "變動";
+"Accept" = "接受";
+"Decline" = "拒絕";
+"Minimal Fill" = "訂單拆分份數";
+"Records" = "記錄";
+"Depth_in_Market_Detail" = "掛單";
+"Trades_in_Market_Detail" = "成交";
+"Reference Markets" = "參考市場";
+"Recommend Price" = "推薦油價";
+"Set Gas" = "設置油價";
+"Send Confirmation" = "發送確認";
+"Trade_Confirm" = "交易確認";
+"Send Token" = "發送代幣";
+"Receive Token" = "接收代幣";
+"Processing the transaction ..." = "處理交易中...";
+"Processing the P2P order..." = "處理P2P訂單中...";
+"Convert to WETH" = "轉換為 WETH";
+"Convert to ETH" = "轉換為 ETH";
+"Confirm Time" = "確認時間";
+"Transactions" = "交易";
+"Enabled" = "啟動";
+"to Trade" = "進行撮合交易";
+"Time" = "時間";
+"Submitting order" = "正在提交指示";
+"Transaction Detail" = "交易詳情";
+"Convert Confirmation" = "轉換確認";
+"From" = "發送地址";
+"To" = "接收地址";
+"Hide Other Pairs" = "隱藏其他交易對";
+"ETH (Excluding for gas)" = "ETH (不含轉換油費)";
+"Customer Price" = "用戶自定價格";
+"Selling Price" = "沽出價";
+"Buying Price" = "買入價";
+"Market Price" = "市價";
+"Amount to sell" = "沽出數額";
+"Amount to buy" = "買入數額";
+"P2P Order History" = "點對點交易記錄";
+"Enter the address" = "請輸入地址";
+"Available Balance" = "可用餘額";
+"Available" = "可用";
+"Can Buy" = "可買";
+"Tx Fee Limit" = "交易費上限";
+"Loopring_TIP" = "請用支持路印協議的錢包掃碼交易";
+"Irrational" = "設價不合理";
+"Please Pay Attention" = "請注意";
+"Your price is irrational, " = "您所設定的價格不合理，";
+"which may cause your asset wastage! " = "這或會引致您的資產虧損！";
+"which may cause your order abolished! " = "這或會引致您的指示或會被取消！";
+"Do you wish to continue trading or signing with the price?" = "是否仍要以該價格下單或授權？";
+"Market/Price" = "市場對/價格";
+"Amount/Filled" = "數額/成交率";
+"Status/Date" = "狀態/日期";
+"Lrc_Fee_Tip" = "● Loopring 協議最低交易手續費: ";
+"Part" = "份";
+"Decimals" = "位小數";
+
+/* Trade tips */
+"Convert_DES" = "● 什麼是WETH? WETH之於ETH, 正如硬幣之於等額的紙幣。某些場合, 販賣機只能接受硬幣, 因此需要轉換。以太坊協議保證: WETH和ETH之間的轉換比率固定為 1 : 1。";
+"Convert_TIP" = "● 我們為您保留 0.01 ETH 作為油費以保證可繼續交易";
+"ETH_TIP" = "● 我們為您保留 0.01 ETH 作為油費以保證後續可以發送交易";
+"Convert_Fail_Tip" = "您的賬戶中油費不足，請稍後重試";
+"Convert_Success_Tip" = "轉換成功，交易哈希值 =";
+"GAS_TIP" = "下單時不會消耗油費";
+"Please confirm the address before sending" = "在發送前，請確認地址無誤。";
+"Signer address does NOT match the order's, please transfer and try again later" = "授權方的錢包地址和下指示方地址並不相符，請更改授權方地址後，再進行授權";
+"Please input a correct address" = "請輸入正確的代幣合約地址";
+"The P2P order is not created in this iPhone. You can't share the QR code." = "P2P指示不在這手機產生。無法獲取二維碼。";
+"Order Depth Tips" = "交易盤深度提示";
+"The depth maybe under matching: Miners may need some time to submit txs to ethereum." = "該深度可能正在撮合中：礦工需要一些時間提交以太坊交易";
+
+/* Order status */
+"Open" = "進行中";
+"Filled" = "成交率";
+"Finished" = "已成交";
+"Cancelled" = "已取消";
+"Expired" = "已過期";
+"Order Pending" = "未开始";
+"Order Submitted" = "掛單中";
+"Order Cancelled" = "已取消";
+"Order Completed" = "完全成交";
+"Order Expired" = "已過期";
+"Order Unknown" = "未知狀態";
+"Unknown" = "其他";
+"Order Detail" = "交易詳情";
+"Filled/Amount" = "完成額/總額";
+"Status" = "狀態";
+"Type" = "類型";
+"Undefined" = "未定義";
+"Pending" = "待處理";
+"Completed" = "完成";
+"Failed" = "失敗";
+"Other" = "其他";
+"10001" = "抱歉，系統錯誤，請稍後重試";
+"32000" = "抱歉，用戶餘額不足或者下單總量已經超過餘額上限";
+"50001" = "抱歉，無法獲取到掃描指示信息";
+"50002" = "抱歉，掃描二維碼指示必須是P2P指示";
+"50003" = "抱歉，掃描到的指示，目前無法完成，請稍後重試";
+"50004" = "抱歉，雙方指示數額不相符，請核對後重新指示";
+"50005" = "抱歉，買賣雙方地址相同，請核對後重新指示";
+"50006" = "抱歉，指示已過期，請掃描其他二維碼後重新指示";
+"50007" = "抱歉，指示未成交數額過小，無法完成";
+"50008" = "抱歉，無法獲取當前指示信息，請稍後重試";
+"Failed to sign/encode transaction" = "交易編碼/簽名失敗";
+"Congratulations! Your order has been submitted!" = "恭喜！您的指示已被提交！";
+"Your order has not been submitted! Please make sure you have enough balance to complete the trade." = "您的指示未能提交！請確認您的賬戶中有足夠餘額以完成該指示。";
+
+/* Cancel orders */
+"Cancel All" = "全部取消";
+"Cancel Order" = "取消指示";
+"You are going to cancel all open orders." = "您將取消所有待成交指示。";
+"You are going to cancel the order." = "您將取消該指示";
+"Order cancellation Failed, Please try again." = "取消指示失敗，請稍後重試";
+"Order cancellation Successful." = "取消指示成功";
+"Canceling" = "取消中";
+
+/* Convert WETH and ETH */
+"Convert" = "轉換";
+"Convert WETH" = "WETH轉換";
+"Conversion Successful." = "轉換成功。";
+
+/* Setting page */
+"Night Mode" = "夜間模式";
+"Language" = "語言";
+"Manage Wallets" = "管理錢包";
+"Contract Version" = "合約版本";
+"User Preferences" = "用戶設置";
+"Trading" = "交易";
+"Relay" = "中繼";
+"About" = "關於";
+"App Version" = "應用程式版本";
+"update" = "更新";
+"Support" = "支援";
+"Settings" = "設置";
+"Currency" = "貨幣";
+"Airdrop" = "空投";
+"Trade FAQ" = "交易FAQ";
+"Feedback" = "反饋";
+"Security" = "安全性";
+
+/* Setting page - wallet detail page */
+"Switch to this Wallet" = "轉換到此錢包";
+"Enter Wallet" = "進入錢包";
+"Copy Private Key" = "複製私人鎖匙";
+"Export Private Key" = "輸出私人鎖匙";
+"Exporting private key" = "正在輸出私人鎖匙";
+"Export Keystore" = "輸出Keystore文件";
+"Exporting keystore" = "正在輸出keystore";
+"Wallet Name" = "錢包名字";
+"Enter Wallet Name" = "輸入錢包名字";
+"Change Wallet Name" = "更改錢包名字";
+"Address copied to clipboard successfully!" = "成功複製地址到剪貼板!";
+"Keystore copied to clipboard successfully!" = "成功複製keystore到剪貼板!";
+"Private key copied to clipboard successfully!" = "成功複製錢包私人鎖匙到剪貼板!";
+"Copy Keystore" = "複製Keystore";
+"View Address on Etherscan" = "在Etherscan上查看地址";
+"Clear Records of this Wallet" = "刪除錢包並清除錢包數據";
+"Backup_Mnemonic_in_SettingManageWallet" = "未備份助記詞";
+"Prevent_Title" = "請勿拍照或截圖";
+"Prevent_Tip" = "如果有人獲取您的私人鎖匙將會直接獲取您的資產！請抄寫下私人鎖匙並存放在安全的地方。";
+"Got it" = "知道了";
+
+/* General. Used in different pages. */
+"Confirmation" = "確認";
+"Next" = "下一步";
+"Cancel" = "取消";
+"Confirm" = "確認";
+"Search History" = "搜尋記錄";
+"Congratulations!" = "創建成功!";
+"Search" = "搜尋";
+"Total" = "全部";
+"Save" = "保存";
+"Slow" = "慢";
+"Fast" = "快";
+"1 Hour" = "1小時";
+"1 Day" = "1天";
+"1 Week" = "1周";
+"1 Month" = "1月";
+"Hour" = "小時";
+"Day" = "天";
+"Month" = "月";
+"All" = "全部";
+"Favorites" = "收藏";
+"USD" = "美元";
+"CNY" = "人民幣";
+"HKD" = "港幣";
+"Total (yuan)" = "總資產 (元)";
+"Total (USD)" = "總資產 (美元)";
+"Total Balance" = "總資產";
+"Loading Data" = "加載數據中";
+"Album" = "相冊";
+"Create" = "創建";
+"Complete" = "完成";
+"Delete" = "刪除";
+"Amount" = "數額";
+"Advanced" = "高級設置";
+"Backup" = "備份";
+"Default" = "默認";
+"Date" = "日期";
+"Back" = "返回";
+"A new version of app is ready to update" = "新版本的app已上線";
+"Update" = "更新";
+"Skip_Update" = "跳過";
+"Contacts" = "地址簿";
+"Manage Contacts" = "管理地址簿";
+"Edit" = "編輯";
+"Updated" = "上次更新";
+"AM" = "上午";
+"PM" = "下午";
+
+/* No data */
+"No search result" = "無搜尋結果";
+"Network Error" = "網絡出錯";
+"No_Data_Tip" = "暫無相關數據";
+"No-data-orderbook" = "還沒有掛單";
+"No-data-transaction" = "還沒有成交記錄";
+"No-data-order" = "還沒有訂單記錄";
+"No-opened-order" = "暫無限價單";
+"No-data-asset" = "還沒有收付賬記錄";
+"No-data-contact" = "還沒有地址";
+"No-data-flash" = "沒有相關資訊";
+"No-data-information" = "沒有相關新聞";
+
+/* Unlock app using Touch ID or Face ID. */
+"Unlock" = "解鎖";
+"Touch ID" = "觸控 ID";
+"Face ID" = "面容 ID";
+"Please turn on Touch ID in settings" = "請先前往設置中開啓指紋功能";
+"Please turn on Face ID in settings" = "請先前往設置中開啓面容識別功能";
+
+/* QR code related */
+"QR Code" = "二維碼";
+"Scan QR Code" = "掃描二維碼";
+"Save to Album" = "保存到相冊";
+"Align QR code within frame to scan" = "請將二維碼置於掃描框內";
+"No access to save QR code. Please go to settings to enable access." = "沒有權限保存二維碼，請到設置修改權限。";
+"QR Code type doesn't fit here" = "二維碼類型不符";
+"Wallet Address" = "錢包收款地址";
+"Saved QR code to photos successfully." = "成功保存二維碼到照片簿";
+"Receive Code" = "轉入方二維碼";
+
+/* Processing QR code page */
+"Address detected" = "掃描到錢包地址二維碼";
+"Mnemonic detected" = "掃描到錢包助記詞二維碼";
+"Keystore detected" = "掃描到錢包密文二維碼";
+"Private key detected" = "掃描到錢包私人鎖匙的二維碼";
+"Authorization message detected" = "掃描到訂單授權信息二維碼";
+"Login message detected" = "掃描到登錄授權信息二維碼";
+"Cancel message detected" = "掃描到取消訂單信息二維碼";
+"Convert message detected" = "掃描到轉換信息二維碼";
+"P2P message detected" = "掃描到P2P訂單信息二維碼";
+"Undefined type of QRCode" = "掃描到未知類型的二維碼";
+
+/* Share app page */
+"Partner_Slogan" = "分享APP，獲得撮合費20%收益";
+"Partner_Title" = "錢包推廣";
+"Partner_Des" = "分享APP，將獲得推廣的新用戶未來所有訂單撮合手續費20%收益，多推廣多獲利";
+"Partner_Address" = "您的分潤收款地址為: ";
+"Share App" = "分享APP";
+"Share" = "分享";
+
+/* Authorization for integrating other apps */
+"Authorization" = "授權";
+"Approving authorization" = "正在批核授權";
+"Authorization Successful" = "授權成功";
+"Authorization Failed" = "授權失敗";
+"Authorize_Successfully" = "請轉至我們的網站服務，進行您的後續操作。";
+"Authorize_Failed" = "請核對您的授權數據，確認正確後請重新嘗試。";
+"Authenticate to access your wallet" = "驗證進入您的錢包";
+"Authenticate to access your mnemonic" = "驗證進入您的助記詞";
+"Authenticate to access your private key" = "驗證進入您的私人鎖匙";
+"Authenticate to access your keystore" = "驗證訪問您的密文(keystore)";
+"Authenticate to login" = "驗證登入";
+"Authenticate to cancel" = "驗證取消";
+"Authenticate to convert" = "驗證轉換";
+"Authenticate to send" = "驗證發送";
+"Authenticate to place the order" = "驗證提交指示";
+"Authenticate to approve the transaction" = "驗證授權交易";
+"Authenticate to confirm the order" = "驗證確認交易";
+"Authenticate to decline the order" = "驗證拒絕交易";
+
+/* Complicated. Need other info to form a sentence. */
+"You are going to clear records of" = "您將要清除該手機上";
+"on this device." = "的數據。";

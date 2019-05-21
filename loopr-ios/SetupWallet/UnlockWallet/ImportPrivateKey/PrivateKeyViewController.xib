@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PrivateKeyViewController" customModule="loopr_ios" customModuleProvider="target">
+            <connections>
+                <outlet property="privateKeyTextView" destination="Ujb-qZ-KOa" id="tfh-CE-mtC"/>
+                <outlet property="unlockButton" destination="EVD-JS-FJ5" id="uvA-Oa-Tc9"/>
+                <outlet property="unlockButtonBottonLayoutConstraint" destination="MzE-V2-Nxk" id="yLm-9y-QTN"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EVD-JS-FJ5" customClass="GradientButton" customModule="loopr_ios" customModuleProvider="target">
+                    <rect key="frame" x="48" y="188" width="318" height="44"/>
+                    <color key="backgroundColor" red="0.25882352939999997" green="0.25882352939999997" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="Vx5-tC-yFI"/>
+                    </constraints>
+                    <state key="normal" title="Unlock">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="pressedUnlockButton:" destination="-1" eventType="touchUpInside" id="1Qg-D6-GgN"/>
+                    </connections>
+                </button>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Please enter your private key" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ujb-qZ-KOa">
+                    <rect key="frame" x="15" y="28" width="384" height="140"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <color key="tintColor" red="0.25882352939999997" green="0.25882352939999997" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="140" id="JfY-6r-mik"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Ujb-qZ-KOa" secondAttribute="trailing" constant="15" id="4eM-fK-dZy"/>
+                <constraint firstItem="EVD-JS-FJ5" firstAttribute="top" secondItem="Ujb-qZ-KOa" secondAttribute="bottom" constant="20" id="Cdv-kr-gFY"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="EVD-JS-FJ5" secondAttribute="bottom" priority="750" constant="280" id="MzE-V2-Nxk"/>
+                <constraint firstItem="EVD-JS-FJ5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="48" id="Tjg-hX-pnJ"/>
+                <constraint firstItem="Ujb-qZ-KOa" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="8" id="Zkb-zr-tkT"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="EVD-JS-FJ5" secondAttribute="trailing" constant="48" id="iWO-0v-TOz"/>
+                <constraint firstItem="Ujb-qZ-KOa" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="owc-VZ-een"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="33.5" y="107.5"/>
+        </view>
+    </objects>
+</document>

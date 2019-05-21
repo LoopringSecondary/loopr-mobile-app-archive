@@ -1,0 +1,260 @@
+//
+//  CurrentAppWalletDataManager.swift
+//  loopr-ios
+//
+//  Created by Xiao Dou Dou on 2/2/18.
+//  Copyright © 2018 Loopring. All rights reserved.
+//
+
+import Foundation
+
+class CurrentAppWalletDataManager {
+    
+    static let shared = CurrentAppWalletDataManager()
+    private var currentAppWallet: AppWallet?
+    private var totalCurrencyValue: Double
+    private var assetsInHideSmallMode: [Asset]
+    private var assets: [Asset]
+    
+    private init() {
+        self.assets = []
+        self.assetsInHideSmallMode = []
+        self.totalCurrencyValue = 0
+    }
+    
+    func setup() {
+        getCurrentAppWalletFromLocalStorage()
+    }
+    
+    private func getCurrentAppWalletFromLocalStorage() {
+        let defaults = UserDefaults.standard
+        if let addressString = defaults.string(forKey: UserDefaultsKeys.currentAppWallet.rawValue) {
+            for appWallet in AppWalletDataManager.shared.getWallets() where appWallet.address == addressString {
+                setCurrentAppWallet(appWallet, completionHandler: {})
+                return
+            }
+        }
+        
+        // If for some reason, privateKeyString is removed. We will use the first AppWallet as the current wallet.
+        if AppWalletDataManager.shared.getWallets().count > 0 {
+            let appWallet = AppWalletDataManager.shared.getWallets()[0]
+            setCurrentAppWallet(appWallet, completionHandler: {})
+        }
+    }
+
+    func setCurrentAppWallet(_ appWallet: AppWallet, completionHandler: @escaping () -> Void) {
+        print("setCurrentAppWallet ...")
+        let defaults = UserDefaults.standard
+        defaults.set(appWallet.address, forKey: UserDefaultsKeys.currentAppWallet.rawValue)
+        currentAppWallet = appWallet
+        
+        // TODO: This needs to join TokenLists
+        self.assetsInHideSmallMode = []
+        self.assets = []
+        self.totalCurrencyValue = appWallet.totalCurrency
+
+        // Get nonce. It's a slow API request.
+        currentAppWallet!.getNonceFromEthereum(completionHandler: {})
+
+        // Publish a notification to update UI
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: .currentAppWalletSwitched, object: nil)
+        }
+        
+        // Send a API request to app service
+        PushNotificationDeviceDataManager.shared.register(address: currentAppWallet!.address)
+    }
+
+    func getCurrentAppWallet() -> AppWallet? {
+        return currentAppWallet
+    }
+
+    func getAsset(symbol: String) -> Asset? {
+        let result: Asset? = nil
+        for asset in self.assets {
+            if asset.symbol.lowercased() == symbol.lowercased() {
+                return asset
+            }
+        }
+        return result
+    }
+    
+    func getBalance(of token: String) -> Double? {
+        if let asset = getAsset(symbol: token) {
+            return asset.balance
+        }
+        return nil
+    }
+    
+    func getTotalAsset() -> Double {
+        return totalCurrencyValue
+    }
+    
+    func getTotalAssetCurrencyFormmat() -> String {
+        return totalCurrencyValue.currency
+    }
+    
+    func getAssets(enable: Bool? = nil) -> [Asset] {
+        guard let enable = enable else {
+            return self.assets
+        }
+        return assets.filter { (asset) -> Bool in
+            asset.enable == enable
+        }
+    }
+    
+    func getAssets(isNotZero: Bool) -> [Asset] {
+        return assets.filter({ (asset) -> Bool in
+            asset.total > 0.001 || asset.balance > 0.01
+        })
+    }
+
+    // Used in WalletViewController with hide small assets option
+    func getAssetsWithHideSmallAssetsOption() -> [Asset] {
+        print(currentAppWallet!.getTokenList())
+        print(currentAppWallet!.getManuallyDisabledTokenList())
+        for tokenSymbol in currentAppWallet!.getTokenList() {
+            if let token = TokenDataManager.shared.getTokenBySymbol(tokenSymbol) {
+                let newAsset = Asset(token: token)
+                if !self.assets.contains(newAsset) {
+                    self.assets.append(newAsset)
+                }
+            }
+        }
+        
+        return self.assets.filter({ (asset) -> Bool in
+            return currentAppWallet!.getTokenList().contains(asset.symbol) || asset.balance > 0.001
+        }).filter({ (asset) -> Bool in
+            // Hide tokens when users manually hide tokens in the token list view.
+            return !currentAppWallet!.getManuallyDisabledTokenList().contains(asset.symbol)
+        }).sorted(by: { (a, b) -> Bool in
+            if a.symbol == "ETH" || b.symbol == "ETH" {
+                return a.symbol == "ETH"
+            } else if a.symbol == "WETH" || b.symbol == "WETH" {
+                return a.symbol == "WETH"
+            } else if a.symbol == "LRC" || a.symbol == "LRC" {
+                return a.symbol == "LRC"
+            } else if a.total != b.total {
+                return a.total > b.total
+            } else if a.balance != b.balance {
+                return a.balance > b.balance
+            } else {
+                return a.symbol < b.symbol
+            }
+        })
+    }
+    
+    // TODO: we should simplify this function.
+    func setAssets(newAssets: [Asset]) {
+        let filteredAssets = newAssets.filter { (asset) -> Bool in
+            return asset.symbol.trim() != ""
+        }
+        
+        // If not assets are in the API response, return early.
+        if filteredAssets.count == 0 {
+            return
+        }
+        
+        totalCurrencyValue = 0
+        for asset in filteredAssets {
+            // If the price quote is nil, asset won't be updated. Please use getBalanceAndPriceQuote()
+            if let price = PriceDataManager.shared.getPrice(of: asset.symbol) {
+                let total = asset.balance * price
+                asset.total = total
+                asset.currency = total.currency
+                totalCurrencyValue += total
+                
+                // non-zero assets
+                if asset.balance > 0 {
+                    print(asset.symbol)
+                    currentAppWallet!.updateTokenList([asset.symbol], add: true)
+                }
+            }
+        }
+        
+        // Update assets
+        self.assets = newAssets
+        
+        // Remove small assets
+        assetsInHideSmallMode = assetsInHideSmallMode.filter { (asset) -> Bool in
+            return asset.total > 0.01
+        }
+        
+        if currentAppWallet != nil {
+            AppWalletDataManager.shared.updateAppWalletsInLocalStorage(newAppWallet: currentAppWallet!)
+        }
+    }
+
+    func getTransactionsFromServer(asset: Asset, pageIndex: UInt, pageSize: UInt = 50, completionHandler: @escaping (_ transactions: [Transaction], _ error: Error?) -> Void) {
+        guard let wallet = currentAppWallet else {
+            return
+        }
+        /*
+        LoopringAPIRequest.getTransactions(owner: wallet.address, symbol: asset.symbol, txHash: nil, pageIndex: pageIndex, pageSize: pageSize, completionHandler: { (transactions, error) in
+            guard error == nil, let transactions = transactions else {
+                return
+            }
+            completionHandler(transactions, nil)
+        })
+        */
+    }
+
+    // JSON RPC
+    // Ask for three data
+    // 1. get price
+    // 2. get balance
+    // 3. get nonce
+    func getBalanceAndPriceQuoteAndNonce(getPrice: Bool, completionHandler: @escaping (_ assets: [Asset], _ error: Error?) -> Void) {
+        let address = self.currentAppWallet!.address        
+        var localAssets: [Asset] = []
+        /*
+        let dispatchGroup = DispatchGroup()
+
+        dispatchGroup.enter()
+        self.currentAppWallet!.getNonceFromEthereum(completionHandler: {
+            dispatchGroup.leave()
+        })
+
+        dispatchGroup.enter()
+        if getPrice {
+            let currency = SettingDataManager.shared.getCurrentCurrency().name
+            LoopringAPIRequest.getPriceQuote(currency: currency, completionHandler: { (priceQuote, error) in
+                print("receive LoopringAPIRequest.getPriceQuote ....")
+                guard error == nil else {
+                    print("error=\(String(describing: error))")
+                    dispatchGroup.leave()
+                    return
+                }
+                PriceDataManager.shared.setPriceQuote(newPriceQuote: priceQuote!)
+                
+                LoopringAPIRequest.getBalance(owner: address) { assets, error in
+                    print("receive LoopringAPIRequest.getBalance ...")
+                    guard error == nil else {
+                        print("error=\(String(describing: error))")
+                        dispatchGroup.leave()
+                        return
+                    }
+                    localAssets = assets
+                    dispatchGroup.leave()
+                }
+            })
+        } else {
+            LoopringAPIRequest.getBalance(owner: address) { assets, error in
+                print("receive LoopringAPIRequest.getBalance ...")
+                guard error == nil else {
+                    print("error=\(String(describing: error))")
+                    return
+                }
+                localAssets = assets
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            print("Both functions complete 👍")
+            self.setAssets(newAssets: localAssets)
+            completionHandler(self.assets, nil)
+        }
+        */
+    }
+}
