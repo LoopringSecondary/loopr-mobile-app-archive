@@ -198,6 +198,11 @@
 		9BB789F221EC23250095631D /* NewsDetailSubtitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB789F021EC23250095631D /* NewsDetailSubtitleTableViewCell.swift */; };
 		9BB789F321EC23250095631D /* NewsDetailSubtitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BB789F121EC23250095631D /* NewsDetailSubtitleTableViewCell.xib */; };
 		9BB789F521EC74060095631D /* 方正大标宋简体.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BB789F421EC73FE0095631D /* 方正大标宋简体.ttf */; };
+		9BB7D7912293D1D300E8E7F6 /* FlutterContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB7D78C2293D1D300E8E7F6 /* FlutterContainerViewController.swift */; };
+		9BB7D7922293D1D300E8E7F6 /* FlutterChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB7D78D2293D1D300E8E7F6 /* FlutterChannel.swift */; };
+		9BB7D7932293D1D300E8E7F6 /* FlutterEntrypoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB7D78E2293D1D300E8E7F6 /* FlutterEntrypoint.swift */; };
+		9BB7D7942293D1D300E8E7F6 /* FlutterViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB7D78F2293D1D300E8E7F6 /* FlutterViewControllerProtocol.swift */; };
+		9BB7D7952293D1D300E8E7F6 /* FlutterMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB7D7902293D1D300E8E7F6 /* FlutterMethod.swift */; };
 		9BBB4E4B21DB4BD300683673 /* RefreshControlDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */; };
 		9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */; };
 		9BC2886A21ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */; };
@@ -798,6 +803,11 @@
 		9BB789F021EC23250095631D /* NewsDetailSubtitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailSubtitleTableViewCell.swift; sourceTree = "<group>"; };
 		9BB789F121EC23250095631D /* NewsDetailSubtitleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailSubtitleTableViewCell.xib; sourceTree = "<group>"; };
 		9BB789F421EC73FE0095631D /* 方正大标宋简体.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "方正大标宋简体.ttf"; sourceTree = "<group>"; };
+		9BB7D78C2293D1D300E8E7F6 /* FlutterContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlutterContainerViewController.swift; sourceTree = "<group>"; };
+		9BB7D78D2293D1D300E8E7F6 /* FlutterChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlutterChannel.swift; sourceTree = "<group>"; };
+		9BB7D78E2293D1D300E8E7F6 /* FlutterEntrypoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlutterEntrypoint.swift; sourceTree = "<group>"; };
+		9BB7D78F2293D1D300E8E7F6 /* FlutterViewControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlutterViewControllerProtocol.swift; sourceTree = "<group>"; };
+		9BB7D7902293D1D300E8E7F6 /* FlutterMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlutterMethod.swift; sourceTree = "<group>"; };
 		9BBB4E4A21DB4BD300683673 /* RefreshControlDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlDataManager.swift; sourceTree = "<group>"; };
 		9BC2886721ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		9BC2886821ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketDetailSummaryTableViewCell.xib; sourceTree = "<group>"; };
@@ -1533,6 +1543,18 @@
 			path = News;
 			sourceTree = "<group>";
 		};
+		9BB7D78B2293D1D300E8E7F6 /* Flutter */ = {
+			isa = PBXGroup;
+			children = (
+				9BB7D78C2293D1D300E8E7F6 /* FlutterContainerViewController.swift */,
+				9BB7D78D2293D1D300E8E7F6 /* FlutterChannel.swift */,
+				9BB7D78E2293D1D300E8E7F6 /* FlutterEntrypoint.swift */,
+				9BB7D78F2293D1D300E8E7F6 /* FlutterViewControllerProtocol.swift */,
+				9BB7D7902293D1D300E8E7F6 /* FlutterMethod.swift */,
+			);
+			path = Flutter;
+			sourceTree = "<group>";
+		};
 		AC0CD58720D38B9400ABB7BA /* CreateWallet */ = {
 			isa = PBXGroup;
 			children = (
@@ -1964,6 +1986,7 @@
 				ACE9F0472186FD1A00695E37 /* AppDelegateNotificationExtension.swift */,
 				AC6E83032198F70900ABCE58 /* AppDelegateThirdPartyExtension.swift */,
 				ACFEFE9D20C3436000013921 /* loopr_ios.xcdatamodeld */,
+				9BB7D78B2293D1D300E8E7F6 /* Flutter */,
 				AC5288AF208300570002AEAD /* Utils */,
 				AC798E482022B93A0071D477 /* Main.storyboard */,
 				C8BF959C202696A900343B9A /* MainTabController.swift */,
@@ -3090,6 +3113,8 @@
 				"${BUILT_PRODUCTS_DIR}/CDMarkdownKit/CDMarkdownKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
+				"${PODS_ROOT}/../../flutter/.ios/Flutter/engine/Flutter.framework",
+				"${BUILT_PRODUCTS_DIR}/FlutterPluginRegistrant/FlutterPluginRegistrant.framework",
 				"${BUILT_PRODUCTS_DIR}/MKDropdownMenu/MKDropdownMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
@@ -3113,6 +3138,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CDMarkdownKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Flutter.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FlutterPluginRegistrant.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MKDropdownMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
@@ -3400,6 +3427,7 @@
 				AC1B6D7E2130FB510026C1B2 /* Bytes+SecureRandom.swift in Sources */,
 				AC4F601620773E9D00F1D954 /* EthTypeEncoder.swift in Sources */,
 				9B34D7E42261919F005CF701 /* TokenTransfer.swift in Sources */,
+				9BB7D7922293D1D300E8E7F6 /* FlutterChannel.swift in Sources */,
 				942F31AF225C508600E0760A /* ERC1400Params.swift in Sources */,
 				9BA4FC9C21DC4FC8005A3DC0 /* NewsParams.swift in Sources */,
 				ACBA47EE207932DA0032C2B4 /* ExportKeystoreEnterPasswordViewController.swift in Sources */,
@@ -3458,6 +3486,7 @@
 				AC31B94A204A8DF400B16155 /* KeystoreKeyHeader.swift in Sources */,
 				943BDED32056350000D5BF81 /* PriceQuote.swift in Sources */,
 				9BC2886921ADEAE000221CF3 /* MarketDetailSummaryTableViewCell.swift in Sources */,
+				9BB7D7942293D1D300E8E7F6 /* FlutterViewControllerProtocol.swift in Sources */,
 				AC9FFF312127F8CF00957175 /* AddCustomizedTokenViewController.swift in Sources */,
 				ACEC0FBD21F19B3C0006485A /* NewsUIStyleConfig.swift in Sources */,
 				ACC8D0A620CC95A00049A741 /* AssetTableViewCell.swift in Sources */,
@@ -3472,9 +3501,11 @@
 				ACEC977F20AD57F3003F9DEB /* P2POrderHistoryViewController.swift in Sources */,
 				AC6E83042198F70900ABCE58 /* AppDelegateThirdPartyExtension.swift in Sources */,
 				AC147BEC208D2E54008D5104 /* ImportWalletError.swift in Sources */,
+				9BB7D7912293D1D300E8E7F6 /* FlutterContainerViewController.swift in Sources */,
 				ACC6E12521BA5A59001729EC /* OrderDataManager.swift in Sources */,
 				9475502321255A58003CFEBF /* UISwitchExtension.swift in Sources */,
 				AC2ACA9C2103075C009C77E7 /* WalletType.swift in Sources */,
+				9BB7D7952293D1D300E8E7F6 /* FlutterMethod.swift in Sources */,
 				9B76456021FD2CF200896B3E /* AssetBalanceTableViewCell.swift in Sources */,
 				AC0619422085D01E0060F416 /* SearchBarContainerView.swift in Sources */,
 				AC56625B20563C05003C925C /* TradeViewController.swift in Sources */,
@@ -3492,6 +3523,7 @@
 				ACBA47E220788ECD0032C2B4 /* SettingManageWalletViewController.swift in Sources */,
 				ACEC0FBF21F1B4FC0006485A /* NewsImage.swift in Sources */,
 				ACE65E4520720500001EE499 /* MnemonicCollectionViewCell.swift in Sources */,
+				9BB7D7932293D1D300E8E7F6 /* FlutterEntrypoint.swift in Sources */,
 				941138C7210F12AD007FDC82 /* TimeToLiveViewController.swift in Sources */,
 				9B76456621FD707900896B3E /* NewsList.swift in Sources */,
 				9B2AEBBB21DB733800A8C32C /* RefreshControlType.swift in Sources */,

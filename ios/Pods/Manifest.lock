@@ -9,6 +9,9 @@ PODS:
     - Fabric (~> 1.9.0)
   - CryptoSwift (0.14.0)
   - Fabric (1.9.0)
+  - Flutter (1.0.0)
+  - FlutterPluginRegistrant (0.0.1):
+    - Flutter
   - Geth (1.8.8)
   - lottie-ios (2.5.2)
   - MarqueeLabel/Swift (3.2.0)
@@ -46,6 +49,8 @@ DEPENDENCIES:
   - Crashlytics
   - CryptoSwift (= 0.14.0)
   - Fabric
+  - Flutter (from `../flutter/.ios/Flutter/engine`)
+  - FlutterPluginRegistrant (from `../flutter/.ios/Flutter/FlutterPluginRegistrant`)
   - Geth (= 1.8.8)
   - lottie-ios
   - MKDropdownMenu
@@ -92,6 +97,10 @@ SPEC REPOS:
     - WeChat_SDK
 
 EXTERNAL SOURCES:
+  Flutter:
+    :path: "../flutter/.ios/Flutter/engine"
+  FlutterPluginRegistrant:
+    :path: "../flutter/.ios/Flutter/FlutterPluginRegistrant"
   SDWebImage:
     :branch: 5.x
     :git: https://github.com/SDWebImage/SDWebImage.git
@@ -123,6 +132,8 @@ SPEC CHECKSUMS:
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   CryptoSwift: 35a10419f4dbf0619c13f8c1c180037e115323fa
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
+  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+  FlutterPluginRegistrant: 4c0b13ad4054e1b568c31c51cc95aee917e73920
   Geth: 483ea44b5f930b72320218290b939ba8e2389aaf
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
   MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
@@ -145,6 +156,6 @@ SPEC CHECKSUMS:
   web3.swift: 7b89fef89eb474685b7ffaf50a9eb30b9727f1d7
   WeChat_SDK: 681388233ac24a3ed6c4803cb3e0b6d3602050aa
 
-PODFILE CHECKSUM: 34e83970ac8d9457e0f8609fbb5166f16c7ad5a9
+PODFILE CHECKSUM: 0348879ffd661ad324468a7e1e16781ac12442a8
 
 COCOAPODS: 1.5.3

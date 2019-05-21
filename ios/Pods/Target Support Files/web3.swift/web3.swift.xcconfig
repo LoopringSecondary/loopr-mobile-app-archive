@@ -10,3 +10,7 @@ PRODUCT_BUNDLE_IDENTIFIER = org.cocoapods.${PRODUCT_NAME:rfc1034identifier}
 SKIP_INSTALL = YES
 SWIFT_INCLUDE_PATHS[sdk=iphoneos*] = $(PODS_TARGET_SRCROOT)/web3swift/lib/** $(PODS_TARGET_SRCROOT)/web3swift/frameworks/CommonCrypto/iphoneos/
 SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*] = $(PODS_TARGET_SRCROOT)/web3swift/lib/** $(PODS_TARGET_SRCROOT)/web3swift/frameworks/CommonCrypto/iphonesimulator/
+#include "/Users/ruby/Development/loopr-mobile-app/flutter/.ios/Flutter/Generated.xcconfig"
+#include "/Users/ruby/Development/loopr-mobile-app/flutter/.ios/Flutter/Generated.xcconfig"
+#include "/Users/ruby/Development/loopr-mobile-app/flutter/.ios/Flutter/Generated.xcconfig"
+#include "/Users/ruby/Development/loopr-mobile-app/flutter/.ios/Flutter/Generated.xcconfig"

@@ -42,6 +42,10 @@ def shared_pods
     pod 'SipHash', '1.2.0'
     
     pod 'web3.swift', git: 'https://github.com/Loopring/web3.swift.git'
+    
+    flutter_application_path = '../flutter/'
+    eval(File.read(File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')), binding)
+    
 end
 
 target 'loopr-ios' do

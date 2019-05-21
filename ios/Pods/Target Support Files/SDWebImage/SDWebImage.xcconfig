@@ -7,3 +7,7 @@ PODS_ROOT = ${SRCROOT}
 PODS_TARGET_SRCROOT = ${PODS_ROOT}/SDWebImage
 PRODUCT_BUNDLE_IDENTIFIER = org.cocoapods.${PRODUCT_NAME:rfc1034identifier}
 SKIP_INSTALL = YES
+#include "/Users/ruby/Development/loopr-mobile-app/flutter/.ios/Flutter/Generated.xcconfig"
+#include "/Users/ruby/Development/loopr-mobile-app/flutter/.ios/Flutter/Generated.xcconfig"
+#include "/Users/ruby/Development/loopr-mobile-app/flutter/.ios/Flutter/Generated.xcconfig"
+#include "/Users/ruby/Development/loopr-mobile-app/flutter/.ios/Flutter/Generated.xcconfig"
